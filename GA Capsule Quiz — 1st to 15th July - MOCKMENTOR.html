@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NABARD Grade A — GA Capsule Practice Quiz (1st–15th July)</title>
+<style>
+  :root{
+    --navy:#0b2545;
+    --navy-2:#13315c;
+    --gold:#c99a3a;
+    --gold-2:#e0b563;
+    --cream:#f6f3ec;
+    --paper:#ffffff;
+    --ink:#1c2430;
+    --muted:#5b6572;
+    --green:#1f7a4d;
+    --green-bg:#e8f5ee;
+    --red:#b3261e;
+    --red-bg:#fdeceb;
+    --line:#e2ddd0;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Georgia', 'Times New Roman', serif;
+    background:var(--cream);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  .topbar{
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);
+    color:#fff;
+    padding:22px 20px 18px;
+    border-bottom:4px solid var(--gold);
+  }
+  .topbar-inner{
+    max-width:900px;
+    margin:0 auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .brand-eyebrow{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size:11px;
+    color:var(--gold-2);
+    margin:0 0 4px;
+  }
+  .brand-title{
+    margin:0;
+    font-size:26px;
+    font-weight:700;
+    line-height:1.25;
+  }
+  .brand-sub{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    font-size:12.5px;
+    color:#cdd8e8;
+    margin-top:6px;
+  }
+  .scorepill{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.25);
+    border-radius:999px;
+    padding:8px 16px;
+    font-size:13px;
+    white-space:nowrap;
+  }
+  .scorepill b{color:var(--gold-2);}
+  .wrap{
+    max-width:800px;
+    margin:0 auto;
+    padding:26px 18px 80px;
+  }
+  .progress-track{
+    height:6px;
+    background:var(--line);
+    border-radius:4px;
+    overflow:hidden;
+    margin-bottom:26px;
+  }
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--gold),var(--gold-2));
+    width:0%;
+    transition:width .3s ease;
+  }
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px 26px 24px;
+    box-shadow:0 2px 10px rgba(11,37,69,.06);
+  }
+  .qmeta{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+  }
+  .qnum{
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--navy);
+    font-weight:700;
+    background:var(--cream);
+    border:1px solid var(--line);
+    padding:4px 10px;
+    border-radius:999px;
+  }
+  .qtag{
+    font-size:11px;
+    color:var(--muted);
+    font-style:italic;
+  }
+  .qtext{
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 20px;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    text-align:left;
+    width:100%;
+    padding:13px 16px;
+    background:var(--cream);
+    border:1.5px solid var(--line);
+    border-radius:8px;
+    cursor:pointer;
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    font-size:15px;
+    color:var(--ink);
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+  }
+  .opt:hover:not(:disabled){
+    border-color:var(--navy);
+    background:#fff;
+  }
+  .opt:active:not(:disabled){transform:scale(0.995);}
+  .opt-letter{
+    flex:0 0 auto;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    background:var(--navy);
+    color:#fff;
+    font-size:12.5px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .opt.correct{
+    background:var(--green-bg);
+    border-color:var(--green);
+  }
+  .opt.correct .opt-letter{background:var(--green);}
+  .opt.incorrect{
+    background:var(--red-bg);
+    border-color:var(--red);
+  }
+  .opt.incorrect .opt-letter{background:var(--red);}
+  .opt:disabled{cursor:default;}
+  .opt.dim{opacity:.55;}
+  .feedback{
+    margin-top:16px;
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    font-size:13.5px;
+    padding:12px 14px;
+    border-radius:8px;
+    display:none;
+  }
+  .feedback.show{display:block;}
+  .feedback.correctfb{background:var(--green-bg);color:var(--green);border:1px solid #bfe3cf;}
+  .feedback.incorrectfb{background:var(--red-bg);color:var(--red);border:1px solid #f0c6c2;}
+  .navrow{
+    margin-top:22px;
+    display:flex;
+    justify-content:flex-end;
+  }
+  .btn{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    padding:12px 26px;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    letter-spacing:.02em;
+    display:none;
+  }
+  .btn.show{display:inline-block;}
+  .btn:hover{background:var(--navy-2);}
+  .btn.gold{background:var(--gold);color:var(--navy);}
+  .btn.gold:hover{background:var(--gold-2);}
+  /* Start screen */
+  .startcard{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:32px 28px;
+    text-align:center;
+  }
+  .startcard h2{
+    font-size:22px;
+    margin:0 0 10px;
+  }
+  .startcard p{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    color:var(--muted);
+    font-size:14.5px;
+    line-height:1.6;
+    max-width:520px;
+    margin:0 auto 22px;
+  }
+  .stats-mini{
+    display:flex;
+    justify-content:center;
+    gap:26px;
+    margin-bottom:26px;
+    flex-wrap:wrap;
+    font-family:'Helvetica Neue', Arial, sans-serif;
+  }
+  .stats-mini div{text-align:center;}
+  .stats-mini .num{font-size:24px;font-weight:700;color:var(--navy);}
+  .stats-mini .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
+  /* Results screen */
+  .resultcard{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:30px 26px;
+    text-align:center;
+    margin-bottom:22px;
+  }
+  .bigscore{
+    font-size:52px;
+    font-weight:700;
+    color:var(--navy);
+    margin:6px 0;
+  }
+  .bigscore span{font-size:24px;color:var(--muted);}
+  .verdict{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    display:inline-block;
+    padding:6px 16px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .review-item{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-left:4px solid var(--red);
+    border-radius:8px;
+    padding:16px 18px;
+    margin-bottom:12px;
+  }
+  .review-item .rq{font-size:15px;margin:0 0 8px;font-weight:600;}
+  .review-item .ryour{font-family:'Helvetica Neue', Arial, sans-serif;font-size:13px;color:var(--red);margin:2px 0;}
+  .review-item .rcorrect{font-family:'Helvetica Neue', Arial, sans-serif;font-size:13px;color:var(--green);margin:2px 0;}
+  .review-heading{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    font-size:12px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:26px 0 12px 2px;
+  }
+  .hidden{display:none;}
+  footer-note{}
+  .footnote{
+    text-align:center;
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    color:var(--muted);
+    font-size:11.5px;
+    margin-top:30px;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div>
+      <p class="brand-eyebrow">NABARD Grade A · Phase I Practice</p>
+      <h1 class="brand-title">GA Capsule Quiz — 1st to 15th July</h1>
+      <p class="brand-sub">Schemes · Appointments · Banking &amp; Finance · Reports · National &amp; International Affairs</p>
+    </div>
+    <div class="scorepill" id="scorepill">Score: <b>0</b> / 0</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+  <!-- START SCREEN -->
+  <div class="startcard" id="startScreen">
+    <h2>Ready to begin?</h2>
+    <p>This quiz mirrors the NABARD Grade A objective format — five options (A–E), single best-answer and "which is NOT correct" style questions, pulled directly from the eSARAS, PMGKAY, POSHAN, AMBA, PPI, TReDS, FCRA, RIMPAC, and other scheme/appointment items in this capsule. Answer choices are shuffled and spread evenly across A–E.</p>
+    <div class="stats-mini">
+      <div><div class="num" id="totalQCount">0</div><div class="lbl">Questions</div></div>
+      <div><div class="num">A–E</div><div class="lbl">Options each</div></div>
+      <div><div class="num">~1</div><div class="lbl">Mark/Qn (practice)</div></div>
+    </div>
+    <button class="btn gold show" id="startBtn" style="display:inline-block;">Start Quiz</button>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div class="card hidden" id="quizScreen">
+    <div class="qmeta">
+      <span class="qnum" id="qCounter">Question 1 of 0</span>
+      <span class="qtag" id="qTag">Scheme / PIB</span>
+    </div>
+    <p class="qtext" id="qText"></p>
+    <div class="options" id="optionsBox"></div>
+    <div class="feedback" id="feedbackBox"></div>
+    <div class="navrow">
+      <button class="btn" id="nextBtn">Next Question →</button>
+    </div>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div class="hidden" id="resultsScreen">
+    <div class="resultcard">
+      <div class="verdict" id="verdictPill">Result</div>
+      <div class="bigscore" id="finalScore">0 <span id="finalTotal">/ 0</span></div>
+      <p class="brand-sub" style="color:var(--muted);font-family:'Helvetica Neue',Arial,sans-serif;">Accuracy: <b id="accuracyPct">0%</b></p>
+      <button class="btn show" id="restartBtn" style="margin-top:14px;display:inline-block;">Restart Quiz</button>
+    </div>
+    <div id="reviewSection"></div>
+  </div>
+
+  <p class="footnote">Practice material generated from the MockMentor GA Capsule (1st–15th July). Use for self-assessment only.</p>
+</div>
+
+<script>
+// ---------------------------------------------------------
+// QUESTION BANK
+// Each question: q (text), o (5 options array), a (index of correct option, 0-4), tag (section label)
+// ---------------------------------------------------------
+const QUESTIONS = [
+{tag:"eSARAS Scheme", q:"Which ministry is the nodal ministry for the eSARAS (SARAS Aajeevika) portal?", o:["Ministry of Micro, Small and Medium Enterprises","Ministry of Rural Development (MoRD)","Ministry of Commerce and Industry","Ministry of Textiles","Ministry of Panchayati Raj"], a:1},
+{tag:"eSARAS Scheme", q:"eSARAS operates under which parent scheme?", o:["PM SVANidhi","PM Surya Ghar Yojana","Deendayal Antyodaya Yojana–National Rural Livelihoods Mission (DAY-NRLM)","PMGKAY","PM Family Care Tracker"], a:2},
+{tag:"eSARAS Scheme", q:"Who is the implementation partner for the eSARAS portal?", o:["NPCI","UIDAI","NABARD","Digital India Corporation","ICAR-NBPGR"], a:3},
+{tag:"eSARAS Scheme", q:"Through integration with which network does eSARAS unlock a consumer base of over 20+ crore potential buyers?", o:["UMANG","DigiLocker","GeM","BharatNet","ONDC (Open Network for Digital Commerce)"], a:4},
+{tag:"eSARAS Scheme", q:"For seamless citizen access, the eSARAS marketplace is directly integrated into which unified platform?", o:["MyGov","CoWIN","e-NAM","DigiLocker","UMANG"], a:4},
+{tag:"PMGKAY", q:"Which body approved the landmark reform to upgrade the quality of PDS rice under PMGKAY?", o:["Cabinet Committee on Economic Affairs (CCEA)","NITI Aayog","GST Council","Cabinet Committee on Security","RBI Central Board"], a:0},
+{tag:"PMGKAY", q:"The recent PMGKAY rice-quality revision marks the first such specification revision for PDS rice in nearly how many years?", o:["10 years","30 years","15 years","50 years","5 years"], a:1},
+{tag:"PMGKAY", q:"Under the revised PMGKAY specifications, what is the new approved permissible broken limit for Raw Rice?", o:["Up to 25%","Up to 16%","Up to 10%","Up to 5%","Up to 20%"], a:2},
+{tag:"PMGKAY", q:"What is the new approved permissible broken limit for Parboiled Rice under the revised PMGKAY norms?", o:["Up to 25%","Up to 16%","Up to 10%","Up to 5%","Up to 8%"], a:3},
+{tag:"PMGKAY", q:"Full, phased implementation of the improved-quality rice across all procuring states is targeted by which marketing season?", o:["KMS 2025–26","KMS 2026–27","RMS 2027–28","KMS 2027–28","KMS 2028–29"], a:3},
+{tag:"PMGKAY", q:"The revised PMGKAY rice specifications were validated through pilots conducted in how many states?", o:["Six","Four","Eight","Five","Ten"], a:0},
+{tag:"PMGKAY", q:"Which of the following states was NOT among the six states where the PMGKAY rice-quality pilots were conducted?", o:["Haryana","Kerala","Andhra Pradesh","Punjab","Odisha"], a:1},
+{tag:"PMGKAY", q:"More than how many crore beneficiaries under PMGKAY and other welfare schemes are set to receive superior quality grains?", o:["50 crore","70 crore","80 crore","100 crore","60 crore"], a:2},
+{tag:"SHE-LEAPS", q:"SHE-LEAPS, a digital platform for rural SHG women, was developed by which body?", o:["NABARD","ISRO","NPCI","Digital India Corporation","UIDAI"], a:3},
+{tag:"SHE-LEAPS", q:"SHE-LEAPS is implemented under which platform?", o:["UMANG","DigiLocker","LokOS","e-NAM","GeM"], a:2},
+{tag:"SHE-LEAPS", q:"SHE-LEAPS will be implemented across how many States and Union Territories?", o:["34","28","36","29","32"], a:0},
+{tag:"SHE-LEAPS / Lakhpati Didi", q:"The government has recently increased the target of the Lakhpati Didi scheme from 3 crore to how many crore women by 2029?", o:["5 crore","6 crore","4 crore","8 crore","10 crore"], a:1},
+{tag:"LokOS", q:"In the name LokOS, 'Lok' stands for:", o:["Local","Loan","People","Logistics","Ledger"], a:2},
+{tag:"LokOS", q:"LokOS, the digitisation platform for SHGs and CBOs, functions under which scheme?", o:["PM SVANidhi","PMGKAY","DAY-NRLM","POSHAN Abhiyaan","PM-FCT"], a:2},
+{tag:"LokOS", q:"Which of the following is NOT listed as a feature digitised by LokOS?", o:["Member records and profiles","Savings and lending","Repayments","Financial transactions","Health insurance claims processing"], a:4},
+{tag:"POSHAN Abhiyaan", q:"POSHAN Abhiyaan was launched on which date?", o:["8 March 2018","15 August 2017","26 January 2018","2 October 2019","8 March 2020"], a:0},
+{tag:"POSHAN Abhiyaan", q:"POSHAN Abhiyaan is the abbreviation for:", o:["Prime Minister's Overarching Scheme for Health and Nutrition","People's Overarching Scheme for Holistic Nutrition","Prime Minister's Overarching Scheme for Holistic Nourishment","Poshan Overarching Scheme for Anganwadi Nourishment","Prime Minister's Organised Scheme for Holistic Nourishment"], a:2},
+{tag:"POSHAN 2.0", q:"In Budget 2021-22, Poshan Abhiyaan, Anganwadi Services, and the Scheme for Adolescent Girls were merged into:", o:["Saksham Anganwadi Yojana","National Nutrition Mission 2.0","Mission Poshan 2.0","Anaemia Mukt Bharat","POSHAN Tracker 2.0"], a:2},
+{tag:"Poshan Tracker", q:"The Poshan Tracker was launched in which month/year?", o:["March 2020","March 2022","March 2019","March 2021","January 2021"], a:3},
+{tag:"Poshan Tracker", q:"Poshan Tracker was developed by MoWCD in collaboration with which body?", o:["NITI Aayog","UIDAI","ISRO","National e-Governance Division (NeGD)","NPCI"], a:3},
+{tag:"Poshan Tracker", q:"As on 31st May 2026, Poshan Tracker's nationwide coverage spans:", o:["28 States and 8 UTs","29 States and 7 UTs","28 States and 9 UTs","27 States and 8 UTs","30 States and 6 UTs"], a:0},
+{tag:"Poshan Tracker", q:"The Poshan Tracker has replaced how many manual registers earlier maintained by Anganwadi Workers?", o:["9","13","11","7","15"], a:2},
+{tag:"Poshan Tracker", q:"Which of the following is NOT one of the six beneficiary categories tracked under the Poshan Tracker?", o:["Children (0–6 months)","Pregnant Women","Senior Citizens","Lactating Mothers","Adolescent Girls"], a:2},
+{tag:"Aadharshila", q:"Aadharshila, the National Curriculum for Early Childhood Care and Education, was launched in:", o:["March 2022","March 2023","March 2021","March 2024","March 2025"], a:3},
+{tag:"Aadharshila", q:"Aadharshila is designed for children in which age group?", o:["0–3 years","3–6 years","6–10 years","1–4 years","2–5 years"], a:1},
+{tag:"ICDS / SNP", q:"The Supplementary Nutrition Programme (SNP) is implemented under which scheme?", o:["Integrated Child Development Services (ICDS) Scheme","POSHAN Abhiyaan directly","Saksham Anganwadi only","Mission Shakti","PM POSHAN"], a:0},
+{tag:"ICDS / SNP", q:"Under SNP, adolescent girls of which age group are covered specifically in NE States and Aspirational Districts?", o:["10–14 years","14–18 years","12–16 years","15–19 years","13–17 years"], a:1},
+{tag:"US Fed / Indians abroad", q:"Who is the US Federal Reserve Chairman mentioned in connection with the appointment of three Indians to new monetary policy task forces?", o:["Jerome Powell","Janet Yellen","Kevin Warsh","Ben Bernanke","Raghuram Rajan"], a:2},
+{tag:"US Fed / Indians abroad", q:"Dr. Raghuram Rajan was appointed to co-lead which taskforce under the US Fed's new structures?", o:["Liquidity Dependence panel","Digital Currency Taskforce","Balance Sheet Policy Taskforce","Inflation Targeting Committee","Interest Rate Committee"], a:2},
+{tag:"US Fed / Indians abroad", q:"Which Indian-origin executive, Chief Executive of Microsoft's Xbox Gaming Unit, was named to the US Fed's new task forces?", o:["Satya Nadella","Sundar Pichai","Neal Mohan","Arvind Krishna","Asha Sharma"], a:4},
+{tag:"Producer Price Index", q:"India's first Producer Price Index (PPI) was unveiled on which date?", o:["June 15","July 1","May 15","April 1","June 30"], a:0},
+{tag:"Producer Price Index", q:"The PPI is designed to measure prices received by producers:", o:["At the retail stage","At the factory gate","At the wholesale stage","At the export point","At the consumer stage"], a:1},
+{tag:"Producer Price Index", q:"Which of the following is NOT part of the three-index PPI framework launched in India?", o:["Output PPI (Goods)","Experimental Input PPI (Goods)","Consumer Price Index (CPI)","Quarterly Services PPI","None — it covers all of the above"], a:2},
+{tag:"Producer Price Index", q:"The Quarterly Services PPI covers how many sectors in its first phase?", o:["Five","Six","Nine","Seven","Eight"], a:3},
+{tag:"Producer Price Index", q:"For how many more years will WPI continue to be published alongside the new PPI?", o:["Three years","Ten years","Five years","Two years","Seven years"], a:2},
+{tag:"Producer Price Index", q:"The PPI will feed into the IIP and help estimate real GDP, with a revised back-series expected in which month?", o:["August","October","December","July","September"], a:0},
+{tag:"Producer Price Index", q:"With regard to global PPI adoption, India is described in the capsule as:", o:["The first economy to introduce a PPI","Among the last major economies to introduce a formal PPI","The only G20 country without a WPI","The first Asian country to abolish WPI","None of the above"], a:1},
+{tag:"MSME / TReDS", q:"The MSME Ministry mandated all operating CPSEs to settle MSME invoices through which platform?", o:["GeM","UPI","Trade Receivables Discounting System (TReDS)","e-NAM","ONDC"], a:2},
+{tag:"MSME / TReDS", q:"Mandatory settlement of MSME invoices by CPSEs through TReDS became effective from:", o:["1 April 2026","1 January 2026","30 June 2026","15 August 2026","31 March 2026"], a:2},
+{tag:"MSME / TReDS", q:"TReDS, the RBI-authorised digital platform for MSME trade receivables, was launched in which year?", o:["2015","2016","2018","2014","2017"], a:4},
+{tag:"MSME / TReDS", q:"As per the TReDS reforms timeline in the capsule, the mandatory onboarding turnover threshold was lowered to ₹250 crore in which year?", o:["2024","2022","2018","2020","2026"], a:0},
+{tag:"MSME / TReDS", q:"Which of the following is NOT one of the currently operational TReDS platforms named in the capsule?", o:["RXIL","NSE-TReDS","M1xchange","Invoicemart","DTX"], a:1},
+{tag:"Health Conference / NAS", q:"The 16th Conference of the Central Council of Health and Family Welfare was chaired by:", o:["Mansukh Mandaviya","Amit Shah","Jagat Prakash (JP) Nadda","Rajnath Singh","Piyush Goyal"], a:2},
+{tag:"NAS 2026", q:"National Ambulance Services (NAS) 2026 mandates compliance with which standard?", o:["AIS 140","BIS 10500","IS 16046","AIS 125","ISO 9001"], a:3},
+{tag:"NAS 2026", q:"Under NAS 2026 proposals, phased integration is planned with which national emergency response number?", o:["100","108","102","101","112"], a:4},
+{tag:"SUMAN Roadmap", q:"SUMAN, referenced in the SUMAN Roadmap 2030, stands for:", o:["Surakshit Matritva Aashwasan","Suraksha Mahila Abhiyan Nirman","Swasth Mata Nutrition Programme","Sustainable Maternal Nutrition","Safe Motherhood Universal Network"], a:0},
+{tag:"SUMAN Roadmap", q:"The SUMAN Roadmap 2030 aims to reduce the Maternal Mortality Ratio (MMR) to below what level per one lakh live births by 2030?", o:["100","50","70","90","120"], a:2},
+{tag:"SUMAN Roadmap", q:"SUMAN Roadmap 2030 proposes specific interventions for how many districts across 13 high-focus states?", o:["100 districts","150 districts","120 districts","130 districts","140 districts"], a:3},
+{tag:"SUMAN Roadmap", q:"Which of the following states is NOT among the 13 high-focus states under the SUMAN Roadmap 2030?", o:["Assam","Bihar","Jharkhand","Kerala","Odisha"], a:3},
+{tag:"SSBSK", q:"SSBSK stands for:", o:["Surakshit Shishu Bal Suraksha Karyakram","Surakshit Shishu aur Bal Swasthya Karyakram","Swasth Shishu Bal Sanrakshan Kendra","Suraksha Shishu Bal Swasthya Kosh","Sampoorna Shishu Bal Swasthya Karyakram"], a:1},
+{tag:"SSBSK", q:"SSBSK provides home-based care for children from birth up to what age?", o:["3 years","5 years","6 years","2 years","18 years"], a:1},
+{tag:"SSBSK", q:"Under SSBSK's risk-stratified approach, up to how many home visits are provided for at-risk newborns during the first 42 days?", o:["7","8","10","6","9"], a:4},
+{tag:"AMBA", q:"Anaemia Mukt Bharat Abhiyaan (AMBA) was launched under the National Health Mission in which year?", o:["2016","2017","2019","2020","2018"], a:4},
+{tag:"AMBA", q:"AMBA's strategy has been upgraded from the earlier 6×6×6 framework to which new framework?", o:["7×7×6","6×7×7","8×7×7","7×6×7","7×7×7"], a:4},
+{tag:"AMBA", q:"Which beneficiary group was newly added as the 7th group under AMBA's upgraded framework?", o:["Women of Reproductive Age","Adolescent Girls (10–19 years)","Children (5–10 years)","Lactating Women","Low Birth Weight (LBW) babies (0–6 months)"], a:4},
+{tag:"AMBA", q:"Under AMBA, the earlier T3 strategy has been upgraded to the T4 strategy, standing for:", o:["Test → Treat → Talk → Track","Test → Transfer → Treat → Track","Track → Test → Treat → Talk","Test → Treat → Transfer → Track","Talk → Test → Treat → Track"], a:0},
+{tag:"AMBA", q:"Which intravenous iron therapies are specified for better clinical management of severe anaemia under AMBA?", o:["Only Iron Sucrose","Ferric Carboxymaltose and Iron Sucrose","Only Ferric Carboxymaltose","Oral Iron only","Folic Acid and Iron Sucrose"], a:1},
+{tag:"AMBA", q:"Which portal under AMBA's integrated digital ecosystem is specifically meant for pregnant women?", o:["U-WIN Portal","RBSK Portal","POSHAN Tracker","e-Sanjeevani","JANANI Portal"], a:4},
+{tag:"FCRA 2.0", q:"The FCRA 2.0 Portal and e-OCI Card System were launched by:", o:["Rajnath Singh","Piyush Goyal","Nirmala Sitharaman","JP Nadda","Amit Shah"], a:4},
+{tag:"FCRA 2.0", q:"The FCRA 2.0 Portal and e-OCI system operate on which guiding principle?", o:["\"Minimum Government, Maximum Governance\"","\"Sabka Saath, Sabka Vikas\"","\"Digital India for All\"","\"Ease of Doing Business First\"","\"Atmanirbhar Bharat\""], a:0},
+{tag:"FCRA 2.0", q:"The FCRA Amendment Rules, 2026 amended which earlier set of rules?", o:["FCRA Rules, 2015","FCRA Rules, 2008","FCRA Rules, 2019","FCRA Rules, 2011","FCRA Rules, 2005"], a:3},
+{tag:"e-OCI", q:"The Overseas Citizenship of India (OCI) Scheme was introduced in which year?", o:["August 2003","August 2004","August 2006","August 2005","August 2007"], a:3},
+{tag:"e-OCI", q:"OCI registration is available to eligible Persons of Indian Origin who were Indian citizens or eligible for Indian citizenship on which date?", o:["15 August 1947","26 November 1949","1 January 1950","26 January 1950","2 October 1950"], a:3},
+{tag:"e-OCI", q:"Current or former citizens of which countries are excluded from OCI eligibility as per the capsule?", o:["Sri Lanka and Nepal","Bhutan and Myanmar","China and Afghanistan","Maldives and Bhutan","Pakistan and Bangladesh (and other notified countries)"], a:4},
+{tag:"Identification Documents", q:"UDIN (Unique Document Identification Number), generated by Chartered Accountants, is issued through which body?", o:["ICAI","SEBI","RBI","MCA","NABARD"], a:0},
+{tag:"Identification Documents", q:"UDIN is an alphanumeric identifier of how many characters?", o:["16-character","14-character","12-character","18-character","20-character"], a:3},
+{tag:"Identification Documents", q:"PAN, a unique 10-character identifier, is issued under which section of the Income-tax Act, 1961?", o:["Section 80C","Section 44AB","Section 234F","Section 139A","Section 10(1)"], a:3},
+{tag:"NITI Aayog / Ayurveda", q:"NITI Aayog's \"Strategic Roadmap for Making Ayurveda Global\" report was prepared by:", o:["McKinsey & Company","Boston Consulting Group","Deloitte","EY","PricewaterhouseCoopers (PwC)"], a:4},
+{tag:"NITI Aayog / Ayurveda", q:"The Ayurveda Global roadmap aims to position Ayurveda as a globally recognised, evidence-based healthcare system by:", o:["2030","2035","2047","2040","2050"], a:2},
+{tag:"NITI Aayog / Ayurveda", q:"The Ayurveda roadmap's framework rests on which three pillars?", o:["AI Trust, AI Access, AI Impact","Availability, Acceptability, and Propagation","Research, Development, Deployment","Quality, Cost, Reach","Innovation, Scale, Sustainability"], a:1},
+{tag:"NITI Aayog / Ayurveda", q:"Which of the following is a short-term target (by 2029) under the Ayurveda roadmap?", o:["Integration into 20 countries' health systems","10,000 registered Ayurvedic practitioners","Establishment of the Global Ayurveda Register","Creation of 10 Centres of Excellence","Insurance coverage in 10 countries"], a:1},
+{tag:"NITI Aayog / Ayurveda", q:"Ayurveda exports grew from USD 1.09 billion in 2014 to how much in 2023?", o:["USD 1.5 billion","USD 3 billion","USD 1.8 billion","USD 2.5 billion","USD 2.16 billion"], a:4},
+{tag:"NITI Aayog / Ayurveda", q:"Ayurveda is recognised as a medical discipline in nearly how many countries, including the UAE and Switzerland?", o:["20 countries","25 countries","15 countries","35 countries","30 countries"], a:4},
+{tag:"NITI Aayog / Ayurveda", q:"Ayurveda has been included in WHO's International Classification of Diseases (ICD-11) under which module?", o:["Module 1","Module 2","Module 3","Annex A","Module 4"], a:1},
+{tag:"NITI Aayog", q:"Who is the Vice Chairman of NITI Aayog, as mentioned in the capsule?", o:["Suman Bery","Amitabh Kant","Dr. Ashok Kumar Lahiri","Rajiv Kumar","V.K. Saraswat"], a:2},
+{tag:"NITI Aayog", q:"NITI Aayog's CEO, as per the capsule, is:", o:["Parameswaran Iyer","Amitabh Kant","B.V.R. Subrahmanyam","Nidhi Chhibbera","Rajiv Gauba"], a:3},
+{tag:"NITI Aayog", q:"NITI Aayog, established on 1 January 2015, replaced which earlier body?", o:["Finance Commission","National Development Council","GST Council","Planning Commission","Election Commission"], a:3},
+{tag:"NPCI / SWIFT", q:"Dilip Asbe, MD & CEO of NPCI, was appointed to the Supervisory Board of which global body?", o:["Bank for International Settlements (BIS)","IMF","World Bank","Financial Stability Board","SWIFT"], a:4},
+{tag:"NPCI / SWIFT", q:"SWIFT's Supervisory Board consists of how many members, expandable to 15?", o:["10","14","8","16","12"], a:4},
+{tag:"NPCI", q:"NPCI was promoted by RBI along with which other body?", o:["SEBI","IRDAI","Ministry of Finance","NABARD","Indian Banks' Association (IBA)"], a:4},
+{tag:"PRAGATI Initiative", q:"PRAGATI, launched by Union Agriculture Minister Shivraj Singh Chouhan, stands for:", o:["Programme for Rural Agricultural Growth and Technology Implementation","Promoting Rural Growth and Agri-Tech Innovation","Progressive Rural Agri Growth and Trade Initiative","Public-Private Regenerative Agriculture Transformation Initiative","Promoting Regenerative Agriculture Through Agri Entrepreneurship Initiative"], a:4},
+{tag:"PRAGATI Initiative", q:"PRAGATI aims to empower how many agri-entrepreneurs?", o:["10,000","15,000","25,000","30,000","20,000"], a:4},
+{tag:"PRAGATI Initiative", q:"PRAGATI aims to directly support how many lakh smallholder farmers?", o:["10 lakh","15 lakh","25 lakh","30 lakh","20 lakh"], a:4},
+{tag:"PRAGATI Initiative", q:"PRAGATI is currently rolled out across how many states?", o:["6","7","9","10","8"], a:4},
+{tag:"Samriddh Gram / WSIS", q:"DoT's \"Samriddh Gram\" initiative won the WSIS Prize 2026 under which Action Line?", o:["Action Line C1","Action Line C4","Action Line C5","Action Line C7","Action Line C6 – Enabling Environment"], a:4},
+{tag:"Samriddh Gram / WSIS", q:"Samriddh Gram delivers integrated village-level services through:", o:["Common Service Centres only","Panchayat Bhawans","District Collectorates","Gram Sabha Halls","Samriddhi Kendras"], a:4},
+{tag:"Samriddh Gram / WSIS", q:"Samriddh Gram leverages which connectivity infrastructure at its core?", o:["BharatNet","National Optical Fibre Grid","PM-WANI exclusively","GAGAN","Digital India Corporation Network"], a:0},
+{tag:"ITU / WSIS", q:"International Telecommunication Union (ITU), which awarded the WSIS Prize 2026, was established in:", o:["1945","1950","1920","1900","1865"], a:4},
+{tag:"ITU", q:"Who is the Secretary-General of the ITU?", o:["Houlin Zhao","Malcolm Johnson","Cosmas Zavazava","Ahmad Reza Sharafat","Doreen Bogdan-Martin"], a:4},
+{tag:"PM SVANidhi", q:"Lakhanpur, selected for the PM SVANidhi Street Food Hub Initiative, is located in which district of Jammu & Kashmir?", o:["Jammu","Udhampur","Samba","Reasi","Kathua"], a:4},
+{tag:"PM SVANidhi", q:"Funding for each PM SVANidhi Street Food Hub project is:", o:["₹2 crore","₹3 crore","₹5 crore","₹6 crore","₹4 crore"], a:4},
+{tag:"PM SVANidhi", q:"Urban Local Bodies additionally receive an incentive amount of how much for Street Food Hubs?", o:["₹15 lakh","₹20 lakh","₹30 lakh","₹10 lakh","₹25 lakh"], a:4},
+{tag:"PM SVANidhi", q:"The national target for Street Food Hubs across India under PM SVANidhi is up to:", o:["30","40","60","25","50"], a:4},
+{tag:"PM SVANidhi", q:"PM SVANidhi Scheme, launched in 2020, has been extended until:", o:["March 2028","March 2027","December 2029","March 2032","March 2030"], a:4},
+{tag:"PM SVANidhi", q:"Under PM SVANidhi's third loan cycle, vendors can access collateral-free working capital loans of up to:", o:["₹15,000","₹25,000","₹35,000","₹40,000","₹50,000"], a:4},
+{tag:"PM Family Care Tracker", q:"PM Family Care Tracker (PM-FCT) Pilot Project was launched by Amit Shah in which city?", o:["Ahmedabad","Surat","Vadodara","Rajkot","Gandhinagar"], a:4},
+{tag:"PM Family Care Tracker", q:"PM-FCT covers children from pregnancy up to what age?", o:["15 years","21 years","16 years","14 years","18 years"], a:4},
+{tag:"PM Family Care Tracker / ABHA", q:"Every child under PM-FCT gets a unique ID linked with a Birth Registration Number or:", o:["Aadhaar number","PAN","Voter ID","ABC ID","Ayushman Bharat Health Account (ABHA) ID"], a:4},
+{tag:"ABHA", q:"Ayushman Bharat Health Account (ABHA), under the Ayushman Bharat Digital Mission, was launched in which month/year?", o:["September 2020","March 2021","January 2022","September 2022","September 2021"], a:4},
+{tag:"ABHA", q:"ABHA is a unique digital health ID comprising how many digits?", o:["10-digit","12-digit","16-digit","18-digit","14-digit"], a:4},
+{tag:"NIIF", q:"The Union Cabinet approved an additional investment commitment of how much in the NIIF?", o:["₹20,000 crore","₹25,000 crore","₹35,000 crore","₹40,000 crore","₹30,000 crore"], a:4},
+{tag:"NIIF", q:"With this additional infusion, the Government's total commitment to NIIF has doubled to:", o:["₹50,000 crore","₹70,000 crore","₹55,000 crore","₹65,000 crore","₹60,000 crore"], a:4},
+{tag:"NIIF", q:"The additional ₹30,000 crore will be used to set up NIIF's:", o:["Master Fund III","Strategic Opportunities Fund II","Green Fund I","Fund of Funds II","Infrastructure Fund II"], a:4},
+{tag:"NIIF", q:"NIIF, India's Sovereign Anchored Fund, was established in:", o:["2010","2012","2018","2016","2015"], a:4},
+{tag:"NIIF", q:"NIIF is managed by NIIFL, with the Government of India holding a shareholding of:", o:["51%","26%","74%","100%","49%"], a:4},
+{tag:"NIIF", q:"NIIF's Managing Director & CEO, as per the capsule, is:", o:["Rajiv Kumar","K.V. Kamath","Uday Kotak","Rajiv Mehrishi","Sanjiv Aggarwal"], a:4},
+{tag:"CCIL / ESMA", q:"CCIL received recognition as a Tier-1 Third-Country Central Counterparty (TC-CCP) from which body?", o:["US SEC","Bank of England","IMF","Financial Conduct Authority","European Securities and Markets Authority (ESMA)"], a:4},
+{tag:"CCIL / ESMA", q:"CCIL's ESMA recognition falls under which EU regulation?", o:["MiFID II","GDPR","Basel III","CRD IV","EMIR (European Market Infrastructure Regulation)"], a:4},
+{tag:"India's Exports FY26", q:"India's FY 2025-26 highest-ever exports figure, as noted by Piyush Goyal, stood at:", o:["USD 750 billion","USD 800 billion","USD 820 billion","USD 900 billion","USD 863 billion"], a:4},
+{tag:"India's Exports FY26", q:"India's FY 2025-26 exports registered a growth rate of:", o:["3.2%","5.1%","2.8%","6.0%","4.6%"], a:4},
+{tag:"India's Exports FY26", q:"India's ambitious USD 1 trillion export target includes a merchandise export target of:", o:["USD 470 billion","USD 500 billion","USD 550 billion","USD 600 billion","USD 530 billion"], a:4},
+{tag:"Cooperative Life Insurance", q:"IFFCO-Tokio General Insurance, cited as background to Amit Shah's cooperative life insurance plan, was incorporated as a joint venture in which year?", o:["1998","2002","2005","1995","2000"], a:4},
+{tag:"Cooperative Life Insurance", q:"In IFFCO-Tokio General Insurance, the shareholding pattern is:", o:["IFFCO 49%, Tokio Marine 51%","IFFCO 60%, Tokio Marine 40%","IFFCO 74%, Tokio Marine 26%","Equal 50%-50%","IFFCO 51%, Tokio Marine 49%"], a:4},
+{tag:"ICICI Prudential Life", q:"ICICI Prudential Life Insurance is set to be renamed as:", o:["ICICI Prudential Assurance","ICICI Secure Life","ICICI Bharat Life","Prudential ICICI Life","ICICI Life Insurance"], a:4},
+{tag:"World Bank / Rooftop Solar", q:"The World Bank's total financing package to support the PM Surya Ghar: Muft Bijli Yojana amounts to:", o:["USD 3.5 billion","USD 4.0 billion","USD 4.5 billion","USD 5.0 billion","USD 4.2 billion"], a:4},
+{tag:"World Bank / Rooftop Solar", q:"Of the World Bank's rooftop solar package, the loan component from IBRD amounts to:", o:["USD 750 million","USD 800 million","USD 850 million","USD 900 million","USD 820 million"], a:4},
+{tag:"PM Surya Ghar Yojana", q:"PM Surya Ghar: Muft Bijli Yojana, launched in February 2024, has a total outlay of:", o:["₹65,000 crore","₹80,000 crore","₹70,000 crore","₹90,000 crore","₹75,021 crore"], a:4},
+{tag:"PM Surya Ghar Yojana", q:"The Government is now targeting rooftop solar installations in how many households by December 2026?", o:["1 crore","5 million","10 million","6 million","7.5 million"], a:4},
+{tag:"PM Surya Ghar Yojana", q:"PM Surya Ghar Yojana supports India's broader goal of net-zero emissions by:", o:["2050","2060","2080","2045","2070"], a:4},
+{tag:"PM Surya Ghar Yojana", q:"The scheme aims to raise the share of non-fossil fuel-based energy in India's electricity mix to what level by 2035?", o:["50%","55%","70%","65%","60%"], a:4},
+{tag:"ADB", q:"The ADB approved a USD 182.89 million loan for the public school system of which state?", o:["Tamil Nadu","Kerala","Telangana","Andhra Pradesh","Karnataka"], a:4},
+{tag:"ADB", q:"The Karnataka schools ADB loan aims to establish how many integrated school clusters?", o:["300","400","600","250","500"], a:4},
+{tag:"ADB", q:"ADB, headquartered in Manila, has which of the following as its President (per the capsule)?", o:["Masatsugu Asakawa","Takehiko Nakao","Ayumi Konishi","Kenji Yoshida","Masato Kanda"], a:4},
+{tag:"ADB / Chennai", q:"ADB approved a USD 230 million loan for a project featuring India's first Ring-Main Water Distribution System, located in:", o:["Bengaluru","Hyderabad","Mumbai","Kolkata","Chennai"], a:4},
+{tag:"ADB / Chennai", q:"The Chennai Urban Water and Sanitation Modernisation Project, backed by ADB, is aligned with:", o:["Smart Cities Mission","Namami Gange","Swachh Bharat Mission 2.0","Jal Jeevan Mission","AMRUT 2.0 and Urban Challenge Fund"], a:4},
+{tag:"Tamil Nadu Affairs", q:"As per the capsule, Tamil Nadu's Chief Minister is listed as:", o:["M.K. Stalin","Edappadi Palaniswami","O. Panneerselvam","R.N. Ravi","C. Joseph Vijay"], a:4},
+{tag:"Corporate Mitra Scheme", q:"The Corporate Mitra Scheme, aimed at supporting MSMEs in compliance, taxation and governance, was announced in:", o:["Union Budget 2025-26","Union Budget 2024-25","Economic Survey 2026","National Startup Policy 2026","Union Budget 2026-27"], a:4},
+{tag:"Corporate Mitra Scheme", q:"Under the Corporate Mitra training programme, participants complete how many hours of online learning through SWAYAM Plus?", o:["100 hours","120 hours","180 hours","200 hours","150 hours"], a:4},
+{tag:"Corporate Mitra Scheme", q:"The Corporate Mitra practical training (internship) component lasts for:", o:["3 months","4 months","5 months","12 months","6 months"], a:4},
+{tag:"Corporate Mitra Scheme", q:"Corporate Mitra eligibility is open to Indian nationals below what age who are graduates or final-year students?", o:["25 years","28 years","35 years","32 years","30 years"], a:4},
+{tag:"IRDAI / Health Insurance", q:"IRDAI granted the final R3 Certificate of Registration to Prudential HCL Health Insurance Limited, making it India's:", o:["6th standalone health insurer","7th standalone health insurer","9th standalone health insurer","10th standalone health insurer","8th standalone health insurer"], a:4},
+{tag:"IRDAI / Health Insurance", q:"This IRDAI licence to Prudential HCL was issued during which numbered IRDAI meeting?", o:["130th","133rd","135th","138th","136th"], a:4},
+{tag:"IRDAI / Health Insurance", q:"In IRDAI's licencing process for standalone health insurers, R2 refers to:", o:["Promoter and business-plan assessment","Final Certificate of Registration","Post-launch audit","Capital verification","Operational readiness"], a:4},
+{tag:"IRDAI / Health Insurance", q:"The minimum paid-up equity capital required for a standalone health insurer, as per the capsule, is:", o:["₹50 crore","₹150 crore","₹200 crore","₹75 crore","₹100 crore"], a:4},
+{tag:"Prudential HCL", q:"In the Prudential HCL Health Insurance joint venture, the shareholding is:", o:["Prudential Group (UK) 60%, HCL Group 40%","Prudential 51%, HCL 49%","Prudential 80%, HCL 20%","Equal 50%-50%","Prudential Group (UK) 70%, HCL Group 30%"], a:4},
+{tag:"MECON / Miniratna", q:"MECON Limited was granted which status by the Ministry of Steel?", o:["Navratna","Maharatna","Miniratna Category-II","Ratna status","Miniratna Category-I"], a:4},
+{tag:"Miniratna Scheme", q:"The Miniratna scheme, classifying CPSEs, was introduced in:", o:["October 1995","October 1996","October 1998","October 2000","October 1997"], a:4},
+{tag:"MECON", q:"MECON Limited's headquarters is located in:", o:["Bhubaneswar","Bokaro","Patna","Kolkata","Ranchi, Jharkhand"], a:4},
+{tag:"Paytm Europe", q:"Paytm Europe Payments S.A. secured a Payment Institution Licence from which regulator?", o:["CSSF (Luxembourg)","BaFin (Germany)","FCA (UK)","AMF (France)","DNB (Netherlands)"], a:0},
+{tag:"Paytm Europe", q:"The Paytm Europe licence allows it to offer regulated payment services across:", o:["UK only","G7 nations","Eurozone only","SAARC region","European Economic Area (EEA)"], a:4},
+{tag:"POWERGRID / JBIC", q:"POWERGRID secured a JPY 80 billion green loan from which Japanese institution?", o:["JICA","Mizuho Bank","Bank of Japan","MUFG","Japan Bank for International Cooperation (JBIC)"], a:4},
+{tag:"POWERGRID / JBIC", q:"The POWERGRID-JBIC green loan will finance which HVDC transmission project?", o:["Leh–Kaithal HVDC","Raigarh–Pugalur HVDC","Champa–Kurukshetra HVDC","Bhadla–Fatehgarh HVDC","Khavda–Nagpur HVDC"], a:4},
+{tag:"Aviva / FDI", q:"Aviva Plc's acquisition of the remaining stake in Aviva Life Insurance India, making it the first fully-foreign-owned Indian life insurer, involved a stake of:", o:["20%","24%","30%","49%","26%"], a:4},
+{tag:"Aviva / FDI", q:"100% FDI in India's insurance sector, relevant to Aviva's full ownership, was permitted in which month/year?", o:["March 2025","January 2026","July 2025","June 2026","May 2026"], a:4},
+{tag:"West Bengal National Affairs", q:"The foundation stone for a 125-foot-tall statue of Dr. Syama Prasad Mookerjee was laid in Kolkata to mark his:", o:["100th birth anniversary","110th birth anniversary","150th birth anniversary","120th birth anniversary","125th birth anniversary"], a:4},
+{tag:"TRAI Regulation", q:"TRAI has mandated the use of which series for service and transaction calls by BFSI-regulated entities?", o:["140XX series","160XX series","1800XX series","190XX series","1600XX series"], a:4},
+{tag:"TRAI Regulation", q:"Entities regulated by which four bodies are required to use the 1600XX calling series as per TRAI's mandate?", o:["Only RBI","Only SEBI and IRDAI","RBI and NPCI only","TRAI itself","RBI, SEBI, IRDAI, and PFRDA"], a:4},
+{tag:"TRAI Regulation", q:"TRAI has mandated the 140XX series for:", o:["Emergency calls","Service calls","Government helpline calls","International roaming calls","Promotional calls by entities of any sector"], a:4},
+{tag:"Biodiversity Heritage Sites", q:"NBA notified which Assam site as a Biodiversity Heritage Site under Section 37 of the Biological Diversity Act, 2002?", o:["Majuli BHS","Hajong Tortoise Lake BHS","Kaziranga BHS","Dibru-Saikhowa BHS","Borjuli Wild Rice BHS"], a:4},
+{tag:"Biodiversity Heritage Sites", q:"With Borjuli's notification, Assam now has how many Biodiversity Heritage Sites in total?", o:["2","4","5","1","3"], a:4},
+{tag:"Biodiversity Heritage Sites", q:"India's total number of Biodiversity Heritage Sites, as of July 2026, stands at:", o:["50","52","56","48","54"], a:4},
+{tag:"Biodiversity Heritage Sites", q:"India's first Biodiversity Heritage Site, notified in 2007, was:", o:["Majuli","Chilika Lake","Gulf of Mannar","Borjuli Wild Rice","Nallur Tamarind Grove"], a:4},
+{tag:"Biodiversity Heritage Sites", q:"Nallur Tamarind Grove, India's first BHS, is located in which state?", o:["Tamil Nadu","Andhra Pradesh","Telangana","Kerala","Karnataka"], a:4},
+{tag:"GI Tags", q:"West Bengal received how many new GI tags, taking its total GI registrations to 59?", o:["20","21","22","25","23"], a:4},
+{tag:"GI Tags", q:"With 59 total GI registrations, West Bengal ranks among Indian states as:", o:["2nd highest","4th highest","1st highest","5th highest","3rd highest"], a:4},
+{tag:"GI Tags", q:"Which state ranks highest in India for GI registrations (83), as per the capsule?", o:["Tamil Nadu","Karnataka","Kerala","Maharashtra","Uttar Pradesh"], a:4},
+{tag:"GI Tags", q:"GI registration in India, which came into force on 15 September 2003, is valid for a period of:", o:["5 years","7 years","15 years","20 years","10 years"], a:4},
+{tag:"Global Biofuel Alliance", q:"The Global Biofuel Alliance (GBA) selected 15 early-career researchers, including 2 Indians, for which fellowship programme?", o:["Global Energy Fellowship","India Biofuel Scholars Programme","Sustainable Energy Fellows Initiative","Bioenergy Leaders Programme","Global Biofuel Champion Fellowship (GBCF)"], a:4},
+{tag:"Global Biofuel Alliance", q:"The GBCF grant amount awarded per fellow is:", o:["USD 10,000","USD 20,000","USD 12,500","USD 25,000","USD 15,000"], a:4},
+{tag:"Global Biofuel Alliance", q:"The Global Biofuel Alliance was launched in September 2023 on the sidelines of which summit?", o:["COP28","G7 Summit","SCO Summit","BRICS Summit","G20 Summit in New Delhi"], a:4},
+{tag:"Global Biofuel Alliance", q:"The GBA's Interim Director General, as per the capsule, is:", o:["Hardeep Singh Puri","R.K. Singh","Amit Shah","Piyush Goyal","Dr. Neeraj Mittal (Secretary, MoPNG)"], a:4},
+{tag:"Biodiversity Repository", q:"MoEFCC notified Mizoram University's Natural History Museum as India's how many-th Designated Repository under Section 39 of the Biological Diversity Act?", o:["19th","20th","22nd","18th","21st"], a:4},
+{tag:"Biodiversity Repository", q:"Mizoram University's Natural History Museum, notified as a Designated Repository, was established in which year?", o:["2020","2021","2023","2019","2022"], a:4},
+{tag:"National Biodiversity Authority", q:"The National Biodiversity Authority (NBA) is headquartered in:", o:["New Delhi","Bengaluru","Hyderabad","Dehradun","Chennai"], a:4},
+{tag:"TribeX", q:"TribeX, India's first dedicated digital learning platform for tribal arts and culture, was launched by:", o:["Arjun Munda","Kiren Rijiju","G. Kishan Reddy","Bhupender Yadav","Jual Oram"], a:4},
+{tag:"TribeX", q:"TribeX was launched during the National Workshop on Strengthening Tribal Research Institutes, held in:", o:["Ranchi, Jharkhand","Raipur, Chhattisgarh","Guwahati, Assam","Bhopal, Madhya Pradesh","Bhubaneswar, Odisha"], a:4},
+{tag:"TribeX", q:"TribeX offers how many free certificate courses?", o:["10","15","25","30","20"], a:4},
+{tag:"CSIR-IICT / Refrigerant", q:"CSIR-IICT, Hyderabad, developed India's first indigenous process technology for which refrigerant?", o:["R-32","R-410A","R-134a","HFC-134a","HFO-1234yf"], a:4},
+{tag:"CSIR-IICT / Refrigerant", q:"India's new green refrigerant technology supports its commitments under which international protocol amendment?", o:["Paris Agreement","Kyoto Protocol","Basel Convention","Montreal Protocol (original 1987 text)","Kigali Amendment to the Montreal Protocol"], a:4},
+{tag:"HFC Phase-down", q:"As per India's HFC phase-down targets, what reduction is targeted by the year 2032?", o:["5%","15%","20%","8%","10%"], a:4},
+{tag:"HFC Phase-down", q:"The full HFC phase-down target of 85% is to be achieved by:", o:["2040","2045","2050","2035","2047"], a:4},
+{tag:"HFC Phase-down", q:"The 85% HFC phase-down by 2047 is expected to prevent emissions of up to how many million tonnes of CO₂ equivalent?", o:["85 million tonnes","95 million tonnes","100 million tonnes","110 million tonnes","105 million tonnes"], a:4},
+{tag:"CSIR International", q:"CSIR established the International Centre for Civilizational Studies 'Manas and Mahabharata,' in collaboration with the Manas National Academy, located in:", o:["Almaty, Kazakhstan","Tashkent, Uzbekistan","Dushanbe, Tajikistan","Ashgabat, Turkmenistan","Bishkek, Kyrgyzstan"], a:4},
+{tag:"Human-Wildlife Conflict CoE", q:"The Centre of Excellence on Human-Wildlife Conflict, inaugurated by Bhupender Yadav in Coimbatore, is located at:", o:["Wildlife Institute of India (main campus)","Zoological Survey of India","Botanical Survey of India","Salim Ali Centre (standalone)","WII-SACON"], a:4},
+{tag:"Human-Wildlife Conflict CoE", q:"Along with the National Human-Wildlife Conflict Portal, the CoE released the first edition of a publication titled:", o:["India's Wildlife Conflict Report","Living with Wildlife: An Indian Perspective","Human-Animal Coexistence Handbook","Tiger, Leopard, Elephant: Conflict Zones of India","Current Status of Human–Wildlife Conflict in India: An Overview"], a:4},
+{tag:"ICMR / High Altitude Medicine", q:"ICMR's Centre for High Altitude Medicine and Public Health Research, India's first dedicated institution of its kind, had its foundation stone laid at Keylong in which district?", o:["Kinnaur","Chamba","Kullu","Shimla","Lahaul and Spiti"], a:4},
+{tag:"Dixon-Vivo JV", q:"In the Government-approved Dixon Technologies–Vivo Mobile India joint venture for smartphone manufacturing, the shareholding is:", o:["Dixon 49%, Vivo 51%","Dixon 60%, Vivo 40%","Dixon 74%, Vivo 26%","Equal 50%-50%","Dixon 51%, Vivo 49%"], a:4},
+{tag:"Dixon-Vivo JV", q:"The initial paid-up capital of the Dixon-Vivo joint venture is:", o:["₹2 crore","₹10 crore","₹8 crore","₹15 crore","₹5 crore"], a:4},
+{tag:"Ethanol Blending Policy", q:"Under the Ethanol Blended Petrol (EBP) Programme, India achieved the 20% blending target:", o:["On schedule","Two years behind schedule","Three years ahead of schedule","One year ahead of schedule","Five years ahead of schedule"], a:4},
+{tag:"Ethanol Blending Policy", q:"Ethanol blending in petrol rose from less than 1.5% in 2013-14 to 20% in which supply year?", o:["2023-24","2024-25","2022-23","2026-27","2025-26"], a:4},
+{tag:"Ethanol Blending Policy", q:"Ethanol procurement rose from about 38 crore litres in ESY 2013-14 to a projected figure of over how many crore litres in 2025-26?", o:["800 crore litres","1,000 crore litres","1,500 crore litres","900 crore litres","1,200 crore litres"], a:4},
+{tag:"Ethanol Blending Policy", q:"As cited in the ethanol blending context, India imports close to what percentage of the crude oil it consumes?", o:["80%","85%","92%","75%","88.5%"], a:4},
+{tag:"Ethanol Blending Policy", q:"Ethanol's Research Octane Number of 108.5 is compared against petrol's octane number of:", o:["80.4","82.4","86.4","88.4","84.4"], a:4},
+{tag:"Ethanol Blending Policy", q:"E20 raises the effective octane rating of Indian petrol to around:", o:["90","92","93","98","95"], a:4},
+{tag:"Ethanol Blending Policy", q:"Which country is cited as having E10 as its standard nationwide ethanol-blended fuel?", o:["Brazil","India","Canada","Australia","United States"], a:4},
+{tag:"Ethanol Blending Policy", q:"Which country remains the global leader in ethanol use, as per the capsule?", o:["United States","India","Argentina","China","Brazil"], a:4},
+{tag:"India-New Zealand", q:"The Prime Ministers of India and New Zealand announced the India-New Zealand Strategic Partnership during a meeting in:", o:["Wellington","Christchurch","Hamilton","Dunedin","Auckland"], a:4},
+{tag:"India-New Zealand", q:"The India-New Zealand Roadmap to 2030 sets an aspirational bilateral trade target of doubling two-way trade to:", o:["NZ$5 billion","NZ$6 billion","NZ$8 billion","NZ$10 billion","NZ$7 billion"], a:4},
+{tag:"India-New Zealand", q:"As per the capsule, the India-New Zealand Strategic Partnership: Roadmap to 2030 explicitly does NOT create:", o:["Diplomatic ties","Trade opportunities","Cultural exchange programmes","Visa facilitation","Financial commitments or legally binding rights/obligations"], a:4},
+{tag:"India-Seychelles", q:"EXIM Bank of India signed an umbrella Line of Credit worth ₹1,250 crore with which nation?", o:["Mauritius","Maldives","Sri Lanka","Comoros","Seychelles"], a:4},
+{tag:"India-Seychelles", q:"PM Narendra Modi was conferred the honorary title \"Guardian of the Blue Horizon\" by which country's President?", o:["Mauritius","Maldives","Fiji","Comoros","Seychelles (President Patrick Herminie)"], a:4},
+{tag:"Global Passport Index", q:"The GCS Global Passport Index (GPI) 2026 ranks passports of how many countries?", o:["190","193","195","200","197"], a:4},
+{tag:"Global Passport Index", q:"As per GPI 2026, which country tops the ranking with a score of 96.05?", o:["Switzerland","Finland","Germany","Singapore","Sweden"], a:4},
+{tag:"Global Passport Index", q:"India's overall rank in the GPI 2026 is:", o:["120th","122nd","124th","128th","125th"], a:4},
+{tag:"Global Passport Index", q:"India's GPI 2026 rank of 125th represents a drop of one place from 2025, but also:", o:["A drop of 3 places over 5 years","A rise of 5 places from 2025","No change in category rankings","A fall in Investment ranking","The highest score in the last 5 years"], a:4},
+{tag:"Global Passport Index", q:"Under GPI 2026's category-wise rankings, India's \"Quality of Life\" rank improved by how many places?", o:["8 places","5 places","15 places","3 places","11 places"], a:4},
+{tag:"Global Passport Index", q:"GCS Global Passport Index is published by Global Citizen Solutions, whose CEO is:", o:["Christian Kalin","Armand Arton","Nuri Katz","Micha-Rose Emmett","Patricia Casaburi"], a:4},
+{tag:"Global Passport Index", q:"In GPI 2026, which country is the only Asian nation featured in the top 10?", o:["Japan","South Korea","UAE","Malaysia","Singapore"], a:4},
+{tag:"Global Liveability Index", q:"EIU's Global Liveability Index 2026 ranks how many cities worldwide?", o:["150","160","165","170","173"], a:4},
+{tag:"Global Liveability Index", q:"Which city retained the top position for the second consecutive year in EIU's Global Liveability Index 2026?", o:["Vienna","Zurich","Melbourne","Geneva","Copenhagen"], a:4},
+{tag:"Global Liveability Index", q:"Among Indian cities, which one ranked highest in the EIU Global Liveability Index 2026?", o:["Mumbai","Chennai","Bengaluru","Hyderabad","New Delhi"], a:4},
+{tag:"Global Liveability Index", q:"Damascus, Syria, was ranked as the world's least liveable city in EIU 2026, with a score of:", o:["28","30","35","25","32"], a:4},
+{tag:"Global Liveability Index", q:"The EIU Global Liveability Index evaluates cities on five broad categories; which of the following is NOT one of them?", o:["Stability","Healthcare","Culture & Environment","Education","Trade Openness"], a:4},
+{tag:"GAGAN & NavIC", q:"GAGAN, India's Satellite-Based Augmentation System, was developed jointly by ISRO and:", o:["DGCA","Ministry of Civil Aviation","Indian Air Force","Air India","Airports Authority of India (AAI)"], a:4},
+{tag:"GAGAN & NavIC", q:"Unlike GAGAN, NavIC does not rely on:", o:["ISRO satellites","Ground stations","Atomic clocks","Regional coverage","GPS"], a:4},
+{tag:"ITU AI for Good", q:"ITU's AI for Good Global Commission, launched in Geneva, has how many founding members?", o:["40","42","46","50","44"], a:4},
+{tag:"ITU AI for Good", q:"Which of the following is NOT one of the three stated pillars of the AI for Good Global Commission?", o:["AI Trust","AI Access","AI Impact","AI Regulation","All the above are actual pillars except one"], a:3},
+{tag:"ITU AI for Good", q:"Which Indian business leader among the AI for Good Global Commission's founding members is Executive Chairman of ArcelorMittal?", o:["Mukesh Ambani","Sunil Bharti Mittal","Gautam Adani","N. Chandrasekaran","Lakshmi N. Mittal"], a:4},
+{tag:"Chitkara / AIM", q:"Chitkara University's Atal Incubation Centre–Chitkara Incubation Foundation (AIC-CIF) launched with a combined investment of:", o:["₹10 crore","₹15 crore","₹25 crore","₹30 crore","₹20 crore"], a:4},
+{tag:"Chitkara / AIM", q:"AIC-CIF and AIC-PRIDE Labs focus on supporting startups in Drone Technologies, Agritech, and:", o:["Fintech","Healthtech","Edtech","Blockchain","Renewable Energy"], a:4},
+{tag:"Atal Innovation Mission", q:"Atal Innovation Mission (AIM), promoting innovation and entrepreneurship, was established in which year?", o:["2015","2017","2018","2014","2016"], a:4},
+{tag:"Atal Innovation Mission", q:"Atal Innovation Mission's Director, as per the capsule, is:", o:["Chintan Vaishnav","R. Ramanan","Anna Roy","Amitabh Kant","Dr. Deepak Bagla"], a:4},
+{tag:"INS Mahendragiri", q:"INS Mahendragiri (F38) was commissioned on which date?", o:["July 1","July 5","July 8","July 10","July 11"], a:4},
+{tag:"INS Mahendragiri", q:"INS Mahendragiri was commissioned at:", o:["Mumbai","Kochi","Chennai","Karwar","Visakhapatnam"], a:4},
+{tag:"Project 17A", q:"INS Mahendragiri is the sixth of how many stealth frigates planned under Project 17A?", o:["Six","Eight","Five","Nine","Seven"], a:4},
+{tag:"Project 17A", q:"The final (seventh) vessel of Project 17A will be:", o:["INS Nilgiri","INS Himgiri","INS Taragiri","INS Dunagiri","INS Vindhyagiri"], a:4},
+{tag:"Project 17A", q:"Project 17A frigates were designed by the Indian Navy's:", o:["Naval Design Directorate","Directorate of Naval Architecture","Fleet Design Cell","Shipbuilding Design Wing","Warship Design Bureau (WDB)"], a:4},
+{tag:"Project 17A", q:"INS Mahendragiri was built by:", o:["Cochin Shipyard","Garden Reach Shipbuilders","Hindustan Shipyard","Goa Shipyard","Mazagon Dock Shipbuilders Ltd (MDL)"], a:4},
+{tag:"RIMPAC 2026", q:"RIMPAC 2026, in which the Indian Navy participated, was the how many-th edition of the exercise?", o:["28th","29th","31st","32nd","30th"], a:4},
+{tag:"RIMPAC 2026", q:"RIMPAC 2026 was hosted at Joint Base Pearl Harbor-Hickam in:", o:["California","Guam","Alaska","Washington","Hawaii"], a:4},
+{tag:"RIMPAC 2026", q:"RIMPAC 2026's official theme was:", o:["\"Allies Together\"","\"Pacific Unity\"","\"Freedom of the Seas\"","\"Joint Maritime Strength\"","\"Partners: Integrated and Prepared\""], a:4},
+{tag:"RIMPAC 2026", q:"RIMPAC, initiated in 1971 by Australia, Canada, and the USA, saw the Indian Navy become a permanent participant in:", o:["2010","2012","2016","2018","2014"], a:4},
+{tag:"Indian Navy", q:"The Indian Navy's official motto is:", o:["\"Satyameva Jayate\"","\"Yudhaya Krite\"","\"Nabhah Sparsham Deeptam\"","\"Shauryam, Dhairyam, Aatmavishwas\"","\"Sam no Varunah\""], a:4},
+{tag:"DAC Modernisation", q:"The Defence Acquisition Council (DAC), chaired by Rajnath Singh, granted Acceptance of Necessity for capital acquisitions worth approximately:", o:["₹42,000 crore","₹62,000 crore","₹45,000 crore","₹58,000 crore","₹52,000 crore"], a:4},
+{tag:"CBDT Appointment", q:"Ravi Agrawal was reappointed as CBDT Chairman for a term of 6 months, effective from:", o:["June 1, 2026","August 1, 2026","January 1, 2026","September 1, 2026","July 1, 2026"], a:4},
+{tag:"CBDT", q:"CBDT, established in 1964, functions under the:", o:["Ministry of Corporate Affairs","Ministry of Commerce","RBI","SEBI","Department of Revenue, Ministry of Finance"], a:4},
+{tag:"HDFC Bank Appointment", q:"HDFC Bank appointed which former Chief Election Commissioner (CEC) of India as its Part-time Chairman for a 3-year term?", o:["Sunil Arora","Om Prakash Rawat","Achal Kumar Jyoti","Nasim Zaidi","Rajiv Kumar"], a:4},
+{tag:"HDFC Bank Appointment", q:"HDFC Bank's newly appointed Part-time Chairman, Rajiv Kumar, succeeded:", o:["Deepak Parekh","Aditya Puri","Sashidhar Jagdishan","Renu Karnad","Keki Mistry"], a:4},
+{tag:"IAF Appointment", q:"Air Marshal Ashutosh Dixit assumed charge as the how many-th Vice Chief of Air Staff of the IAF?", o:["49th","50th","52nd","48th","51st"], a:4},
+{tag:"IAF Appointment", q:"Air Marshal Ashutosh Dixit succeeded whom as Vice Chief of Air Staff?", o:["Air Marshal Vivek Ram Chaudhari","Air Marshal Sanjeev Kapoor","Air Marshal A.P. Singh","Air Marshal R.K. Sharma","Air Marshal Nagesh Kapoor"], a:4},
+{tag:"IREDA Appointment", q:"Bijay Kumar Mohanty assumed additional charge as CMD of IREDA for a period of three months, succeeding:", o:["W.R. Reddy","Ravinder Singh","K.S. Popli","Ajay Yadav","Pradip Kumar Das"], a:4},
+{tag:"Brand Ambassador", q:"Sourav Ganguly was appointed Brand Ambassador by which Insurtech platform, launching the 'Khul Kar Khelo' campaign?", o:["PolicyBazaar","Turtlemint","Coverfox","Acko","InsuranceDekho"], a:4},
+{tag:"InsuranceDekho", q:"InsuranceDekho's legal registered name, as per the capsule, is:", o:["PB Fintech Ltd","Digit Insurance Brokers","Turtlemint Insurance Brokers","Coverfox Insurance Brokers","Girnar Insurance Brokers Private Limited"], a:4},
+{tag:"Sports - T20 World Cup", q:"Australia defeated England to win the 2026 ICC Women's T20 World Cup final by:", o:["5 wickets","6 wickets","8 wickets","4 wickets","7 wickets"], a:4},
+{tag:"Sports - T20 World Cup", q:"The final of the 2026 ICC Women's T20 World Cup was held at:", o:["The Oval","Edgbaston","Old Trafford","Headingley","Lord's Cricket Ground, London"], a:4},
+{tag:"Sports - T20 World Cup", q:"Australia's win in the 2026 Women's T20 World Cup secured its record-extending:", o:["5th title","6th title","8th title","4th title","7th title"], a:4},
+{tag:"Sports - T20 World Cup", q:"The leading wicket-taker of the 2026 Women's T20 World Cup was Shree Charani of India, with how many wickets?", o:["10 wickets","12 wickets","13 wickets","15 wickets","14 wickets"], a:4},
+{tag:"Sports - T20 World Cup", q:"Player of the Final & Tournament at the 2026 Women's T20 World Cup was:", o:["Ellyse Perry","Alyssa Healy","Meg Lanning","Ashleigh Gardner","Beth Mooney"], a:4},
+{tag:"Vaibhav Sooryavanshi", q:"Vaibhav Sooryavanshi made his senior T20I debut for India against England at which venue?", o:["Lord's, London","The Oval","Headingley","Trent Bridge","Old Trafford, Manchester"], a:4},
+{tag:"Vaibhav Sooryavanshi", q:"At what age did Vaibhav Sooryavanshi become India's youngest international cricket debutant?", o:["14 years 300 days","16 years 50 days","15 years 200 days","14 years 99 days","15 years 99 days"], a:4},
+{tag:"Vaibhav Sooryavanshi", q:"Vaibhav Sooryavanshi's debut broke a 36-year-old record set in Test cricket by:", o:["Virat Kohli","Yuvraj Singh","Rahul Dravid","MS Dhoni","Sachin Tendulkar"], a:4},
+{tag:"Vaibhav Sooryavanshi", q:"As India's youngest overall international debutant, Vaibhav Sooryavanshi surpassed the record earlier held by:", o:["Smriti Mandhana","Harmanpreet Kaur","Yashasvi Jaiswal","Prithvi Shaw","Shafali Verma"], a:4},
+{tag:"Chess - Grandmaster", q:"Aswath S from Kanyakumari, Tamil Nadu, became India's how many-th Chess Grandmaster?", o:["95th","96th","97th","99th","98th"], a:4},
+{tag:"Chess - Grandmaster", q:"Aswath S secured his third and final GM norm at the Pune International Grandmaster Round Robin Tournament, held at:", o:["Baner, Pune","Kothrud, Pune","Hinjewadi, Pune","Wakad, Pune","Mundhwa, Pune"], a:4},
+{tag:"FIDE Norms", q:"As per FIDE Grandmaster criteria, a player must reach a minimum FIDE rating of:", o:["2400","2600","2450","2550","2500"], a:4},
+{tag:"FIDE", q:"The President of FIDE, as per the capsule, is:", o:["Kirsan Ilyumzhinov","Garry Kasparov","Viswanathan Anand","Nigel Short","Arkady Vladimirovich Dvorkovich"], a:4},
+{tag:"Khelo India", q:"Telangana will host the 8th Khelo India Youth Games (KIYG), scheduled for:", o:["September 2026","October 2026","December 2026","January 2027","November 2026"], a:4},
+{tag:"Khelo India", q:"The 7th KIYG, hosted by Bihar in May 2025, had which state as its overall champion?", o:["Haryana","Rajasthan","Karnataka","Punjab","Maharashtra"], a:4},
+{tag:"Khelo India", q:"Khelo India Programme, aimed at strengthening India's grassroots sports ecosystem, was launched in:", o:["2016","2017","2019","2020","2018"], a:4},
+{tag:"Leander Paes", q:"Leander Paes was appointed Player Ambassador of which body to promote grassroots tennis in Asia?", o:["International Tennis Federation","All India Tennis Association","ATP Tour","WTA","Asian Tennis Federation (ATF)"], a:4},
+{tag:"Leander Paes", q:"Leander Paes was inducted into the International Tennis Hall of Fame in:", o:["2021","2022","2023","2020","2024"], a:4},
+{tag:"ICC Hall of Fame", q:"Anjum Chopra and Kevin Pietersen were inducted into the ICC Hall of Fame during the ICC Annual Conference held in:", o:["London","Dublin","Cardiff","Manchester","Edinburgh, Scotland"], a:4},
+{tag:"ICC Hall of Fame", q:"Anjum Chopra's induction into the ICC Hall of Fame makes her the how many-th Indian woman to be inducted?", o:["1st","2nd","4th","5th","3rd"], a:4},
+{tag:"ICC Hall of Fame", q:"Anjum Chopra was the first Indian woman to play 100 ODIs and score how many ODI runs?", o:["500 runs","750 runs","1,500 runs","2,000 runs","1,000 runs"], a:4},
+{tag:"ICC Hall of Fame", q:"Kevin Pietersen is England's highest international run-scorer across all formats, with over:", o:["12,000 runs","14,500 runs","15,000 runs","11,000 runs","13,700 runs"], a:4},
+{tag:"ICC Hall of Fame", q:"The ICC Hall of Fame was launched in January 2009 during ICC's:", o:["Golden Jubilee","Diamond Jubilee","50th anniversary","75th anniversary","Centenary celebrations"], a:4},
+{tag:"Sourav Ganguly / ICC HoF", q:"Sourav Ganguly's induction into the ICC Hall of Fame makes him the how many-th Indian inducted?", o:["10th","11th","13th","14th","12th"], a:4},
+{tag:"Sourav Ganguly / ICC HoF", q:"Sourav Ganguly's ICC Hall of Fame induction was conferred on his:", o:["50th birthday","52nd birthday","53rd birthday","55th birthday","54th birthday"], a:4},
+{tag:"Sourav Ganguly", q:"Sourav Ganguly is popularly known by which nickname?", o:["\"Prince of Kolkata\"","\"Dada of Cricket\"","\"Maharaja of Cricket\"","\"Tiger of Bengal\"","\"God of Offside\""], a:4},
+{tag:"Books and Authors", q:"Zoramthanga's memoir, \"From Guerrilla Fighter to Chief Minister,\" chronicles his journey as a legendary figure of which organisation?", o:["National Liberation Front of Tripura","United Liberation Front of Assam","National Socialist Council of Nagaland","All Party Hill Leaders Conference","Mizo National Front (MNF)"], a:4},
+{tag:"Books and Authors", q:"IAF Group Captain Shubhanshu Shukla launched his debut book \"The Second Orbit\" in which city?", o:["Mumbai","Chennai","Hyderabad","New Delhi","Bengaluru"], a:4},
+{tag:"Books and Authors", q:"\"The Second Orbit\" is described as a tribute to whose historic 1984 space mission?", o:["Kalpana Chawla","Sunita Williams","Ravish Malhotra","Vikram Sarabhai","Rakesh Sharma"], a:4},
+{tag:"Shubhanshu Shukla", q:"Shubhanshu Shukla, pilot of a recent space mission, spent 18 days aboard the ISS as part of:", o:["Gaganyaan-1","SpaceX Crew-8","Artemis II","Chandrayaan-4","Axiom Mission 4"], a:4},
+{tag:"Awards", q:"The Prime Minister was conferred Indonesia's highest civilian award, the 'Bintang Adipurna,' by President:", o:["Joko Widodo","Ma'ruf Amin","Sri Mulyani","Retno Marsudi","Prabowo Subianto"], a:4},
+{tag:"Awards", q:"Nita Ambani was awarded the AAPI Humanitarian Award, the highest honour of the American Association of:", o:["Indian Engineers","Indian Entrepreneurs","Indian Scientists","Indian Lawyers","Physicians of Indian Origin"], a:4},
+{tag:"Awards - MPW 2026", q:"Nita Ambani topped the Fortune India Most Powerful Women (MPW) 2026 list; who was ranked 2nd?", o:["Savitri Jindal","Dr. Priti Adani","Reddy Sisters","Kiran Mazumdar-Shaw","Roshni Nadar"], a:4},
+{tag:"Fortune India", q:"Fortune India's Editor-in-Chief, as per the capsule, is:", o:["Raj Chengappa","Shekhar Gupta","Aroon Purie","Vineet Jain","Sourav Majumdar"], a:4},
+{tag:"e-Governance Conference", q:"The 29th National Conference on e-Governance (NCeG 2026) was held at the Rajasthan International Centre in:", o:["Udaipur","Jodhpur","Ajmer","Kota","Jaipur"], a:4},
+{tag:"e-Governance Conference", q:"At NCeG 2026, how many National Awards for e-Governance were presented across seven categories?", o:["15","16","18","20","17"], a:4},
+{tag:"Mountaineering", q:"Tshering Choden, a mountaineer from Sikkim, scaled Mount Elbrus, marking her second ascent in the:", o:["K2 Challenge","Explorer's Grand Slam","Adventure Grand Slam","Polar Challenge","Seven Summits Challenge"], a:4},
+{tag:"Mountaineering", q:"Mount Elbrus, at 5,642 metres, is the highest mountain in:", o:["Asia","Africa","South America","Antarctica","Russia and Europe"], a:4},
+{tag:"Sikkim Affairs", q:"Sikkim's Ramsar site mentioned in the capsule is:", o:["Chilika Lake","Sundarbans","Renuka Wetland","Wular Lake","Khachoedpalri Wetland"], a:4},
+{tag:"UNESCO Heritage Award", q:"Nepal's 17th-century Jestha Varna Mahavihar received the UNESCO Asia-Pacific Heritage Award 2025 for restoration efforts following which disaster?", o:["2016 Nepal floods","2019 landslide","2020 cyclone","2018 avalanche","2015 Gorkha earthquake"], a:4},
+{tag:"UNESCO Heritage Award", q:"India's grant assistance for restoring the Jestha Varna Mahavihar amounted to:", o:["NPR 10 crore","NPR 15 crore","NPR 12.5 crore","NPR 18 crore","NPR 13.78 crore"], a:4},
+{tag:"UNESCO Heritage Award", q:"Jestha Varna Mahavihar in Lalitpur is also known as:", o:["Swayambhunath","Pashupatinath","Boudhanath","Changu Narayan","Jyaba Bahi or Chakrabahil"], a:4},
+{tag:"FIU-IND / BECA", q:"FIU-IND was named Runner-up at which award for uncovering a large-scale cyber fraud case?", o:["FATF Excellence Award","Global AML Award","INTERPOL Financial Crime Award","UNODC Integrity Award","Best Egmont Case Award (BECA) 2026"], a:4},
+{tag:"FIU-IND / BECA", q:"The cyber fraud case investigated by FIU-IND, which won it BECA 2026 Runner-up, involved nearly:", o:["₹500 crore","₹650 crore","₹950 crore","₹1,000 crore","₹868 crore"], a:4},
+{tag:"FIU-IND / BECA", q:"FIU-IND's investigation traced a sophisticated money laundering network involving over how many mule bank accounts?", o:["3,000","4,000","6,000","7,000","5,000"], a:4},
+{tag:"FIU-IND / BECA", q:"The winner of BECA 2026 (FIU-IND was runner-up) was:", o:["Japan's Financial Crime Unit","Singapore's Suspicious Transaction Reporting Office","South Korea's FIU","Malaysia's Bank Negara AML Unit","Taiwan's Anti-Money Laundering Division (AMLD)"], a:4},
+{tag:"FIU-IND", q:"FIU-IND (Financial Intelligence Unit – India) was established in:", o:["November 2002","November 2003","November 2005","November 2006","November 2004"], a:4},
+{tag:"National Statistics Day", q:"National Statistics Day 2026, observed on 29 June, marks the birth anniversary of:", o:["C.R. Rao","D.R. Kaprekar","Har Gobind Khorana","S. Chandrasekhar","Prasanta Chandra (P.C.) Mahalanobis"], a:4},
+{tag:"National Statistics Day", q:"National Statistics Day 2026 marked which birth anniversary of P.C. Mahalanobis, being the 20th National Statistics Day?", o:["130th","135th","128th","140th","133rd"], a:4},
+{tag:"P.C. Mahalanobis", q:"P.C. Mahalanobis founded the Indian Statistical Institute (ISI) in:", o:["1929","1933","1935","1928","1931"], a:4},
+{tag:"National Statistics Day", q:"The 2026 theme for National Statistics Day was:", o:["\"Statistics for Sustainable Development\"","\"Data-Driven Decision Making\"","\"Statistics in the Digital Age\"","\"Empowering India Through Data\"","\"Unlocking the Potential of Administrative Data\""], a:4},
+{tag:"National Statistics Day", q:"The Sukhatme National Award 2026 was conferred to Professor Arup Bose of:", o:["IIT Kharagpur","IIM Ahmedabad","ISI Delhi","IIT Bombay","ISI Kolkata"], a:4},
+{tag:"National Doctors' Day", q:"National Doctors' Day 2026, observed on 1 July, commemorates the birth and death anniversary of:", o:["Dr. Vikram Sarabhai","Dr. APJ Abdul Kalam","Dr. Homi Bhabha","Dr. C.V. Raman","Dr. B.C. Roy"], a:4},
+{tag:"National Doctors' Day", q:"Dr. B.C. Roy was honoured with the Bharat Ratna in:", o:["1962","1963","1960","1964","1961"], a:4},
+{tag:"National Doctors' Day", q:"National Doctors' Day 2026 theme was:", o:["\"Healing Hands, Caring Hearts\"","\"Doctors: The Real Heroes\"","\"Service Above Self\"","\"Compassion in Medicine\"","\"Behind the Mask: Who Heals the Healers?\""], a:4},
+{tag:"GST Day", q:"GST Day 2026, observed on 1 July, marked which edition of the observance?", o:["7th GST Day","8th GST Day","10th GST Day","6th GST Day","9th GST Day"], a:4},
+{tag:"GST Day", q:"GST was implemented across India on:", o:["1 April 2017","1 January 2017","1 July 2016","1 April 2016","1 July 2017"], a:4},
+{tag:"GST Council", q:"The GST Council was constituted under Article 279A of the Constitution on:", o:["1 July 2017","16 September 2016","8 September 2016","15 September 2016","12 September 2016"], a:4},
+{tag:"GST Structure", q:"Which two-rate GST structure is currently in effect, as per the capsule (as of September 2025)?", o:["5% and 12%","12% and 18%","5% and 28%","12% and 28%","5% and 18%"], a:4},
+{tag:"GST Structure", q:"A special demerit GST rate applies to select goods such as tobacco products and luxury items, set at:", o:["28%","35%","45%","50%","40%"], a:4},
+{tag:"GST Structure", q:"Under the revised GST norms, the GST registration threshold for goods was raised from ₹20 lakh to:", o:["₹30 lakh","₹35 lakh","₹50 lakh","₹45 lakh","₹40 lakh"], a:4},
+{tag:"GST Structure", q:"The Composition Scheme turnover limit under GST was raised from ₹75 lakh to:", o:["₹1 crore","₹1.25 crore","₹2 crore","₹1.75 crore","₹1.5 crore"], a:4},
+{tag:"CBIC", q:"CBIC (Central Board of Indirect Taxes and Customs), formerly CBEC, was established in:", o:["1962","1963","1965","1966","1964"], a:4},
+{tag:"HSL Appointment", q:"Rear Admiral (Retd.) C. Raghuram took charge as the new CMD of which shipyard?", o:["Cochin Shipyard","Garden Reach Shipbuilders","Mazagon Dock Shipbuilders","Goa Shipyard Limited","Hindustan Shipyard Limited (HSL)"], a:4},
+{tag:"HSL", q:"Hindustan Shipyard Limited, established in 1941, functions under the Ministry of Defence and holds which CPSE status?", o:["Navratna","Maharatna","Miniratna Category-II","Ratna status","Miniratna Category-I"], a:4},
+{tag:"World Population Day", q:"World Population Day 2026's theme was:", o:["\"Investing in Our Youth\"","\"Population and Sustainable Development\"","\"Every Person Counts\"","\"Empowering Youth, Building the Future\"","\"Realizing the hopes and aspirations of young people – today and for the future\""], a:4},
+{tag:"World Population Day", q:"World Population Day, first observed in 1990, was inspired by the world population reaching 5 billion on:", o:["11 July 1985","11 July 1986","11 July 1988","11 July 1989","11 July 1987"], a:4},
+{tag:"UNFPA Report", q:"UNFPA's 2026 flagship report \"Lives, Choices and Futures\" surveyed young adults (18–39 years) across how many countries?", o:["65 countries","70 countries","75 countries","80 countries","73 countries"], a:4},
+{tag:"UNFPA Report", q:"As per UNFPA's 2026 report, what percentage of young Indians surveyed are optimistic about their future?", o:["75%","80%","87%","90%","83%"], a:4},
+{tag:"UNFPA", q:"UNFPA's Executive Director, as per the capsule, is:", o:["Natalia Kanem","Achim Steiner","Amina Mohammed","Winnie Byanyima","Diene Keita"], a:4},
+{tag:"World Population Review", q:"As per the World Population Review 2026 city rankings cited in the capsule, which city ranks 2nd most populated globally?", o:["Mumbai","Shanghai","Kinshasa","Beijing","Delhi"], a:4},
+{tag:"Obituary", q:"Girish Bharadwaj, popularly known as the 'Bridge Man of India', built over how many low-cost suspension footbridges before his passing?", o:["100","120","130","140","150"], a:4},
+{tag:"Obituary", q:"Girish Bharadwaj was awarded the Padma Shri, India's fourth-highest civilian honour, in:", o:["2015","2016","2018","2019","2017"], a:4}
+];
+
+// ---------------------------------------------------------
+// APP LOGIC
+// ---------------------------------------------------------
+const LETTERS = ['A','B','C','D','E'];
+let currentIndex = 0;
+let score = 0;
+let answered = false;
+let wrongAnswers = []; // {q, chosen, correct, tag}
+let shuffled = [];
+
+function shuffleArray(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+// Build a shuffled-option version of a question so correct-answer letters
+// aren't always predictable from the raw data order (already varied, but
+// we still shuffle per attempt for replay variety).
+function prepareQuestion(qObj){
+  const optionIdxs = [0,1,2,3,4];
+  const shuffledIdxs = shuffleArray(optionIdxs);
+  const newOptions = shuffledIdxs.map(i => qObj.o[i]);
+  const newCorrect = shuffledIdxs.indexOf(qObj.a);
+  return {tag:qObj.tag, q:qObj.q, o:newOptions, a:newCorrect};
+}
+
+document.getElementById('totalQCount').textContent = QUESTIONS.length;
+
+function initQuiz(){
+  shuffled = QUESTIONS.map(prepareQuestion);
+  currentIndex = 0;
+  score = 0;
+  wrongAnswers = [];
+  updateScorePill();
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('resultsScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  renderQuestion();
+}
+
+function updateScorePill(){
+  document.getElementById('scorepill').innerHTML = 'Score: <b>' + score + '</b> / ' + QUESTIONS.length;
+}
+
+function updateProgress(){
+  const pct = (currentIndex / QUESTIONS.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function renderQuestion(){
+  answered = false;
+  updateProgress();
+  const qObj = shuffled[currentIndex];
+  document.getElementById('qCounter').textContent = 'Question ' + (currentIndex+1) + ' of ' + QUESTIONS.length;
+  document.getElementById('qTag').textContent = qObj.tag;
+  document.getElementById('qText').textContent = (currentIndex+1) + '. ' + qObj.q;
+
+  const box = document.getElementById('optionsBox');
+  box.innerHTML = '';
+  qObj.o.forEach((optText, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.innerHTML = '<span class="opt-letter">' + LETTERS[idx] + '</span><span>' + optText + '</span>';
+    btn.addEventListener('click', () => selectAnswer(idx, btn));
+    box.appendChild(btn);
+  });
+
+  document.getElementById('feedbackBox').className = 'feedback';
+  document.getElementById('feedbackBox').innerHTML = '';
+  document.getElementById('nextBtn').classList.remove('show');
+}
+
+function selectAnswer(chosenIdx, btnEl){
+  if(answered) return;
+  answered = true;
+  const qObj = shuffled[currentIndex];
+  const allOpts = document.querySelectorAll('#optionsBox .opt');
+  allOpts.forEach(o => o.disabled = true);
+
+  const fb = document.getElementById('feedbackBox');
+  fb.className = 'feedback show';
+
+  if(chosenIdx === qObj.a){
+    score++;
+    btnEl.classList.add('correct');
+    fb.classList.add('correctfb');
+    fb.textContent = '✓ Correct — ' + LETTERS[qObj.a] + ') ' + qObj.o[qObj.a];
+  } else {
+    btnEl.classList.add('incorrect');
+    allOpts[qObj.a].classList.add('correct');
+    fb.classList.add('incorrectfb');
+    fb.textContent = '✗ Incorrect. Correct answer: ' + LETTERS[qObj.a] + ') ' + qObj.o[qObj.a];
+    wrongAnswers.push({
+      q: qObj.q,
+      tag: qObj.tag,
+      chosen: LETTERS[chosenIdx] + ') ' + qObj.o[chosenIdx],
+      correct: LETTERS[qObj.a] + ') ' + qObj.o[qObj.a]
+    });
+  }
+
+  allOpts.forEach((o,i) => { if(i!==chosenIdx && i!==qObj.a) o.classList.add('dim'); });
+  updateScorePill();
+
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.classList.add('show');
+  nextBtn.textContent = (currentIndex === QUESTIONS.length - 1) ? 'See Results →' : 'Next Question →';
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  currentIndex++;
+  if(currentIndex >= QUESTIONS.length){
+    showResults();
+  } else {
+    renderQuestion();
+  }
+});
+
+function showResults(){
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('resultsScreen').classList.remove('hidden');
+
+  const total = QUESTIONS.length;
+  const pct = Math.round((score/total)*100);
+  document.getElementById('finalScore').innerHTML = score + ' <span id="finalTotal">/ ' + total + '</span>';
+  document.getElementById('accuracyPct').textContent = pct + '%';
+
+  const verdict = document.getElementById('verdictPill');
+  if(pct >= 80){
+    verdict.textContent = 'Excellent — Exam Ready';
+    verdict.style.background = 'var(--green-bg)'; verdict.style.color = 'var(--green)';
+  } else if(pct >= 60){
+    verdict.textContent = 'Good — Keep Revising';
+    verdict.style.background = '#fff4dd'; verdict.style.color = '#8a5a00';
+  } else {
+    verdict.textContent = 'Needs More Revision';
+    verdict.style.background = 'var(--red-bg)'; verdict.style.color = 'var(--red)';
+  }
+
+  const reviewDiv = document.getElementById('reviewSection');
+  reviewDiv.innerHTML = '';
+  if(wrongAnswers.length === 0){
+    reviewDiv.innerHTML = '<p style="text-align:center;font-family:Helvetica,Arial,sans-serif;color:var(--green);font-weight:600;">Perfect score — no incorrect answers to review!</p>';
+  } else {
+    const heading = document.createElement('div');
+    heading.className = 'review-heading';
+    heading.textContent = 'Review — Questions Missed (' + wrongAnswers.length + ')';
+    reviewDiv.appendChild(heading);
+    wrongAnswers.forEach((w, i) => {
+      const item = document.createElement('div');
+      item.className = 'review-item';
+      item.innerHTML = '<p class="rq">' + (i+1) + '. [' + w.tag + '] ' + w.q + '</p>' +
+                        '<p class="ryour">Your answer: ' + w.chosen + '</p>' +
+                        '<p class="rcorrect">Correct answer: ' + w.correct + '</p>';
+      reviewDiv.appendChild(item);
+    });
+  }
+}
+
+document.getElementById('startBtn').addEventListener('click', initQuiz);
+document.getElementById('restartBtn').addEventListener('click', () => {
+  document.getElementById('resultsScreen').classList.add('hidden');
+  document.getElementById('startScreen').classList.remove('hidden');
+  document.getElementById('progressFill').style.width = '0%';
+  score = 0;
+  updateScorePill();
+});
+
+</script>
+</body>
+</html>

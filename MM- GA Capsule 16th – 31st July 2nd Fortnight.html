@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NABARD Grade A — GA Capsule Practice Quiz</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --bg2:#141b26;
+    --card:#161d2b;
+    --card2:#1c2536;
+    --border:#26314533;
+    --border2:#2c3a52;
+    --text:#e8ecf3;
+    --text-dim:#9aa7bd;
+    --accent:#4fd1c5;
+    --accent2:#7c9cff;
+    --green:#3ecf8e;
+    --green-bg:#123a2c;
+    --red:#ff6b6b;
+    --red-bg:#3a1418;
+    --amber:#f5b642;
+    --shadow: 0 8px 30px rgba(0,0,0,0.35);
+    font-family: "Segoe UI", "SF Pro Text", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:radial-gradient(circle at 20% -10%, #16233a 0%, var(--bg) 45%); color:var(--text); min-height:100vh; }
+  body{ padding: 24px 16px 60px; }
+  .wrap{ max-width: 900px; margin: 0 auto; }
+  header.top{ text-align:center; margin-bottom: 28px; }
+  header.top h1{ font-size: 1.5rem; letter-spacing:.3px; margin:0 0 6px; font-weight:700; }
+  header.top .sub{ color:var(--text-dim); font-size:.9rem; }
+  .brandbar{ height:3px; width:64px; margin: 14px auto 0; border-radius:3px; background: linear-gradient(90deg,var(--accent),var(--accent2)); }
+
+  .card{ background: linear-gradient(180deg, var(--card), var(--card2)); border:1px solid var(--border2); border-radius:16px; padding:24px; box-shadow: var(--shadow); }
+  .grid2{ display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
+  @media (max-width:640px){ .grid2{ grid-template-columns: 1fr; } }
+
+  .modebtn{ cursor:pointer; border:1px solid var(--border2); background: var(--card2); border-radius:14px; padding:26px 20px; text-align:left; transition: all .18s ease; }
+  .modebtn:hover{ border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 10px 24px rgba(79,209,197,0.12); }
+  .modebtn h3{ margin:0 0 6px; font-size:1.1rem; }
+  .modebtn p{ margin:0; color:var(--text-dim); font-size:.86rem; line-height:1.4; }
+  .modebtn .tag{ display:inline-block; margin-top:10px; font-size:.72rem; color:var(--accent); border:1px solid #234a45; background:#0f2420; padding:3px 9px; border-radius:20px; }
+
+  .toggle-row{ display:flex; gap:10px; margin:16px 0 20px; }
+  .toggle-btn{ flex:1; padding:12px; border-radius:10px; border:1px solid var(--border2); background:var(--card2); color:var(--text-dim); cursor:pointer; font-size:.88rem; font-weight:600; transition: all .15s; }
+  .toggle-btn.active{ background: linear-gradient(135deg,var(--accent),var(--accent2)); color:#08161a; border-color: transparent; }
+
+  .btn{ display:inline-block; cursor:pointer; border:none; border-radius:10px; padding:12px 22px; font-size:.92rem; font-weight:600; transition: all .15s ease; }
+  .btn-primary{ background: linear-gradient(135deg,var(--accent),var(--accent2)); color:#07161b; }
+  .btn-primary:hover{ filter:brightness(1.08); transform: translateY(-1px); }
+  .btn-ghost{ background: transparent; color:var(--text); border:1px solid var(--border2); }
+  .btn-ghost:hover{ border-color: var(--accent); color:var(--accent); }
+  .btn-skip{ background: #2a2417; color:var(--amber); border:1px solid #4a3f22; }
+  .btn-skip:hover{ background:#332a1a; }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+  .btnrow{ display:flex; gap:12px; flex-wrap:wrap; margin-top:22px; }
+
+  .backlink{ display:inline-block; margin-bottom:16px; color:var(--text-dim); text-decoration:none; font-size:.85rem; cursor:pointer; }
+  .backlink:hover{ color:var(--accent); }
+
+  .sectiongrid{ display:grid; grid-template-columns: repeat(2,1fr); gap:14px; margin-top:10px; }
+  @media (max-width:560px){ .sectiongrid{ grid-template-columns: 1fr; } }
+  .sectioncard{ cursor:pointer; background:var(--card2); border:1px solid var(--border2); border-radius:12px; padding:16px; transition: all .15s; }
+  .sectioncard:hover{ border-color:var(--accent); transform: translateY(-1px); }
+  .sectioncard h4{ margin:0 0 6px; font-size:.96rem; }
+  .sectioncard span{ color:var(--text-dim); font-size:.78rem; }
+  .countpill{ float:right; background:#0f2420; color:var(--accent); border:1px solid #234a45; border-radius:20px; padding:2px 9px; font-size:.72rem; }
+
+  .progresswrap{ background:#0b1119; border-radius:20px; height:10px; overflow:hidden; margin:14px 0 6px; border:1px solid var(--border2); }
+  .progressbar{ height:100%; background: linear-gradient(90deg,var(--accent),var(--accent2)); transition: width .25s ease; }
+  .statrow{ display:flex; justify-content:space-between; font-size:.8rem; color:var(--text-dim); margin-bottom:4px; }
+  .scorepill{ color:var(--accent); font-weight:700; }
+
+  .qmeta{ display:flex; gap:8px; align-items:center; margin-bottom:10px; flex-wrap:wrap; }
+  .difftag{ font-size:.68rem; text-transform:uppercase; letter-spacing:.5px; padding:3px 9px; border-radius:20px; border:1px solid; }
+  .diff-Easy{ color:#3ecf8e; border-color:#1f4d3b; background:#0f2018; }
+  .diff-Moderate{ color:#f5b642; border-color:#4d3f1f; background:#241d0d; }
+  .diff-Hard{ color:#ff6b6b; border-color:#4d2323; background:#241010; }
+  .sectag{ font-size:.68rem; color:var(--text-dim); border:1px solid var(--border2); padding:3px 9px; border-radius:20px; }
+
+  .qtext{ font-size:1.05rem; line-height:1.55; margin: 8px 0 20px; font-weight:600; }
+  .options{ display:flex; flex-direction:column; gap:10px; }
+  .option{ display:flex; align-items:flex-start; gap:12px; cursor:pointer; padding:13px 15px; border-radius:12px; border:1px solid var(--border2); background:#101826; transition: all .12s ease; font-size:.92rem; line-height:1.4; }
+  .option:hover:not(.locked){ border-color:var(--accent2); background:#131f31; }
+  .option .letter{ flex:0 0 auto; width:26px; height:26px; border-radius:50%; border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; font-size:.78rem; font-weight:700; color:var(--text-dim); }
+  .option.correct{ border-color:var(--green); background:var(--green-bg); }
+  .option.correct .letter{ background:var(--green); color:#06231a; border-color:var(--green); }
+  .option.wrong{ border-color:var(--red); background:var(--red-bg); }
+  .option.wrong .letter{ background:var(--red); color:#2a0d0d; border-color:var(--red); }
+  .option.locked{ cursor:default; }
+  .option.dim{ opacity:.55; }
+
+  .explainbox{ margin-top:16px; padding:14px 16px; border-radius:12px; background:#0f1826; border:1px solid var(--border2); font-size:.86rem; color:var(--text-dim); line-height:1.5; }
+  .explainbox b{ color:var(--text); }
+
+  .resultsummary{ text-align:center; padding: 8px 0 20px; }
+  .resultsummary .bigscore{ font-size:2.4rem; font-weight:800; background: linear-gradient(90deg,var(--accent),var(--accent2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .resultsummary .lbl{ color:var(--text-dim); font-size:.85rem; margin-top:4px; }
+
+  .diffbreak{ display:grid; grid-template-columns: repeat(3,1fr); gap:12px; margin:20px 0; }
+  .diffbox{ background:var(--card2); border:1px solid var(--border2); border-radius:12px; padding:14px; text-align:center; }
+  .diffbox .n{ font-size:1.3rem; font-weight:700; }
+  .diffbox .l{ font-size:.72rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:.4px; margin-top:2px; }
+
+  .reviewlist{ margin-top: 10px; max-height: 460px; overflow-y:auto; padding-right:4px; }
+  .reviewitem{ border:1px solid var(--border2); border-radius:12px; padding:14px 16px; margin-bottom:12px; background:#0f1826; }
+  .reviewitem .rq{ font-size:.9rem; font-weight:600; margin-bottom:8px; }
+  .reviewitem .rline{ font-size:.82rem; margin:3px 0; }
+  .rok{ color:var(--green); }
+  .rbad{ color:var(--red); }
+  .rskip{ color:var(--amber); }
+  .rexp{ color:var(--text-dim); font-size:.8rem; margin-top:6px; }
+
+  ::-webkit-scrollbar{ width:8px; }
+  ::-webkit-scrollbar-thumb{ background:#2c3a52; border-radius:8px; }
+
+  .hidden{ display:none !important; }
+  .small{ font-size:.78rem; color:var(--text-dim); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>NABARD Grade A — GA Capsule Practice Quiz</h1>
+    <div class="sub">Source: GA Capsule, 16th – 31st July · Full-length interactive practice set</div>
+    <div class="brandbar"></div>
+  </header>
+
+  <!-- HOME -->
+  <div id="screen-home" class="card">
+    <div class="grid2">
+      <div class="modebtn" onclick="goFullSetup()">
+        <h3>📝 Full Practice Test</h3>
+        <p>Attempt the entire question bank in one continuous exam-style run, with a live score and progress bar.</p>
+        <span class="tag" id="fullCountTag">— questions</span>
+      </div>
+      <div class="modebtn" onclick="goSectionGrid()">
+        <h3>📚 Section-wise Revision</h3>
+        <p>Pick one scheme/topic and drill only the questions from that section — great for targeted revision.</p>
+        <span class="tag">14 sections</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FULL SETUP -->
+  <div id="screen-fullsetup" class="card hidden">
+    <a class="backlink" onclick="goHome()">← Back to menu</a>
+    <h3 style="margin-top:0;">Full Practice Test — choose order</h3>
+    <div class="toggle-row">
+      <div class="toggle-btn active" id="ord-pdf" onclick="setOrder('pdf')">PDF Order (default)</div>
+      <div class="toggle-btn" id="ord-shuffle" onclick="setOrder('shuffled')">Shuffled</div>
+    </div>
+    <p class="small" id="fullDesc">Questions will appear in the same order as the source document's sections.</p>
+    <div class="btnrow">
+      <button class="btn btn-primary" onclick="startFull()">Start Full Test →</button>
+    </div>
+  </div>
+
+  <!-- SECTION GRID -->
+  <div id="screen-sectiongrid" class="card hidden">
+    <a class="backlink" onclick="goHome()">← Back to menu</a>
+    <h3 style="margin-top:0;">Choose a section to revise</h3>
+    <div class="sectiongrid" id="sectionGridInner"></div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="screen-quiz" class="card hidden">
+    <div class="statrow">
+      <span id="quizLabel">Quiz</span>
+      <span>Question <span id="qNumNow">1</span> / <span id="qNumTotal">1</span> &nbsp;·&nbsp; Score: <span class="scorepill" id="liveScore">0</span></span>
+    </div>
+    <div class="progresswrap"><div class="progressbar" id="progressBar" style="width:0%"></div></div>
+
+    <div style="margin-top:18px;">
+      <div class="qmeta">
+        <span class="difftag" id="qDiffTag">Hard</span>
+        <span class="sectag" id="qSecTag">Section</span>
+      </div>
+      <div class="qtext" id="qText">Question text...</div>
+      <div class="options" id="qOptions"></div>
+      <div class="explainbox hidden" id="explainBox"></div>
+    </div>
+
+    <div class="btnrow">
+      <button class="btn btn-skip" id="skipBtn" onclick="skipQuestion()">Skip Question</button>
+      <button class="btn btn-primary hidden" id="nextBtn" onclick="nextQuestion()">Next →</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="screen-results" class="card hidden">
+    <div class="resultsummary">
+      <div class="bigscore" id="finalScoreText">0 / 0</div>
+      <div class="lbl" id="finalPercentText">0% accuracy</div>
+    </div>
+    <div class="diffbreak" id="diffBreakBox"></div>
+    <h3 style="margin-bottom:8px;">Review — missed &amp; skipped questions</h3>
+    <div class="reviewlist" id="reviewList"></div>
+    <div class="btnrow">
+      <button class="btn btn-primary" onclick="retrySameSet()">↻ Retry Same Set</button>
+      <button class="btn btn-ghost" onclick="goHome()">🏠 Back to Menu</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   QUESTION BANK — pulled directly from GA Capsule 16th-31st July
+   s = section, d = difficulty, q = question, c = correct answer text,
+   w = 4 distractor texts, e = explanation
+   ============================================================ */
+const QUESTIONS = [
+{s:"Phase 1+2 Schemes",d:"Moderate",q:"Who launched the Atmanirbhar Panchayat Programme and SAMARTH Panchayat Portal?",c:"Union Minister Rajiv Ranjan Singh (MoPR)",w:["Union Minister Amit Shah","Union Minister Piyush Goyal","Union Minister Ashwini Vaishnaw","Union Minister Jyotiraditya Scindia"],e:"Rajiv Ranjan Singh, Ministry of Panchayati Raj, launched the programme at Krishi Bhawan, New Delhi."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"What is the total project coverage under the Atmanirbhar Panchayat Programme over 4 years?",c:"350 projects (50+100+100+100)",w:["300 projects (50+50+100+100)","400 projects (100+100+100+100)","250 projects (50+50+50+100)","200 projects (50+50+50+50)"],e:"The programme covers 350 projects over 4 years in a 50+100+100+100 pattern."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"What is the minimum Own Source of Revenue (OSR) eligibility for a Gram Panchayat under the Atmanirbhar Panchayat Programme?",c:"₹50 lakh",w:["₹25 lakh","₹1 crore","₹75 lakh","₹2 crore"],e:"Gram Panchayats need minimum OSR of ₹50 lakh; Block Panchayats need ₹1 crore."},
+{s:"Phase 1+2 Schemes",d:"Moderate",q:"Which two organisations are the key partners for the Atmanirbhar Panchayat Programme?",c:"NABARD and HUDCO",w:["SIDBI and NABARD","NABARD and RBI","HUDCO and SIDBI","RBI and HUDCO"],e:"NABARD and Housing and Urban Development Corporation (HUDCO) are key partners."},
+{s:"Phase 1+2 Schemes",d:"Moderate",q:"The Model Own Source of Revenue (OSR) Rules were prepared in line with the recommendations of which body?",c:"Sixteenth Finance Commission (XVI-FC)",w:["Fifteenth Finance Commission","NITI Aayog","Fourteenth Finance Commission","GST Council"],e:"The Model OSR Rules follow XVI-FC recommendations."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"At the 29th National Conference on e-Governance (NAeG) 2026, which Gram Panchayat from Sangli, Maharashtra won a Gold Award?",c:"Kadepur Gram Panchayat",w:["Bijoy Nagar Gram Panchayat","Nallur Gram Panchayat","Borjuli Gram Panchayat","Shillong Gram Panchayat"],e:"Kadepur GP (Sangli) won Gold along with PAI and e-Aarogya Dhamani; Bijoy Nagar (Tripura) won Silver."},
+{s:"Phase 1+2 Schemes",d:"Easy",q:"Who is the Minister of State in the Ministry of Panchayati Raj (MoPR)?",c:"S.P. Singh Baghel",w:["Kirtivardhan Singh","Bhupathi Raju Srinivasa Varma","Satish Chandra Dubey","Amrit Lal Meena"],e:"S.P. Singh Baghel (Agra, UP) is MoS in MoPR."},
+{s:"Phase 1+2 Schemes",d:"Moderate",q:"The MSME mandate requiring CPSEs to settle MSME invoices exclusively through TReDS gives effect to an announcement made in which budget?",c:"Union Budget FY 2026–27",w:["Union Budget FY 2025–26","Union Budget FY 2024–25","Union Budget FY 2027–28","Interim Budget 2026"],e:"The mandate implements a Union Budget FY2026-27 announcement."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"Since which year has the Trade Receivables Discounting System (TReDS) been operational?",c:"2017",w:["2015","2019","2021","2014"],e:"TReDS, an RBI-authorised platform, has been operational since 2017."},
+{s:"Phase 1+2 Schemes",d:"Moderate",q:"Which of the following is NOT one of the five currently operational TReDS platforms?",c:"NPCI Exchange",w:["Receivable Exchange of India Limited (RXIL)","M1xchange","Invoicemart","Domestic Trade Exchange (DTX)"],e:"The five platforms are RXIL, M1xchange, Invoicemart, C2treds and DTX; NPCI Exchange is not one of them."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"India became the ___ WTO member to join the Agreement on Fisheries Subsidies (AFS).",c:"123rd",w:["112th","135th","98th","145th"],e:"India deposited its Instrument of Acceptance to become the 123rd member."},
+{s:"Phase 1+2 Schemes",d:"Moderate",q:"When did the WTO Agreement on Fisheries Subsidies enter into force?",c:"15 September 2025",w:["1 January 2023","12 June 2022","15 September 2026","1 April 2024"],e:"Adopted at MC12 (June 2022) in Geneva, it entered into force on 15 September 2025."},
+{s:"Phase 1+2 Schemes",d:"Easy",q:"Who is the Director-General of the World Trade Organization (WTO)?",c:"Ngozi Okonjo-Iweala",w:["Qu Dongyu","Khaled Ahmed El-Enany Ali Ezz","David Haigh","Arkady Dvorkovich"],e:"Ngozi Okonjo-Iweala is WTO's Director-General, headquartered in Geneva."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"Which sector is excluded from the scope of the WTO Fisheries Subsidies Agreement, protecting India's export sector?",c:"Aquaculture and inland fisheries",w:["Deep-sea trawling","Marine wild capture fishing","Coastal fishing only","Freshwater aquaculture only"],e:"Aquaculture and inland fisheries are excluded, protecting India's shrimp export sector."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"What is the new base year adopted for the revised Index of Core Industries (ICI)?",c:"2022-23",w:["2011-12","2018-19","2020-21","2023-24"],e:"The revised ICI series uses base year 2022-23, replacing 2011-12."},
+{s:"Phase 1+2 Schemes",d:"Moderate",q:"Which industry was newly added to the Index of Core Industries, taking the total from 8 to 9?",c:"Iron Ore",w:["Cement","Aluminium","Natural Gas","Fertilisers"],e:"Iron Ore was added due to its intensive use in industrial production."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"What is the combined weight of the revised Index of Core Industries in the IIP?",c:"32.88%",w:["40.27%","28.50%","35.60%","25.14%"],e:"The 9 core industries have a combined weight of 32.88% in the IIP."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"What is the linking factor used between the old and new ICI series?",c:"1.47",w:["1.25","1.63","2.10","1.05"],e:"The linking factor for the revised ICI series is 1.47."},
+{s:"Phase 1+2 Schemes",d:"Moderate",q:"Which price index will MoSPI use as the primary deflator for GDP estimation, replacing WPI?",c:"Producer Price Index (PPI)",w:["Consumer Price Index (CPI)","Wholesale Price Index (WPI)","GDP Deflator Index","Retail Price Index (RPI)"],e:"MoSPI will use the output PPI as the primary GDP deflator."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"The new GDP deflation methodology adopted by MoSPI is known as:",c:"Double deflation",w:["Single deflation","Triple deflation","Composite deflation","Chain-linked deflation"],e:"Double deflation adjusts output and input prices separately, replacing the earlier single deflation method."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"From which quarter will MoSPI first apply the new PPI-based GDP methodology?",c:"April–June quarter of FY 2026–27",w:["July–September quarter of FY 2025–26","January–March quarter of FY 2025–26","October–December quarter of FY 2026–27","April–June quarter of FY 2027–28"],e:"The new methodology will first apply to Q1 (Apr-Jun) of FY2026-27."},
+{s:"Phase 1+2 Schemes",d:"Moderate",q:"Under the relaxed FDI rules for e-commerce, foreign-funded platforms can operate an inventory-based model exclusively for:",c:"Export of goods manufactured/produced in India",w:["Domestic B2C sales","Import of foreign goods","Both domestic and export sales","Wholesale trading only"],e:"The inventory-based model is permitted only for exports, not domestic sales."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"The revised FDI e-commerce provisions will come into force after amendments under which Act/Rules?",c:"FEMA, 1999 through Foreign Exchange Management (Non-Debt Instruments) Rules, 2019",w:["Companies Act, 2013","Consumer Protection Act, 2019","SEBI Act, 1992","FDI Policy Circular 2020"],e:"Implementation requires notification under FEMA 1999 via the Non-Debt Instruments Rules, 2019."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"Consider the following statements: I. The Atmanirbhar Panchayat Programme was launched at Vigyan Bhawan, New Delhi. II. Gram Panchayats need a minimum OSR of ₹1 crore to be eligible. III. SIDBI and NABARD are the key partners of the Atmanirbhar Panchayat Programme. IV. The Model OSR Rules were prepared as per the recommendations of the Fifteenth Finance Commission. How many of the above statements are correct?",c:"0",w:["1","2","3","4"],e:"None of the four statements are correct as per the document; each contains a factual distortion."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"Consider the following statements: I. TReDS platforms are authorised by SEBI. II. There are five currently operational TReDS platforms. III. India is the 130th WTO member to accept the Agreement on Fisheries Subsidies. IV. The WTO Fisheries Subsidies Agreement entered into force on 1 January 2026. How many of the above statements are correct?",c:"1",w:["0","2","3","4"],e:"Statements I, III, IV are incorrect as per the document; the remaining 1 statement is correct."},
+{s:"Phase 1+2 Schemes",d:"Moderate",q:"Consider the following statements: I. Aquaculture and inland fisheries are fully covered under the AFS. II. The revised Index of Core Industries uses base year 2018-19. III. Iron Ore was added, taking the Index of Core Industries count from 8 to 9. IV. MoSPI will use the output PPI, not WPI, as the primary GDP deflator. How many of the above statements are correct?",c:"2",w:["0","1","3","4"],e:"Statements I, II are incorrect as per the document; the remaining 2 statements are correct."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"Consider the following statements: I. The new GDP deflation method is called double deflation. II. Under the relaxed FDI e-commerce rules, the inventory-based model is permitted only for exports. III. The Atmanirbhar Panchayat Programme was launched at Vigyan Bhawan, New Delhi. IV. Gram Panchayats need a minimum OSR of ₹50 lakh to be eligible. How many of the above statements are correct?",c:"3",w:["0","1","2","4"],e:"Statement III is incorrect as per the document; the remaining 3 statements are correct."},
+{s:"Phase 1+2 Schemes",d:"Moderate",q:"Consider the following statements: I. NABARD and HUDCO are the key partners of the Atmanirbhar Panchayat Programme. II. The Model OSR Rules were prepared as per the recommendations of the Sixteenth Finance Commission. III. TReDS platforms are authorised by the Reserve Bank of India. IV. There are five currently operational TReDS platforms. How many of the above statements are correct?",c:"4",w:["0","1","2","3"],e:"All four statements are factually correct as per the document."},
+{s:"Phase 1+2 Schemes",d:"Hard",q:"Consider the following statements: I. India is the 130th WTO member to accept the Agreement on Fisheries Subsidies. II. The WTO Fisheries Subsidies Agreement entered into force on 1 January 2026. III. Aquaculture and inland fisheries are fully covered under the AFS. IV. The revised Index of Core Industries uses base year 2018-19. How many of the above statements are correct?",c:"0",w:["1","2","3","4"],e:"None of the four statements are correct as per the document; each contains a factual distortion."},
+{s:"Cabinet Affairs",d:"Hard",q:"Under the Cabinet-approved amendment to the Public Examinations (Prevention of Unfair Means) Act, 2024, what is the maximum fine for organised paper-leak offences?",c:"₹10 crore",w:["₹1 crore","₹5 crore","₹50 lakh","₹25 crore"],e:"The amendment proposes a fine of up to ₹10 crore for organised offences."},
+{s:"Cabinet Affairs",d:"Moderate",q:"What is the proposed maximum imprisonment for organised paper-leak offences under the amended Act?",c:"10 years",w:["5 years","7 years","15 years","20 years"],e:"Maximum punishment for organised crime remains 10 years, with fine raised to ₹10 crore."},
+{s:"Cabinet Affairs",d:"Hard",q:"Under the existing (2024) Act, what was the fine for organised exam fraud?",c:"5–10 years jail + minimum fine of ₹1 crore",w:["3–5 years jail + fine up to ₹10 lakh","5–10 years jail + fine up to ₹5 lakh","2–5 years jail + minimum fine of ₹50 lakh","10 years jail + no fine"],e:"Earlier organised crime carried 5–10 years jail with a minimum ₹1 crore fine; the fine cap has now risen to ₹10 crore."},
+{s:"Cabinet Affairs",d:"Moderate",q:"Fast-track courts under the amended anti-paper leak law are mandated to complete trials within:",c:"3 months",w:["6 months","1 year","30 days","45 days"],e:"Special fast-track courts must complete trials within 3 months."},
+{s:"Cabinet Affairs",d:"Easy",q:"Who is the Director General of the National Testing Agency (NTA)?",c:"Abhishek Singh",w:["Sanjay Bahl","Virendra R. Tiwari","Chandra Shekhar Kumar","Amardeep Singh Bhatia"],e:"Abhishek Singh is DG of NTA, established in 2017, headquartered in New Delhi."},
+{s:"Cabinet Affairs",d:"Hard",q:"The TRL Compass platform launched by OPSA and DSCI adapts which internationally accepted scale?",c:"9-level Technology Readiness Level (TRL) scale",w:["5-level Readiness Index","10-point Maturity Scale","7-stage Innovation Scale","12-level Development Index"],e:"TRL Compass adapts the internationally accepted 9-level TRL scale for India."},
+{s:"Cabinet Affairs",d:"Moderate",q:"Who is the Principal Scientific Adviser (PSA) to the Government of India, chairing OPSA?",c:"Prof. Ajay Kumar Sood",w:["Dr. Sanjay Bahl","Dr. Jitendra Singh","Dr. Chandra Shekhar Kumar","Amrit Lal Meena"],e:"Prof. Ajay Kumar Sood is the PSA to GoI and chairs OPSA."},
+{s:"Cabinet Affairs",d:"Hard",q:"The 'Seafarer-First' initiative launched by Sarbananda Sonowal focuses on Indian seafarers operating in which regions?",c:"Persian Gulf, Strait of Hormuz and Gulf of Oman",w:["South China Sea and Malacca Strait","Red Sea and Suez Canal","Indian Ocean and Bay of Bengal","Mediterranean Sea and Black Sea"],e:"The initiative safeguards seafarers amid rising security concerns in West Asia, covering these regions."},
+{s:"Cabinet Affairs",d:"Moderate",q:"Who is the Director General of the Directorate General of Shipping (DGS)?",c:"Shyam Jagannathan",w:["Dilip Asbe","Abhishek Singh","Ravi Shankar","Amardeep Singh Bhatia"],e:"Shyam Jagannathan heads DGS, established in 1949, headquartered in Mumbai."},
+{s:"Cabinet Affairs",d:"Hard",q:"The White Rabbit Technology-based IST Distribution Demonstration Network was inaugurated under the vision of:",c:"One Nation, One Time",w:["Digital India","Atmanirbhar Bharat","One Nation, One Standard","Make in India 2.0"],e:"Pralhad Joshi inaugurated it under the vision 'One Nation, One Time' at RRSL Jakkur, Bengaluru."},
+{s:"Cabinet Affairs",d:"Hard",q:"What is the total outlay of the 'Mission Golden Spice' project for Meghalaya's Lakadong Turmeric?",c:"₹175.45 crore",w:["₹125.30 crore","₹200 crore","₹150.75 crore","₹190.20 crore"],e:"Mission Golden Spice has an outlay of ₹175.45 crore over a five-year roadmap (2025–2030)."},
+{s:"Cabinet Affairs",d:"Moderate",q:"Who is the Chief Minister of Meghalaya?",c:"Conrad Kongkal Sangma",w:["Chandrashekhar H. Vijayashankar","Vishnu Deo Sai","N. Biren Singh","Pema Khandu"],e:"Conrad Kongkal Sangma is CM of Meghalaya; capital Shillong."},
+{s:"Cabinet Affairs",d:"Hard",q:"Under the 'Gems of India' Challenge, what is the National-level award amount?",c:"₹5 lakh",w:["₹2 lakh","₹50,000","₹10 lakh","₹1 lakh"],e:"Awards are District ₹50,000, State ₹2 lakh, and National ₹5 lakh."},
+{s:"Cabinet Affairs",d:"Moderate",q:"MyWAVES, the platform used for the 'Gems of India' Challenge, is a citizen creator platform under:",c:"WAVES OTT",w:["Prasar Bharati","DD Free Dish","MyGov","Digital India Portal"],e:"MyWAVES is a citizen creator platform under WAVES OTT."},
+{s:"Cabinet Affairs",d:"Hard",q:"The DAANVEER initiative by MoPR was launched through which mobile application?",c:"Meri Panchayat Mobile App",w:["UMANG App","DigiLocker App","Panchayat Darpan App","eGramSwaraj App"],e:"DAANVEER strengthens digital infrastructure in Gram Panchayats via the Meri Panchayat app."},
+{s:"Cabinet Affairs",d:"Moderate",q:"What is the tagline of the DAANVEER initiative?",c:"Give Back to Your Village",w:["Digital India for All","Sabka Sath Sabka Vikas","Har Panchayat Digital","Village First, India First"],e:"The tagline is 'Give Back to Your Village'."},
+{s:"Cabinet Affairs",d:"Hard",q:"DAANVEER has coverage potential of nearly how many Gram Panchayats?",c:"2.5 lakh",w:["1 lakh","3.5 lakh","50,000","5 lakh"],e:"DAANVEER can potentially cover nearly 2.5 lakh Gram Panchayats."},
+{s:"Cabinet Affairs",d:"Easy",q:"Who launched the DAANVEER Initiative?",c:"Secretary Vivek Bharadwaj, MoPR",w:["Union Minister Rajiv Ranjan Singh","Secretary Amardeep Singh Bhatia","Union Minister Amit Shah","Secretary Anurag Jain"],e:"Secretary Vivek Bharadwaj of MoPR launched DAANVEER from New Delhi."},
+{s:"Cabinet Affairs",d:"Hard",q:"Consider the following statements: I. The amended anti-paper leak Bill proposes a fine of up to ₹10 crore for organised offences. II. Fast-track courts under the amended law must complete trials within 6 months. III. NTA is headquartered in Mumbai and was established in 2011. IV. TRL Compass adapts a newly created 5-level TRL scale. How many of the above statements are correct?",c:"1",w:["0","2","3","4"],e:"Statements II, III, IV are incorrect as per the document; the remaining 1 statement is correct."},
+{s:"Cabinet Affairs",d:"Hard",q:"Consider the following statements: I. The Seafarer-First initiative covers the South China Sea and Malacca Strait. II. DGS is headquartered in Mumbai and was established in 1949. III. The White Rabbit Technology IST network was launched under the vision 'One Nation, One Time'. IV. Mission Golden Spice has an outlay of ₹250 crore over a three-year roadmap. How many of the above statements are correct?",c:"2",w:["0","1","3","4"],e:"Statements I, IV are incorrect as per the document; the remaining 2 statements are correct."},
+{s:"Cabinet Affairs",d:"Moderate",q:"Consider the following statements: I. Under the Gems of India Challenge, the National-level award is ₹5 lakh. II. DAANVEER works through the UMANG App. III. DAANVEER has a coverage potential of nearly 2.5 lakh Gram Panchayats. IV. The amended anti-paper leak Bill proposes a fine of up to ₹10 crore for organised offences. How many of the above statements are correct?",c:"3",w:["0","1","2","4"],e:"Statement II is incorrect as per the document; the remaining 3 statements are correct."},
+{s:"Cabinet Affairs",d:"Hard",q:"Consider the following statements: I. Fast-track courts under the amended law must complete trials within 3 months. II. NTA is headquartered in New Delhi and was established in 2017. III. TRL Compass adapts the internationally accepted 9-level TRL scale. IV. The Seafarer-First initiative covers the Persian Gulf, Strait of Hormuz and Gulf of Oman. How many of the above statements are correct?",c:"4",w:["0","1","2","3"],e:"All four statements are factually correct as per the document."},
+{s:"Cabinet Affairs",d:"Moderate",q:"Consider the following statements: I. DGS is headquartered in Chennai and was established in 1965. II. The White Rabbit Technology IST network was launched under the vision 'Digital India 2.0'. III. Mission Golden Spice has an outlay of ₹250 crore over a three-year roadmap. IV. Under the Gems of India Challenge, the National-level award is ₹10 lakh. How many of the above statements are correct?",c:"0",w:["1","2","3","4"],e:"None of the four statements are correct as per the document; each contains a factual distortion."},
+{s:"Banking & Finance",d:"Moderate",q:"What is the theme of Bank of Maharashtra's FinSpark'26 hackathon?",c:"Securing the Future of Banking",w:["Digital Banking for All","Cyber Shield India","Future-Ready Finance","Banking Beyond Boundaries"],e:"FinSpark'26 is themed 'Securing the Future of Banking'."},
+{s:"Banking & Finance",d:"Hard",q:"What is the prize pool for Bank of Maharashtra's FinSpark'26 hackathon?",c:"Over ₹10 lakh",w:["Over ₹5 lakh","Over ₹25 lakh","Over ₹1 crore","Over ₹50 lakh"],e:"FinSpark'26 has a prize pool exceeding ₹10 lakh."},
+{s:"Banking & Finance",d:"Hard",q:"The ADB loan of USD 182.89 million for Karnataka aims to establish how many integrated school clusters?",c:"500",w:["300","750","1000","250"],e:"The 'Strengthening Karnataka Public Schools Program' will establish 500 integrated school clusters."},
+{s:"Banking & Finance",d:"Hard",q:"The ADB's USD 230 million loan for Chennai's water supply modernisation is approximately equal to how much in rupees?",c:"₹1,920 crore",w:["₹1,500 crore","₹2,300 crore","₹1,750 crore","₹2,000 crore"],e:"USD 230 million is approximately ₹1,920 crore."},
+{s:"Banking & Finance",d:"Moderate",q:"The Chennai water supply project funded by ADB is described as India's first:",c:"Ring-main water distribution system",w:["Smart metering water grid","Desalination-linked water network","Zero-loss water pipeline","AI-based water management system"],e:"It is India's first ring-main water distribution system, aligned with AMRUT 2.0."},
+{s:"Banking & Finance",d:"Hard",q:"How many residents are expected to benefit from the Chennai water and sanitation project?",c:"Around 4.5 million",w:["Around 2 million","Around 6 million","Around 3.2 million","Around 8 million"],e:"The project benefits around 4.5 million residents in Greater Chennai."},
+{s:"Banking & Finance",d:"Hard",q:"What is the total World Bank financing package approved for India's Rooftop Solar Programme (PMSGMBY)?",c:"USD 890 million",w:["USD 850 million","USD 920 million","USD 750 million","USD 1 billion"],e:"World Bank approved USD 890 million to accelerate PM Surya Ghar: Muft Bijli Yojana."},
+{s:"Banking & Finance",d:"Hard",q:"Within the World Bank's USD 890 million package for PMSGMBY, how much comes from the IBRD Livable Planet Fund as a grant?",c:"USD 10 million",w:["USD 60 million","USD 820 million","USD 100 million","USD 30 million"],e:"Funding composition: USD 820m IBRD loan, USD 60m CTF concessional loan, USD 10m IBRD Livable Planet Fund grant."},
+{s:"Banking & Finance",d:"Moderate",q:"How many jobs is the World Bank's rooftop solar financing expected to create across the renewable energy value chain?",c:"About 1.7 million",w:["About 1 million","About 2.5 million","About 500,000","About 3 million"],e:"The World Bank package is expected to create about 1.7 million jobs."},
+{s:"Banking & Finance",d:"Hard",q:"What is the household target under the World Bank-supported PM Surya Ghar: Muft Bijli Yojana?",c:"1 crore",w:["50 lakh","2 crore","75 lakh","1.5 crore"],e:"The scheme targets 1 crore households for rooftop solar."},
+{s:"Banking & Finance",d:"Hard",q:"ADB separately approved an USD 850 million loan to boost rooftop solar under PMSG-MBY, targeting how much rooftop solar capacity by FY27?",c:"30 GW",w:["20 GW","40 GW","25 GW","35 GW"],e:"The ADB loan targets 30 GW rooftop solar capacity by FY27 and 10 million households."},
+{s:"Banking & Finance",d:"Hard",q:"Under the ADB's USD 850 million PMSG-MBY loan, what CO₂ emission reduction is expected?",c:"28.8 MT CO₂",w:["15.6 MT CO₂","35.2 MT CO₂","22.4 MT CO₂","40 MT CO₂"],e:"Expected outcomes include 28.8 MT CO₂ emission reduction and 3.5 million rooftop solar installations."},
+{s:"Banking & Finance",d:"Moderate",q:"Under the ADB PMSG-MBY loan's women-focus component, training and certification is planned for 6,000 people, with what minimum proportion of women?",c:"At least one-third",w:["At least half","At least one-fourth","All must be women","At least two-thirds"],e:"At least one-third of the 6,000 trained/certified people must be women."},
+{s:"Banking & Finance",d:"Hard",q:"Kakinada Cooperative Town Bank secured Tier-III status after its total deposits crossed which mark?",c:"₹2,000 crore",w:["₹1,000 crore","₹5,000 crore","₹2,500 crore","₹1,500 crore"],e:"Deposits crossed ₹2,000 crore, qualifying it for Tier-III status under RBI norms."},
+{s:"Banking & Finance",d:"Moderate",q:"As per RBI's classification, Tier-III Urban Cooperative Banks have deposits in which range?",c:"₹1,000 crore to ₹10,000 crore",w:["Below ₹100 crore","Up to ₹1,000 crore","₹10,000 crore to ₹50,000 crore","Above ₹50,000 crore"],e:"Tier-I: below ₹100cr; Tier-II: up to ₹1,000cr; Tier-III: ₹1,000cr–₹10,000cr."},
+{s:"Banking & Finance",d:"Hard",q:"Kakinada Cooperative Town Bank is the ___ largest among the 46 Urban Cooperative Banks in Andhra Pradesh.",c:"2nd",w:["1st","3rd","5th","4th"],e:"With business exceeding ₹2,040 crore, it is the second-largest UCB in AP."},
+{s:"Banking & Finance",d:"Hard",q:"What is the maximum trade remittance limit per transaction allowed to EbixCash World Money Limited as the first AD-II entity for trade remittances?",c:"₹25 lakh",w:["₹10 lakh","₹50 lakh","₹1 crore","₹15 lakh"],e:"EbixCash can facilitate trade remittances up to ₹25 lakh per transaction."},
+{s:"Banking & Finance",d:"Moderate",q:"EbixCash started operations in 1999 as a:",c:"Full Fledged Money Changer (FFMC)",w:["Authorised Dealer Category-I entity","Non-Banking Financial Company","Payments Bank","Cooperative Bank"],e:"EbixCash began as an FFMC before being upgraded to an RBI-regulated AD-II entity."},
+{s:"Banking & Finance",d:"Hard",q:"EnKash's UPI-enabled Meal Card offers a tax benefit of up to how much per meal?",c:"₹200",w:["₹100","₹150","₹250","₹300"],e:"The tax benefit is up to ₹200 per meal, with maximum annual saving of ₹1,05,600."},
+{s:"Banking & Finance",d:"Hard",q:"What is the maximum annual tax saving possible via EnKash's UPI Meal Card?",c:"₹1,05,600",w:["₹75,000","₹1,20,000","₹90,000","₹60,000"],e:"The maximum annual tax saving is ₹1,05,600."},
+{s:"Banking & Finance",d:"Moderate",q:"What is the trading symbol for NSE's India's first domestic benchmark-based Natural Gas Futures?",c:"NATGASIND",w:["INDGAS","NGFUT","GASNSE","NATFUEL"],e:"The trading symbol is NATGASIND, linked to the IGX Gujarat (Dahej) hub price."},
+{s:"Banking & Finance",d:"Hard",q:"From which date did trading commence for NSE's Indian Natural Gas Futures?",c:"27 July 2026",w:["1 August 2026","15 June 2026","1 July 2026","10 August 2026"],e:"Trading began from 27 July 2026 on the Commodity Derivatives Segment."},
+{s:"Banking & Finance",d:"Moderate",q:"OmniCard's Flexi Benefits Basket on UPI is built on which RBI-licensed platform?",c:"Prepaid Payment Instrument (PPI)",w:["Payment Aggregator (PA)","Bharat Connect (BBPOU)","NBFC-Account Aggregator","Payments Bank License"],e:"OmniCard's wallet runs on its RBI-licensed PPI platform."},
+{s:"Banking & Finance",d:"Hard",q:"OmniCard's Flexi Benefits wallet can be used at approximately how many UPI-accepting merchants?",c:"60 million",w:["30 million","100 million","45 million","75 million"],e:"The wallet is usable at around 60 million UPI-accepting merchants."},
+{s:"Banking & Finance",d:"Hard",q:"POWERGRID secured a green loan of JPY 80 billion from JBIC for which project?",c:"Khavda–Nagpur HVDC RE Transmission Project",w:["Leh–Kargil Solar Transmission Project","Rewa–Bhopal Green Grid Project","Kutch–Mumbai HVDC Project","Ladakh Renewable Corridor Project"],e:"The loan supports the Khavda (Gujarat) to Nagpur (Maharashtra) HVDC RE transmission project."},
+{s:"Banking & Finance",d:"Hard",q:"Of the JPY 80 billion green loan secured by POWERGRID, what is JBIC's own share?",c:"JPY 48 billion",w:["JPY 60 billion","JPY 32 billion","JPY 80 billion (full amount)","JPY 40 billion"],e:"JBIC's own share is JPY 48 billion, with the rest from co-financiers like SMBC."},
+{s:"Banking & Finance",d:"Hard",q:"Consider the following statements: I. FinSpark'26 is themed 'Securing the Future of Banking'. II. The ADB Karnataka schools loan targets 800 integrated school clusters. III. The Chennai water project is India's first desalination-linked water network. IV. The World Bank approved USD 750 million for India's rooftop solar programme. How many of the above statements are correct?",c:"1",w:["0","2","3","4"],e:"Statements II, III, IV are incorrect as per the document; the remaining 1 statement is correct."},
+{s:"Banking & Finance",d:"Hard",q:"Consider the following statements: I. The household target under PM Surya Ghar: Muft Bijli Yojana is 50 lakh. II. ADB's separate loan for PMSG-MBY targets 30 GW rooftop solar capacity by FY27. III. Kakinada Cooperative Town Bank achieved Tier-III status under RBI norms. IV. Tier-III UCBs, per RBI norms, have deposits between ₹100 crore and ₹1,000 crore. How many of the above statements are correct?",c:"2",w:["0","1","3","4"],e:"Statements I, IV are incorrect as per the document; the remaining 2 statements are correct."},
+{s:"Banking & Finance",d:"Moderate",q:"Consider the following statements: I. EbixCash is the first non-bank AD-II entity authorised for trade remittances. II. EbixCash's trade remittance limit is capped at ₹50 lakh per transaction. III. EnKash's UPI Meal Card offers a tax benefit of up to ₹200 per meal. IV. NSE's Natural Gas Futures trade under the symbol NATGASIND. How many of the above statements are correct?",c:"3",w:["0","1","2","4"],e:"Statement II is incorrect as per the document; the remaining 3 statements are correct."},
+{s:"Banking & Finance",d:"Hard",q:"Consider the following statements: I. OmniCard's Flexi Benefits wallet runs on an RBI-licensed Prepaid Payment Instrument platform. II. POWERGRID's JPY 80 billion green loan supports the Khavda–Nagpur HVDC transmission project. III. FinSpark'26 is themed 'Securing the Future of Banking'. IV. The ADB Karnataka schools loan targets 500 integrated school clusters. How many of the above statements are correct?",c:"4",w:["0","1","2","3"],e:"All four statements are factually correct as per the document."},
+{s:"Banking & Finance",d:"Moderate",q:"Consider the following statements: I. The Chennai water project is India's first desalination-linked water network. II. The World Bank approved USD 750 million for India's rooftop solar programme. III. The household target under PM Surya Ghar: Muft Bijli Yojana is 50 lakh. IV. ADB's separate loan for PMSG-MBY targets 50 GW rooftop solar capacity by FY27. How many of the above statements are correct?",c:"0",w:["1","2","3","4"],e:"None of the four statements are correct as per the document; each contains a factual distortion."},
+{s:"Banking & Finance",d:"Hard",q:"Consider the following statements: I. Kakinada Cooperative Town Bank achieved Tier-I status under RBI norms. II. Tier-III UCBs, per RBI norms, have deposits between ₹1,000 crore and ₹10,000 crore. III. EbixCash is the first Payments Bank authorised for trade remittances. IV. EbixCash's trade remittance limit is capped at ₹50 lakh per transaction. How many of the above statements are correct?",c:"1",w:["0","2","3","4"],e:"Statements I, III, IV are incorrect as per the document; the remaining 1 statement is correct."},
+{s:"Banking & Finance",d:"Hard",q:"Consider the following statements: I. EnKash's UPI Meal Card offers a tax benefit of up to ₹500 per meal. II. NSE's Natural Gas Futures trade under the symbol INDGAS. III. OmniCard's Flexi Benefits wallet runs on an RBI-licensed Prepaid Payment Instrument platform. IV. POWERGRID's JPY 80 billion green loan supports the Khavda–Nagpur HVDC transmission project. How many of the above statements are correct?",c:"2",w:["0","1","3","4"],e:"Statements I, II are incorrect as per the document; the remaining 2 statements are correct."},
+{s:"National Affairs",d:"Moderate",q:"India's campaign for the UNSC non-permanent seat for the 2028–29 term was officially launched by:",c:"Dr. S. Jaishankar",w:["Amit Shah","Dr. Jitendra Singh","Piyush Goyal","Rajnath Singh"],e:"Dr. S. Jaishankar launched the campaign at UN HQ, New York."},
+{s:"National Affairs",d:"Hard",q:"What is the theme of India's UNSC 2028–29 campaign?",c:"SHANTI – Securing Holistic Advancement through Norms, Trust and Integrity",w:["SAMARTH – Strengthening Advancement through Multilateral Reformed Trust","VISHWAS – Vision for Inclusive Security","SEVA – Security Engagement for Value Alliance","SHAKTI – Strategic Handling of Advanced Key Trust Initiatives"],e:"The campaign theme is SHANTI."},
+{s:"National Affairs",d:"Hard",q:"India will compete against which country for the only available UNSC seat in the Asia-Pacific group for 2028–29?",c:"Tajikistan",w:["Pakistan","Kazakhstan","Bangladesh","Vietnam"],e:"India competes against Tajikistan for the Asia-Pacific group seat."},
+{s:"National Affairs",d:"Moderate",q:"When are elections for the UNSC 2028–29 non-permanent seat scheduled?",c:"June 2027",w:["December 2026","June 2028","March 2027","September 2027"],e:"Elections are scheduled for June 2027."},
+{s:"National Affairs",d:"Easy",q:"How many non-permanent members does the UNSC have, elected for a two-year term?",c:"10",w:["5","15","12","8"],e:"UNSC has 15 members total: 5 permanent + 10 non-permanent (2-year term)."},
+{s:"National Affairs",d:"Hard",q:"What is the total outlay of Phase-III of the Biomedical Research Career Programme (BRCP)?",c:"₹1,500 crore",w:["₹1,000 crore","₹2,000 crore","₹1,200 crore","₹1,800 crore"],e:"BRCP Phase-III has an outlay of ₹1,500 crore (₹1,000cr DBT + ₹500cr Wellcome Trust)."},
+{s:"National Affairs",d:"Hard",q:"How much of BRCP Phase-III funding comes from the Wellcome Trust, London?",c:"₹500 crore",w:["₹1,000 crore","₹300 crore","₹750 crore","₹250 crore"],e:"₹500 crore comes from Wellcome Trust; ₹1,000 crore from DBT."},
+{s:"National Affairs",d:"Moderate",q:"Who launched Phase-III of the Biomedical Research Career Programme?",c:"Dr. Jitendra Singh",w:["Dr. S. Jaishankar","Piyush Goyal","J.P. Nadda","Ashwini Vaishnaw"],e:"Dr. Jitendra Singh, MoS (IC) Ministry of Science & Technology, launched BRCP Phase-III."},
+{s:"National Affairs",d:"Hard",q:"When was Phase I of the Biomedical Research Career Programme launched?",c:"2008–2009",w:["2018–2019","2005–2006","2010–2011","2015–2016"],e:"Phase I was launched in 2008–09; Phase II in 2018–19."},
+{s:"National Affairs",d:"Easy",q:"In which year was the Department of Biotechnology (DBT) established?",c:"1986",w:["2003","1995","2004","1990"],e:"DBT was established in 1986 and is headquartered in New Delhi."},
+{s:"National Affairs",d:"Hard",q:"NITI Aayog's Roadmap for Building India as a Leading Bioeconomy Powerhouse targets a bioeconomy of USD 691 billion by which year?",c:"2035",w:["2030","2047","2040","2032"],e:"Target is USD 691 billion by 2035 and USD 2.6 trillion by 2047."},
+{s:"National Affairs",d:"Hard",q:"What is India's bioeconomy target for 2047 as per NITI Aayog's roadmap?",c:"USD 2.6 trillion",w:["USD 1.5 trillion","USD 3 trillion","USD 900 billion","USD 2 trillion"],e:"By 2047, the target is USD 2.6 trillion."},
+{s:"National Affairs",d:"Hard",q:"What is the proposed corpus of the BioEconomy Growth Fund (2026–2035)?",c:"₹50,000 crore",w:["₹25,000 crore","₹1 lakh crore","₹75,000 crore","₹40,000 crore"],e:"The proposed BioEconomy Growth Fund corpus is ₹50,000 crore, carved from the ₹1 lakh crore RDI framework."},
+{s:"National Affairs",d:"Moderate",q:"India's bioeconomy currently accounts for what percentage of India's GDP?",c:"4.8%",w:["2.5%","7.2%","10%","3.1%"],e:"India's bioeconomy has grown 16 times in 10 years and accounts for 4.8% of GDP."},
+{s:"National Affairs",d:"Moderate",q:"The NITI Frontier Tech Hub (NITI-FTH), which developed the bioeconomy roadmap, was established in which month/year?",c:"March 2025",w:["January 2024","June 2025","March 2023","October 2025"],e:"NITI-FTH was established by NITI Aayog in March 2025."},
+{s:"National Affairs",d:"Hard",q:"How many members has IAMAI's newly launched E-Commerce Council of India (ECCI) onboarded?",c:"70–80 members",w:["30–40 members","100–120 members","50–60 members","150 members"],e:"ECCI has onboarded 70–80 members including Amazon, Flipkart, and Meesho."},
+{s:"National Affairs",d:"Moderate",q:"Who is the President of IAMAI?",c:"Dr. Subho Ray",w:["Anil Mohan Govil","David Haigh","Dilip Asbe","Virendra R. Tiwari"],e:"Dr. Subho Ray is President of IAMAI, established in 2004, HQ Mumbai."},
+{s:"National Affairs",d:"Hard",q:"'Shabdalok' – India's first immersive language museum – was developed at a cost of how much?",c:"₹41 crore",w:["₹25 crore","₹60 crore","₹35 crore","₹50 crore"],e:"Shabdalok was developed at a cost of ₹41 crore at Belvedere House, Kolkata."},
+{s:"National Affairs",d:"Moderate",q:"Shabdalok is located within the campus of which institution?",c:"National Library, Kolkata",w:["Indian Museum, Kolkata","Victoria Memorial, Kolkata","Asiatic Society, Kolkata","Jorasanko Thakurbari"],e:"Shabdalok is housed in Belvedere House within the National Library campus, Kolkata."},
+{s:"National Affairs",d:"Hard",q:"The Government's identification of 25 Tiger Reserves for priority science-led recovery coincided with which occasion?",c:"18 years of tiger reintroduction at Sariska Tiger Reserve",w:["10 years of Project Tiger 2.0","25th anniversary of Project Tiger","World Tiger Day 2026","National Wildlife Week 2026"],e:"The identification was made on the occasion of 18 years of tiger reintroduction at Sariska."},
+{s:"National Affairs",d:"Moderate",q:"What is the total number of Tiger Reserves currently in India, as per the document?",c:"58",w:["53","62","50","48"],e:"India currently has 58 Tiger Reserves."},
+{s:"National Affairs",d:"Easy",q:"Who is the Union Minister for Environment, Forest and Climate Change (MoEFCC)?",c:"Bhupendra Yadav",w:["Kirtivardhan Singh","Jagat Prakash Nadda","G. Kishan Reddy","Piyush Goyal"],e:"Bhupendra Yadav (Alwar, Rajasthan) is Union Minister; Kirtivardhan Singh is MoS."},
+{s:"National Affairs",d:"Hard",q:"The Borjuli site notified as a Biodiversity Heritage Site is located in which Assam district?",c:"Sonitpur",w:["Kamrup","Nagaon","Dibrugarh","Tinsukia"],e:"Borjuli, in Sonitpur district, Assam, was notified as a BHS by the NBA."},
+{s:"National Affairs",d:"Hard",q:"Which key species is associated with the Borjuli Biodiversity Heritage Site?",c:"Oryza rufipogon (wild progenitor of cultivated rice)",w:["Panthera tigris (Bengal Tiger)","Rhinoceros unicornis (One-horned Rhino)","Bos gaurus (Indian Gaur)","Nypa fruticans (Mangrove Palm)"],e:"Oryza rufipogon, the wild progenitor of cultivated rice, is the key species at Borjuli."},
+{s:"National Affairs",d:"Moderate",q:"What is India's total number of Biodiversity Heritage Sites (BHS) as mentioned in the document?",c:"54",w:["48","60","45","50"],e:"India has 54 Biodiversity Heritage Sites; Assam alone has 3."},
+{s:"National Affairs",d:"Hard",q:"India's first Biodiversity Heritage Site, notified in 2007, is:",c:"Nallur Tamarind Grove, Bengaluru, Karnataka",w:["Borjuli, Sonitpur, Assam","Majuli Island, Assam","Bhitarkanika, Odisha","Nallamala Forest, Andhra Pradesh"],e:"Nallur Tamarind Grove (2007) was India's first BHS."},
+{s:"National Affairs",d:"Easy",q:"Who is the Chairperson of the National Biodiversity Authority (NBA)?",c:"Virendra R. Tiwari",w:["Dr. Chandra Shekhar Kumar","Dr. Sanjay Bahl","Anil Mohan Govil","Ashok Kumar Lahiri"],e:"Virendra R. Tiwari chairs NBA, headquartered in Chennai, established 2003."},
+{s:"National Affairs",d:"Hard",q:"The Natural History Museum, Mizoram University, Aizawl was notified as India's ___ Designated Repository.",c:"21st",w:["15th","25th","18th","30th"],e:"MoEFCC notified it as India's 21st Designated Repository."},
+{s:"National Affairs",d:"Moderate",q:"What is the role of a Designated Repository (DR) as defined in the document?",c:"Custody, documentation and preservation of biological specimens and genetic resources",w:["Regulation of GI-tagged agricultural products","Approval of pharmaceutical patents","Monitoring of wildlife trafficking cases only","Certification of organic farming produce"],e:"A DR is a legally notified institution for protecting India's biological resources and preventing bio-piracy."},
+{s:"National Affairs",d:"Hard",q:"In the three-tier governance structure for biodiversity, which body operates at the local level?",c:"Biodiversity Management Committees (BMCs)",w:["State Biodiversity Boards (SBBs)","National Biodiversity Authority (NBA)","District Forest Committees","Panchayati Raj Institutions"],e:"National level: NBA; State level: SBBs; Local level: BMCs."},
+{s:"National Affairs",d:"Hard",q:"India's first dedicated centre for high-altitude medicine and public health research, whose foundation stone was laid by J.P. Nadda, is located at:",c:"Keylong, Lahaul & Spiti, Himachal Pradesh",w:["Leh, Ladakh","Manali, Himachal Pradesh","Gangtok, Sikkim","Shimla, Himachal Pradesh"],e:"The ICMR Centre for High Altitude Medicine is being set up at Keylong in Lahaul & Spiti district."},
+{s:"National Affairs",d:"Moderate",q:"Which state became the first Indian state to introduce a comprehensive risk-based and trust-based business approval framework?",c:"Chhattisgarh",w:["Gujarat","Uttar Pradesh","Madhya Pradesh","Karnataka"],e:"Chhattisgarh passed the Ease of Doing Business Act, 2026, becoming the first such state."},
+{s:"National Affairs",d:"Hard",q:"Under Phase I of the Chhattisgarh Ease of Doing Business Act, 2026, how many services across how many departments are covered?",c:"43 services across 8 departments",w:["25 services across 5 departments","60 services across 10 departments","30 services across 6 departments","50 services across 12 departments"],e:"Phase I covers 43 services across 8 departments, benefiting over 15 lakh MSMEs."},
+{s:"National Affairs",d:"Moderate",q:"Who is the Chief Minister of Chhattisgarh who led the passage of the Ease of Doing Business Act, 2026?",c:"Vishnu Deo Sai",w:["Bhupesh Baghel","Mohan Yadav","Yogi Adityanath","Conrad Sangma"],e:"Vishnu Deo Sai is CM of Chhattisgarh."},
+{s:"National Affairs",d:"Moderate",q:"IIT Kanpur's Centre of Excellence for Green Hydrogen (ECOGEN) was established under which policy?",c:"Uttar Pradesh Green Hydrogen Policy 2024",w:["National Green Hydrogen Mission 2023","Uttar Pradesh Renewable Energy Policy 2022","National Hydrogen Energy Mission 2021","Green Hydrogen Transition Policy 2025"],e:"ECOGEN was set up under the UP Green Hydrogen Policy 2024."},
+{s:"National Affairs",d:"Hard",q:"Who has been appointed to head the six-member high-powered Exam Reform Task Force constituted by PM Modi?",c:"Nandan Nilekani",w:["S. Somanath","V. Kamakoti","Amrit Lal Meena","Abhishek Singh"],e:"Nandan Nilekani, Infosys co-founder, chairs the task force."},
+{s:"National Affairs",d:"Hard",q:"Which former ISRO Chairman is a member of the PM's Exam Reform Task Force?",c:"S. Somanath",w:["K. Sivan","Tapan Deka","V. Kamakoti","Anita Karwal"],e:"S. Somanath, former ISRO Chairman, is a task force member."},
+{s:"National Affairs",d:"Hard",q:"Which member of the Exam Reform Task Force previously served as Director of the Intelligence Bureau?",c:"Tapan Deka",w:["Amrit Lal Meena","V. Kamakoti","Anita Karwal","S. Somanath"],e:"Tapan Deka, former Director of IB, is on the task force."},
+{s:"National Affairs",d:"Moderate",q:"What target has the Task Force for India's Toy Sector, announced by Piyush Goyal, set for global market share?",c:"5% share of the global toy market by 2032",w:["10% share by 2030","3% share by 2035","5% share by 2028","8% share by 2032"],e:"The Task Force aims for a 5% global toy market share by 2032."},
+{s:"National Affairs",d:"Easy",q:"In which year was DPIIT established (renamed from DIPP in 2019)?",c:"1995",w:["1991","2000","1999","1985"],e:"DPIIT was established in 1995, renamed from DIPP in 2019."},
+{s:"National Affairs",d:"Moderate",q:"Who is the Secretary of DPIIT?",c:"Amardeep Singh Bhatia",w:["Vivek Bharadwaj","Anurag Jain","Sanjay Bahl","Chandra Shekhar Kumar"],e:"Amardeep Singh Bhatia is Secretary, DPIIT."},
+{s:"National Affairs",d:"Hard",q:"How many e-Zero FIRs against cyber financial fraud were registered across 18 states/UTs in 2025?",c:"Over 12,000",w:["Over 8,000","Over 20,000","Over 5,000","Over 15,000"],e:"More than 12,000 e-Zero FIRs were registered in 2025."},
+{s:"National Affairs",d:"Moderate",q:"Which state/UT recorded the highest number of e-Zero FIRs against cyber financial fraud in 2025?",c:"Delhi",w:["Chandigarh","Uttarakhand","Maharashtra","Karnataka"],e:"Delhi recorded the highest, followed by Chandigarh and Uttarakhand."},
+{s:"National Affairs",d:"Hard",q:"Within how many days must a complainant visit the police station to convert an e-Zero FIR into a regular FIR?",c:"3 days",w:["7 days","15 days","1 day","5 days"],e:"Complainants must visit within three days to convert it to a regular FIR."},
+{s:"National Affairs",d:"Moderate",q:"Jalalabad town in Shahjahanpur district, UP, has been renamed by the UP Cabinet as:",c:"Parashurampuri",w:["Parshuram Nagar","Rishi Nagar","Akbarpuri","Rampur Naya"],e:"Jalalabad is renamed Parashurampuri, believed to be Lord Parashuram's birthplace."},
+{s:"National Affairs",d:"Hard",q:"Sarnath's inscription on the UNESCO World Heritage List makes it India's ___ World Heritage Site.",c:"45th",w:["40th","50th","38th","42nd"],e:"Sarnath is India's 45th WHS and the 4th from Uttar Pradesh."},
+{s:"National Affairs",d:"Moderate",q:"At which session was the Ancient Buddhist Site of Sarnath inscribed on the UNESCO World Heritage List?",c:"48th World Heritage Committee, Busan, South Korea",w:["47th World Heritage Committee, Paris","46th World Heritage Committee, Riyadh","49th World Heritage Committee, New Delhi","45th World Heritage Committee, Fuzhou"],e:"The inscription occurred at the 48th session held in Busan, South Korea."},
+{s:"National Affairs",d:"Hard",q:"Sarnath is the fourth UNESCO World Heritage Site from Uttar Pradesh, after which three sites?",c:"Taj Mahal, Agra Fort and Fatehpur Sikri",w:["Taj Mahal, Varanasi Ghats and Ayodhya","Agra Fort, Kushinagar and Lucknow Residency","Fatehpur Sikri, Mathura and Vrindavan","Taj Mahal, Kushinagar and Prayagraj"],e:"The other three UP WHS are Taj Mahal, Agra Fort, and Fatehpur Sikri."},
+{s:"National Affairs",d:"Easy",q:"In which year was Sarnath entered on the UNESCO Tentative List before its final inscription?",c:"1998",w:["2005","1990","2010","2000"],e:"Sarnath entered the tentative list in 1998 before being inscribed in 2026."},
+{s:"National Affairs",d:"Hard",q:"Which of the following is NOT a member of the PM's six-member Exam Reform Task Force?",c:"Rajiv Kumar",w:["S. Somanath","V. Kamakoti","Anita Karwal","Amrit Lal Meena"],e:"Rajiv Kumar (ex-CEC) is the new HDFC Bank chairman, not a member of the exam reform task force."},
+{s:"National Affairs",d:"Hard",q:"Consider the following statements: I. Dr. S. Jaishankar launched India's UNSC campaign at the UN Headquarters in New York. II. India's UNSC campaign theme is SHANTI. III. India competes against Tajikistan for the Asia-Pacific UNSC seat. IV. BRCP Phase-III has a total outlay of ₹2,500 crore. How many of the above statements are correct?",c:"3",w:["0","1","2","4"],e:"Statement IV is incorrect as per the document; the remaining 3 statements are correct."},
+{s:"National Affairs",d:"Hard",q:"Consider the following statements: I. ₹500 crore of BRCP Phase-III funding comes from the Wellcome Trust, London. II. NITI Aayog's bioeconomy roadmap targets USD 691 billion by 2035. III. India's bioeconomy currently accounts for 4.8% of GDP. IV. NITI-FTH was established by NITI Aayog in March 2025. How many of the above statements are correct?",c:"4",w:["0","1","2","3"],e:"All four statements are factually correct as per the document."},
+{s:"National Affairs",d:"Moderate",q:"Consider the following statements: I. IAMAI's ECCI has onboarded 200 members. II. Shabdalok was developed at a cost of ₹100 crore. III. India currently has 75 Tiger Reserves. IV. India's total Biodiversity Heritage Site count is 80. How many of the above statements are correct?",c:"0",w:["1","2","3","4"],e:"None of the four statements are correct as per the document; each contains a factual distortion."},
+{s:"National Affairs",d:"Hard",q:"Consider the following statements: I. Borjuli, notified in 2007, was India's first Biodiversity Heritage Site. II. The Natural History Museum, Mizoram University was notified as India's 10th Designated Repository. III. Gujarat became the first Indian state with a risk-based, trust-based business approval framework. IV. Phase I of the Chhattisgarh Ease of Doing Business Act covers 43 services across 8 departments. How many of the above statements are correct?",c:"1",w:["0","2","3","4"],e:"Statements I, II, III are incorrect as per the document; the remaining 1 statement is correct."},
+{s:"National Affairs",d:"Moderate",q:"Consider the following statements: I. Nandan Nilekani heads the six-member PM's Exam Reform Task Force. II. The Toy Sector Task Force targets a 5% global market share by 2032. III. Over 25,000 e-Zero FIRs against cyber financial fraud were registered in 2025. IV. Maharashtra recorded the highest number of e-Zero FIRs in 2025. How many of the above statements are correct?",c:"2",w:["0","1","3","4"],e:"Statements III, IV are incorrect as per the document; the remaining 2 statements are correct."},
+{s:"National Affairs",d:"Hard",q:"Consider the following statements: I. Jalalabad town in Shahjahanpur has been renamed Akbarpuri. II. Sarnath is India's 45th UNESCO World Heritage Site. III. Sarnath was inscribed at the 48th World Heritage Committee session in Busan, South Korea. IV. Dr. S. Jaishankar launched India's UNSC campaign at the UN Headquarters in New York. How many of the above statements are correct?",c:"3",w:["0","1","2","4"],e:"Statement I is incorrect as per the document; the remaining 3 statements are correct."},
+{s:"National Affairs",d:"Hard",q:"Consider the following statements: I. India's UNSC campaign theme is SHANTI. II. India competes against Tajikistan for the Asia-Pacific UNSC seat. III. BRCP Phase-III has a total outlay of ₹1,500 crore. IV. ₹500 crore of BRCP Phase-III funding comes from the Wellcome Trust, London. How many of the above statements are correct?",c:"4",w:["0","1","2","3"],e:"All four statements are factually correct as per the document."},
+{s:"National Affairs",d:"Moderate",q:"Consider the following statements: I. NITI Aayog's bioeconomy roadmap targets USD 500 billion by 2035. II. India's bioeconomy currently accounts for 12% of GDP. III. NITI-FTH was established by NITI Aayog in March 2022. IV. IAMAI's ECCI has onboarded 200 members. How many of the above statements are correct?",c:"0",w:["1","2","3","4"],e:"None of the four statements are correct as per the document; each contains a factual distortion."},
+{s:"National Affairs",d:"Hard",q:"Consider the following statements: I. Shabdalok was developed at a cost of ₹41 crore. II. India currently has 75 Tiger Reserves. III. India's total Biodiversity Heritage Site count is 80. IV. Borjuli, notified in 2007, was India's first Biodiversity Heritage Site. How many of the above statements are correct?",c:"1",w:["0","2","3","4"],e:"Statements II, III, IV are incorrect as per the document; the remaining 1 statement is correct."},
+{s:"National Affairs",d:"Moderate",q:"Consider the following statements: I. The Natural History Museum, Mizoram University was notified as India's 10th Designated Repository. II. Chhattisgarh became the first Indian state with a risk-based, trust-based business approval framework. III. Phase I of the Chhattisgarh Ease of Doing Business Act covers 43 services across 8 departments. IV. S. Somanath heads the six-member PM's Exam Reform Task Force. How many of the above statements are correct?",c:"2",w:["0","1","3","4"],e:"Statements I, IV are incorrect as per the document; the remaining 2 statements are correct."},
+{s:"National Affairs",d:"Hard",q:"Consider the following statements: I. The Toy Sector Task Force targets a 5% global market share by 2032. II. Over 25,000 e-Zero FIRs against cyber financial fraud were registered in 2025. III. Delhi recorded the highest number of e-Zero FIRs in 2025. IV. Jalalabad town in Shahjahanpur has been renamed Parashurampuri. How many of the above statements are correct?",c:"3",w:["0","1","2","4"],e:"Statement II is incorrect as per the document; the remaining 3 statements are correct."},
+{s:"National Affairs",d:"Hard",q:"Consider the following statements: I. Sarnath is India's 45th UNESCO World Heritage Site. II. Sarnath was inscribed at the 48th World Heritage Committee session in Busan, South Korea. III. Dr. S. Jaishankar launched India's UNSC campaign at the UN Headquarters in New York. IV. India's UNSC campaign theme is SHANTI. How many of the above statements are correct?",c:"4",w:["0","1","2","3"],e:"All four statements are factually correct as per the document."},
+{s:"National Affairs",d:"Moderate",q:"Consider the following statements: I. India competes against Kazakhstan for the Asia-Pacific UNSC seat. II. BRCP Phase-III has a total outlay of ₹2,500 crore. III. ₹500 crore of BRCP Phase-III funding comes from the World Bank. IV. NITI Aayog's bioeconomy roadmap targets USD 500 billion by 2035. How many of the above statements are correct?",c:"0",w:["1","2","3","4"],e:"None of the four statements are correct as per the document; each contains a factual distortion."},
+{s:"International Affairs",d:"Moderate",q:"Vizhinjam International Seaport received CBIC approval to commence EXIM cargo operations from which date?",c:"18 August 2026",w:["1 September 2026","15 July 2026","1 January 2027","30 June 2026"],e:"CBIC approved EXIM operations at Vizhinjam from 18 August 2026."},
+{s:"International Affairs",d:"Hard",q:"Vizhinjam International Seaport has been notified as a Customs Port under which Act?",c:"Customs Act, 1962",w:["Major Port Authorities Act, 2021","Indian Ports Act, 1908","FEMA, 1999","Customs Tariff Act, 1975"],e:"VISL was notified as a Customs Port under the Customs Act, 1962."},
+{s:"International Affairs",d:"Easy",q:"Vizhinjam International Seaport is located in which state?",c:"Kerala",w:["Tamil Nadu","Andhra Pradesh","Karnataka","Odisha"],e:"VISL is located in Thiruvananthapuram, Kerala."},
+{s:"International Affairs",d:"Hard",q:"Consider the following statements: I. Vizhinjam International Seaport is located in Thiruvananthapuram, Kerala. II. CBIC approved EXIM cargo operations at Vizhinjam from 1 January 2027. III. Vizhinjam has been notified as a Customs Port under the Major Port Authorities Act, 2021. IV. EXIM operations at Vizhinjam are restricted to domestic coastal cargo only. How many of the above statements are correct?",c:"1",w:["0","2","3","4"],e:"Statements II, III, IV are incorrect as per the document; the remaining 1 statement is correct."},
+{s:"Reports & Indices",d:"Hard",q:"MeitY's 2nd edition Digital Threat Report 2025-26 introduces which new analytical framework?",c:"Anatomy of Cyber Failure – 4-layer Gap Archetype Framework",w:["Cyber Resilience Maturity Model","4-Point Threat Vector Matrix","BFSI Risk Assessment Framework 2.0","Digital Trust Index Framework"],e:"The report introduces the 'Anatomy of Cyber Failure – 4-layer Gap Archetype Framework'."},
+{s:"Reports & Indices",d:"Moderate",q:"How many of the seven cyber threat predictions from the previous Digital Threat Report edition have already materialised?",c:"Six",w:["All seven","Four","Two","Three"],e:"Six of the seven predictions from the previous edition have already become reality."},
+{s:"Reports & Indices",d:"Hard",q:"The Digital Threat Report 2025-26 presents an action roadmap of how many months for financial institutions?",c:"18 months",w:["12 months","24 months","6 months","36 months"],e:"The report presents an 18-month roadmap for financial institutions."},
+{s:"Reports & Indices",d:"Easy",q:"Under which section of the IT Act, 2000 was CERT-In established?",c:"Section 70B",w:["Section 66A","Section 43A","Section 79","Section 69"],e:"CERT-In was established under Section 70B of the IT Act, 2000."},
+{s:"Reports & Indices",d:"Moderate",q:"Who is the Director General of CERT-In?",c:"Dr. Sanjay Bahl",w:["Abhishek Singh","Anil Mohan Govil","Dilip Asbe","David Haigh"],e:"Dr. Sanjay Bahl heads CERT-In, established in 2004."},
+{s:"Reports & Indices",d:"Hard",q:"The Ministry of Coal's 'AAROH' report is prepared by which body?",c:"Coal Controller Organisation",w:["Coal India Limited","NLC India Limited","Central Mine Planning Institute","Ministry of Mines"],e:"AAROH: Annual Report on Mine Closure is prepared by the Coal Controller Organisation."},
+{s:"Reports & Indices",d:"Hard",q:"What is the dedicated corpus mentioned in the AAROH report to support scientific mine closure?",c:"Over USD 5 billion (₹40,000 crore)",w:["Over USD 2 billion","Over USD 10 billion","Over USD 3.5 billion","Over USD 1 billion"],e:"A corpus exceeding USD 5 billion (₹40,000 crore) supports scientific mine closure."},
+{s:"Reports & Indices",d:"Hard",q:"As per AAROH, what percentage of the approved mine-closure cost has been set aside for community development for the first time?",c:"25%",w:["10%","15%","30%","20%"],e:"For the first time, 25% of the approved mine-closure cost is earmarked for community development."},
+{s:"Reports & Indices",d:"Moderate",q:"How many more mines does the Ministry of Coal plan to close under AAROH's upcoming target?",c:"147 mines in 2-3 years",w:["100 mines in 5 years","200 mines in 3 years","75 mines in 2 years","50 mines in 1 year"],e:"The upcoming target is 147 more mines in the next 2–3 years."},
+{s:"Reports & Indices",d:"Easy",q:"Who is the Union Minister of Coal?",c:"G. Kishan Reddy",w:["Bhupendra Yadav","H.D. Kumaraswamy","Satish Chandra Dubey","Piyush Goyal"],e:"G. Kishan Reddy is Union Minister of Coal; Satish Chandra Dubey is MoS."},
+{s:"Reports & Indices",d:"Hard",q:"India holds the top global rank in cotton cultivation area, accounting for what share of the world's cotton area?",c:"38% (114.84 lakh hectares)",w:["25%","45%","30%","50%"],e:"India's cotton cultivation area is 114.84 lakh hectares, 38% of the world's area."},
+{s:"Reports & Indices",d:"Moderate",q:"India's global rank in cotton production and consumption is:",c:"2nd",w:["1st","3rd","4th","5th"],e:"India ranks 1st in cultivation area but 2nd in production and consumption."},
+{s:"Reports & Indices",d:"Hard",q:"Approximately how many farmers' livelihoods are supported by India's cotton sector?",c:"~6 million",w:["~3 million","~10 million","~8 million","~4.5 million"],e:"Cotton supports the livelihoods of nearly 6 million farmers."},
+{s:"Reports & Indices",d:"Moderate",q:"Who is the CMD of the Cotton Corporation of India (CCI)?",c:"Lalit Kumar Gupta",w:["G. Kishan Reddy","Dr. Chandra Shekhar Kumar","Amardeep Singh Bhatia","David Haigh"],e:"Lalit Kumar Gupta is CMD of CCI, established in 1970, HQ Navi Mumbai."},
+{s:"Reports & Indices",d:"Hard",q:"According to the Brand Finance India 100 Report 2026, which group rose from 13th to 8th position, becoming the fastest to enter India's Top 10 Most Valuable Brands?",c:"Adani Group",w:["Reliance Group","HDFC Group","LIC Group","Infosys"],e:"Adani Group rose to 8th position from 13th."},
+{s:"Reports & Indices",d:"Easy",q:"Which group has retained its position as India's most valuable brand for the 10th consecutive year in 2026?",c:"Tata Group",w:["Reliance Group","Infosys","HDFC Group","LIC Group"],e:"Tata Group topped the list with a brand value of USD 33.616 billion."},
+{s:"Reports & Indices",d:"Hard",q:"What is Tata Group's brand value as per the Brand Finance India 100 Report 2026?",c:"USD 33.616 billion",w:["USD 21.2 billion","USD 16.143 billion","USD 28.4 billion","USD 40.1 billion"],e:"Tata Group's brand value is USD 33.616 billion, the highest in India."},
+{s:"Reports & Indices",d:"Hard",q:"As per the Brand Finance India 100 Report 2026, which brand ranks 3rd in India by brand value?",c:"LIC Group (USD 15.278 billion)",w:["Infosys (USD 16.143 billion)","HDFC Group (USD 13.888 billion)","Reliance Group (USD 10.833 billion)","Tata Group (USD 33.616 billion)"],e:"Ranking: 1.Tata, 2.Infosys, 3.LIC Group, 4.HDFC Group, 5.Reliance Group."},
+{s:"Reports & Indices",d:"Moderate",q:"Which brand was recognised as India's strongest brand (Brand Strength Index) for the 5th consecutive year?",c:"Taj Hotels (BSI 93.5)",w:["Zomato (BSI 93.2)","Amul (BSI 93)","TCS","Adani Power"],e:"Taj Hotels topped the Brand Strength Index with BSI 93.5, AAA+ rating."},
+{s:"Reports & Indices",d:"Hard",q:"Which company remained India's most valuable IT services brand for 14 consecutive years, valued at USD 21.2 billion?",c:"TCS",w:["Infosys","Wipro","HCL Technologies","Tech Mahindra"],e:"TCS retained the title, also ranking as world's 2nd most valuable IT services brand for the 5th year."},
+{s:"Reports & Indices",d:"Hard",q:"Which bank was recognised as the fastest-growing banking brand, growing 79% to USD 458 million?",c:"Yes Bank",w:["HDFC Bank","ICICI Bank","Axis Bank","Bank of Maharashtra"],e:"Yes Bank grew 79% to USD 458 million, the fastest-growing banking brand."},
+{s:"Reports & Indices",d:"Hard",q:"Which company was recognised as the fastest-growing Indian brand overall, growing 114% to USD 418 million?",c:"Suzlon Energy",w:["Adani Power","Yes Bank","Adani Group","TCS"],e:"Suzlon Energy grew 114%, making it the fastest-growing Indian brand overall."},
+{s:"Reports & Indices",d:"Hard",q:"Adani Power emerged as India's most valuable energy brand, with its brand value rising by what percentage to USD 1.8 billion?",c:"152%",w:["114%","79%","95%","200%"],e:"Adani Power's brand value rose 152% to USD 1.8 billion."},
+{s:"Reports & Indices",d:"Easy",q:"Who is the Managing Director & CEO of Brand Finance?",c:"David Haigh",w:["Juerg Steffen","Arkady Dvorkovich","Qu Dongyu","Anil Mohan Govil"],e:"David Haigh is MD & CEO of Brand Finance, HQ London, established 1996."},
+{s:"Reports & Indices",d:"Hard",q:"In NITI Aayog's Investment Friendliness Index (IFI) 2026, which state ranked 1st overall and among large states?",c:"Gujarat (score 56.6)",w:["Maharashtra (score 53.7)","Tamil Nadu (score 53.3)","Goa (score 53.1)","Odisha (score 52.4)"],e:"Gujarat topped IFI 2026 with a score of 56.6."},
+{s:"Reports & Indices",d:"Hard",q:"Which state ranked 2nd in NITI Aayog's Investment Friendliness Index (IFI) 2026?",c:"Maharashtra (53.7)",w:["Tamil Nadu (53.3)","Goa (53.1)","Gujarat (56.6)","Odisha (52.4)"],e:"Maharashtra ranked 2nd with a score of 53.7."},
+{s:"Reports & Indices",d:"Hard",q:"How many indicators and pillars does the IFI 2026 use to evaluate states/UTs?",c:"84 indicators across 8 pillars",w:["60 indicators across 6 pillars","100 indicators across 10 pillars","75 indicators across 8 pillars","84 indicators across 5 pillars"],e:"IFI 2026 covers all 28 states and 8 UTs using 84 indicators across 8 key pillars."},
+{s:"Reports & Indices",d:"Hard",q:"In IFI 2026, what weightage is assigned to the 'Infrastructure' pillar?",c:"25%",w:["20%","15%","30%","35%"],e:"Infrastructure carries 25% weightage, followed by Business Climate (20%) and Resources (15%)."},
+{s:"Reports & Indices",d:"Hard",q:"The top five states in IFI 2026 together account for what percentage of India's total FDI inflows?",c:"85%",w:["70%","60%","95%","75%"],e:"Gujarat, Maharashtra, Tamil Nadu, Goa and Odisha together account for 85% of total FDI inflows."},
+{s:"Reports & Indices",d:"Moderate",q:"Which state/UT ranked lowest in IFI 2026, with a score of 24.5?",c:"Lakshadweep",w:["Ladakh","Manipur","Sikkim","Andaman & Nicobar Islands"],e:"Lakshadweep ranked lowest with a score of 24.5."},
+{s:"Reports & Indices",d:"Moderate",q:"Who is the Vice-Chairperson of NITI Aayog?",c:"Ashok Kumar Lahiri",w:["Anurag Jain","David Haigh","Amardeep Singh Bhatia","V. Kamakoti"],e:"Ashok Kumar Lahiri is Vice-Chairperson of NITI Aayog, chaired by PM Modi."},
+{s:"Reports & Indices",d:"Hard",q:"As per the Ministry of Heavy Industries, which state topped the PLI-Auto scheme with the highest number of manufacturing units (66) as of 31 March 2026?",c:"Maharashtra",w:["Tamil Nadu","Haryana","Karnataka","Gujarat"],e:"Maharashtra leads with 66 units, followed by Tamil Nadu (38) and Haryana (35)."},
+{s:"Reports & Indices",d:"Hard",q:"What is the total budgetary outlay of the PLI Scheme for Automobile & Auto Components?",c:"₹25,938 crore",w:["₹18,000 crore","₹30,000 crore","₹22,500 crore","₹15,938 crore"],e:"The PLI-Auto scheme, approved in September 2021, has an outlay of ₹25,938 crore."},
+{s:"Reports & Indices",d:"Moderate",q:"What is the total number of manufacturing units set up under the PLI-Auto scheme as of 31 March 2026?",c:"225",w:["180","250","200","300"],e:"225 total manufacturing units have been set up under the PLI-Auto scheme."},
+{s:"Reports & Indices",d:"Easy",q:"Who is the Union Minister of Heavy Industries?",c:"H.D. Kumaraswamy",w:["G. Kishan Reddy","Bhupendra Yadav","Piyush Goyal","Ashwini Vaishnaw"],e:"H.D. Kumaraswamy is Union Minister of Heavy Industries."},
+{s:"Reports & Indices",d:"Hard",q:"As per the Henley Passport Index July 2026, to what rank did India slip, down from 75th rank in February 2026?",c:"81st",w:["78th","85th","72nd","90th"],e:"India slipped to 81st rank with visa-free access to 55 destinations."},
+{s:"Reports & Indices",d:"Moderate",q:"With how many visa-free/visa-on-arrival destinations does India's passport rank 81st in the Henley Passport Index July 2026?",c:"55",w:["62","48","70","45"],e:"India has visa-free or visa-on-arrival access to 55 destinations."},
+{s:"Reports & Indices",d:"Easy",q:"Which country retained its position as the world's most powerful passport in the Henley Passport Index July 2026?",c:"Singapore",w:["Japan","UAE","Sweden","South Korea"],e:"Singapore ranked 1st with access to 192 destinations."},
+{s:"Reports & Indices",d:"Hard",q:"Which country was ranked as having the world's least powerful passport in the July 2026 Henley Index?",c:"Afghanistan (22 destinations, rank 104)",w:["Syria (25 destinations)","Iraq (28 destinations)","Yemen (20 destinations)","Somalia (18 destinations)"],e:"Afghanistan ranked last (104th) with just 22 visa-free destinations."},
+{s:"Reports & Indices",d:"Hard",q:"How many passports and travel destinations does the Henley Passport Index July 2026 cover?",c:"199 passports and 227 travel destinations",w:["195 passports and 220 destinations","199 passports and 200 destinations","190 passports and 227 destinations","200 passports and 230 destinations"],e:"The index covers 199 passports and 227 travel destinations."},
+{s:"Reports & Indices",d:"Hard",q:"Which country has been the strongest long-term performer in the Henley Passport Index, gaining 153 visa-free destinations over 20 years and climbing to 2nd place?",c:"United Arab Emirates",w:["Singapore","Qatar","Saudi Arabia","Japan"],e:"The UAE gained 153 visa-free destinations over 20 years to reach 2nd place (tied)."},
+{s:"Reports & Indices",d:"Moderate",q:"Who is the CEO of Henley & Partners?",c:"Dr. Juerg Steffen",w:["David Haigh","Arkady Dvorkovich","Qu Dongyu","Anil Mohan Govil"],e:"Dr. Juerg Steffen is CEO of Henley & Partners, established in 1997, HQ London."},
+{s:"Reports & Indices",d:"Hard",q:"MoSPI's first trial Index of Services Production (ISP) uses which base year?",c:"2024-25",w:["2011-12","2022-23","2020-21","2018-19"],e:"The trial ISP uses base year 2024-25."},
+{s:"Reports & Indices",d:"Hard",q:"How many services sub-sectors does the trial Index of Services Production (ISP) cover?",c:"19 sub-sectors (60% of formal services sector)",w:["25 sub-sectors","12 sub-sectors","15 sub-sectors","30 sub-sectors"],e:"ISP covers 19 sub-sectors, accounting for about 60% of the formal services sector."},
+{s:"Reports & Indices",d:"Moderate",q:"On which day of the month is the Index of Services Production (ISP) scheduled for release, with a 60-day lag?",c:"29th",w:["15th","1st","25th","31st"],e:"ISP is released on the 29th of every month with a 60-day lag."},
+{s:"Reports & Indices",d:"Moderate",q:"The services sector accounts for what share of India's Gross Value Added (GVA) since 2013-14?",c:"Over 50%",w:["Around 30%","Around 40%","Over 70%","Around 25%"],e:"Services contribute over 50% of GVA and 30% of total employment."},
+{s:"Reports & Indices",d:"Hard",q:"What target has the Government set for India's share of global services by 2047?",c:"10%",w:["5%","15%","20%","8%"],e:"The Government aims for India to capture a 10% share of global services trade by 2047."},
+{s:"Reports & Indices",d:"Hard",q:"The UN's first scientific report on AI is co-chaired by Yoshua Bengio and:",c:"Maria Ressa",w:["Ngozi Okonjo-Iweala","Qu Dongyu","Dr. Juerg Steffen","David Haigh"],e:"Turing Award laureate Yoshua Bengio and Nobel Peace Prize laureate Maria Ressa co-chair the panel."},
+{s:"Reports & Indices",d:"Hard",q:"As per the UN's first AI scientific report, what share of global compute capacity does the United States hold?",c:"75%",w:["60%","50%","85%","65%"],e:"The USA holds 75% of global compute capacity and 59 AI models."},
+{s:"Reports & Indices",d:"Moderate",q:"How many members comprise the UN's Independent International Scientific Panel on Artificial Intelligence?",c:"40 members",w:["25 members","50 members","30 members","60 members"],e:"The panel comprises 40 members from all five UN regions."},
+{s:"Reports & Indices",d:"Hard",q:"As per the UN SOFI 2026 report, how many people faced hunger globally in 2025?",c:"645 million (7.8% of global population)",w:["511 million (6.2%)","800 million (9.5%)","520 million (7.0%)","700 million (8.5%)"],e:"645 million people (7.8%) faced hunger in 2025."},
+{s:"Reports & Indices",d:"Hard",q:"Which region recorded the highest number of undernourished people as per SOFI 2026?",c:"Africa (309 million)",w:["South Asia (250 million)","Southeast Asia (150 million)","Latin America (90 million)","Middle East (120 million)"],e:"Africa recorded the highest undernourishment at 309 million people."},
+{s:"Reports & Indices",d:"Hard",q:"As per SOFI 2026, India's undernourished population has declined by what percentage over 20 years?",c:"Nearly 42%",w:["Nearly 25%","Nearly 60%","Nearly 30%","Nearly 50%"],e:"India's undernourished population fell from 243.9 million (21.1%) to 142.5 million (9.8%), a decline of nearly 42%."},
+{s:"Reports & Indices",d:"Hard",q:"According to SOFI 2026, what percentage of India's population could not afford a healthy diet in 2025?",c:"35.5% (520.1 million people)",w:["21.1%","59.8%","45.2%","28.7%"],e:"520.1 million people (35.5%) could not afford a healthy diet in 2025, down from 59.8% earlier."},
+{s:"Reports & Indices",d:"Easy",q:"Who is the Director-General of the FAO?",c:"Qu Dongyu",w:["Ngozi Okonjo-Iweala","Khaled Ahmed El-Enany Ali Ezz","Gianni Infantino","Arkady Dvorkovich"],e:"Qu Dongyu is DG of FAO, headquartered in Rome, established 1945."},
+{s:"Reports & Indices",d:"Hard",q:"Consider the following statements: I. The Digital Threat Report 2025-26 introduces the 'Anatomy of Cyber Failure' framework. II. Six of the seven cyber threat predictions from the previous edition have already materialised. III. CERT-In was established under Section 66A of the IT Act, 2000. IV. AAROH is prepared by Coal India Limited. How many of the above statements are correct?",c:"2",w:["0","1","3","4"],e:"Statements III, IV are incorrect as per the document; the remaining 2 statements are correct."},
+{s:"Reports & Indices",d:"Hard",q:"Consider the following statements: I. AAROH earmarks 10% of the approved mine-closure cost for community development. II. India ranks 1st globally in cotton cultivation area. III. India ranks 2nd globally in cotton production and consumption. IV. Cotton supports the livelihoods of nearly 6 million farmers in India. How many of the above statements are correct?",c:"3",w:["0","1","2","4"],e:"Statement I is incorrect as per the document; the remaining 3 statements are correct."},
+{s:"Reports & Indices",d:"Moderate",q:"Consider the following statements: I. Adani Group rose from 13th to 8th position in the Brand Finance India 100 Report 2026. II. Tata Group topped the Brand Finance India 100 Report 2026 for the 10th consecutive year. III. TCS remained India's most valuable IT services brand for 14 consecutive years. IV. Suzlon Energy was the fastest-growing Indian brand, up 114%. How many of the above statements are correct?",c:"4",w:["0","1","2","3"],e:"All four statements are factually correct as per the document."},
+{s:"Reports & Indices",d:"Hard",q:"Consider the following statements: I. Maharashtra topped NITI Aayog's Investment Friendliness Index 2026 with a score of 56.6. II. IFI 2026 evaluates states using 50 indicators across 5 pillars. III. The top five states in IFI 2026 account for 60% of India's total FDI inflows. IV. Sikkim ranked lowest in IFI 2026 with a score of 24.5. How many of the above statements are correct?",c:"0",w:["1","2","3","4"],e:"None of the four statements are correct as per the document; each contains a factual distortion."},
+{s:"Reports & Indices",d:"Moderate",q:"Consider the following statements: I. Maharashtra topped the PLI-Auto scheme with 66 manufacturing units. II. The PLI-Auto scheme has a budgetary outlay of ₹40,000 crore. III. India rose to 65th rank in the Henley Passport Index July 2026. IV. Japan retained its position as the world's most powerful passport. How many of the above statements are correct?",c:"1",w:["0","2","3","4"],e:"Statements II, III, IV are incorrect as per the document; the remaining 1 statement is correct."},
+{s:"Reports & Indices",d:"Hard",q:"Consider the following statements: I. Syria ranked lowest in the Henley Passport Index July 2026. II. MoSPI's trial Index of Services Production uses base year 2024-25. III. The trial ISP covers 19 services sub-sectors. IV. The UN's first AI scientific report panel is co-chaired by Yoshua Bengio and Ngozi Okonjo-Iweala. How many of the above statements are correct?",c:"2",w:["0","1","3","4"],e:"Statements I, IV are incorrect as per the document; the remaining 2 statements are correct."},
+{s:"Reports & Indices",d:"Hard",q:"Consider the following statements: I. The USA holds 75% of global AI compute capacity as per the UN report. II. SOFI 2026 estimates 400 million people faced hunger globally in 2025. III. Africa recorded the highest number of undernourished people in SOFI 2026. IV. India's undernourished population declined by nearly 42% over 20 years. How many of the above statements are correct?",c:"3",w:["0","1","2","4"],e:"Statement II is incorrect as per the document; the remaining 3 statements are correct."},
+{s:"Reports & Indices",d:"Moderate",q:"Consider the following statements: I. The Digital Threat Report 2025-26 introduces the 'Anatomy of Cyber Failure' framework. II. Six of the seven cyber threat predictions from the previous edition have already materialised. III. CERT-In was established under Section 70B of the IT Act, 2000. IV. AAROH is prepared by the Coal Controller Organisation. How many of the above statements are correct?",c:"4",w:["0","1","2","3"],e:"All four statements are factually correct as per the document."},
+{s:"Reports & Indices",d:"Hard",q:"Consider the following statements: I. AAROH earmarks 10% of the approved mine-closure cost for community development. II. India ranks 3rd globally in cotton cultivation area. III. India ranks 1st globally in cotton production and consumption. IV. Cotton supports the livelihoods of nearly 15 million farmers in India. How many of the above statements are correct?",c:"0",w:["1","2","3","4"],e:"None of the four statements are correct as per the document; each contains a factual distortion."},
+{s:"Reports & Indices",d:"Moderate",q:"Consider the following statements: I. Adani Group rose from 20th to 8th position in the Brand Finance India 100 Report 2026. II. Tata Group topped the Brand Finance India 100 Report 2026 for the 10th consecutive year. III. Infosys remained India's most valuable IT services brand for 14 consecutive years. IV. Yes Bank was the fastest-growing Indian brand, up 114%. How many of the above statements are correct?",c:"1",w:["0","2","3","4"],e:"Statements I, III, IV are incorrect as per the document; the remaining 1 statement is correct."},
+{s:"Reports & Indices",d:"Hard",q:"Consider the following statements: I. Maharashtra topped NITI Aayog's Investment Friendliness Index 2026 with a score of 56.6. II. IFI 2026 evaluates states using 50 indicators across 5 pillars. III. The top five states in IFI 2026 account for 85% of India's total FDI inflows. IV. Lakshadweep ranked lowest in IFI 2026 with a score of 24.5. How many of the above statements are correct?",c:"2",w:["0","1","3","4"],e:"Statements I, II are incorrect as per the document; the remaining 2 statements are correct."},
+{s:"Reports & Indices",d:"Hard",q:"Consider the following statements: I. Maharashtra topped the PLI-Auto scheme with 66 manufacturing units. II. The PLI-Auto scheme has a budgetary outlay of ₹25,938 crore. III. India rose to 65th rank in the Henley Passport Index July 2026. IV. Singapore retained its position as the world's most powerful passport. How many of the above statements are correct?",c:"3",w:["0","1","2","4"],e:"Statement III is incorrect as per the document; the remaining 3 statements are correct."},
+{s:"Reports & Indices",d:"Moderate",q:"Consider the following statements: I. Afghanistan ranked lowest in the Henley Passport Index July 2026. II. MoSPI's trial Index of Services Production uses base year 2024-25. III. The trial ISP covers 19 services sub-sectors. IV. The UN's first AI scientific report panel is co-chaired by Yoshua Bengio and Maria Ressa. How many of the above statements are correct?",c:"4",w:["0","1","2","3"],e:"All four statements are factually correct as per the document."},
+{s:"Reports & Indices",d:"Hard",q:"Consider the following statements: I. China holds 75% of global AI compute capacity as per the UN report. II. SOFI 2026 estimates 400 million people faced hunger globally in 2025. III. South Asia recorded the highest number of undernourished people in SOFI 2026. IV. India's undernourished population declined by nearly 15% over 20 years. How many of the above statements are correct?",c:"0",w:["1","2","3","4"],e:"None of the four statements are correct as per the document; each contains a factual distortion."},
+{s:"Reports & Indices",d:"Moderate",q:"Consider the following statements: I. The Digital Threat Report 2025-26 introduces the 'Cyber Resilience Maturity Model'. II. All seven cyber threat predictions from the previous edition have already materialised. III. CERT-In was established under Section 70B of the IT Act, 2000. IV. AAROH is prepared by Coal India Limited. How many of the above statements are correct?",c:"1",w:["0","2","3","4"],e:"Statements I, II, IV are incorrect as per the document; the remaining 1 statement is correct."},
+{s:"Science & Tech",d:"Moderate",q:"UNNATI AI 2.0, launched by Microsoft India and FITT (IIT Delhi), primarily focuses on which locations?",c:"Tier 2 and Tier 3 cities",w:["Metro cities only","Rural villages only","State capitals only","North-eastern states only"],e:"UNNATI AI 2.0 focuses on AI skilling and startup enablement in Tier 2/3 cities."},
+{s:"Science & Tech",d:"Hard",q:"How many AI startups did the first edition of UNNATI AI (launched April 2025) support, building a portfolio worth ₹1,690 crore?",c:"10 AI startups",w:["25 AI startups","5 AI startups","15 AI startups","20 AI startups"],e:"UNNATI AI's first edition supported 10 AI startups and trained over 1,000 developers."},
+{s:"Science & Tech",d:"Moderate",q:"What does 'UNNATI' stand for in the Microsoft-IIT Delhi initiative?",c:"Unnati se Pragati (progress through growth)",w:["United Network for AI Training","National Technology Alliance India","Universal Network for Advanced Tech Innovation","Unified National AI Talent Initiative"],e:"UNNATI stands for 'Unnati se Pragati' — progress through growth."},
+{s:"Science & Tech",d:"Hard",q:"Skyroot Aerospace's Vikram-1 rocket launch, under Mission Aagaman, made India the third country (after the US and China) to achieve:",c:"Private orbital launch capability",w:["Reusable rocket capability","Human spaceflight capability","Lunar sample return capability","Interplanetary probe capability"],e:"Vikram-1 gave India private orbital launch capability, following the Indian Space Policy 2023."},
+{s:"Science & Tech",d:"Moderate",q:"From which launch site was Skyroot Aerospace's Vikram-1 rocket launched?",c:"SDSC-SHAR, Sriharikota, Andhra Pradesh",w:["Thumba Equatorial Rocket Launching Station, Kerala","Abdul Kalam Island, Odisha","Sriharikota Range, Tamil Nadu","Bhatinda Test Range, Punjab"],e:"Vikram-1 was launched from SDSC-SHAR, Sriharikota."},
+{s:"Science & Tech",d:"Hard",q:"Vikram-1, India's first privately developed orbital-class launch vehicle, is a:",c:"Four-stage orbital launch vehicle",w:["Two-stage sub-orbital vehicle","Three-stage reusable vehicle","Single-stage orbital vehicle","Five-stage heavy-lift vehicle"],e:"Vikram-1 is a four-stage orbital launch vehicle."},
+{s:"Science & Tech",d:"Easy",q:"Which policy framework enabled India's private orbital launch capability, as referenced with the Vikram-1 launch?",c:"Indian Space Policy 2023",w:["National Space Policy 2020","ISRO Privatisation Act 2022","Space Activities Bill 2021","Atmanirbhar Space Mission 2024"],e:"The launch followed the framework of the Indian Space Policy 2023."},
+{s:"Science & Tech",d:"Hard",q:"Consider the following statements: I. UNNATI AI 2.0 is a joint initiative of Microsoft India and FITT, IIT Delhi. II. UNNATI AI's first edition supported 10 AI startups. III. Skyroot Aerospace's Vikram-1 was launched under Mission Gaganyaan. IV. India became the second country after the US with private orbital launch capability. How many of the above statements are correct?",c:"2",w:["0","1","3","4"],e:"Statements III, IV are incorrect as per the document; the remaining 2 statements are correct."},
+{s:"Defense",d:"Hard",q:"NIDAR 2.0, launched by MeitY and DFI for 2026-27, features which special indigenous technology component?",c:"VEGA processors",w:["Bhaskara chips","Shakti processors","Trishul chips","Param processors"],e:"NIDAR 2.0 emphasises use of indigenous VEGA processors."},
+{s:"Defense",d:"Moderate",q:"NIDAR 2.0 is launched under which government initiative?",c:"SwaYaan initiative",w:["Drone Shakti Mission","Atmanirbhar Skies Programme","Digital Sky Initiative","National Drone Mission"],e:"NIDAR 2.0 is launched under the SwaYaan initiative for drone workforce skilling."},
+{s:"Defense",d:"Hard",q:"What is the total prize pool for NIDAR 2.0 (2026-27)?",c:"Over ₹65 lakh",w:["Over ₹50 lakh","Over ₹1 crore","Over ₹25 lakh","Over ₹80 lakh"],e:"NIDAR 2.0 offers a prize pool of over ₹65 lakh across two tracks."},
+{s:"Defense",d:"Hard",q:"The SwaYaan initiative was approved by MeitY in July 2022 with an outlay of nearly how much over 5 years?",c:"₹89.87 crore",w:["₹65 crore","₹100 crore","₹120 crore","₹75.50 crore"],e:"SwaYaan has an outlay of nearly ₹89.87 crore for 5 years."},
+{s:"Defense",d:"Moderate",q:"Who is the President of Drone Federation India (DFI)?",c:"Smit Shah",w:["Dilip Asbe","Anil Mohan Govil","Ashutosh Dixit","Abhishek Singh"],e:"Smit Shah is President of DFI, established in 2019, HQ New Delhi."},
+{s:"Defense",d:"Hard",q:"The Indian Navy participated in the 30th edition of which multinational maritime exercise, hosted by the US Navy in Hawaii?",c:"RIMPAC 2026",w:["Malabar 2026","Milan 2026","Pitch Black 2026","Cobra Gold 2026"],e:"RIMPAC 2026, the world's largest multinational maritime exercise, was held at Pearl Harbor-Hickam, Hawaii."},
+{s:"Defense",d:"Moderate",q:"What is the theme of RIMPAC 2026?",c:"Partners: Integrated and Prepared",w:["Unity in the Pacific","Strength Through Cooperation","Maritime Vigilance 2026","Allies for Peace"],e:"RIMPAC 2026's theme is 'Partners: Integrated and Prepared', with 30 participating nations."},
+{s:"Defense",d:"Hard",q:"The Indian Air Force is participating in the 45th edition of Exercise Pitch Black 2026, hosted by which country's air force at RAAF Base Darwin?",c:"Royal Australian Air Force (RAAF)",w:["Republic of Singapore Air Force","Royal Air Force (UK)","US Air Force","French Air and Space Force"],e:"Pitch Black 2026 is hosted by RAAF at RAAF Base Darwin, with 20 participating nations."},
+{s:"Defense",d:"Hard",q:"Consider the following statements: I. NIDAR 2.0 emphasises the use of indigenous VEGA processors. II. NIDAR 2.0 is launched under the SwaYaan initiative. III. SwaYaan was approved by MeitY in July 2022 with an outlay of ₹89.87 crore. IV. RIMPAC 2026 was hosted by the Royal Australian Navy at Darwin. How many of the above statements are correct?",c:"3",w:["0","1","2","4"],e:"Statement IV is incorrect as per the document; the remaining 3 statements are correct."},
+{s:"Defense",d:"Hard",q:"Consider the following statements: I. Exercise Pitch Black 2026 is hosted by the Royal Australian Air Force. II. RIMPAC 2026 was the 30th edition of the exercise. III. NIDAR 2.0 emphasises the use of indigenous VEGA processors. IV. NIDAR 2.0 is launched under the SwaYaan initiative. How many of the above statements are correct?",c:"4",w:["0","1","2","3"],e:"All four statements are factually correct as per the document."},
+{s:"Appointments",d:"Moderate",q:"CBDT Chairman Ravi Agrawal was re-appointed for an additional term of how long, effective 1 July 2026?",c:"6 months",w:["1 year","3 months","2 years","9 months"],e:"Ravi Agrawal was re-appointed for an additional 6 months by the ACC."},
+{s:"Appointments",d:"Hard",q:"Who has been appointed as the part-time Chairman of HDFC Bank, subject to RBI approval?",c:"Rajiv Kumar (former Chief Election Commissioner)",w:["Keki Mistry","Dilip Asbe","Anurag Jain","Ravi Shankar"],e:"Rajiv Kumar, former CEC, was appointed part-time Chairman of HDFC Bank for 3 years."},
+{s:"Appointments",d:"Moderate",q:"Ravi Shankar was appointed Executive Director (ED) of the RBI effective 1 July 2026, heading which department?",c:"Department of Statistics and Information Management (DSIM)",w:["Department of Currency Management","Department of Banking Regulation","Department of Payment and Settlement Systems","Financial Markets Regulation Department"],e:"Ravi Shankar heads DSIM as RBI's Executive Director."},
+{s:"Appointments",d:"Hard",q:"Who has taken over as the 51st Vice Chief of Air Staff (VCAS), assuming charge on 1 July 2026?",c:"Air Marshal Ashutosh Dixit",w:["Air Marshal Nagesh Kapoor","Air Marshal V. Kamakoti","Air Marshal Amrit Lal Meena","Air Marshal S. Somanath"],e:"Air Marshal Ashutosh Dixit took over as 51st VCAS from Air Marshal Nagesh Kapoor."},
+{s:"Appointments",d:"Moderate",q:"Who has been given additional charge as CMD of IREDA for 3 months, following Pradip Kumar Das's superannuation?",c:"Bijay Kumar Mohanty",w:["Rahul Himalian","Ravi Shankar","Anurag Jain","Dilip Asbe"],e:"Bijay Kumar Mohanty, Director (Finance) & CFO, IREDA, took additional charge as CMD."},
+{s:"Appointments",d:"Moderate",q:"Dilip Asbe, MD & CEO of NPCI, has been appointed to which global body?",c:"SWIFT Global Supervisory Board",w:["FATF Advisory Council","World Bank Payments Committee","BIS Innovation Hub Board","IMF Financial Stability Board"],e:"Dilip Asbe's appointment strengthens India's role in global financial messaging and cross-border payments."},
+{s:"Appointments",d:"Hard",q:"Who has been approved as the new Prime Minister of Ukraine by the Verkhovna Rada (289 votes out of 450)?",c:"Sergii Koretskyi",w:["Yulia Svyrydenko","Volodymyr Zelenskyy","Denys Shmyhal","Andriy Yermak"],e:"Sergii Koretskyi, former CEO of Naftogaz of Ukraine, became PM, succeeding Yulia Svyrydenko."},
+{s:"Appointments",d:"Moderate",q:"Who has taken over as Additional CMD of IRCTC following the resignation of Sanjay Kumar Jain?",c:"Rahul Himalian",w:["Bijay Kumar Mohanty","Ravi Shankar","Anurag Jain","Ashutosh Dixit"],e:"Rahul Himalian, Director (Tourism & Marketing), IRCTC, took additional charge as CMD."},
+{s:"Appointments",d:"Hard",q:"Who has become the 59th Prime Minister of the United Kingdom, succeeding Keir Starmer?",c:"Andy Burnham",w:["Rishi Sunak","Rajiv Kumar","Nigel Farage","Wes Streeting"],e:"Andy Burnham (Labour), former Mayor of Greater Manchester, became the UK's 59th PM."},
+{s:"Appointments",d:"Moderate",q:"Who has been appointed CEO of NITI Aayog, succeeding Nidhi Chhibber (who held additional charge)?",c:"Anurag Jain",w:["Ashok Kumar Lahiri","Amardeep Singh Bhatia","Vivek Bharadwaj","Amrit Lal Meena"],e:"Anurag Jain, a 1989-batch IAS officer of the MP cadre, was appointed CEO of NITI Aayog for 2 years."},
+{s:"Appointments",d:"Hard",q:"Anurag Jain, the new CEO of NITI Aayog, previously served as:",c:"Chief Secretary of Madhya Pradesh",w:["Chief Secretary of Uttar Pradesh","Secretary, Ministry of Coal","Secretary, DPIIT","Governor of Madhya Pradesh"],e:"Anurag Jain was earlier Chief Secretary of Madhya Pradesh."},
+{s:"Appointments",d:"Moderate",q:"Who has been given additional charge as Union Minister of Education, following Dharmendra Pradhan's resignation?",c:"Pralhad Joshi",w:["Ashwini Vaishnaw","Piyush Goyal","H.D. Kumaraswamy","Jyotiraditya Scindia"],e:"Pralhad Joshi, who already holds Consumer Affairs and New & Renewable Energy portfolios, got additional charge of Education."},
+{s:"Appointments",d:"Hard",q:"Tshering Choden from Gangtok, Sikkim, scaled Mount Elbrus as part of the Seven Summits Challenge. Mount Elbrus, Europe's highest peak, has an elevation of approximately:",c:"5,642 metres",w:["5,895 metres","4,167 metres","6,190 metres","5,199 metres"],e:"Mount Elbrus (5,642m) is Europe's highest peak."},
+{s:"Appointments",d:"Moderate",q:"Which peak did Tshering Choden scale prior to Mount Elbrus, as part of the Seven Summits Challenge?",c:"Mount Kilimanjaro (Africa)",w:["Mount Everest (Asia)","Mount Aconcagua (South America)","Mount Denali (North America)","Mount Vinson (Antarctica)"],e:"Her previous peak was Mount Kilimanjaro; remaining peaks include Everest, Aconcagua, Denali, Vinson and Kosciuszko."},
+{s:"Appointments",d:"Hard",q:"Consider the following statements: I. Rajiv Kumar, former CEC, was appointed part-time Chairman of ICICI Bank. II. Ravi Shankar was appointed RBI Deputy Governor heading DSIM. III. Air Marshal Ashutosh Dixit became the 45th Vice Chief of Air Staff. IV. Anurag Jain, a 1995-batch IAS officer, was appointed CEO of NITI Aayog. How many of the above statements are correct?",c:"0",w:["1","2","3","4"],e:"None of the four statements are correct as per the document; each contains a factual distortion."},
+{s:"Appointments",d:"Hard",q:"Consider the following statements: I. Andy Burnham became the 58th Prime Minister of the United Kingdom. II. Sergii Koretskyi became the Prime Minister of Ukraine. III. Dilip Asbe was appointed to the FATF Advisory Council. IV. Ashwini Vaishnaw was given additional charge as Union Minister of Education. How many of the above statements are correct?",c:"1",w:["0","2","3","4"],e:"Statements I, III, IV are incorrect as per the document; the remaining 1 statement is correct."},
+{s:"Appointments",d:"Moderate",q:"Consider the following statements: I. Rajiv Kumar, former CEC, was appointed part-time Chairman of ICICI Bank. II. Ravi Shankar was appointed RBI Deputy Governor heading DSIM. III. Air Marshal Ashutosh Dixit became the 51st Vice Chief of Air Staff. IV. Anurag Jain, a 1989-batch IAS officer, was appointed CEO of NITI Aayog. How many of the above statements are correct?",c:"2",w:["0","1","3","4"],e:"Statements I, II are incorrect as per the document; the remaining 2 statements are correct."},
+{s:"Appointments",d:"Hard",q:"Consider the following statements: I. Andy Burnham became the 59th Prime Minister of the United Kingdom. II. Sergii Koretskyi became the Prime Minister of Ukraine. III. Dilip Asbe was appointed to the FATF Advisory Council. IV. Pralhad Joshi was given additional charge as Union Minister of Education. How many of the above statements are correct?",c:"3",w:["0","1","2","4"],e:"Statement III is incorrect as per the document; the remaining 3 statements are correct."},
+{s:"Sports",d:"Hard",q:"The Indian Women's Cricket Team defeated England by how many runs in the first-ever Women's Test at Lord's?",c:"270 runs",w:["150 runs","320 runs","200 runs","410 runs"],e:"India won by 270 runs in the historic first Women's Test at Lord's."},
+{s:"Sports",d:"Moderate",q:"Who was named Player of the Match in India's historic Women's Test win at Lord's?",c:"Kranti Gaud",w:["Harmanpreet Kaur","Smriti Mandhana","Shafali Verma","Deepti Sharma"],e:"Kranti Gaud was named Player of the Match."},
+{s:"Sports",d:"Hard",q:"With this win at Lord's, Harmanpreet Kaur became India's most successful Women's Test captain with how many wins, surpassing Mithali Raj's 3?",c:"4 wins",w:["5 wins","3 wins (tied)","6 wins","2 wins"],e:"Harmanpreet Kaur now has 4 Test wins as captain, surpassing Mithali Raj's 3."},
+{s:"Sports",d:"Hard",q:"What is India's overall Women's Test record in England, as per the document?",c:"3 wins, 7 draws (unbeaten)",w:["5 wins, 2 losses","2 wins, 4 draws, 1 loss","4 wins, 3 draws","1 win, 8 draws"],e:"India remains unbeaten in Women's Tests in England with 3 wins and 7 draws."},
+{s:"Sports",d:"Moderate",q:"Which two England players played their final international match in the historic Lord's Women's Test?",c:"Tammy Beaumont and Heather Knight",w:["Nat Sciver-Brunt and Sophie Ecclestone","Heather Knight and Sophie Ecclestone","Amy Jones and Tammy Beaumont","Katherine Sciver-Brunt and Anya Shrubsole"],e:"Tammy Beaumont and Heather Knight played their final international matches; India gave them a guard of honour."},
+{s:"Sports",d:"Easy",q:"Who is the President of the BCCI?",c:"Mithun Manhas",w:["Roger Binny","Jay Shah","Rajeev Shukla","Arun Dhumal"],e:"Mithun Manhas is BCCI President; BCCI was established in 1928."},
+{s:"Sports",d:"Hard",q:"Aswath S from Kanyakumari, Tamil Nadu, became India's 98th Chess Grandmaster at what age?",c:"17 years",w:["15 years","19 years","21 years","16 years"],e:"Aswath S became India's 98th GM at age 17."},
+{s:"Sports",d:"Hard",q:"As per FIDE criteria, a player must achieve a minimum FIDE rating of how much (at any point) to qualify for the Grandmaster title?",c:"2500",w:["2400","2600","2300","2700"],e:"A GM candidate must secure 3 GM norms and reach a FIDE rating of at least 2500."},
+{s:"Sports",d:"Moderate",q:"Who is the President of FIDE (International Chess Federation)?",c:"Arkady Vladimirovich Dvorkovich",w:["Kirsan Ilyumzhinov","Garry Kasparov","Magnus Carlsen","Anatoly Karpov"],e:"Arkady Dvorkovich is FIDE President; FIDE is HQ'd in Lausanne, established 1924."},
+{s:"Sports",d:"Hard",q:"Spain won its second FIFA World Cup title in 2026 by defeating Argentina 1-0 after extra time. Who scored the winning goal?",c:"Ferran Torres (106th minute)",w:["Lamine Yamal","Pedri","Rodri","Alvaro Morata"],e:"Substitute Ferran Torres scored the decisive goal in the 106th minute."},
+{s:"Sports",d:"Moderate",q:"Where was the final of the FIFA World Cup 2026 held?",c:"MetLife Stadium, East Rutherford, New Jersey",w:["SoFi Stadium, Los Angeles","AT&T Stadium, Texas","Estadio Azteca, Mexico City","BMO Field, Toronto"],e:"The final was held at MetLife Stadium in New Jersey, USA."},
+{s:"Sports",d:"Hard",q:"The FIFA World Cup 2026 (23rd edition) was co-hosted by the USA, Mexico and Canada. How many teams competed, an expansion from the earlier 32?",c:"48 teams",w:["40 teams","36 teams","44 teams","50 teams"],e:"The tournament expanded to 48 teams, organised into 12 groups of four."},
+{s:"Sports",d:"Hard",q:"How many total matches were played across the FIFA World Cup 2026?",c:"104",w:["64","96","80","112"],e:"The expanded 48-team format resulted in a total of 104 matches."},
+{s:"Sports",d:"Moderate",q:"Which team finished third in the FIFA World Cup 2026, defeating France 6-4?",c:"England",w:["Germany","Portugal","Netherlands","Croatia"],e:"England defeated France 6-4 to claim third place."},
+{s:"Sports",d:"Hard",q:"Who won the Golden Ball (Best Player) award at the FIFA World Cup 2026?",c:"Rodri (Spain)",w:["Lionel Messi (Argentina)","Kylian Mbappé (France)","Jude Bellingham (England)","Pau Cubarsí (Spain)"],e:"Rodri of Spain won the Golden Ball; Messi won Silver Ball and Mbappé Bronze Ball."},
+{s:"Sports",d:"Hard",q:"Who won the Golden Boot (top scorer) at the FIFA World Cup 2026 with 10 goals?",c:"Kylian Mbappé (France)",w:["Lionel Messi (Argentina)","Jude Bellingham (England)","Rodri (Spain)","Ferran Torres (Spain)"],e:"Mbappé won his second consecutive Golden Boot with 10 goals."},
+{s:"Sports",d:"Hard",q:"Who won the Golden Glove (Best Goalkeeper) award, keeping 7 clean sheets in 8 matches?",c:"Unai Simón (Spain)",w:["Emiliano Martínez (Argentina)","Jordan Pickford (England)","Mike Maignan (France)","David Raya (Spain)"],e:"Unai Simón kept a record 7 clean sheets, conceding only one goal."},
+{s:"Sports",d:"Hard",q:"At age 39, Lionel Messi became the oldest outfield player to start a World Cup final and also the first player to start how many World Cup finals?",c:"Three",w:["Two","Four","Five","Six"],e:"Messi started 3 World Cup finals (2014, 2022, 2026), a record for an outfield player."},
+{s:"Sports",d:"Moderate",q:"Which team holds the record for most FIFA World Cup titles (5) and is the only team to have played in every edition?",c:"Brazil",w:["Germany","Italy","Argentina","France"],e:"Brazil has won 5 titles and played in every World Cup edition."},
+{s:"Sports",d:"Hard",q:"Consider the following statements: I. India defeated England by 270 runs in the first-ever Women's Test at Lord's. II. Harmanpreet Kaur became India's most successful Women's Test captain with 4 wins. III. India remains unbeaten in Women's Tests in England, with 3 wins and 7 draws. IV. Aswath S became India's 98th Chess Grandmaster at age 17. How many of the above statements are correct?",c:"4",w:["0","1","2","3"],e:"All four statements are factually correct as per the document."},
+{s:"Sports",d:"Hard",q:"Consider the following statements: I. A FIDE Grandmaster candidate must reach a minimum rating of 2200. II. Spain won its first FIFA World Cup title in 2026, defeating Argentina 2-1. III. The FIFA World Cup 2026 final was held at SoFi Stadium, Los Angeles. IV. The FIFA World Cup 2026 retained the earlier 32-team format. How many of the above statements are correct?",c:"0",w:["1","2","3","4"],e:"None of the four statements are correct as per the document; each contains a factual distortion."},
+{s:"Sports",d:"Moderate",q:"Consider the following statements: I. Lionel Messi won the Golden Boot at the FIFA World Cup 2026 with 10 goals. II. Croatia finished third at the FIFA World Cup 2026, beating France 6-4. III. India defeated England by 270 runs in the first-ever Women's Test at Lord's. IV. Harmanpreet Kaur became India's most successful Women's Test captain with 6 wins. How many of the above statements are correct?",c:"1",w:["0","2","3","4"],e:"Statements I, II, IV are incorrect as per the document; the remaining 1 statement is correct."},
+{s:"Sports",d:"Hard",q:"Consider the following statements: I. India remains unbeaten in Women's Tests in England, with 3 wins and 7 draws. II. Aswath S became India's 90th Chess Grandmaster at age 17. III. A FIDE Grandmaster candidate must reach a minimum rating of 2200. IV. Spain won its second FIFA World Cup title in 2026, defeating Argentina 1-0. How many of the above statements are correct?",c:"2",w:["0","1","3","4"],e:"Statements II, III are incorrect as per the document; the remaining 2 statements are correct."},
+{s:"Sports",d:"Moderate",q:"Consider the following statements: I. The FIFA World Cup 2026 final was held at MetLife Stadium, New Jersey. II. The FIFA World Cup 2026 expanded to 48 teams. III. Kylian Mbappé won the Golden Boot at the FIFA World Cup 2026 with 10 goals. IV. Croatia finished third at the FIFA World Cup 2026, beating France 6-4. How many of the above statements are correct?",c:"3",w:["0","1","2","4"],e:"Statement IV is incorrect as per the document; the remaining 3 statements are correct."},
+{s:"Books & Authors",d:"Moderate",q:"'From Guerrilla Fighter to Chief Minister' is a memoir written by which former Mizoram Chief Minister?",c:"Zoramthanga",w:["Lalduhoma","Pu Laldenga","R. Lalzirliana","K. Vanlalvena"],e:"Zoramthanga, a legendary figure of the Mizo National Front (MNF), authored this memoir."},
+{s:"Books & Authors",d:"Easy",q:"Zoramthanga's memoir chronicles his journey from the insurgency to which position?",c:"Chief Minister of Mizoram",w:["Governor of Mizoram","Union Minister","Member of Parliament","MNF President only"],e:"The memoir covers his half-century journey from insurgent to Chief Minister of Mizoram."},
+{s:"Books & Authors",d:"Moderate",q:"Zoramthanga is a legendary figure associated with which political organisation?",c:"Mizo National Front (MNF)",w:["Naga People's Front","United Liberation Front of Assam","Gorkha National Liberation Front","Tripura National Volunteers"],e:"Zoramthanga is associated with the Mizo National Front (MNF)."},
+{s:"Books & Authors",d:"Hard",q:"Consider the following statements: I. 'From Guerrilla Fighter to Chief Minister' is Zoramthanga's memoir. II. Zoramthanga is associated with the Mizo National Front (MNF). III. Zoramthanga served as Chief Minister of Mizoram. IV. The memoir chronicles nearly half a century of history, from insurgency to democratic power. How many of the above statements are correct?",c:"4",w:["0","1","2","3"],e:"All four statements are factually correct as per the document."},
+{s:"Awards",d:"Hard",q:"FIU-IND was named runner-up at the Best Egmont Case Award (BECA) 2026 for its investigation into which type of case?",c:"A large-scale cyber fraud case",w:["A trade-based money laundering case","A terror financing case","A shell company network case","A cryptocurrency fraud case"],e:"FIU-IND was recognised for its investigation into a large-scale cyber fraud case."},
+{s:"Awards",d:"Moderate",q:"Who is the Director of FIU-IND, who received the BECA 2026 runner-up honour?",c:"Anil Mohan Govil",w:["Sanjay Bahl","Virendra R. Tiwari","Dilip Asbe","Chandra Shekhar Kumar"],e:"Anil Mohan Govil received the honour at the Egmont Group Plenary in Baku, Azerbaijan."},
+{s:"Awards",d:"Hard",q:"Which country's Anti-Money Laundering Division (AMLD) won the Best Egmont Case Award (BECA) 2026, with FIU-IND as runner-up?",c:"Taiwan",w:["Singapore","South Korea","Japan","Switzerland"],e:"Taiwan's AMLD won BECA 2026; FIU-IND was runner-up."},
+{s:"Awards",d:"Easy",q:"In which year was FIU-IND established?",c:"November 2004",w:["2003","2010","1999","2008"],e:"FIU-IND was established in November 2004."},
+{s:"Awards",d:"Moderate",q:"Himachal Pradesh secured 8 new GI tags, raising its total GI-tagged products from 9 to:",c:"17",w:["15","20","12","19"],e:"Himachal Pradesh's total GI-tagged products rose from 9 to 17."},
+{s:"Awards",d:"Hard",q:"MECON Limited was granted which status by the Ministry of Steel?",c:"Miniratna Category-I",w:["Miniratna Category-II","Navratna","Maharatna","PSU Excellence Award"],e:"MECON Limited was granted Miniratna Category-I status."},
+{s:"Awards",d:"Hard",q:"To qualify for Miniratna Category-I status, a CPSE must have achieved a pre-tax profit of at least how much in at least one of the last three consecutive profitable years?",c:"₹30 crore",w:["₹50 crore","₹15 crore","₹100 crore","₹20 crore"],e:"Miniratna Category-I requires profit for 3 consecutive years with pre-tax profit ≥₹30 crore in at least one year, plus positive net worth."},
+{s:"Awards",d:"Hard",q:"What is the capital expenditure limit (without government approval) for a Miniratna Category-I company?",c:"Up to ₹500 crore or equal to net worth, whichever is lower",w:["Up to ₹250 crore or 50% of net worth, whichever is lower","Up to ₹1,000 crore unconditionally","Up to ₹100 crore only","Up to ₹750 crore or net worth, whichever is higher"],e:"Miniratna Category-I: up to ₹500 crore or net worth, whichever is lower; Category-II: up to ₹250 crore or 50% of net worth."},
+{s:"Awards",d:"Moderate",q:"Sunil Bharti Mittal received the USISPF Leadership Award 2026 at which event?",c:"IX Leadership Summit, Washington D.C.",w:["World Economic Forum, Davos","G20 Business Summit, New Delhi","India-US Trade Forum, New York","Indo-Pacific Economic Summit, San Francisco"],e:"He received the award at USISPF's IX Leadership Summit in Washington D.C."},
+{s:"Awards",d:"Moderate",q:"Sunil Bharti Mittal was recognised for his contribution to which sector's transformation, alongside strengthening India-USA economic ties?",c:"Telecom",w:["Banking","Aviation","Pharmaceuticals","Renewable Energy"],e:"He was recognised for contribution to telecom transformation."},
+{s:"Awards",d:"Hard",q:"India achieved its best-ever performance at the 56th International Physics Olympiad (IPhO) 2026 by winning how many Gold Medals?",c:"5 Gold Medals",w:["3 Gold Medals","4 Gold Medals","6 Gold Medals","2 Gold Medals"],e:"India won 5 Gold Medals, its best-ever performance, at IPhO 2026 in Bucaramanga, Colombia."},
+{s:"Awards",d:"Hard",q:"At IPhO 2026, India secured a joint 1st overall rank alongside which countries?",c:"Russia, China, Kazakhstan, South Korea and Taiwan",w:["USA, UK, Germany, Japan and France","China, USA, Japan, Germany and Singapore","Russia, USA, China, UK and Japan","China, Taiwan, Japan, Singapore and USA"],e:"India tied for joint 1st place with Russia, China, Kazakhstan, South Korea and Taiwan."},
+{s:"Awards",d:"Easy",q:"Where was the 56th International Physics Olympiad 2026 held?",c:"Bucaramanga, Colombia",w:["Bogota, Colombia","Lima, Peru","Santiago, Chile","Quito, Ecuador"],e:"IPhO 2026 was held in Bucaramanga, Colombia."},
+{s:"Awards",d:"Moderate",q:"Dr. Nandini Azad, who received the Bharat Samman 2026, is President of which organisation?",c:"Working Women's Forum (India) and Indian Cooperative Network for Women",w:["Self Employed Women's Association (SEWA)","National Commission for Women","All India Women's Conference","Confederation of Women Entrepreneurs"],e:"Dr. Nandini Azad was recognised for her lifelong work in women's empowerment and financial inclusion."},
+{s:"Awards",d:"Moderate",q:"Which state received the Agriculture Leadership Award 2026 for excellence in horticulture?",c:"Gujarat",w:["Maharashtra","Himachal Pradesh","Karnataka","Punjab"],e:"Gujarat received the award, presented by Defence Minister Rajnath Singh to Agriculture Minister Jitu Vaghani."},
+{s:"Awards",d:"Hard",q:"Which film won the Best Feature Film award at the National Film Awards (for 2024)?",c:"Article 370 (Dir. Aditya Suhas Jambhale)",w:["Kalki 2898 AD","Amaran","Bramayugam","Chandu Champion"],e:"Article 370, directed by Aditya Suhas Jambhale, won Best Feature Film."},
+{s:"Awards",d:"Hard",q:"Who jointly won the Best Actor award at the National Film Awards (for 2024)?",c:"Mammootty (Bramayugam) and Kartik Aaryan (Chandu Champion)",w:["Randeep Hooda and Kartik Aaryan","Mammootty and Rajkumar Periyasamy","Yami Gautam and Mammootty","Aditya Suhas Jambhale and Kartik Aaryan"],e:"Mammootty and Kartik Aaryan jointly won Best Actor."},
+{s:"Awards",d:"Moderate",q:"Who won the Best Actress award at the National Film Awards (for 2024)?",c:"Yami Gautam (Article 370)",w:["Mammootty","Randeep Hooda","Rajkumar Periyasamy","Kartik Aaryan"],e:"Yami Gautam won Best Actress for Article 370."},
+{s:"Awards",d:"Hard",q:"Who received the Best Direction award for 'Amaran' at the National Film Awards (for 2024)?",c:"Rajkumar Periyasamy",w:["Aditya Suhas Jambhale","Randeep Hooda","Vetrimaaran","Mari Selvaraj"],e:"Rajkumar Periyasamy won Best Direction for Amaran."},
+{s:"Awards",d:"Moderate",q:"Which film won the Best Popular Film award at the National Film Awards (for 2024)?",c:"Kalki 2898 AD",w:["Article 370","Amaran","Chandu Champion","Raayan"],e:"Kalki 2898 AD won Best Popular Film."},
+{s:"Awards",d:"Hard",q:"Randeep Hooda won the Best Debut Director award for which film at the National Film Awards (for 2024)?",c:"Swatantrya Veer Savarkar",w:["Article 370","Bramayugam","Amaran","Chandu Champion"],e:"Randeep Hooda won Best Debut Director for Swatantrya Veer Savarkar."},
+{s:"Awards",d:"Easy",q:"Which award has been given to National Security Advisor Ajit Doval for 2026?",c:"Lokmanya Tilak National Award 2026",w:["Padma Vibhushan 2026","USISPF Leadership Award 2026","Bharat Samman 2026","Global Finance Award 2026"],e:"Ajit Doval was selected for the Lokmanya Tilak National Award 2026 for contributions to national security."},
+{s:"Awards",d:"Hard",q:"Eight-year-old Iya Krish from Thrissur, Kerala, became the youngest Asian to summit which peak?",c:"Mount Toubkal, Morocco (4,167 m)",w:["Mount Kilimanjaro, Africa","Mount Elbrus, Europe","Mount Kosciuszko, Australia","Mount Denali, North America"],e:"Mount Toubkal (4,167m) is the highest peak in North Africa; the expedition took 3 days, covering 42 km."},
+{s:"Awards",d:"Hard",q:"At the Global Finance Awards 2026, which bank was named World's Best Corporate Bank, the first Southeast Asian bank to win this since 2005?",c:"DBS Bank, Singapore",w:["OCBC Bank, Singapore","Maybank, Malaysia","UOB Bank, Singapore","CIMB Bank, Malaysia"],e:"DBS Bank won World's Best Corporate Bank, Asia's Best Bank, and Singapore's Best Bank."},
+{s:"Awards",d:"Hard",q:"Consider the following statements: I. FIU-IND won the Best Egmont Case Award (BECA) 2026 outright. II. Singapore's AMLD won the Best Egmont Case Award (BECA) 2026. III. Himachal Pradesh's GI-tagged products rose from 9 to 25. IV. MECON Limited was granted Navratna status. How many of the above statements are correct?",c:"0",w:["1","2","3","4"],e:"None of the four statements are correct as per the document; each contains a factual distortion."},
+{s:"Awards",d:"Hard",q:"Consider the following statements: I. Miniratna Category-I requires a pre-tax profit of at least ₹100 crore in one of three profitable years. II. Sunil Bharti Mittal received the USISPF Leadership Award 2026 in Washington D.C. III. India won 3 Gold Medals at the 56th IPhO 2026 in Bucaramanga, Colombia. IV. Amaran won the Best Feature Film award at the National Film Awards (for 2024). How many of the above statements are correct?",c:"1",w:["0","2","3","4"],e:"Statements I, III, IV are incorrect as per the document; the remaining 1 statement is correct."},
+{s:"Awards",d:"Moderate",q:"Consider the following statements: I. Mammootty and Randeep Hooda jointly won the Best Actor award. II. Ajit Doval was selected for the Bharat Samman 2026. III. DBS Bank, Singapore was named World's Best Corporate Bank at the Global Finance Awards 2026. IV. FIU-IND was named runner-up at the Best Egmont Case Award (BECA) 2026. How many of the above statements are correct?",c:"2",w:["0","1","3","4"],e:"Statements I, II are incorrect as per the document; the remaining 2 statements are correct."},
+{s:"Awards",d:"Hard",q:"Consider the following statements: I. Taiwan's AMLD won the Best Egmont Case Award (BECA) 2026. II. Himachal Pradesh's GI-tagged products rose from 9 to 17. III. MECON Limited was granted Navratna status. IV. Miniratna Category-I requires a pre-tax profit of at least ₹30 crore in one of three profitable years. How many of the above statements are correct?",c:"3",w:["0","1","2","4"],e:"Statement III is incorrect as per the document; the remaining 3 statements are correct."},
+{s:"Awards",d:"Moderate",q:"Consider the following statements: I. Sunil Bharti Mittal received the USISPF Leadership Award 2026 in Washington D.C. II. India won 5 Gold Medals at the 56th IPhO 2026 in Bucaramanga, Colombia. III. Article 370 won the Best Feature Film award at the National Film Awards (for 2024). IV. Mammootty and Kartik Aaryan jointly won the Best Actor award. How many of the above statements are correct?",c:"4",w:["0","1","2","3"],e:"All four statements are factually correct as per the document."},
+{s:"Awards",d:"Hard",q:"Consider the following statements: I. Ajit Doval was selected for the Bharat Samman 2026. II. OCBC Bank, Singapore was named World's Best Corporate Bank at the Global Finance Awards 2026. III. FIU-IND won the Best Egmont Case Award (BECA) 2026 outright. IV. Singapore's AMLD won the Best Egmont Case Award (BECA) 2026. How many of the above statements are correct?",c:"0",w:["1","2","3","4"],e:"None of the four statements are correct as per the document; each contains a factual distortion."},
+{s:"Awards",d:"Hard",q:"Consider the following statements: I. Himachal Pradesh's GI-tagged products rose from 9 to 25. II. MECON Limited was granted Navratna status. III. Miniratna Category-I requires a pre-tax profit of at least ₹30 crore in one of three profitable years. IV. Sunil Bharti Mittal received the USISPF Leadership Award 2026 in New York. How many of the above statements are correct?",c:"1",w:["0","2","3","4"],e:"Statements I, II, IV are incorrect as per the document; the remaining 1 statement is correct."},
+{s:"Important Days",d:"Moderate",q:"On which date is Income Tax Day (Aaykar Diwas) observed every year in India?",c:"24 July",w:["1 April","31 July","15 August","26 January"],e:"Income Tax Day is observed on 24 July every year."},
+{s:"Important Days",d:"Hard",q:"The year 2026 marks which anniversary of Income Tax Day?",c:"167th",w:["150th","175th","160th","155th"],e:"2026 marks the 167th anniversary; Income Tax was introduced by Sir James Wilson in 1860."},
+{s:"Important Days",d:"Moderate",q:"Income Tax Day was officially declared by the Government of India in 2010, marking which anniversary at that time?",c:"150th anniversary",w:["100th anniversary","125th anniversary","140th anniversary","160th anniversary"],e:"The Government officially recognised Income Tax Day in 2010, the 150th anniversary."},
+{s:"Important Days",d:"Hard",q:"Consider the following statements: I. Income Tax Day is observed on 24 July every year. II. 2026 marks the 167th anniversary of Income Tax Day. III. Income Tax was introduced by Sir James Wilson in 1900. IV. The current governing law for Income Tax in India is the Income Tax Act, 1922. How many of the above statements are correct?",c:"2",w:["0","1","3","4"],e:"Statements III, IV are incorrect as per the document; the remaining 2 statements are correct."},
+{s:"Obituary",d:"Moderate",q:"Girish Bharadwaj, popularly known as the 'Bridge Man of India', passed away at what age?",c:"76",w:["68","82","74","80"],e:"Girish Bharadwaj passed away at age 76 in Sullia, Karnataka."},
+{s:"Obituary",d:"Hard",q:"In which year was Girish Bharadwaj awarded the Padma Shri for his contributions to social work?",c:"2017",w:["2015","2019","2012","2020"],e:"He received the Padma Shri, India's fourth-highest civilian honour, in 2017."},
+{s:"Obituary",d:"Hard",q:"Girish Bharadwaj built over how many low-cost suspension footbridges across five states?",c:"150",w:["100","200","75","250"],e:"He built over 150 low-cost suspension footbridges across five states, earning the title 'Bridge Man of India'."},
+{s:"Obituary",d:"Hard",q:"Consider the following statements: I. Girish Bharadwaj was popularly known as the 'Bridge Man of India'. II. Girish Bharadwaj passed away at the age of 76 in Sullia, Karnataka. III. Girish Bharadwaj received the Padma Shri in 2017. IV. Girish Bharadwaj built over 50 low-cost suspension footbridges across two states. How many of the above statements are correct?",c:"3",w:["0","1","2","4"],e:"Statement IV is incorrect as per the document; the remaining 3 statements are correct."}
+];
+
+/* ============================================================
+   ENGINE
+   ============================================================ */
+const LETTERS = ["A","B","C","D","E"];
+
+function buildOptions(item, idx){
+  const correctPos = idx % 5;
+  const opts = new Array(5);
+  opts[correctPos] = item.c;
+  let wi = 0;
+  for(let i=0;i<5;i++){
+    if(i !== correctPos){ opts[i] = item.w[wi++]; }
+  }
+  return Object.assign({}, item, {options: opts, correctIndex: correctPos, origIndex: idx});
+}
+
+const FULL = QUESTIONS.map(buildOptions);
+
+// section list with counts, in PDF order of first appearance
+const SECTION_ORDER = [];
+FULL.forEach(q=>{ if(!SECTION_ORDER.includes(q.s)) SECTION_ORDER.push(q.s); });
+const SECTION_COUNTS = {};
+SECTION_ORDER.forEach(sec=>{ SECTION_COUNTS[sec] = FULL.filter(q=>q.s===sec).length; });
+
+document.getElementById("fullCountTag").textContent = FULL.length + " questions";
+
+let state = {
+  set: [],
+  idx: 0,
+  score: 0,
+  records: [],
+  label: "",
+  lastSetSpec: null   // {type:'full', order}, or {type:'section', name}
+};
+let orderChoice = "pdf";
+
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function showScreen(id){
+  ["home","fullsetup","sectiongrid","quiz","results"].forEach(s=>{
+    document.getElementById("screen-"+s).classList.add("hidden");
+  });
+  document.getElementById("screen-"+id).classList.remove("hidden");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function goHome(){ showScreen("home"); }
+
+function goFullSetup(){ showScreen("fullsetup"); }
+
+function setOrder(o){
+  orderChoice = o;
+  document.getElementById("ord-pdf").classList.toggle("active", o==="pdf");
+  document.getElementById("ord-shuffle").classList.toggle("active", o==="shuffled");
+  document.getElementById("fullDesc").textContent = o==="pdf"
+    ? "Questions will appear in the same order as the source document's sections."
+    : "Questions will be shuffled into a random order for this attempt.";
+}
+
+function startFull(){
+  const set = orderChoice === "pdf" ? FULL.slice() : shuffleArr(FULL);
+  state.lastSetSpec = {type:"full", order: orderChoice};
+  initQuiz(set, "Full Practice Test (" + (orderChoice==="pdf" ? "PDF Order" : "Shuffled") + ")");
+}
+
+function goSectionGrid(){
+  renderSectionGrid();
+  showScreen("sectiongrid");
+}
+
+function renderSectionGrid(){
+  const box = document.getElementById("sectionGridInner");
+  box.innerHTML = "";
+  SECTION_ORDER.forEach(sec=>{
+    const div = document.createElement("div");
+    div.className = "sectioncard";
+    div.onclick = ()=> startSection(sec);
+    div.innerHTML = '<span class="countpill">'+SECTION_COUNTS[sec]+' Qs</span><h4>'+sec+'</h4><span>Tap to start drilling this topic</span>';
+    box.appendChild(div);
+  });
+}
+
+function startSection(name){
+  const set = FULL.filter(q=>q.s===name);
+  state.lastSetSpec = {type:"section", name: name};
+  initQuiz(set, "Section Revision — " + name);
+}
+
+function initQuiz(set, label){
+  state.set = set;
+  state.idx = 0;
+  state.score = 0;
+  state.records = [];
+  state.label = label;
+  showScreen("quiz");
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const total = state.set.length;
+  const q = state.set[state.idx];
+  document.getElementById("quizLabel").textContent = state.label;
+  document.getElementById("qNumNow").textContent = state.idx + 1;
+  document.getElementById("qNumTotal").textContent = total;
+  document.getElementById("liveScore").textContent = state.score;
+  document.getElementById("progressBar").style.width = ((state.idx)/total*100) + "%";
+  document.getElementById("qDiffTag").textContent = q.d;
+  document.getElementById("qDiffTag").className = "difftag diff-" + q.d;
+  document.getElementById("qSecTag").textContent = q.s;
+  document.getElementById("qText").textContent = q.q;
+
+  const optWrap = document.getElementById("qOptions");
+  optWrap.innerHTML = "";
+  q.options.forEach((opt,i)=>{
+    const div = document.createElement("div");
+    div.className = "option";
+    div.id = "opt-"+i;
+    div.onclick = ()=> selectOption(i);
+    div.innerHTML = '<span class="letter">'+LETTERS[i]+'</span><span>'+opt+'</span>';
+    optWrap.appendChild(div);
+  });
+
+  document.getElementById("explainBox").classList.add("hidden");
+  document.getElementById("nextBtn").classList.add("hidden");
+  document.getElementById("skipBtn").classList.remove("hidden");
+  document.getElementById("skipBtn").disabled = false;
+}
+
+function lockOptions(){
+  for(let i=0;i<5;i++){
+    document.getElementById("opt-"+i).classList.add("locked");
+  }
+}
+
+function selectOption(i){
+  const q = state.set[state.idx];
+  lockOptions();
+  document.getElementById("skipBtn").classList.add("hidden");
+
+  const correct = (i === q.correctIndex);
+  document.getElementById("opt-"+q.correctIndex).classList.add("correct");
+  if(!correct){
+    document.getElementById("opt-"+i).classList.add("wrong");
+  }
+  for(let k=0;k<5;k++){
+    if(k!==i && k!==q.correctIndex) document.getElementById("opt-"+k).classList.add("dim");
+  }
+
+  if(correct) state.score++;
+  document.getElementById("liveScore").textContent = state.score;
+
+  const box = document.getElementById("explainBox");
+  box.classList.remove("hidden");
+  box.innerHTML = "<b>"+(correct ? "Correct! " : "Not quite. ")+"</b>"+q.e;
+
+  state.records.push({q:q, chosen:i, correct:correct, skipped:false});
+
+  document.getElementById("nextBtn").classList.remove("hidden");
+  document.getElementById("nextBtn").textContent = (state.idx === state.set.length-1) ? "Finish Quiz →" : "Next →";
+}
+
+function skipQuestion(){
+  const q = state.set[state.idx];
+  lockOptions();
+  document.getElementById("skipBtn").classList.add("hidden");
+  document.getElementById("opt-"+q.correctIndex).classList.add("correct");
+  for(let k=0;k<5;k++){
+    if(k!==q.correctIndex) document.getElementById("opt-"+k).classList.add("dim");
+  }
+  const box = document.getElementById("explainBox");
+  box.classList.remove("hidden");
+  box.innerHTML = "<b>Skipped.</b> Correct answer: <b>"+LETTERS[q.correctIndex]+". "+q.c+"</b><br>"+q.e;
+
+  state.records.push({q:q, chosen:null, correct:false, skipped:true});
+
+  document.getElementById("nextBtn").classList.remove("hidden");
+  document.getElementById("nextBtn").textContent = (state.idx === state.set.length-1) ? "Finish Quiz →" : "Next →";
+}
+
+function nextQuestion(){
+  if(state.idx < state.set.length - 1){
+    state.idx++;
+    renderQuestion();
+  } else {
+    finishQuiz();
+  }
+}
+
+function finishQuiz(){
+  document.getElementById("progressBar").style.width = "100%";
+  renderResults();
+  showScreen("results");
+}
+
+function renderResults(){
+  const total = state.set.length;
+  const score = state.score;
+  const pct = total ? Math.round((score/total)*100) : 0;
+  document.getElementById("finalScoreText").textContent = score + " / " + total;
+  document.getElementById("finalPercentText").textContent = pct + "% accuracy";
+
+  // difficulty breakdown
+  const diffs = ["Easy","Moderate","Hard"];
+  const box = document.getElementById("diffBreakBox");
+  box.innerHTML = "";
+  diffs.forEach(d=>{
+    const recs = state.records.filter(r=>r.q.d===d);
+    const correctCount = recs.filter(r=>r.correct).length;
+    const attempted = recs.length;
+    const p = attempted ? Math.round((correctCount/attempted)*100) : 0;
+    const div = document.createElement("div");
+    div.className = "diffbox";
+    div.innerHTML = '<div class="n">'+ (attempted? p+"%" : "—") +'</div><div class="l">'+d+' ('+correctCount+'/'+attempted+')</div>';
+    box.appendChild(div);
+  });
+
+  // review list: missed + skipped
+  const reviewBox = document.getElementById("reviewList");
+  reviewBox.innerHTML = "";
+  const missed = state.records.filter(r=> r.skipped || !r.correct);
+  if(missed.length===0){
+    reviewBox.innerHTML = '<p class="small">Perfect run — nothing missed or skipped. 🎉</p>';
+  } else {
+    missed.forEach(r=>{
+      const div = document.createElement("div");
+      div.className = "reviewitem";
+      let chosenLine = "";
+      if(r.skipped){
+        chosenLine = '<div class="rline rskip">Skipped</div>';
+      } else {
+        chosenLine = '<div class="rline rbad">Your answer: '+LETTERS[r.chosen]+'. '+r.q.options[r.chosen]+'</div>';
+      }
+      div.innerHTML =
+        '<div class="rq">['+r.q.s+'] '+r.q.q+'</div>' +
+        chosenLine +
+        '<div class="rline rok">Correct answer: '+LETTERS[r.q.correctIndex]+'. '+r.q.c+'</div>' +
+        '<div class="rexp">'+r.q.e+'</div>';
+      reviewBox.appendChild(div);
+    });
+  }
+}
+
+function retrySameSet(){
+  const spec = state.lastSetSpec;
+  if(!spec) { goHome(); return; }
+  if(spec.type === "full"){
+    const set = spec.order === "pdf" ? FULL.slice() : shuffleArr(FULL);
+    initQuiz(set, "Full Practice Test (" + (spec.order==="pdf" ? "PDF Order" : "Shuffled") + ")");
+  } else {
+    const set = FULL.filter(q=>q.s===spec.name);
+    initQuiz(set, "Section Revision — " + spec.name);
+  }
+}
+
+// init
+showScreen("home");
+</script>
+</body>
+</html>

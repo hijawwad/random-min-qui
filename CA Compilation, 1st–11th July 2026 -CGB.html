@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NABARD Grade A Practice Quiz — CA 1st-11th July 2026</title>
+<style>
+  :root{
+    --bg:#0f1720; --card:#ffffff; --accent:#0b5ed7; --green:#1e7e34; --red:#c0392b;
+    --muted:#6b7280; --lightbg:#f4f6f9;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: linear-gradient(135deg,#0f1720,#1a2b45);
+    margin:0; padding:20px; color:#222;
+    min-height:100vh;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+  .header{
+    background:var(--card); border-radius:14px; padding:18px 22px; margin-bottom:16px;
+    box-shadow:0 8px 24px rgba(0,0,0,.25);
+  }
+  .header h1{margin:0 0 4px 0;font-size:20px;color:var(--accent);}
+  .header p{margin:0;color:var(--muted);font-size:13px;}
+  .progressbar{height:8px;background:#e5e7eb;border-radius:6px;overflow:hidden;margin-top:12px;}
+  .progressfill{height:100%;background:var(--accent);width:0%;transition:width .3s;}
+  .statrow{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:6px;}
+  .card{
+    background:var(--card); border-radius:14px; padding:22px; box-shadow:0 8px 24px rgba(0,0,0,.25);
+  }
+  .qnum{font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;}
+  .qtext{font-size:16.5px;font-weight:600;margin:8px 0 18px 0;line-height:1.4;color:#111;}
+  .opt{
+    display:flex;align-items:flex-start;gap:10px;
+    width:100%; text-align:left; padding:12px 14px; margin-bottom:10px;
+    border:2px solid #e2e8f0; border-radius:10px; background:#fff; cursor:pointer;
+    font-size:14.5px; line-height:1.35; transition:all .15s;
+  }
+  .opt:hover:not(.disabled){border-color:var(--accent); background:#f0f6ff;}
+  .opt .lbl{
+    flex:0 0 auto; width:26px;height:26px;border-radius:50%;background:#eef2f7;color:#333;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;
+  }
+  .opt.correct{border-color:var(--green); background:#e9f7ee;}
+  .opt.correct .lbl{background:var(--green); color:#fff;}
+  .opt.incorrect{border-color:var(--red); background:#fdecea;}
+  .opt.incorrect .lbl{background:var(--red); color:#fff;}
+  .opt.disabled{cursor:default;}
+  .opt.dim{opacity:.55;}
+  .feedback{
+    margin-top:6px; padding:12px 14px; border-radius:10px; font-size:13.5px; display:none;
+  }
+  .feedback.show{display:block;}
+  .feedback.correct{background:#e9f7ee;color:#1e7e34;border:1px solid #bfe6c9;}
+  .feedback.incorrect{background:#fdecea;color:#a23327;border:1px solid #f3c3bd;}
+  .nextbtn{
+    margin-top:16px; background:var(--accent); color:#fff; border:none; padding:11px 22px;
+    border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; display:none;
+  }
+  .nextbtn.show{display:inline-block;}
+  .nextbtn:hover{background:#0a4fb5;}
+  .finalcard{background:var(--card); border-radius:14px; padding:26px; box-shadow:0 8px 24px rgba(0,0,0,.25); text-align:center;}
+  .finalcard h2{color:var(--accent); margin-top:0;}
+  .scorebig{font-size:42px;font-weight:800;color:#111;margin:6px 0;}
+  .scorebig span{font-size:20px;color:var(--muted);font-weight:600;}
+  .reviewlist{text-align:left;margin-top:22px;border-top:1px solid #e5e7eb;padding-top:16px;}
+  .reviewitem{padding:12px 0;border-bottom:1px solid #eef1f4;}
+  .reviewitem .rq{font-weight:600;font-size:14px;margin-bottom:6px;}
+  .reviewitem .ra{font-size:13px;color:var(--red);margin-bottom:3px;}
+  .reviewitem .rc{font-size:13px;color:var(--green);}
+  .restartbtn{margin-top:20px;background:#111827;color:#fff;border:none;padding:11px 24px;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px;}
+  .badge{display:inline-block;background:#eef2f7;color:#334155;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;margin-left:8px;}
+  .allcorrect{color:var(--green);font-weight:700;margin-top:20px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1>NABARD Grade A — Current Affairs Practice Quiz</h1>
+    <p>Based on: CA Compilation, 1st–11th July 2026 &nbsp;|&nbsp; 126 Questions &nbsp;|&nbsp; 5 Options (A–E), NABARD exam style</p>
+    <div class="progressbar"><div class="progressfill" id="progressfill"></div></div>
+    <div class="statrow">
+      <span id="qcounter">Question 1 of 126</span>
+      <span id="scoretracker">Score: 0 / 0</span>
+    </div>
+  </div>
+
+  <div id="quizArea"></div>
+  <div id="finalArea" style="display:none;"></div>
+</div>
+
+<script>
+const Q = [
+{q:"The Asian Development Bank (ADB) approved a loan of what amount to boost Karnataka's public school system by establishing 500 integrated public schools?", opts:["USD 182.89 million","USD 150 million","USD 175.5 million","USD 200 million","USD 230 million"], c:0},
+{q:"Consider the following statements about the ADB. Which one is NOT correct?", opts:["ADB was formed on 19 December 1966","India is the largest shareholder in ADB","ADB's headquarters is in Metro Manila, Philippines","Masato Kanda is the President of ADB","Japan and USA are joint-largest shareholders at 15.6% each"], c:1},
+{q:"Which of the following is NOT part of the consortium building the I-2SEA undersea cable linking India with Malaysia and Singapore?", opts:["Lightstorm","Microsoft","Reliance Jio","Singtel","Tata Communications"], c:2},
+{q:"What are the two landing points of the I-2SEA undersea cable in India?", opts:["Mumbai and Chennai","Kochi and Vizag","Kolkata and Puri","Machilipatnam and South Chennai","Mangalore and Chennai"], c:3},
+{q:"Under the EPF Scheme, 2026, the mandatory employee contribution has been explicitly linked to a statutory wage ceiling of:", opts:["₹10,000","₹12,000","₹18,000","₹21,000","₹15,000"], c:4},
+{q:"As part of EPFO's revamped withdrawal norms (Oct 2025), what minimum balance must be maintained in the account?", opts:["25%","10%","15%","20%","30%"], c:0},
+{q:"Who is the Organisation Executive (CPFC) of EPFO as per the compilation?", opts:["Sivasubramanian Ramann","Ramesh Krishnamurthi","Dinesh Khara","K. Rajaraman","Shaji K.V."], c:1},
+{q:"As per the revamped EPFO rulebook, PF withdrawal claims must be settled within how many days?", opts:["1 day","2 days","3 days","7 days","15 days"], c:2},
+{q:"What penal interest rate is imposed on EPFO officials for settlement delays beyond 20 days?", opts:["8%","10%","15%","12%","18%"], c:3},
+{q:"The new EPFO notification lowers the age for full withdrawal of the PF corpus to:", opts:["50 years","58 years","60 years","62 years","55 years"], c:4},
+{q:"What is the maximum annual deposit limit under the Public Provident Fund (PPF) Scheme?", opts:["₹1,50,000","₹1,00,000","₹1,25,000","₹2,00,000","₹2,50,000"], c:0},
+{q:"What is the latest annual PPF interest rate for the July–September 2026 quarter (unchanged)?", opts:["6.80%","7.10%","7.50%","8.00%","7.25%"], c:1},
+{q:"What is the latest annual interest rate for the Sukanya Samriddhi Yojana?", opts:["7.10%","7.60%","8.20%","8.50%","8.00%"], c:2},
+{q:"ADB approved a loan of what amount to modernise Chennai's water supply and sanitation infrastructure?", opts:["$150 million","$180 million","$200 million","$230 million","$250 million"], c:3},
+{q:"The 'Labour Market Dynamics in Million-plus Cities' report was released by:", opts:["RBI","NITI Aayog","Ministry of Labour and Employment","Ministry of Finance","National Statistics Office, MoSPI"], c:4},
+{q:"As per the Labour Market Dynamics report, which pair of cities recorded the LOWEST unemployment rate among million-plus cities?", opts:["Ahmedabad and Kolkata","Prayagraj and Patna","Jaipur and Srinagar","Dhanbad and Jaipur","Bengaluru and Surat"], c:0},
+{q:"What was the average unemployment rate across the 46 cities with a population of 10 lakh or more?", opts:["5.2%","6.8%","7.5%","8.8%","6.2%"], c:1},
+{q:"The Government of India's Offer for Sale (OFS) in Cochin Shipyard Limited was launched at a floor price of:", opts:["₹1,200 per share","₹1,300 per share","₹1,400 per share","₹1,500 per share","₹1,600 per share"], c:2},
+{q:"What is the Government of India's current stake in Cochin Shipyard Limited (before the OFS)?", opts:["60.91%","63.91%","65.91%","67.91%","70.91%"], c:3},
+{q:"As per the World Bank's July 2026 income classification update, a country is 'high-income' if its GNI per capita (Atlas method) exceeds:", opts:["$12,375","$13,205","$15,000","$16,500","$14,375"], c:4},
+{q:"Which country graduated from low-income to lower-middle-income status in the World Bank's 2026 update?", opts:["Togo","Sri Lanka","Vietnam","Jordan","Micronesia"], c:0},
+{q:"POWERGRID secured a green loan of what amount from Japan's JBIC to finance the Khavda-Nagpur HVDC project?", opts:["JPY 50 billion","JPY 80 billion","JPY 60 billion","JPY 70 billion","JPY 100 billion"], c:1},
+{q:"As per the IMF's World Economic Outlook, India's growth is projected at what rate in fiscal year 2027?", opts:["6.2%","6.6%","6.4%","6.7%","6.9%"], c:2},
+{q:"According to the IMF, world growth is projected to moderate to what percentage in 2026?", opts:["2.5%","2.8%","3.3%","3.0%","3.5%"], c:3},
+{q:"The Asian Development Outlook (ADO) July 2026 revised India's FY2026 GDP growth forecast down to:", opts:["6.4%","6.9%","7.0%","7.3%","6.6%"], c:4},
+{q:"The latest ADO raised India's inflation forecast to 5.2% from what earlier April projection?", opts:["4.5%","3.8%","4.0%","4.2%","4.8%"], c:0},
+{q:"EPFO's upgraded CITES 2.01 platform migrated approximately how many member accounts to a unified national system?", opts:["240 million","340 million","280 million","300 million","400 million"], c:1},
+{q:"Under CITES 2.01, the auto-settlement limit for eligible advance claims (KYC-compliant members) was increased from ₹1 lakh to:", opts:["₹2 lakh","₹3 lakh","₹5 lakh","₹4 lakh","₹10 lakh"], c:2},
+{q:"The customs duty exemption on parts for display assemblies, wireless charging modules, and lithium-ion cell machinery is available until:", opts:["March 31, 2027","March 31, 2028","March 31, 2030","March 31, 2029","December 31, 2029"], c:3},
+{q:"In the World Bank's $4.2 billion financing package for India's rooftop solar programme, how much is the IBRD loan?", opts:["$600 million","$700 million","$750 million","$900 million","$820 million"], c:4},
+{q:"Which of the following is NOT one of the five organisations comprising the World Bank Group?", opts:["UNCTAD","IBRD","IDA","IFC","ICSID"], c:0},
+{q:"Under RBI's revamped Integrated Ombudsman Scheme (effective 1 July 2026), the maximum compensation for consequential losses is:", opts:["₹20 lakh","₹30 lakh","₹10 lakh","₹50 lakh","₹1 crore"], c:1},
+{q:"If a regulated entity fails to respond within 30 days, a complaint can be escalated to the RBI Ombudsman within how many days?", opts:["30 days","60 days","90 days","120 days","180 days"], c:2},
+{q:"The account maintained by stockbrokers for unpaid client securities under SEBI's revised norms is titled:", opts:["Client Unsettled Securities Pool Account","Customer Unpaid Security Protection Account","Client Unified Security Payment Account","Client Unpaid Securities Pledgee Account (CUSPA)","Client Underlying Securities Pledge Account"], c:3},
+{q:"What is the interest rate on the Floating Rate Savings Bond 2020 (Taxable) for July 1 – December 31, 2026?", opts:["7.70%","7.90%","8.20%","8.35%","8.05%"], c:4},
+{q:"The RBI floating rate savings bond interest rate is set at what premium over the NSC rate?", opts:["0.35%","0.25%","0.30%","0.40%","0.50%"], c:0},
+{q:"Under SEBI's amended FPI Regulations, regulation 43B(2)'s 'US $1,000' fee has been replaced with:", opts:["₹75,000","₹90,000","₹80,000","₹85,000","₹1,00,000"], c:1},
+{q:"SEBI revised the custodian fee from ₹10 lakh annually to what new monthly amount?", opts:["₹65,000","₹75,000","₹85,000","₹95,000","₹1,00,000"], c:2},
+{q:"Mutual funds can currently borrow up to what percentage of a scheme's net assets for meeting unit-holder payouts such as redemptions?", opts:["10%","15%","25%","20%","30%"], c:3},
+{q:"Under SEBI's revised framework, at least what percentage of annual IPF interest/income must be ploughed back into the IPF corpus?", opts:["85%","90%","97%","99%","95%"], c:4},
+{q:"What is the name of PFRDA's high-level committee (chaired by Dinesh Khara) to attract global pension capital?", opts:["ASCEND","SURGE","PROSPER","ADVANCE","GLOBALPEN"], c:0},
+{q:"Which of the following is NOT one of the three key surveys recently launched by RBI for monetary policy inputs?", opts:["Urban Consumer Confidence Survey","Industrial Outlook Survey","Rural Consumer Confidence Survey","Inflation Expectations Survey of Households","All three listed above are genuine RBI surveys"], c:1},
+{q:"The Urban Consumer Confidence Survey (UCCS) is conducted across how many cities?", opts:["13","15","19","17","21"], c:2},
+{q:"NABARD has recently facilitated GI registration for how many new products (taking its total supported count to 176)?", opts:["18","22","25","28","32"], c:3},
+{q:"In which year was NABARD established?", opts:["1972","1975","1980","1978","1982"], c:4},
+{q:"The Negotiated Dealing System-Order Matching (NDS-OM) was launched by RBI in:", opts:["2005","2001","2003","2008","2010"], c:0},
+{q:"What is 'YONO Ji', recently launched by SBI?", opts:["A financial well-being score","An Agentic AI-powered virtual assistant","A sustainability tracking tool","A new UPI payment app","A cybersecurity hackathon"], c:1},
+{q:"Punjab & Sind Bank recently celebrated which Foundation Day?", opts:["110th","115th","119th","117th","121st"], c:2},
+{q:"As per RBI's UCB classification, Tier-III status requires total deposits between:", opts:["₹500 crore and ₹5,000 crore","₹100 crore and ₹1,000 crore","₹1,500 crore and ₹12,000 crore","₹1,000 crore and ₹10,000 crore","₹2,000 crore and ₹15,000 crore"], c:3},
+{q:"Visa's Payment Passkey solution in India has gone live first with which bank?", opts:["HDFC Bank","ICICI Bank","Axis Bank","Federal Bank","IDFC FIRST Bank"], c:4},
+{q:"What penalty did RBI impose on Bank of Baroda for non-compliance with KYC and Fair Practices Code norms?", opts:["₹63.6 lakh","₹3.1 lakh","₹33.6 lakh","₹66.7 lakh","₹90 lakh"], c:0},
+{q:"S&P Global Ratings assigned Federal Bank its inaugural international issuer credit rating of:", opts:["BB+/Stable","BBB-/Stable","BBB+/Stable","A-/Stable","BB-/Stable"], c:1},
+{q:"Following SBI's acquisition of NHB's 10% stake in RDCL, NHB's shareholding in RDCL declines from 39% to:", opts:["19%","24%","29%","34%","30%"], c:2},
+{q:"Kotak Mahindra Bank announced acquisition of Deutsche Bank's India retail, private banking and wealth management businesses for:", opts:["₹181.7 crore","₹231.7 crore","₹331.7 crore","₹281.7 crore","₹381.7 crore"], c:3},
+{q:"IRDAI partnered with which organisation to identify and monitor dark patterns in the insurance sector?", opts:["ICAI","IIM Ahmedabad","CII","FICCI","Institute of Public Auditors of India (IPAI)"], c:4},
+{q:"In the Prudential HCL Health Insurance joint venture, what percentage stake does Prudential hold?", opts:["70%","51%","60%","65%","74%"], c:0},
+{q:"In which year was the Marine Products Export Development Authority (MPEDA) formed?", opts:["1965","1972","1978","1985","1990"], c:1},
+{q:"The government ordered removal of three e-vehicle apps due to security concerns. Which of the following was NOT one of them?", opts:["BAT-BMS","Epoch-i-ion","SmartCharge","Lossigy","All three listed (A,B,D) were genuinely ordered removed"], c:2},
+{q:"Which of the following statements about Pashmina GI tags is CORRECT?", opts:["Ladakh Pashmina Textile GI Tag falls under the handicraft category","Kashmir Pashmina GI Tag falls under the raw material category","Both GI tags fall under the same category","Kashmir Pashmina GI Tag falls under the handicraft product category","Pashmina has not yet received any GI tag"], c:3},
+{q:"The India-Indonesia Defence Cooperation Agreement, signed in 2001, was renewed in which year?", opts:["2004","2008","2010","2012","2006"], c:4},
+{q:"What does SALT, India's first mobile 'liquid tree' developed by CSIR-CIMFR, stand for?", opts:["Smart Algal Liquid Tree","Solar Algae Liquid Tree","Sustainable Air Liquid Technology","Smart Atmospheric Liquid Tree","Solar Assisted Liquid Tree"], c:0},
+{q:"The Narmada river, also known as Reva, originates from the Maikala range near:", opts:["Indore, Madhya Pradesh","Amarkantak, Madhya Pradesh","Nashik, Maharashtra","Bhopal, Madhya Pradesh","Jabalpur, Madhya Pradesh"], c:1},
+{q:"IIM Bangalore's proposed overseas campus in Indonesia will be established at:", opts:["Jakarta","Bali SEZ","Singhasari SEZ, Malang","Surabaya SEZ","Bandung SEZ"], c:2},
+{q:"Which IIT established the first-ever international IIT campus, located in Zanzibar?", opts:["IIT Delhi","IIT Bombay","IIT Kanpur","IIT Madras","IIT Kharagpur"], c:3},
+{q:"Mizoram's Natural History Museum was notified as India's which numbered Designated Repository under the Biological Diversity Act, 2002?", opts:["15th","18th","24th","27th","21st"], c:4},
+{q:"Kamarajar Port in North Chennai became India's second major port (after Visakhapatnam) to offer a draft of:", opts:["18 metres","14 metres","16 metres","20 metres","22 metres"], c:0},
+{q:"The PRAGATI initiative aims to empower 20,000 agri-entrepreneurs and directly support how many smallholder farmers?", opts:["10 lakh","20 lakh","15 lakh","26 lakh","30 lakh"], c:1},
+{q:"With the notification of Navi Mumbai Airport for drug imports, the total number of notified ports for drug import reached:", opts:["38","40","42","44","46"], c:2},
+{q:"India's overall Total Fertility Rate (TFR) has plateaued, dropping from 2.2 to:", opts:["1.8","1.9","2.1","2.0","2.05"], c:3},
+{q:"As per the EAC-PM working paper, Sikkim's per capita income is approximately how many times higher than Bihar's (poorest state)?", opts:["5 times","7 times","8 times","12 times","10 times"], c:4},
+{q:"India's first daily hydrogen-powered train service pilot route (Jind-Sonipat) is located in which state?", opts:["Haryana","Punjab","Uttar Pradesh","Rajasthan","Delhi"], c:0},
+{q:"The International Centre for Civilisational Studies 'Manas and Mahabharata' was established in which city?", opts:["Almaty","Bishkek","Tashkent","Dushanbe","Astana"], c:1},
+{q:"The Borjuli site, notified as a Biodiversity Heritage Site, is located in which state?", opts:["Meghalaya","Nagaland","Assam","Manipur","Tripura"], c:2},
+{q:"The scientifically dated oldest banyan tree, found in Munger district of Bihar, has an estimated age of around:", opts:["500 years","600 years","800 years","700 years","900 years"], c:3},
+{q:"After receiving 23 new GI tags (total 59), West Bengal became third-highest GI-tagged state after which two states?", opts:["Karnataka and Kerala","Maharashtra and Gujarat","Odisha and Assam","Rajasthan and Punjab","Uttar Pradesh and Tamil Nadu"], c:4},
+{q:"Delhi's air pollution mitigation programme 'Clean Air, Healthy Delhi', supported by the World Bank, has an outlay of:", opts:["₹8,300 crore","₹5,500 crore","₹6,800 crore","₹7,200 crore","₹9,100 crore"], c:0},
+{q:"What percentage of Sikkim's geographical area is under forest cover, as cited in the 'Mission: Million Oak Trees by 2047' launch?", opts:["40.12%","47.33%","43.50%","45.67%","50.20%"], c:1},
+{q:"Which of the following is NOT one of the five pillars of the Australia-India Partnership (AI PACTS)?", opts:["Supply Chain Resilience","Critical Technologies","Trade Facilitation","Cybersecurity","Defence Research Collaboration"], c:2},
+{q:"Former RBI Governor Raghuram Rajan has been made a member of which Fed Chair Kevin Warsh monetary policy review task force?", opts:["Communications Policy Task Force","Inflation Targeting Task Force","Interest Rate Policy Task Force","Balance Sheet Policy Task Force","Financial Stability Task Force"], c:3},
+{q:"India's first public-private aerospace incubation centre, mach33.aero, has completed five years of operations and incubated how many start-ups?", opts:["24","28","30","40","34"], c:4},
+{q:"The digital camera used by the NSF-DOE Vera C. Rubin Observatory, the largest ever built for astronomy, has how many megapixels?", opts:["3,200","1,200","1,600","2,400","4,000"], c:0},
+{q:"In the AI for Good Global Commission, who serves as Co-Chair and who as Vice-Chair, respectively?", opts:["Marc Benioff (Co-Chair), Paul Kagame (Vice-Chair)","Paul Kagame (Co-Chair), Doreen Bogdan-Martin (Vice-Chair)","Doreen Bogdan-Martin (Co-Chair), Paul Kagame (Vice-Chair)","Marc Benioff (Co-Chair), Doreen Bogdan-Martin (Vice-Chair)","Paul Kagame (Co-Chair), Marc Benioff (Vice-Chair)"], c:1},
+{q:"During ISRO's SOLVE ground test missions for Gaganyaan, the crew module will be carried to an altitude of:", opts:["5–10 km","15–20 km","10–17 km","20–25 km","25–30 km"], c:2},
+{q:"DRDO's successful flight-test of the Pinaka Long Range Guided Rocket (LRGR) was conducted at:", opts:["Balasore, Odisha","Wheeler Island, Odisha","Pokhran, Rajasthan","Chandipur, Odisha","Sriharikota, Andhra Pradesh"], c:3},
+{q:"What does GAGAN, India's indigenous Satellite-Based Augmentation System, stand for?", opts:["GPS Augmented GEO Aided Navigation","Global Aided GEO Augmentation Network","GEO Aided GPS Augmentation Navigation","GPS Aided Global Augmentation Network","GPS Aided GEO Augmented Navigation"], c:4},
+{q:"The GAGAN project has been fully operational since:", opts:["2015","2010","2012","2018","2020"], c:0},
+{q:"The Indian Navy participated in which edition of RIMPAC 2026, hosted at Hawaii?", opts:["28th","30th","29th","31st","32nd"], c:1},
+{q:"General Dhiraj Seth assumed charge as which numbered Chief of the Army Staff (COAS)?", opts:["29th","30th","31st","32nd","33rd"], c:2},
+{q:"Project BRAHMANK of the BRO celebrated its Raising Day at Ranaghat, Arunachal Pradesh, marking which anniversary?", opts:["10th","12th","14th","16th","18th"], c:3},
+{q:"INS Mahendragiri (F38), the sixth Project 17A stealth frigate, has what percentage of indigenous content?", opts:["65%","70%","80%","85%","75%"], c:4},
+{q:"In the Global Passport Index (GPI) 2026, India was ranked:", opts:["125th","110th","115th","120th","130th"], c:0},
+{q:"As per the Julius Baer Group's annual report, which city topped the world's costliest city list for luxury spending (4th consecutive year)?", opts:["Zurich","Singapore","Monaco","Hong Kong","London"], c:1},
+{q:"In the 'Most Influential Countries in the World 2026' list by U.S. News & World Report, India secured which rank?", opts:["10th","12th","16th","14th","18th"], c:2},
+{q:"In the Global Liveability Index 2026 by EIU, which Indian city was ranked best (lowest rank number)?", opts:["Mumbai","Chennai","Bengaluru","New Delhi","Hyderabad"], c:3},
+{q:"Which Indian city ranked 6th in the Happy City Index 2026, the only Indian city in the global top 10?", opts:["Mumbai","Bengaluru","Chandigarh","Pune","Jaipur"], c:4},
+{q:"As per the World Bank's Global Flaring and Methane Reduction Partnership report, global gas flaring reached how many bcm in 2025?", opts:["167 bcm","147 bcm","157 bcm","177 bcm","187 bcm"], c:0},
+{q:"Which country was NOT among the nine largest gas-flaring countries responsible for 83% of global flaring in 2025?", opts:["Russia","Saudi Arabia","Nigeria","Iran","United States"], c:1},
+{q:"As per IRENA's report, how much did India save in fossil fuel costs in 2025 due to renewable power generation?", opts:["$15 billion","$22 billion","$18 billion","$28 billion","$32 billion"], c:2},
+{q:"India's solar PV LCOE in 2025 stood at $35/MWh. What was China's LCOE?", opts:["$30/MWh","$33/MWh","$38/MWh","$36/MWh","$40/MWh"], c:3},
+{q:"As per the UN's SDG Report 2026, what percentage of the 139 assessable SDG targets are on track or making moderate progress?", opts:["25%","30%","42%","48%","36%"], c:4},
+{q:"As per UNCTAD's World Investment Report 2026, India rose to which rank among top FDI destinations in 2025?", opts:["11th","9th","13th","15th","17th"], c:0},
+{q:"India's FDI inflows in 2025 stood at approximately what amount, marking a 43.6% rise?", opts:["$27.09 billion","$38.89 billion","$32.5 billion","$35.66 billion","$42 billion"], c:1},
+{q:"The world's largest announced greenfield investment project in 2025 was Alphabet Inc.'s India data centre, valued at:", opts:["$10.2 billion","$12.8 billion","$14.5 billion","$16.3 billion","$18.0 billion"], c:2},
+{q:"As per WIPO's World Intangible Investment Report 2026, India recorded the fastest intangible-investment growth among the 15 largest economies, at:", opts:["5.8%","6.5%","7.2%","7.9%","8.5%"], c:3},
+{q:"Following its renaming, the Bukhman International Booker Prize's award money has been doubled to:", opts:["£50,000","£75,000","£150,000","£200,000","£1,00,000"], c:4},
+{q:"Acharya Ranchhodlal Goswami received the Ustad Bismillah Khan Yuva Puraskar 2025 for preserving which devotional music tradition?", opts:["Haveli Sangeet","Dhrupad","Carnatic Sangeet","Thumri","Qawwali"], c:0},
+{q:"The Asian Senior Fencing Championships 2026, hosted for the first time by India at Bharat Mandapam, was which edition?", opts:["22nd","26th","24th","28th","30th"], c:1},
+{q:"Who won the 2026 ICC Women's T20 World Cup held in England?", opts:["England","India","Australia","New Zealand","South Africa"], c:2},
+{q:"India's medal tally at the Under-20 Asian Wrestling Championships 2026 (Pattaya, Thailand) included how many gold medals?", opts:["2","3","5","4","6"], c:3},
+{q:"The Russian Olympic Committee's suspension, provisionally lifted by the IOC, was originally imposed in:", opts:["February 2022","June 2024","March 2023","August 2023","October 2023"], c:4},
+{q:"Who became India's 98th Chess Grandmaster?", opts:["Aswath S","R Praggnanandhaa","Gukesh D","Nihal Sarin","Arjun Erigaisi"], c:0},
+{q:"The 8th Khelo India Youth Games 2026 will be hosted by which state?", opts:["Tamil Nadu","Telangana","Karnataka","Maharashtra","Gujarat"], c:1},
+{q:"Somnath Ghosh has been appointed as:", opts:["India's Ambassador to North Korea","CBSE Chairperson","High Commissioner of India to Malaysia","Director, NCRB","India's Ambassador to Ukraine"], c:2},
+{q:"Silvana Tenreyro was appointed as IMF Chief Economist, replacing:", opts:["Gita Gopinath","Kristalina Georgieva","Raghuram Rajan","Pierre-Olivier Gourinchas","Maurice Obstfeld"], c:3},
+{q:"Dilip Asbe, CEO of NPCI, was inducted into the global supervisory board of:", opts:["Visa","Mastercard","BIS","IMF","SWIFT"], c:4},
+{q:"The G-10, which oversees SWIFT, was formed in:", opts:["1962","1958","1960","1965","1970"], c:0},
+{q:"Who is the Director General of the Narcotics Control Bureau (NCB), organiser of the BRICS Heads of Anti-Drug Agencies Meeting in Guwahati?", opts:["Alok Kumar Mittal","Anurag Garg","Amit Garg","Sujeet Pandey","Anjani Kumar"], c:1},
+{q:"The NATO Summit 2026 will be held in which city?", opts:["Brussels","Madrid","Ankara","Vilnius","Warsaw"], c:2},
+{q:"Which country became the most recent (32nd) member of NATO, joining in March 2024?", opts:["Finland","Montenegro","North Macedonia","Sweden","Ukraine"], c:3},
+{q:"Switzerland announced the Geneva AI Summit 2027, scheduled alongside the ITU AI for Good Global Summit, for:", opts:["May 15–16","July 10–11","August 5–6","September 1–2","June 21–22"], c:4},
+{q:"Girish Bharadwaj, whose obituary features in the compilation, was known as the:", opts:["Bridge Man of India","Water Man of India","Forest Man of India","Metro Man of India","Solar Man of India"], c:0},
+{q:"What is the theme of World Population Day 2026 (11th July)?", opts:["Investing in Young People","Realizing the hopes and aspirations of young people: today and in the future","Empowering Youth for a Sustainable Future","Population and Sustainable Development","A World for All Ages"], c:1},
+{q:"Tarapur Atomic Power Station (TAPS) Units 1&2, the oldest operating commercial nuclear reactors in the world, were commissioned in:", opts:["1965","1967","1969","1971","1974"], c:2},
+{q:"A PNR (Passenger Name Record) for train travel typically consists of how many alphanumeric digits?", opts:["6","8","12","10","14"], c:3},
+{q:"The Commonwealth Games 2026 will be held in:", opts:["Birmingham","Manchester","Victoria","Gold Coast","Glasgow"], c:4},
+{q:"Sourav Ganguly's induction into the ICC Hall of Fame in 2026 makes him the how-manyeth Indian cricketer to receive the honour?", opts:["12th","9th","10th","11th","13th"], c:0}
+];
+
+let idx = 0, score = 0, missed = [];
+const quizArea = document.getElementById('quizArea');
+const finalArea = document.getElementById('finalArea');
+const letters = ["A","B","C","D","E"];
+
+function shuffle(arr, seedIdx){
+  // deterministic-ish shuffle per question using a simple seeded generator so re-runs stay consistent
+  let a = arr.slice();
+  let seed = seedIdx * 9301 + 49297;
+  for(let i=a.length-1;i>0;i--){
+    seed = (seed * 233280 + 12345) % 1000000;
+    const j = seed % (i+1);
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function render(){
+  if(idx >= Q.length){ showFinal(); return; }
+  const item = Q[idx];
+  // build option order with original index tracked, but keep as-authored order (already balanced) — no reshuffle needed
+  const opts = item.opts.map((text,i)=>({text, orig:i}));
+  quizArea.innerHTML = `
+    <div class="card">
+      <div class="qnum">Question ${idx+1} of ${Q.length}</div>
+      <div class="qtext">${item.q}</div>
+      <div id="optlist"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="nextbtn" id="nextbtn">Next Question →</button>
+    </div>
+  `;
+  const optlist = document.getElementById('optlist');
+  opts.forEach((o,i)=>{
+    const btn = document.createElement('div');
+    btn.className = 'opt';
+    btn.innerHTML = `<span class="lbl">${letters[i]}</span><span>${o.text}</span>`;
+    btn.onclick = () => selectOption(i, item, opts);
+    optlist.appendChild(btn);
+  });
+  updateStats();
+}
+
+function selectOption(chosenI, item, opts){
+  const allOpts = document.querySelectorAll('#optlist .opt');
+  const correctI = item.c;
+  allOpts.forEach((el,i)=>{
+    el.classList.add('disabled');
+    if(i === correctI) el.classList.add('correct');
+    if(i === chosenI && i !== correctI) el.classList.add('incorrect');
+    if(i !== correctI && i !== chosenI) el.classList.add('dim');
+    el.onclick = null;
+  });
+  const fb = document.getElementById('feedback');
+  fb.classList.add('show');
+  if(chosenI === correctI){
+    score++;
+    fb.classList.add('correct');
+    fb.innerText = "✓ Correct!";
+  } else {
+    fb.classList.add('incorrect');
+    fb.innerText = "✗ Incorrect. Correct answer: " + letters[correctI] + ") " + item.opts[correctI];
+    missed.push({q:item.q, given: letters[chosenI]+") "+item.opts[chosenI], correct: letters[correctI]+") "+item.opts[correctI]});
+  }
+  document.getElementById('nextbtn').classList.add('show');
+  document.getElementById('nextbtn').onclick = () => { idx++; render(); };
+  updateStats();
+}
+
+function updateStats(){
+  document.getElementById('qcounter').innerText = `Question ${Math.min(idx+1,Q.length)} of ${Q.length}`;
+  document.getElementById('scoretracker').innerText = `Score: ${score} / ${idx}`;
+  document.getElementById('progressfill').style.width = (idx/Q.length*100) + "%";
+}
+
+function showFinal(){
+  quizArea.style.display='none';
+  finalArea.style.display='block';
+  document.getElementById('progressfill').style.width = "100%";
+  document.getElementById('qcounter').innerText = `Completed ${Q.length} of ${Q.length}`;
+  document.getElementById('scoretracker').innerText = `Final Score: ${score} / ${Q.length}`;
+  const pct = Math.round(score/Q.length*100);
+  let reviewHTML = '';
+  if(missed.length === 0){
+    reviewHTML = '<div class="allcorrect">🎉 Perfect score — you answered every question correctly!</div>';
+  } else {
+    reviewHTML = `<div class="reviewlist"><h3>Review — Questions Missed (${missed.length})</h3>`;
+    missed.forEach((m,i)=>{
+      reviewHTML += `<div class="reviewitem">
+        <div class="rq">${i+1}. ${m.q}</div>
+        <div class="ra">Your answer: ${m.given}</div>
+        <div class="rc">Correct answer: ${m.correct}</div>
+      </div>`;
+    });
+    reviewHTML += '</div>';
+  }
+  finalArea.innerHTML = `
+    <div class="finalcard">
+      <h2>Quiz Complete</h2>
+      <div class="scorebig">${score} <span>/ ${Q.length}</span></div>
+      <div class="badge">${pct}% Accuracy</div>
+      ${reviewHTML}
+      <button class="restartbtn" id="restartbtn">Restart Quiz</button>
+    </div>
+  `;
+  document.getElementById('restartbtn').onclick = () => {
+    idx=0; score=0; missed=[];
+    quizArea.style.display='block';
+    finalArea.style.display='none';
+    render();
+  };
+}
+
+render();
+</script>
+</body>
+</html>
