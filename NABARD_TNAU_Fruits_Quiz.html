@@ -1,0 +1,6035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NABARD Grade A Practice Quiz — TNAU Fruit Crops</title>
+<style>
+:root{
+  --bark:#233227;
+  --leaf:#3f6b4f;
+  --leaf-light:#6d9c7d;
+  --paper:#f6f4ec;
+  --paper-2:#eee9db;
+  --ink:#20241f;
+  --gold:#c8871f;
+  --gold-2:#e3a94a;
+  --red:#a6362c;
+  --red-bg:#f7e3e0;
+  --green-bg:#e2eede;
+  --skip:#8a7f66;
+  --line:#d9d2bd;
+  --mono: 'Courier New', ui-monospace, monospace;
+  --serif: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  min-height:100vh;
+}
+.wrap{
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 28px 18px 60px;
+}
+/* ---------- Header strip ---------- */
+.masthead{
+  display:flex; align-items:baseline; justify-content:space-between;
+  border-bottom: 3px solid var(--bark);
+  padding-bottom:10px; margin-bottom: 22px;
+}
+.masthead .title{
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  letter-spacing:.02em;
+  color: var(--bark);
+}
+.masthead .tag{
+  font-family: var(--mono);
+  font-size:.72rem;
+  color: var(--leaf);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+/* ---------- Screens ---------- */
+.screen{ display:none; }
+.screen.active{ display:block; animation: fade .25s ease; }
+@keyframes fade{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+
+/* ---------- Start screen ---------- */
+.hero-crop{
+  font-family: var(--serif);
+  font-size: 1.9rem;
+  line-height:1.25;
+  color: var(--bark);
+  margin: 6px 0 6px;
+}
+.hero-sub{
+  color:#4b5347;
+  font-size: .95rem;
+  margin-bottom: 22px;
+  max-width:56ch;
+}
+.stat-row{
+  display:flex; gap:10px; flex-wrap:wrap; margin-bottom:26px;
+}
+.stat-chip{
+  background: var(--paper-2);
+  border:1px solid var(--line);
+  border-radius:3px;
+  padding:8px 12px;
+  font-family: var(--mono);
+  font-size:.78rem;
+  color: var(--bark);
+}
+.stat-chip b{ color: var(--leaf); }
+
+.mode-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:22px;
+}
+@media (max-width:560px){ .mode-grid{ grid-template-columns:1fr; } }
+.mode-card{
+  border:1.5px solid var(--bark);
+  border-radius:6px;
+  padding:18px 16px;
+  background: #fffdf7;
+  cursor:pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+  text-align:left;
+}
+.mode-card:hover{ transform: translateY(-2px); box-shadow: 3px 4px 0 var(--bark); }
+.mode-card h3{
+  font-family: var(--serif); margin:0 0 6px; font-size:1.15rem; color:var(--bark);
+}
+.mode-card p{ margin:0; font-size:.85rem; color:#4b5347; line-height:1.4; }
+.mode-card .eyebrow{
+  font-family:var(--mono); font-size:.68rem; text-transform:uppercase;
+  letter-spacing:.09em; color:var(--gold); display:block; margin-bottom:8px;
+}
+
+.filter-box{
+  border-top:1px dashed var(--line);
+  padding-top:16px; margin-top:4px;
+}
+.filter-box label{
+  display:block; font-family:var(--mono); font-size:.72rem; text-transform:uppercase;
+  letter-spacing:.06em; color:var(--bark); margin-bottom:8px;
+}
+select{
+  width:100%; padding:9px 10px; font-size:.9rem; border:1.5px solid var(--bark);
+  border-radius:4px; background:#fffdf7; color:var(--ink); font-family:var(--sans);
+}
+.go-btn{
+  margin-top:18px; width:100%; padding:13px; font-size:1rem; font-weight:600;
+  background: var(--bark); color:#fff; border:none; border-radius:4px; cursor:pointer;
+  font-family: var(--sans); letter-spacing:.02em;
+}
+.go-btn:hover{ background:#152019; }
+
+/* ---------- Quiz screen ---------- */
+.topbar{
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; gap:10px; flex-wrap:wrap;
+}
+.progress-wrap{ flex:1; min-width:160px; }
+.progress-track{
+  height:8px; background:var(--paper-2); border-radius:4px; overflow:hidden; border:1px solid var(--line);
+}
+.progress-fill{ height:100%; background: linear-gradient(90deg, var(--leaf), var(--leaf-light)); width:0%; transition:width .25s ease; }
+.progress-label{ font-family:var(--mono); font-size:.72rem; color:#555; margin-top:4px; }
+.score-box{
+  font-family:var(--mono); font-size:.8rem; background:var(--paper-2); border:1px solid var(--line);
+  border-radius:4px; padding:6px 10px; white-space:nowrap;
+}
+.score-box b{ color:var(--leaf); }
+
+.qid-row{
+  display:flex; justify-content:space-between; align-items:center; margin: 14px 0 6px; flex-wrap:wrap; gap:6px;
+}
+.qid{ font-family:var(--mono); font-size:.75rem; color:var(--gold); font-weight:700; }
+.diff-badge{
+  font-family:var(--mono); font-size:.65rem; text-transform:uppercase; letter-spacing:.05em;
+  padding:3px 8px; border-radius:10px; border:1px solid;
+}
+.diff-Easy{ color:#2f6b3f; border-color:#2f6b3f; background:#e7f2e8; }
+.diff-Moderate{ color:#8a6a12; border-color:#8a6a12; background:#faf1dd; }
+.diff-Hard{ color:#8a2f24; border-color:#8a2f24; background:#f7e3e0; }
+
+.q-card{
+  background:#fffdf7; border:1.5px solid var(--bark); border-radius:8px; padding:20px 20px 14px; margin-bottom:16px;
+}
+.q-text{ font-size:1.05rem; line-height:1.5; margin:0 0 16px; color:var(--ink); }
+.options{ display:flex; flex-direction:column; gap:9px; }
+.opt{
+  display:flex; gap:10px; align-items:flex-start; text-align:left;
+  border:1.4px solid var(--line); border-radius:6px; padding:10px 12px;
+  background:#fff; cursor:pointer; font-size:.92rem; line-height:1.4; color:var(--ink);
+  transition: border-color .12s ease, background .12s ease;
+}
+.opt:hover:not(.locked){ border-color:var(--leaf); background:#f4f9f5; }
+.opt .letter{
+  font-family:var(--mono); font-weight:700; color:var(--bark); flex-shrink:0; width:1.2em;
+}
+.opt.correct{ background: var(--green-bg); border-color:var(--leaf); }
+.opt.incorrect{ background: var(--red-bg); border-color:var(--red); }
+.opt.reveal-correct{ background: var(--green-bg); border-color:var(--leaf); }
+.opt.locked{ cursor:default; }
+
+.feedback{
+  margin-top:14px; padding:12px 14px; border-radius:6px; font-size:.88rem; line-height:1.5; display:none;
+}
+.feedback.show{ display:block; }
+.feedback.right{ background:var(--green-bg); border-left:4px solid var(--leaf); }
+.feedback.wrong{ background:var(--red-bg); border-left:4px solid var(--red); }
+.feedback .fb-head{ font-weight:700; margin-bottom:4px; }
+.feedback .fb-body{ color:#3a3f36; }
+
+.nav-row{
+  display:flex; justify-content:space-between; gap:8px; margin-top:6px; flex-wrap:wrap;
+}
+.nav-btn{
+  padding:10px 16px; border-radius:5px; border:1.5px solid var(--bark); background:#fff;
+  color:var(--bark); font-size:.85rem; cursor:pointer; font-family:var(--sans); font-weight:600;
+}
+.nav-btn:hover{ background:var(--paper-2); }
+.nav-btn.primary{ background:var(--bark); color:#fff; }
+.nav-btn.primary:hover{ background:#152019; }
+.nav-btn:disabled{ opacity:.4; cursor:not-allowed; }
+.nav-btn.skip{ border-color:var(--skip); color:var(--skip); }
+
+/* ---------- Review / results screen ---------- */
+.result-hero{ text-align:center; padding: 10px 0 24px; }
+.result-score{ font-family:var(--serif); font-size:3rem; color:var(--bark); margin:6px 0; }
+.result-sub{ color:#4b5347; font-size:.95rem; }
+.summary-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin: 18px 0 26px;
+}
+.summary-chip{
+  text-align:center; border:1px solid var(--line); border-radius:6px; padding:14px 6px; background:var(--paper-2);
+}
+.summary-chip .num{ font-family:var(--serif); font-size:1.6rem; display:block; }
+.summary-chip .lab{ font-family:var(--mono); font-size:.65rem; text-transform:uppercase; letter-spacing:.06em; color:#555; }
+.summary-chip.correct .num{ color:var(--leaf); }
+.summary-chip.wrong .num{ color:var(--red); }
+.summary-chip.skip .num{ color:var(--skip); }
+
+.review-item{
+  border:1px solid var(--line); border-left:4px solid var(--red); border-radius:6px; padding:14px 16px; margin-bottom:10px; background:#fffdf7;
+}
+.review-item.skipped{ border-left-color:var(--skip); }
+.review-item .r-meta{ font-family:var(--mono); font-size:.68rem; color:var(--gold); margin-bottom:6px; }
+.review-item .r-q{ font-size:.92rem; margin-bottom:8px; }
+.review-item .r-line{ font-size:.83rem; margin-bottom:3px; }
+.review-item .r-correct{ color: var(--leaf); font-weight:600; }
+.review-item .r-your{ color: var(--red); font-weight:600; }
+.review-item .r-expl{ font-size:.82rem; color:#4b5347; margin-top:6px; border-top:1px dashed var(--line); padding-top:6px; }
+
+.restart-row{ display:flex; gap:10px; margin-top:24px; flex-wrap:wrap; }
+.restart-row .nav-btn{ flex:1; min-width:160px; text-align:center; }
+
+.empty-note{ text-align:center; color:#4b5347; font-size:.9rem; padding: 20px 0; }
+.footer-note{ text-align:center; font-family:var(--mono); font-size:.7rem; color:#8a8267; margin-top:36px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="title">🌾 TNAU Fruit Crops — Practice Bank</div>
+    <div class="tag">NABARD Grade A Style</div>
+  </div>
+
+  <!-- ============ START SCREEN ============ -->
+  <div id="screen-start" class="screen active">
+    <div class="hero-crop">218 questions across 20 fruit crops — mango to jamun, apple to breadfruit.</div>
+    <div class="hero-sub">Built from TNAU AgriTech's Horticulture :: Fruits pages — variety lists, soil &amp; climate, spacing, fertilizer schedules, plant protection, harvest, yield and market data, question by question.</div>
+
+    <div class="stat-row">
+      <div class="stat-chip"><b>218</b> questions</div>
+      <div class="stat-chip"><b>20</b> crops / sections</div>
+      <div class="stat-chip"><b>5</b> options each (A–E)</div>
+      <div class="stat-chip"><b>3</b> parts (Tropical, Temperate, Minor)</div>
+    </div>
+
+    <div class="mode-grid">
+      <div class="mode-card" onclick="selectMode('revision')">
+        <span class="eyebrow">Mode 1</span>
+        <h3>Revision Mode</h3>
+        <p>Original source order — Part I → II → III, crop by crop, topic by topic. Best for first-pass learning.</p>
+      </div>
+      <div class="mode-card" onclick="selectMode('test')">
+        <span class="eyebrow">Mode 2</span>
+        <h3>Test Mode</h3>
+        <p>Fully shuffled question order (Part/Topic tag still shown on each card). Best for simulating exam recall.</p>
+      </div>
+    </div>
+
+    <div class="filter-box">
+      <label>Optional — restrict to one Part before starting</label>
+      <select id="partFilter">
+        <option value="ALL">All Parts (full 218-question bank)</option>
+        <option value="Part I: Tropical & Sub-Tropical Fruits">Part I only — Tropical &amp; Sub-Tropical Fruits</option>
+        <option value="Part II: Temperate Fruits">Part II only — Temperate Fruits</option>
+        <option value="Part III: Minor Fruits">Part III only — Minor Fruits</option>
+      </select>
+      <button class="go-btn" id="startBtn" onclick="startQuiz()">Select a mode above, then start →</button>
+    </div>
+  </div>
+
+  <!-- ============ QUIZ SCREEN ============ -->
+  <div id="screen-quiz" class="screen">
+    <div class="topbar">
+      <div class="progress-wrap">
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-label" id="progressLabel">Question 1 of 218</div>
+      </div>
+      <div class="score-box">Score: <b id="scoreLabel">0</b> &nbsp;|&nbsp; Answered: <span id="answeredLabel">0</span></div>
+    </div>
+
+    <div class="qid-row">
+      <span class="qid" id="qidLabel">Q1.1</span>
+      <span class="diff-badge" id="diffBadge">Easy</span>
+    </div>
+
+    <div class="q-card">
+      <p class="q-text" id="qText">Question text</p>
+      <div class="options" id="optionsWrap"></div>
+      <div class="feedback" id="feedbackBox">
+        <div class="fb-head" id="fbHead"></div>
+        <div class="fb-body" id="fbBody"></div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn" id="prevBtn" onclick="prevQuestion()">← Previous</button>
+      <button class="nav-btn skip" id="skipBtn" onclick="skipQuestion()">Skip</button>
+      <button class="nav-btn primary" id="nextBtn" onclick="nextQuestion()">Next →</button>
+    </div>
+  </div>
+
+  <!-- ============ RESULTS / REVIEW SCREEN ============ -->
+  <div id="screen-results" class="screen">
+    <div class="result-hero">
+      <div class="progress-label">FINAL RESULT</div>
+      <div class="result-score" id="finalScore">0 / 218</div>
+      <div class="result-sub" id="finalPct">0% correct</div>
+    </div>
+    <div class="summary-grid">
+      <div class="summary-chip correct"><span class="num" id="sumCorrect">0</span><span class="lab">Correct</span></div>
+      <div class="summary-chip wrong"><span class="num" id="sumWrong">0</span><span class="lab">Incorrect</span></div>
+      <div class="summary-chip skip"><span class="num" id="sumSkip">0</span><span class="lab">Skipped</span></div>
+    </div>
+
+    <h3 style="font-family:var(--serif); color:var(--bark); margin-bottom:10px;">Review — Missed &amp; Skipped Items</h3>
+    <div id="reviewList"></div>
+    <div class="empty-note" id="reviewEmpty" style="display:none;">No missed or skipped questions — clean sweep!</div>
+
+    <div class="restart-row">
+      <button class="nav-btn primary" onclick="goToStart()">← Choose another mode</button>
+    </div>
+  </div>
+
+  <div class="footer-note">Source: TNAU AgriTech Portal — Horticulture :: Fruits (agritech.tnau.ac.in)</div>
+</div>
+
+<script id="quiz-data-json" type="application/json">[
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mango",
+  "diff": "Easy",
+  "q": "The botanical name of Mango as per TNAU is?",
+  "correct": "Mangifera indica",
+  "distractors": [
+   "Musa acuminata",
+   "Psidium guajava",
+   "Citrus sinensis",
+   "Manilkara achras"
+  ],
+  "expl": "Mango is Mangifera indica L., family Anacardiaceae (TNAU Fruits: Mango).",
+  "sec_num": 1,
+  "options": {
+   "A": "Mangifera indica",
+   "B": "Musa acuminata",
+   "C": "Psidium guajava",
+   "D": "Citrus sinensis",
+   "E": "Manilkara achras"
+  },
+  "answer": "A",
+  "flat_num": 1,
+  "qid": "Q1.1 (Part I, Mango)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mango",
+  "diff": "Easy",
+  "q": "Mango belongs to which plant family?",
+  "correct": "Anacardiaceae",
+  "distractors": [
+   "Rutaceae",
+   "Rosaceae",
+   "Myrtaceae",
+   "Bromeliaceae"
+  ],
+  "expl": "TNAU lists Mango under family Anacardiaceae.",
+  "sec_num": 2,
+  "options": {
+   "A": "Rutaceae",
+   "B": "Anacardiaceae",
+   "C": "Rosaceae",
+   "D": "Myrtaceae",
+   "E": "Bromeliaceae"
+  },
+  "answer": "B",
+  "flat_num": 2,
+  "qid": "Q1.2 (Part I, Mango)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mango",
+  "diff": "Hard",
+  "q": "The ideal soil pH range recommended for mango cultivation is?",
+  "correct": "6.5 to 8.0",
+  "distractors": [
+   "4.5 to 5.5",
+   "5.5 to 6.0",
+   "8.0 to 9.5",
+   "3.0 to 4.5"
+  ],
+  "expl": "TNAU specifies red loamy soil with pH 6.5-8.0 as ideal for mango.",
+  "sec_num": 3,
+  "options": {
+   "A": "4.5 to 5.5",
+   "B": "5.5 to 6.0",
+   "C": "6.5 to 8.0",
+   "D": "8.0 to 9.5",
+   "E": "3.0 to 4.5"
+  },
+  "answer": "C",
+  "flat_num": 3,
+  "qid": "Q1.3 (Part I, Mango)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mango",
+  "diff": "Moderate",
+  "q": "Mango planting season spreads from?",
+  "correct": "July to December",
+  "distractors": [
+   "January to March",
+   "April to June",
+   "October to February only",
+   "Year round, no preference"
+  ],
+  "expl": "TNAU states mango planting spreads from July to December.",
+  "sec_num": 4,
+  "options": {
+   "A": "January to March",
+   "B": "April to June",
+   "C": "October to February only",
+   "D": "July to December",
+   "E": "Year round, no preference"
+  },
+  "answer": "D",
+  "flat_num": 4,
+  "qid": "Q1.4 (Part I, Mango)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mango",
+  "diff": "Moderate",
+  "q": "Which grafting methods are used for raising mango planting material?",
+  "correct": "Approach and epicotyl grafting",
+  "distractors": [
+   "Wedge and whip grafting",
+   "Softwood and veneer grafting",
+   "Bud grafting only",
+   "Tongue grafting"
+  ],
+  "expl": "TNAU recommends approach and epicotyl grafts for mango planting material.",
+  "sec_num": 5,
+  "options": {
+   "A": "Wedge and whip grafting",
+   "B": "Softwood and veneer grafting",
+   "C": "Bud grafting only",
+   "D": "Tongue grafting",
+   "E": "Approach and epicotyl grafting"
+  },
+  "answer": "E",
+  "flat_num": 5,
+  "qid": "Q1.5 (Part I, Mango)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mango",
+  "diff": "Hard",
+  "q": "Under High Density Planting, mango spaced at 5m x 5m accommodates how many plants/ha?",
+  "correct": "400",
+  "distractors": [
+   "156",
+   "266",
+   "3080",
+   "4440"
+  ],
+  "expl": "TNAU: HDP mango at 5m x 5m gives 400 plants/ha.",
+  "sec_num": 6,
+  "options": {
+   "A": "400",
+   "B": "156",
+   "C": "266",
+   "D": "3080",
+   "E": "4440"
+  },
+  "answer": "A",
+  "flat_num": 6,
+  "qid": "Q1.6 (Part I, Mango)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mango",
+  "diff": "Hard",
+  "q": "In the double hedge row system of mango planting, the plant population per hectare is?",
+  "correct": "266",
+  "distractors": [
+   "400",
+   "156",
+   "3080",
+   "4440"
+  ],
+  "expl": "TNAU: double hedge row system (5m x 5m within double rows, 10m between double rows) gives 266 plants/ha.",
+  "sec_num": 7,
+  "options": {
+   "A": "400",
+   "B": "266",
+   "C": "156",
+   "D": "3080",
+   "E": "4440"
+  },
+  "answer": "B",
+  "flat_num": 7,
+  "qid": "Q1.7 (Part I, Mango)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mango",
+  "diff": "Moderate",
+  "q": "Spraying NAA @ 20 ppm on mango at flowering is done specifically for?",
+  "correct": "Increasing fruit retention",
+  "distractors": [
+   "Inducing flowering",
+   "Controlling malformation",
+   "Breaking seed dormancy",
+   "Reducing fruit size"
+  ],
+  "expl": "TNAU: NAA 20 ppm sprayed at flowering increases fruit retention in mango.",
+  "sec_num": 8,
+  "options": {
+   "A": "Inducing flowering",
+   "B": "Controlling malformation",
+   "C": "Increasing fruit retention",
+   "D": "Breaking seed dormancy",
+   "E": "Reducing fruit size"
+  },
+  "answer": "C",
+  "flat_num": 8,
+  "qid": "Q1.8 (Part I, Mango)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mango",
+  "diff": "Hard",
+  "q": "To induce flowering in mango trees that fail to flower by February, the recommended spray is?",
+  "correct": "0.5% Urea or 1% Potassium Nitrate",
+  "distractors": [
+   "2,4-D 20 ppm",
+   "GA3 25 ppm",
+   "Ethephon 500 ppm",
+   "Paclobutrazol soil drench"
+  ],
+  "expl": "TNAU recommends spraying 0.5% Urea (5g/lit) or 1% KNO3 (10g/lit) during February to induce flowering if trees haven't flowered.",
+  "sec_num": 9,
+  "options": {
+   "A": "2,4-D 20 ppm",
+   "B": "GA3 25 ppm",
+   "C": "Ethephon 500 ppm",
+   "D": "0.5% Urea or 1% Potassium Nitrate",
+   "E": "Paclobutrazol soil drench"
+  },
+  "answer": "D",
+  "flat_num": 9,
+  "qid": "Q1.9 (Part I, Mango)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mango",
+  "diff": "Hard",
+  "q": "Application of Paclobutrazol @ 10 g a.i. in the first fortnight of September in non-bearing mango trees is meant to?",
+  "correct": "Induce flowering and fruit-set during off years",
+  "distractors": [
+   "Control hopper pest",
+   "Cure mango malformation",
+   "Control stem borer",
+   "Reduce fruit drop at marble stage"
+  ],
+  "expl": "TNAU states Paclobutrazol @10g a.i. in first fortnight of September induces flowering and fruitset yield during off years.",
+  "sec_num": 10,
+  "options": {
+   "A": "Control hopper pest",
+   "B": "Cure mango malformation",
+   "C": "Control stem borer",
+   "D": "Reduce fruit drop at marble stage",
+   "E": "Induce flowering and fruit-set during off years"
+  },
+  "answer": "E",
+  "flat_num": 10,
+  "qid": "Q1.10 (Part I, Mango)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mango",
+  "diff": "Hard",
+  "q": "Which of the following is NOT a recommended chemical control for mango hopper?",
+  "correct": "Carbofuran 3G soil application",
+  "distractors": [
+   "Acephate 75 SP @ 1g/lit",
+   "Phosalone 35 EC @ 1.5ml/lit",
+   "Carbaryl 50 WP 2g/lit",
+   "Phosphamidon 40SL 2ml/lit"
+  ],
+  "expl": "TNAU lists acephate, phosalone, carbaryl and phosphamidon sprays for hopper control; carbofuran soil application is not among them for hopper.",
+  "sec_num": 11,
+  "options": {
+   "A": "Carbofuran 3G soil application",
+   "B": "Acephate 75 SP @ 1g/lit",
+   "C": "Phosalone 35 EC @ 1.5ml/lit",
+   "D": "Carbaryl 50 WP 2g/lit",
+   "E": "Phosphamidon 40SL 2ml/lit"
+  },
+  "answer": "A",
+  "flat_num": 11,
+  "qid": "Q1.11 (Part I, Mango)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mango",
+  "diff": "Moderate",
+  "q": "Which biocontrol agent is released @10/tree against mango mealybug?",
+  "correct": "Cryptolaemus montrouzieri",
+  "distractors": [
+   "Trichogramma chilonis",
+   "Chrysoperla carnea",
+   "Aphelinus mali",
+   "Pseudomonas fluorescens"
+  ],
+  "expl": "TNAU recommends releasing the Australian ladybird beetle Cryptolaemus montrouzieri @10/tree for mealybug control in mango.",
+  "sec_num": 12,
+  "options": {
+   "A": "Trichogramma chilonis",
+   "B": "Cryptolaemus montrouzieri",
+   "C": "Chrysoperla carnea",
+   "D": "Aphelinus mali",
+   "E": "Pseudomonas fluorescens"
+  },
+  "answer": "B",
+  "flat_num": 12,
+  "qid": "Q1.12 (Part I, Mango)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mango",
+  "diff": "Hard",
+  "q": "Dipping harvested mango fruits in hot water at 52±1°C for 5 minutes followed by 8% plant wax is done mainly to?",
+  "correct": "Reduce anthracnose disease during storage",
+  "distractors": [
+   "Increase skin colour",
+   "Break seed dormancy",
+   "Control fruit fly infestation in the field",
+   "Induce uniform ripening"
+  ],
+  "expl": "TNAU: hot water treatment (52±1°C, 5 min) + 8% wax (Fruitox/Waxol) reduces anthracnose in stored mango.",
+  "sec_num": 13,
+  "options": {
+   "A": "Increase skin colour",
+   "B": "Break seed dormancy",
+   "C": "Reduce anthracnose disease during storage",
+   "D": "Control fruit fly infestation in the field",
+   "E": "Induce uniform ripening"
+  },
+  "answer": "C",
+  "flat_num": 13,
+  "qid": "Q1.13 (Part I, Mango)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mango",
+  "diff": "Moderate",
+  "q": "Mango yield from 15-20 years of tree age is estimated at?",
+  "correct": "15-20 t/ha",
+  "distractors": [
+   "5-8 t/ha",
+   "8-10 t/ha",
+   "25-30 t/ha",
+   "30-40 t/ha"
+  ],
+  "expl": "TNAU: mango gives 8-10 t/ha up to 15 years and 15-20 t/ha from 15-20 years.",
+  "sec_num": 14,
+  "options": {
+   "A": "5-8 t/ha",
+   "B": "8-10 t/ha",
+   "C": "25-30 t/ha",
+   "D": "15-20 t/ha",
+   "E": "30-40 t/ha"
+  },
+  "answer": "D",
+  "flat_num": 14,
+  "qid": "Q1.14 (Part I, Mango)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Banana",
+  "diff": "Easy",
+  "q": "Banana (genus Musa) belongs to which family?",
+  "correct": "Musaceae",
+  "distractors": [
+   "Rutaceae",
+   "Bromeliaceae",
+   "Myrtaceae",
+   "Moraceae"
+  ],
+  "expl": "TNAU classifies banana under family Musaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Rutaceae",
+   "B": "Bromeliaceae",
+   "C": "Myrtaceae",
+   "D": "Moraceae",
+   "E": "Musaceae"
+  },
+  "answer": "E",
+  "flat_num": 15,
+  "qid": "Q1.1 (Part I, Banana)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Banana",
+  "diff": "Hard",
+  "q": "Modern edible parthenocarpic bananas come from Musa acuminata and which other wild species?",
+  "correct": "Musa balbisiana",
+  "distractors": [
+   "Musa textilis",
+   "Musa paradisiaca",
+   "Musa sapientum",
+   "Musa ornata"
+  ],
+  "expl": "TNAU: almost all edible parthenocarpic bananas derive from Musa acuminata and Musa balbisiana.",
+  "sec_num": 2,
+  "options": {
+   "A": "Musa balbisiana",
+   "B": "Musa textilis",
+   "C": "Musa paradisiaca",
+   "D": "Musa sapientum",
+   "E": "Musa ornata"
+  },
+  "answer": "A",
+  "flat_num": 16,
+  "qid": "Q1.2 (Part I, Banana)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Banana",
+  "diff": "Moderate",
+  "q": "Hybrid bananas that must always be cooked before consumption and are higher in starch are specifically termed?",
+  "correct": "Plantains",
+  "distractors": [
+   "Dessert bananas",
+   "Culinary hybrids",
+   "Table bananas",
+   "Cavendish types"
+  ],
+  "expl": "TNAU defines plantains as hybrid bananas always cooked before consumption, higher in starch than dessert bananas.",
+  "sec_num": 3,
+  "options": {
+   "A": "Dessert bananas",
+   "B": "Plantains",
+   "C": "Culinary hybrids",
+   "D": "Table bananas",
+   "E": "Cavendish types"
+  },
+  "answer": "B",
+  "flat_num": 17,
+  "qid": "Q1.3 (Part I, Banana)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Banana",
+  "diff": "Moderate",
+  "q": "In wetlands, Nendran and Robusta banana are ideally planted during?",
+  "correct": "April-May",
+  "distractors": [
+   "February-April",
+   "June-August",
+   "November-December",
+   "August-September"
+  ],
+  "expl": "TNAU: Nendran and Robusta can be cultivated in wetlands during April-May.",
+  "sec_num": 4,
+  "options": {
+   "A": "February-April",
+   "B": "June-August",
+   "C": "April-May",
+   "D": "November-December",
+   "E": "August-September"
+  },
+  "answer": "C",
+  "flat_num": 18,
+  "qid": "Q1.4 (Part I, Banana)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Banana",
+  "diff": "Hard",
+  "q": "June-August (Sirumalai) is the suitable season/region for cultivating which type of banana?",
+  "correct": "Hill banana",
+  "distractors": [
+   "Wetland banana",
+   "Garden land banana",
+   "Padugai banana",
+   "Perennial banana"
+  ],
+  "expl": "TNAU lists June-August (Sirumalai) as a suitable planting window for hill banana, along with April-May for lower Palani hills.",
+  "sec_num": 5,
+  "options": {
+   "A": "Wetland banana",
+   "B": "Garden land banana",
+   "C": "Padugai banana",
+   "D": "Hill banana",
+   "E": "Perennial banana"
+  },
+  "answer": "D",
+  "flat_num": 19,
+  "qid": "Q1.5 (Part I, Banana)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Banana",
+  "diff": "Hard",
+  "q": "'Pralinage' in banana sucker treatment refers to?",
+  "correct": "Dipping the corm in clay slurry and sprinkling Carbofuran",
+  "distractors": [
+   "Hot water treatment of suckers",
+   "Trimming the pseudostem to 20 cm",
+   "Shade-drying suckers for 24 hours",
+   "Soaking suckers in Emisan solution"
+  ],
+  "expl": "TNAU describes pralinage as dipping the corm in a clay-water slurry and sprinkling Carbofuran 3G granules (40g/sucker) to control nematodes.",
+  "sec_num": 6,
+  "options": {
+   "A": "Hot water treatment of suckers",
+   "B": "Trimming the pseudostem to 20 cm",
+   "C": "Shade-drying suckers for 24 hours",
+   "D": "Soaking suckers in Emisan solution",
+   "E": "Dipping the corm in clay slurry and sprinkling Carbofuran"
+  },
+  "answer": "E",
+  "flat_num": 20,
+  "qid": "Q1.6 (Part I, Banana)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Banana",
+  "diff": "Hard",
+  "q": "Dwarf Cavendish banana at 1.5m x 1.5m spacing gives a plant population per hectare of?",
+  "correct": "4440",
+  "distractors": [
+   "2260",
+   "3080",
+   "5200",
+   "3200"
+  ],
+  "expl": "TNAU spacing table: Dwarf Cavendish at 1.5 x 1.5m gives 4440 plants/ha.",
+  "sec_num": 7,
+  "options": {
+   "A": "4440",
+   "B": "2260",
+   "C": "3080",
+   "D": "5200",
+   "E": "3200"
+  },
+  "answer": "A",
+  "flat_num": 21,
+  "qid": "Q1.7 (Part I, Banana)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Banana",
+  "diff": "Moderate",
+  "q": "Which banana varieties are correctly paired with the 2.1m x 2.1m spacing system?",
+  "correct": "Rasthali, Poovan, Karpooravalli, Monthan",
+  "distractors": [
+   "Dwarf Cavendish",
+   "Robusta and Nendran",
+   "Paired row system",
+   "3-suckers/hill system"
+  ],
+  "expl": "TNAU spacing table matches Rasthali, Poovan, Karpooravalli and Monthan with 2.1m x 2.1m spacing (2260 plants/ha).",
+  "sec_num": 8,
+  "options": {
+   "A": "Dwarf Cavendish",
+   "B": "Rasthali, Poovan, Karpooravalli, Monthan",
+   "C": "Robusta and Nendran",
+   "D": "Paired row system",
+   "E": "3-suckers/hill system"
+  },
+  "answer": "B",
+  "flat_num": 22,
+  "qid": "Q1.8 (Part I, Banana)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Banana",
+  "diff": "Moderate",
+  "q": "In Robusta banana, removing floral remnants a week after the last hand opens prevents which disorder?",
+  "correct": "Fingertip disease",
+  "distractors": [
+   "Bunchy top",
+   "Sigatoka leaf spot",
+   "Panama wilt",
+   "Sunscald"
+  ],
+  "expl": "TNAU notes floral ruminants should be removed in Robusta a week after the last hand opens to avoid 'fingertip disease'.",
+  "sec_num": 9,
+  "options": {
+   "A": "Bunchy top",
+   "B": "Sigatoka leaf spot",
+   "C": "Fingertip disease",
+   "D": "Panama wilt",
+   "E": "Sunscald"
+  },
+  "answer": "C",
+  "flat_num": 23,
+  "qid": "Q1.9 (Part I, Banana)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Banana",
+  "diff": "Easy",
+  "q": "Which of the following is NOT recommended as an intercrop in banana?",
+  "correct": "Cucurbitaceous vegetables",
+  "distractors": [
+   "Leguminous vegetables",
+   "Beetroot",
+   "Elephant foot yam",
+   "Sunhemp"
+  ],
+  "expl": "TNAU explicitly advises avoiding cucurbitaceous vegetable intercrops in banana.",
+  "sec_num": 10,
+  "options": {
+   "A": "Leguminous vegetables",
+   "B": "Beetroot",
+   "C": "Elephant foot yam",
+   "D": "Cucurbitaceous vegetables",
+   "E": "Sunhemp"
+  },
+  "answer": "D",
+  "flat_num": 24,
+  "qid": "Q1.10 (Part I, Banana)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Banana",
+  "diff": "Hard",
+  "q": "Pentalonia nigronervosa (banana aphid) is significant mainly because it is the?",
+  "correct": "Vector for Bunchy top virus disease",
+  "distractors": [
+   "Pollinator of banana flowers",
+   "Biocontrol agent for mealybug",
+   "Causal organism of Sigatoka leaf spot",
+   "Antagonist of nematodes"
+  ],
+  "expl": "TNAU identifies the banana aphid Pentalonia nigronervosa as the vector of Bunchy-top virus disease.",
+  "sec_num": 11,
+  "options": {
+   "A": "Pollinator of banana flowers",
+   "B": "Biocontrol agent for mealybug",
+   "C": "Causal organism of Sigatoka leaf spot",
+   "D": "Antagonist of nematodes",
+   "E": "Vector for Bunchy top virus disease"
+  },
+  "answer": "E",
+  "flat_num": 25,
+  "qid": "Q1.11 (Part I, Banana)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Banana",
+  "diff": "Hard",
+  "q": "In Panama disease management of banana, corm injection with a 2% solution of which fungicide is practiced?",
+  "correct": "Carbendazim",
+  "distractors": [
+   "Mancozeb",
+   "Copper oxychloride",
+   "Bordeaux mixture",
+   "Streptocyclin"
+  ],
+  "expl": "TNAU: a gelatin capsule of 60mg Carbendazim or 3ml of 2% Carbendazim solution is injected into the corm on 2nd, 4th, 6th month.",
+  "sec_num": 12,
+  "options": {
+   "A": "Carbendazim",
+   "B": "Mancozeb",
+   "C": "Copper oxychloride",
+   "D": "Bordeaux mixture",
+   "E": "Streptocyclin"
+  },
+  "answer": "A",
+  "flat_num": 26,
+  "qid": "Q1.12 (Part I, Banana)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Banana",
+  "diff": "Hard",
+  "q": "Which banana varieties show resistance to Fusarium wilt as per TNAU?",
+  "correct": "Poovan, Robusta, Moongil",
+  "distractors": [
+   "Rasthali, Monthan, Karpooravalli",
+   "Grand Naine, Red Banana",
+   "Ney Poovan, Pachanadan",
+   "Virupakshi, Sirumalai"
+  ],
+  "expl": "TNAU states Poovan, Robusta and Moongil show resistance to Fusarium wilt, while Rasthali, Monthan, Karpooravalli are susceptible.",
+  "sec_num": 13,
+  "options": {
+   "A": "Rasthali, Monthan, Karpooravalli",
+   "B": "Poovan, Robusta, Moongil",
+   "C": "Grand Naine, Red Banana",
+   "D": "Ney Poovan, Pachanadan",
+   "E": "Virupakshi, Sirumalai"
+  },
+  "answer": "B",
+  "flat_num": 27,
+  "qid": "Q1.13 (Part I, Banana)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Banana",
+  "diff": "Moderate",
+  "q": "Robusta and Dwarf Cavendish bananas give the highest yield among varieties listed, at?",
+  "correct": "50-60 t/ha/year",
+  "distractors": [
+   "30-40 t/ha/year",
+   "40-50 t/ha/year",
+   "60-70 t/ha/year",
+   "20-25 t/ha/year"
+  ],
+  "expl": "TNAU yield table: Robusta and Dwarf Cavendish both yield 50-60 t/ha/year, the highest among listed varieties.",
+  "sec_num": 14,
+  "options": {
+   "A": "30-40 t/ha/year",
+   "B": "40-50 t/ha/year",
+   "C": "50-60 t/ha/year",
+   "D": "60-70 t/ha/year",
+   "E": "20-25 t/ha/year"
+  },
+  "answer": "C",
+  "flat_num": 28,
+  "qid": "Q1.14 (Part I, Banana)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sapota",
+  "diff": "Easy",
+  "q": "Sapota belongs to which plant family?",
+  "correct": "Sapotaceae",
+  "distractors": [
+   "Rutaceae",
+   "Anacardiaceae",
+   "Myrtaceae",
+   "Rosaceae"
+  ],
+  "expl": "TNAU lists Sapota (Manilkara achras) under family Sapotaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Rutaceae",
+   "B": "Anacardiaceae",
+   "C": "Myrtaceae",
+   "D": "Sapotaceae",
+   "E": "Rosaceae"
+  },
+  "answer": "D",
+  "flat_num": 29,
+  "qid": "Q1.1 (Part I, Sapota)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sapota",
+  "diff": "Moderate",
+  "q": "Sapota is commercially propagated by approach grafting on which rootstock?",
+  "correct": "Manilkara hexandra (Pala)",
+  "distractors": [
+   "Rangpur lime",
+   "Rough lemon",
+   "Jatropha curcas",
+   "Citrus jambhiri"
+  ],
+  "expl": "TNAU: sapota grafting is done on Manilkhara hexandra (Pala) rootstock.",
+  "sec_num": 2,
+  "options": {
+   "A": "Rangpur lime",
+   "B": "Rough lemon",
+   "C": "Jatropha curcas",
+   "D": "Citrus jambhiri",
+   "E": "Manilkara hexandra (Pala)"
+  },
+  "answer": "E",
+  "flat_num": 30,
+  "qid": "Q1.2 (Part I, Sapota)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sapota",
+  "diff": "Hard",
+  "q": "High density planting in sapota at 8m x 4m spacing gives a plant population of?",
+  "correct": "312/ha",
+  "distractors": [
+   "156/ha",
+   "400/ha",
+   "266/ha",
+   "625/ha"
+  ],
+  "expl": "TNAU: conventional sapota spacing 8x8m gives 156 plants/ha; HDP at 8x4m gives 312 plants/ha.",
+  "sec_num": 3,
+  "options": {
+   "A": "312/ha",
+   "B": "156/ha",
+   "C": "400/ha",
+   "D": "266/ha",
+   "E": "625/ha"
+  },
+  "answer": "A",
+  "flat_num": 31,
+  "qid": "Q1.3 (Part I, Sapota)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sapota",
+  "diff": "Moderate",
+  "q": "The ideal season of planting sapota is?",
+  "correct": "June to December",
+  "distractors": [
+   "March to May",
+   "January-February only",
+   "October-November only",
+   "Year-round, no preference"
+  ],
+  "expl": "TNAU states the ideal planting season for sapota is June to December.",
+  "sec_num": 4,
+  "options": {
+   "A": "March to May",
+   "B": "June to December",
+   "C": "January-February only",
+   "D": "October-November only",
+   "E": "Year-round, no preference"
+  },
+  "answer": "B",
+  "flat_num": 32,
+  "qid": "Q1.4 (Part I, Sapota)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sapota",
+  "diff": "Hard",
+  "q": "Sapota fruits are ripened artificially in an air-tight chamber using a beaker containing?",
+  "correct": "5000 ppm Ethrel + 10g NaOH pellets",
+  "distractors": [
+   "GA3 25 ppm solution",
+   "2% Potassium sulphate",
+   "Calcium carbide only",
+   "2,4-D 20 ppm"
+  ],
+  "expl": "TNAU: sapota is ripened using 5000 ppm Ethrel (5ml Ethrel/lit water) with 10g NaOH pellets in an air-tight chamber.",
+  "sec_num": 5,
+  "options": {
+   "A": "GA3 25 ppm solution",
+   "B": "2% Potassium sulphate",
+   "C": "5000 ppm Ethrel + 10g NaOH pellets",
+   "D": "Calcium carbide only",
+   "E": "2,4-D 20 ppm"
+  },
+  "answer": "C",
+  "flat_num": 33,
+  "qid": "Q1.5 (Part I, Sapota)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sapota",
+  "diff": "Moderate",
+  "q": "Leaf webber in sapota is controlled by spraying?",
+  "correct": "Phosalone 35 EC 2ml/lit",
+  "distractors": [
+   "Carbendazim 1g/lit",
+   "Bordeaux mixture 1%",
+   "Wettable sulphur",
+   "Copper oxychloride"
+  ],
+  "expl": "TNAU recommends Phosalone 35 EC @ 2ml/lit for leaf webber control in sapota.",
+  "sec_num": 6,
+  "options": {
+   "A": "Carbendazim 1g/lit",
+   "B": "Bordeaux mixture 1%",
+   "C": "Wettable sulphur",
+   "D": "Phosalone 35 EC 2ml/lit",
+   "E": "Copper oxychloride"
+  },
+  "answer": "D",
+  "flat_num": 34,
+  "qid": "Q1.6 (Part I, Sapota)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sapota",
+  "diff": "Hard",
+  "q": "A mature sapota fruit can be distinguished from an immature one because the layer just beneath the skin, when scratched, is?",
+  "correct": "A lighter shade in mature fruit versus green in immature fruit",
+  "distractors": [
+   "Black in both",
+   "Milky white latex oozes only from mature fruit",
+   "Green in mature fruit",
+   "No visible difference exists"
+  ],
+  "expl": "TNAU: mature sapota fruit is dull brown with a lighter shade beneath the skin when scratched, while immature fruit shows green.",
+  "sec_num": 7,
+  "options": {
+   "A": "Black in both",
+   "B": "Milky white latex oozes only from mature fruit",
+   "C": "Green in mature fruit",
+   "D": "No visible difference exists",
+   "E": "A lighter shade in mature fruit versus green in immature fruit"
+  },
+  "answer": "E",
+  "flat_num": 35,
+  "qid": "Q1.7 (Part I, Sapota)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sapota",
+  "diff": "Moderate",
+  "q": "Sapota fruit yield, depending on variety, ranges between?",
+  "correct": "20-25 t/ha/year",
+  "distractors": [
+   "10-15 t/ha/year",
+   "30-35 t/ha/year",
+   "40-50 t/ha/year",
+   "50-60 t/ha/year"
+  ],
+  "expl": "TNAU states sapota yield ranges from 20-25 t/ha/year depending on variety.",
+  "sec_num": 8,
+  "options": {
+   "A": "20-25 t/ha/year",
+   "B": "10-15 t/ha/year",
+   "C": "30-35 t/ha/year",
+   "D": "40-50 t/ha/year",
+   "E": "50-60 t/ha/year"
+  },
+  "answer": "A",
+  "flat_num": 36,
+  "qid": "Q1.8 (Part I, Sapota)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sapota",
+  "diff": "Easy",
+  "q": "Which of these is a preferred sapota variety/hybrid as per TNAU market information?",
+  "correct": "Cricket Ball",
+  "distractors": [
+   "Alphonso",
+   "Grand Naine",
+   "Sathukudi",
+   "Coorg Orange"
+  ],
+  "expl": "TNAU market information lists Cricket Ball, PKM 1, Kalipatti and PKM 4 as preferred sapota varieties.",
+  "sec_num": 9,
+  "options": {
+   "A": "Alphonso",
+   "B": "Cricket Ball",
+   "C": "Grand Naine",
+   "D": "Sathukudi",
+   "E": "Coorg Orange"
+  },
+  "answer": "B",
+  "flat_num": 37,
+  "qid": "Q1.9 (Part I, Sapota)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sapota",
+  "diff": "Moderate",
+  "q": "Sapota grafts are planted with the graft joint at what minimum height above ground level?",
+  "correct": "15 cm",
+  "distractors": [
+   "5 cm",
+   "10 cm",
+   "25 cm",
+   "30 cm"
+  ],
+  "expl": "TNAU: the graft joint in sapota must be at least 15 cm above ground level.",
+  "sec_num": 10,
+  "options": {
+   "A": "5 cm",
+   "B": "10 cm",
+   "C": "15 cm",
+   "D": "25 cm",
+   "E": "30 cm"
+  },
+  "answer": "C",
+  "flat_num": 38,
+  "qid": "Q1.10 (Part I, Sapota)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Papaya",
+  "diff": "Easy",
+  "q": "Papaya (Carica papaya L.) belongs to which family?",
+  "correct": "Caricaceae",
+  "distractors": [
+   "Cucurbitaceae",
+   "Myrtaceae",
+   "Rutaceae",
+   "Moraceae"
+  ],
+  "expl": "TNAU lists papaya under family Caricaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Cucurbitaceae",
+   "B": "Myrtaceae",
+   "C": "Rutaceae",
+   "D": "Caricaceae",
+   "E": "Moraceae"
+  },
+  "answer": "D",
+  "flat_num": 39,
+  "qid": "Q1.1 (Part I, Papaya)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Papaya",
+  "diff": "Hard",
+  "q": "CO 3, CO 7 and Surya papaya varieties are classified as?",
+  "correct": "Gynodioecious (bisexual + female) types",
+  "distractors": [
+   "Dioecious female types",
+   "Purely male types",
+   "Triploid seedless types",
+   "Andromonoecious types"
+  ],
+  "expl": "TNAU: CO 3, CO 7 and Surya are gynodioecious (bisexual + female) types, highly suitable for table purpose.",
+  "sec_num": 2,
+  "options": {
+   "A": "Dioecious female types",
+   "B": "Purely male types",
+   "C": "Triploid seedless types",
+   "D": "Andromonoecious types",
+   "E": "Gynodioecious (bisexual + female) types"
+  },
+  "answer": "E",
+  "flat_num": 40,
+  "qid": "Q1.2 (Part I, Papaya)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Papaya",
+  "diff": "Hard",
+  "q": "Which papaya varieties are dual-purpose, suited for both table use and papain production?",
+  "correct": "CO 2, CO 5 and CO 6",
+  "distractors": [
+   "CO 1, CO 3, CO 7",
+   "CO 4, CO 8, Surya",
+   "Coorg Honey Dew only",
+   "CO 1 and CO 4 only"
+  ],
+  "expl": "TNAU designates CO 2, CO 5 and CO 6 as dual-purpose varieties for table and papain production.",
+  "sec_num": 3,
+  "options": {
+   "A": "CO 2, CO 5 and CO 6",
+   "B": "CO 1, CO 3, CO 7",
+   "C": "CO 4, CO 8, Surya",
+   "D": "Coorg Honey Dew only",
+   "E": "CO 1 and CO 4 only"
+  },
+  "answer": "A",
+  "flat_num": 41,
+  "qid": "Q1.3 (Part I, Papaya)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Papaya",
+  "diff": "Moderate",
+  "q": "The quantity of papaya seed required to plant one hectare is?",
+  "correct": "500 g",
+  "distractors": [
+   "200 g",
+   "1 kg",
+   "2 kg",
+   "5 kg"
+  ],
+  "expl": "TNAU states 500g of seed is required for planting one hectare of papaya.",
+  "sec_num": 4,
+  "options": {
+   "A": "200 g",
+   "B": "500 g",
+   "C": "1 kg",
+   "D": "2 kg",
+   "E": "5 kg"
+  },
+  "answer": "B",
+  "flat_num": 42,
+  "qid": "Q1.4 (Part I, Papaya)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Papaya",
+  "diff": "Moderate",
+  "q": "Papaya seeds are treated before sowing with which fungicide @ 2g/kg of seed?",
+  "correct": "Captan",
+  "distractors": [
+   "Mancozeb",
+   "Thiram",
+   "Carbendazim",
+   "Metalaxyl"
+  ],
+  "expl": "TNAU recommends treating papaya seeds with Captan @ 2g/kg before sowing.",
+  "sec_num": 5,
+  "options": {
+   "A": "Mancozeb",
+   "B": "Thiram",
+   "C": "Captan",
+   "D": "Carbendazim",
+   "E": "Metalaxyl"
+  },
+  "answer": "C",
+  "flat_num": 43,
+  "qid": "Q1.5 (Part I, Papaya)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Papaya",
+  "diff": "Hard",
+  "q": "For proper fruitset in dioecious papaya, one male tree should be maintained for how many female trees?",
+  "correct": "20",
+  "distractors": [
+   "5",
+   "10",
+   "50",
+   "100"
+  ],
+  "expl": "TNAU: maintain one male tree for every 20 female trees for proper fruit set.",
+  "sec_num": 6,
+  "options": {
+   "A": "5",
+   "B": "10",
+   "C": "50",
+   "D": "20",
+   "E": "100"
+  },
+  "answer": "D",
+  "flat_num": 44,
+  "qid": "Q1.6 (Part I, Papaya)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Papaya",
+  "diff": "Hard",
+  "q": "Papaya Ring Spot Virus is managed in the field mainly by?",
+  "correct": "Growing maize as a catch crop for vectors",
+  "distractors": [
+   "Soil drenching with Bordeaux mixture",
+   "Application of Carbofuran in nursery",
+   "Spraying Metalaxyl 0.2%",
+   "Hot water treatment of seed"
+  ],
+  "expl": "TNAU recommends growing maize as a catch crop for vectors, along with insecticide spray and micronutrient sprays, to manage Papaya Ring Spot Virus.",
+  "sec_num": 7,
+  "options": {
+   "A": "Soil drenching with Bordeaux mixture",
+   "B": "Application of Carbofuran in nursery",
+   "C": "Spraying Metalaxyl 0.2%",
+   "D": "Hot water treatment of seed",
+   "E": "Growing maize as a catch crop for vectors"
+  },
+  "answer": "E",
+  "flat_num": 45,
+  "qid": "Q1.7 (Part I, Papaya)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Papaya",
+  "diff": "Hard",
+  "q": "Root rot and wilt in water-stagnated papaya fields is managed by drenching the soil with?",
+  "correct": "0.1% Methoxyethyl mercuric chloride or 1% Bordeaux mixture",
+  "distractors": [
+   "Streptocyclin",
+   "Carbaryl 50 WP",
+   "Quinalphos 25 EC",
+   "Neem oil 3%"
+  ],
+  "expl": "TNAU: soil drench with 0.1% Methoxyethyl mercuric chloride or 1% Bordeaux mixture or 0.2% Metalaxyl controls root rot/wilt in papaya.",
+  "sec_num": 8,
+  "options": {
+   "A": "0.1% Methoxyethyl mercuric chloride or 1% Bordeaux mixture",
+   "B": "Streptocyclin",
+   "C": "Carbaryl 50 WP",
+   "D": "Quinalphos 25 EC",
+   "E": "Neem oil 3%"
+  },
+  "answer": "A",
+  "flat_num": 46,
+  "qid": "Q1.8 (Part I, Papaya)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Papaya",
+  "diff": "Moderate",
+  "q": "Among papaya varieties, CO 2 and CO 5 give the highest yield of?",
+  "correct": "200-250 t/ha",
+  "distractors": [
+   "100-120 t/ha",
+   "120-160 t/ha",
+   "200-225 t/ha",
+   "220-230 t/ha"
+  ],
+  "expl": "TNAU yield data: CO2 and CO5 both yield 200-250 t/ha, the highest listed.",
+  "sec_num": 9,
+  "options": {
+   "A": "100-120 t/ha",
+   "B": "200-250 t/ha",
+   "C": "120-160 t/ha",
+   "D": "200-225 t/ha",
+   "E": "220-230 t/ha"
+  },
+  "answer": "B",
+  "flat_num": 47,
+  "qid": "Q1.9 (Part I, Papaya)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Papaya",
+  "diff": "Moderate",
+  "q": "Papain extracted from papaya latex is mainly used industrially as a?",
+  "correct": "Meat tenderiser",
+  "distractors": [
+   "Natural dye",
+   "Biopesticide",
+   "Rooting hormone",
+   "Soil conditioner"
+  ],
+  "expl": "TNAU notes papain is used as a 'meat tenderiser' and in textile/leather sanforization and drugs.",
+  "sec_num": 10,
+  "options": {
+   "A": "Natural dye",
+   "B": "Biopesticide",
+   "C": "Meat tenderiser",
+   "D": "Rooting hormone",
+   "E": "Soil conditioner"
+  },
+  "answer": "C",
+  "flat_num": 48,
+  "qid": "Q1.10 (Part I, Papaya)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Papaya",
+  "diff": "Hard",
+  "q": "For papain tapping, incisions on the papaya fruit surface should be given to a depth not exceeding?",
+  "correct": "0.3 cm",
+  "distractors": [
+   "0.1 cm",
+   "1 cm",
+   "2 cm",
+   "0.5 cm"
+  ],
+  "expl": "TNAU: cuts for papain tapping should not be deeper than 0.3 cm, repeated four times at 3-day intervals.",
+  "sec_num": 11,
+  "options": {
+   "A": "0.1 cm",
+   "B": "1 cm",
+   "C": "2 cm",
+   "D": "0.3 cm",
+   "E": "0.5 cm"
+  },
+  "answer": "D",
+  "flat_num": 49,
+  "qid": "Q1.11 (Part I, Papaya)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Papaya",
+  "diff": "Easy",
+  "q": "Crop duration of papaya from planting to completion of the cropping cycle is about?",
+  "correct": "24-30 months",
+  "distractors": [
+   "12-15 months",
+   "18-20 months",
+   "36-40 months",
+   "8-10 months"
+  ],
+  "expl": "TNAU specifies papaya crop duration as 24-30 months.",
+  "sec_num": 12,
+  "options": {
+   "A": "12-15 months",
+   "B": "18-20 months",
+   "C": "36-40 months",
+   "D": "8-10 months",
+   "E": "24-30 months"
+  },
+  "answer": "E",
+  "flat_num": 50,
+  "qid": "Q1.12 (Part I, Papaya)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Guava",
+  "diff": "Easy",
+  "q": "Guava (Psidium guajava L.) belongs to which family?",
+  "correct": "Myrtaceae",
+  "distractors": [
+   "Punicaceae",
+   "Sapotaceae",
+   "Rutaceae",
+   "Bromeliaceae"
+  ],
+  "expl": "TNAU lists Guava under family Myrtaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Myrtaceae",
+   "B": "Punicaceae",
+   "C": "Sapotaceae",
+   "D": "Rutaceae",
+   "E": "Bromeliaceae"
+  },
+  "answer": "A",
+  "flat_num": 51,
+  "qid": "Q1.1 (Part I, Guava)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Guava",
+  "diff": "Hard",
+  "q": "To overcome salinity problems in guava, what is applied at planting and once every three years?",
+  "correct": "Gypsum @ 3 kg/plant",
+  "distractors": [
+   "Agricultural lime @ 4 kg/tree",
+   "Neem cake @ 2 kg/tree",
+   "Dolomite @ 5 kg/plant",
+   "Sulphur @ 1 kg/plant"
+  ],
+  "expl": "TNAU: in saline soils, add 3 kg Gypsum/plant at planting and once every three years thereafter.",
+  "sec_num": 2,
+  "options": {
+   "A": "Agricultural lime @ 4 kg/tree",
+   "B": "Gypsum @ 3 kg/plant",
+   "C": "Neem cake @ 2 kg/tree",
+   "D": "Dolomite @ 5 kg/plant",
+   "E": "Sulphur @ 1 kg/plant"
+  },
+  "answer": "B",
+  "flat_num": 52,
+  "qid": "Q1.2 (Part I, Guava)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Guava",
+  "diff": "Moderate",
+  "q": "Guava planting material is commonly raised through?",
+  "correct": "Air layering",
+  "distractors": [
+   "Approach grafting",
+   "Epicotyl grafting",
+   "Softwood grafting",
+   "Seed propagation only"
+  ],
+  "expl": "TNAU specifies layers (air layering) as the planting material for guava.",
+  "sec_num": 3,
+  "options": {
+   "A": "Approach grafting",
+   "B": "Epicotyl grafting",
+   "C": "Air layering",
+   "D": "Softwood grafting",
+   "E": "Seed propagation only"
+  },
+  "answer": "C",
+  "flat_num": 53,
+  "qid": "Q1.3 (Part I, Guava)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Guava",
+  "diff": "Hard",
+  "q": "Boron deficiency in guava, causing reduced leaf/fruit size and fruit cracking, is corrected by spraying?",
+  "correct": "0.3% Borax",
+  "distractors": [
+   "0.5% ZnSO4",
+   "1% Urea",
+   "0.25% CuSO4",
+   "0.2% MnSO4"
+  ],
+  "expl": "TNAU recommends spraying 0.3% borax during flowering and fruit set to correct boron deficiency in guava.",
+  "sec_num": 4,
+  "options": {
+   "A": "0.5% ZnSO4",
+   "B": "1% Urea",
+   "C": "0.25% CuSO4",
+   "D": "0.3% Borax",
+   "E": "0.2% MnSO4"
+  },
+  "answer": "D",
+  "flat_num": 54,
+  "qid": "Q1.4 (Part I, Guava)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Guava",
+  "diff": "Moderate",
+  "q": "Old, unproductive but healthy guava trees are rejuvenated by pollarding or cutting back to what height?",
+  "correct": "75 cm from ground level",
+  "distractors": [
+   "45 cm",
+   "100 cm",
+   "25 cm",
+   "150 cm"
+  ],
+  "expl": "TNAU: rejuvenation is done by pollarding/cutting back to 75 cm from ground, or dehorning at 75 cm from origin of secondary branches.",
+  "sec_num": 5,
+  "options": {
+   "A": "45 cm",
+   "B": "100 cm",
+   "C": "25 cm",
+   "D": "150 cm",
+   "E": "75 cm from ground level"
+  },
+  "answer": "E",
+  "flat_num": 55,
+  "qid": "Q1.5 (Part I, Guava)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Guava",
+  "diff": "Moderate",
+  "q": "Mealybug in guava is controlled biologically by releasing which coccinellid beetle @ 10/tree?",
+  "correct": "Cryptolaemus montrouzieri",
+  "distractors": [
+   "Chrysoperla carnea",
+   "Trichogramma chilonis",
+   "Aphelinus mali",
+   "Apanteles species"
+  ],
+  "expl": "TNAU recommends release of Cryptolaemus montrouzieri beetles @10/tree for guava mealybug control.",
+  "sec_num": 6,
+  "options": {
+   "A": "Cryptolaemus montrouzieri",
+   "B": "Chrysoperla carnea",
+   "C": "Trichogramma chilonis",
+   "D": "Aphelinus mali",
+   "E": "Apanteles species"
+  },
+  "answer": "A",
+  "flat_num": 56,
+  "qid": "Q1.6 (Part I, Guava)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Guava",
+  "diff": "Hard",
+  "q": "The safe waiting period after spraying Monocrotophos 36 WSC in guava is?",
+  "correct": "10 days",
+  "distractors": [
+   "5 days",
+   "7 days",
+   "9 days",
+   "14 days"
+  ],
+  "expl": "TNAU: safe waiting period is 10 days for Monocrotophos 36 WSC and 9 days for Malathion 50 EC in guava.",
+  "sec_num": 7,
+  "options": {
+   "A": "5 days",
+   "B": "10 days",
+   "C": "7 days",
+   "D": "9 days",
+   "E": "14 days"
+  },
+  "answer": "B",
+  "flat_num": 57,
+  "qid": "Q1.7 (Part I, Guava)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Guava",
+  "diff": "Moderate",
+  "q": "Layered guava plants come into bearing giving two crops a year, within?",
+  "correct": "2-3 years",
+  "distractors": [
+   "1 year",
+   "5-6 years",
+   "8-10 years",
+   "10-12 years"
+  ],
+  "expl": "TNAU: layers come to bearing in 2-3 years, with first crop Feb-July and second crop Sept-Jan.",
+  "sec_num": 8,
+  "options": {
+   "A": "1 year",
+   "B": "5-6 years",
+   "C": "2-3 years",
+   "D": "8-10 years",
+   "E": "10-12 years"
+  },
+  "answer": "C",
+  "flat_num": 58,
+  "qid": "Q1.8 (Part I, Guava)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Guava",
+  "diff": "Moderate",
+  "q": "The average yield of guava is about?",
+  "correct": "25 t/ha",
+  "distractors": [
+   "15 t/ha",
+   "20 t/ha",
+   "35 t/ha",
+   "45 t/ha"
+  ],
+  "expl": "TNAU states guava crop yields about 25 t/ha.",
+  "sec_num": 9,
+  "options": {
+   "A": "15 t/ha",
+   "B": "20 t/ha",
+   "C": "35 t/ha",
+   "D": "25 t/ha",
+   "E": "45 t/ha"
+  },
+  "answer": "D",
+  "flat_num": 59,
+  "qid": "Q1.9 (Part I, Guava)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Guava",
+  "diff": "Hard",
+  "q": "Which guava pest is specifically controlled using fish-meal + dichlorvos polythene traps at 50 traps/ha?",
+  "correct": "Fruit fly",
+  "distractors": [
+   "Tea mosquito bug",
+   "Aphids",
+   "Mealy bug",
+   "Red rust"
+  ],
+  "expl": "TNAU: for fruit fly, polythene fish-meal traps with dichlorvos-soaked cotton are used at 50 traps/ha in guava.",
+  "sec_num": 10,
+  "options": {
+   "A": "Tea mosquito bug",
+   "B": "Aphids",
+   "C": "Mealy bug",
+   "D": "Red rust",
+   "E": "Fruit fly"
+  },
+  "answer": "E",
+  "flat_num": 60,
+  "qid": "Q1.10 (Part I, Guava)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Acid Lime",
+  "diff": "Easy",
+  "q": "Acid lime's botanical name is?",
+  "correct": "Citrus aurantifolia",
+  "distractors": [
+   "Citrus sinensis",
+   "Citrus reticulata",
+   "Citrus limon",
+   "Citrus jambhiri"
+  ],
+  "expl": "TNAU lists Acid Lime as Citrus aurantifolia (Christm) Swingle, family Rutaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Citrus aurantifolia",
+   "B": "Citrus sinensis",
+   "C": "Citrus reticulata",
+   "D": "Citrus limon",
+   "E": "Citrus jambhiri"
+  },
+  "answer": "A",
+  "flat_num": 61,
+  "qid": "Q1.1 (Part I, Acid Lime)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Acid Lime",
+  "diff": "Moderate",
+  "q": "Acid lime seedlings are planted at 5-6m spacing in pits of what size?",
+  "correct": "75 cm x 75 cm x 75 cm",
+  "distractors": [
+   "45 cm x 45 cm x 45 cm",
+   "60 cm x 60 cm x 60 cm",
+   "90 cm x 90 cm x 90 cm",
+   "1m x 1m x 1m"
+  ],
+  "expl": "TNAU: acid lime seedlings are planted at 5-6m spacing in pits of 75x75x75 cm.",
+  "sec_num": 2,
+  "options": {
+   "A": "45 cm x 45 cm x 45 cm",
+   "B": "75 cm x 75 cm x 75 cm",
+   "C": "60 cm x 60 cm x 60 cm",
+   "D": "90 cm x 90 cm x 90 cm",
+   "E": "1m x 1m x 1m"
+  },
+  "answer": "B",
+  "flat_num": 62,
+  "qid": "Q1.2 (Part I, Acid Lime)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Acid Lime",
+  "diff": "Moderate",
+  "q": "To increase fruit set in acid lime during flowering, the recommended spray is?",
+  "correct": "2,4-D @ 20 ppm",
+  "distractors": [
+   "NAA @ 30 ppm",
+   "GA3 @ 25 ppm",
+   "Ethephon @ 20 ppm",
+   "Paclobutrazol"
+  ],
+  "expl": "TNAU: spray 2,4-D @20 ppm during flowering to increase fruit set; NAA @30ppm is used post fruit-set for retention.",
+  "sec_num": 3,
+  "options": {
+   "A": "NAA @ 30 ppm",
+   "B": "GA3 @ 25 ppm",
+   "C": "2,4-D @ 20 ppm",
+   "D": "Ethephon @ 20 ppm",
+   "E": "Paclobutrazol"
+  },
+  "answer": "C",
+  "flat_num": 63,
+  "qid": "Q1.3 (Part I, Acid Lime)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Acid Lime",
+  "diff": "Hard",
+  "q": "Which acid lime pest management step involves destruction of the Tinospora weed host?",
+  "correct": "Fruit sucking moth",
+  "distractors": [
+   "Leaf miner",
+   "Rust mite",
+   "Shoot borer",
+   "Stem borer"
+  ],
+  "expl": "TNAU: for fruit sucking moth in acid lime, Tinospora weed hosts must be destroyed, along with baiting and light traps.",
+  "sec_num": 4,
+  "options": {
+   "A": "Leaf miner",
+   "B": "Rust mite",
+   "C": "Shoot borer",
+   "D": "Fruit sucking moth",
+   "E": "Stem borer"
+  },
+  "answer": "D",
+  "flat_num": 64,
+  "qid": "Q1.4 (Part I, Acid Lime)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Acid Lime",
+  "diff": "Hard",
+  "q": "Citrus root nematode in acid lime is controlled by soil application of Carbofuran 3G at what dose?",
+  "correct": "75 g/tree",
+  "distractors": [
+   "40 g/tree",
+   "50 g/tree",
+   "100 g/tree",
+   "200 g/tree"
+  ],
+  "expl": "TNAU recommends Carbofuran 3G @75g/tree for severe citrus nematode infestation in acid lime.",
+  "sec_num": 5,
+  "options": {
+   "A": "40 g/tree",
+   "B": "50 g/tree",
+   "C": "100 g/tree",
+   "D": "200 g/tree",
+   "E": "75 g/tree"
+  },
+  "answer": "E",
+  "flat_num": 65,
+  "qid": "Q1.5 (Part I, Acid Lime)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Acid Lime",
+  "diff": "Hard",
+  "q": "The bacterial disease of acid lime controlled with Streptocyclin 100ppm + COC sprays after pruning is?",
+  "correct": "Canker",
+  "distractors": [
+   "Twig blight",
+   "Scab",
+   "Tristeza",
+   "Anthracnose"
+  ],
+  "expl": "TNAU: canker in acid lime is managed with COC 0.3% after pruning, followed by 4 sprays of Streptocyclin 100ppm + COC 1.5 kg/ha.",
+  "sec_num": 6,
+  "options": {
+   "A": "Canker",
+   "B": "Twig blight",
+   "C": "Scab",
+   "D": "Tristeza",
+   "E": "Anthracnose"
+  },
+  "answer": "A",
+  "flat_num": 66,
+  "qid": "Q1.6 (Part I, Acid Lime)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Acid Lime",
+  "diff": "Hard",
+  "q": "Tristeza virus in acid lime, spread by aphids, is managed by spraying which insecticide to control the vector?",
+  "correct": "Methyl demeton 25 EC",
+  "distractors": [
+   "Quinalphos 25 EC",
+   "Dichlorvos 76 WSC",
+   "Malathion 50 EC",
+   "Carbaryl 50 WP"
+  ],
+  "expl": "TNAU recommends spraying Methyl demeton to control aphids that spread Tristeza virus in acid lime.",
+  "sec_num": 7,
+  "options": {
+   "A": "Quinalphos 25 EC",
+   "B": "Methyl demeton 25 EC",
+   "C": "Dichlorvos 76 WSC",
+   "D": "Malathion 50 EC",
+   "E": "Carbaryl 50 WP"
+  },
+  "answer": "B",
+  "flat_num": 67,
+  "qid": "Q1.7 (Part I, Acid Lime)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Acid Lime",
+  "diff": "Moderate",
+  "q": "Post-harvest shelf life of acid lime beyond 10 days is achieved by treating fruits with?",
+  "correct": "4% wax emulsion + polythene packing with 1% ventilation",
+  "distractors": [
+   "Hot water 52°C dip",
+   "Borax 6% solution",
+   "Calcium carbide treatment",
+   "Cold storage at 0°C only"
+  ],
+  "expl": "TNAU: 4% wax emulsion followed by 200-gauge polythene packing with 1% ventilation extends acid lime shelf life beyond 10 days.",
+  "sec_num": 8,
+  "options": {
+   "A": "Hot water 52°C dip",
+   "B": "Borax 6% solution",
+   "C": "4% wax emulsion + polythene packing with 1% ventilation",
+   "D": "Calcium carbide treatment",
+   "E": "Cold storage at 0°C only"
+  },
+  "answer": "C",
+  "flat_num": 68,
+  "qid": "Q1.8 (Part I, Acid Lime)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Acid Lime",
+  "diff": "Moderate",
+  "q": "Acid lime yields about?",
+  "correct": "25 t/ha/year",
+  "distractors": [
+   "15 t/ha/year",
+   "20 t/ha/year",
+   "30 t/ha/year",
+   "35 t/ha/year"
+  ],
+  "expl": "TNAU states acid lime yields about 25 t/ha/year.",
+  "sec_num": 9,
+  "options": {
+   "A": "15 t/ha/year",
+   "B": "20 t/ha/year",
+   "C": "30 t/ha/year",
+   "D": "25 t/ha/year",
+   "E": "35 t/ha/year"
+  },
+  "answer": "D",
+  "flat_num": 69,
+  "qid": "Q1.9 (Part I, Acid Lime)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Acid Lime",
+  "diff": "Easy",
+  "q": "Acid lime begins commercial bearing from which year after planting?",
+  "correct": "3rd year",
+  "distractors": [
+   "1st year",
+   "2nd year",
+   "5th year",
+   "7th year"
+  ],
+  "expl": "TNAU: acid lime crop starts bearing from the 3rd year after planting.",
+  "sec_num": 10,
+  "options": {
+   "A": "1st year",
+   "B": "2nd year",
+   "C": "5th year",
+   "D": "7th year",
+   "E": "3rd year"
+  },
+  "answer": "E",
+  "flat_num": 70,
+  "qid": "Q1.10 (Part I, Acid Lime)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sweet Orange",
+  "diff": "Easy",
+  "q": "Sweet Orange (Citrus sinensis) belongs to which family?",
+  "correct": "Rutaceae",
+  "distractors": [
+   "Rosaceae",
+   "Myrtaceae",
+   "Punicaceae",
+   "Vitaceae"
+  ],
+  "expl": "TNAU lists Sweet Orange under family Rutaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Rutaceae",
+   "B": "Rosaceae",
+   "C": "Myrtaceae",
+   "D": "Punicaceae",
+   "E": "Vitaceae"
+  },
+  "answer": "A",
+  "flat_num": 71,
+  "qid": "Q1.1 (Part I, Sweet Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sweet Orange",
+  "diff": "Moderate",
+  "q": "The commercially cultivated sweet orange variety in Tamil Nadu is known as?",
+  "correct": "Sathukudi",
+  "distractors": [
+   "Coorg Orange",
+   "Mosambi",
+   "Nagpur Santra",
+   "Valencia"
+  ],
+  "expl": "TNAU states Sathukudi is the commercially cultivated sweet orange variety in Tamil Nadu.",
+  "sec_num": 2,
+  "options": {
+   "A": "Coorg Orange",
+   "B": "Sathukudi",
+   "C": "Mosambi",
+   "D": "Nagpur Santra",
+   "E": "Valencia"
+  },
+  "answer": "B",
+  "flat_num": 72,
+  "qid": "Q1.2 (Part I, Sweet Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sweet Orange",
+  "diff": "Hard",
+  "q": "The preferred rootstocks for budding sweet orange are?",
+  "correct": "Rangpur lime and rough lemon",
+  "distractors": [
+   "Trifoliate orange and Citrumelo",
+   "Sour orange only",
+   "Volkameriana lemon",
+   "Manilkara hexandra"
+  ],
+  "expl": "TNAU: Rangpur lime and rough lemon rootstocks are mostly preferred for budded sweet orange plants.",
+  "sec_num": 3,
+  "options": {
+   "A": "Trifoliate orange and Citrumelo",
+   "B": "Sour orange only",
+   "C": "Rangpur lime and rough lemon",
+   "D": "Volkameriana lemon",
+   "E": "Manilkara hexandra"
+  },
+  "answer": "C",
+  "flat_num": 73,
+  "qid": "Q1.3 (Part I, Sweet Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sweet Orange",
+  "diff": "Moderate",
+  "q": "Sweet orange is planted at a spacing of?",
+  "correct": "7m x 7m",
+  "distractors": [
+   "5m x 5m",
+   "6m x 6m",
+   "8m x 8m",
+   "10m x 10m"
+  ],
+  "expl": "TNAU: sweet orange pits are dug at 75x75x75 cm at 7m x 7m spacing.",
+  "sec_num": 4,
+  "options": {
+   "A": "5m x 5m",
+   "B": "6m x 6m",
+   "C": "8m x 8m",
+   "D": "7m x 7m",
+   "E": "10m x 10m"
+  },
+  "answer": "D",
+  "flat_num": 74,
+  "qid": "Q1.4 (Part I, Sweet Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sweet Orange",
+  "diff": "Hard",
+  "q": "The ideal rainfall (June-September) for sweet orange cultivation is about?",
+  "correct": "50-75 cm",
+  "distractors": [
+   "25-50 cm",
+   "100-125 cm",
+   "150-200 cm",
+   "200-250 cm"
+  ],
+  "expl": "TNAU: a dry climate with about 50-75 cm rainfall from June-September is ideal for sweet orange.",
+  "sec_num": 5,
+  "options": {
+   "A": "25-50 cm",
+   "B": "100-125 cm",
+   "C": "150-200 cm",
+   "D": "200-250 cm",
+   "E": "50-75 cm"
+  },
+  "answer": "E",
+  "flat_num": 75,
+  "qid": "Q1.5 (Part I, Sweet Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sweet Orange",
+  "diff": "Hard",
+  "q": "'Little leaf malady' in sweet orange is corrected by spraying?",
+  "correct": "Zinc sulphate 1.0% + Teepol",
+  "distractors": [
+   "Borax 0.3%",
+   "Ferrous sulphate 0.25%",
+   "Magnesium sulphate 0.5%",
+   "Manganese sulphate 0.05%"
+  ],
+  "expl": "TNAU: little leaf malady in sweet orange is controlled by spraying Zinc sulphate 1.0% + Teepol at new flush, one month after, flowering and fruit set stages.",
+  "sec_num": 6,
+  "options": {
+   "A": "Zinc sulphate 1.0% + Teepol",
+   "B": "Borax 0.3%",
+   "C": "Ferrous sulphate 0.25%",
+   "D": "Magnesium sulphate 0.5%",
+   "E": "Manganese sulphate 0.05%"
+  },
+  "answer": "A",
+  "flat_num": 76,
+  "qid": "Q1.6 (Part I, Sweet Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sweet Orange",
+  "diff": "Hard",
+  "q": "The citrus root nematode causing slow decline in sweet orange is scientifically named?",
+  "correct": "Tylenchulus semipenetrans",
+  "distractors": [
+   "Meloidogyne incognita",
+   "Radopholus similis",
+   "Pratylenchus species",
+   "Xiphinema species"
+  ],
+  "expl": "TNAU identifies Tylenchulus semipenetrans as the citrus root nematode causing slow decline, managed with Pseudomonas fluorescens.",
+  "sec_num": 7,
+  "options": {
+   "A": "Meloidogyne incognita",
+   "B": "Tylenchulus semipenetrans",
+   "C": "Radopholus similis",
+   "D": "Pratylenchus species",
+   "E": "Xiphinema species"
+  },
+  "answer": "B",
+  "flat_num": 77,
+  "qid": "Q1.7 (Part I, Sweet Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sweet Orange",
+  "diff": "Moderate",
+  "q": "Sweet orange starts bearing from which year after planting, with economic yield up to 20 years?",
+  "correct": "5th year",
+  "distractors": [
+   "3rd year",
+   "4th year",
+   "7th year",
+   "10th year"
+  ],
+  "expl": "TNAU: sweet orange starts bearing from the 5th year and gives economic yield up to 20 years.",
+  "sec_num": 8,
+  "options": {
+   "A": "3rd year",
+   "B": "4th year",
+   "C": "5th year",
+   "D": "7th year",
+   "E": "10th year"
+  },
+  "answer": "C",
+  "flat_num": 78,
+  "qid": "Q1.8 (Part I, Sweet Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Sweet Orange",
+  "diff": "Moderate",
+  "q": "Depending on variety and season, sweet orange yields?",
+  "correct": "25-30 t/ha",
+  "distractors": [
+   "10-15 t/ha",
+   "15-20 t/ha",
+   "20-25 t/ha",
+   "35-40 t/ha"
+  ],
+  "expl": "TNAU states sweet orange yield varies from 25 to 30 t/ha depending on variety and season.",
+  "sec_num": 9,
+  "options": {
+   "A": "10-15 t/ha",
+   "B": "15-20 t/ha",
+   "C": "20-25 t/ha",
+   "D": "25-30 t/ha",
+   "E": "35-40 t/ha"
+  },
+  "answer": "D",
+  "flat_num": 79,
+  "qid": "Q1.9 (Part I, Sweet Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mandarin Orange",
+  "diff": "Easy",
+  "q": "Mandarin Orange's botanical name is?",
+  "correct": "Citrus reticulata",
+  "distractors": [
+   "Citrus sinensis",
+   "Citrus aurantifolia",
+   "Citrus limon",
+   "Citrus grandis"
+  ],
+  "expl": "TNAU lists Mandarin Orange as Citrus reticulata Blanco, family Rutaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Citrus sinensis",
+   "B": "Citrus aurantifolia",
+   "C": "Citrus limon",
+   "D": "Citrus grandis",
+   "E": "Citrus reticulata"
+  },
+  "answer": "E",
+  "flat_num": 80,
+  "qid": "Q1.1 (Part I, Mandarin Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mandarin Orange",
+  "diff": "Moderate",
+  "q": "Coorg Orange and Kodai Orange are the most popular varieties of which fruit?",
+  "correct": "Mandarin Orange",
+  "distractors": [
+   "Sweet Orange",
+   "Acid Lime",
+   "Pomegranate",
+   "Grapes"
+  ],
+  "expl": "TNAU names Coorg Orange and Kodai Orange as the most popular Mandarin Orange varieties.",
+  "sec_num": 2,
+  "options": {
+   "A": "Mandarin Orange",
+   "B": "Sweet Orange",
+   "C": "Acid Lime",
+   "D": "Pomegranate",
+   "E": "Grapes"
+  },
+  "answer": "A",
+  "flat_num": 81,
+  "qid": "Q1.2 (Part I, Mandarin Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mandarin Orange",
+  "diff": "Hard",
+  "q": "Mandarin orange, a subtropical crop, is grown at an elevation of?",
+  "correct": "500-1500 m above MSL",
+  "distractors": [
+   "0-200 m",
+   "200-500 m",
+   "1500-2500 m",
+   "above 2500 m"
+  ],
+  "expl": "TNAU: Mandarin orange is a subtropical crop grown at 500-1500 m above MSL.",
+  "sec_num": 3,
+  "options": {
+   "A": "0-200 m",
+   "B": "500-1500 m above MSL",
+   "C": "200-500 m",
+   "D": "1500-2500 m",
+   "E": "above 2500 m"
+  },
+  "answer": "B",
+  "flat_num": 82,
+  "qid": "Q1.3 (Part I, Mandarin Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mandarin Orange",
+  "diff": "Hard",
+  "q": "The rainfall requirement for mandarin orange cultivation is about?",
+  "correct": "150-250 cm",
+  "distractors": [
+   "50-75 cm",
+   "75-100 cm",
+   "100-150 cm",
+   "above 300 cm"
+  ],
+  "expl": "TNAU specifies a rainfall requirement of about 150-250 cm for mandarin orange.",
+  "sec_num": 4,
+  "options": {
+   "A": "50-75 cm",
+   "B": "75-100 cm",
+   "C": "150-250 cm",
+   "D": "100-150 cm",
+   "E": "above 300 cm"
+  },
+  "answer": "C",
+  "flat_num": 83,
+  "qid": "Q1.4 (Part I, Mandarin Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mandarin Orange",
+  "diff": "Moderate",
+  "q": "The ideal soil pH for mandarin orange is between?",
+  "correct": "5.5 and 6.5",
+  "distractors": [
+   "4.5 and 5.5",
+   "6.5 and 7.5",
+   "7.5 and 8.5",
+   "8.5 and 9.5"
+  ],
+  "expl": "TNAU states soil pH should be between 5.5 and 6.5 for mandarin orange.",
+  "sec_num": 5,
+  "options": {
+   "A": "4.5 and 5.5",
+   "B": "6.5 and 7.5",
+   "C": "7.5 and 8.5",
+   "D": "5.5 and 6.5",
+   "E": "8.5 and 9.5"
+  },
+  "answer": "D",
+  "flat_num": 84,
+  "qid": "Q1.5 (Part I, Mandarin Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mandarin Orange",
+  "diff": "Hard",
+  "q": "For Shervaroyan hills, mandarin orange trees above 6 years receive 700:375:600 g/tree NPK along with which VAM fungus?",
+  "correct": "Glomus fasciculatus",
+  "distractors": [
+   "Azospirillum",
+   "Phosphobacterium",
+   "Pseudomonas fluorescens",
+   "Trichoderma viride"
+  ],
+  "expl": "TNAU: on Shervaroyan hills, NPK 700:375:600 g/tree is applied with VAM (Glomus fasciculatus) @1 kg/tree.",
+  "sec_num": 6,
+  "options": {
+   "A": "Azospirillum",
+   "B": "Phosphobacterium",
+   "C": "Pseudomonas fluorescens",
+   "D": "Trichoderma viride",
+   "E": "Glomus fasciculatus"
+  },
+  "answer": "E",
+  "flat_num": 85,
+  "qid": "Q1.6 (Part I, Mandarin Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mandarin Orange",
+  "diff": "Moderate",
+  "q": "Budded mandarin orange plants bear in 3-5 years, while seedlings take?",
+  "correct": "5-7 years",
+  "distractors": [
+   "2-3 years",
+   "3-5 years",
+   "8-10 years",
+   "10-12 years"
+  ],
+  "expl": "TNAU: budded plants bear from 3-5 years while seedling mandarin orange trees take about 5-7 years.",
+  "sec_num": 7,
+  "options": {
+   "A": "5-7 years",
+   "B": "2-3 years",
+   "C": "3-5 years",
+   "D": "8-10 years",
+   "E": "10-12 years"
+  },
+  "answer": "A",
+  "flat_num": 86,
+  "qid": "Q1.7 (Part I, Mandarin Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mandarin Orange",
+  "diff": "Hard",
+  "q": "Agricultural lime/Dolomite @4 kg/tree is applied to mandarin orange once in 2-3 years during?",
+  "correct": "January-February",
+  "distractors": [
+   "June-July",
+   "September-October",
+   "March-April",
+   "November-December"
+  ],
+  "expl": "TNAU: lime/dolomite at 4kg/tree is applied during January-February, once in 2-3 years, not combined with other fertilizers.",
+  "sec_num": 8,
+  "options": {
+   "A": "June-July",
+   "B": "January-February",
+   "C": "September-October",
+   "D": "March-April",
+   "E": "November-December"
+  },
+  "answer": "B",
+  "flat_num": 87,
+  "qid": "Q1.8 (Part I, Mandarin Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Mandarin Orange",
+  "diff": "Moderate",
+  "q": "Mandarin orange yield ranges between?",
+  "correct": "15-20 t/ha/year",
+  "distractors": [
+   "10-15 t/ha/year",
+   "20-25 t/ha/year",
+   "25-30 t/ha/year",
+   "30-35 t/ha/year"
+  ],
+  "expl": "TNAU states mandarin orange yield ranges between 15-20 t/ha/year.",
+  "sec_num": 9,
+  "options": {
+   "A": "10-15 t/ha/year",
+   "B": "20-25 t/ha/year",
+   "C": "15-20 t/ha/year",
+   "D": "25-30 t/ha/year",
+   "E": "30-35 t/ha/year"
+  },
+  "answer": "C",
+  "flat_num": 88,
+  "qid": "Q1.9 (Part I, Mandarin Orange)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Grapes",
+  "diff": "Easy",
+  "q": "Grapes (Vitis vinifera) belong to which family?",
+  "correct": "Vitaceae",
+  "distractors": [
+   "Rosaceae",
+   "Rutaceae",
+   "Rhamnaceae",
+   "Myrtaceae"
+  ],
+  "expl": "TNAU lists Grapes under family Vitaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Rosaceae",
+   "B": "Rutaceae",
+   "C": "Rhamnaceae",
+   "D": "Vitaceae",
+   "E": "Myrtaceae"
+  },
+  "answer": "D",
+  "flat_num": 89,
+  "qid": "Q1.1 (Part I, Grapes)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Grapes",
+  "diff": "Moderate",
+  "q": "Which grape variety is specifically noted as suited to Tamil Nadu's low-to-moderate rainfall areas?",
+  "correct": "Muscat (Panneer)",
+  "distractors": [
+   "Thompson Seedless",
+   "Anab-e-Shahi",
+   "Sonaka",
+   "Flame Seedless"
+  ],
+  "expl": "TNAU: Muscat is grown in Tamil Nadu where rainfall is low to moderate.",
+  "sec_num": 2,
+  "options": {
+   "A": "Thompson Seedless",
+   "B": "Anab-e-Shahi",
+   "C": "Sonaka",
+   "D": "Flame Seedless",
+   "E": "Muscat (Panneer)"
+  },
+  "answer": "E",
+  "flat_num": 90,
+  "qid": "Q1.2 (Part I, Grapes)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Grapes",
+  "diff": "Hard",
+  "q": "The spacing adopted for Muscat grapes is?",
+  "correct": "3m x 2m",
+  "distractors": [
+   "4m x 3m",
+   "1m x 1m",
+   "5m x 5m",
+   "6m x 6m"
+  ],
+  "expl": "TNAU: Muscat grapes are spaced at 3x2m; other varieties at 4x3m.",
+  "sec_num": 3,
+  "options": {
+   "A": "3m x 2m",
+   "B": "4m x 3m",
+   "C": "1m x 1m",
+   "D": "5m x 5m",
+   "E": "6m x 6m"
+  },
+  "answer": "A",
+  "flat_num": 91,
+  "qid": "Q1.3 (Part I, Grapes)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Grapes",
+  "diff": "Moderate",
+  "q": "The pruning level generally adopted for Thompson Seedless grapes is?",
+  "correct": "Two bud level",
+  "distractors": [
+   "Four bud level",
+   "Six bud level",
+   "Eight bud level",
+   "No pruning required"
+  ],
+  "expl": "TNAU: two bud level pruning is adopted for Thompson Seedless, four bud level for Muscat/Pachadraksha/Anab-e-Shahi/Arka hybrids.",
+  "sec_num": 4,
+  "options": {
+   "A": "Four bud level",
+   "B": "Two bud level",
+   "C": "Six bud level",
+   "D": "Eight bud level",
+   "E": "No pruning required"
+  },
+  "answer": "B",
+  "flat_num": 92,
+  "qid": "Q1.4 (Part I, Grapes)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Grapes",
+  "diff": "Moderate",
+  "q": "In grapes, the summer crop is obtained via pruning in Dec-Jan and harvesting during?",
+  "correct": "April-May",
+  "distractors": [
+   "February-March",
+   "June-July",
+   "August-September",
+   "October-November"
+  ],
+  "expl": "TNAU: summer crop grapes are pruned in December-January and harvested April-May.",
+  "sec_num": 5,
+  "options": {
+   "A": "February-March",
+   "B": "June-July",
+   "C": "April-May",
+   "D": "August-September",
+   "E": "October-November"
+  },
+  "answer": "C",
+  "flat_num": 93,
+  "qid": "Q1.5 (Part I, Grapes)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Grapes",
+  "diff": "Hard",
+  "q": "'Bud forecasting technique' in grape cultivation is used to decide?",
+  "correct": "The level of pruning",
+  "distractors": [
+   "The time of harvest",
+   "The dose of fertilizer",
+   "The choice of rootstock",
+   "The spacing of planting"
+  ],
+  "expl": "TNAU states it is better to decide the level of pruning in grapes as per the bud forecasting technique.",
+  "sec_num": 6,
+  "options": {
+   "A": "The time of harvest",
+   "B": "The dose of fertilizer",
+   "C": "The choice of rootstock",
+   "D": "The level of pruning",
+   "E": "The spacing of planting"
+  },
+  "answer": "D",
+  "flat_num": 94,
+  "qid": "Q1.6 (Part I, Grapes)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Grapes",
+  "diff": "Hard",
+  "q": "In grape fruit thinning at pea stage, what percentage of berries is removed from compact bunches?",
+  "correct": "20%",
+  "distractors": [
+   "10%",
+   "30%",
+   "40%",
+   "50%"
+  ],
+  "expl": "TNAU recommends removing 20% of berries at pea stage for fruit thinning in compact grape bunches.",
+  "sec_num": 7,
+  "options": {
+   "A": "10%",
+   "B": "30%",
+   "C": "40%",
+   "D": "50%",
+   "E": "20%"
+  },
+  "answer": "E",
+  "flat_num": 95,
+  "qid": "Q1.7 (Part I, Grapes)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Grapes",
+  "diff": "Hard",
+  "q": "Uniform ripening of Muscat grape bunches is achieved by spraying which chemical at the 20th and 40th day after berry set?",
+  "correct": "0.2% Potassium sulphate",
+  "distractors": [
+   "GA3 25 ppm",
+   "Ethephon 20 ppm",
+   "NAA 30 ppm",
+   "2,4-D 20 ppm"
+  ],
+  "expl": "TNAU: 0.2% Potassium sulphate (2g/lit) sprayed on Muscat bunches at 20th and 40th day after berry set gives uniform ripening.",
+  "sec_num": 8,
+  "options": {
+   "A": "0.2% Potassium sulphate",
+   "B": "GA3 25 ppm",
+   "C": "Ethephon 20 ppm",
+   "D": "NAA 30 ppm",
+   "E": "2,4-D 20 ppm"
+  },
+  "answer": "A",
+  "flat_num": 96,
+  "qid": "Q1.8 (Part I, Grapes)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Grapes",
+  "diff": "Moderate",
+  "q": "Dipping Thompson Seedless clusters in 25 ppm GA at the calyptra fall stage is done mainly to?",
+  "correct": "Increase the length of berries",
+  "distractors": [
+   "Control powdery mildew",
+   "Induce seedlessness",
+   "Delay ripening",
+   "Prevent cracking"
+  ],
+  "expl": "TNAU: GA 25ppm dip at calyptra fall stage (repeated at pepper stage) increases berry length in seedless grape varieties.",
+  "sec_num": 9,
+  "options": {
+   "A": "Control powdery mildew",
+   "B": "Increase the length of berries",
+   "C": "Induce seedlessness",
+   "D": "Delay ripening",
+   "E": "Prevent cracking"
+  },
+  "answer": "B",
+  "flat_num": 97,
+  "qid": "Q1.9 (Part I, Grapes)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Grapes",
+  "diff": "Moderate",
+  "q": "Mealybug in grapes can be biologically controlled by releasing Cryptolaemus montrouzieri at what rate?",
+  "correct": "10 per vine",
+  "distractors": [
+   "5 per vine",
+   "20 per vine",
+   "50 per vine",
+   "100 per vine"
+  ],
+  "expl": "TNAU recommends releasing Cryptolaemus montrouzieri @10/vine for grape mealybug control.",
+  "sec_num": 10,
+  "options": {
+   "A": "5 per vine",
+   "B": "20 per vine",
+   "C": "10 per vine",
+   "D": "50 per vine",
+   "E": "100 per vine"
+  },
+  "answer": "C",
+  "flat_num": 98,
+  "qid": "Q1.10 (Part I, Grapes)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Grapes",
+  "diff": "Hard",
+  "q": "The safe waiting period for Dimethoate and Carbaryl sprays in grapes is?",
+  "correct": "5 days",
+  "distractors": [
+   "3 days",
+   "7 days",
+   "9 days",
+   "14 days"
+  ],
+  "expl": "TNAU specifies a 5-day safe waiting period for Dimethoate and Carbaryl in grapes.",
+  "sec_num": 11,
+  "options": {
+   "A": "3 days",
+   "B": "7 days",
+   "C": "9 days",
+   "D": "5 days",
+   "E": "14 days"
+  },
+  "answer": "D",
+  "flat_num": 99,
+  "qid": "Q1.11 (Part I, Grapes)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Grapes",
+  "diff": "Moderate",
+  "q": "Among grape varieties, which records the highest yield at 40 t/ha/year?",
+  "correct": "Pachadraksha",
+  "distractors": [
+   "Seedless varieties",
+   "Muscat",
+   "Anab-e-Shahi",
+   "Arka hybrids"
+  ],
+  "expl": "TNAU yield data: Pachadraksha yields 40 t/ha/year, the highest among listed grape varieties.",
+  "sec_num": 12,
+  "options": {
+   "A": "Seedless varieties",
+   "B": "Muscat",
+   "C": "Anab-e-Shahi",
+   "D": "Arka hybrids",
+   "E": "Pachadraksha"
+  },
+  "answer": "E",
+  "flat_num": 100,
+  "qid": "Q1.12 (Part I, Grapes)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pineapple",
+  "diff": "Easy",
+  "q": "Pineapple (Ananas sativus) belongs to which family?",
+  "correct": "Bromeliaceae",
+  "distractors": [
+   "Musaceae",
+   "Moraceae",
+   "Myrtaceae",
+   "Vitaceae"
+  ],
+  "expl": "TNAU lists Pineapple under family Bromeliaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Bromeliaceae",
+   "B": "Musaceae",
+   "C": "Moraceae",
+   "D": "Myrtaceae",
+   "E": "Vitaceae"
+  },
+  "answer": "A",
+  "flat_num": 101,
+  "qid": "Q1.1 (Part I, Pineapple)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pineapple",
+  "diff": "Moderate",
+  "q": "Commercially cultivated pineapple varieties in Tamil Nadu include Kew, Queen and?",
+  "correct": "Mauritius",
+  "distractors": [
+   "Cayenne",
+   "Red Spanish",
+   "Singapore Canning",
+   "Giant Kew"
+  ],
+  "expl": "TNAU names Kew, Mauritius and Queen as the commercially cultivated pineapple varieties in Tamil Nadu.",
+  "sec_num": 2,
+  "options": {
+   "A": "Cayenne",
+   "B": "Mauritius",
+   "C": "Red Spanish",
+   "D": "Singapore Canning",
+   "E": "Giant Kew"
+  },
+  "answer": "B",
+  "flat_num": 102,
+  "qid": "Q1.2 (Part I, Pineapple)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pineapple",
+  "diff": "Hard",
+  "q": "The ideal elevation for pineapple cultivation is?",
+  "correct": "500-700 m",
+  "distractors": [
+   "0-100 m",
+   "100-300 m",
+   "1000-1200 m",
+   "above 1500 m"
+  ],
+  "expl": "TNAU states an elevation of 500-700m is ideal for pineapple cultivation.",
+  "sec_num": 3,
+  "options": {
+   "A": "0-100 m",
+   "B": "100-300 m",
+   "C": "500-700 m",
+   "D": "1000-1200 m",
+   "E": "above 1500 m"
+  },
+  "answer": "C",
+  "flat_num": 103,
+  "qid": "Q1.3 (Part I, Pineapple)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pineapple",
+  "diff": "Hard",
+  "q": "In pineapple double-row planting, the spacing between two trenches is?",
+  "correct": "90 cm",
+  "distractors": [
+   "30 cm",
+   "60 cm",
+   "120 cm",
+   "150 cm"
+  ],
+  "expl": "TNAU: spacing between two trenches is 90cm, row-to-row within a bed is 60cm, plant-to-plant is 30cm.",
+  "sec_num": 4,
+  "options": {
+   "A": "30 cm",
+   "B": "60 cm",
+   "C": "120 cm",
+   "D": "90 cm",
+   "E": "150 cm"
+  },
+  "answer": "D",
+  "flat_num": 104,
+  "qid": "Q1.4 (Part I, Pineapple)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pineapple",
+  "diff": "Moderate",
+  "q": "Suckers/slips of pineapple used for planting should weigh about?",
+  "correct": "300-350 g",
+  "distractors": [
+   "100-150 g",
+   "500-600 g",
+   "700-800 g",
+   "1000 g"
+  ],
+  "expl": "TNAU recommends using suckers and slips of 300-350g weight for planting pineapple.",
+  "sec_num": 5,
+  "options": {
+   "A": "100-150 g",
+   "B": "500-600 g",
+   "C": "700-800 g",
+   "D": "1000 g",
+   "E": "300-350 g"
+  },
+  "answer": "E",
+  "flat_num": 105,
+  "qid": "Q1.5 (Part I, Pineapple)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pineapple",
+  "diff": "Hard",
+  "q": "To induce uniform flowering in pineapple at the 35-40 leaf stage, NAA 10 ppm is combined with which spray poured into the crown?",
+  "correct": "2% Urea",
+  "distractors": [
+   "2,4-D 20 ppm",
+   "GA3 25 ppm",
+   "Paclobutrazol",
+   "Ethrel alone without urea"
+  ],
+  "expl": "TNAU: NAA 10ppm + 2% urea (or 2% urea + sodium carbonate + ethephon) poured into the crown induces uniform flowering at the 35-40 leaf stage.",
+  "sec_num": 6,
+  "options": {
+   "A": "2% Urea",
+   "B": "2,4-D 20 ppm",
+   "C": "GA3 25 ppm",
+   "D": "Paclobutrazol",
+   "E": "Ethrel alone without urea"
+  },
+  "answer": "A",
+  "flat_num": 106,
+  "qid": "Q1.6 (Part I, Pineapple)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pineapple",
+  "diff": "Hard",
+  "q": "Calcium-induced Iron chlorosis in pineapple is avoided by providing?",
+  "correct": "Adequate shade",
+  "distractors": [
+   "Extra potash",
+   "Extra nitrogen",
+   "Increased irrigation",
+   "Boron spray"
+  ],
+  "expl": "TNAU advises giving adequate shade to avoid calcium-induced Iron chlorosis in pineapple.",
+  "sec_num": 7,
+  "options": {
+   "A": "Extra potash",
+   "B": "Adequate shade",
+   "C": "Extra nitrogen",
+   "D": "Increased irrigation",
+   "E": "Boron spray"
+  },
+  "answer": "B",
+  "flat_num": 107,
+  "qid": "Q1.7 (Part I, Pineapple)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pineapple",
+  "diff": "Moderate",
+  "q": "Pineapple fruits can be harvested how many months after planting?",
+  "correct": "18-24 months",
+  "distractors": [
+   "6-9 months",
+   "10-14 months",
+   "30-36 months",
+   "3-5 months"
+  ],
+  "expl": "TNAU states pineapple can be harvested 18-24 months after planting.",
+  "sec_num": 8,
+  "options": {
+   "A": "6-9 months",
+   "B": "10-14 months",
+   "C": "18-24 months",
+   "D": "30-36 months",
+   "E": "3-5 months"
+  },
+  "answer": "C",
+  "flat_num": 108,
+  "qid": "Q1.8 (Part I, Pineapple)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pineapple",
+  "diff": "Hard",
+  "q": "In the Mauritius pineapple variety, up to how many crops (plant crop plus ratoons) can be taken from one planting?",
+  "correct": "Five",
+  "distractors": [
+   "Two",
+   "Three",
+   "Four",
+   "One only"
+  ],
+  "expl": "TNAU: one plant crop and two ratoon crops are normal; in Mauritius up to five crops can be taken.",
+  "sec_num": 9,
+  "options": {
+   "A": "Two",
+   "B": "Three",
+   "C": "Four",
+   "D": "Five",
+   "E": "One only"
+  },
+  "answer": "D",
+  "flat_num": 109,
+  "qid": "Q1.9 (Part I, Pineapple)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pomegranate",
+  "diff": "Easy",
+  "q": "Pomegranate (Punica granatum L.) belongs to which family?",
+  "correct": "Punicaceae",
+  "distractors": [
+   "Rutaceae",
+   "Rosaceae",
+   "Myrtaceae",
+   "Rhamnaceae"
+  ],
+  "expl": "TNAU lists Pomegranate under family Punicaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Rutaceae",
+   "B": "Rosaceae",
+   "C": "Myrtaceae",
+   "D": "Rhamnaceae",
+   "E": "Punicaceae"
+  },
+  "answer": "E",
+  "flat_num": 110,
+  "qid": "Q1.1 (Part I, Pomegranate)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pomegranate",
+  "diff": "Hard",
+  "q": "Pomegranate performs well up to an elevation of?",
+  "correct": "1800 m",
+  "distractors": [
+   "500 m",
+   "1000 m",
+   "1500 m",
+   "2500 m"
+  ],
+  "expl": "TNAU states pomegranate performs well up to an elevation of 1800 m.",
+  "sec_num": 2,
+  "options": {
+   "A": "1800 m",
+   "B": "500 m",
+   "C": "1000 m",
+   "D": "1500 m",
+   "E": "2500 m"
+  },
+  "answer": "A",
+  "flat_num": 111,
+  "qid": "Q1.2 (Part I, Pomegranate)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pomegranate",
+  "diff": "Moderate",
+  "q": "Pomegranate rooted cuttings/layers are planted at a spacing of?",
+  "correct": "2.5 to 3 m either way",
+  "distractors": [
+   "2m x 2m",
+   "4m x 4m",
+   "5m x 5m",
+   "6m x 6m"
+  ],
+  "expl": "TNAU: 12-18 month old rooted cuttings/layers are planted at 2.5 to 3m spacing.",
+  "sec_num": 3,
+  "options": {
+   "A": "2m x 2m",
+   "B": "2.5 to 3 m either way",
+   "C": "4m x 4m",
+   "D": "5m x 5m",
+   "E": "6m x 6m"
+  },
+  "answer": "B",
+  "flat_num": 112,
+  "qid": "Q1.3 (Part I, Pomegranate)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pomegranate",
+  "diff": "Hard",
+  "q": "Annual pruning of pomegranate after harvest (December) involves removing what fraction of past-season shoots?",
+  "correct": "One-third",
+  "distractors": [
+   "One-fourth",
+   "One-half",
+   "Two-thirds",
+   "The entire shoot"
+  ],
+  "expl": "TNAU: annual pruning after harvest completed in December shortens past-season shoots by removing one-third of the shoot.",
+  "sec_num": 4,
+  "options": {
+   "A": "One-fourth",
+   "B": "One-half",
+   "C": "One-third",
+   "D": "Two-thirds",
+   "E": "The entire shoot"
+  },
+  "answer": "C",
+  "flat_num": 113,
+  "qid": "Q1.4 (Part I, Pomegranate)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pomegranate",
+  "diff": "Hard",
+  "q": "Fruit cracking in pomegranate is reduced by spraying which chemical at 1% concentration twice during June?",
+  "correct": "Liquid paraffin",
+  "distractors": [
+   "Borax",
+   "Potassium sulphate",
+   "Ethrel",
+   "2,4-D"
+  ],
+  "expl": "TNAU: spraying liquid paraffin at 1% concentration twice during June (15 days interval) reduces fruit cracking in pomegranate.",
+  "sec_num": 5,
+  "options": {
+   "A": "Borax",
+   "B": "Potassium sulphate",
+   "C": "Ethrel",
+   "D": "Liquid paraffin",
+   "E": "2,4-D"
+  },
+  "answer": "D",
+  "flat_num": 114,
+  "qid": "Q1.5 (Part I, Pomegranate)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pomegranate",
+  "diff": "Moderate",
+  "q": "Aphids in pomegranate are controlled by releasing first-instar larvae of which predator?",
+  "correct": "Chrysopherla carnea",
+  "distractors": [
+   "Cryptolaemus montrouzieri",
+   "Trichogramma chilonis",
+   "Aphelinus mali",
+   "Coccinellid beetle (unspecified)"
+  ],
+  "expl": "TNAU recommends releasing first instar larvae of green lacewing bug Chrysopherla carnea @50 grubs/flowering branch for aphid control.",
+  "sec_num": 6,
+  "options": {
+   "A": "Cryptolaemus montrouzieri",
+   "B": "Trichogramma chilonis",
+   "C": "Aphelinus mali",
+   "D": "Coccinellid beetle (unspecified)",
+   "E": "Chrysopherla carnea"
+  },
+  "answer": "E",
+  "flat_num": 115,
+  "qid": "Q1.6 (Part I, Pomegranate)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pomegranate",
+  "diff": "Hard",
+  "q": "The Economic Threshold Level (ETL) for pomegranate fruit borer is defined as?",
+  "correct": "5 eggs/plant with 60 fruits bearing capacity",
+  "distractors": [
+   "2 eggs/plant",
+   "10 eggs/plant",
+   "1 egg/fruit",
+   "3 eggs/plant with 30 fruits"
+  ],
+  "expl": "TNAU specifies an ETL of 5 eggs/plant with a bearing capacity of 60 fruits for pomegranate fruit borer.",
+  "sec_num": 7,
+  "options": {
+   "A": "5 eggs/plant with 60 fruits bearing capacity",
+   "B": "2 eggs/plant",
+   "C": "10 eggs/plant",
+   "D": "1 egg/fruit",
+   "E": "3 eggs/plant with 30 fruits"
+  },
+  "answer": "A",
+  "flat_num": 116,
+  "qid": "Q1.7 (Part I, Pomegranate)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pomegranate",
+  "diff": "Moderate",
+  "q": "Pomegranate is trained to a single stem up to what height with 3-4 scaffold branches?",
+  "correct": "60 cm",
+  "distractors": [
+   "30 cm",
+   "45 cm",
+   "75 cm",
+   "90 cm"
+  ],
+  "expl": "TNAU: pomegranate is trained to a single stem up to 60cm with 3-4 scaffold branches.",
+  "sec_num": 8,
+  "options": {
+   "A": "30 cm",
+   "B": "60 cm",
+   "C": "45 cm",
+   "D": "75 cm",
+   "E": "90 cm"
+  },
+  "answer": "B",
+  "flat_num": 117,
+  "qid": "Q1.8 (Part I, Pomegranate)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Pomegranate",
+  "diff": "Moderate",
+  "q": "The average yield of pomegranate is?",
+  "correct": "20-25 t/ha/year",
+  "distractors": [
+   "10-15 t/ha/year",
+   "15-20 t/ha/year",
+   "25-30 t/ha/year",
+   "30-35 t/ha/year"
+  ],
+  "expl": "TNAU states pomegranate yields an average of 20-25 t/ha/year.",
+  "sec_num": 9,
+  "options": {
+   "A": "10-15 t/ha/year",
+   "B": "15-20 t/ha/year",
+   "C": "20-25 t/ha/year",
+   "D": "25-30 t/ha/year",
+   "E": "30-35 t/ha/year"
+  },
+  "answer": "C",
+  "flat_num": 118,
+  "qid": "Q1.9 (Part I, Pomegranate)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jack",
+  "diff": "Easy",
+  "q": "Jack fruit (Artocarpus heterophyllus) belongs to which family?",
+  "correct": "Moraceae",
+  "distractors": [
+   "Myrtaceae",
+   "Rutaceae",
+   "Anacardiaceae",
+   "Bromeliaceae"
+  ],
+  "expl": "TNAU lists Jack under family Moraceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Myrtaceae",
+   "B": "Rutaceae",
+   "C": "Anacardiaceae",
+   "D": "Moraceae",
+   "E": "Bromeliaceae"
+  },
+  "answer": "D",
+  "flat_num": 119,
+  "qid": "Q1.1 (Part I, Jack)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jack",
+  "diff": "Hard",
+  "q": "To reduce soil pH before planting jack fruit, the pit is treated with?",
+  "correct": "1% Aluminium sulphate",
+  "distractors": [
+   "Gypsum 3 kg",
+   "Agricultural lime",
+   "Dolomite",
+   "Sulphur dust"
+  ],
+  "expl": "TNAU: pH around 5.5 is desirable at planting; otherwise treat the pit soil with 1% Aluminium sulphate to reduce pH.",
+  "sec_num": 2,
+  "options": {
+   "A": "Gypsum 3 kg",
+   "B": "Agricultural lime",
+   "C": "Dolomite",
+   "D": "Sulphur dust",
+   "E": "1% Aluminium sulphate"
+  },
+  "answer": "E",
+  "flat_num": 120,
+  "qid": "Q1.2 (Part I, Jack)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jack",
+  "diff": "Moderate",
+  "q": "Large-scale propagation of jack fruit is done by which method on 4-month-old seedling rootstock?",
+  "correct": "Cleft (softwood) grafting",
+  "distractors": [
+   "Approach grafting",
+   "Air layering",
+   "Budding",
+   "Inarching"
+  ],
+  "expl": "TNAU: soft wood cleft grafting during July-August on 4-month-old seedling rootstock is used for large-scale jack propagation.",
+  "sec_num": 3,
+  "options": {
+   "A": "Cleft (softwood) grafting",
+   "B": "Approach grafting",
+   "C": "Air layering",
+   "D": "Budding",
+   "E": "Inarching"
+  },
+  "answer": "A",
+  "flat_num": 121,
+  "qid": "Q1.3 (Part I, Jack)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jack",
+  "diff": "Moderate",
+  "q": "Jack fruit is planted at a spacing of?",
+  "correct": "8m x 8m",
+  "distractors": [
+   "5m x 5m",
+   "6m x 6m",
+   "7m x 7m",
+   "10m x 10m"
+  ],
+  "expl": "TNAU: jack grafts are planted at 8m x 8m spacing in pits of 1x1x1m.",
+  "sec_num": 4,
+  "options": {
+   "A": "5m x 5m",
+   "B": "8m x 8m",
+   "C": "6m x 6m",
+   "D": "7m x 7m",
+   "E": "10m x 10m"
+  },
+  "answer": "B",
+  "flat_num": 122,
+  "qid": "Q1.4 (Part I, Jack)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jack",
+  "diff": "Hard",
+  "q": "Grafted jack fruit trees commence yielding from which year, compared to the 8th year for seedling trees?",
+  "correct": "5th year",
+  "distractors": [
+   "2nd year",
+   "3rd year",
+   "7th year",
+   "10th year"
+  ],
+  "expl": "TNAU: yield commences from the 5th year in grafts and the 8th year in seedling jack trees.",
+  "sec_num": 5,
+  "options": {
+   "A": "2nd year",
+   "B": "3rd year",
+   "C": "5th year",
+   "D": "7th year",
+   "E": "10th year"
+  },
+  "answer": "C",
+  "flat_num": 123,
+  "qid": "Q1.5 (Part I, Jack)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jack",
+  "diff": "Hard",
+  "q": "'Rhizopus rot' in jack fruit is controlled by spraying 1% Bordeaux mixture or?",
+  "correct": "Copper oxychloride 2.5 g/lit",
+  "distractors": [
+   "Carbendazim 0.1%",
+   "Mancozeb 2g/lit",
+   "Chlorothalonil",
+   "Wettable sulphur"
+  ],
+  "expl": "TNAU recommends 1% Bordeaux mixture or Copper oxychloride 2.5g/lit, three sprays at 15-day interval, for Rhizopus rot in jack.",
+  "sec_num": 6,
+  "options": {
+   "A": "Carbendazim 0.1%",
+   "B": "Mancozeb 2g/lit",
+   "C": "Chlorothalonil",
+   "D": "Copper oxychloride 2.5 g/lit",
+   "E": "Wettable sulphur"
+  },
+  "answer": "D",
+  "flat_num": 124,
+  "qid": "Q1.6 (Part I, Jack)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jack",
+  "diff": "Moderate",
+  "q": "Jack fruit crop yields about?",
+  "correct": "30-40 t/ha",
+  "distractors": [
+   "10-20 t/ha",
+   "20-30 t/ha",
+   "40-50 t/ha",
+   "50-60 t/ha"
+  ],
+  "expl": "TNAU states jack fruit crop yields about 30-40 t/ha.",
+  "sec_num": 7,
+  "options": {
+   "A": "10-20 t/ha",
+   "B": "20-30 t/ha",
+   "C": "40-50 t/ha",
+   "D": "50-60 t/ha",
+   "E": "30-40 t/ha"
+  },
+  "answer": "E",
+  "flat_num": 125,
+  "qid": "Q1.7 (Part I, Jack)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jack",
+  "diff": "Easy",
+  "q": "Panruti is noted by TNAU as a major market for which fruit crop?",
+  "correct": "Jack",
+  "distractors": [
+   "Sapota",
+   "Guava",
+   "Mango",
+   "Pomegranate"
+  ],
+  "expl": "TNAU market information lists Panruti and Coimbatore as major markets for jack fruit.",
+  "sec_num": 8,
+  "options": {
+   "A": "Jack",
+   "B": "Sapota",
+   "C": "Guava",
+   "D": "Mango",
+   "E": "Pomegranate"
+  },
+  "answer": "A",
+  "flat_num": 126,
+  "qid": "Q1.8 (Part I, Jack)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Ber",
+  "diff": "Easy",
+  "q": "Ber (Zizyphus mauritiana Lam) belongs to which family?",
+  "correct": "Rhamnaceae",
+  "distractors": [
+   "Rosaceae",
+   "Rutaceae",
+   "Myrtaceae",
+   "Punicaceae"
+  ],
+  "expl": "TNAU lists Ber under family Rhamnaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Rosaceae",
+   "B": "Rhamnaceae",
+   "C": "Rutaceae",
+   "D": "Myrtaceae",
+   "E": "Punicaceae"
+  },
+  "answer": "B",
+  "flat_num": 127,
+  "qid": "Q1.1 (Part I, Ber)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Ber",
+  "diff": "Moderate",
+  "q": "The Kaithali variety of ber is planted at a spacing of?",
+  "correct": "8m x 3m",
+  "distractors": [
+   "7m x 7m",
+   "8m x 4m",
+   "6m x 6m",
+   "5m x 5m"
+  ],
+  "expl": "TNAU: general ber spacing is 7x7m, but Kaithali is planted at 8x3m and Banarasi at 8x4m.",
+  "sec_num": 2,
+  "options": {
+   "A": "7m x 7m",
+   "B": "8m x 4m",
+   "C": "8m x 3m",
+   "D": "6m x 6m",
+   "E": "5m x 5m"
+  },
+  "answer": "C",
+  "flat_num": 128,
+  "qid": "Q1.2 (Part I, Ber)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Ber",
+  "diff": "Hard",
+  "q": "Providing a 5% slope towards the base of the ber tree is meant for?",
+  "correct": "In-situ water harvesting",
+  "distractors": [
+   "Better aeration",
+   "Preventing waterlogging",
+   "Preventing weed growth",
+   "Facilitating pruning access"
+  ],
+  "expl": "TNAU: a 5% slope towards the base of the ber tree is provided for in-situ water harvesting.",
+  "sec_num": 3,
+  "options": {
+   "A": "Better aeration",
+   "B": "Preventing waterlogging",
+   "C": "Preventing weed growth",
+   "D": "In-situ water harvesting",
+   "E": "Facilitating pruning access"
+  },
+  "answer": "D",
+  "flat_num": 129,
+  "qid": "Q1.3 (Part I, Ber)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Ber",
+  "diff": "Hard",
+  "q": "2% KNO3 spray in ber is given thrice at monthly intervals during?",
+  "correct": "January, February and March",
+  "distractors": [
+   "June, July, August",
+   "April, May, June",
+   "September, October, November",
+   "Year-round"
+  ],
+  "expl": "TNAU recommends spraying 2% KNO3 thrice at monthly intervals in January, February and March for ber.",
+  "sec_num": 4,
+  "options": {
+   "A": "June, July, August",
+   "B": "April, May, June",
+   "C": "September, October, November",
+   "D": "Year-round",
+   "E": "January, February and March"
+  },
+  "answer": "E",
+  "flat_num": 130,
+  "qid": "Q1.4 (Part I, Ber)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Ber",
+  "diff": "Moderate",
+  "q": "Ber trees are trained with a straight stem up to what height from ground level?",
+  "correct": "75 cm",
+  "distractors": [
+   "30 cm",
+   "45 cm",
+   "60 cm",
+   "100 cm"
+  ],
+  "expl": "TNAU: rootstock sprouts are removed to maintain a straight stem up to 75cm from ground level in ber.",
+  "sec_num": 5,
+  "options": {
+   "A": "75 cm",
+   "B": "30 cm",
+   "C": "45 cm",
+   "D": "60 cm",
+   "E": "100 cm"
+  },
+  "answer": "A",
+  "flat_num": 131,
+  "qid": "Q1.5 (Part I, Ber)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Ber",
+  "diff": "Moderate",
+  "q": "'Black leaf spot' in ber is controlled by spraying Carbendazim or?",
+  "correct": "Chlorothalonil",
+  "distractors": [
+   "Bordeaux mixture",
+   "Wettable sulphur",
+   "Dinocap",
+   "Copper oxychloride"
+  ],
+  "expl": "TNAU recommends Carbendazim 1g/lit or Chlorothalonil 2g/lit at 15-day intervals for black leaf spot in ber.",
+  "sec_num": 6,
+  "options": {
+   "A": "Bordeaux mixture",
+   "B": "Chlorothalonil",
+   "C": "Wettable sulphur",
+   "D": "Dinocap",
+   "E": "Copper oxychloride"
+  },
+  "answer": "B",
+  "flat_num": 132,
+  "qid": "Q1.6 (Part I, Ber)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Ber",
+  "diff": "Hard",
+  "q": "Ber seeds (stones) can be stored under ambient conditions without treatment for up to?",
+  "correct": "30 months",
+  "distractors": [
+   "6 months",
+   "12 months",
+   "18 months",
+   "5 years"
+  ],
+  "expl": "TNAU seed technology notes ber stones can be stored up to 30 months without treatment under ambient conditions.",
+  "sec_num": 7,
+  "options": {
+   "A": "6 months",
+   "B": "12 months",
+   "C": "30 months",
+   "D": "18 months",
+   "E": "5 years"
+  },
+  "answer": "C",
+  "flat_num": 133,
+  "qid": "Q1.7 (Part I, Ber)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Ber",
+  "diff": "Moderate",
+  "q": "Ber yields about how much fruit per tree per year?",
+  "correct": "70-80 kg",
+  "distractors": [
+   "20-30 kg",
+   "40-50 kg",
+   "100-120 kg",
+   "150 kg"
+  ],
+  "expl": "TNAU states ber yield ranges about 70-80 kg of fruit/tree/year.",
+  "sec_num": 8,
+  "options": {
+   "A": "20-30 kg",
+   "B": "40-50 kg",
+   "C": "100-120 kg",
+   "D": "70-80 kg",
+   "E": "150 kg"
+  },
+  "answer": "D",
+  "flat_num": 134,
+  "qid": "Q1.8 (Part I, Ber)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Amla",
+  "diff": "Easy",
+  "q": "Amla (Phyllanthus emblica) belongs to which family?",
+  "correct": "Euphorbiaceae",
+  "distractors": [
+   "Myrtaceae",
+   "Rutaceae",
+   "Rosaceae",
+   "Punicaceae"
+  ],
+  "expl": "TNAU lists Amla under family Euphorbiaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Myrtaceae",
+   "B": "Rutaceae",
+   "C": "Rosaceae",
+   "D": "Punicaceae",
+   "E": "Euphorbiaceae"
+  },
+  "answer": "E",
+  "flat_num": 135,
+  "qid": "Q1.1 (Part I, Amla)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Amla",
+  "diff": "Moderate",
+  "q": "Amla, planted at 6m x 6m spacing, uses pits of size?",
+  "correct": "1m x 1m or 1.25m x 1.25m",
+  "distractors": [
+   "45cm x 45cm x 45cm",
+   "60cm x 60cm x 60cm",
+   "75cm x 75cm x 75cm",
+   "90cm x 90cm x 90cm"
+  ],
+  "expl": "TNAU: amla is planted at 6x6m spacing in pits of 1x1m or 1.25x1.25m.",
+  "sec_num": 2,
+  "options": {
+   "A": "1m x 1m or 1.25m x 1.25m",
+   "B": "45cm x 45cm x 45cm",
+   "C": "60cm x 60cm x 60cm",
+   "D": "75cm x 75cm x 75cm",
+   "E": "90cm x 90cm x 90cm"
+  },
+  "answer": "A",
+  "flat_num": 136,
+  "qid": "Q1.2 (Part I, Amla)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Amla",
+  "diff": "Hard",
+  "q": "Drip irrigation in amla can save water compared to conventional irrigation up to?",
+  "correct": "40-45%",
+  "distractors": [
+   "10-15%",
+   "20-25%",
+   "60-65%",
+   "80%"
+  ],
+  "expl": "TNAU: drip irrigation in amla is appropriate and can save water up to 40-45%.",
+  "sec_num": 3,
+  "options": {
+   "A": "10-15%",
+   "B": "40-45%",
+   "C": "20-25%",
+   "D": "60-65%",
+   "E": "80%"
+  },
+  "answer": "B",
+  "flat_num": 137,
+  "qid": "Q1.3 (Part I, Amla)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Amla",
+  "diff": "Hard",
+  "q": "Amla trees are trained to which system, with 2-4 branches at a wide crotch angle?",
+  "correct": "Modified central leader system",
+  "distractors": [
+   "Open centre system",
+   "Espalier system",
+   "Kniffin system",
+   "Pandal system"
+  ],
+  "expl": "TNAU: amla is trained to a modified central leader system with 2-4 opposite branches encouraged in early years.",
+  "sec_num": 4,
+  "options": {
+   "A": "Open centre system",
+   "B": "Espalier system",
+   "C": "Modified central leader system",
+   "D": "Kniffin system",
+   "E": "Pandal system"
+  },
+  "answer": "C",
+  "flat_num": 138,
+  "qid": "Q1.4 (Part I, Amla)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Amla",
+  "diff": "Moderate",
+  "q": "Reduced apical growth with side shoots developing below a shoot gall in amla is caused by which pest?",
+  "correct": "Gall caterpillar",
+  "distractors": [
+   "Bark eating caterpillar",
+   "Mealybug",
+   "Aphids",
+   "Rust fungus"
+  ],
+  "expl": "TNAU describes gall caterpillar larvae boring into apical shoots during the rainy season, checking apical regrowth in amla.",
+  "sec_num": 5,
+  "options": {
+   "A": "Bark eating caterpillar",
+   "B": "Mealybug",
+   "C": "Aphids",
+   "D": "Gall caterpillar",
+   "E": "Rust fungus"
+  },
+  "answer": "D",
+  "flat_num": 139,
+  "qid": "Q1.5 (Part I, Amla)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Amla",
+  "diff": "Moderate",
+  "q": "Circular reddish spots on amla leaves and fruits, controlled by 0.2% Mancozeb spray, indicate which disease?",
+  "correct": "Rust",
+  "distractors": [
+   "Anthracnose",
+   "Powdery mildew",
+   "Sooty mould",
+   "Canker"
+  ],
+  "expl": "TNAU: Rust appears as circular reddish spots on amla leaves/fruits and is controlled with 0.2% Mancozeb.",
+  "sec_num": 6,
+  "options": {
+   "A": "Anthracnose",
+   "B": "Powdery mildew",
+   "C": "Sooty mould",
+   "D": "Canker",
+   "E": "Rust"
+  },
+  "answer": "E",
+  "flat_num": 140,
+  "qid": "Q1.6 (Part I, Amla)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Amla",
+  "diff": "Hard",
+  "q": "Stem swelling/bulging in amla is best managed by?",
+  "correct": "Proper pruning",
+  "distractors": [
+   "Application of Bordeaux mixture",
+   "Zinc sulphate spray",
+   "Gypsum application",
+   "Increased irrigation"
+  ],
+  "expl": "TNAU states stem swelling/bulging in amla can be controlled by proper pruning.",
+  "sec_num": 7,
+  "options": {
+   "A": "Proper pruning",
+   "B": "Application of Bordeaux mixture",
+   "C": "Zinc sulphate spray",
+   "D": "Gypsum application",
+   "E": "Increased irrigation"
+  },
+  "answer": "A",
+  "flat_num": 141,
+  "qid": "Q1.7 (Part I, Amla)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Amla",
+  "diff": "Moderate",
+  "q": "Amla yields about how much fruit per tree annually?",
+  "correct": "100 kg/tree",
+  "distractors": [
+   "20 kg",
+   "40 kg",
+   "70 kg",
+   "150 kg"
+  ],
+  "expl": "TNAU states amla crop yields about 100 kg/tree annually.",
+  "sec_num": 8,
+  "options": {
+   "A": "20 kg",
+   "B": "100 kg/tree",
+   "C": "40 kg",
+   "D": "70 kg",
+   "E": "150 kg"
+  },
+  "answer": "B",
+  "flat_num": 142,
+  "qid": "Q1.8 (Part I, Amla)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Easy",
+  "q": "Jamun (Syzygium cumini) belongs to which family?",
+  "correct": "Myrtaceae",
+  "distractors": [
+   "Euphorbiaceae",
+   "Rhamnaceae",
+   "Punicaceae",
+   "Moraceae"
+  ],
+  "expl": "TNAU's jamun monograph places Syzygium cumini under family Myrtaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Euphorbiaceae",
+   "B": "Rhamnaceae",
+   "C": "Myrtaceae",
+   "D": "Punicaceae",
+   "E": "Moraceae"
+  },
+  "answer": "C",
+  "flat_num": 143,
+  "qid": "Q1.1 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Moderate",
+  "q": "Jamun is also known in different parts of India as black plum, Ram jamun and?",
+  "correct": "Indian black cherry",
+  "distractors": [
+   "Gulab jamun",
+   "Rose apple",
+   "Water apple",
+   "Malay apple"
+  ],
+  "expl": "TNAU: jamun is known as black plum, Indian black cherry, Ram jamun in different parts of India.",
+  "sec_num": 2,
+  "options": {
+   "A": "Gulab jamun",
+   "B": "Rose apple",
+   "C": "Water apple",
+   "D": "Indian black cherry",
+   "E": "Malay apple"
+  },
+  "answer": "D",
+  "flat_num": 144,
+  "qid": "Q1.2 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Hard",
+  "q": "The rose apple, also called gulab-jamun, popular in South India and West Bengal, is scientifically?",
+  "correct": "Syzygium jambos",
+  "distractors": [
+   "Syzygium cumini",
+   "Syzygium javanicum",
+   "Syzygium malaccense",
+   "Syzygium zeylanica"
+  ],
+  "expl": "TNAU: S. jambos is the rose apple/gulab-jamun, yellow-fruited with high pectin content.",
+  "sec_num": 3,
+  "options": {
+   "A": "Syzygium cumini",
+   "B": "Syzygium javanicum",
+   "C": "Syzygium malaccense",
+   "D": "Syzygium zeylanica",
+   "E": "Syzygium jambos"
+  },
+  "answer": "E",
+  "flat_num": 145,
+  "qid": "Q1.3 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Hard",
+  "q": "Which Syzygium species, resistant to termite attack, is used as rootstock for jamun?",
+  "correct": "Syzygium densiflorum",
+  "distractors": [
+   "S. jambos",
+   "S. javanicum",
+   "S. zeylanica",
+   "S. uniflora"
+  ],
+  "expl": "TNAU states S. densiflora is used as rootstock in jamun (S. cumini) and resists termite attack.",
+  "sec_num": 4,
+  "options": {
+   "A": "Syzygium densiflorum",
+   "B": "S. jambos",
+   "C": "S. javanicum",
+   "D": "S. zeylanica",
+   "E": "S. uniflora"
+  },
+  "answer": "A",
+  "flat_num": 146,
+  "qid": "Q1.4 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Hard",
+  "q": "Jamun comes true to type through seed mainly due to which phenomenon?",
+  "correct": "Polyembryony",
+  "distractors": [
+   "Apomixis",
+   "Self-incompatibility",
+   "Parthenocarpy",
+   "Vegetative apospory"
+  ],
+  "expl": "TNAU: due to polyembryony, jamun comes true to parent through seed, though this delays bearing.",
+  "sec_num": 5,
+  "options": {
+   "A": "Apomixis",
+   "B": "Polyembryony",
+   "C": "Self-incompatibility",
+   "D": "Parthenocarpy",
+   "E": "Vegetative apospory"
+  },
+  "answer": "B",
+  "flat_num": 147,
+  "qid": "Q1.5 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Hard",
+  "q": "The budding method reported more successful than shield or 'T' budding in jamun is?",
+  "correct": "Forkert method",
+  "distractors": [
+   "Patch budding",
+   "Chip budding",
+   "Ring budding",
+   "Annular budding"
+  ],
+  "expl": "TNAU notes better success has been reported with the forkert method of budding compared to shield or T-budding in jamun.",
+  "sec_num": 6,
+  "options": {
+   "A": "Patch budding",
+   "B": "Chip budding",
+   "C": "Forkert method",
+   "D": "Ring budding",
+   "E": "Annular budding"
+  },
+  "answer": "C",
+  "flat_num": 148,
+  "qid": "Q1.6 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Hard",
+  "q": "Air layering in jamun gives about 60% success when treated with IBA in lanolin paste at what concentration?",
+  "correct": "500 ppm",
+  "distractors": [
+   "1000 ppm",
+   "2000 ppm",
+   "200 ppm",
+   "100 ppm"
+  ],
+  "expl": "TNAU: about 60% air layers succeed with 500 ppm IBA in lanolin paste when done in spring, not the rainy season.",
+  "sec_num": 7,
+  "options": {
+   "A": "1000 ppm",
+   "B": "2000 ppm",
+   "C": "200 ppm",
+   "D": "500 ppm",
+   "E": "100 ppm"
+  },
+  "answer": "D",
+  "flat_num": 149,
+  "qid": "Q1.7 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Hard",
+  "q": "Semi-hardwood cuttings of jamun (20-25 cm) give better rooting under intermittent mist when treated with 2000 ppm of?",
+  "correct": "IBA (Indole Butyric Acid)",
+  "distractors": [
+   "NAA",
+   "GA3",
+   "2,4-D",
+   "Ethrel"
+  ],
+  "expl": "TNAU: semi-hardwood jamun cuttings treated with 2000 ppm IBA under intermittent mist show better rooting.",
+  "sec_num": 8,
+  "options": {
+   "A": "NAA",
+   "B": "GA3",
+   "C": "2,4-D",
+   "D": "Ethrel",
+   "E": "IBA (Indole Butyric Acid)"
+  },
+  "answer": "E",
+  "flat_num": 150,
+  "qid": "Q1.8 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Moderate",
+  "q": "Jamun planting pits (1m x 1m x 1m) are dug at a spacing of?",
+  "correct": "10 m both ways",
+  "distractors": [
+   "5 m both ways",
+   "7 m both ways",
+   "8 m both ways",
+   "12 m both ways"
+  ],
+  "expl": "TNAU: jamun pits of 1x1x1m are dug at a distance of 10m both ways.",
+  "sec_num": 9,
+  "options": {
+   "A": "10 m both ways",
+   "B": "5 m both ways",
+   "C": "7 m both ways",
+   "D": "8 m both ways",
+   "E": "12 m both ways"
+  },
+  "answer": "A",
+  "flat_num": 151,
+  "qid": "Q1.9 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Moderate",
+  "q": "The annual FYM dose recommended for a bearing jamun tree is about?",
+  "correct": "75 kg",
+  "distractors": [
+   "19 kg",
+   "50 kg",
+   "100 kg",
+   "150 kg"
+  ],
+  "expl": "TNAU: about 19 kg FYM is given during the pre-bearing period and 75 kg per bearing tree annually.",
+  "sec_num": 10,
+  "options": {
+   "A": "19 kg",
+   "B": "75 kg",
+   "C": "50 kg",
+   "D": "100 kg",
+   "E": "150 kg"
+  },
+  "answer": "B",
+  "flat_num": 152,
+  "qid": "Q1.10 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Hard",
+  "q": "Grafted/budded jamun trees bear in 6-7 years, whereas seedling trees take?",
+  "correct": "8-10 years",
+  "distractors": [
+   "3-5 years",
+   "12-15 years",
+   "2-3 years",
+   "20 years"
+  ],
+  "expl": "TNAU: seedling jamun trees start bearing at 8-10 years while grafted/budded trees bear in 6-7 years.",
+  "sec_num": 11,
+  "options": {
+   "A": "3-5 years",
+   "B": "12-15 years",
+   "C": "8-10 years",
+   "D": "2-3 years",
+   "E": "20 years"
+  },
+  "answer": "C",
+  "flat_num": 153,
+  "qid": "Q1.11 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Hard",
+  "q": "The leaf-eating caterpillar of jamun (Carea subtillis) is specifically reported to occur in?",
+  "correct": "Coimbatore",
+  "distractors": [
+   "Delhi",
+   "Kolkata",
+   "Mumbai",
+   "Bengaluru"
+  ],
+  "expl": "TNAU notes this caterpillar is only found in Coimbatore among jamun-growing regions discussed.",
+  "sec_num": 12,
+  "options": {
+   "A": "Delhi",
+   "B": "Kolkata",
+   "C": "Mumbai",
+   "D": "Coimbatore",
+   "E": "Bengaluru"
+  },
+  "answer": "D",
+  "flat_num": 154,
+  "qid": "Q1.12 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Hard",
+  "q": "Anthracnose disease of jamun, causing leaf spots and fruit rot, is caused by?",
+  "correct": "Glomerella cingulata",
+  "distractors": [
+   "Colletotrichum gloeosporioides",
+   "Fusarium oxysporum",
+   "Alternaria alternata",
+   "Rhizopus stolonifer"
+  ],
+  "expl": "TNAU identifies Glomerella cingulata as the causal fungus of jamun anthracnose.",
+  "sec_num": 13,
+  "options": {
+   "A": "Colletotrichum gloeosporioides",
+   "B": "Fusarium oxysporum",
+   "C": "Alternaria alternata",
+   "D": "Rhizopus stolonifer",
+   "E": "Glomerella cingulata"
+  },
+  "answer": "E",
+  "flat_num": 155,
+  "qid": "Q1.13 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Hard",
+  "q": "In jamun, the maximum receptivity of the stigma occurs at what time after anthesis?",
+  "correct": "One day after anthesis",
+  "distractors": [
+   "On the same day",
+   "Three days after anthesis",
+   "One week after anthesis",
+   "Immediately at anthesis"
+  ],
+  "expl": "TNAU: jamun's stigma shows maximum receptivity one day after anthesis, and hand pollination then gives maximum fruit set.",
+  "sec_num": 14,
+  "options": {
+   "A": "One day after anthesis",
+   "B": "On the same day",
+   "C": "Three days after anthesis",
+   "D": "One week after anthesis",
+   "E": "Immediately at anthesis"
+  },
+  "answer": "A",
+  "flat_num": 156,
+  "qid": "Q1.14 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Moderate",
+  "q": "Natural fruit drop in jamun is reduced by two sprays of ____, at full bloom and 15 days after fruit set.",
+  "correct": "GA3 60 ppm",
+  "distractors": [
+   "NAA 20 ppm",
+   "2,4-D 25 ppm",
+   "Ethephon 100 ppm",
+   "Paclobutrazol"
+  ],
+  "expl": "TNAU: two sprays of GA3 @60ppm, one at full bloom and another 15 days after initial fruit set, reduce natural fruit drop in jamun.",
+  "sec_num": 15,
+  "options": {
+   "A": "NAA 20 ppm",
+   "B": "GA3 60 ppm",
+   "C": "2,4-D 25 ppm",
+   "D": "Ethephon 100 ppm",
+   "E": "Paclobutrazol"
+  },
+  "answer": "B",
+  "flat_num": 157,
+  "qid": "Q1.15 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Hard",
+  "q": "Jamun fruit growth is divided into three phases; the fastest growth phase occurs during which period after fruit set?",
+  "correct": "52-58 days",
+  "distractors": [
+   "15-52 days",
+   "58-60 days",
+   "0-15 days",
+   "60-70 days"
+  ],
+  "expl": "TNAU describes jamun fruit growth as slow (15-52 days), fast (52-58 days), then slow again (58-60 days) after fruit set.",
+  "sec_num": 16,
+  "options": {
+   "A": "15-52 days",
+   "B": "58-60 days",
+   "C": "52-58 days",
+   "D": "0-15 days",
+   "E": "60-70 days"
+  },
+  "answer": "C",
+  "flat_num": 158,
+  "qid": "Q1.16 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Moderate",
+  "q": "A full-grown seedling jamun tree yields about how much fruit annually, versus 60-70 kg for grafted trees?",
+  "correct": "80-100 kg",
+  "distractors": [
+   "40-50 kg",
+   "150-200 kg",
+   "20-30 kg",
+   "200-250 kg"
+  ],
+  "expl": "TNAU: average yield is about 80-100kg from a full-grown seedling tree and 60-70kg from a grafted one, per year.",
+  "sec_num": 17,
+  "options": {
+   "A": "40-50 kg",
+   "B": "150-200 kg",
+   "C": "20-30 kg",
+   "D": "80-100 kg",
+   "E": "200-250 kg"
+  },
+  "answer": "D",
+  "flat_num": 159,
+  "qid": "Q1.17 (Part I, Jamun)"
+ },
+ {
+  "part": "Part I: Tropical & Sub-Tropical Fruits",
+  "section": "Jamun",
+  "diff": "Moderate",
+  "q": "As per TNAU's nutritive value table, jamun fruit is comparatively a good source of which mineral?",
+  "correct": "Iron",
+  "distractors": [
+   "Calcium",
+   "Phosphorus",
+   "Zinc",
+   "Magnesium"
+  ],
+  "expl": "TNAU's nutritive table lists Iron at 1.0% in jamun, notably higher than the listed Calcium (0.02%) and Phosphorus (0.01%).",
+  "sec_num": 18,
+  "options": {
+   "A": "Calcium",
+   "B": "Phosphorus",
+   "C": "Zinc",
+   "D": "Magnesium",
+   "E": "Iron"
+  },
+  "answer": "E",
+  "flat_num": 160,
+  "qid": "Q1.18 (Part I, Jamun)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Apple",
+  "diff": "Easy",
+  "q": "Apple (Malus sylvestris) belongs to which family?",
+  "correct": "Rosaceae",
+  "distractors": [
+   "Rutaceae",
+   "Myrtaceae",
+   "Punicaceae",
+   "Vitaceae"
+  ],
+  "expl": "TNAU lists Apple under family Rosaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Rosaceae",
+   "B": "Rutaceae",
+   "C": "Myrtaceae",
+   "D": "Punicaceae",
+   "E": "Vitaceae"
+  },
+  "answer": "A",
+  "flat_num": 161,
+  "qid": "Q2.1 (Part II, Apple)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Apple",
+  "diff": "Moderate",
+  "q": "Rome Beauty and Parlin's Beauty apple varieties belong to which maturity group cultivated in TN hills?",
+  "correct": "Late varieties",
+  "distractors": [
+   "Early varieties",
+   "Mid-season varieties",
+   "Ultra-early varieties",
+   "Rootstock types, not fruiting varieties"
+  ],
+  "expl": "TNAU classifies Rome Beauty, Parlin's Beauty and KKL1 as late varieties (August-September yield).",
+  "sec_num": 2,
+  "options": {
+   "A": "Early varieties",
+   "B": "Late varieties",
+   "C": "Mid-season varieties",
+   "D": "Ultra-early varieties",
+   "E": "Rootstock types, not fruiting varieties"
+  },
+  "answer": "B",
+  "flat_num": 162,
+  "qid": "Q2.2 (Part II, Apple)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Apple",
+  "diff": "Moderate",
+  "q": "Irish Peach and Zouches Pipin, early apple varieties, yield during?",
+  "correct": "April-May",
+  "distractors": [
+   "June-July",
+   "August-September",
+   "October-November",
+   "December-January"
+  ],
+  "expl": "TNAU: early apple varieties like Irish Peach and Zouches Pipin bear yield during April-May.",
+  "sec_num": 3,
+  "options": {
+   "A": "June-July",
+   "B": "August-September",
+   "C": "April-May",
+   "D": "October-November",
+   "E": "December-January"
+  },
+  "answer": "C",
+  "flat_num": 163,
+  "qid": "Q2.3 (Part II, Apple)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Apple",
+  "diff": "Hard",
+  "q": "Apple in Tamil Nadu hills is grown at an elevation of?",
+  "correct": "1200 to 2000 m",
+  "distractors": [
+   "500-800 m",
+   "800-1200 m",
+   "2000-2500 m",
+   "above 2500 m"
+  ],
+  "expl": "TNAU states apple can be grown at an elevation of 1200 to 2000m in Tamil Nadu.",
+  "sec_num": 4,
+  "options": {
+   "A": "500-800 m",
+   "B": "800-1200 m",
+   "C": "2000-2500 m",
+   "D": "1200 to 2000 m",
+   "E": "above 2500 m"
+  },
+  "answer": "D",
+  "flat_num": 164,
+  "qid": "Q2.4 (Part II, Apple)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Apple",
+  "diff": "Hard",
+  "q": "One-year-old apple grafts in Tamil Nadu are commonly raised on which rootstocks?",
+  "correct": "M.778 or M.779",
+  "distractors": [
+   "Rangpur lime",
+   "Manilkara hexandra",
+   "Rough lemon",
+   "Trifoliate orange"
+  ],
+  "expl": "TNAU: one-year-old apple grafts with M.778 or M.779 rootstocks are used for planting.",
+  "sec_num": 5,
+  "options": {
+   "A": "Rangpur lime",
+   "B": "Manilkara hexandra",
+   "C": "Rough lemon",
+   "D": "Trifoliate orange",
+   "E": "M.778 or M.779"
+  },
+  "answer": "E",
+  "flat_num": 165,
+  "qid": "Q2.5 (Part II, Apple)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Apple",
+  "diff": "Hard",
+  "q": "Which rootstock group is noted as resistant to woolly aphid in apple?",
+  "correct": "MM 104, MM 110, MM 112-115 group",
+  "distractors": [
+   "M.778, M.779 only",
+   "Rangpur lime",
+   "Sour orange",
+   "Citrumelo"
+  ],
+  "expl": "TNAU lists M778, M799, MM104, MM110, MM112, MM113, MM114 and MM115 as woolly-aphid resistant apple rootstocks.",
+  "sec_num": 6,
+  "options": {
+   "A": "MM 104, MM 110, MM 112-115 group",
+   "B": "M.778, M.779 only",
+   "C": "Rangpur lime",
+   "D": "Sour orange",
+   "E": "Citrumelo"
+  },
+  "answer": "A",
+  "flat_num": 166,
+  "qid": "Q2.6 (Part II, Apple)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Apple",
+  "diff": "Hard",
+  "q": "Which of these is NOT part of TNAU's recommended apple scab spray schedule?",
+  "correct": "Post-harvest hot water dip",
+  "distractors": [
+   "Silver tip to green tip",
+   "Pink bud",
+   "Petal fall",
+   "14 days after fruit set"
+  ],
+  "expl": "TNAU's apple scab schedule covers silver tip, pink bud, petal fall, 10 days after petal fall, and 14 days after fruit set — no hot water dip stage.",
+  "sec_num": 7,
+  "options": {
+   "A": "Silver tip to green tip",
+   "B": "Post-harvest hot water dip",
+   "C": "Pink bud",
+   "D": "Petal fall",
+   "E": "14 days after fruit set"
+  },
+  "answer": "B",
+  "flat_num": 167,
+  "qid": "Q2.7 (Part II, Apple)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Apple",
+  "diff": "Moderate",
+  "q": "Lichen growth on apple trees after pruning is controlled by spraying quick lime at what rate?",
+  "correct": "1 kg/20 lit of water",
+  "distractors": [
+   "0.5 kg/20 lit",
+   "2 kg/20 lit",
+   "5 kg/20 lit",
+   "10 kg/20 lit"
+  ],
+  "expl": "TNAU: spray quick lime @1kg/20 litres of water after pruning to control lichen growth in apple.",
+  "sec_num": 8,
+  "options": {
+   "A": "0.5 kg/20 lit",
+   "B": "2 kg/20 lit",
+   "C": "1 kg/20 lit of water",
+   "D": "5 kg/20 lit",
+   "E": "10 kg/20 lit"
+  },
+  "answer": "C",
+  "flat_num": 168,
+  "qid": "Q2.8 (Part II, Apple)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Apple",
+  "diff": "Moderate",
+  "q": "Apple in Tamil Nadu hills, starting from the 4th year, yields about?",
+  "correct": "10-20 kg/tree/year",
+  "distractors": [
+   "5-10 kg/tree/year",
+   "30-40 kg/tree/year",
+   "50-60 kg/tree/year",
+   "100 kg/tree/year"
+  ],
+  "expl": "TNAU: apple yield ranges between 10-20 kg/tree/year, with bearing starting from the 4th year.",
+  "sec_num": 9,
+  "options": {
+   "A": "5-10 kg/tree/year",
+   "B": "30-40 kg/tree/year",
+   "C": "50-60 kg/tree/year",
+   "D": "10-20 kg/tree/year",
+   "E": "100 kg/tree/year"
+  },
+  "answer": "D",
+  "flat_num": 169,
+  "qid": "Q2.9 (Part II, Apple)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Pear",
+  "diff": "Easy",
+  "q": "Pear (Pyrus communis L.) belongs to which family?",
+  "correct": "Rosaceae",
+  "distractors": [
+   "Rutaceae",
+   "Myrtaceae",
+   "Vitaceae",
+   "Rhamnaceae"
+  ],
+  "expl": "TNAU lists Pear under family Rosaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Rutaceae",
+   "B": "Myrtaceae",
+   "C": "Vitaceae",
+   "D": "Rhamnaceae",
+   "E": "Rosaceae"
+  },
+  "answer": "E",
+  "flat_num": 170,
+  "qid": "Q2.1 (Part II, Pear)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Pear",
+  "diff": "Moderate",
+  "q": "Pear can be grown at an elevation above?",
+  "correct": "1200 m",
+  "distractors": [
+   "500 m",
+   "800 m",
+   "1000 m",
+   "2000 m"
+  ],
+  "expl": "TNAU: pear can be grown at an elevation above 1200m with soil pH 5.8-6.2.",
+  "sec_num": 2,
+  "options": {
+   "A": "1200 m",
+   "B": "500 m",
+   "C": "800 m",
+   "D": "1000 m",
+   "E": "2000 m"
+  },
+  "answer": "A",
+  "flat_num": 171,
+  "qid": "Q2.2 (Part II, Pear)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Pear",
+  "diff": "Moderate",
+  "q": "Pear trees are trained to which system, as in apple?",
+  "correct": "Open centre system",
+  "distractors": [
+   "Modified central leader",
+   "Espalier",
+   "Pandal system",
+   "Kniffin system"
+  ],
+  "expl": "TNAU: pear plants are trained to an open centre system, pruned every year in November-December.",
+  "sec_num": 3,
+  "options": {
+   "A": "Modified central leader",
+   "B": "Open centre system",
+   "C": "Espalier",
+   "D": "Pandal system",
+   "E": "Kniffin system"
+  },
+  "answer": "B",
+  "flat_num": 172,
+  "qid": "Q2.3 (Part II, Pear)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Pear",
+  "diff": "Hard",
+  "q": "Top-working of country pear with choice varieties is done using cleft grafting during?",
+  "correct": "December-January",
+  "distractors": [
+   "June-July",
+   "September-October",
+   "March-April",
+   "July-August"
+  ],
+  "expl": "TNAU: top working on country pear with choice varieties is done during December-January with cleft grafting.",
+  "sec_num": 4,
+  "options": {
+   "A": "June-July",
+   "B": "September-October",
+   "C": "December-January",
+   "D": "March-April",
+   "E": "July-August"
+  },
+  "answer": "C",
+  "flat_num": 173,
+  "qid": "Q2.4 (Part II, Pear)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Pear",
+  "diff": "Moderate",
+  "q": "As per TNAU, plant protection in pear is characterised by?",
+  "correct": "No serious pest and disease being noticed; prophylactic copper spray suffices",
+  "distractors": [
+   "Mandatory monthly fungicide rotation",
+   "Heavy nematode infestation requiring soil fumigation",
+   "Compulsory methyl eugenol fruit-fly traps",
+   "Severe wooly aphid infestation as in apple"
+  ],
+  "expl": "TNAU explicitly states no serious pest and disease are noticed in pear; prophylactic copper fungicide + methyl demeton spray after pruning suffices.",
+  "sec_num": 5,
+  "options": {
+   "A": "Mandatory monthly fungicide rotation",
+   "B": "Heavy nematode infestation requiring soil fumigation",
+   "C": "Compulsory methyl eugenol fruit-fly traps",
+   "D": "No serious pest and disease being noticed; prophylactic copper spray suffices",
+   "E": "Severe wooly aphid infestation as in apple"
+  },
+  "answer": "D",
+  "flat_num": 174,
+  "qid": "Q2.5 (Part II, Pear)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Pear",
+  "diff": "Moderate",
+  "q": "Which pear variety records the highest yield (100-120 kg/tree/year)?",
+  "correct": "Common pear",
+  "distractors": [
+   "New Pear",
+   "Kieffer",
+   "Jargonelle",
+   "William"
+  ],
+  "expl": "TNAU: Common pear yields 100-120 kg/tree/year, higher than New Pear/Kieffer (70-80kg) and Jargonelle/William (30-40kg).",
+  "sec_num": 6,
+  "options": {
+   "A": "New Pear",
+   "B": "Kieffer",
+   "C": "Jargonelle",
+   "D": "William",
+   "E": "Common pear"
+  },
+  "answer": "E",
+  "flat_num": 175,
+  "qid": "Q2.6 (Part II, Pear)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Pear",
+  "diff": "Hard",
+  "q": "Jargonelle and William pear varieties yield how much per tree per year?",
+  "correct": "30-40 kg",
+  "distractors": [
+   "70-80 kg",
+   "100-120 kg",
+   "10-20 kg",
+   "150 kg"
+  ],
+  "expl": "TNAU: Jargonelle and William pear varieties yield 30-40 kg/tree/year, the lowest among listed pear varieties.",
+  "sec_num": 7,
+  "options": {
+   "A": "30-40 kg",
+   "B": "70-80 kg",
+   "C": "100-120 kg",
+   "D": "10-20 kg",
+   "E": "150 kg"
+  },
+  "answer": "A",
+  "flat_num": 176,
+  "qid": "Q2.7 (Part II, Pear)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Pear",
+  "diff": "Moderate",
+  "q": "Late pear varieties come to harvest during?",
+  "correct": "July-October",
+  "distractors": [
+   "May-June",
+   "November-December",
+   "January-February",
+   "March-April"
+  ],
+  "expl": "TNAU: early pear varieties harvest May-June while late varieties harvest July-October.",
+  "sec_num": 8,
+  "options": {
+   "A": "May-June",
+   "B": "July-October",
+   "C": "November-December",
+   "D": "January-February",
+   "E": "March-April"
+  },
+  "answer": "B",
+  "flat_num": 177,
+  "qid": "Q2.8 (Part II, Pear)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Plum",
+  "diff": "Easy",
+  "q": "Plum (Prunus salicina L.) belongs to which family?",
+  "correct": "Rosaceae",
+  "distractors": [
+   "Rutaceae",
+   "Myrtaceae",
+   "Punicaceae",
+   "Rhamnaceae"
+  ],
+  "expl": "TNAU lists Plum under family Rosaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Rutaceae",
+   "B": "Myrtaceae",
+   "C": "Rosaceae",
+   "D": "Punicaceae",
+   "E": "Rhamnaceae"
+  },
+  "answer": "C",
+  "flat_num": 178,
+  "qid": "Q2.1 (Part II, Plum)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Plum",
+  "diff": "Moderate",
+  "q": "Which plum variety must be planted along with other varieties to enhance pollination and fruit set?",
+  "correct": "Hale",
+  "distractors": [
+   "Shiro",
+   "Kelsey",
+   "Satsuma",
+   "Rubio"
+  ],
+  "expl": "TNAU notes Hale has to be planted with other varieties to enhance pollination and fruit set (July-August).",
+  "sec_num": 2,
+  "options": {
+   "A": "Shiro",
+   "B": "Kelsey",
+   "C": "Satsuma",
+   "D": "Hale",
+   "E": "Rubio"
+  },
+  "answer": "D",
+  "flat_num": 179,
+  "qid": "Q2.2 (Part II, Plum)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Plum",
+  "diff": "Moderate",
+  "q": "Satsuma and Kelsey plum varieties are classified as which maturity group?",
+  "correct": "Late",
+  "distractors": [
+   "Early",
+   "Mid-season",
+   "Ultra-late",
+   "Rootstock varieties only"
+  ],
+  "expl": "TNAU classifies Shiro, Kelsey and Satsuma as late plum varieties.",
+  "sec_num": 3,
+  "options": {
+   "A": "Early",
+   "B": "Mid-season",
+   "C": "Ultra-late",
+   "D": "Rootstock varieties only",
+   "E": "Late"
+  },
+  "answer": "E",
+  "flat_num": 180,
+  "qid": "Q2.3 (Part II, Plum)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Plum",
+  "diff": "Hard",
+  "q": "In plum, the growing points are tipped at what height to allow side shoots to develop?",
+  "correct": "50-60 cm",
+  "distractors": [
+   "20-30 cm",
+   "80-90 cm",
+   "100 cm",
+   "10-15 cm"
+  ],
+  "expl": "TNAU: plum growing points are tipped at 50-60cm height to allow side shoots to develop, under open centre training.",
+  "sec_num": 4,
+  "options": {
+   "A": "50-60 cm",
+   "B": "20-30 cm",
+   "C": "80-90 cm",
+   "D": "100 cm",
+   "E": "10-15 cm"
+  },
+  "answer": "A",
+  "flat_num": 181,
+  "qid": "Q2.4 (Part II, Plum)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Plum",
+  "diff": "Moderate",
+  "q": "Fruit fly in plum is trapped using Methyl Eugenol 1% along with which insecticide, set between 6-8 a.m.?",
+  "correct": "Malathion 50 EC",
+  "distractors": [
+   "Quinalphos",
+   "Carbaryl",
+   "Dimethoate",
+   "Phosalone"
+  ],
+  "expl": "TNAU: Methyl Eugenol 1% trap combined with Malathion 50 EC 1ml/lit is set between 6-8 a.m. for plum fruit fly.",
+  "sec_num": 5,
+  "options": {
+   "A": "Quinalphos",
+   "B": "Malathion 50 EC",
+   "C": "Carbaryl",
+   "D": "Dimethoate",
+   "E": "Phosalone"
+  },
+  "answer": "B",
+  "flat_num": 182,
+  "qid": "Q2.5 (Part II, Plum)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Plum",
+  "diff": "Hard",
+  "q": "Plum manures/fertilizers are applied to the bearing tree during which months?",
+  "correct": "October-November",
+  "distractors": [
+   "June-July",
+   "August-September",
+   "December-January",
+   "February-March"
+  ],
+  "expl": "TNAU: FYM 30kg with N,P,K is applied to bearing plum trees during October-November.",
+  "sec_num": 6,
+  "options": {
+   "A": "June-July",
+   "B": "August-September",
+   "C": "October-November",
+   "D": "December-January",
+   "E": "February-March"
+  },
+  "answer": "C",
+  "flat_num": 183,
+  "qid": "Q2.6 (Part II, Plum)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Plum",
+  "diff": "Moderate",
+  "q": "Plum yields on average?",
+  "correct": "25-30 kg/tree/year",
+  "distractors": [
+   "10-15 kg/tree/year",
+   "15-20 kg/tree/year",
+   "40-50 kg/tree/year",
+   "60-70 kg/tree/year"
+  ],
+  "expl": "TNAU states plum yields an average of 25-30 kg/tree/year depending on variety and cultivation.",
+  "sec_num": 7,
+  "options": {
+   "A": "10-15 kg/tree/year",
+   "B": "15-20 kg/tree/year",
+   "C": "40-50 kg/tree/year",
+   "D": "25-30 kg/tree/year",
+   "E": "60-70 kg/tree/year"
+  },
+  "answer": "D",
+  "flat_num": 184,
+  "qid": "Q2.7 (Part II, Plum)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Peach",
+  "diff": "Easy",
+  "q": "Peach (Prunus persica) belongs to which family?",
+  "correct": "Rosaceae",
+  "distractors": [
+   "Rutaceae",
+   "Myrtaceae",
+   "Vitaceae",
+   "Punicaceae"
+  ],
+  "expl": "TNAU lists Peach under family Rosaceae.",
+  "sec_num": 1,
+  "options": {
+   "A": "Rutaceae",
+   "B": "Myrtaceae",
+   "C": "Vitaceae",
+   "D": "Punicaceae",
+   "E": "Rosaceae"
+  },
+  "answer": "E",
+  "flat_num": 185,
+  "qid": "Q2.1 (Part II, Peach)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Peach",
+  "diff": "Moderate",
+  "q": "Killikrankie and Floridasun, early-season peach varieties, are suited for planting during?",
+  "correct": "April-May",
+  "distractors": [
+   "June-July",
+   "July-August",
+   "August-September",
+   "November-December"
+  ],
+  "expl": "TNAU: early-season peach varieties Killikrankie and Floridasun are suited for April-May cultivation.",
+  "sec_num": 2,
+  "options": {
+   "A": "April-May",
+   "B": "June-July",
+   "C": "July-August",
+   "D": "August-September",
+   "E": "November-December"
+  },
+  "answer": "A",
+  "flat_num": 186,
+  "qid": "Q2.2 (Part II, Peach)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Peach",
+  "diff": "Moderate",
+  "q": "The Red Shanghai peach variety is best planted during?",
+  "correct": "July-August",
+  "distractors": [
+   "April-May",
+   "June-July",
+   "September-October",
+   "November-December"
+  ],
+  "expl": "TNAU states Red Shanghai variety can be best planted during July-August.",
+  "sec_num": 3,
+  "options": {
+   "A": "April-May",
+   "B": "July-August",
+   "C": "June-July",
+   "D": "September-October",
+   "E": "November-December"
+  },
+  "answer": "B",
+  "flat_num": 187,
+  "qid": "Q2.3 (Part II, Peach)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Peach",
+  "diff": "Hard",
+  "q": "Peach can be grown up to an elevation of?",
+  "correct": "2000 m",
+  "distractors": [
+   "1000 m",
+   "1500 m",
+   "2500 m",
+   "3000 m"
+  ],
+  "expl": "TNAU states peach can be grown at an elevation up to 2000m with soil pH 5.8-6.2.",
+  "sec_num": 4,
+  "options": {
+   "A": "1000 m",
+   "B": "1500 m",
+   "C": "2000 m",
+   "D": "2500 m",
+   "E": "3000 m"
+  },
+  "answer": "C",
+  "flat_num": 188,
+  "qid": "Q2.4 (Part II, Peach)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Peach",
+  "diff": "Hard",
+  "q": "'Leaf curl' in peach, caused by aphids, is controlled by spraying?",
+  "correct": "Methyl Dimeton 25 EC 2 ml/lit",
+  "distractors": [
+   "Carbendazim 0.5g/lit",
+   "Sulphur dust",
+   "Bordeaux mixture",
+   "Mancozeb"
+  ],
+  "expl": "TNAU recommends spraying Methyl Dimeton 25 EC @2ml/lit to control leaf curl aphids in peach.",
+  "sec_num": 5,
+  "options": {
+   "A": "Carbendazim 0.5g/lit",
+   "B": "Sulphur dust",
+   "C": "Bordeaux mixture",
+   "D": "Methyl Dimeton 25 EC 2 ml/lit",
+   "E": "Mancozeb"
+  },
+  "answer": "D",
+  "flat_num": 189,
+  "qid": "Q2.5 (Part II, Peach)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Peach",
+  "diff": "Moderate",
+  "q": "Powdery mildew in peach can be controlled using sulphur dust at what rate per hectare?",
+  "correct": "25 kg/ha",
+  "distractors": [
+   "10 kg/ha",
+   "15 kg/ha",
+   "40 kg/ha",
+   "50 kg/ha"
+  ],
+  "expl": "TNAU: powdery mildew in peach is controlled by Carbendazim 0.5g/lit spray or sulphur dust @25kg/ha.",
+  "sec_num": 6,
+  "options": {
+   "A": "10 kg/ha",
+   "B": "15 kg/ha",
+   "C": "40 kg/ha",
+   "D": "50 kg/ha",
+   "E": "25 kg/ha"
+  },
+  "answer": "E",
+  "flat_num": 190,
+  "qid": "Q2.6 (Part II, Peach)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Peach",
+  "diff": "Easy",
+  "q": "Which training system is adopted in peach, as in apple, pear and plum, for higher yield?",
+  "correct": "Open centre system",
+  "distractors": [
+   "Modified central leader",
+   "Pandal system",
+   "Trellis system",
+   "Espalier system"
+  ],
+  "expl": "TNAU adopts the open centre system of training for peach, with annual removal of dried/diseased/crisscross shoots.",
+  "sec_num": 7,
+  "options": {
+   "A": "Open centre system",
+   "B": "Modified central leader",
+   "C": "Pandal system",
+   "D": "Trellis system",
+   "E": "Espalier system"
+  },
+  "answer": "A",
+  "flat_num": 191,
+  "qid": "Q2.7 (Part II, Peach)"
+ },
+ {
+  "part": "Part II: Temperate Fruits",
+  "section": "Peach",
+  "diff": "Moderate",
+  "q": "Under good maintenance, peach yields on average?",
+  "correct": "10-15 kg/tree/year",
+  "distractors": [
+   "5-10 kg/tree/year",
+   "20-25 kg/tree/year",
+   "30-40 kg/tree/year",
+   "50 kg/tree/year"
+  ],
+  "expl": "TNAU states peach yields an average of 10-15 kg of fruit per tree per year under good maintenance.",
+  "sec_num": 8,
+  "options": {
+   "A": "5-10 kg/tree/year",
+   "B": "10-15 kg/tree/year",
+   "C": "20-25 kg/tree/year",
+   "D": "30-40 kg/tree/year",
+   "E": "50 kg/tree/year"
+  },
+  "answer": "B",
+  "flat_num": 192,
+  "qid": "Q2.8 (Part II, Peach)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Easy",
+  "q": "Litchi's botanical name, as per TNAU's minor fruits table, is?",
+  "correct": "Litchi chinensis",
+  "distractors": [
+   "Garcinia mangostana",
+   "Fragaria vesca",
+   "Passiflora edulis",
+   "Nephelium lappaceum"
+  ],
+  "expl": "TNAU's minor fruits table lists Litchi as Litchi chinensis Sonner.",
+  "sec_num": 1,
+  "options": {
+   "A": "Garcinia mangostana",
+   "B": "Fragaria vesca",
+   "C": "Litchi chinensis",
+   "D": "Passiflora edulis",
+   "E": "Nephelium lappaceum"
+  },
+  "answer": "C",
+  "flat_num": 193,
+  "qid": "Q3.1 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Muzafarpur, Dehradun, Calcutta and Rose Scented Cauvery are popular varieties of?",
+  "correct": "Litchi",
+  "distractors": [
+   "Mangosteen",
+   "Loquat",
+   "Karonda",
+   "Phalsa"
+  ],
+  "expl": "TNAU's minor fruits table lists these as litchi varieties.",
+  "sec_num": 2,
+  "options": {
+   "A": "Mangosteen",
+   "B": "Loquat",
+   "C": "Karonda",
+   "D": "Litchi",
+   "E": "Phalsa"
+  },
+  "answer": "D",
+  "flat_num": 194,
+  "qid": "Q3.2 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Hard",
+  "q": "Litchi is planted at a spacing of?",
+  "correct": "10m x 10m",
+  "distractors": [
+   "5m x 5m",
+   "7m x 7m",
+   "12m x 12m",
+   "2m x 2m"
+  ],
+  "expl": "TNAU's minor fruits table gives 10x10m spacing for litchi.",
+  "sec_num": 3,
+  "options": {
+   "A": "5m x 5m",
+   "B": "7m x 7m",
+   "C": "12m x 12m",
+   "D": "2m x 2m",
+   "E": "10m x 10m"
+  },
+  "answer": "E",
+  "flat_num": 195,
+  "qid": "Q3.3 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Litchi yields about how much per tree, as per TNAU's minor fruits table?",
+  "correct": "80-100 kg/tree",
+  "distractors": [
+   "10-20 kg/tree",
+   "40-60 kg/tree",
+   "150-200 kg/tree",
+   "500-600 fruits/tree"
+  ],
+  "expl": "TNAU's table lists litchi yield at 80-100 kg/tree.",
+  "sec_num": 4,
+  "options": {
+   "A": "80-100 kg/tree",
+   "B": "10-20 kg/tree",
+   "C": "40-60 kg/tree",
+   "D": "150-200 kg/tree",
+   "E": "500-600 fruits/tree"
+  },
+  "answer": "A",
+  "flat_num": 196,
+  "qid": "Q3.4 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Mangosteen (Garcinia mangostana) yields how many fruits per tree as per TNAU?",
+  "correct": "500-600 fruits/tree",
+  "distractors": [
+   "80-100 fruits/tree",
+   "200-300 fruits/tree",
+   "1000-2000 fruits/tree",
+   "10-20 fruits/tree"
+  ],
+  "expl": "TNAU's minor fruits table lists mangosteen yield at 500-600 fruits/tree.",
+  "sec_num": 5,
+  "options": {
+   "A": "80-100 fruits/tree",
+   "B": "500-600 fruits/tree",
+   "C": "200-300 fruits/tree",
+   "D": "1000-2000 fruits/tree",
+   "E": "10-20 fruits/tree"
+  },
+  "answer": "B",
+  "flat_num": 197,
+  "qid": "Q3.5 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Hard",
+  "q": "Strawberry (Fragaria vesca) is typically planted in double rows at a spacing of?",
+  "correct": "40cm x 25cm",
+  "distractors": [
+   "2m x 2m",
+   "5m x 5m",
+   "7m x 7m",
+   "10m x 10m"
+  ],
+  "expl": "TNAU's minor fruits table gives 40x25cm double-row spacing for strawberry.",
+  "sec_num": 6,
+  "options": {
+   "A": "2m x 2m",
+   "B": "5m x 5m",
+   "C": "40cm x 25cm",
+   "D": "7m x 7m",
+   "E": "10m x 10m"
+  },
+  "answer": "C",
+  "flat_num": 198,
+  "qid": "Q3.6 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "The average strawberry yield noted in TNAU's minor fruits table is about?",
+  "correct": "1 kg/m² or 10 t/ha",
+  "distractors": [
+   "5 kg/m²",
+   "50 t/ha",
+   "2 t/ha",
+   "0.1 kg/m²"
+  ],
+  "expl": "TNAU's table lists strawberry yield as 1 kg/m² or about 10 t/ha.",
+  "sec_num": 7,
+  "options": {
+   "A": "5 kg/m²",
+   "B": "50 t/ha",
+   "C": "2 t/ha",
+   "D": "1 kg/m² or 10 t/ha",
+   "E": "0.1 kg/m²"
+  },
+  "answer": "D",
+  "flat_num": 199,
+  "qid": "Q3.7 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Passion fruit varieties are distinguished as purple, suited for hills, and yellow, suited for?",
+  "correct": "Plains",
+  "distractors": [
+   "Coastal areas only",
+   "Hill slopes only",
+   "Wetlands",
+   "High altitude only"
+  ],
+  "expl": "TNAU's minor fruits table notes purple passion fruit for hills and yellow for plains.",
+  "sec_num": 8,
+  "options": {
+   "A": "Coastal areas only",
+   "B": "Hill slopes only",
+   "C": "Wetlands",
+   "D": "High altitude only",
+   "E": "Plains"
+  },
+  "answer": "E",
+  "flat_num": 200,
+  "qid": "Q3.8 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Easy",
+  "q": "The scientific name Averrhoa bilimbi, as per TNAU's minor fruits table, refers to?",
+  "correct": "Bilimbi",
+  "distractors": [
+   "Carambola",
+   "Karonda",
+   "Phalsa",
+   "Loquat"
+  ],
+  "expl": "TNAU lists Bilimbi as Averrhoa bilimbi in the minor fruits table.",
+  "sec_num": 9,
+  "options": {
+   "A": "Bilimbi",
+   "B": "Carambola",
+   "C": "Karonda",
+   "D": "Phalsa",
+   "E": "Loquat"
+  },
+  "answer": "A",
+  "flat_num": 201,
+  "qid": "Q3.9 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Carambola varieties are classified based on taste as highly acidic and?",
+  "correct": "Mild acidic",
+  "distractors": [
+   "Sweet",
+   "Bitter",
+   "Astringent",
+   "Neutral"
+  ],
+  "expl": "TNAU's minor fruits table classifies carambola as highly acidic and mild acidic types.",
+  "sec_num": 10,
+  "options": {
+   "A": "Sweet",
+   "B": "Mild acidic",
+   "C": "Bitter",
+   "D": "Astringent",
+   "E": "Neutral"
+  },
+  "answer": "B",
+  "flat_num": 202,
+  "qid": "Q3.10 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Karonda (Carissa carandas) varieties are available in green, pink and?",
+  "correct": "White",
+  "distractors": [
+   "Yellow",
+   "Purple",
+   "Black",
+   "Orange"
+  ],
+  "expl": "TNAU's minor fruits table lists Karonda varieties as green, pink and white.",
+  "sec_num": 11,
+  "options": {
+   "A": "Yellow",
+   "B": "Purple",
+   "C": "White",
+   "D": "Black",
+   "E": "Orange"
+  },
+  "answer": "C",
+  "flat_num": 203,
+  "qid": "Q3.11 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Mammoth, Safed batia, Golden red and Tanaka are varieties of?",
+  "correct": "Loquat",
+  "distractors": [
+   "Fig",
+   "Persimmon",
+   "Kiwi",
+   "Apricot"
+  ],
+  "expl": "TNAU's minor fruits table lists these as Loquat (Eriobotrya japonica) varieties.",
+  "sec_num": 12,
+  "options": {
+   "A": "Fig",
+   "B": "Persimmon",
+   "C": "Kiwi",
+   "D": "Loquat",
+   "E": "Apricot"
+  },
+  "answer": "D",
+  "flat_num": 204,
+  "qid": "Q3.12 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Phalsa fruits mature yielding 2-3 kg/bush during which months?",
+  "correct": "May, June",
+  "distractors": [
+   "January-February",
+   "August-September",
+   "November-December",
+   "March-April"
+  ],
+  "expl": "TNAU's minor fruits table notes Phalsa fruits mature by May-June, yielding 2-3 kg/bush.",
+  "sec_num": 13,
+  "options": {
+   "A": "January-February",
+   "B": "August-September",
+   "C": "November-December",
+   "D": "March-April",
+   "E": "May, June"
+  },
+  "answer": "E",
+  "flat_num": 205,
+  "qid": "Q3.13 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Hard",
+  "q": "Black mulberry, grown in pits of 0.5m x 0.5m spaced 7m apart, is scientifically named?",
+  "correct": "Morus nigra",
+  "distractors": [
+   "Morus alba",
+   "Morus indica",
+   "Morus rubra",
+   "Morus laevigata"
+  ],
+  "expl": "TNAU's minor fruits table lists Black mulberry as Morus nigra.",
+  "sec_num": 14,
+  "options": {
+   "A": "Morus nigra",
+   "B": "Morus alba",
+   "C": "Morus indica",
+   "D": "Morus rubra",
+   "E": "Morus laevigata"
+  },
+  "answer": "A",
+  "flat_num": 206,
+  "qid": "Q3.14 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "West Indian Cherry (Malphigia punicifolia) is planted at a spacing of?",
+  "correct": "2m x 2m",
+  "distractors": [
+   "5m x 5m",
+   "7m x 7m",
+   "10m x 10m",
+   "4m x 4m"
+  ],
+  "expl": "TNAU's minor fruits table gives 2x2m spacing for West Indian Cherry.",
+  "sec_num": 15,
+  "options": {
+   "A": "5m x 5m",
+   "B": "2m x 2m",
+   "C": "7m x 7m",
+   "D": "10m x 10m",
+   "E": "4m x 4m"
+  },
+  "answer": "B",
+  "flat_num": 207,
+  "qid": "Q3.15 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Balanagar, Mammoth, Atemoya and APK-1 are varieties of?",
+  "correct": "Annona",
+  "distractors": [
+   "Avocado",
+   "Durian",
+   "Rambutan",
+   "Fig"
+  ],
+  "expl": "TNAU's minor fruits table lists these under Annona (A. squamosa/A. cherimoya/A. reticulata).",
+  "sec_num": 16,
+  "options": {
+   "A": "Avocado",
+   "B": "Durian",
+   "C": "Annona",
+   "D": "Rambutan",
+   "E": "Fig"
+  },
+  "answer": "C",
+  "flat_num": 208,
+  "qid": "Q3.16 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Malta, Nepali oblong, Rajamundry, Eureka and Seville Mayor are varieties of which minor fruit?",
+  "correct": "Lemon",
+  "distractors": [
+   "Acid Lime",
+   "Sweet Orange",
+   "Mandarin Orange",
+   "Grapefruit"
+  ],
+  "expl": "TNAU's minor fruits table lists these as Lemon (Citrus limon) varieties.",
+  "sec_num": 17,
+  "options": {
+   "A": "Acid Lime",
+   "B": "Sweet Orange",
+   "C": "Mandarin Orange",
+   "D": "Lemon",
+   "E": "Grapefruit"
+  },
+  "answer": "D",
+  "flat_num": 209,
+  "qid": "Q3.17 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Hard",
+  "q": "Rambutan (Nephelium lappaceum) is recommended to be planted at a spacing of?",
+  "correct": "7m x 10m",
+  "distractors": [
+   "5m x 5m",
+   "10m x 10m",
+   "12m x 12m",
+   "2m x 2m"
+  ],
+  "expl": "TNAU's minor fruits table gives 7x10m spacing for Rambutan.",
+  "sec_num": 18,
+  "options": {
+   "A": "5m x 5m",
+   "B": "10m x 10m",
+   "C": "12m x 12m",
+   "D": "2m x 2m",
+   "E": "7m x 10m"
+  },
+  "answer": "E",
+  "flat_num": 210,
+  "qid": "Q3.18 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Hard",
+  "q": "Durian bearing trees are given N-P-K at approximately, in kg/ha?",
+  "correct": "38.3 : 8.2 : 20.9",
+  "distractors": [
+   "10 : 5 : 8",
+   "100 : 50 : 50",
+   "200 : 100 : 150",
+   "50 : 25 : 40"
+  ],
+  "expl": "TNAU's minor fruits table lists Durian fertilizer dose as N-38.3, P-8.2, K-20.9 kg/ha for a bearing tree.",
+  "sec_num": 19,
+  "options": {
+   "A": "38.3 : 8.2 : 20.9",
+   "B": "10 : 5 : 8",
+   "C": "100 : 50 : 50",
+   "D": "200 : 100 : 150",
+   "E": "50 : 25 : 40"
+  },
+  "answer": "A",
+  "flat_num": 211,
+  "qid": "Q3.19 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "TKD-1, Poll-ock, Fuerte and Purple Hybrid are varieties of?",
+  "correct": "Avocado",
+  "distractors": [
+   "Kiwi",
+   "Fig",
+   "Persimmon",
+   "Egg fruit"
+  ],
+  "expl": "TNAU's minor fruits table lists these as Avocado (Persea americana) varieties.",
+  "sec_num": 20,
+  "options": {
+   "A": "Kiwi",
+   "B": "Avocado",
+   "C": "Fig",
+   "D": "Persimmon",
+   "E": "Egg fruit"
+  },
+  "answer": "B",
+  "flat_num": 212,
+  "qid": "Q3.20 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Fig (Ficus carica) varieties listed by TNAU include Capri fig, White San Pedro and?",
+  "correct": "Smyrna fig",
+  "distractors": [
+   "Black Mission",
+   "Brown Turkey",
+   "Celeste",
+   "Kadota"
+  ],
+  "expl": "TNAU's minor fruits table lists Fig varieties as Capri fig, Smyrna fig, White San Pedro.",
+  "sec_num": 21,
+  "options": {
+   "A": "Black Mission",
+   "B": "Brown Turkey",
+   "C": "Smyrna fig",
+   "D": "Celeste",
+   "E": "Kadota"
+  },
+  "answer": "C",
+  "flat_num": 213,
+  "qid": "Q3.21 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Dai Dai Maru, Tanenashi and Martoria are varieties of which minor fruit?",
+  "correct": "Persimmon",
+  "distractors": [
+   "Kiwi",
+   "Loquat",
+   "Apricot",
+   "Egg fruit"
+  ],
+  "expl": "TNAU's minor fruits table lists these as Persimmon (Diospyros kaki) varieties.",
+  "sec_num": 22,
+  "options": {
+   "A": "Kiwi",
+   "B": "Loquat",
+   "C": "Apricot",
+   "D": "Persimmon",
+   "E": "Egg fruit"
+  },
+  "answer": "D",
+  "flat_num": 214,
+  "qid": "Q3.22 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Abbott, Allison, Bruno, Hayward and Monty are varieties of?",
+  "correct": "Kiwi (Actinidia deliciosa)",
+  "distractors": [
+   "Apricot",
+   "Loquat",
+   "Fig",
+   "Persimmon"
+  ],
+  "expl": "TNAU's minor fruits table lists these as Kiwi varieties.",
+  "sec_num": 23,
+  "options": {
+   "A": "Apricot",
+   "B": "Loquat",
+   "C": "Fig",
+   "D": "Persimmon",
+   "E": "Kiwi (Actinidia deliciosa)"
+  },
+  "answer": "E",
+  "flat_num": 215,
+  "qid": "Q3.23 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Kiwi vines yield about how much fruit per vine, as per TNAU?",
+  "correct": "50-100 kg/vine",
+  "distractors": [
+   "10-20 kg/vine",
+   "150-200 kg/vine",
+   "5-10 kg/vine",
+   "200-300 kg/vine"
+  ],
+  "expl": "TNAU's minor fruits table lists Kiwi yield at 50-100 kg/vine.",
+  "sec_num": 24,
+  "options": {
+   "A": "50-100 kg/vine",
+   "B": "10-20 kg/vine",
+   "C": "150-200 kg/vine",
+   "D": "5-10 kg/vine",
+   "E": "200-300 kg/vine"
+  },
+  "answer": "A",
+  "flat_num": 216,
+  "qid": "Q3.24 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Moderate",
+  "q": "Alfred, Baiti and Beladi are varieties of which minor fruit crop?",
+  "correct": "Apricot",
+  "distractors": [
+   "Peach",
+   "Plum",
+   "Pear",
+   "Fig"
+  ],
+  "expl": "TNAU's minor fruits table lists Alfred, Baiti, Beladi as Apricot varieties.",
+  "sec_num": 25,
+  "options": {
+   "A": "Peach",
+   "B": "Apricot",
+   "C": "Plum",
+   "D": "Pear",
+   "E": "Fig"
+  },
+  "answer": "B",
+  "flat_num": 217,
+  "qid": "Q3.25 (Part III, Minor Fruits)"
+ },
+ {
+  "part": "Part III: Minor Fruits",
+  "section": "Minor Fruits",
+  "diff": "Hard",
+  "q": "Breadfruit (Artocarpus incise) yields how many fruits per tree as per TNAU's minor fruits table?",
+  "correct": "500-2000 fruits/tree",
+  "distractors": [
+   "80-100 fruits/tree",
+   "200-300 fruits/tree",
+   "10-20 fruits/tree",
+   "4000-5000 fruits/tree"
+  ],
+  "expl": "TNAU's minor fruits table lists Breadfruit yield at 500-2000 fruits/tree.",
+  "sec_num": 26,
+  "options": {
+   "A": "80-100 fruits/tree",
+   "B": "200-300 fruits/tree",
+   "C": "500-2000 fruits/tree",
+   "D": "10-20 fruits/tree",
+   "E": "4000-5000 fruits/tree"
+  },
+  "answer": "C",
+  "flat_num": 218,
+  "qid": "Q3.26 (Part III, Minor Fruits)"
+ }
+]</script>
+<script>
+// ======= Quiz engine =======
+var ALL_QUESTIONS = JSON.parse(document.getElementById('quiz-data-json').textContent);
+
+var state = {
+  mode: null,        // 'revision' | 'test'
+  partFilter: 'ALL',
+  order: [],          // array of indices into ALL_QUESTIONS, in play order
+  current: 0,
+  answers: {},        // idx -> {selected, correct, skipped}
+};
+
+function selectMode(mode){
+  state.mode = mode;
+  document.querySelectorAll('.mode-card').forEach(function(c){ c.style.outline='none'; });
+  var cards = document.querySelectorAll('.mode-card');
+  var target = mode === 'revision' ? cards[0] : cards[1];
+  target.style.outline = '3px solid #c8871f';
+  document.getElementById('startBtn').textContent = (mode === 'revision' ? 'Start Revision Mode →' : 'Start Test Mode →');
+}
+
+function buildOrder(){
+  var pool = [];
+  ALL_QUESTIONS.forEach(function(item, idx){
+    if (state.partFilter === 'ALL' || item.part === state.partFilter) pool.push(idx);
+  });
+  if (state.mode === 'test'){
+    // Fisher-Yates shuffle
+    for (var i = pool.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+    }
+  }
+  return pool;
+}
+
+function startQuiz(){
+  if (!state.mode){
+    alert('Please choose Revision Mode or Test Mode first.');
+    return;
+  }
+  state.partFilter = document.getElementById('partFilter').value;
+  state.order = buildOrder();
+  state.current = 0;
+  state.answers = {};
+  if (state.order.length === 0){
+    alert('No questions match that filter.');
+    return;
+  }
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function showScreen(name){
+  document.getElementById('screen-start').classList.remove('active');
+  document.getElementById('screen-quiz').classList.remove('active');
+  document.getElementById('screen-results').classList.remove('active');
+  document.getElementById('screen-' + name).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function currentItem(){
+  return ALL_QUESTIONS[state.order[state.current]];
+}
+
+function renderQuestion(){
+  var item = currentItem();
+  var total = state.order.length;
+  var idx = state.current;
+
+  document.getElementById('progressLabel').textContent = 'Question ' + (idx+1) + ' of ' + total;
+  document.getElementById('progressFill').style.width = (((idx+1)/total)*100) + '%';
+
+  var answeredCount = Object.keys(state.answers).length;
+  var scoreCount = 0;
+  Object.keys(state.answers).forEach(function(k){ if (state.answers[k].correct) scoreCount++; });
+  document.getElementById('scoreLabel').textContent = scoreCount;
+  document.getElementById('answeredLabel').textContent = answeredCount + ' / ' + total;
+
+  document.getElementById('qidLabel').textContent = item.qid + '  ·  Question ' + (idx+1) + ' of ' + total;
+  var diffBadge = document.getElementById('diffBadge');
+  diffBadge.textContent = item.diff;
+  diffBadge.className = 'diff-badge diff-' + item.diff;
+
+  document.getElementById('qText').textContent = item.q;
+
+  var wrap = document.getElementById('optionsWrap');
+  wrap.innerHTML = '';
+  var letters = ['A','B','C','D','E'];
+  var priorAnswer = state.answers[state.order[idx]];
+
+  letters.forEach(function(L){
+    var div = document.createElement('div');
+    div.className = 'opt';
+    div.setAttribute('data-letter', L);
+    div.innerHTML = '<span class="letter">' + L + '.</span><span>' + item.options[L] + '</span>';
+    div.onclick = function(){ selectOption(L); };
+    wrap.appendChild(div);
+  });
+
+  var fb = document.getElementById('feedbackBox');
+  fb.className = 'feedback';
+  document.getElementById('fbHead').textContent = '';
+  document.getElementById('fbBody').textContent = '';
+
+  if (priorAnswer){
+    lockOptions(item, priorAnswer.selected);
+  }
+
+  document.getElementById('prevBtn').disabled = (idx === 0);
+  var isLast = (idx === total - 1);
+  document.getElementById('nextBtn').textContent = isLast ? 'Finish →' : 'Next →';
+}
+
+function selectOption(letter){
+  var globalIdx = state.order[state.current];
+  var item = ALL_QUESTIONS[globalIdx];
+  if (state.answers[globalIdx]) return; // already answered, locked
+  var correct = (letter === item.answer);
+  state.answers[globalIdx] = { selected: letter, correct: correct, skipped: false };
+  lockOptions(item, letter);
+  updateScoreDisplay();
+}
+
+function lockOptions(item, selectedLetter){
+  var opts = document.querySelectorAll('.opt');
+  opts.forEach(function(o){
+    o.classList.add('locked');
+    var L = o.getAttribute('data-letter');
+    if (L === item.answer){
+      o.classList.add('reveal-correct');
+    }
+    if (selectedLetter && L === selectedLetter && L !== item.answer){
+      o.classList.add('incorrect');
+    }
+  });
+
+  var fb = document.getElementById('feedbackBox');
+  var isCorrect = (selectedLetter === item.answer);
+  fb.className = 'feedback show ' + (isCorrect ? 'right' : 'wrong');
+  document.getElementById('fbHead').textContent = isCorrect ? '✓ Correct' : ('✗ Incorrect — correct answer: ' + item.answer + '. ' + item.options[item.answer]);
+  document.getElementById('fbBody').textContent = item.expl;
+}
+
+function updateScoreDisplay(){
+  var total = state.order.length;
+  var answeredCount = Object.keys(state.answers).length;
+  var scoreCount = 0;
+  Object.keys(state.answers).forEach(function(k){ if (state.answers[k].correct) scoreCount++; });
+  document.getElementById('scoreLabel').textContent = scoreCount;
+  document.getElementById('answeredLabel').textContent = answeredCount + ' / ' + total;
+}
+
+function skipQuestion(){
+  var globalIdx = state.order[state.current];
+  if (!state.answers[globalIdx]){
+    state.answers[globalIdx] = { selected: null, correct: false, skipped: true };
+  }
+  goNextInternal();
+}
+
+function nextQuestion(){
+  goNextInternal();
+}
+
+function goNextInternal(){
+  if (state.current < state.order.length - 1){
+    state.current++;
+    renderQuestion();
+  } else {
+    finishQuiz();
+  }
+}
+
+function prevQuestion(){
+  if (state.current > 0){
+    state.current--;
+    renderQuestion();
+  }
+}
+
+function finishQuiz(){
+  var total = state.order.length;
+  var correctCount = 0, wrongCount = 0, skipCount = 0;
+  var reviewItems = [];
+
+  state.order.forEach(function(globalIdx){
+    var ans = state.answers[globalIdx];
+    var item = ALL_QUESTIONS[globalIdx];
+    if (!ans){
+      skipCount++;
+      reviewItems.push({item: item, ans: {selected:null, skipped:true}});
+    } else if (ans.skipped){
+      skipCount++;
+      reviewItems.push({item: item, ans: ans});
+    } else if (ans.correct){
+      correctCount++;
+    } else {
+      wrongCount++;
+      reviewItems.push({item: item, ans: ans});
+    }
+  });
+
+  document.getElementById('finalScore').textContent = correctCount + ' / ' + total;
+  var pct = total > 0 ? Math.round((correctCount/total)*100) : 0;
+  document.getElementById('finalPct').textContent = pct + '% correct';
+  document.getElementById('sumCorrect').textContent = correctCount;
+  document.getElementById('sumWrong').textContent = wrongCount;
+  document.getElementById('sumSkip').textContent = skipCount;
+
+  var listEl = document.getElementById('reviewList');
+  listEl.innerHTML = '';
+  if (reviewItems.length === 0){
+    document.getElementById('reviewEmpty').style.display = 'block';
+  } else {
+    document.getElementById('reviewEmpty').style.display = 'none';
+    reviewItems.forEach(function(ri){
+      var item = ri.item, ans = ri.ans;
+      var div = document.createElement('div');
+      div.className = 'review-item' + (ans.skipped ? ' skipped' : '');
+      var yourLine = ans.skipped
+        ? '<div class="r-line" style="color:#8a7f66;font-weight:600;">Skipped</div>'
+        : '<div class="r-line r-your">Your answer: ' + ans.selected + '. ' + item.options[ans.selected] + '</div>';
+      div.innerHTML =
+        '<div class="r-meta">' + item.qid + ' &middot; ' + item.diff + '</div>' +
+        '<div class="r-q">' + item.q + '</div>' +
+        yourLine +
+        '<div class="r-line r-correct">Correct answer: ' + item.answer + '. ' + item.options[item.answer] + '</div>' +
+        '<div class="r-expl">' + item.expl + '</div>';
+      listEl.appendChild(div);
+    });
+  }
+
+  showScreen('results');
+}
+
+function goToStart(){
+  state.mode = null;
+  document.getElementById('startBtn').textContent = 'Select a mode above, then start →';
+  document.querySelectorAll('.mode-card').forEach(function(c){ c.style.outline = 'none'; });
+  showScreen('start');
+}
+
+</script>
+</body>
+</html>

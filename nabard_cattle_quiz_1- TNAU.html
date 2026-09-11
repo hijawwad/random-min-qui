@@ -1,0 +1,5169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NABARD Grade A — Cattle Husbandry Practice Register</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#26231d;
+    --paper:#f3ede0;
+    --paper-2:#e9e1cd;
+    --byre:#243b2c;
+    --byre-2:#33513c;
+    --ochre:#b9822c;
+    --ochre-2:#8f631e;
+    --brick:#96392a;
+    --brick-bg:#f3ddd6;
+    --leaf:#3c6b45;
+    --leaf-bg:#dfe9d9;
+    --line: rgba(38,35,29,0.16);
+    --shadow: 0 1px 0 rgba(38,35,29,0.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Source Sans 3', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  .wrap{
+    max-width:840px;
+    margin:0 auto;
+    padding:28px 20px 60px;
+  }
+  .masthead{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:10px;
+    margin-bottom:22px;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .masthead .brand{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:22px;
+    letter-spacing:0.2px;
+  }
+  .masthead .brand small{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:11px;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    color:var(--byre-2);
+    margin-top:2px;
+  }
+  .masthead .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--ink);
+    opacity:0.6;
+    text-align:right;
+  }
+
+  /* ---------- START SCREEN ---------- */
+  .start-card{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:28px 26px;
+  }
+  .start-card h1{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:28px;
+    line-height:1.15;
+    margin:0 0 8px;
+  }
+  .start-card p.lede{
+    margin:0 0 20px;
+    max-width:56ch;
+    color:#4b4739;
+    font-size:15px;
+    line-height:1.55;
+  }
+  .stat-row{
+    display:flex;
+    gap:0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    margin:18px 0 22px;
+  }
+  .stat{
+    flex:1;
+    padding:12px 14px;
+    border-right:1px solid var(--line);
+  }
+  .stat:last-child{border-right:none;}
+  .stat .n{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:22px;
+    font-weight:600;
+    color:var(--byre);
+  }
+  .stat .l{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:#6b6656;
+    margin-top:2px;
+  }
+  .mode-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-bottom:20px;
+  }
+  @media (max-width:600px){ .mode-grid{grid-template-columns:1fr;} }
+  .mode-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:16px 16px 14px;
+    cursor:pointer;
+    transition:border-color .15s, transform .1s;
+    text-align:left;
+  }
+  .mode-card:hover{border-color:var(--byre);}
+  .mode-card.selected{
+    border-color:var(--byre);
+    box-shadow: inset 0 0 0 1px var(--byre);
+    background:#eef1e9;
+  }
+  .mode-card .mc-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:1.4px;
+    text-transform:uppercase;
+    color:var(--ochre-2);
+    margin-bottom:6px;
+  }
+  .mode-card h3{
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    margin:0 0 6px;
+  }
+  .mode-card p{
+    font-size:13px;
+    color:#5a5646;
+    margin:0;
+    line-height:1.45;
+  }
+  .part-select{
+    margin-bottom:22px;
+  }
+  .part-select > .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:#6b6656;
+    margin-bottom:8px;
+  }
+  .part-list{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .part-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:8px 10px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:2px;
+    font-size:13.5px;
+  }
+  .part-row label{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    cursor:pointer;
+  }
+  .part-row .cnt{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:#6b6656;
+  }
+  .part-row input{ width:15px;height:15px; accent-color:var(--byre); }
+  .btn{
+    font-family:'Source Sans 3', sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    border:none;
+    border-radius:2px;
+    padding:12px 20px;
+    cursor:pointer;
+    transition:background .15s, opacity .15s;
+  }
+  .btn-primary{
+    background:var(--byre);
+    color:#f3ede0;
+  }
+  .btn-primary:hover{background:var(--byre-2);}
+  .btn-primary:disabled{opacity:0.4; cursor:not-allowed;}
+  .btn-ghost{
+    background:transparent;
+    color:var(--ink);
+    border:1px solid var(--line);
+  }
+  .btn-ghost:hover{border-color:var(--ink);}
+  .start-actions{display:flex; gap:10px; align-items:center;}
+  .hint{font-size:12px;color:#8a8570;margin-left:6px;}
+
+  /* ---------- QUIZ SCREEN ---------- */
+  .quiz-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .breadcrumb{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--byre-2);
+  }
+  .breadcrumb .sep{opacity:0.45;margin:0 4px;}
+  .score-pill{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:5px 12px;
+    white-space:nowrap;
+  }
+  .progress-track{
+    height:5px;
+    background:var(--paper-2);
+    border-radius:3px;
+    overflow:hidden;
+    margin-bottom:20px;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--ochre);
+    transition:width .25s ease;
+  }
+  .qcard{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:26px 24px 22px;
+  }
+  .qid-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+  }
+  .qid{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ochre-2);
+    font-weight:600;
+    letter-spacing:0.4px;
+  }
+  .diff-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    padding:3px 8px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    color:#6b6656;
+  }
+  .qtext{
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    font-weight:600;
+    line-height:1.4;
+    margin:0 0 20px;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+    margin-bottom:6px;
+  }
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    text-align:left;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:11px 14px;
+    font-size:14.5px;
+    line-height:1.4;
+    cursor:pointer;
+    color:var(--ink);
+    transition:border-color .12s, background .12s;
+  }
+  .opt:hover:not(.locked){border-color:var(--byre);}
+  .opt .lab{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    font-size:13px;
+    color:var(--byre-2);
+    flex:0 0 auto;
+    min-width:16px;
+  }
+  .opt.correct{
+    background:var(--leaf-bg);
+    border-color:var(--leaf);
+  }
+  .opt.correct .lab{color:var(--leaf);}
+  .opt.wrong{
+    background:var(--brick-bg);
+    border-color:var(--brick);
+  }
+  .opt.wrong .lab{color:var(--brick);}
+  .opt.locked{cursor:default;}
+  .opt.dim{opacity:0.55;}
+
+  .feedback{
+    margin-top:16px;
+    padding:14px 16px;
+    border-radius:2px;
+    font-size:13.5px;
+    line-height:1.55;
+    display:none;
+  }
+  .feedback.show{display:block;}
+  .feedback.ok{background:var(--leaf-bg); border:1px solid var(--leaf); color:#233d27;}
+  .feedback.bad{background:var(--brick-bg); border:1px solid var(--brick); color:#5c1f14;}
+  .feedback.skip{background:var(--paper); border:1px solid var(--line); color:#4b4739;}
+  .feedback .fb-head{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:6px;
+    display:block;
+  }
+
+  .quiz-nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:20px;
+    gap:10px;
+  }
+  .quiz-nav .left-btns, .quiz-nav .right-btns{
+    display:flex;
+    gap:10px;
+  }
+
+  /* ---------- END SCREEN ---------- */
+  .end-summary{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+    border:1px solid var(--line);
+    margin-bottom:24px;
+  }
+  @media (max-width:600px){ .end-summary{grid-template-columns:1fr 1fr;} }
+  .end-stat{
+    padding:16px 14px;
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    background:var(--paper-2);
+  }
+  .end-stat:nth-child(4n){border-right:none;}
+  .end-stat .n{font-family:'IBM Plex Mono', monospace; font-size:26px; font-weight:600;}
+  .end-stat .l{font-size:11px; text-transform:uppercase; letter-spacing:1px; color:#6b6656; margin-top:3px;}
+  .end-stat.correct .n{color:var(--leaf);}
+  .end-stat.wrong .n{color:var(--brick);}
+  .end-stat.skip .n{color:var(--ochre-2);}
+
+  .review-item{
+    border:1px solid var(--line);
+    border-left:4px solid var(--brick);
+    background:var(--paper-2);
+    border-radius:2px;
+    padding:14px 16px;
+    margin-bottom:10px;
+  }
+  .review-item.skipped{border-left-color:var(--ochre);}
+  .review-item .ri-top{
+    display:flex;
+    justify-content:space-between;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:#6b6656;
+    margin-bottom:6px;
+  }
+  .review-item .ri-q{
+    font-weight:600;
+    margin-bottom:8px;
+    font-size:14.5px;
+  }
+  .review-item .ri-ans{
+    font-size:13px;
+    line-height:1.5;
+  }
+  .review-item .ri-ans .yours{color:var(--brick);}
+  .review-item .ri-ans .correct-ans{color:var(--leaf);}
+  .review-item .ri-expl{
+    font-size:12.5px;
+    color:#4b4739;
+    margin-top:6px;
+    padding-top:6px;
+    border-top:1px dashed var(--line);
+  }
+
+  .section-heading{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1.4px;
+    color:var(--ochre-2);
+    margin:26px 0 10px;
+    padding-bottom:6px;
+    border-bottom:1px solid var(--line);
+  }
+
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="brand">Cattle Husbandry Register
+      <small>NABARD Grade A · Practice Bank</small>
+    </div>
+    <div class="tag" id="mastheadTag">Source: TNAU AgriTech Portal</div>
+  </div>
+
+  <!-- START SCREEN -->
+  <div id="startScreen">
+    <div class="start-card">
+      <h1>Cattle Management &amp; Housing — Practice Quiz</h1>
+      <p class="lede">Built entirely from the TNAU AgriTech cattle husbandry page: breeds, terminology, cross-breeding, selection, housing specifications and calf feed management. Choose how you'd like to work through it.</p>
+
+      <div class="stat-row" id="statRow"></div>
+
+      <div class="mode-grid">
+        <div class="mode-card selected" id="modeSectionCard" onclick="selectMode('section')">
+          <div class="mc-eyebrow">Mode 01</div>
+          <h3>Section-wise / Revision</h3>
+          <p>Original source order — Part by Part, topic by topic. Best for first-pass learning.</p>
+        </div>
+        <div class="mode-card" id="modeTestCard" onclick="selectMode('test')">
+          <div class="mc-eyebrow">Mode 02</div>
+          <h3>Shuffled / Test Mode</h3>
+          <p>Fully randomised order, exam-style. Part &amp; topic labels stay visible on each question.</p>
+        </div>
+      </div>
+
+      <div class="part-select">
+        <div class="label">Include parts</div>
+        <div class="part-list" id="partList"></div>
+      </div>
+
+      <div class="start-actions">
+        <button class="btn btn-primary" id="beginBtn" onclick="beginQuiz()">Begin Quiz</button>
+        <span class="hint" id="selCountHint"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quizScreen" class="hidden">
+    <div class="quiz-top">
+      <div class="breadcrumb" id="breadcrumb"></div>
+      <div class="score-pill" id="scorePill"></div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+    <div class="qcard">
+      <div class="qid-row">
+        <div class="qid" id="qid"></div>
+        <div class="diff-tag" id="diffTag"></div>
+      </div>
+      <div class="qtext" id="qtext"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <div class="quiz-nav">
+      <div class="left-btns">
+        <button class="btn btn-ghost" id="prevBtn" onclick="goPrev()">← Previous</button>
+      </div>
+      <div class="right-btns">
+        <button class="btn btn-ghost" id="skipBtn" onclick="skipQuestion()">Skip</button>
+        <button class="btn btn-primary" id="nextBtn" onclick="goNext()" disabled>Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- END SCREEN -->
+  <div id="endScreen" class="hidden">
+    <div class="start-card" style="margin-bottom:24px;">
+      <h1 id="endTitle">Register Closed</h1>
+      <p class="lede" id="endLede"></p>
+      <div class="end-summary" id="endSummary"></div>
+      <div class="start-actions">
+        <button class="btn btn-primary" onclick="restartToStart()">Back to Start</button>
+        <button class="btn btn-ghost" id="reviewMissedBtn" onclick="scrollToReview()">Jump to Review</button>
+      </div>
+    </div>
+    <div id="reviewSection"></div>
+  </div>
+
+</div>
+
+<script>
+const DATA = [
+ {
+  "id": "Q1.1",
+  "flat": 1,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "Young one of a cow, from birth up to 6 months of age, is known as?",
+  "options": [
+   "Calf",
+   "Bullock",
+   "Weaner",
+   "Steer",
+   "Heifer"
+  ],
+  "correct": "A",
+  "expl": "The source defines a Calf as the young one of a cow from birth to 6 months of age.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.2",
+  "flat": 2,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "A 'Heifer' refers to a female calf during which stage of life?",
+  "options": [
+   "Birth to 6 months",
+   "Age of puberty to calving",
+   "After first calving",
+   "After lactation stops",
+   "Puberty to castration"
+  ],
+  "correct": "B",
+  "expl": "A Heifer is a female calf from the age of puberty up to calving.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.3",
+  "flat": 3,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "A male calf from the age of puberty till castration, fit for servicing, is called?",
+  "options": [
+   "Breeding bull",
+   "Bullock",
+   "Bull or Sire",
+   "Scrub bull",
+   "Teaser bull"
+  ],
+  "correct": "C",
+  "expl": "Such a male, fit for servicing, is termed a Bull or Sire as per the source.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.4",
+  "flat": 4,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "A castrated bull that is used for work or ploughing is termed a?",
+  "options": [
+   "Steer",
+   "Scrub bull",
+   "Bull",
+   "Bullock",
+   "Sire"
+  ],
+  "correct": "D",
+  "expl": "A castrated bull used for work/ploughing is defined as a Bullock.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.5",
+  "flat": 5,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "A bull that does not have a good progeny record (a non-descript bull) is called a ____ bull.",
+  "options": [
+   "Draught",
+   "Dual purpose",
+   "Teaser",
+   "Breeding",
+   "Scrub"
+  ],
+  "correct": "E",
+  "expl": "The source defines a Scrub bull as one lacking a good progeny record.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q1.6",
+  "flat": 6,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "A bull that is specifically maintained for breeding because it has a good progeny record is known as?",
+  "options": [
+   "Breeding bull",
+   "Teaser bull",
+   "Sire only",
+   "Draught bull",
+   "Scrub bull"
+  ],
+  "correct": "A",
+  "expl": "A Breeding bull is maintained for breeding purposes due to its good progeny record.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.7",
+  "flat": 7,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "Which type of bull is surgically prepared (caudectomy/curulectomy) and used in the herd only to detect animals in heat?",
+  "options": [
+   "Scrub bull",
+   "Teaser bull",
+   "Sire",
+   "Bullock",
+   "Breeding bull"
+  ],
+  "correct": "B",
+  "expl": "A Teaser bull is caudectomised and used to detect cows in heat, not for actual servicing.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q1.8",
+  "flat": 8,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "A female animal is classified as a 'Cow' from what point in its life?",
+  "options": [
+   "Second lactation",
+   "Onset of puberty",
+   "First calving",
+   "Weaning age",
+   "6 months of age"
+  ],
+  "correct": "C",
+  "expl": "A female or heifer is termed a Cow only after its first calving.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.9",
+  "flat": 9,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "A cow that is currently giving milk is called a ____, while one that has stopped giving milk is called a ____.",
+  "options": [
+   "Sire / Bullock",
+   "Colostrum cow / Veal cow",
+   "Heifer / Calf",
+   "Milch cow / Dry cow",
+   "Dry cow / Milch cow"
+  ],
+  "correct": "D",
+  "expl": "A milk-giving cow is a Milch cow; once it stops giving milk it becomes a Dry cow.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.10",
+  "flat": 10,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "The same cattle-management terms are applied to buffaloes using which prefix?",
+  "options": [
+   "Bubaline",
+   "Zebu",
+   "Bos",
+   "Bovine",
+   "Buffalo"
+  ],
+  "correct": "E",
+  "expl": "The source notes the prefix 'Buffalo' is used, e.g., Buffalo calf, Buffalo Bull.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.11",
+  "flat": 11,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "The milk produced by a cow or buffalo just after calving is called?",
+  "options": [
+   "Colostrum",
+   "Whey",
+   "Buttermilk",
+   "Whole milk",
+   "Skim milk"
+  ],
+  "correct": "A",
+  "expl": "Colostrum is defined as the milk produced immediately after calving.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.12",
+  "flat": 12,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "The period from parturition (calving) up to the stoppage of milk secretion in a cow is termed?",
+  "options": [
+   "Oestrus period",
+   "Lactation",
+   "Dry period",
+   "Service period",
+   "Gestation period"
+  ],
+  "correct": "B",
+  "expl": "Lactation is defined as the period from calving to the stoppage of milk secretion.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.13",
+  "flat": 13,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "The duration of pregnancy in cattle is known as the?",
+  "options": [
+   "Oestrus period",
+   "Lactation period",
+   "Gestation period",
+   "Calving interval",
+   "Service period"
+  ],
+  "correct": "C",
+  "expl": "Gestation period is defined as the duration of pregnancy.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.14",
+  "flat": 14,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "Separation of the calf from its mother after parturition is termed?",
+  "options": [
+   "Freemartin",
+   "Breeding",
+   "Culling",
+   "Weaning",
+   "Servicing"
+  ],
+  "correct": "D",
+  "expl": "Weaning is the separation of the calf from the mother after calving.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.15",
+  "flat": 15,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "The process of removing unwanted, unproductive or uneconomic animals from a herd, done for economic reasons, is called?",
+  "options": [
+   "Selection",
+   "Cross-breeding",
+   "Weaning",
+   "Servicing",
+   "Culling"
+  ],
+  "correct": "E",
+  "expl": "Culling is the removal of unwanted/uneconomic animals from the herd for economic reasons.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.16",
+  "flat": 16,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "Crossing of male and female individuals of the SAME species to obtain offspring of desired characters is the definition of?",
+  "options": [
+   "Breeding",
+   "Hybridization",
+   "Servicing",
+   "Artificial selection",
+   "Cross-breeding"
+  ],
+  "correct": "A",
+  "expl": "This is the source's definition of Breeding — note that cross-breeding (covered separately) involves different breeds, not merely 'same species'.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q1.17",
+  "flat": 17,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "The period during which a female animal accepts the male for mating, and conception can take place, is called?",
+  "options": [
+   "Lactation period",
+   "Oestrus or Heat period",
+   "Service period",
+   "Calving interval",
+   "Gestation period"
+  ],
+  "correct": "B",
+  "expl": "Oestrus or Heat period is when the female accepts the male for coitus/servicing.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.18",
+  "flat": 18,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "Introduction of semen into the female genital tract by means of instruments, rather than natural mating, is especially called as?",
+  "options": [
+   "In-vitro fertilization",
+   "Servicing",
+   "Artificial Insemination",
+   "Cross breeding",
+   "Embryo transfer"
+  ],
+  "correct": "C",
+  "expl": "This technique is specifically termed Artificial Insemination (A.I.) in the source.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.19",
+  "flat": 19,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "Natural mating of a bull with a cow that is in heat is termed?",
+  "options": [
+   "Breeding only",
+   "Oestrus",
+   "Artificial Insemination",
+   "Servicing",
+   "Culling"
+  ],
+  "correct": "D",
+  "expl": "Servicing is defined as the mating of a bull and a cow in heat.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.20",
+  "flat": 20,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "When twin calves of opposite sexes are born to a cow, the female twin (usually rendered infertile) is known as a?",
+  "options": [
+   "Scrub female",
+   "Teaser cow",
+   "Veal calf",
+   "Heifer",
+   "Freemartin"
+  ],
+  "correct": "E",
+  "expl": "The source defines Freemartin as the female twin born when opposite-sex twins occur.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q1.21",
+  "flat": 21,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "The meat obtained from a calf is called?",
+  "options": [
+   "Veal",
+   "Chevon",
+   "Pork",
+   "Mutton",
+   "Beef"
+  ],
+  "correct": "A",
+  "expl": "Veal is defined in the source as the meat of a calf.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q1.22",
+  "flat": 22,
+  "total": 244,
+  "part": "Part I: Common Terms in Cattle Management",
+  "section": "Basic Terminology",
+  "question": "Which of the following pairs is INCORRECTLY matched as per the source's terminology?",
+  "options": [
+   "Bullock – castrated bull used for work",
+   "Scrub bull – bull with a good progeny record",
+   "Weaning – separation of calf from mother",
+   "Freemartin – female twin of opposite-sex twin calves",
+   "Colostrum – first milk after calving"
+  ],
+  "correct": "B",
+  "expl": "A Scrub bull is defined as one WITHOUT a good progeny record (non-descript); a Breeding bull is the one with a good record.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 23,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Classification of Indigenous Breeds",
+  "question": "Indigenous cattle breeds of India are classified into three groups based on?",
+  "options": [
+   "Disease resistance",
+   "Body colour",
+   "Utility/purpose",
+   "Geographic region",
+   "Horn size"
+  ],
+  "correct": "C",
+  "expl": "Indigenous breeds are classified as Milch, Dual purpose, and Draught breeds — based on utility/purpose.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 24,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Classification of Indigenous Breeds",
+  "question": "Which of the following is NOT one of the three classification groups for indigenous cattle breeds given in the source?",
+  "options": [
+   "Milch breeds",
+   "Dual purpose breeds",
+   "Draught breeds",
+   "Exotic breeds",
+   "None — all three are listed"
+  ],
+  "correct": "D",
+  "expl": "Exotic breeds (like Jersey, HF) are a separate category from the three indigenous classification groups.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.3",
+  "flat": 25,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Classification of Indigenous Breeds",
+  "question": "In Milch breeds, cows are high milk yielders while the male animals are typically?",
+  "options": [
+   "Used only for beef",
+   "Sterile",
+   "Used as teaser bulls",
+   "Excellent for ploughing",
+   "Slow or poor work animals"
+  ],
+  "correct": "E",
+  "expl": "In milch breeds, males are described as slow or poor work animals.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.4",
+  "flat": 26,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Classification of Indigenous Breeds",
+  "question": "The average milk production of Milch breeds is generally more than how much per lactation?",
+  "options": [
+   "1600 kg",
+   "3400 kg",
+   "5000 kg",
+   "500 kg",
+   "900 kg"
+  ],
+  "correct": "A",
+  "expl": "Milch breed milk production averages more than 1600 kg per lactation.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.5",
+  "flat": 27,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Classification of Indigenous Breeds",
+  "question": "In Dual Purpose breeds, cows are average milk yielders while the male animals are useful mainly for?",
+  "options": [
+   "Meat only",
+   "Work",
+   "Wool",
+   "Racing",
+   "Nothing — they are culled early"
+  ],
+  "correct": "B",
+  "expl": "Dual purpose breed males are described as very useful for work, alongside average-yielding cows.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.6",
+  "flat": 28,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Classification of Indigenous Breeds",
+  "question": "Which of these is an example of a Dual Purpose breed as per the source?",
+  "options": [
+   "Deoni",
+   "Kangayam",
+   "Ongole",
+   "Red Sindhi",
+   "Hallikar"
+  ],
+  "correct": "C",
+  "expl": "Ongole is listed among Dual Purpose breeds along with Hariana, Kankrej, Tharparkar, Krishna Valley, Rathi and Goalo Mewathi.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.7",
+  "flat": 29,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Classification of Indigenous Breeds",
+  "question": "In Draught breeds, the average milk yield of cows is generally?",
+  "options": [
+   "Around 2000 kg",
+   "More than 1600 kg",
+   "500 to 1500 kg",
+   "Less than 500 kg",
+   "More than 3000 kg"
+  ],
+  "correct": "D",
+  "expl": "Draught breed cows are poor milkers, averaging less than 500 kg per lactation.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.8",
+  "flat": 30,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Classification of Indigenous Breeds",
+  "question": "Which pairing of breed-type and example is CORRECT as per the source?",
+  "options": [
+   "Draught – Gir",
+   "Milch – Hallikar",
+   "Draught – Sahiwal",
+   "Milch – Kangayam",
+   "Dual purpose – Ongole"
+  ],
+  "correct": "E",
+  "expl": "Ongole is correctly classified as a Dual Purpose breed; the others are mismatched.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.9",
+  "flat": 31,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Classification of Indigenous Breeds",
+  "question": "A pair of draught-breed bullocks can typically haul a load of about how much (with an iron-tyred cart) on a good road?",
+  "options": [
+   "1000 kg",
+   "2000 kg",
+   "250 kg",
+   "1500 kg",
+   "500 kg"
+  ],
+  "correct": "A",
+  "expl": "The source states a pair of bullocks can haul 1000 kg net with an iron-tyred cart.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.10",
+  "flat": 32,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Classification of Indigenous Breeds",
+  "question": "Draught bullocks pulling a cart at a walking speed of 5–7 km/hr can cover what distance per day?",
+  "options": [
+   "15–20 km",
+   "30–40 km",
+   "50–60 km",
+   "100 km",
+   "10–15 km"
+  ],
+  "correct": "B",
+  "expl": "The source states such bullocks can cover 30–40 km per day.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.11",
+  "flat": 33,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Classification of Indigenous Breeds",
+  "question": "On pneumatic rubber-tyre carts, draught bullocks can pull approximately how much load compared to iron-tyred carts?",
+  "options": [
+   "Half",
+   "The same",
+   "Twice",
+   "Thrice",
+   "One-fourth"
+  ],
+  "correct": "C",
+  "expl": "Twice as much weight can be pulled on pneumatic rubber-tyre carts as compared to iron-tyred carts.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.12",
+  "flat": 34,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Classification of Indigenous Breeds",
+  "question": "Draught breed cattle are usually of which body colour, as per the source?",
+  "options": [
+   "Piebald",
+   "Black",
+   "Brown/fawn",
+   "White",
+   "Grey with red patches"
+  ],
+  "correct": "D",
+  "expl": "Draught breeds are described as usually white in colour.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 35,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Red Sindhi",
+  "question": "Red Sindhi cattle originally hail from which region?",
+  "options": [
+   "Gir forest, Gujarat",
+   "North-western Andhra Pradesh",
+   "Kutch, Gujarat",
+   "Montgomery district, Pakistan",
+   "Kohistan, Sindh province, Pakistan"
+  ],
+  "correct": "E",
+  "expl": "Red Sindhi hails from the Kohistan area of Sindh province in present-day Pakistan.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 36,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Red Sindhi",
+  "question": "Under good management, Red Sindhi cows average a milk yield of over how much (after suckling their calves)?",
+  "options": [
+   "1700 kg",
+   "2100 kg",
+   "3400 kg",
+   "900 kg",
+   "1350 kg"
+  ],
+  "correct": "A",
+  "expl": "Under good management, Red Sindhi averages over 1700 kg of milk after suckling their calves.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.3",
+  "flat": 37,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Red Sindhi",
+  "question": "Under optimum conditions, Red Sindhi milk yield has been recorded going beyond?",
+  "options": [
+   "2500 kg",
+   "3400 kg",
+   "5000 kg",
+   "1700 kg",
+   "2100 kg"
+  ],
+  "correct": "B",
+  "expl": "Under optimum conditions, Red Sindhi milk yields over 3400 kg per lactation have been recorded.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q2.4",
+  "flat": 38,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Red Sindhi",
+  "question": "Red Sindhi cattle are mainly available in which of these state groups?",
+  "options": [
+   "Maharashtra, Madhya Pradesh",
+   "West Bengal, Assam, Odisha",
+   "Punjab, Haryana, Karnataka, Tamil Nadu, Kerala, Orissa",
+   "Bihar, Jharkhand",
+   "Rajasthan only"
+  ],
+  "correct": "C",
+  "expl": "The source lists Punjab, Haryana, Karnataka, Tamil Nadu, Kerala and Orissa as areas where Red Sindhi is mainly available.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 39,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Sahiwal",
+  "question": "Sahiwal cattle originally belong to which district of present-day Pakistan?",
+  "options": [
+   "Lahore",
+   "Kohistan",
+   "Sindh",
+   "Montgomery",
+   "Multan"
+  ],
+  "correct": "D",
+  "expl": "Sahiwal originally belongs to the Montgomery district of present-day Pakistan.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 40,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Sahiwal",
+  "question": "Sahiwal cattle are mainly found in which Indian states?",
+  "options": [
+   "Tamil Nadu, Kerala",
+   "Gujarat, Rajasthan",
+   "Karnataka, Andhra Pradesh",
+   "West Bengal, Odisha",
+   "Punjab, Haryana, U.P., Delhi, Bihar, M.P."
+  ],
+  "correct": "E",
+  "expl": "The source lists Punjab, Haryana, U.P., Delhi, Bihar and M.P. as the main areas for Sahiwal.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.3",
+  "flat": 41,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Sahiwal",
+  "question": "Sahiwal milk yield under village conditions is approximately?",
+  "options": [
+   "1350 kg",
+   "1660 kg",
+   "2100 kg",
+   "2500 kg",
+   "900 kg"
+  ],
+  "correct": "A",
+  "expl": "Sahiwal milk yield under village conditions is about 1350 kg.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.4",
+  "flat": 42,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Sahiwal",
+  "question": "Sahiwal milk yield under commercial farm conditions is approximately?",
+  "options": [
+   "1700 kg",
+   "2100 kg",
+   "3600 kg",
+   "1350 kg",
+   "1600 kg"
+  ],
+  "correct": "B",
+  "expl": "Under commercial farm conditions, Sahiwal milk yield is about 2100 kg.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.5",
+  "flat": 43,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Sahiwal",
+  "question": "Age at first calving in Sahiwal cattle is around?",
+  "options": [
+   "15–24 months",
+   "26–30 months",
+   "32–36 months",
+   "36–42 months",
+   "48 months"
+  ],
+  "correct": "C",
+  "expl": "Sahiwal cattle have an age at first calving of 32–36 months.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.6",
+  "flat": 44,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Sahiwal",
+  "question": "Calving interval of Sahiwal cattle is approximately?",
+  "options": [
+   "24 months",
+   "11 months",
+   "13 months",
+   "15 months",
+   "18 months"
+  ],
+  "correct": "D",
+  "expl": "The Sahiwal calving interval is stated as 15 months.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 45,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Gir",
+  "question": "Gir cattle are mainly found in which area?",
+  "options": [
+   "Coimbatore",
+   "Karnal",
+   "Tumkur",
+   "Kutch",
+   "Gir forest areas of South Kathiawar"
+  ],
+  "correct": "E",
+  "expl": "Gir cattle are mainly found in the Gir forest areas of South Kathiawar.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 46,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Gir",
+  "question": "Milk yield of Gir cows under village conditions is about?",
+  "options": [
+   "900 kg",
+   "1300 kg",
+   "1660 kg",
+   "2100 kg",
+   "500 kg"
+  ],
+  "correct": "A",
+  "expl": "Gir milk yield under village conditions is about 900 kg.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.3",
+  "flat": 47,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Gir",
+  "question": "Milk yield of Gir cows under commercial farm conditions is about?",
+  "options": [
+   "1300 kg",
+   "1600 kg",
+   "2100 kg",
+   "3600 kg",
+   "900 kg"
+  ],
+  "correct": "B",
+  "expl": "Under commercial farm conditions, Gir milk yield is about 1600 kg.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 48,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Deoni",
+  "question": "Deoni cattle are mainly found in which parts of India?",
+  "options": [
+   "Coastal Tamil Nadu",
+   "Northern Punjab",
+   "North-western and western parts of Andhra Pradesh",
+   "Southern Karnataka",
+   "Western Rajasthan"
+  ],
+  "correct": "C",
+  "expl": "Deoni cattle are mainly found in the north-western and western parts of Andhra Pradesh.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 49,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch Breeds — Deoni",
+  "question": "Which characteristic best describes Deoni cattle?",
+  "options": [
+   "Poorest milk yielder among all breeds listed",
+   "Exotic origin breed",
+   "Purely draught, produces no milk",
+   "Cows are good milk producers and bullocks are good for work",
+   "Only good for meat"
+  ],
+  "correct": "D",
+  "expl": "Deoni cows are good milk producers while the bullocks are good for work, making it a milch-cum-draught type breed.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 50,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch & Draught Breeds — Hariana",
+  "question": "Hariana cattle are mainly found in which districts?",
+  "options": [
+   "Coimbatore, Erode",
+   "Tumkur, Hassan, Mysore",
+   "Jodhpur, Kutch",
+   "Gir forest region",
+   "Karnal, Hisar, Gurgaon (Haryana), Delhi, Western M.P."
+  ],
+  "correct": "E",
+  "expl": "Hariana cattle are found in Karnal, Hisar and Gurgaon districts of Haryana, Delhi and Western M.P.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 51,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch & Draught Breeds — Hariana",
+  "question": "The milk yield range of Hariana cattle is approximately?",
+  "options": [
+   "1140–4500 kg",
+   "1600–2100 kg",
+   "2500–3600 kg",
+   "500–900 kg",
+   "900–1350 kg"
+  ],
+  "correct": "A",
+  "expl": "Hariana milk yield is stated as ranging from 1140 to 4500 kg.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q2.3",
+  "flat": 52,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch & Draught Breeds — Hariana",
+  "question": "Hariana bullocks are especially valued for?",
+  "options": [
+   "Slow, heavy ploughing only",
+   "Powerful road transport and rapid ploughing",
+   "Meat production",
+   "Dairy purposes only, being poor workers",
+   "Racing"
+  ],
+  "correct": "B",
+  "expl": "Hariana bullocks are powerful for road transport and rapid ploughing.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 53,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch & Draught Breeds — Tharparkar",
+  "question": "Tharparkar cattle are mainly found in?",
+  "options": [
+   "Coimbatore, Erode",
+   "Gir forest",
+   "Jodhpur, Kutch, Jaisalmer",
+   "Karnal, Hisar",
+   "Tumkur, Hassan"
+  ],
+  "correct": "C",
+  "expl": "Tharparkar cattle are mainly found in Jodhpur, Kutch and Jaisalmer.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 54,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch & Draught Breeds — Tharparkar",
+  "question": "Milk yield of Tharparkar under village conditions is about?",
+  "options": [
+   "3600 kg",
+   "900 kg",
+   "1300 kg",
+   "1660 kg",
+   "2100 kg"
+  ],
+  "correct": "D",
+  "expl": "Tharparkar milk yield under village conditions is about 1660 kg.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.3",
+  "flat": 55,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch & Draught Breeds — Tharparkar",
+  "question": "Milk yield of Tharparkar under commercial farm conditions is about?",
+  "options": [
+   "3600 kg",
+   "4500 kg",
+   "1660 kg",
+   "2100 kg",
+   "2500 kg"
+  ],
+  "correct": "E",
+  "expl": "Tharparkar milk yield under commercial farm conditions is about 2500 kg.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 56,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch & Draught Breeds — Kankrej",
+  "question": "Kankrej cattle are mainly found in?",
+  "options": [
+   "Gujarat",
+   "Haryana",
+   "Tamil Nadu",
+   "Karnataka",
+   "Rajasthan (Jaisalmer)"
+  ],
+  "correct": "A",
+  "expl": "Kankrej cattle are mainly found in Gujarat.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 57,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch & Draught Breeds — Kankrej",
+  "question": "Age at first calving in Kankrej cattle is around?",
+  "options": [
+   "32–36 months",
+   "36–42 months",
+   "42–48 months",
+   "48–54 months",
+   "24–30 months"
+  ],
+  "correct": "B",
+  "expl": "Kankrej age at first calving is stated as 36 to 42 months.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.3",
+  "flat": 58,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch & Draught Breeds — Kankrej",
+  "question": "Calving interval in Kankrej cattle is around?",
+  "options": [
+   "11–12 months",
+   "13–14 months",
+   "15–16 months",
+   "18–20 months",
+   "24 months"
+  ],
+  "correct": "C",
+  "expl": "Kankrej calving interval is 15 to 16 months.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.4",
+  "flat": 59,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch & Draught Breeds — Kankrej",
+  "question": "Kankrej milk yield under commercial farm conditions can reach up to?",
+  "options": [
+   "1300 kg",
+   "2100 kg",
+   "2500 kg",
+   "3600 kg",
+   "4500 kg"
+  ],
+  "correct": "D",
+  "expl": "Kankrej milk yield under commercial farm conditions reaches up to 3600 kg.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.5",
+  "flat": 60,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Milch & Draught Breeds — Kankrej",
+  "question": "Kankrej bullocks are especially prized for being?",
+  "options": [
+   "Poor workers, kept only for milk",
+   "Used exclusively for beef",
+   "Suited only to hilly terrain",
+   "Slow but very strong",
+   "Fast, active and strong — good for plough and cart"
+  ],
+  "correct": "E",
+  "expl": "Kankrej bullocks are fast, active and strong, and good for plough and cart purposes.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 61,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Draught Breeds — Kangayam",
+  "question": "The Kangayam breed, in its native tract, is also known by which other names?",
+  "options": [
+   "Kanganad and Kongu",
+   "Amrit and Hallikar",
+   "Umbla and Cherry",
+   "Red and Sindhi",
+   "Ongole and Hariana"
+  ],
+  "correct": "A",
+  "expl": "Kangayam cattle are also known as Kanganad and Kongu in their native area.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 62,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Draught Breeds — Kangayam",
+  "question": "Kangayam cattle are mainly bred in which districts of Tamil Nadu?",
+  "options": [
+   "Thanjavur, Nagapattinam",
+   "Coimbatore, Erode, Namakkal, Karur, Dindigul",
+   "Chennai, Vellore",
+   "Madurai, Trichy",
+   "Salem, Krishnagiri"
+  ],
+  "correct": "B",
+  "expl": "Kangayam cattle are mainly found in Coimbatore, Erode, Namakkal, Karur and Dindigul districts.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.3",
+  "flat": 63,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Draught Breeds — Kangayam",
+  "question": "Kangayam cattle are best suited for?",
+  "options": [
+   "Beef production",
+   "Racing",
+   "Ploughing and transport; they withstand hardy conditions",
+   "High milk yield",
+   "Only stall-fed dairy use"
+  ],
+  "correct": "C",
+  "expl": "Kangayam is best suited for ploughing and transport and can withstand hardy conditions.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 64,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Draught Breeds — Amritmahal",
+  "question": "Amritmahal cattle are mainly found in which state?",
+  "options": [
+   "Andhra Pradesh",
+   "Maharashtra",
+   "Tamil Nadu",
+   "Karnataka",
+   "Kerala"
+  ],
+  "correct": "D",
+  "expl": "Amritmahal cattle are mainly found in Karnataka.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 65,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Draught Breeds — Amritmahal",
+  "question": "Amritmahal cattle are best suited for?",
+  "options": [
+   "Beef only",
+   "Wool production",
+   "Racing",
+   "Dairy",
+   "Ploughing and transport"
+  ],
+  "correct": "E",
+  "expl": "Amritmahal is described as best suitable for ploughing and transport.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 66,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Draught Breeds — Hallikar",
+  "question": "Hallikar cattle are mainly found in which districts?",
+  "options": [
+   "Tumkur, Hassan, Mysore (Karnataka)",
+   "Coimbatore, Erode (Tamil Nadu)",
+   "Jodhpur, Kutch",
+   "Karnal, Hisar",
+   "Gir forest region"
+  ],
+  "correct": "A",
+  "expl": "Hallikar cattle are mainly found in Tumkur, Hassan and Mysore districts of Karnataka.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 67,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Draught Breeds — Hallikar",
+  "question": "A notable characteristic of Hallikar bullocks is that they are?",
+  "options": [
+   "Slow and docile only",
+   "Strong, well-spirited, quick and steady in the field and on the road",
+   "Poor workers",
+   "Exclusively a milk breed",
+   "Only used for exhibitions"
+  ],
+  "correct": "B",
+  "expl": "Hallikar bullocks are strong, well-spirited, quick and steady both in the field and on the road.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 68,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Draught Breeds — Umblacherry",
+  "question": "Umblacherry cattle originate from which district?",
+  "options": [
+   "Gir forest, Gujarat",
+   "Karnal, Haryana",
+   "Tanjore (Thanjavur), Tamil Nadu",
+   "Coimbatore, Tamil Nadu",
+   "Mysore, Karnataka"
+  ],
+  "correct": "C",
+  "expl": "Umblacherry's origin is stated as Tanjore district in Tamil Nadu.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 69,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Draught Breeds — Umblacherry",
+  "question": "Umblacherry calves are born in which colour, and what colour do they become after 6 months?",
+  "options": [
+   "Grey then red",
+   "Brown throughout",
+   "White then black",
+   "Red then grey",
+   "Black then white"
+  ],
+  "correct": "D",
+  "expl": "Umblacherry calves are red at birth and become grey after 6 months of age.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q2.3",
+  "flat": 70,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Draught Breeds — Umblacherry",
+  "question": "The average milk yield of Umblacherry cows per lactation is approximately?",
+  "options": [
+   "900 kg",
+   "1300 kg",
+   "1660 kg",
+   "2100 kg",
+   "300 kg"
+  ],
+  "correct": "E",
+  "expl": "Umblacherry cows are poor milkers with an average yield of about 300 kg/lactation.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.4",
+  "flat": 71,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Draught Breeds — Umblacherry",
+  "question": "Umblacherry bulls, used mainly for ploughing in the Thanjavur delta area, have which temperament?",
+  "options": [
+   "Fearless/fiery temperament",
+   "Extremely docile",
+   "Nervous and skittish",
+   "Indifferent and lazy",
+   "Very aggressive toward handlers"
+  ],
+  "correct": "A",
+  "expl": "The source describes Umblacherry bulls as having a fiery/fearless temperament.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 72,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Exotic Breeds — Jersey",
+  "question": "Jersey cattle originated from?",
+  "options": [
+   "Switzerland",
+   "Island of Jersey, English Channel",
+   "Mainland British Isles",
+   "Denmark",
+   "Holland"
+  ],
+  "correct": "B",
+  "expl": "Jersey cattle originated on the Island of Jersey, a small British island in the English Channel.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 73,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Exotic Breeds — Jersey",
+  "question": "Jersey is considered one of the oldest dairy breeds, having reportedly been purebred for nearly how long?",
+  "options": [
+   "2 centuries",
+   "4 centuries",
+   "6 centuries",
+   "8 centuries",
+   "10 centuries"
+  ],
+  "correct": "C",
+  "expl": "Jersey has reportedly been purebred for nearly six centuries.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.3",
+  "flat": 74,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Exotic Breeds — Jersey",
+  "question": "Jersey coat colour can vary from a light grey/mouse colour to?",
+  "options": [
+   "Piebald black-and-white",
+   "Roan",
+   "Pure white",
+   "A very dark fawn, almost black",
+   "Bright red only"
+  ],
+  "correct": "D",
+  "expl": "Jersey colour ranges from light grey/mouse to a very dark fawn shade, almost black.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.4",
+  "flat": 75,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Exotic Breeds — Jersey",
+  "question": "Age at first calving in Jersey cattle is approximately?",
+  "options": [
+   "32–36 months",
+   "36–40 months",
+   "15–18 months",
+   "20–24 months",
+   "26–30 months"
+  ],
+  "correct": "E",
+  "expl": "Jersey age at first calving is stated as 26–30 months.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.5",
+  "flat": 76,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Exotic Breeds — Jersey",
+  "question": "Inter-calving period in Jersey cattle is approximately?",
+  "options": [
+   "13–14 months",
+   "15–16 months",
+   "18–20 months",
+   "24 months",
+   "11–12 months"
+  ],
+  "correct": "A",
+  "expl": "The Jersey inter-calving period is stated as 13–14 months.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.6",
+  "flat": 77,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Exotic Breeds — Jersey",
+  "question": "Pure Jersey cattle milk yield ranges approximately?",
+  "options": [
+   "3500–5000 kg",
+   "5000–8000 kg",
+   "8000–10000 kg",
+   "10000–12000 kg",
+   "2000–3000 kg"
+  ],
+  "correct": "B",
+  "expl": "Pure Jersey milk yield is stated as 5000–8000 kg.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.7",
+  "flat": 78,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Exotic Breeds — Jersey",
+  "question": "A pure Jersey cow gives about 20 litres/day; a cross-bred Jersey cow gives about how much per day?",
+  "options": [
+   "25–30 litres",
+   "5–6 litres",
+   "8–10 litres",
+   "15–18 litres",
+   "20–25 litres"
+  ],
+  "correct": "C",
+  "expl": "Cross-bred Jersey cows give 8–10 litres per day, versus 20 litres for pure Jersey dairy cows.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 79,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Exotic Breeds — Holstein Friesian",
+  "question": "Holstein Friesian cattle originated in?",
+  "options": [
+   "Island of Jersey",
+   "British Isles",
+   "Switzerland",
+   "Holland",
+   "Denmark"
+  ],
+  "correct": "D",
+  "expl": "Holstein Friesian originated in Holland.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 80,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Exotic Breeds — Holstein Friesian",
+  "question": "Holstein Friesian coat colour pattern is typically?",
+  "options": [
+   "Grey and fawn",
+   "Solid white",
+   "Solid black",
+   "Solid brown",
+   "Black-and-white or red-and-white"
+  ],
+  "correct": "E",
+  "expl": "Holsteins have colour patterns of black-and-white or red-and-white.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.3",
+  "flat": 81,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Exotic Breeds — Holstein Friesian",
+  "question": "Holstein heifers can be bred at what age, when they weigh about 800 pounds?",
+  "options": [
+   "15 months",
+   "20 months",
+   "24 months",
+   "9 months",
+   "12 months"
+  ],
+  "correct": "A",
+  "expl": "Holstein heifers can be bred at 15 months of age, weighing about 800 pounds.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.4",
+  "flat": 82,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Exotic Breeds — Holstein Friesian",
+  "question": "It is desirable for Holstein females to calve for the first time between?",
+  "options": [
+   "20–22 months",
+   "24–27 months",
+   "30–33 months",
+   "34–36 months",
+   "18–20 months"
+  ],
+  "correct": "B",
+  "expl": "It is desirable to have Holstein females calve for the first time between 24 and 27 months of age.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.5",
+  "flat": 83,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Exotic Breeds — Holstein Friesian",
+  "question": "Pure Holstein Friesian milk yield ranges approximately?",
+  "options": [
+   "10000–12000 kg",
+   "5000–7000 kg",
+   "7200–9000 kg",
+   "9000–11000 kg",
+   "3000–5000 kg"
+  ],
+  "correct": "C",
+  "expl": "Holstein Friesian milk yield is stated as 7200–9000 kg.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.6",
+  "flat": 84,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Exotic Breeds — Holstein Friesian",
+  "question": "Among the exotic dairy breeds discussed, which gives the highest average daily milk yield (about 25 litres/day)?",
+  "options": [
+   "Ayrshire",
+   "Jersey",
+   "Brown Swiss",
+   "Holstein Friesian",
+   "Red Dane"
+  ],
+  "correct": "D",
+  "expl": "Holstein Friesian is described as the best dairy breed among exotic cattle for milk yield, averaging 25 litres/day.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.7",
+  "flat": 85,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Exotic Breeds — Holstein Friesian",
+  "question": "Holstein Friesian is stated to perform well especially in which type of areas?",
+  "options": [
+   "Only temperate hill stations",
+   "Semi-arid scrubland",
+   "Arid desert areas",
+   "High-altitude cold areas",
+   "Coastal and delta areas"
+  ],
+  "correct": "E",
+  "expl": "Holstein Friesian can perform well in coastal and delta areas as per the source.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.1",
+  "flat": 86,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Cross-bred & Indigenous Breed Tables",
+  "question": "As per the breed-origin table, Brown Swiss cattle originated from?",
+  "options": [
+   "Switzerland",
+   "British Isles",
+   "Denmark",
+   "Sweden",
+   "Holland"
+  ],
+  "correct": "A",
+  "expl": "The cross-bred cattle table lists Switzerland as the native country of Brown Swiss.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q2.2",
+  "flat": 87,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Cross-bred & Indigenous Breed Tables",
+  "question": "As per the table, Holstein Friesian is associated with which specific province of Holland?",
+  "options": [
+   "South Holland and East Friesland",
+   "North Holland and West Friesland",
+   "Central Holland",
+   "North Brabant",
+   "Zeeland"
+  ],
+  "correct": "B",
+  "expl": "The table specifies the Province of North Holland and West Friesland as the specific region.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q2.3",
+  "flat": 88,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Cross-bred & Indigenous Breed Tables",
+  "question": "As per the source, the Jersey breed is particularly known for?",
+  "options": [
+   "Meat quality",
+   "High quantity of milk",
+   "High milk fat percentage",
+   "Draught power",
+   "Disease resistance only"
+  ],
+  "correct": "C",
+  "expl": "Jersey breed is known for its milk fat percentage, in contrast to Holstein's high milk quantity.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.4",
+  "flat": 89,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Cross-bred & Indigenous Breed Tables",
+  "question": "In contrast to Jersey, Holstein Friesian is particularly known for?",
+  "options": [
+   "Drought resistance",
+   "Small body size",
+   "High milk fat %",
+   "High quantity of milk",
+   "Meat yield"
+  ],
+  "correct": "D",
+  "expl": "Holstein is known for the high quantity of milk, as opposed to Jersey's high fat content.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.5",
+  "flat": 90,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Cross-bred & Indigenous Breed Tables",
+  "question": "As per the indigenous cattle table, Vechur breed's habitat/main state is?",
+  "options": [
+   "Tamil Nadu",
+   "Gujarat",
+   "Rajasthan",
+   "Karnataka",
+   "Kerala"
+  ],
+  "correct": "E",
+  "expl": "The indigenous cattle table lists Kerala as Vechur's habitat/main state.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.6",
+  "flat": 91,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Cross-bred & Indigenous Breed Tables",
+  "question": "As per the indigenous cattle table, the breeding tract of Tharparkar is located in?",
+  "options": [
+   "Umarkot, Naukot, Dhoro Naro Chor (Sind, Pakistan)",
+   "Coimbatore",
+   "Karnal",
+   "Mysore",
+   "Kutch, Gujarat"
+  ],
+  "correct": "A",
+  "expl": "The table lists Umarkot, Naukot and Dhoro Naro Chor in Sind (Pakistan) as Tharparkar's breeding tract.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q2.7",
+  "flat": 92,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Cross-bred & Indigenous Breed Tables",
+  "question": "In the indigenous breeds table, both Hallikar and Kangayam are remarked/classified as?",
+  "options": [
+   "Dairy breed",
+   "Draught breed",
+   "Dual-purpose breed",
+   "Exotic breed",
+   "Meat breed"
+  ],
+  "correct": "B",
+  "expl": "The table's 'Remarks' column classifies both Hallikar and Kangayam as Draught breeds.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q2.8",
+  "flat": 93,
+  "total": 244,
+  "part": "Part II: Breeds of Cattle",
+  "section": "Cross-bred & Indigenous Breed Tables",
+  "question": "In the same table, Red Sindhi and Tharparkar are classified/remarked as?",
+  "options": [
+   "Beef breed",
+   "Draught breed",
+   "Dairy breed",
+   "Dual-purpose breed",
+   "Exotic breed"
+  ],
+  "correct": "C",
+  "expl": "The table's 'Remarks' column classifies both Red Sindhi and Tharparkar as Dairy breeds.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q3.1",
+  "flat": 94,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Concept & Purpose",
+  "question": "Cross breeding, as defined in the source, refers to mating of?",
+  "options": [
+   "Only exotic bulls with exotic cows",
+   "Only indigenous bulls with indigenous cows",
+   "Animals of the same breed",
+   "Animals of different breeds",
+   "Animals of different species"
+  ],
+  "correct": "D",
+  "expl": "Cross breeding is defined as the mating of animals of different breeds.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q3.2",
+  "flat": 95,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Concept & Purpose",
+  "question": "In India, cross breeding of cattle is mainly carried out to improve?",
+  "options": [
+   "Coat colour",
+   "Body size only",
+   "Draught power",
+   "Disease resistance only",
+   "Milk production potential"
+  ],
+  "correct": "E",
+  "expl": "Cross breeding is followed to enhance the milk production potential of the progeny.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q3.3",
+  "flat": 96,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Concept & Purpose",
+  "question": "In Indian cross-breeding programmes, zebu/nondescript cows are typically crossed with which exotic bulls?",
+  "options": [
+   "Holstein Friesian, Brown Swiss, Jersey",
+   "Kangayam, Hallikar",
+   "Amritmahal, Umblacherry",
+   "Sahiwal, Red Sindhi",
+   "Ongole, Hariana, Gir"
+  ],
+  "correct": "A",
+  "expl": "Zebu and nondescript cows are crossed with exotic breeds like Holstein Friesian, Brown Swiss and Jersey bulls or their semen.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q3.1",
+  "flat": 97,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Advantages & Disadvantages",
+  "question": "Which of the following is NOT listed as an advantage of cross breeding?",
+  "options": [
+   "Results are seen more quickly in traits like milk yield",
+   "Reduced need to maintain purebred herds",
+   "It is a way to evolve new breeds with desirable characters",
+   "Desirable exotic characters are transmitted to the progeny",
+   "Hybrid vigour is utilized in the progeny"
+  ],
+  "correct": "B",
+  "expl": "Maintaining two or more pure breeds is actually listed as a DISADVANTAGE of cross breeding, not an advantage.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q3.2",
+  "flat": 98,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Advantages & Disadvantages",
+  "question": "Which trait is inherited from the EXOTIC parent in a cross-bred animal, as per the source?",
+  "options": [
+   "Heat tolerance",
+   "Disease resistance",
+   "Higher birth weight of calves",
+   "Ability to thrive on scanty feed",
+   "Ability to thrive on coarse fodder"
+  ],
+  "correct": "C",
+  "expl": "The exotic parent contributes traits like high milk yield, early maturity and higher birth weight of calves.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q3.3",
+  "flat": 99,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Advantages & Disadvantages",
+  "question": "Which trait is inherited from the INDIGENOUS parent in cross-bred cattle?",
+  "options": [
+   "Better reproductive efficiency",
+   "Higher milk yield",
+   "Early maturity",
+   "Heat tolerance and disease resistance",
+   "Better growth rate"
+  ],
+  "correct": "D",
+  "expl": "The indigenous parent contributes heat tolerance, disease resistance and ability to thrive on scanty feed/coarse fodder.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q3.4",
+  "flat": 100,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Advantages & Disadvantages",
+  "question": "Which of these is a listed disadvantage of cross breeding?",
+  "options": [
+   "It always drastically reduces milk yield",
+   "It always increases disease susceptibility",
+   "It cannot produce hybrid vigour",
+   "It slows down genetic improvement",
+   "It requires maintaining two or more pure breeds to produce cross-breds"
+  ],
+  "correct": "E",
+  "expl": "A disadvantage listed is that cross breeding requires maintenance of two or more pure breeds to produce the cross breeds.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q3.5",
+  "flat": 101,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Advantages & Disadvantages",
+  "question": "As per the source, what happens to the breeding merit of cross-bred animals?",
+  "options": [
+   "It may be slightly reduced",
+   "It remains unaffected",
+   "It becomes unpredictable and chaotic",
+   "It doubles",
+   "It always improves significantly"
+  ],
+  "correct": "A",
+  "expl": "The source notes that the breeding merit of cross-bred animals may be slightly reduced — a listed disadvantage.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q3.1",
+  "flat": 102,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Institutions & History",
+  "question": "Cross-breeding work in India was initially started at?",
+  "options": [
+   "NDRI Karnal",
+   "NDRI Bangalore Livestock Farm and Allahabad Agricultural Institute",
+   "IVRI Izatnagar",
+   "TANUVAS, Chennai",
+   "BAIF, Pune"
+  ],
+  "correct": "B",
+  "expl": "Cross-breeding work was initiated at NDRI Bangalore Livestock Farm and Allahabad Agricultural Institute.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q3.2",
+  "flat": 103,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Institutions & History",
+  "question": "Besides NDRI Bangalore and Allahabad Agricultural Institute, where is cross-breeding work currently also carried out, per the source?",
+  "options": [
+   "Only under FAO projects",
+   "Only in research labs, not farms",
+   "Military dairy farms and NDRI Karnal",
+   "Only private dairy farms",
+   "Only in Punjab"
+  ],
+  "correct": "C",
+  "expl": "Cross-breeding work is also going on at Military dairy farms, NDRI Karnal, and All India Coordinated Research Projects.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q3.3",
+  "flat": 104,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Institutions & History",
+  "question": "Which of these is an international collaborative cross-breeding project mentioned in the source?",
+  "options": [
+   "Indo-French",
+   "Indo-Chinese",
+   "Indo-US",
+   "Indo-Swiss",
+   "Indo-Japan"
+  ],
+  "correct": "D",
+  "expl": "The Indo-Swiss project is mentioned along with Indo-Australian and Indo-Danish collaborative projects.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q3.1",
+  "flat": 105,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Outcomes",
+  "question": "Compared to indigenous cattle, cross-breeds generally show which reproductive characteristic?",
+  "options": [
+   "Delayed first calving",
+   "Lower lactation yield",
+   "Lower breeding efficiency",
+   "Longer service period",
+   "Shorter service period and dry period"
+  ],
+  "correct": "E",
+  "expl": "Cross breeds were found to have a shorter service period and dry period, along with higher lactation yield.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q3.2",
+  "flat": 106,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Outcomes",
+  "question": "Which of these is also a reported characteristic of cross-bred cattle, compared to indigenous cattle?",
+  "options": [
+   "Higher birth weight and faster growth rate",
+   "Delayed puberty only",
+   "No change in lactation yield",
+   "Lower birth weight",
+   "Slower growth rate"
+  ],
+  "correct": "A",
+  "expl": "Cross breeds were found to have higher birth weight, faster growth rate and earlier age at first calving.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q3.1",
+  "flat": 107,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Suitability of Exotic Breeds",
+  "question": "Which exotic breed is stated to be best suited for fluid milk supply in cities, with higher feed inputs and a temperate/sub-tropical climate?",
+  "options": [
+   "Brown Swiss",
+   "Holstein Friesian",
+   "Red Dane",
+   "Ayrshire",
+   "Jersey"
+  ],
+  "correct": "B",
+  "expl": "Holstein Friesian is found best suited for fluid milk supply in cities under higher feed input and temperate/sub-tropical conditions.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q3.2",
+  "flat": 108,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Suitability of Exotic Breeds",
+  "question": "Jersey crosses are ideal when milk is meant for product manufacture, feed inputs are limited, and the climate is?",
+  "options": [
+   "Temperate",
+   "Sub-tropical only",
+   "Tropical",
+   "Arid desert only",
+   "Alpine"
+  ],
+  "correct": "C",
+  "expl": "In contrast to Holstein Friesian, Jersey crosses are ideal for tropical climates with limited feed inputs.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q3.3",
+  "flat": 109,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Suitability of Exotic Breeds",
+  "question": "Besides Holstein Friesian, Jersey and Brown Swiss, which other exotic breed is mentioned as used in cross-breeding programmes?",
+  "options": [
+   "Charolais",
+   "Ayrshire",
+   "Guernsey",
+   "Red Dane",
+   "Simmental"
+  ],
+  "correct": "D",
+  "expl": "Red Dane is mentioned alongside Holstein Friesian, Jersey and Brown Swiss as used in cross-breeding programmes.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q3.1",
+  "flat": 110,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Selection Genetics",
+  "question": "For a cross-bred animal to retain the adaptability, heat tolerance and disease resistance of local animals, what approximate percentage of native (indigenous) germplasm is considered helpful?",
+  "options": [
+   "75%",
+   "90%",
+   "100%",
+   "25%",
+   "50%"
+  ],
+  "correct": "E",
+  "expl": "Fifty percent native germplasm is stated to help retain adaptability, heat tolerance and disease resistance.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q3.2",
+  "flat": 111,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Selection Genetics",
+  "question": "The breed formed from 50% Holstein and 50% Sahiwal, internationally recognized for tropical regions, is known as?",
+  "options": [
+   "Australian Friesian Sahiwal",
+   "Karan Fries",
+   "Frieswal",
+   "Jersind",
+   "Indo-Friesian"
+  ],
+  "correct": "A",
+  "expl": "Australian Friesian Sahiwal, using Sahiwal (Zebu) germplasm, is cited as an internationally recognized breed for the tropics.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q3.3",
+  "flat": 112,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Selection Genetics",
+  "question": "Cross-bred animals with approximately what percentage of exotic inheritance are generally preferred for selection?",
+  "options": [
+   "25%",
+   "50%",
+   "75%",
+   "90%",
+   "100%"
+  ],
+  "correct": "B",
+  "expl": "Cross-bred animals with about 50% exotic inheritance are preferable, per the source.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q3.1",
+  "flat": 113,
+  "total": 244,
+  "part": "Part III: Cross Breeding",
+  "section": "Cross Breeding — Practical Considerations",
+  "question": "Bringing dairy animals from a different agro-climatic zone often causes problems mainly due to?",
+  "options": [
+   "Increased fertility",
+   "Genetic mutation",
+   "Non-adjustment to the new conditions",
+   "Loss of pedigree records",
+   "Legal restrictions"
+  ],
+  "correct": "C",
+  "expl": "Bringing animals from different agro-climatic conditions causes problems due to non-adjustment in many cases.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.1",
+  "flat": 114,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Selection Principles",
+  "question": "What is described as the first and most important step in dairying?",
+  "options": [
+   "Fodder cultivation",
+   "Milk marketing",
+   "Housing construction",
+   "Proper selection of animals",
+   "Vaccination"
+  ],
+  "correct": "D",
+  "expl": "Proper selection is stated as the first and most important step in dairying.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q4.2",
+  "flat": 115,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Selection Principles",
+  "question": "Selection of dairy cattle is primarily based on?",
+  "options": [
+   "Owner's intuition alone",
+   "Random sampling",
+   "Astrological timing",
+   "Colour preference",
+   "Records — proper identification and record-keeping"
+  ],
+  "correct": "E",
+  "expl": "Records are the basis of selection; proper identification and record keeping are essential.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q4.1",
+  "flat": 116,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Selection Timing",
+  "question": "During which lactations do dairy cows generally show maximum milk yield?",
+  "options": [
+   "First five lactations",
+   "Only the third lactation",
+   "Lactations six to eight",
+   "Only after the fifth lactation",
+   "First two lactations only"
+  ],
+  "correct": "A",
+  "expl": "Maximum yields by dairy cows are noticed during the first five lactations.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.2",
+  "flat": 117,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Selection Timing",
+  "question": "Selection of a cow should ideally be carried out during?",
+  "options": [
+   "The dry period",
+   "First or second lactation, about a month after calving",
+   "Just before calving",
+   "Only during pregnancy",
+   "At weaning of the calf"
+  ],
+  "correct": "B",
+  "expl": "Selection should generally be carried out during the first or second lactation, a month after calving.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.1",
+  "flat": 118,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Selection Method",
+  "question": "To get a fair estimate of a cow's production, which method is recommended?",
+  "options": [
+   "Recording only the first week's yield",
+   "A single milking is sufficient",
+   "Averaging several successive complete milkings",
+   "Only recording the evening milking",
+   "Measuring colostrum yield"
+  ],
+  "correct": "C",
+  "expl": "Several successive complete milkings should be done and averaged for a fair idea of production.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.3",
+  "flat": 119,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Selection Timing",
+  "question": "As per the source, maximum milk yield in dairy cows is typically noticed within how many days after calving?",
+  "options": [
+   "150 days",
+   "30 days",
+   "60 days",
+   "90 days",
+   "120 days"
+  ],
+  "correct": "D",
+  "expl": "Maximum yield is noticed till 90 days after calving.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.4",
+  "flat": 120,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Selection Timing",
+  "question": "It is stated to be better to purchase dairy animals during which months?",
+  "options": [
+   "December–January",
+   "February–March",
+   "April–May",
+   "June–July",
+   "October–November"
+  ],
+  "correct": "E",
+  "expl": "The source recommends purchasing animals during the months of October and November.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.1",
+  "flat": 121,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Breed Characteristics of High Yielders",
+  "question": "A good dairy cow, per selection guidelines, should exhibit which temperament trait?",
+  "options": [
+   "Docile — allowing anybody to milk it",
+   "Highly nervous",
+   "Territorial toward other cows",
+   "Indifferent to handling",
+   "Aggressive and wary"
+  ],
+  "correct": "A",
+  "expl": "A cow should allow anybody to milk it and should be docile, per the selection guidelines.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q4.2",
+  "flat": 122,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Breed Characteristics of High Yielders",
+  "question": "Which udder characteristic is considered desirable in a high-yielding dairy cow?",
+  "options": [
+   "Small, poorly attached udder",
+   "Udder well attached to the abdomen with a good network of blood vessels",
+   "Udder with uneven/undemarcated quarters",
+   "Very small teats close together",
+   "Loosely hanging udder with no vascularity"
+  ],
+  "correct": "B",
+  "expl": "The udder should be well attached to the abdomen with a good network of blood vessels in the skin.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.3",
+  "flat": 123,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Breed Characteristics of High Yielders",
+  "question": "Regarding the teats and quarters of the udder, a high-yielding cow should have?",
+  "options": [
+   "Teats pointing sideways",
+   "Only 2 functional quarters",
+   "All four quarters well demarcated with well-placed teats",
+   "Teats of unequal size on each side",
+   "No visible demarcation between quarters"
+  ],
+  "correct": "C",
+  "expl": "All four quarters of the udder should be well demarcated with well-placed teats.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.4",
+  "flat": 124,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Breed Characteristics of High Yielders",
+  "question": "Which body appearance is described as ideal in the breed characteristics of high-yielding dairy cows?",
+  "options": [
+   "Square, blocky frame",
+   "Sunken back with heavy hindquarters",
+   "Round, compact and heavy body",
+   "Wedge-shaped appearance of the body",
+   "Barrel-shaped body only"
+  ],
+  "correct": "D",
+  "expl": "The animal should have a wedge-shaped appearance of the body, per the source.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.1",
+  "flat": 125,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Commercial Farm Planning",
+  "question": "Under Indian conditions, a commercial dairy farm should ideally start with a minimum of how many animals?",
+  "options": [
+   "30",
+   "50",
+   "100",
+   "10",
+   "20 (10 cows + 10 buffaloes)"
+  ],
+  "correct": "E",
+  "expl": "A commercial dairy farm should consist of a minimum of 20 animals (10 cows, 10 buffaloes).",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.2",
+  "flat": 126,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Commercial Farm Planning",
+  "question": "As per the source, a commercial dairy farm's strength can be expanded up to how many animals before a strategy review is advised?",
+  "options": [
+   "100",
+   "150",
+   "200",
+   "50",
+   "75"
+  ],
+  "correct": "A",
+  "expl": "This strength can easily go up to 100 animals before a review of strength and market potential is advised.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.3",
+  "flat": 127,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Commercial Farm Planning",
+  "question": "For a mixed commercial dairy farm, which cow:buffalo proportion ratios are suggested?",
+  "options": [
+   "70:30 or 80:20",
+   "50:50 or 40:60",
+   "90:10",
+   "Only 50:50",
+   "20:80"
+  ],
+  "correct": "B",
+  "expl": "The source suggests proportions of 50:50 or 40:60 (cows:buffaloes) as the herd expands.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q4.1",
+  "flat": 128,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Market Segmentation",
+  "question": "As per the source, which customer segment is stated to prefer pure buffalo milk?",
+  "options": [
+   "Infant care centres",
+   "Hospitals and sanitariums",
+   "Hotels and general customers (around 30%)",
+   "Health-conscious middle-class families",
+   "Government canteens"
+  ],
+  "correct": "C",
+  "expl": "Hotels and some general customers (around 30%) prefer pure buffalo milk.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.2",
+  "flat": 129,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Market Segmentation",
+  "question": "Which segment is stated to prefer low-fat milk (cow's milk) for consumption?",
+  "options": [
+   "Rural households only",
+   "Dairy cooperatives only",
+   "Hotels",
+   "Middle-class health-conscious families and hospitals/sanitariums",
+   "Sweet shops"
+  ],
+  "correct": "D",
+  "expl": "Middle-class health-conscious families prefer low-fat cow's milk, and hospitals/sanitariums prefer cow's milk too.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.1",
+  "flat": 130,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Economics of Dairy Cows",
+  "question": "As per the source, if properly cared for, cows breed regularly, giving one calf at what interval?",
+  "options": [
+   "16–18 months",
+   "20–22 months",
+   "24 months",
+   "10–11 months",
+   "13–14 months"
+  ],
+  "correct": "E",
+  "expl": "With proper care, cows breed regularly, giving one calf every 13–14 month interval.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.2",
+  "flat": 131,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Economics of Dairy Cows",
+  "question": "The fat percentage of cow's milk is stated to range approximately?",
+  "options": [
+   "3–5.5%",
+   "6–8%",
+   "8–10%",
+   "10–12%",
+   "1–2%"
+  ],
+  "correct": "A",
+  "expl": "The fat percentage of cow's milk varies from 3–5.5%, per the source.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.3",
+  "flat": 132,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Economics of Dairy Cows",
+  "question": "Compared to buffalo milk, the fat percentage of cow's milk is generally?",
+  "options": [
+   "Higher",
+   "Lower",
+   "Exactly equal",
+   "Not comparable",
+   "Zero"
+  ],
+  "correct": "B",
+  "expl": "The source states cow's milk fat percentage is lower than that of buffaloes.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q4.4",
+  "flat": 133,
+  "total": 244,
+  "part": "Part IV: Selection of Dairy Cattle",
+  "section": "Economics of Dairy Cows",
+  "question": "As per the source, good quality dairy cows cost approximately how much per litre of daily milk production capacity?",
+  "options": [
+   "Rs.5000",
+   "Rs.500–800",
+   "Rs.1200–1500",
+   "Rs.2000–2500",
+   "Rs.3000–3500"
+  ],
+  "correct": "C",
+  "expl": "Good quality cows cost around Rs.1200 to Rs.1500 per litre of milk production capacity per day.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.1",
+  "flat": 134,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Location of Dairy Buildings",
+  "question": "A dairy building should ideally be located at what elevation relative to the surrounding ground?",
+  "options": [
+   "In a depression, for wind protection",
+   "Elevation is irrelevant",
+   "Lower, for water collection",
+   "Higher, for good drainage",
+   "Same level as surroundings"
+  ],
+  "correct": "D",
+  "expl": "A dairy building should be at a higher elevation than the surrounding ground for good drainage.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.2",
+  "flat": 135,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Location of Dairy Buildings",
+  "question": "The long axis of dairy barns should ideally be set in which direction?",
+  "options": [
+   "Northeast–Southwest",
+   "Any direction is fine",
+   "Southwest–Northeast",
+   "East–West",
+   "North–South"
+  ],
+  "correct": "E",
+  "expl": "The long axis of dairy barns should be set in the north–south direction.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.3",
+  "flat": 136,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Location of Dairy Buildings",
+  "question": "The north–south orientation of barns is recommended mainly to?",
+  "options": [
+   "Maximize the benefit of sunlight exposure",
+   "Minimize sunlight exposure",
+   "Improve drainage only",
+   "Ease road access",
+   "Reduce construction cost"
+  ],
+  "correct": "A",
+  "expl": "This orientation gives the maximum benefit of the sun to the building.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.4",
+  "flat": 137,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Location of Dairy Buildings",
+  "question": "Dairy buildings should ideally have maximum sun exposure from which direction, and minimum from which?",
+  "options": [
+   "Max from south, min from north",
+   "Max from north, min from south",
+   "Max from east, min from west",
+   "Max from west, min from east",
+   "Equal exposure on both sides"
+  ],
+  "correct": "B",
+  "expl": "A dairy building should have maximum exposure to the sun in the north and minimum exposure in the south.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q5.5",
+  "flat": 138,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Location of Dairy Buildings",
+  "question": "Foundation soil that is too dehydrated/desiccated tends to cause ____ during the rainy season.",
+  "options": [
+   "Compaction only",
+   "Better drainage",
+   "Swelling with numerous cracks and fissures",
+   "No change",
+   "Improved fertility"
+  ],
+  "correct": "C",
+  "expl": "Such soil is susceptible to considerable swelling during the rainy season, exhibiting cracks and fissures.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.6",
+  "flat": 139,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Location of Dairy Buildings",
+  "question": "A cattle shed should ideally be situated by the main road, but at what approximate distance?",
+  "options": [
+   "1 km",
+   "10 metres",
+   "50 metres",
+   "100 metres",
+   "500 metres"
+  ],
+  "correct": "D",
+  "expl": "A cattle shed should be by the side of the main road, preferably at a distance of about 100 metres.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.7",
+  "flat": 140,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Location of Dairy Buildings",
+  "question": "Regarding water supply for dairy buildings, the source recommends?",
+  "options": [
+   "Water supply is not a priority",
+   "Only borewell water should be used",
+   "Saline water is acceptable",
+   "Hard water is preferable",
+   "Abundant fresh, clean and soft water at a cheap rate"
+  ],
+  "correct": "E",
+  "expl": "Abundant supply of fresh, clean and soft water should be available at a cheap rate.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.8",
+  "flat": 141,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Location of Dairy Buildings",
+  "question": "Which locational factor is emphasized in the source to avoid criminal/wildlife threats?",
+  "options": [
+   "Surroundings — avoiding areas infested with wild animals and dacoits",
+   "Soil type",
+   "Accessibility",
+   "Electricity",
+   "Topography"
+  ],
+  "correct": "A",
+  "expl": "Areas infested with wild animals and dacoits should be avoided, per the 'Surroundings' factor.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.9",
+  "flat": 142,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Location of Dairy Buildings",
+  "question": "Which is highlighted as the most important and sanitary method of lighting a dairy?",
+  "options": [
+   "Kerosene lamps",
+   "Electricity",
+   "Natural moonlight only",
+   "Candles",
+   "Gas lanterns"
+  ],
+  "correct": "B",
+  "expl": "Electricity is described as the most important sanitary method of lighting a dairy.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.10",
+  "flat": 143,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Location of Dairy Buildings",
+  "question": "For efficient utilization of labour, feed stores should ideally be positioned?",
+  "options": [
+   "Location doesn't matter",
+   "Far from the cow barn",
+   "Adjacent to/near the centre of the cow barn",
+   "Only outside the farm premises",
+   "Underground"
+  ],
+  "correct": "C",
+  "expl": "Feed storages should be located at hand, near the centre of the cow barn.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.11",
+  "flat": 144,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Location of Dairy Buildings",
+  "question": "Where should the milk-house ideally be located relative to the barn?",
+  "options": [
+   "Adjacent to the isolation box only",
+   "On the roof",
+   "At one extreme end",
+   "Almost at the centre of the barn",
+   "Completely outside the farm"
+  ],
+  "correct": "D",
+  "expl": "The milk-house should be located almost at the centre of the barn.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.12",
+  "flat": 145,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Location of Dairy Buildings",
+  "question": "Which of these is NOT listed as a criterion for locating dairy buildings?",
+  "options": [
+   "Accessibility",
+   "Marketing",
+   "Topography and drainage",
+   "Soil type",
+   "Astrological alignment"
+  ],
+  "correct": "E",
+  "expl": "The source lists topography, soil, sun exposure, accessibility, water, surroundings, labour, marketing and electricity — not astrology.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.1",
+  "flat": 146,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Types of Housing",
+  "question": "The most widely prevalent traditional practice for tying cows, as per the source, is on a?",
+  "options": [
+   "Katcha (unpaved/earthen) floor, tied with rope",
+   "Slatted floor",
+   "Rubber-matted floor",
+   "Elevated wooden platform",
+   "Cemented raised platform"
+  ],
+  "correct": "A",
+  "expl": "The most widely prevalent practice is tying cows with rope on a Katcha floor, outside organized farms.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.2",
+  "flat": 147,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Types of Housing",
+  "question": "The two main types of dairy barns mentioned in the source are the conventional dairy barn and the?",
+  "options": [
+   "Zero-grazing barn",
+   "Loose housing barn (with milking barn/parlor)",
+   "Deep litter barn",
+   "Free-stall barn only",
+   "Tie-stall barn only"
+  ],
+  "correct": "B",
+  "expl": "The two general types in use are the loose housing barn (with milking barn/parlor) and the conventional dairy barn.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.3",
+  "flat": 148,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Types of Housing",
+  "question": "Which of these is NOT listed as a feature/advantage of the loose housing system?",
+  "options": [
+   "Lower construction cost",
+   "Facilitates easy detection of animals in heat",
+   "Requires costlier maintenance than conventional barns",
+   "Allows further expansion without major change",
+   "Provides better overall management"
+  ],
+  "correct": "C",
+  "expl": "Loose housing is described as the MOST ECONOMICAL system with lower cost, not costlier than conventional barns.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.4",
+  "flat": 149,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Types of Housing",
+  "question": "Loose housing is defined as a system where animals are kept loose except during?",
+  "options": [
+   "Night hours only",
+   "Summer months only",
+   "Grazing and feeding",
+   "Milking and treatment",
+   "Breeding season only"
+  ],
+  "correct": "D",
+  "expl": "Loose housing keeps animals loose except during milking and at the time of treatment.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.1",
+  "flat": 150,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Cattle Shed Dimensions",
+  "question": "In a cattle shed, how much manger space per cow is recommended in the feeding area?",
+  "options": [
+   "3 to 3.5 feet",
+   "4 to 5 feet",
+   "6 feet",
+   "1 to 1.5 feet",
+   "2 to 2.5 feet"
+  ],
+  "correct": "E",
+  "expl": "The feeding area should be provided with 2 to 2.5 feet of manger space per cow.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.2",
+  "flat": 151,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Cattle Shed Dimensions",
+  "question": "What width of water trough is recommended along the manger?",
+  "options": [
+   "10 inches",
+   "15 inches",
+   "20 inches",
+   "24 inches",
+   "5 inches"
+  ],
+  "correct": "A",
+  "expl": "A 10-inch-wide water trough is recommended along the manger.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.3",
+  "flat": 152,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Cattle Shed Dimensions",
+  "question": "In the described cattle shed, the roofed floor paved with bricks near the manger should be how wide?",
+  "options": [
+   "3 feet",
+   "5 feet",
+   "7 feet",
+   "10 feet",
+   "12 feet"
+  ],
+  "correct": "B",
+  "expl": "Near the manger, under the roofed house, a 5-foot-wide floor should be paved with bricks.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.4",
+  "flat": 153,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Cattle Shed Dimensions",
+  "question": "The open unpaved exercise area described for a basic cattle shed measures approximately?",
+  "options": [
+   "20'x20'",
+   "30'x25'",
+   "40'x35'",
+   "50'x50'",
+   "60'x40'"
+  ],
+  "correct": "C",
+  "expl": "Beyond the paved area, there should be an open unpaved area of 40'x35' surrounded by a wall.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q5.5",
+  "flat": 154,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Cattle Shed Dimensions",
+  "question": "For 20 adult cows and their followers, the total area needed for calf and cattle sheds combined is approximately?",
+  "options": [
+   "70'x70'",
+   "30'x30'",
+   "40'x40'",
+   "50'x50'",
+   "60'x60'"
+  ],
+  "correct": "D",
+  "expl": "Both calf and cattle sheds together will need in all a 50'x50' area for 20 adult cows and followers.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q5.6",
+  "flat": 155,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Cattle Shed Dimensions",
+  "question": "It is preferable that animals face which direction while eating fodder under the shade?",
+  "options": [
+   "Any direction",
+   "South",
+   "East",
+   "West",
+   "North"
+  ],
+  "correct": "E",
+  "expl": "It is preferable that animals face north when eating fodder, so they also get wall-protection from winter winds.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.1",
+  "flat": 156,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Conventional Dairy Barn",
+  "question": "As per the source, conventional dairy barns compared to loose housing are generally?",
+  "options": [
+   "Comparatively costlier",
+   "Equal in cost",
+   "Free of cost",
+   "Not comparable",
+   "Cheaper"
+  ],
+  "correct": "A",
+  "expl": "Conventional dairy barns are comparatively costly and becoming less popular, though offering more protection.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.2",
+  "flat": 157,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Conventional Dairy Barn",
+  "question": "Which of these is NOT listed among the barns generally needed for proper housing of dairy stock?",
+  "options": [
+   "Isolation box",
+   "A visitor's lounge attached to the milking parlour",
+   "Bull or bullock sheds",
+   "Cow houses/sheds",
+   "Calving box"
+  ],
+  "correct": "B",
+  "expl": "The listed barns are cow sheds, calving box, isolation box, sheds for young stock, and bull/bullock sheds — no visitor lounge.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.3",
+  "flat": 158,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Conventional Dairy Barn",
+  "question": "Cow sheds are arranged in a single row when the herd size is small, generally fewer than?",
+  "options": [
+   "100 cows",
+   "5 cows",
+   "10 cows",
+   "20 cows",
+   "50 cows"
+  ],
+  "correct": "C",
+  "expl": "Cow sheds can be arranged in a single row if the number of cows is small, i.e. less than 10.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.4",
+  "flat": 159,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Conventional Dairy Barn",
+  "question": "For large herds, cow sheds are typically arranged in a?",
+  "options": [
+   "Single long row only",
+   "Star pattern",
+   "Circular pattern",
+   "Double row",
+   "Triangular pattern"
+  ],
+  "correct": "D",
+  "expl": "For a large herd, sheds are arranged in a double row.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.5",
+  "flat": 160,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Conventional Dairy Barn",
+  "question": "Ordinarily, how many cows at most should be placed in a single dairy building?",
+  "options": [
+   "120–150",
+   "20–30",
+   "40–50",
+   "60–70",
+   "80–100"
+  ],
+  "correct": "E",
+  "expl": "Ordinarily, not more than 80 to 100 cows should be placed in one building.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.6",
+  "flat": 161,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Conventional Dairy Barn",
+  "question": "In double-row housing where cows face outward (tails together), this arrangement is called the?",
+  "options": [
+   "Tail to tail system",
+   "Face to face system",
+   "Herringbone system",
+   "Rotary system",
+   "Head to head system"
+  ],
+  "correct": "A",
+  "expl": "When cows face out with tails together, this is the tail-to-tail system.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.7",
+  "flat": 162,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Conventional Dairy Barn",
+  "question": "In double-row housing where cows face inward (heads together), this arrangement is called the?",
+  "options": [
+   "Tail to tail system",
+   "Face to face system",
+   "Cross-alley system",
+   "Parlour system",
+   "Rotary system"
+  ],
+  "correct": "B",
+  "expl": "When cows face in with heads together, this is the face-to-face (head-to-head) system.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.8",
+  "flat": 163,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Conventional Dairy Barn",
+  "question": "Per the time-motion study cited in the source, what percentage of a milking attendant's time is spent behind the cows?",
+  "options": [
+   "25%",
+   "40%",
+   "60%",
+   "75%",
+   "15%"
+  ],
+  "correct": "C",
+  "expl": "The study found 60% of the expended time is spent behind the cows.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.9",
+  "flat": 164,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Conventional Dairy Barn",
+  "question": "In the same time-motion study, what percentage of time is spent in front of the cow?",
+  "options": [
+   "40%",
+   "60%",
+   "10%",
+   "15%",
+   "25%"
+  ],
+  "correct": "D",
+  "expl": "The study found 15% of the time is spent in front of the cow.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.10",
+  "flat": 165,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Conventional Dairy Barn",
+  "question": "Per the study, time spent behind cows is how many times more than time spent in front of them?",
+  "options": [
+   "5 times",
+   "6 times",
+   "2 times",
+   "3 times",
+   "4 times"
+  ],
+  "correct": "E",
+  "expl": "Time spent at the back of the cows (60%) is 4 times more than time spent in front (15%).",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q5.11",
+  "flat": 166,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Conventional Dairy Barn",
+  "question": "Approximately how many man-hours of labour are required per cow per year under average conditions?",
+  "options": [
+   "125–150",
+   "150–200",
+   "50–75",
+   "75–100",
+   "100–125"
+  ],
+  "correct": "A",
+  "expl": "Under average conditions, 125 to 150 man-hours of labour are required per cow per year.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.12",
+  "flat": 167,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Conventional Dairy Barn",
+  "question": "Which system makes it easier for the head gowala/attendant to inspect a greater number of milkmen while milking?",
+  "options": [
+   "Face to face system",
+   "Tail to tail system",
+   "Loose housing",
+   "Conventional barn generically",
+   "Zero grazing"
+  ],
+  "correct": "B",
+  "expl": "In the tail-to-tail system, the head gowala can inspect a greater number of milkmen milking on both sides.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.13",
+  "flat": 168,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Conventional Dairy Barn",
+  "question": "Which system is described as better for narrow barns, where feeding is easier without back-tracking?",
+  "options": [
+   "Calving pen system",
+   "Tail to tail system",
+   "Face to face system",
+   "Loose housing",
+   "Isolation housing"
+  ],
+  "correct": "C",
+  "expl": "The face-to-face system is better for narrow barns and allows feeding of both rows without back-tracking.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.1",
+  "flat": 169,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Structural Specifications",
+  "question": "The recommended overall floor space per adult cow in a shed is approximately?",
+  "options": [
+   "120 sq.ft",
+   "25–30 sq.ft",
+   "45–50 sq.ft",
+   "65–70 sq.ft",
+   "90–100 sq.ft"
+  ],
+  "correct": "D",
+  "expl": "An overall floor space of 65 to 70 sq.ft per adult cow should be satisfactory.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.2",
+  "flat": 170,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Structural Specifications",
+  "question": "The floor gradient recommended from manger to excreta channel is approximately?",
+  "options": [
+   "2–3 inches",
+   "4–5 inches",
+   "6 inches",
+   "0.5–1 inch",
+   "1–1.25 inch"
+  ],
+  "correct": "E",
+  "expl": "The cowshed surface should be laid with a gradient of 1\" to 1¼\" from manger to excreta channel.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q5.3",
+  "flat": 171,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Structural Specifications",
+  "question": "An adult cow requires approximately how much air space under tropical conditions?",
+  "options": [
+   "800 cubic feet",
+   "1000 cubic feet",
+   "1200 cubic feet",
+   "400 cubic feet",
+   "600 cubic feet"
+  ],
+  "correct": "A",
+  "expl": "An adult cow requires at least about 800 cubic feet of air space under tropical conditions.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.4",
+  "flat": 172,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Structural Specifications",
+  "question": "The recommended height of the barn at the sides and at the ridge, respectively, is approximately?",
+  "options": [
+   "6 ft / 10 ft",
+   "8 ft / 15 ft",
+   "10 ft / 18 ft",
+   "12 ft / 20 ft",
+   "5 ft / 12 ft"
+  ],
+  "correct": "B",
+  "expl": "A height of 8 feet at the sides and 15 feet at the ridge is sufficient to give necessary air space.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.5",
+  "flat": 173,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Structural Specifications",
+  "question": "To make ventilation more effective in a barn roof, which arrangement is considered most desirable?",
+  "options": [
+   "Skylights only",
+   "A single side window",
+   "Continuous ridge ventilation",
+   "No ventilation, a sealed roof",
+   "Exhaust fans only"
+  ],
+  "correct": "C",
+  "expl": "A continuous ridge ventilation is considered most desirable to make ventilation more effective.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.6",
+  "flat": 174,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Structural Specifications",
+  "question": "A high-front manger is recommended mainly because it?",
+  "options": [
+   "Requires less cleaning",
+   "Improves ventilation",
+   "Is more comfortable for cattle",
+   "Prevents feed wastage",
+   "Is cheaper to build"
+  ],
+  "correct": "D",
+  "expl": "High front mangers prevent feed wastage, though low front mangers are more comfortable for cattle.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.7",
+  "flat": 175,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Structural Specifications",
+  "question": "A low-front manger (6 to 9 inches) is preferred mainly because it?",
+  "options": [
+   "Reduces construction cost drastically",
+   "Improves drainage",
+   "Increases air space",
+   "Prevents feed wastage completely",
+   "Is more comfortable for cattle"
+  ],
+  "correct": "E",
+  "expl": "Low front mangers are more comfortable for cattle, though high front mangers reduce feed wastage.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.8",
+  "flat": 176,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Structural Specifications",
+  "question": "The height of a high-front manger is recommended at approximately?",
+  "options": [
+   "1'-4\"",
+   "2 feet",
+   "3 feet",
+   "6 inches",
+   "1 foot"
+  ],
+  "correct": "A",
+  "expl": "A height of 1'-4\" is considered sufficient for a high-front manger.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q5.9",
+  "flat": 177,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Structural Specifications",
+  "question": "The overall width recommended for a good manger is approximately?",
+  "options": [
+   "1–1.5 ft",
+   "2–2.5 ft",
+   "3–3.5 ft",
+   "4–5 ft",
+   "6 ft"
+  ],
+  "correct": "B",
+  "expl": "An overall width of 2' to 2½' is sufficient for a good manger.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.10",
+  "flat": 178,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Structural Specifications",
+  "question": "The width of the central walk/alley (excluding gutters), when cows face outward, is recommended as?",
+  "options": [
+   "3'–4'",
+   "4'–5'",
+   "5'–6'",
+   "7'–8'",
+   "9'–10'"
+  ],
+  "correct": "C",
+  "expl": "The central walk should have a width of 5'–6' exclusive of gutters when cows face out.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q5.11",
+  "flat": 179,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Structural Specifications",
+  "question": "The manure gutter should have a gradient of 1 inch for every?",
+  "options": [
+   "30 ft length",
+   "50 ft length",
+   "5 ft length",
+   "10 ft length",
+   "20 ft length"
+  ],
+  "correct": "D",
+  "expl": "The manure gutter should have a gradient of 1 inch for every 10 feet of length.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.12",
+  "flat": 180,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Structural Specifications",
+  "question": "The recommended width of doors for a single-range cowshed is approximately?",
+  "options": [
+   "7 ft",
+   "9 ft",
+   "10 ft",
+   "3 ft",
+   "5 ft"
+  ],
+  "correct": "E",
+  "expl": "Doors of a single-range cowshed should be 5 feet wide, with a height of 7 feet.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.1",
+  "flat": 181,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Calving & Isolation Boxes",
+  "question": "Why is it considered undesirable to allow cows to calve inside the regular milking cowshed?",
+  "options": [
+   "It leads to insanitary milk production and spread of diseases like contagious abortion",
+   "It permanently reduces milk yield",
+   "It causes overcrowding only",
+   "It is illegal under law",
+   "It increases feed costs"
+  ],
+  "correct": "A",
+  "expl": "Calving in the milking cowshed leads to insanitary milk production and spread of diseases like contagious abortion.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.2",
+  "flat": 182,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Calving & Isolation Boxes",
+  "question": "The recommended area for a calving box is approximately?",
+  "options": [
+   "50–75 sq.ft",
+   "100–150 sq.ft",
+   "150–200 sq.ft",
+   "200–250 sq.ft",
+   "250–300 sq.ft"
+  ],
+  "correct": "B",
+  "expl": "A calving box should have an area of about 100 to 150 sq.ft with ample soft bedding.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.3",
+  "flat": 183,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Calving & Isolation Boxes",
+  "question": "Isolation boxes for animals suffering from infectious disease should have an area of about?",
+  "options": [
+   "50 sq.ft",
+   "100 sq.ft",
+   "150 sq.ft",
+   "200 sq.ft",
+   "250 sq.ft"
+  ],
+  "correct": "C",
+  "expl": "Loose boxes of about 150 sq.ft are suitable as isolation boxes for infectious disease cases.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.4",
+  "flat": 184,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Calving & Isolation Boxes",
+  "question": "Each isolation box should be self-contained and additionally have?",
+  "options": [
+   "No ventilation, for disease control",
+   "A shared water trough with healthy stock",
+   "A common feed store with the cow shed",
+   "A separate connection to the drainage disposal system",
+   "Direct access to the milking parlour"
+  ],
+  "correct": "D",
+  "expl": "Every isolation box should be self-contained and have a separate connection to the drainage disposal system.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.1",
+  "flat": 185,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Sheds for Young Stock",
+  "question": "For proper management, young stock below one year should be divided into how many groups?",
+  "options": [
+   "Four",
+   "Five",
+   "No division is needed",
+   "Two",
+   "Three — young calves, bull calves, female calves"
+  ],
+  "correct": "E",
+  "expl": "Young stock should be divided into three groups: young calves up to one year, bull calves and female calves.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.2",
+  "flat": 186,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Sheds for Young Stock",
+  "question": "For allocating resting area, calves below one year are further classified into age groups of below 3 months, 3–6 months, and?",
+  "options": [
+   "Over 6 months (6-12 months)",
+   "9–12 months only",
+   "12–18 months",
+   "Only two groups total",
+   "6–9 months"
+  ],
+  "correct": "A",
+  "expl": "Calves are classified into below 3 months, 3–6 months, and those over 6 months for resting-area allocation.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.3",
+  "flat": 187,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Sheds for Young Stock",
+  "question": "Covered space recommended per calf below 3 months of age is approximately?",
+  "options": [
+   "10–15 sq.ft",
+   "20–25 sq.ft",
+   "30–35 sq.ft",
+   "40–45 sq.ft",
+   "50–55 sq.ft"
+  ],
+  "correct": "B",
+  "expl": "20–25 sq.ft per calf below 3 months of age is recommended.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.4",
+  "flat": 188,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Sheds for Young Stock",
+  "question": "Covered space recommended per calf aged 6–12 months is approximately?",
+  "options": [
+   "20–25 sq.ft",
+   "25–30 sq.ft",
+   "30–40 sq.ft",
+   "40–45 sq.ft",
+   "45–50 sq.ft"
+  ],
+  "correct": "C",
+  "expl": "30–40 sq.ft per calf from the age of 6–12 months is recommended.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.5",
+  "flat": 189,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Sheds for Young Stock",
+  "question": "Covered space recommended per calf above one year of age is approximately?",
+  "options": [
+   "25–30 sq.ft",
+   "30–35 sq.ft",
+   "35–40 sq.ft",
+   "40–45 sq.ft",
+   "50–55 sq.ft"
+  ],
+  "correct": "D",
+  "expl": "40–45 sq.ft for every calf above one year should be made available.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.6",
+  "flat": 190,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Sheds for Young Stock",
+  "question": "The open paddock/exercise yard area recommended is 100 sq.ft for 10 calves, with an increase of how much for each additional calf?",
+  "options": [
+   "75 sq.ft",
+   "100 sq.ft",
+   "10 sq.ft",
+   "25 sq.ft",
+   "50 sq.ft"
+  ],
+  "correct": "E",
+  "expl": "An area of 100 sq.ft per head for 10 calves, with an increase of 50 sq.ft for every additional calf, is recommended.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q5.7",
+  "flat": 191,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Sheds for Young Stock",
+  "question": "Damp and ill-drained calf shed floors are stated to particularly cause which health issue in calves?",
+  "options": [
+   "Respiratory trouble",
+   "Digestive disorders only",
+   "Eye infections",
+   "Lameness only",
+   "Skin infections only"
+  ],
+  "correct": "A",
+  "expl": "Damp and ill-drained floors cause respiratory trouble in calves, to which they are susceptible.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.8",
+  "flat": 192,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Sheds for Young Stock",
+  "question": "A suitable interior layout for a calf shed involves standing space along a central passage of what width?",
+  "options": [
+   "3 ft",
+   "4 ft",
+   "5 ft",
+   "6 ft",
+   "2 ft"
+  ],
+  "correct": "B",
+  "expl": "A 4-feet-wide central passage with a shallow gutter on both sides is suggested for calf sheds.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.1",
+  "flat": 193,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Bull/Bullock Sheds",
+  "question": "Confining a bull without adequate exercise, particularly on hard floors, mainly leads to?",
+  "options": [
+   "No significant effect",
+   "Weight loss",
+   "Overgrowth of hoofs, causing difficulty in mounting and loss of breeding power",
+   "Improved fertility",
+   "Increased milk yield in nearby cows"
+  ],
+  "correct": "C",
+  "expl": "Confinement without adequate exercise leads to overgrowth of hoofs, causing mounting difficulty and loss of breeding power.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.2",
+  "flat": 194,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Bull/Bullock Sheds",
+  "question": "The recommended dimensions for a bull's loose box (with rough cement concrete floor) are approximately?",
+  "options": [
+   "25'x20'",
+   "30'x20'",
+   "10'x8'",
+   "15'x10'",
+   "20'x15'"
+  ],
+  "correct": "D",
+  "expl": "A loose box of about 15' by 10' with rough cement concrete floor makes comfortable housing for a bull.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.3",
+  "flat": 195,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Bull/Bullock Sheds",
+  "question": "The bull yard's boundary fence/wall should be about how high — i.e. too high for the bull to jump over?",
+  "options": [
+   "3 ft",
+   "4 ft",
+   "5 ft",
+   "1 ft",
+   "2 ft"
+  ],
+  "correct": "E",
+  "expl": "A strong fence or boundary wall of about 2 feet height, too high for the bull to jump over, is recommended.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.4",
+  "flat": 196,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Bull/Bullock Sheds",
+  "question": "Why should the bull, from its yard, be able to view other animals of the herd?",
+  "options": [
+   "So that it does not feel isolated",
+   "To improve coat colour",
+   "To reduce feed intake",
+   "No particular reason is given",
+   "For better digestion"
+  ],
+  "correct": "A",
+  "expl": "The bull should be able to view other herd animals from its yard so it does not feel isolated.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.1",
+  "flat": 197,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Cleaning & Sanitation",
+  "question": "Regular removal of leftover feed/fodder from the manger primarily helps to reduce?",
+  "options": [
+   "Water wastage",
+   "Fly nuisance",
+   "Labour cost",
+   "Disease in bulls only",
+   "Milk fat content"
+  ],
+  "correct": "B",
+  "expl": "The daily removal of feed and fodder left over in the manger reduces the fly nuisance.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.2",
+  "flat": 198,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Cleaning & Sanitation",
+  "question": "Periodic cleaning of the water trough mainly eliminates the growth of?",
+  "options": [
+   "Insects only",
+   "Weeds only",
+   "Algae, bacterial and viral contamination",
+   "Rust",
+   "Salt deposits"
+  ],
+  "correct": "C",
+  "expl": "Periodical cleaning of the water trough eliminates the growth of algae, bacteria and viruses.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.3",
+  "flat": 199,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Cleaning & Sanitation",
+  "question": "Sanitation in a dairy farm is necessary mainly to eliminate microorganisms that?",
+  "options": [
+   "Improve milk colour",
+   "Increase feed cost",
+   "Improve soil fertility",
+   "Are capable of causing disease in animals",
+   "Attract more flies"
+  ],
+  "correct": "D",
+  "expl": "Sanitation eliminates all microorganisms capable of causing disease in the animals.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.4",
+  "flat": 200,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Cleaning & Sanitation",
+  "question": "Which two named diseases are mentioned as being spread by flies/insects in dairy sheds?",
+  "options": [
+   "Mastitis, Brucellosis",
+   "Rabies, Tetanus",
+   "Bloat, Tympany",
+   "Foot and mouth disease, Anthrax",
+   "Babesiosis, Theileriosis"
+  ],
+  "correct": "E",
+  "expl": "The presence of flies and insects is noted to spread deadly diseases like Babesiosis and Theileriosis.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.5",
+  "flat": 201,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Cleaning & Sanitation",
+  "question": "Which agent is described as the most potent and powerful natural sanitizer that destroys most disease-producing organisms?",
+  "options": [
+   "Sunlight",
+   "Bleaching powder",
+   "Iodine",
+   "Slaked lime",
+   "Phenol"
+  ],
+  "correct": "A",
+  "expl": "Sunlight is described as the most potent and powerful sanitizer.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.1",
+  "flat": 202,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Disinfectants & Insecticides",
+  "question": "Bleaching powder used for disinfection is also known as?",
+  "options": [
+   "Iodophor",
+   "Calcium hypochlorite",
+   "Sodium carbonate",
+   "Calcium oxide",
+   "Potassium permanganate"
+  ],
+  "correct": "B",
+  "expl": "Bleaching powder is also called calcium hypochlorite.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.2",
+  "flat": 203,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Disinfectants & Insecticides",
+  "question": "Bleaching powder used for disinfection should contain how much available chlorine for high disinfecting activity?",
+  "options": [
+   "Up to 15%",
+   "Up to 25%",
+   "Up to 39%",
+   "Up to 50%",
+   "Up to 60%"
+  ],
+  "correct": "C",
+  "expl": "Bleaching powder contains up to 39% available chlorine, giving it high disinfecting activity.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.3",
+  "flat": 204,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Disinfectants & Insecticides",
+  "question": "Iodine and Iodophor solutions used as disinfectants commercially contain approximately what percentage of available iodine?",
+  "options": [
+   "5–6%",
+   "8–10%",
+   "0.5–1%",
+   "1–2%",
+   "3–4%"
+  ],
+  "correct": "D",
+  "expl": "Iodophores contain between 1 and 2% available iodine, an effective germicide.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.4",
+  "flat": 205,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Disinfectants & Insecticides",
+  "question": "A hot solution of washing soda (sodium carbonate) used as a disinfectant is typically prepared at what concentration?",
+  "options": [
+   "8%",
+   "10%",
+   "1%",
+   "2%",
+   "4%"
+  ],
+  "correct": "E",
+  "expl": "A hot 4% solution of washing soda is a powerful disinfectant against many viruses and certain bacteria.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.5",
+  "flat": 206,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Disinfectants & Insecticides",
+  "question": "Slaked lime is also known chemically as?",
+  "options": [
+   "Calcium hydroxide",
+   "Calcium carbonate",
+   "Calcium chloride",
+   "Calcium hypochlorite",
+   "Calcium oxide"
+  ],
+  "correct": "A",
+  "expl": "Slaked Lime is Calcium hydroxide, per the source.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.6",
+  "flat": 207,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Disinfectants & Insecticides",
+  "question": "Quick lime is chemically known as?",
+  "options": [
+   "Calcium carbonate",
+   "Calcium oxide",
+   "Calcium chloride",
+   "Calcium bicarbonate",
+   "Calcium hydroxide"
+  ],
+  "correct": "B",
+  "expl": "Quick Lime is Calcium oxide, per the source.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.7",
+  "flat": 208,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Disinfectants & Insecticides",
+  "question": "White-washing sheds with slaked lime/quick lime primarily serves to?",
+  "options": [
+   "Attract beneficial insects",
+   "Improve aesthetics only",
+   "Make walls and water troughs free from bacteria",
+   "Increase humidity",
+   "Reduce ventilation needs"
+  ],
+  "correct": "C",
+  "expl": "White-washing with slaked lime/quick lime makes the walls and water troughs free from bacteria.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q5.8",
+  "flat": 209,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Disinfectants & Insecticides",
+  "question": "Phenol (carbolic acid) is effective as a disinfectant because it destroys?",
+  "options": [
+   "Only algae",
+   "Only bacteria",
+   "Only viruses",
+   "Bacteria as well as fungus",
+   "Only insects"
+  ],
+  "correct": "D",
+  "expl": "Phenol/carbolic acid is a strong disinfectant that destroys bacteria as well as fungus.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.9",
+  "flat": 210,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Disinfectants & Insecticides",
+  "question": "Which of these is NOT listed among precautions while using disinfectants/insecticides in the shed?",
+  "options": [
+   "Use proper concentration to avoid toxic effects",
+   "Prevent algae growth in troughs",
+   "Remove dung and bedding completely before treatment",
+   "Avoid using dirty water for cleaning",
+   "Apply insecticide directly during milking time for efficiency"
+  ],
+  "correct": "E",
+  "expl": "The source explicitly warns to AVOID insecticide use at milking time, since milk absorbs it quickly.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q5.10",
+  "flat": 211,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Disinfectants & Insecticides",
+  "question": "Which of these insecticides is named in the source as commonly used in dairy sheds against ticks?",
+  "options": [
+   "BHC, DDT, Malathion, Sevin 50%",
+   "Copper sulphate",
+   "Formalin only",
+   "Potassium permanganate",
+   "Neem oil"
+  ],
+  "correct": "A",
+  "expl": "Commonly used insecticides named include BHC, DDT, Gramaxane wettable powders, malathion and Sevin 50% EC.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q5.11",
+  "flat": 212,
+  "total": 244,
+  "part": "Part V: Housing for Dairy Cattle",
+  "section": "Disinfectants & Insecticides",
+  "question": "As per the cleaning procedure, the water trough should be white-washed with a lime mixture at what frequency?",
+  "options": [
+   "Daily",
+   "Once a week",
+   "Once a month",
+   "Once every 3 months",
+   "Once a year"
+  ],
+  "correct": "B",
+  "expl": "The water trough should be washed with clean water and white-washed with a lime mixture once a week.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.1",
+  "flat": 213,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Feeding",
+  "question": "Colostrum is defined as?",
+  "options": [
+   "Milk after weaning",
+   "Milk produced during mid-lactation",
+   "The first milk produced by the cow just after calving",
+   "Milk from a dry cow",
+   "Skimmed milk only"
+  ],
+  "correct": "C",
+  "expl": "Colostrum is the first milk which the cow gives after calving.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q6.2",
+  "flat": 214,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Feeding",
+  "question": "A calf must receive how much colostrum daily for the first 3 days following its birth?",
+  "options": [
+   "4–5 litres",
+   "5–6 litres",
+   "1–1.5 litres",
+   "2–2.5 litres",
+   "3–3.5 litres"
+  ],
+  "correct": "D",
+  "expl": "The calf must receive 2 to 2.5 litres of colostrum daily for the first 3 days after birth.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.3",
+  "flat": 215,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Feeding",
+  "question": "Digestibility of colostrum increases when it is fed at what temperature range?",
+  "options": [
+   "105–110°F",
+   "Room temperature only",
+   "70–80°F",
+   "85–95°F",
+   "99–102°F"
+  ],
+  "correct": "E",
+  "expl": "Digestibility of colostrum increases when it is given at a temperature between 99°F and 102°F.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.1",
+  "flat": 216,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Composition",
+  "question": "Colostrum protein has a much higher proportion of which component compared to normal milk?",
+  "options": [
+   "Globulin",
+   "Lactose",
+   "Whey protein only",
+   "Fat",
+   "Casein"
+  ],
+  "correct": "A",
+  "expl": "The protein of colostrum consists of a much higher proportion of globulin than does normal milk.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.2",
+  "flat": 217,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Composition",
+  "question": "Globulins in colostrum are presumed to be the source of?",
+  "options": [
+   "Vitamin A",
+   "Antibodies that help protect the calf from infections",
+   "Lactose",
+   "Minerals only",
+   "Fat-soluble vitamins only"
+  ],
+  "correct": "B",
+  "expl": "Globulins are presumed to be the source of antibodies that aid in protecting the calf from infections.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.3",
+  "flat": 218,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Composition",
+  "question": "Gamma-globulin level in blood serum of neonatal calves at birth is approximately?",
+  "options": [
+   "28.18 mg/ml",
+   "0.5 mg/ml",
+   "0.97 mg/ml",
+   "5 mg/ml",
+   "16.55 mg/ml"
+  ],
+  "correct": "C",
+  "expl": "Gamma-globulin level in blood serum of neonatal calves is only 0.97 mg/ml at birth.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q6.4",
+  "flat": 219,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Composition",
+  "question": "After the first colostrum feeding at 12 hours, gamma-globulin level rises to approximately?",
+  "options": [
+   "28.18 mg/ml",
+   "5 mg/ml",
+   "10 mg/ml",
+   "16.55 mg/ml",
+   "20 mg/ml"
+  ],
+  "correct": "D",
+  "expl": "It increases to a 16.55 mg/ml level after the first colostrum feeding at 12 hours.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q6.5",
+  "flat": 220,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Composition",
+  "question": "Gamma-globulin level peaks on the second day at approximately?",
+  "options": [
+   "35 mg/ml",
+   "16.55 mg/ml",
+   "20 mg/ml",
+   "25 mg/ml",
+   "28.18 mg/ml"
+  ],
+  "correct": "E",
+  "expl": "On the second day, gamma-globulin shows a peak of 28.18 mg/ml.",
+  "diff": "Hard"
+ },
+ {
+  "id": "Q6.6",
+  "flat": 221,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Composition",
+  "question": "This elevated gamma-globulin level persists until?",
+  "options": [
+   "The reticuloendothelial system of the calf starts functioning to produce antibodies",
+   "6 months of age",
+   "First vaccination",
+   "It never declines",
+   "Weaning age"
+  ],
+  "correct": "A",
+  "expl": "This level persists till the reticuloendothelial system of the calf starts functioning to produce its own antibodies.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.7",
+  "flat": 222,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Composition",
+  "question": "Protein content of colostrum compared to normal milk is approximately?",
+  "options": [
+   "1.5–2 times",
+   "3–5 times",
+   "10–12 times",
+   "Half",
+   "The same"
+  ],
+  "correct": "B",
+  "expl": "The protein content of colostrum is 3 to 5 times that of normal milk.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.8",
+  "flat": 223,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Composition",
+  "question": "Colostrum is particularly rich in which minerals, per the source?",
+  "options": [
+   "Iodine only",
+   "Sodium, potassium, chlorine",
+   "Copper, iron, magnesium, manganese",
+   "Calcium, phosphorus only",
+   "Zinc, selenium"
+  ],
+  "correct": "C",
+  "expl": "Colostrum is rich in copper, iron, magnesium and manganese among other materials.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.9",
+  "flat": 224,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Composition",
+  "question": "Colostrum contains how many times the amount of Vitamin A found in normal milk?",
+  "options": [
+   "Equal amount",
+   "Half the amount",
+   "2–4 times",
+   "5–15 times",
+   "20–25 times"
+  ],
+  "correct": "D",
+  "expl": "Colostrum contains 5–15 times the amount of Vitamin A found in normal milk.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.10",
+  "flat": 225,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Composition",
+  "question": "Besides Vitamin A, which vitamins is colostrum noted to be superior in, compared to normal milk?",
+  "options": [
+   "Vitamin C and B12 only",
+   "Only fat-soluble vitamins",
+   "No other vitamins are mentioned",
+   "Vitamin D, E, K only",
+   "Riboflavin, choline, thiamine, pantothenic acid"
+  ],
+  "correct": "E",
+  "expl": "Colostrum is superior in riboflavin, choline, thiamine and pantothenic acid, essential for calf growth.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.11",
+  "flat": 226,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Composition",
+  "question": "Besides nutrition and immunity, colostrum performs which additional physiological function?",
+  "options": [
+   "Acts as a laxative to clear the digestive tract of faecal material",
+   "Regulates body temperature",
+   "Prevents bloat",
+   "Stimulates rumen development",
+   "Stimulates milk let-down in the mother"
+  ],
+  "correct": "A",
+  "expl": "Colostrum acts as a laxative to free the digestive tract of faecal material.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.4",
+  "flat": 227,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Colostrum Feeding",
+  "question": "If a cow is milked before calving, what should be done with the colostrum obtained?",
+  "options": [
+   "Discarded, as it is unsafe",
+   "Frozen for later feeding to the calf",
+   "Fed only to adult cows",
+   "Sold separately at a premium price",
+   "Boiled and discarded"
+  ],
+  "correct": "B",
+  "expl": "Where a cow is milked before calving, some of the colostrum should be frozen for later feeding to the calf.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.1",
+  "flat": 228,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Whole Milk & Skim Milk Feeding",
+  "question": "While feeding whole milk to calves, it is recommended to feed milk?",
+  "options": [
+   "After adding water",
+   "Only after cooling for 24 hours",
+   "Immediately after it is drawn",
+   "Only after home pasteurization",
+   "Only twice a week"
+  ],
+  "correct": "C",
+  "expl": "Milk should be fed immediately after it is drawn, per the feeding guidelines.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q6.2",
+  "flat": 229,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Whole Milk & Skim Milk Feeding",
+  "question": "Up to the age of 7 days, the total amount of milk should be fed at how many equal intervals per day?",
+  "options": [
+   "Continuous feeding",
+   "Once only",
+   "1 or 2",
+   "3 or 4",
+   "5 or 6"
+  ],
+  "correct": "D",
+  "expl": "The total amount of milk may be fed at 3 or 4 equal intervals up to the age of 7 days.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.3",
+  "flat": 230,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Whole Milk & Skim Milk Feeding",
+  "question": "After 7 days of age, how often is milk feeding typically done?",
+  "options": [
+   "Three times daily",
+   "Four times daily",
+   "Continuously",
+   "Once daily",
+   "Twice daily"
+  ],
+  "correct": "E",
+  "expl": "After 7 days, milk is generally fed twice daily.",
+  "diff": "Easy"
+ },
+ {
+  "id": "Q6.4",
+  "flat": 231,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Whole Milk & Skim Milk Feeding",
+  "question": "On many farms, calves are gradually shifted from whole milk to skim milk after what age?",
+  "options": [
+   "2 weeks",
+   "1 month",
+   "2 months",
+   "3 months",
+   "1 week"
+  ],
+  "correct": "A",
+  "expl": "Calves can be excellently raised by changing them from whole milk gradually after two weeks of age.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.5",
+  "flat": 232,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Whole Milk & Skim Milk Feeding",
+  "question": "Dried skim milk, whey, or buttermilk products are typically reconstituted at what ratio for calf feeding?",
+  "options": [
+   "1 kg to 5 kg water",
+   "1 kg to 9 kg water",
+   "1 kg to 15 kg water",
+   "1 kg to 20 kg water",
+   "Equal parts"
+  ],
+  "correct": "B",
+  "expl": "Dried products are mixed with water at the rate of 1 kg to 9 kg of water before feeding.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.6",
+  "flat": 233,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Whole Milk & Skim Milk Feeding",
+  "question": "To avoid digestive troubles, reconstituted skim milk/whey/buttermilk mix should be fed to calves after warming to approximately?",
+  "options": [
+   "80°F",
+   "90°F",
+   "100°F",
+   "110°F",
+   "120°F"
+  ],
+  "correct": "C",
+  "expl": "The reconstituted mix should always be fed after warming it up to 100°F to avoid digestive troubles.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.1",
+  "flat": 234,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Calf Starter & Grain Mixture",
+  "question": "Calf starter is a mixture consisting of?",
+  "options": [
+   "Only molasses and salt",
+   "Only fibrous roughage",
+   "Only ground grains",
+   "Ground grains, protein feeds, minerals, vitamins and antibiotics",
+   "Only milk powder"
+  ],
+  "correct": "D",
+  "expl": "Calf starter consists of ground farm grains, protein feeds, minerals, vitamins and antibiotics.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.2",
+  "flat": 235,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Calf Starter & Grain Mixture",
+  "question": "After a calf reaches what age is the amount of whole milk given typically reduced and starter introduced?",
+  "options": [
+   "1 month",
+   "6 weeks",
+   "2 months",
+   "1 week",
+   "2 weeks"
+  ],
+  "correct": "E",
+  "expl": "After a calf attains the age of 2 weeks, the whole milk amount may be cut down and starter introduced.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.3",
+  "flat": 236,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Calf Starter & Grain Mixture",
+  "question": "At what age are calves typically transferred to a 'growing' grain ration, moving on from calf starter?",
+  "options": [
+   "4 months",
+   "6 months",
+   "8 months",
+   "2 months",
+   "3 months"
+  ],
+  "correct": "A",
+  "expl": "When calves reach four months of age, they should be transferred to a growing grain ration.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.4",
+  "flat": 237,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Calf Starter & Grain Mixture",
+  "question": "Feeding of grain mixture to calves may typically be started at what age?",
+  "options": [
+   "Birth",
+   "7–15 days",
+   "1 month",
+   "2 months",
+   "3 months"
+  ],
+  "correct": "B",
+  "expl": "At the age of 7–15 days, the feeding of grain mixtures may be started.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.5",
+  "flat": 238,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Calf Starter & Grain Mixture",
+  "question": "Why is an excessively protein-rich grain mixture NOT considered desirable for calves being fed milk freely?",
+  "options": [
+   "It is not palatable",
+   "It is too expensive",
+   "Milk itself is already rich in protein",
+   "It causes coat discoloration",
+   "It directly reduces growth rate"
+  ],
+  "correct": "C",
+  "expl": "Excessive protein-rich grain mixture is undesirable since milk is already rich in proteins.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.6",
+  "flat": 239,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Calf Starter & Grain Mixture",
+  "question": "In the example grain mixture given in the source, what percentage is oats?",
+  "options": [
+   "20%",
+   "25%",
+   "30%",
+   "35%",
+   "40%"
+  ],
+  "correct": "D",
+  "expl": "The example grain mixture is: oats 35%, linseed cake 5%, bran 30%, barley 10%, groundnut cake 20%.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.7",
+  "flat": 240,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Calf Starter & Grain Mixture",
+  "question": "In the same grain mixture, what percentage is groundnut cake?",
+  "options": [
+   "25%",
+   "30%",
+   "10%",
+   "15%",
+   "20%"
+  ],
+  "correct": "E",
+  "expl": "Groundnut cake makes up 20% of the example grain mixture.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.8",
+  "flat": 241,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Calf Starter & Grain Mixture",
+  "question": "In the same grain mixture, what percentage is bran?",
+  "options": [
+   "30%",
+   "35%",
+   "40%",
+   "20%",
+   "25%"
+  ],
+  "correct": "A",
+  "expl": "Bran makes up 30% of the example grain mixture.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.9",
+  "flat": 242,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Calf Starter & Grain Mixture",
+  "question": "In the same grain mixture, what percentage is linseed cake?",
+  "options": [
+   "25%",
+   "5%",
+   "10%",
+   "15%",
+   "20%"
+  ],
+  "correct": "B",
+  "expl": "Linseed cake makes up 5% of the example grain mixture.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.10",
+  "flat": 243,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Calf Starter & Grain Mixture",
+  "question": "In the same grain mixture, what percentage is barley?",
+  "options": [
+   "25%",
+   "5%",
+   "10%",
+   "15%",
+   "20%"
+  ],
+  "correct": "C",
+  "expl": "Barley makes up 10% of the example grain mixture.",
+  "diff": "Moderate"
+ },
+ {
+  "id": "Q6.11",
+  "flat": 244,
+  "total": 244,
+  "part": "Part VI: Feed Management of Calves",
+  "section": "Calf Starter & Grain Mixture",
+  "question": "Which of these is NOT one of the five ingredients in the example grain mixture for calves?",
+  "options": [
+   "Oats",
+   "Linseed cake",
+   "Bran",
+   "Wheat flour",
+   "Groundnut cake"
+  ],
+  "correct": "D",
+  "expl": "The five ingredients listed are oats, linseed cake, bran, barley and groundnut cake — not wheat flour.",
+  "diff": "Moderate"
+ }
+];
+
+let selectedMode = 'section';
+let selectedParts = new Set();
+let activeQuestions = [];
+let currentIdx = 0;
+let answers = {}; // flat -> {selected: 'A'..'E' or null, correct: bool, skipped: bool}
+
+const allParts = [...new Set(DATA.map(q => q.part))];
+
+function init(){
+  selectedParts = new Set(allParts);
+  renderStatRow();
+  renderPartList();
+  updateSelCountHint();
+}
+
+function renderStatRow(){
+  const total = DATA.length;
+  const partsN = allParts.length;
+  const diffCounts = {Easy:0, Moderate:0, Hard:0};
+  DATA.forEach(q => diffCounts[q.diff] = (diffCounts[q.diff]||0)+1);
+  const el = document.getElementById('statRow');
+  el.innerHTML = `
+    <div class="stat"><div class="n">${total}</div><div class="l">Total Questions</div></div>
+    <div class="stat"><div class="n">${partsN}</div><div class="l">Parts</div></div>
+    <div class="stat"><div class="n">${diffCounts.Hard}</div><div class="l">Hard</div></div>
+    <div class="stat"><div class="n">${diffCounts.Moderate}</div><div class="l">Moderate</div></div>
+  `;
+}
+
+function renderPartList(){
+  const el = document.getElementById('partList');
+  el.innerHTML = '';
+  allParts.forEach(p => {
+    const cnt = DATA.filter(q=>q.part===p).length;
+    const row = document.createElement('div');
+    row.className = 'part-row';
+    row.innerHTML = `
+      <label>
+        <input type="checkbox" checked data-part="${p.replace(/"/g,'&quot;')}" onchange="togglePart(this)">
+        <span>${p}</span>
+      </label>
+      <span class="cnt">${cnt} q</span>
+    `;
+    el.appendChild(row);
+  });
+}
+
+function togglePart(cb){
+  const p = cb.getAttribute('data-part');
+  if(cb.checked) selectedParts.add(p); else selectedParts.delete(p);
+  updateSelCountHint();
+}
+
+function updateSelCountHint(){
+  const n = DATA.filter(q=>selectedParts.has(q.part)).length;
+  document.getElementById('selCountHint').textContent = n + ' questions selected';
+  document.getElementById('beginBtn').disabled = (n===0);
+}
+
+function selectMode(m){
+  selectedMode = m;
+  document.getElementById('modeSectionCard').classList.toggle('selected', m==='section');
+  document.getElementById('modeTestCard').classList.toggle('selected', m==='test');
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function beginQuiz(){
+  let subset = DATA.filter(q => selectedParts.has(q.part));
+  if(selectedMode === 'test'){
+    activeQuestions = shuffle(subset);
+  } else {
+    activeQuestions = subset.slice(); // already in source order
+  }
+  currentIdx = 0;
+  answers = {};
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('endScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  renderQuestion();
+}
+
+function currentScore(){
+  let correct=0, attempted=0;
+  Object.values(answers).forEach(a=>{
+    if(!a.skipped){ attempted++; if(a.correct) correct++; }
+  });
+  return {correct, attempted};
+}
+
+function renderQuestion(){
+  const q = activeQuestions[currentIdx];
+  const {correct, attempted} = currentScore();
+  document.getElementById('breadcrumb').innerHTML =
+    `${q.part.replace(/^Part [IVX]+:\s*/,'')} <span class="sep">/</span> ${q.section} <span class="sep">/</span> ${q.id} <span class="sep">/</span> Question ${currentIdx+1} of ${activeQuestions.length} <span class="sep">(overall Q${q.flat} of ${q.total})</span>`;
+  document.getElementById('scorePill').textContent = `Score ${correct} / ${attempted} attempted`;
+  const pct = Math.round(((currentIdx)/activeQuestions.length)*100);
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  document.getElementById('qid').textContent = q.id + '  ·  ' + q.section;
+  document.getElementById('diffTag').textContent = q.diff;
+  document.getElementById('qtext').textContent = q.question;
+
+  const optsEl = document.getElementById('options');
+  optsEl.innerHTML = '';
+  const labels = ['A','B','C','D','E'];
+  const existing = answers[q.flat];
+
+  labels.forEach((lab, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.innerHTML = `<span class="lab">${lab}.</span><span>${q.options[i]}</span>`;
+    if(existing && !existing.skipped){
+      btn.classList.add('locked');
+      if(lab === q.correct) btn.classList.add('correct');
+      if(lab === existing.selected && lab !== q.correct) btn.classList.add('wrong');
+      if(lab !== q.correct && lab !== existing.selected) btn.classList.add('dim');
+    } else {
+      btn.onclick = () => selectAnswer(q, lab);
+    }
+    optsEl.appendChild(btn);
+  });
+
+  const fb = document.getElementById('feedback');
+  if(existing && !existing.skipped){
+    fb.className = 'feedback show ' + (existing.correct ? 'ok' : 'bad');
+    fb.innerHTML = `<span class="fb-head">${existing.correct ? 'Correct' : 'Incorrect — correct answer: ' + q.correct}</span>${q.expl}`;
+  } else if (existing && existing.skipped){
+    fb.className = 'feedback show skip';
+    fb.innerHTML = `<span class="fb-head">Skipped</span>Correct answer: ${q.correct}. ${q.expl}`;
+  } else {
+    fb.className = 'feedback';
+    fb.innerHTML = '';
+  }
+
+  document.getElementById('prevBtn').disabled = (currentIdx === 0);
+  document.getElementById('nextBtn').disabled = !existing;
+  document.getElementById('nextBtn').textContent = (currentIdx === activeQuestions.length - 1) ? 'Finish →' : 'Next →';
+  document.getElementById('skipBtn').classList.toggle('hidden', !!existing);
+}
+
+function selectAnswer(q, letter){
+  const isCorrect = (letter === q.correct);
+  answers[q.flat] = {selected: letter, correct: isCorrect, skipped:false, qref:q};
+  renderQuestion();
+}
+
+function skipQuestion(){
+  const q = activeQuestions[currentIdx];
+  if(!answers[q.flat]){
+    answers[q.flat] = {selected:null, correct:false, skipped:true, qref:q};
+  }
+  renderQuestion();
+}
+
+function goNext(){
+  if(currentIdx < activeQuestions.length - 1){
+    currentIdx++;
+    renderQuestion();
+  } else {
+    showEndScreen();
+  }
+}
+
+function goPrev(){
+  if(currentIdx > 0){
+    currentIdx--;
+    renderQuestion();
+  }
+}
+
+function showEndScreen(){
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('endScreen').classList.remove('hidden');
+
+  let correct=0, wrong=0, skipped=0;
+  const missed = [];
+  activeQuestions.forEach(q=>{
+    const a = answers[q.flat];
+    if(!a){ skipped++; missed.push({q, a:{skipped:true}}); return; }
+    if(a.skipped){ skipped++; missed.push({q,a}); }
+    else if(a.correct){ correct++; }
+    else { wrong++; missed.push({q,a}); }
+  });
+  const total = activeQuestions.length;
+  const attempted = correct + wrong;
+  const pct = attempted ? Math.round((correct/attempted)*100) : 0;
+
+  document.getElementById('endTitle').textContent = `Score: ${correct} / ${total}`;
+  document.getElementById('endLede').textContent =
+    `${attempted} of ${total} questions attempted, ${skipped} skipped. Accuracy on attempted questions: ${pct}%.`;
+
+  document.getElementById('endSummary').innerHTML = `
+    <div class="end-stat correct"><div class="n">${correct}</div><div class="l">Correct</div></div>
+    <div class="end-stat wrong"><div class="n">${wrong}</div><div class="l">Incorrect</div></div>
+    <div class="end-stat skip"><div class="n">${skipped}</div><div class="l">Skipped</div></div>
+    <div class="end-stat"><div class="n">${total}</div><div class="l">Total</div></div>
+  `;
+
+  const reviewEl = document.getElementById('reviewSection');
+  if(missed.length === 0){
+    reviewEl.innerHTML = `<p style="font-size:14px;color:#4b4739;">No missed or skipped items — clean sweep.</p>`;
+  } else {
+    let html = `<div class="section-heading">Review — Missed &amp; Skipped (${missed.length})</div>`;
+    missed.forEach(({q,a})=>{
+      const cls = a.skipped ? 'review-item skipped' : 'review-item';
+      const yourAns = a.skipped ? 'Not attempted' : `Your answer: <span class="yours">${a.selected}. ${q.options['ABCDE'.indexOf(a.selected)]}</span>`;
+      html += `
+        <div class="${cls}" id="rev-${q.flat}">
+          <div class="ri-top"><span>${q.id} · ${q.section}</span><span>Overall Q${q.flat} of ${q.total}</span></div>
+          <div class="ri-q">${q.question}</div>
+          <div class="ri-ans">${yourAns}<br>Correct answer: <span class="correct-ans">${q.correct}. ${q.options['ABCDE'.indexOf(q.correct)]}</span></div>
+          <div class="ri-expl">${q.expl}</div>
+        </div>
+      `;
+    });
+    reviewEl.innerHTML = html;
+  }
+}
+
+function scrollToReview(){
+  document.getElementById('reviewSection').scrollIntoView({behavior:'smooth'});
+}
+
+function restartToStart(){
+  document.getElementById('endScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('startScreen').classList.remove('hidden');
+}
+
+init();
+</script>
+</body>
+</html>

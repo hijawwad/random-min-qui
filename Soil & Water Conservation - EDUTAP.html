@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NABARD Grade A — Soil &amp; Water Conservation Practice Quiz</title>
+<style>
+  :root{
+    --navy:#12233f;
+    --navy-2:#1a3363;
+    --gold:#b8862e;
+    --gold-light:#e4b869;
+    --paper:#f6f4ee;
+    --ink:#1c1c1c;
+    --muted:#6b7280;
+    --correct:#1c7a4d;
+    --correct-bg:#e5f6ed;
+    --wrong:#a3242f;
+    --wrong-bg:#fbe9ea;
+    --line:#d9d3c4;
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    background-image:
+      linear-gradient(180deg, rgba(18,35,63,0.03), rgba(18,35,63,0) 220px);
+    color:var(--ink);
+    font-family: 'Georgia', 'Iowan Old Style', ui-serif, serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:24px 14px 60px;
+  }
+  .app{
+    width:100%;
+    max-width:760px;
+  }
+  .masthead{
+    border-bottom:3px solid var(--navy);
+    padding-bottom:14px;
+    margin-bottom:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .masthead .title{
+    font-family: 'Trebuchet MS', ui-sans-serif, system-ui, sans-serif;
+    font-weight:800;
+    letter-spacing:0.5px;
+    color:var(--navy);
+    font-size:22px;
+    text-transform:uppercase;
+  }
+  .masthead .subtitle{
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size:13px;
+    color:var(--muted);
+    margin-top:2px;
+  }
+  .masthead .tag{
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:700;
+    border:1px solid var(--gold);
+    border-radius:3px;
+    padding:4px 8px;
+  }
+
+  .progress-wrap{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+  .progress-track{
+    flex:1;
+    height:8px;
+    background:#e5e1d4;
+    border-radius:6px;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--navy), var(--navy-2));
+    width:0%;
+    transition:width .3s ease;
+  }
+  .progress-label{
+    font-size:12.5px;
+    color:var(--muted);
+    white-space:nowrap;
+    min-width:64px;
+    text-align:right;
+  }
+  .score-pill{
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--navy);
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:5px 12px;
+    white-space:nowrap;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:26px 24px 22px;
+    box-shadow:0 1px 3px rgba(18,35,63,0.06), 0 8px 24px rgba(18,35,63,0.05);
+  }
+  .qmeta{
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size:11.5px;
+    letter-spacing:0.8px;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:700;
+    margin-bottom:10px;
+  }
+  .qtext{
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin-bottom:20px;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    text-align:left;
+    width:100%;
+    background:#fdfcf9;
+    border:1.5px solid var(--line);
+    border-radius:7px;
+    padding:12px 14px;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size:15px;
+    line-height:1.45;
+    color:var(--ink);
+    cursor:pointer;
+    transition: border-color .15s, background .15s, transform .05s;
+  }
+  .opt:hover:not(:disabled){
+    border-color:var(--navy-2);
+    background:#f1f0ea;
+  }
+  .opt:active:not(:disabled){ transform:scale(0.997); }
+  .opt .letter{
+    flex:0 0 auto;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    border:1.5px solid var(--navy);
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:13px;
+  }
+  .opt.correct{
+    background:var(--correct-bg);
+    border-color:var(--correct);
+  }
+  .opt.correct .letter{
+    background:var(--correct);
+    border-color:var(--correct);
+    color:#fff;
+  }
+  .opt.wrong{
+    background:var(--wrong-bg);
+    border-color:var(--wrong);
+  }
+  .opt.wrong .letter{
+    background:var(--wrong);
+    border-color:var(--wrong);
+    color:#fff;
+  }
+  .opt:disabled{ cursor:default; }
+  .opt:disabled:not(.correct):not(.wrong){ opacity:0.55; }
+
+  .feedback{
+    margin-top:16px;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size:13.5px;
+    font-weight:700;
+    display:none;
+    align-items:center;
+    gap:8px;
+  }
+  .feedback.show{ display:flex; }
+  .feedback.correct-txt{ color:var(--correct); }
+  .feedback.wrong-txt{ color:var(--wrong); }
+
+  .nav-row{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:18px;
+  }
+  .btn{
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-weight:700;
+    font-size:14px;
+    padding:11px 22px;
+    border-radius:6px;
+    border:none;
+    cursor:pointer;
+    background:var(--navy);
+    color:#fff;
+    letter-spacing:0.3px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s, background .15s;
+  }
+  .btn.show{ opacity:1; pointer-events:auto; }
+  .btn:hover{ background:var(--navy-2); }
+  .btn.gold{ background:var(--gold); }
+  .btn.gold:hover{ background:#a17423; }
+
+  /* Results screen */
+  .results{ display:none; }
+  .results.show{ display:block; }
+  .quizview.hide{ display:none; }
+  .score-hero{
+    text-align:center;
+    padding:30px 20px 26px;
+    background:var(--navy);
+    border-radius:8px;
+    color:#fff;
+    margin-bottom:22px;
+  }
+  .score-hero .big{
+    font-size:46px;
+    font-weight:800;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    color:var(--gold-light);
+  }
+  .score-hero .lbl{
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:#cfd6e4;
+    margin-top:4px;
+  }
+  .score-hero .breakdown{
+    margin-top:14px;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size:13px;
+    color:#dfe4ee;
+    display:flex;
+    justify-content:center;
+    gap:22px;
+    flex-wrap:wrap;
+  }
+  .score-hero .breakdown b{ color:#fff; }
+
+  .review-title{
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-weight:800;
+    font-size:15px;
+    text-transform:uppercase;
+    letter-spacing:0.6px;
+    color:var(--navy);
+    margin:24px 0 12px;
+    border-bottom:2px solid var(--line);
+    padding-bottom:8px;
+  }
+  .review-item{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-left:4px solid var(--wrong);
+    border-radius:6px;
+    padding:14px 16px;
+    margin-bottom:10px;
+  }
+  .review-item .rq{
+    font-size:15px;
+    margin-bottom:8px;
+    line-height:1.45;
+  }
+  .review-item .ryour, .review-item .rcorrect{
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size:13px;
+    margin-top:3px;
+  }
+  .review-item .ryour{ color:var(--wrong); }
+  .review-item .rcorrect{ color:var(--correct); font-weight:700; }
+  .all-correct{
+    text-align:center;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    color:var(--correct);
+    font-weight:700;
+    padding:20px;
+  }
+  .restart-row{
+    display:flex;
+    justify-content:center;
+    margin-top:24px;
+  }
+  .footer-note{
+    text-align:center;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size:11.5px;
+    color:var(--muted);
+    margin-top:26px;
+  }
+  @media (max-width:480px){
+    .qtext{ font-size:17px; }
+    .score-hero .big{ font-size:38px; }
+    .card{ padding:20px 16px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="masthead">
+    <div>
+      <div class="title">NABARD Grade A — Practice Quiz</div>
+      <div class="subtitle">Soil &amp; Water Conservation · Objective Type · 5 Options (A–E)</div>
+    </div>
+    <div class="tag" id="qcount"></div>
+  </div>
+
+  <div class="quizview" id="quizview">
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">Q1 / 178</div>
+      <div class="score-pill" id="scorePill">Score: 0</div>
+    </div>
+
+    <div class="card">
+      <div class="qmeta" id="qmeta">QUESTION 1</div>
+      <div class="qtext" id="qtext"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn gold" id="nextBtn">Next Question →</button>
+    </div>
+  </div>
+
+  <div class="results" id="results">
+    <div class="score-hero">
+      <div class="big" id="finalScoreBig">0 / 178</div>
+      <div class="lbl">Final Score</div>
+      <div class="breakdown">
+        <div>Correct: <b id="statCorrect">0</b></div>
+        <div>Incorrect: <b id="statWrong">0</b></div>
+        <div>Accuracy: <b id="statPct">0%</b></div>
+      </div>
+    </div>
+
+    <div id="reviewSection"></div>
+
+    <div class="restart-row">
+      <button class="btn" id="restartBtn" style="opacity:1;pointer-events:auto;">Restart Quiz</button>
+    </div>
+  </div>
+
+  <div class="footer-note">Based on the EduTap "Soil and Water Conservation" Summary Sheet · For NABARD Grade A exam practice</div>
+</div>
+
+<script id="quiz-data" type="application/json">[{"q": "The term \"SOIL\" is derived from which Latin word, meaning \"floor\"?", "o": ["Solum", "Terra", "Humus", "Regolith", "Pedon"], "a": 0}, {"q": "Soil is often referred to poetically as the:", "o": ["Backbone of the earth", "Skin of the earth", "Core of the earth", "Mantle of the earth", "Crust reservoir"], "a": 1}, {"q": "Which of the following is NOT one of the six well-defined disciplines of Soil Science mentioned in the document?", "o": ["Soil fertility", "Soil chemistry", "Soil geology", "Soil microbiology", "Soil pedology"], "a": 2}, {"q": "The discipline of soil science dealing with protection against physical loss by erosion or chemical deterioration is called:", "o": ["Soil physics", "Soil chemistry", "Soil microbiology", "Soil conservation", "Soil pedology"], "a": 3}, {"q": "Which branch of soil science treats soil as a medium for plant growth rather than a natural body?", "o": ["Pedology", "Geology", "Mineralogy", "Petrology", "Edaphology"], "a": 4}, {"q": "Who is commonly regarded as the \"father of Soil Science\"?", "o": ["Vasily Dokuchaev", "Hans Jenny", "Justus von Liebig", "Mohr and van Baren", "Arnon and Stout"], "a": 0}, {"q": "The smallest volume of soil that can be called \"a soil\" is termed a:", "o": ["Polypedon", "Pedon", "Solum", "Regolith", "Horizon"], "a": 1}, {"q": "A polypedon, as defined in the document, has a minimum area of:", "o": ["0.5 sq km", "0.1 sq km", "more than 1 sq km", "10 sq km", "100 sq km"], "a": 2}, {"q": "On a volume basis, what percentage of a typical soil is composed of mineral matter?", "o": ["25%", "5%", "65%", "45%", "75%"], "a": 3}, {"q": "In the approximate composition of soil (volume basis), what percentage is contributed by organic matter?", "o": ["45%", "25%", "15%", "10%", "5%"], "a": 4}, {"q": "Within soil organic matter, \"stabilized organic matter (humus)\" typically constitutes what share of total OM?", "o": ["33-50%", "5-10%", "60-70%", "90-95%", "15-20%"], "a": 0}, {"q": "Plant residues typically contain what percentage of moisture?", "o": ["10-30%", "60-90%", "5-15%", "40-50%", "95-100%"], "a": 1}, {"q": "From a practical agricultural standpoint, organic matter is important because it acts as a:", "o": ["Source of soil colour only", "Source of soil air only", "\"Revolving nutrient fund\"", "Replacement for irrigation", "Neutralizer of soil pH only"], "a": 2}, {"q": "The matric potential at Field Capacity is approximately:", "o": ["-5 to -10 bar", "-60 bar", "-1 bar", "-1/10 to -1/3 bar", "0 bar"], "a": 3}, {"q": "The soil moisture tension at Permanent Wilting Point is about:", "o": ["1 bar", "5 bars", "30 bars", "60 bars", "15 bars"], "a": 4}, {"q": "The Ultimate Wilting Point, where a plant is completely wilted and dies, corresponds to a surface tension of about:", "o": ["-60 bars", "-15 bars", "-1/3 bar", "-30 bars", "-100 bars"], "a": 0}, {"q": "In sandy soils, soil air typically constitutes what fraction of total soil volume?", "o": ["Less than 10%", "25% or more", "15-20%", "Exactly 5%", "50%"], "a": 1}, {"q": "Growth of most crops is affected and stops when soil oxygen content falls below:", "o": ["10%", "5%", "2%", "15%", "20%"], "a": 2}, {"q": "Which of the following crops can tolerate very low levels or even complete absence of oxygen in the soil?", "o": ["Potato", "Cotton", "Tea", "Rice", "Tobacco"], "a": 3}, {"q": "In the standard soil horizon sequence (O, A, E, B, C, R), which letter represents the bedrock?", "o": ["O", "A", "B", "C", "R"], "a": 4}, {"q": "The A2 horizon, as noted in the document, is also known as the:", "o": ["E-horizon", "O-horizon", "B-horizon", "R-horizon", "C-horizon"], "a": 0}, {"q": "The process of removal of constituents in suspension/solution by percolating water from upper to lower soil layers is called:", "o": ["Illuviation", "Eluviation", "Humification", "Leaching only", "Podzolization"], "a": 1}, {"q": "Horizons formed by the process of illuviation are termed:", "o": ["A-horizons", "E-horizons", "B-horizons", "O-horizons", "C-horizons"], "a": 2}, {"q": "Which term describes \"unconsolidated residues of the weathering rock on the earth's surface\"?", "o": ["Solum", "Pedon", "Humus", "Regolith", "Loess"], "a": 3}, {"q": "Pedogenesis involves two consecutive stages: weathering of rock into regolith, and:", "o": ["Leaching of regolith", "Compaction of regolith", "Erosion of regolith", "Mineralization of regolith", "Formation of true soil from regolith"], "a": 4}, {"q": "Which type of weathering breaks rocks into smaller pieces without changing their chemical composition?", "o": ["Physical weathering", "Chemical weathering", "Biological weathering", "Hydrolytic weathering", "Oxidative weathering"], "a": 0}, {"q": "Compared to granite, limestone undergoes:", "o": ["Less chemical weathering", "More chemical weathering", "No weathering at all", "Only physical weathering", "Equal weathering"], "a": 1}, {"q": "Erosion, as distinguished from weathering in the document, is characterized primarily by:", "o": ["Breakdown of rock without any transport", "Chemical decomposition only", "Movement of soil/rock particles by wind, water, or ice", "Formation of humus", "Formation of regolith only"], "a": 2}, {"q": "Which of the following is an example of biological weathering, as per the document?", "o": ["Freeze-thaw action", "Thermal expansion and contraction", "Wind abrasion", "Roots growing within cracks in a rock formation", "Wave action"], "a": 3}, {"q": "The two-stage process of soil formation from rock is known as:", "o": ["Illuviation", "Podzolization", "Solodization", "Gleization", "Pedogenesis"], "a": 4}, {"q": "In splash erosion, splashed soil particles can rise as high as:", "o": ["60 cm above ground", "10 cm above ground", "2 metres above ground", "30 cm above ground", "5 metres above ground"], "a": 0}, {"q": "Splashed soil particles in splash erosion can move up to what distance from the point of impact?", "o": ["0.5 metres", "1.5 metres", "5 metres", "10 metres", "0.1 metres"], "a": 1}, {"q": "Rills, as defined in the document, are shallow drainage lines of depth:", "o": ["More than 60 cm", "Exactly 50 cm", "Less than 30 cm", "More than 100 cm", "Exactly 1 metre"], "a": 2}, {"q": "Gully erosion consists of open, unstable channels cut to a depth of:", "o": ["Less than 10 cm", "Less than 20 cm", "Exactly 15 cm", "More than 30 cm", "Less than 5 cm"], "a": 3}, {"q": "Which of the following correctly represents the document's increasing order (mildest to most severe) of water erosion types?", "o": ["Gully \u2192 Rill \u2192 Sheet \u2192 Splash", "Rill \u2192 Gully \u2192 Splash \u2192 Sheet", "Sheet \u2192 Splash \u2192 Gully \u2192 Rill", "Splash \u2192 Gully \u2192 Sheet \u2192 Rill", "Splash \u2192 Sheet \u2192 Rill \u2192 Gully"], "a": 4}, {"q": "In wind erosion, soil particles of 0.1-0.5 mm diameter that move up under the direct pressure of stormy wind represent which process?", "o": ["Saltation", "Suspension", "Surface creep", "Sheet flow", "Sedimentation"], "a": 0}, {"q": "Fine soil particles of less than 0.1 mm diameter that get kicked up and transported to distant places represent:", "o": ["Saltation", "Suspension", "Surface creep", "Splash", "Sheet erosion"], "a": 1}, {"q": "In surface creep (a wind erosion process), particle diameters typically range from:", "o": ["Less than 0.1 mm", "0.1-0.5 mm", "0.5-2 mm", "2-5 mm", "More than 5 mm"], "a": 2}, {"q": "Deep summer ploughing (off-season tillage) is generally recommended to be performed with pre-monsoon showers, during which month?", "o": ["March", "April", "June", "May", "July"], "a": 3}, {"q": "At best, how many summer ploughings are done prior to the advent of monsoon, at an interval of 15-20 days?", "o": ["Four", "One", "Five", "Three", "Two"], "a": 4}, {"q": "Ridges and furrows, as an in-situ conservation method, can increase crop yield in black and red soils by up to:", "o": ["15 per cent", "50 per cent", "5 per cent", "30 per cent", "60 per cent"], "a": 0}, {"q": "Contour farming is recommended for lands with a slope range of:", "o": ["0-2%", "2 to 7%", "7-15%", "15-30%", "Above 30%"], "a": 1}, {"q": "Vegetative barriers, as a soil-conservation practice, are recommended when the slope of the land is:", "o": ["Above 10%", "5-10%", "Less than 1%", "15-20%", "Exactly 6%"], "a": 2}, {"q": "According to sloppiness, vegetative barriers could be planted at a distance of:", "o": ["5-10 metres", "100-150 metres", "1-5 metres", "30-50 metres", "60-90 metres"], "a": 3}, {"q": "In the intercropping example given (maize + black gram), what row ratio is followed?", "o": ["2:1", "3:1", "1:1", "4:1", "1:2"], "a": 4}, {"q": "Which form of strip cropping involves planting tall crops like jowar, bajra or maize alternated with low-growing crops, laid right across the direction of the prevailing wind, regardless of contour?", "o": ["Wind Strip Cropping", "Contour Strip Cropping", "Buffer Strip Cropping", "Random Strip Cropping", "Graded Strip Cropping"], "a": 0}, {"q": "Chisel ploughing is primarily used to achieve:", "o": ["Complete soil inversion", "Deep tillage with limited soil disruption", "Removal of crop residue entirely", "Compaction of the topsoil", "Formation of ridges only"], "a": 1}, {"q": "Alternate Land Use Pattern (ALUP) includes examples such as:", "o": ["Deep ploughing and mulching", "Contour bunding and terracing", "Afforestation and horticulture development", "Fertigation and foliar spray", "Vermicomposting and biofertilizer use"], "a": 2}, {"q": "In the Broad Bed and Furrow (BBF) system, what is the width of the furrow?", "o": ["90 cm", "30 cm", "60 cm", "45 cm", "15 cm"], "a": 3}, {"q": "In the BBF system, crops are sown at a row spacing of:", "o": ["90 cm", "45 cm", "60 cm", "15 cm", "30 cm"], "a": 4}, {"q": "Contour bunding, as a conservation measure, can be laid up to what slope percentage?", "o": ["6%", "15%", "33.33%", "1.5%", "30%"], "a": 0}, {"q": "As per the bunding options table, contour bunds are recommended for light soils receiving rainfall of:", "o": ["Above 1000 mm", "Less than 600 mm", "Above 800 mm", "Exactly 600 mm", "Above 600 mm"], "a": 1}, {"q": "As per the bunding options table, bench terraces are recommended for deep soils with rainfall greater than:", "o": ["600 mm", "800 mm", "1000 mm", "400 mm", "200 mm"], "a": 2}, {"q": "Bench terraces are typically found useful on slopes ranging from:", "o": ["0-2%", "2-6%", "33.33% and above", "6 to 30%", "45-60%"], "a": 3}, {"q": "Contour trenches, as an engineering conservation measure, are suitable where the slope of the land is:", "o": ["Less than 1%", "2-7%", "6-30%", "15-30%", "Greater than 33.33%"], "a": 4}, {"q": "The standard dimension of a contour trench, as given in the document, is:", "o": ["2 x 1 x 1 m3", "1 x 1 x 1 m3", "3 x 2 x 2 m3", "1 x 2 x 3 m3", "5 x 1 x 1 m3"], "a": 0}, {"q": "Percolation ponds are preferred to be deep, at a minimum depth of:", "o": ["0.5 m", "1.5 m", "3.0 m", "5.0 m", "1.0 m"], "a": 1}, {"q": "Percolation ponds have been observed to be effective in benefiting wells up to a downstream distance of:", "o": ["100 metres", "500 metres", "1000 metres", "2000 metres", "250 metres"], "a": 2}, {"q": "Which of the following is NOT listed among the five main factors affecting soil formation?", "o": ["Parent material", "Climate", "Organisms", "Fertilizer application", "Topography and Relief"], "a": 3}, {"q": "Soils formed from parent rocks of red sandstone typically inherit which characteristic from the parent material?", "o": ["High organic matter content", "High CEC", "Blue-grey colour", "Alkaline pH", "Red colour"], "a": 4}, {"q": "Dokuchaev's (1889) equation for soil formation is expressed as S = f(P, C, O), where \"O\" stands for:", "o": ["Organisms", "Oxygen", "Order", "Origin", "Organic matter only"], "a": 0}, {"q": "In Jenny's (1941) equation S = f(C, O, R, P, T...), \"R\" represents:", "o": ["Rainfall", "Relief or topography", "Regolith", "Rock type", "Root activity"], "a": 1}, {"q": "According to Jenny's classification, which of the following are grouped together as \"passive\" soil forming factors?", "o": ["Climate and biosphere", "Time and climate", "Parent material, relief and time", "Organisms and relief only", "Climate, organisms and time"], "a": 2}, {"q": "Mohr and van Baren's five stages of soil development, in order, are Initial, Juvenile, Virile, Senile, and:", "o": ["Terminal", "Mature", "Advanced", "Final", "Complete"], "a": 3}, {"q": "Which of the following is NOT one of the four basic processes taking place in soil, as described in the document?", "o": ["Additions", "Losses", "Transformations", "Translocations", "Fertilization"], "a": 4}, {"q": "The process by which raw organic matter transforms into humus is termed:", "o": ["Humification", "Eluviation", "Illuviation", "Leaching", "Gleization"], "a": 0}, {"q": "The soil-forming process that occurs when evapotranspiration exceeds precipitation, causing deposition of calcium carbonate in the B horizon, is called:", "o": ["Podzolization", "Calcification", "Laterization", "Salinization", "Gleization"], "a": 1}, {"q": "The removal of soluble base cations and sesquioxides from the A horizon, creating a whitish/greyish sub-layer of silica sand, is termed:", "o": ["Calcification", "Gleization", "Podzolization", "Solonization", "Desalinization"], "a": 2}, {"q": "Which process removes silica (instead of sesquioxides) from upper soil layers, and is the opposite of Podzolization?", "o": ["Calcification", "Gleization", "Decalcification", "Laterization", "Solodization"], "a": 3}, {"q": "The accumulation of sulphates and chlorides of calcium, magnesium, sodium and potassium near the soil surface, common in arid/semi-arid regions, is termed:", "o": ["Gleization", "Laterization", "Decalcification", "Podzolization", "Salinization"], "a": 4}, {"q": "The Russian-origin term \"glei,\" referring to blue, grey or green clay in waterlogged soils, is associated with which soil-forming process?", "o": ["Gleization", "Laterization", "Salinization", "Solonization", "Calcification"], "a": 0}, {"q": "The accumulation of sodium ions on the clay exchange complex, resulting in sodic soils, is termed:", "o": ["Solodization", "Solonization/Alkalization", "Desalinization", "Decalcification", "Podzolization"], "a": 1}, {"q": "Faunal pedoturbation refers to the mixing of soil by:", "o": ["Swell-shrink clays", "Tree tipping", "Animals such as ants, earthworms, moles, and rodents", "Wind action", "Water percolation"], "a": 2}, {"q": "The mixing of soil materials by churning caused by swell-shrink clays, as observed in deep Black Cotton Soils, is termed:", "o": ["Faunal pedoturbation", "Floral pedoturbation", "Gleization", "Argillic pedoturbation", "Solodization"], "a": 3}, {"q": "Which rock type is classified as \"Extrusive (fine grained)\" under the \"Basic\" category of igneous rocks?", "o": ["Granite", "Gabbro", "Diorite", "Rhyolite", "Basalt"], "a": 4}, {"q": "Under the \"Acid\" category of igneous rocks, the \"Major Intrusive (coarse grained)\" rock is:", "o": ["Granite", "Basalt", "Andesite", "Dolerite", "Rhyolite"], "a": 0}, {"q": "Sandstone, a sedimentary rock, is mainly composed of:", "o": ["Calcite with dolomite", "Quartz with some CaCO3, iron oxides and clay", "Clay minerals and organic matter only", "Feldspar and mica", "Silica sand exclusively"], "a": 1}, {"q": "Under metamorphism, the change occurring due to water is termed hydro metamorphosis, while the change due to pressure is termed:", "o": ["Thermo metamorphosis", "Litho metamorphosis", "Dynamo metamorphosis", "Chemo metamorphosis", "Pedo metamorphosis"], "a": 2}, {"q": "Shale, upon metamorphism, transforms into:", "o": ["Marble", "Quartzite", "Granite Gneiss", "Slate/Mica, Schist", "Hornblende Gneiss"], "a": 3}, {"q": "Limestone, upon metamorphism, transforms into:", "o": ["Quartzite", "Slate", "Gneiss", "Schist", "Marble"], "a": 4}, {"q": "As per particle size classification, silt particles range in diameter from:", "o": ["0.02 to 0.002 mm", "2.0 to 0.02 mm", "Less than 0.002 mm", "0.5 to 0.02 mm", "2.0 to 0.2 mm"], "a": 0}, {"q": "Sandy soils are typically comprised of approximately what percentage of sand by volume?", "o": ["50-70%", "80-100%", "25-50%", "0-45%", "10-30%"], "a": 1}, {"q": "Loam soils are typically comprised of approximately what percentage of silt by volume?", "o": ["0-10%", "50-100%", "30-50%", "80-100%", "10-30%"], "a": 2}, {"q": "Prismatic soil structure, when the tops of the vertical aggregates are rounded rather than flat, is instead termed:", "o": ["Blocky", "Platy", "Spheroidal", "Columnar", "Granular"], "a": 3}, {"q": "The size of prism-like soil structure aggregates can be up to:", "o": ["2 cm in diameter", "8 cm in diameter", "30 cm in diameter", "50 cm in diameter", "15 cm in diameter"], "a": 4}, {"q": "As per the bulk density table, which textural class has the highest bulk density?", "o": ["Sandy soil (1.6 g/cc)", "Loam (1.4 g/cc)", "Silt loam (1.3 g/cc)", "Clay (1.1 g/cc)", "All are equal"], "a": 0}, {"q": "Clay soil, per the bulk density table, has a pore space percentage of:", "o": ["40%", "58%", "47%", "50%", "30%"], "a": 1}, {"q": "The average value for particle density of soil is approximately:", "o": ["1.33 g/cm3", "1.60 g/cm3", "2.66 g/cm3", "3.50 g/cm3", "0.90 g/cm3"], "a": 2}, {"q": "Which of the following is NOT one of the three main pigments responsible for soil colour, as per the document?", "o": ["Black - from organic matter", "Red - from iron and aluminium oxides", "White - from silicates and salt", "Blue - from copper oxides", "All of the above are listed pigments"], "a": 3}, {"q": "In the Munsell soil colour system, \"chroma\" refers to:", "o": ["The basic rainbow colour", "Lightness or darkness", "Soil texture", "Soil moisture content", "Intensity or purity of the basic hue"], "a": 4}, {"q": "Which of the following is NOT among the five most abundant exchangeable cations in soil, as listed in the document?", "o": ["Iron (Fe++)", "Calcium (Ca++)", "Magnesium (Mg++)", "Potassium (K+)", "Sodium (Na+)"], "a": 0}, {"q": "If soil pH increases from 4.0 to 8.0, the soil's CEC could be expected to:", "o": ["Decrease by half", "Nearly double", "Remain unchanged", "Increase by 10%", "Increase by 200%"], "a": 1}, {"q": "The ICAR All India Soil Survey Committee, set up in 1953, divided Indian soils into how many major groups?", "o": ["Five", "Six", "Eight", "Ten", "Twelve"], "a": 2}, {"q": "Alluvial soils, the most widely available soil group in India, cover an area of approximately:", "o": ["55 mha", "25 mha", "15 mha", "143 mha", "75 mha"], "a": 3}, {"q": "Alluvial soils are formed mainly from which soil order?", "o": ["Vertisol", "Alfisol", "Oxisol", "Ultisol", "Entisol"], "a": 4}, {"q": "The older, more clayey type of alluvium, deposited earlier, is known as:", "o": ["Bhangar", "Khaddar", "Regur", "Usara", "Kankar"], "a": 0}, {"q": "Black soils (Regur soil) occupy approximately what area in India, mainly in Maharashtra and Madhya Pradesh?", "o": ["143 mha", "55 mha", "15 mha", "25 mha", "5 mha"], "a": 1}, {"q": "Black soils are formed mainly from which soil order and are rich in which clay mineral?", "o": ["Alfisol; kaolinite", "Entisol; illite", "Vertisol; montmorillonite", "Oxisol; kaolinite", "Ultisol; montmorillonite"], "a": 2}, {"q": "Red soils, also known as the \"Omnibus group of soil,\" are formed mainly from which order and occupy the largest area in which state?", "o": ["Vertisol; Maharashtra", "Entisol; Uttar Pradesh", "Oxisol; Kerala", "Alfisol; Tamil Nadu", "Ultisol; Assam"], "a": 3}, {"q": "The term \"Laterite\" is derived from the Latin word \"Later,\" meaning:", "o": ["Red", "Soft", "Iron", "Rock", "Brick"], "a": 4}, {"q": "USDA Soil Taxonomy was developed by the United States Department of Agriculture along with:", "o": ["The National Cooperative Soil Survey", "The International Soil Science Society", "FAO", "ICAR", "The World Soil Museum"], "a": 0}, {"q": "Under the USDA classification system, how many categories were adopted, ranging from Order down to Series?", "o": ["Four", "Six", "Eight", "Five", "Ten"], "a": 1}, {"q": "Soils that are permanently frozen, found in the Arctic/Antarctic and at extremely high elevations, belong to which soil order?", "o": ["Aridisols", "Spodosols", "Gelisols", "Andisols", "Histosols"], "a": 2}, {"q": "Which soil order is described as forming from weathering of volcanic materials such as ash, and is very productive and fertile?", "o": ["Mollisols", "Vertisols", "Inceptisols", "Andisols/Endisols", "Ultisols"], "a": 3}, {"q": "According to the characteristics table, Alkali soils typically have a pH and EC of:", "o": ["pH < 8.5; EC > 4 mmhos/cm", "pH = 8.5; EC > 4 mmhos/cm", "pH < 8.5; EC < 4 mmhos/cm", "pH < 7; EC < 4 mmhos/cm", "pH > 8.5; EC < 4 mmhos/cm"], "a": 4}, {"q": "Exchangeable Sodium Percentage (ESP) is defined as:", "o": ["The percentage of sodium cation as a percentage of the total CEC", "The percentage of sodium in the soil solution only", "The ratio of sodium to potassium in soil", "The percentage of soluble salts in irrigation water", "The percentage of calcium displaced by sodium"], "a": 0}, {"q": "Saline soils mainly occur in coastal areas because:", "o": ["Groundwater is naturally alkaline there", "Sea water splashes on land during high tide and leaves dissolved salt behind", "Rainfall is extremely low in coastal regions", "Coastal soils lack clay content", "Coastal soils have very high CEC"], "a": 1}, {"q": "Alkali soils are also known as:", "o": ["Usara soils", "Regur soils", "Sodic soils", "Khaddar soils", "Bhangar soils"], "a": 2}, {"q": "As per the pH range table for acidity, a pH range of 4-5 corresponds to which degree of acidity?", "o": ["Very strong", "Slight", "Moderate", "Strong", "Extreme"], "a": 3}, {"q": "Which soil amendment is recognized as an effective ameliorant for acid soils, reducing Al, Fe and Mn toxicity?", "o": ["Gypsum", "Sodium nitrate", "Elemental sulphur", "Rock phosphate", "Lime"], "a": 4}, {"q": "In Punjab, saline soils are locally known by which name?", "o": ["Thar", "Reh", "Khajar", "Khar", "Usara"], "a": 0}, {"q": "Which crop is preferred for cultivation in alkali/sodic soils because it can grow under submergence and tolerate a fair extent of ESP?", "o": ["Wheat", "Rice", "Maize", "Cotton", "Barley"], "a": 1}, {"q": "Among the chemical amendments for reclaiming alkali soils, which is described as \"by far, the most commonly used chemical amendment\"?", "o": ["Elemental sulphur", "Calcium carbonate", "Gypsum", "Pyrites", "Ferrous sulphate (FeSO4)"], "a": 2}, {"q": "Which statement correctly reflects the relationship between soil fertility and soil productivity, per the document?", "o": ["All fertile soils are productive, but not all productive soils are fertile", "Fertility and productivity are identical concepts", "Productivity depends only on climate, not on soil", "All productive soils are fertile, but all fertile soils may not be productive", "Neither concept relates to crop yield"], "a": 3}, {"q": "Soil productivity is best defined as:", "o": ["The nutrient supplying capacity of soil alone", "The organic matter content of soil", "The water holding capacity of soil", "The cation exchange capacity of soil", "The ability of soil to produce a particular crop or sequence of crops under a specified management system"], "a": 4}, {"q": "The required (ideal) C:N ratio for organic matter decomposition, as per the document, is:", "o": ["30:1", "10:1", "50:1", "15:1", "100:1"], "a": 0}, {"q": "When the C:N ratio of organic matter is high (greater than 30:1), which process dominates, leading to nitrogen deficiency in the immediate root environment?", "o": ["Mineralization", "Immobilization", "Humification", "Leaching", "Nitrification"], "a": 1}, {"q": "The conversion of inorganic compounds to organic compounds by microorganisms or plants, preventing nutrient accessibility to plants, is termed:", "o": ["Mineralization", "Eluviation", "Immobilization", "Illuviation", "Volatilization"], "a": 2}, {"q": "According to Arnon and Stout (1939), how many essential elements are known for plants, out of more than 90 elements found in plants?", "o": ["12", "25", "20", "17", "30"], "a": 3}, {"q": "Which of the following nutrients is classified as \"immobile\" within the plant, per the document?", "o": ["Nitrogen", "Potassium", "Zinc", "Sulphur", "Calcium"], "a": 4}, {"q": "The \"Law of the Minimum,\" which states that yield is proportional to the amount of the most limiting nutrient, was proposed by:", "o": ["Justus von Liebig", "Vasily Dokuchaev", "Hans Jenny", "Arnon and Stout", "Mohr and van Baren"], "a": 0}, {"q": "Zinc, in terms of mobility within plants, is classified as:", "o": ["Highly mobile", "Moderately mobile", "Completely immobile", "Not applicable, as Zn is not a plant nutrient", "As mobile as nitrogen"], "a": 1}, {"q": "Which nutrient's most essential function is described as \"stomata regulation,\" also aiding in osmotic and ionic regulation?", "o": ["Nitrogen", "Phosphorus", "Potassium", "Calcium", "Magnesium"], "a": 2}, {"q": "Which nutrient is described as functioning as an \"energy currency\" through its role in ATP, and is essential for root development?", "o": ["Nitrogen", "Potassium", "Sulphur", "Phosphorus", "Calcium"], "a": 3}, {"q": "Molybdenum plays an essential role as a component of nitrate reductase and:", "o": ["Chlorophyll synthesis", "ATP formation", "Cell wall structure", "Water regulation", "Nitrogenase (N2 fixation enzyme)"], "a": 4}, {"q": "The physiological disorder in which leaves become abnormally yellow due to deficiency of elements like Mn, K, Zn, Fe, Mg, S and N is termed:", "o": ["Chlorosis", "Necrosis", "Mottling", "Etiolation", "Senescence"], "a": 0}, {"q": "A patch of dead tissue resulting from deficiency of Mg, K, Zn, Ca and Mo is termed:", "o": ["Chlorosis", "Necrosis", "Mottled surface", "Wilting", "Scorching only"], "a": 1}, {"q": "Deficiency symptoms of nutrients such as N, P, K, Mg and Mo typically appear first on:", "o": ["Terminal buds", "New leaves", "Older leaves", "Roots", "Flowers only"], "a": 2}, {"q": "\"Buttoning in cauliflower\" is a disorder caused by deficiency of which nutrient?", "o": ["Boron", "Calcium", "Potassium", "Nitrogen", "Magnesium"], "a": 3}, {"q": "\"Sickle leaf disease\" is associated with deficiency of:", "o": ["Nitrogen", "Potassium", "Calcium", "Magnesium", "Phosphorus"], "a": 4}, {"q": "\"Blossom end rot\" in Tomato and Ber is a symptom of deficiency of:", "o": ["Calcium", "Boron", "Sulphur", "Magnesium", "Zinc"], "a": 0}, {"q": "\"Sand drawn disease\" in tobacco is caused by deficiency of:", "o": ["Sulphur", "Magnesium", "Boron", "Iron", "Manganese"], "a": 1}, {"q": "\"Downward cupping of leaves\" in tobacco and tea is a symptom of deficiency of:", "o": ["Nitrogen", "Boron", "Sulphur", "Zinc", "Copper"], "a": 2}, {"q": "\"Whiptail disease\" and browning in cauliflower is caused by deficiency of:", "o": ["Zinc", "Boron", "Manganese", "Molybdenum", "Iron"], "a": 3}, {"q": "\"White bud of maize\" is a characteristic deficiency symptom of which nutrient?", "o": ["Iron", "Manganese", "Copper", "Nitrogen", "Zinc"], "a": 4}, {"q": "\"Leaf bleaching in sugarcane\" and \"Ivory white of paddy\" are deficiency symptoms of:", "o": ["Iron", "Manganese", "Zinc", "Copper", "Boron"], "a": 0}, {"q": "\"Dieback and Little leaf disease in citrus\" are caused by deficiency of:", "o": ["Zinc", "Copper", "Iron", "Manganese", "Boron"], "a": 1}, {"q": "\"Marsh disease in pea\" is a symptom of deficiency of:", "o": ["Iron", "Zinc", "Manganese", "Molybdenum", "Copper"], "a": 2}, {"q": "As per the NPK content table, Farm Yard Manure (FYM) contains approximately:", "o": ["3% N, 1% P2O5, 2% K2O", "5.5% N, 4% P2O5, 2% K2O", "1.4% N, 1% P2O5, 1.4% K2O", "0.5% N, 0.2% P2O5, 0.5% K2O", "3.03% N, 2.63% P2O5, 1.4% K2O"], "a": 3}, {"q": "Night soil (Poudrette), consisting of human excreta, has an approximate nutrient content of:", "o": ["3% N, 1% P2O5, 2% K2O", "1.4% N, 1% P2O5, 1.4% K2O", "0.5% N, 0.2% P2O5, 0.5% K2O", "3.03% N, 2.63% P2O5, 1.4% K2O", "5.5% N, 4% P2O5, 2% K2O"], "a": 4}, {"q": "Which of the following is an example of \"Exsitu\" green manure, collected as green leaf/twigs from plants grown on wastelands or field bunds?", "o": ["Neem", "Sunnhemp", "Cowpea", "Dhaincha", "Beersem"], "a": 0}, {"q": "Which of the following is a non-edible oil cake, not fit for feeding to livestock?", "o": ["Groundnut cake", "Castor cake", "Coconut cake", "Soybean cake", "Sesame cake"], "a": 1}, {"q": "Fertilizers containing two or three primary nutrients, of which two are in chemical combination and usually produced in granular form, are called:", "o": ["Straight fertilizers", "Mixed fertilizers", "Complex fertilizers", "Biofertilizers", "Conditioners"], "a": 2}, {"q": "A fertilizer containing less than 25 per cent of primary nutrients is classified as:", "o": ["High analysis fertilizer", "Complete fertilizer", "Ternary fertilizer", "Low analysis fertilizer", "Binary fertilizer"], "a": 3}, {"q": "Urea, described as the only organic nitrogenous fertilizer suitable for foliar spray, contains what percentage of nitrogen?", "o": ["26%", "20.6%", "33-34%", "81%", "46%"], "a": 4}, {"q": "Ammonium nitrate, a fire-hazardous and highly hygroscopic fertilizer, contains nitrogen in the range of:", "o": ["33-34%", "20.6%", "46%", "81%", "26%"], "a": 0}, {"q": "Calcium Ammonium Nitrate (CAN), commonly known as \"Kisan Khad,\" contains approximately what percentage of nitrogen?", "o": ["46%", "26%", "33%", "81%", "20.6%"], "a": 1}, {"q": "Which nitrogenous fertilizer is described as the most concentrated, with about 81% nitrogen content?", "o": ["Urea", "Ammonium sulphate", "Anhydrous ammonia", "Calcium nitrate", "Ammonium nitrate"], "a": 2}, {"q": "Muriate of Potash (MOP/KCl) contains approximately what percentage of K2O?", "o": ["44%", "48%", "20%", "60%", "30%"], "a": 3}, {"q": "\"Biosuper,\" a form of organic fertilizer mostly used in Australia, is a combination of rock phosphate, sulphur, and:", "o": ["Rhizobium", "Azotobacter", "Azospirillum", "Mycorrhiza", "Sulphur-oxidizing bacteria (Thiobacillus)"], "a": 4}, {"q": "The application of fertilizers to closely sown crops like paddy and wheat after sowing, to supply readily available nitrogen, is called:", "o": ["Top dressing", "Basal application", "Plough sole placement", "Deep placement", "Pellet application"], "a": 0}, {"q": "In plough sole placement, fertilizer is placed:", "o": ["In the mud of paddy fields as pellets", "At the bottom of the plough furrow in a continuous band", "Around fruit trees only", "Through irrigation water", "Through aerial spraying"], "a": 1}, {"q": "In pellet application, nitrogenous fertilizer pellets are typically placed at a depth of:", "o": ["10-15 cm", "15-20 cm", "2.5 to 5 cm", "20-25 cm", "0.5-1 cm"], "a": 2}, {"q": "The application of water-soluble fertilizers through irrigation water is known as:", "o": ["Foliar application", "Starter solution", "Aerial application", "Fertigation", "Side dressing"], "a": 3}, {"q": "Starter solutions of N, P2O5 and K2O applied to young plants at transplanting are typically used in ratios of 1:2:1 or:", "o": ["2:2:1", "1:1:1", "3:1:2", "2:1:1", "1:1:2"], "a": 4}, {"q": "Rhizobium inoculant was first made in which country?", "o": ["USA", "India", "Russia", "Australia", "United Kingdom"], "a": 0}, {"q": "The number of Azotobacter chroococcum in Indian soils rarely exceeds what count per gram of soil?", "o": ["10^3", "10^5", "10^7", "10^2", "10^9"], "a": 1}, {"q": "Azospirillum forms an associative symbiotic relationship primarily with:", "o": ["Legume roots", "Aquatic ferns", "Graminaceous plants", "Coniferous trees", "Deciduous shrubs"], "a": 2}, {"q": "Azolla, a free-floating water fern used as biofertilizer in wetland rice, fixes nitrogen in association with which organism?", "o": ["Rhizobium", "Azotobacter", "Pseudomonas fluorescens", "Anabaena azollae", "Bacillus megaterium"], "a": 3}, {"q": "Azolla is known to contribute how much nitrogen per hectare per rice crop?", "o": ["10-20 kg N/ha", "100-150 kg N/ha", "5-10 kg N/ha", "80-100 kg N/ha", "40-60 kg N/ha"], "a": 4}, {"q": "Which bacterium is a well-known example of Plant Growth Promoting Rhizobacteria (PGPR)?", "o": ["Pseudomonas fluorescens", "Rhizobium leguminosarum", "Azotobacter chroococcum", "Bacillus subtilis", "Nostoc sp."], "a": 0}, {"q": "As per the document, worm castings contain how many times the available nitrogen found in good topsoil?", "o": ["3 times", "5 times", "7 times", "10 times", "1.5 times"], "a": 1}, {"q": "Worm castings can hold close to how many times their own weight in water?", "o": ["3 times", "5 times", "9 times", "15 times", "20 times"], "a": 2}, {"q": "The recommended rate of vermicompost application, as per the document, is:", "o": ["5-10 percent", "25-30 percent", "40-50 percent", "15-20 percent", "1-5 percent"], "a": 3}, {"q": "Which earthworm species is preferred over others for vermicompost production because it produces more compost in a shorter time and more young ones?", "o": ["Eisenia foetida", "Peronyx excavatus", "Lumbricus terrestris", "Perionyx ecavatus", "Eudrillus eugenial (African earthworm)"], "a": 4}, {"q": "For a vermicompost bed measuring 1m length x 1m breadth x 0.5m height, how much worm quantity is required?", "o": ["1 kg (1000 nos.)", "5 kg (5000 nos.)", "500 g (500 nos.)", "2 kg (2000 nos.)", "100 g (100 nos.)"], "a": 0}, {"q": "During vermicomposting, moisture level in the waste material should be maintained at approximately:", "o": ["40%", "60%", "90%", "20%", "100%"], "a": 1}, {"q": "Nitrogen content in vermicompost, per the nutritive value table, typically ranges between:", "o": ["5-10%", "0.06-0.30%", "0.5-1.50%", "9.5-17.98%", "2-9.50%"], "a": 2}, {"q": "Organic carbon content in vermicompost, per the nutritive value table, typically ranges between:", "o": ["0.5-1.50%", "0.1-0.30%", "0.15-0.56%", "9.5-17.98%", "22.67-47.60%"], "a": 3}, {"q": "As per the watershed size classification, a Macro watershed covers an area of:", "o": ["100 to 1000 hectares", "1000 to 10,000 hectares", "10,000 to 50,000 hectares", "1 to 100 hectares", "More than 50,000 hectares"], "a": 4}, {"q": "A Micro watershed, per the classification given, covers an area of:", "o": ["100 to 1000 hectares", "1000 to 10,000 hectares", "10,000 to 50,000 hectares", "More than 50,000 hectares", "1 to 100 hectares"], "a": 0}, {"q": "The process by which water on the ground surface enters the soil is termed:", "o": ["Runoff", "Infiltration", "Percolation only", "Evapotranspiration", "Leaching"], "a": 1}, {"q": "Surface runoff occurs when:", "o": ["All rainfall infiltrates completely into the soil", "Groundwater rises to the surface", "Excess rainwater can no longer sufficiently infiltrate the soil", "Soil pores are completely dry", "Evaporation exceeds precipitation"], "a": 2}, {"q": "Unlike large dams that create reservoirs, the primary goal of building a weir across a river is to:", "o": ["Store maximum water for irrigation", "Generate hydroelectric power", "Prevent all flooding downstream", "Gain some control over the water level", "Facilitate deep groundwater recharge only"], "a": 3}, {"q": "A check dam, used to lower runoff velocity in a drainage channel, is recommended for drainage areas of:", "o": ["10 acres or more", "5 acres or less", "More than 20 acres", "Exactly 1 acre", "2 acres or less"], "a": 4}, {"q": "Recharge pits, constructed for recharging shallow aquifers, are typically built to a depth of:", "o": ["3 metres", "10 metres", "0.5 metres", "15 metres", "1 metre"], "a": 0}, {"q": "Recharge wells, constructed for recharging deeper aquifers, typically have a diameter of:", "o": ["500-800 mm", "100 to 300 mm", "10-50 mm", "1000 mm", "50-100 mm"], "a": 1}, {"q": "According to the document, the estimated additional recharge from a 100 sq. m. rooftop area is:", "o": ["5,500 litres", "100,000 litres", "55,000 litres", "550 litres", "15,000 litres"], "a": 2}]</script>
+<script>
+(function(){
+  const DATA = JSON.parse(document.getElementById('quiz-data').textContent);
+  const LETTERS = ['A','B','C','D','E'];
+  let current = 0;
+  let score = 0;
+  let answered = false;
+  let userAnswers = new Array(DATA.length).fill(null);
+
+  const qcountEl = document.getElementById('qcount');
+  const progressFill = document.getElementById('progressFill');
+  const progressLabel = document.getElementById('progressLabel');
+  const scorePill = document.getElementById('scorePill');
+  const qmeta = document.getElementById('qmeta');
+  const qtext = document.getElementById('qtext');
+  const optionsEl = document.getElementById('options');
+  const feedback = document.getElementById('feedback');
+  const nextBtn = document.getElementById('nextBtn');
+  const quizview = document.getElementById('quizview');
+  const results = document.getElementById('results');
+
+  qcountEl.textContent = DATA.length + ' QUESTIONS';
+
+  function renderQuestion(){
+    answered = false;
+    const q = DATA[current];
+    qmeta.textContent = 'QUESTION ' + (current+1) + ' OF ' + DATA.length;
+    qtext.textContent = q.q;
+    optionsEl.innerHTML = '';
+    feedback.classList.remove('show','correct-txt','wrong-txt');
+    feedback.innerHTML = '';
+    nextBtn.classList.remove('show');
+
+    q.o.forEach((optText, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.innerHTML = '<span class="letter">' + LETTERS[idx] + '</span><span>' + optText + '</span>';
+      btn.addEventListener('click', () => selectOption(idx, btn));
+      optionsEl.appendChild(btn);
+    });
+
+    progressFill.style.width = ((current)/DATA.length*100) + '%';
+    progressLabel.textContent = 'Q' + (current+1) + ' / ' + DATA.length;
+    scorePill.textContent = 'Score: ' + score;
+  }
+
+  function selectOption(idx, btnEl){
+    if(answered) return;
+    answered = true;
+    const q = DATA[current];
+    userAnswers[current] = idx;
+    const allOpts = optionsEl.querySelectorAll('.opt');
+    allOpts.forEach(o => o.disabled = true);
+
+    if(idx === q.a){
+      score++;
+      btnEl.classList.add('correct');
+      feedback.classList.add('show','correct-txt');
+      feedback.innerHTML = '✓ Correct — well done.';
+    } else {
+      btnEl.classList.add('wrong');
+      allOpts[q.a].classList.add('correct');
+      feedback.classList.add('show','wrong-txt');
+      feedback.innerHTML = '✗ Incorrect — correct answer is ' + LETTERS[q.a] + '.';
+    }
+    scorePill.textContent = 'Score: ' + score;
+    progressFill.style.width = ((current+1)/DATA.length*100) + '%';
+    nextBtn.textContent = (current === DATA.length-1) ? 'See Results →' : 'Next Question →';
+    nextBtn.classList.add('show');
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if(current < DATA.length - 1){
+      current++;
+      renderQuestion();
+      window.scrollTo({top:0, behavior:'smooth'});
+    } else {
+      showResults();
+    }
+  });
+
+  function showResults(){
+    quizview.classList.add('hide');
+    results.classList.add('show');
+    const total = DATA.length;
+    const wrong = total - score;
+    const pct = Math.round(score/total*100);
+    document.getElementById('finalScoreBig').textContent = score + ' / ' + total;
+    document.getElementById('statCorrect').textContent = score;
+    document.getElementById('statWrong').textContent = wrong;
+    document.getElementById('statPct').textContent = pct + '%';
+
+    const reviewSection = document.getElementById('reviewSection');
+    reviewSection.innerHTML = '';
+    const missed = [];
+    DATA.forEach((q, i) => {
+      if(userAnswers[i] !== q.a){
+        missed.push({q, i, your: userAnswers[i]});
+      }
+    });
+
+    if(missed.length === 0){
+      reviewSection.innerHTML = '<div class="all-correct">Perfect score — no questions missed. Outstanding work.</div>';
+    } else {
+      const title = document.createElement('div');
+      title.className = 'review-title';
+      title.textContent = 'Review — ' + missed.length + ' Question' + (missed.length>1?'s':'') + ' Missed';
+      reviewSection.appendChild(title);
+
+      missed.forEach(m => {
+        const item = document.createElement('div');
+        item.className = 'review-item';
+        const yourText = (m.your === null) ? 'Not answered' : LETTERS[m.your] + ') ' + m.q.o[m.your];
+        item.innerHTML =
+          '<div class="rq">Q' + (m.i+1) + '. ' + m.q.q + '</div>' +
+          '<div class="ryour">Your answer: ' + yourText + '</div>' +
+          '<div class="rcorrect">Correct answer: ' + LETTERS[m.q.a] + ') ' + m.q.o[m.q.a] + '</div>';
+        reviewSection.appendChild(item);
+      });
+    }
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  document.getElementById('restartBtn').addEventListener('click', () => {
+    current = 0; score = 0; userAnswers = new Array(DATA.length).fill(null);
+    results.classList.remove('show');
+    quizview.classList.remove('hide');
+    renderQuestion();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  renderQuestion();
+})();
+</script>
+</body>
+</html>

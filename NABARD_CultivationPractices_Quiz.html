@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NABARD Grade A — Cultivation Practices Quiz</title>
+<style>
+  :root{
+    --bg:#0f172a; --card:#ffffff; --accent:#166534; --accent2:#7f1d1d;
+    --muted:#64748b; --border:#e2e8f0; --brand:#0f766e;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(160deg,#0f172a,#1e293b 60%,#0f172a);
+    min-height:100vh; padding:24px 12px; color:#0f172a;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+  header{ text-align:center; color:#f1f5f9; margin-bottom:18px; }
+  header h1{ font-size:22px; margin:0 0 4px; }
+  header p{ margin:0; color:#94a3b8; font-size:13px; }
+  .card{
+    background:var(--card); border-radius:14px; padding:22px 20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  .progress-row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+  .progress-bar{ height:8px; background:#e2e8f0; border-radius:999px; overflow:hidden; flex:1; margin:0 12px; }
+  .progress-fill{ height:100%; background:var(--brand); width:0%; transition:width .3s ease; }
+  .badge{ font-size:12px; font-weight:600; color:var(--muted); white-space:nowrap; }
+  .score-badge{ font-size:12px; font-weight:700; color:var(--brand); white-space:nowrap; }
+  .qnum{ font-size:12px; font-weight:700; color:var(--brand); letter-spacing:.03em; text-transform:uppercase; margin-bottom:6px;}
+  .qtext{ font-size:17px; font-weight:600; line-height:1.5; margin-bottom:18px; color:#0f172a; }
+  .options{ display:flex; flex-direction:column; gap:10px; }
+  .opt{
+    display:flex; align-items:flex-start; gap:10px; text-align:left;
+    padding:12px 14px; border-radius:10px; border:1.5px solid var(--border);
+    background:#f8fafc; cursor:pointer; font-size:14.5px; line-height:1.4;
+    transition:all .15s ease; color:#1e293b;
+  }
+  .opt:hover:not(.disabled){ border-color:var(--brand); background:#f0fdfa; }
+  .opt .letter{
+    flex:0 0 auto; width:24px; height:24px; border-radius:50%;
+    background:#e2e8f0; color:#334155; font-weight:700; font-size:12px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .opt.correct{ background:#dcfce7; border-color:#16a34a; }
+  .opt.correct .letter{ background:#16a34a; color:#fff; }
+  .opt.incorrect{ background:#fee2e2; border-color:#dc2626; }
+  .opt.incorrect .letter{ background:#dc2626; color:#fff; }
+  .opt.disabled{ cursor:default; }
+  .opt.dim{ opacity:.55; }
+  .feedback{ margin-top:14px; font-size:13.5px; font-weight:600; min-height:20px; }
+  .feedback.correct{ color:#16a34a; }
+  .feedback.incorrect{ color:#dc2626; }
+  .actions{ display:flex; justify-content:flex-end; margin-top:16px; }
+  button.next{
+    background:var(--brand); color:#fff; border:none; padding:10px 22px;
+    border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;
+    opacity:0; pointer-events:none; transition:opacity .2s ease;
+  }
+  button.next.show{ opacity:1; pointer-events:auto; }
+  button.next:hover{ background:#0d5c53; }
+  .start-screen, .end-screen{ text-align:center; }
+  .start-screen p, .end-screen p{ color:#475569; font-size:14px; line-height:1.6; }
+  .big-btn{
+    background:var(--brand); color:#fff; border:none; padding:13px 28px;
+    border-radius:9px; font-size:15px; font-weight:700; cursor:pointer; margin-top:10px;
+  }
+  .big-btn:hover{ background:#0d5c53; }
+  .stat-grid{ display:flex; gap:10px; justify-content:center; margin:20px 0; flex-wrap:wrap; }
+  .stat{ background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:14px 20px; min-width:100px; }
+  .stat .num{ font-size:26px; font-weight:800; }
+  .stat .label{ font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; margin-top:2px;}
+  .stat.correct .num{ color:#16a34a; }
+  .stat.incorrect .num{ color:#dc2626; }
+  .stat.pct .num{ color:var(--brand); }
+  .review{ text-align:left; margin-top:20px; border-top:1px solid var(--border); padding-top:16px; }
+  .review h3{ font-size:15px; margin-bottom:10px; }
+  .review-item{ background:#fef2f2; border:1px solid #fecaca; border-radius:10px; padding:12px 14px; margin-bottom:10px; }
+  .review-item .rq{ font-size:13.5px; font-weight:600; margin-bottom:6px; }
+  .review-item .ra{ font-size:12.5px; color:#334155; margin:2px 0; }
+  .review-item .ra b{ color:#dc2626; }
+  .review-item .rc b{ color:#16a34a; }
+  .no-miss{ color:#16a34a; font-weight:700; text-align:center; padding:20px 0; }
+  .restart-row{ text-align:center; margin-top:20px; }
+  .footer-note{ text-align:center; color:#94a3b8; font-size:11.5px; margin-top:16px; }
+  #jumpBar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:6px;}
+  .hidden{ display:none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>NABARD Grade A — Practice Quiz</h1>
+    <p>Cultivation Practices of Fruits, Vegetables, Flowers &amp; Medicinal Plants</p>
+  </header>
+
+  <div class="card" id="card">
+
+    <div id="startScreen" class="start-screen">
+      <h2 style="margin-top:0;">Ready to begin?</h2>
+      <p><b id="totalQCount"></b> questions · 5 options (A–E) each · single correct answer.<br>
+      Some questions ask which statement is <b>NOT</b> correct — read carefully.<br>
+      You'll get instant feedback after every answer, a running score, and a full review of anything you miss at the end.</p>
+      <button class="big-btn" onclick="startQuiz()">Start Quiz</button>
+    </div>
+
+    <div id="quizScreen" class="hidden">
+      <div class="progress-row">
+        <span class="badge" id="progressLabel"></span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <span class="score-badge" id="scoreLabel"></span>
+      </div>
+      <div class="qnum" id="qnum"></div>
+      <div class="qtext" id="qtext"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="actions">
+        <button class="next" id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+      </div>
+    </div>
+
+    <div id="endScreen" class="end-screen hidden">
+      <h2>Quiz Complete 🎉</h2>
+      <div class="stat-grid">
+        <div class="stat pct"><div class="num" id="pctScore"></div><div class="label">Score</div></div>
+        <div class="stat correct"><div class="num" id="correctCount"></div><div class="label">Correct</div></div>
+        <div class="stat incorrect"><div class="num" id="incorrectCount"></div><div class="label">Incorrect</div></div>
+      </div>
+      <div class="review" id="reviewSection">
+        <h3>Review — Questions You Missed</h3>
+        <div id="reviewList"></div>
+      </div>
+      <div class="restart-row">
+        <button class="big-btn" onclick="restartQuiz()">Restart Quiz</button>
+      </div>
+    </div>
+
+    <div class="footer-note">Source: Crack GradeB — Cultivation Practices of Fruits, Vegetables, Flowers and Medicinal Plants</div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [{"q": "What is the scientific name of mango?", "o": ["Mangifera indica L.", "Malus domestica", "Musa sp", "Psidium guajava", "Citrus sinensis"], "a": 0}, {"q": "Mango cultivation is best suited to a soil pH range of:", "o": ["5.5 to 6.5", "6.5 to 8.0", "4.5 to 5.5", "7.5 to 9.0", "3.5 to 5.0"], "a": 1}, {"q": "The recommended season of planting for mango is:", "o": ["January to March", "April to June", "July to December", "September to November", "Year round"], "a": 2}, {"q": "Mango planting material is raised through which propagation methods?", "o": ["Suckers only", "Seeds only", "Layering only", "Inarching, soft wood or epicotyl grafting", "Stem cuttings only"], "a": 3}, {"q": "Manures and fertilizers for mango are applied during September-October at what distance from the trunk?", "o": ["20-30 cm", "10-20 cm", "100 cm", "50 cm", "45 \u2013 90 cm"], "a": 4}, {"q": "To increase fruit set and retention in mango, NAA is sprayed at flowering at a concentration of:", "o": ["20 ppm", "50 ppm", "100 ppm", "10 ppm", "200 ppm"], "a": 0}, {"q": "Which of the following is NOT listed as a pest of mango?", "o": ["Hoppers", "Bunchy-top", "Mealy bug", "Flower webber", "Stem borer"], "a": 1}, {"q": "Mango is generally harvested during which months?", "o": ["January-February", "October-December", "March to June", "July-September", "Available year-round"], "a": 2}, {"q": "Post-harvest, mango fruits are dipped in hot water immediately after harvest at what temperature and for how long?", "o": ["45\u00b11\u00b0C for 10 minutes", "60\u00b11\u00b0C for 2 minutes", "40\u00b0C for 15 minutes", "52o \u00b1 1oC hot water for 5 minutes", "70\u00b0C for 1 minute"], "a": 3}, {"q": "After the hot-water dip, mango fruits are treated with plant wax (Fruitox or Waxol) at what concentration to reduce anthracnose during storage?", "o": ["2%", "4%", "10%", "15%", "8%"], "a": 4}, {"q": "Pruning of internal branches in mango is carried out judiciously during which period and how frequently?", "o": ["June-July, every year", "August \u2013 September, once in three years", "December-January, twice a year", "March-April, once in five years", "October-November, every year"], "a": 1}, {"q": "Which combination of chemicals is recommended to treat powdery mildew in mango?", "o": ["Only neem oil", "Streptocycline alone", "carbendazim, Carbofuran, mancozeb, wettable sulphur", "Only Bordeaux mixture", "Only copper oxychloride"], "a": 2}, {"q": "What is the scientific name of banana?", "o": ["Musa sp", "Mangifera indica", "Ananas sativus", "Carica papaya", "Psidium guajava"], "a": 0}, {"q": "In hilly areas, banana is planted during which season?", "o": ["December \u2013 January", "August and September", "March \u2013 April", "May \u2013 June", "October \u2013 November"], "a": 1}, {"q": "The planting material used for banana is:", "o": ["Seeds", "Cuttings", "Suckers", "Grafts", "Layers"], "a": 2}, {"q": "In the bunch thinning practice of banana, how many hands are retained on the bunch?", "o": ["3 to 4", "5 to 6", "10 to 12", "7 to 8", "15 to 16"], "a": 3}, {"q": "Which of the following is NOT listed as a disease of banana?", "o": ["Sigatoka leaf spot", "Panama Disease (Fusarium wilt)", "Cigar end rot", "Bunchy-top", "Anthracnose"], "a": 4}, {"q": "Banana bunches attain maturity from flowering in about:", "o": ["100 to 150 days", "200 days", "50 days", "300 days", "75 days"], "a": 0}, {"q": "The banana crop duration from planting to bunch harvest is approximately:", "o": ["6-8 months", "12 to 15 months", "18-20 months", "24 months", "3 months"], "a": 1}, {"q": "Which of the following soils should be avoided for banana cultivation?", "o": ["Loamy soils", "Red soils", "Alkaline and saline soils", "Alluvial soils", "Sandy loam"], "a": 2}, {"q": "The scientific name of acid lime is:", "o": ["Citrus limon", "Citrus medica", "Citrus sinensis", "Citrus aurantifolia", "Citrus reticulata"], "a": 3}, {"q": "Acid lime is best suited to areas with a dry climate and rainfall of:", "o": [">1500 mm", "1000-1200 mm", "800-1000 mm", "1200-1500 mm", "less than 750 mm"], "a": 4}, {"q": "The planting material used for acid lime is:", "o": ["Budded plant", "Seed", "Sucker", "Stem cutting", "Air layering"], "a": 0}, {"q": "Acid lime starts bearing fruit from how many years after planting?", "o": ["1-2 years", "3 - 4 years", "5-6 years", "7-8 years", "10 years"], "a": 1}, {"q": "Post-harvest, acid lime fruits are treated with wax emulsion at what concentration to improve shelf life?", "o": ["2%", "8%", "4% wax emulsion", "10%", "6%"], "a": 2}, {"q": "The yield of acid lime is approximately:", "o": ["15 t/ha/year", "20 t/ha/year", "35 t/ha/year", "25 t / ha /year", "40 t/ha/year"], "a": 3}, {"q": "Which of the following is NOT listed as a disease of acid lime?", "o": ["Twig blight", "Canker", "Tristeza virus", "Foot rot (gummosis)", "Powdery mildew"], "a": 4}, {"q": "The scientific name of sweet orange is:", "o": ["Citrus sinensis", "Citrus aurantifolia", "Citrus limon", "Malus domestica", "Punica granatum"], "a": 0}, {"q": "Sweet orange requires about how much rainfall, mainly received during which months?", "o": ["100-125 cm, October-December", "50 \u2013 75 cm of rainfall from June \u2013 September", "25-40 cm, February-April", "150 cm, year-round", "10-20 cm, November-January"], "a": 1}, {"q": "Sweet orange starts bearing fruit from which year after planting?", "o": ["2nd year", "3rd year", "5th year", "8th year", "10th year"], "a": 2}, {"q": "Sweet orange, being non-climacteric, takes how long to attain maturity?", "o": ["3-4 months", "5-6 months", "15-18 months", "9-12 months", "24 months"], "a": 3}, {"q": "The yield of sweet orange is approximately:", "o": ["15 t/ha", "20 t/ha", "10 t/ha", "45 t/ha", "30 t / ha"], "a": 4}, {"q": "The scientific name of grapes is:", "o": ["Vitis vinifera L", "Ficus carica", "Musa sp", "Punica granatum", "Prunus domestica"], "a": 0}, {"q": "Grapes are suited to a temperature range and rainfall of:", "o": ["10 to 30\u00b0C, 300-500 mm", "15 to 40o C, rainfall between 500 and 900 mm", "5-20\u00b0C, 100-300 mm", "20-45\u00b0C, 1000-1500 mm", "0-15\u00b0C, 200 mm"], "a": 1}, {"q": "Which of the following is NOT a variety of grape mentioned in the document?", "o": ["Thompson Seedless", "Red Globe", "Kew", "Sharad Seedless", "Anab-e-Shahi"], "a": 2}, {"q": "The optimum soil pH and daytime temperature range for proper grapevine growth and establishment is:", "o": ["5.5-6.0, 10-25\u00b0C", "7.5-8.0, 35-45\u00b0C", "4.5-5.0, 15-20\u00b0C", "pH of 6.5 - 7.0, temperature 20oC to 35oC", "8.0-9.0, 40\u00b0C"], "a": 3}, {"q": "The best time for planting grape rootstock is:", "o": ["March-April", "October-November", "August-September", "December-January", "January \u2013 February"], "a": 4}, {"q": "The grapevine can be trained over which systems, as per the document?", "o": ["Pandal system or improved Y trellis", "Espalier system only", "Kniffin system only", "Head training only", "Bower system only"], "a": 0}, {"q": "For the summer crop of grapes, pruning and harvesting are respectively done during:", "o": ["November-December / March-April", "December - January, harvesting during April \u2013 May", "January-February / May-June", "September-October / February", "August-September / December-January"], "a": 1}, {"q": "For the winter crop of grapes, pruning and harvesting are respectively done during:", "o": ["December-January / April-May", "January-February / June", "May-June, harvesting during August \u2013 September", "March-April / July", "February-March / July-August"], "a": 2}, {"q": "Tipping, as a viticultural practice in grapes, involves retention of how many leaves above the last cluster?", "o": ["5-7 leaves", "3-5 leaves", "15-20 leaves", "9-11 leaves", "20-25 leaves"], "a": 3}, {"q": "Nipping in grapes is practised by removing emerged shoots from axillary buds at which bud position from the base?", "o": ["5th to 8th", "20th to 25th", "1st to 3rd", "18th to 20th", "12th to 15th bud position"], "a": 4}, {"q": "Which of the following is NOT listed as a pest of grapes?", "o": ["Fruit fly", "Aphids", "Mealy bugs", "Thrips", "None - all are correct"], "a": 0}, {"q": "Which combination is recommended for plant protection/disease treatment in grapes?", "o": ["Only copper oxychloride", "Wettable sulphur powder, Bordeaux mixture, mancozeb etc.", "Only carbendazim", "Streptocycline only", "Neem oil only"], "a": 1}, {"q": "The scientific name of guava is:", "o": ["Psidium sp", "Citrus sinensis", "Psidium guajava L.", "Punica granatum", "Carica papaya"], "a": 2}, {"q": "Guava can be grown up to what altitude?", "o": ["500 m", "2000 m", "1500 m", "1000 m altitude", "3000 m"], "a": 3}, {"q": "In saline soils, guava plants require how much gypsum per plant during planting?", "o": ["1 kg", "5 kg", "10 kg", "0.5 kg", "3 kg gypsum/plant"], "a": 4}, {"q": "The propagation materials/planting material for guava are:", "o": ["Layers and grafts", "Seeds only", "Suckers", "Stem cuttings only", "Root suckers"], "a": 0}, {"q": "Guava grafts/layers come into bearing within how many years, with the first crop harvested during which months?", "o": ["1-2 years, January-March", "2-3 years, February \u2013 July", "4-5 years, September-December", "5-6 years, year-round", "6-7 years, April-June"], "a": 1}, {"q": "The guava disease 'Red rust' is treated by spraying:", "o": ["Mancozeb", "Bordeaux mixture", "Copper oxy chloride", "Carbendazim", "Wettable sulphur"], "a": 2}, {"q": "The yield of guava is approximately:", "o": ["15 t/ha", "40 t/ha", "10 t/ha", "25 t / ha", "50 t/ha"], "a": 3}, {"q": "The scientific name of pineapple is:", "o": ["Musa sp", "Ananas comosus var.", "Bromelia sp", "Carica papaya", "Ananas sativus"], "a": 4}, {"q": "Pineapple belongs to which plant family?", "o": ["Bromeliaceae", "Rutaceae", "Musaceae", "Rosaceae", "Myrtaceae"], "a": 0}, {"q": "The ideal elevation range for pineapple cultivation is:", "o": ["0-100 m", "500 m to 700 m", "1000-1500 m", "2000-2500 m", "above 3000 m"], "a": 1}, {"q": "Pineapple crop duration is approximately:", "o": ["6-8 months", "10-12 months", "18 \u2013 24 months", "30-36 months", "3-4 months"], "a": 2}, {"q": "Which of the following is NOT mentioned as a variety of pineapple?", "o": ["Kew", "Mauritius", "Queen", "Robusta", "MD 2"], "a": 3}, {"q": "The scientific name of papaya is:", "o": ["Carum papaya", "Carica indica", "Musa papaya", "Psidium papaya", "Carica papaya L."], "a": 4}, {"q": "Papaya grows well in regions where summer temperature ranges from:", "o": ["35o C \u2013 38o C", "20-25\u00b0C", "45-50\u00b0C", "15-20\u00b0C", "28-32\u00b0C"], "a": 0}, {"q": "Papaya tolerates frost and comes up to what elevation?", "o": ["500 m", "1200 m", "2000 m", "3000 m", "800 m"], "a": 1}, {"q": "How much papaya seed is required for planting one hectare?", "o": ["200 g", "1 kg", "500 g of seeds", "2 kg", "100 g"], "a": 2}, {"q": "Papaya seedlings of what age are typically transplanted to the field?", "o": ["15 days old", "30 days old", "90 days old", "60 days old", "120 days old"], "a": 3}, {"q": "For proper fruit-set in papaya, the recommended ratio of male to female plants retained is:", "o": ["1 male : 5 female", "1 male : 10 female", "1 male : 50 female", "1 male : 2 female", "one male plant for every 20 female plants"], "a": 4}, {"q": "Papain in papaya is extracted from fruit of what age?", "o": ["75 to 90 days old fruit", "30-45 days old", "120-150 days old", "10-20 days old", "200 days old"], "a": 0}, {"q": "The crop duration of papaya is approximately:", "o": ["12-18 months", "24 \u2013 30 months", "6-9 months", "36-40 months", "3-6 months"], "a": 1}, {"q": "The papaya disease occurring commonly in water stagnation areas is:", "o": ["Anthracnose", "Powdery mildew", "Root rot and wilt", "Canker", "Scab"], "a": 2}, {"q": "Papaya fruits should be harvested at which stage?", "o": ["Full green stage", "Overripe stage", "Fully ripe stage", "Colour break stage", "Bud stage"], "a": 3}, {"q": "If drainage is not adequate in papaya cultivation, which disease may occur?", "o": ["Powdery mildew", "Anthracnose", "Scab", "Canker", "Collar-rot disease"], "a": 4}, {"q": "The scientific name of pomegranate is:", "o": ["Malus punica", "Prunus granatum", "Citrus granatum", "Ficus granatum", "Punica granatum L."], "a": 4}, {"q": "Which of the following are bacterial blight tolerant varieties of pomegranate?", "o": ["Nayana, Kalpitiya, Nana and Daru", "Bhagwa", "Ganesh", "Ruby", "Jyothi"], "a": 0}, {"q": "Pomegranate performs well up to what elevation?", "o": ["500 m", "1800 m", "3000 m", "200 m", "1000 m"], "a": 1}, {"q": "The planting material used for pomegranate is:", "o": ["Seed", "Sucker", "Hard wood cutting", "Air layering", "Budding"], "a": 2}, {"q": "Which of the following is NOT listed as a crop practice for pomegranate?", "o": ["Thinning", "Pruning", "Bahar treatment", "Ringing", "Thinning of flowers"], "a": 3}, {"q": "The scientific name of jackfruit is:", "o": ["Artocarpus integra", "Musa heterophylla", "Ficus heterophyllus", "Carica heterophylla", "Artocarpus heterophyllus"], "a": 4}, {"q": "Large scale propagation of jack is done by cleft grafting during which months, on rootstock of what age?", "o": ["July - August, on 4-month-old seedling rootstock", "January-February, on 1-year-old rootstock", "October-November, on 6-month-old rootstock", "March-April, on 2-year-old rootstock", "May-June, on 8-month-old rootstock"], "a": 0}, {"q": "Jack yield commences from which year in grafts and which year in seedling trees respectively?", "o": ["3rd year / 6th year", "5th year in grafts and 8th year in seedling trees", "2nd year / 5th year", "8th year / 12th year", "10th year / 15th year"], "a": 1}, {"q": "Jack is generally harvested during which months?", "o": ["January-February", "October-December", "March-July", "August-September", "April only"], "a": 2}, {"q": "What is the sensory and visual ripening index generally preferred by farmers to check the ripening of jackfruit?", "o": ["Rotten smell with pale yellow colouration", "Fruity smell with change in colour from green to yellow", "No smell while colour changes to yellow", "No visible change at all", "Only a change in size"], "a": 1}, {"q": "The scientific name of ber is:", "o": ["Ziziphus jujuba", "Prunus mauritiana", "Malus mauritiana", "Zizyphus mauritiana Lam", "Citrus mauritiana"], "a": 3}, {"q": "Ber cultivation is generally suited to which climatic condition?", "o": ["Humid tropical", "Temperate", "Alpine", "Coastal humid", "Arid and semi-arid"], "a": 4}, {"q": "Ber planting material is propagated through:", "o": ["T budding and patch budding", "Stem cuttings only", "Seeds only", "Air layering only", "Grafting only"], "a": 0}, {"q": "Which of the following are diseases of ber?", "o": ["Ring rust", "Black leaf spot, Powdery mildew", "Scab", "Canker", "Tristeza virus"], "a": 1}, {"q": "The scientific name of amla/aonla is:", "o": ["Emblica indica", "Phyllanthus indicus", "Phyllanthus emblica", "Citrus emblica", "Punica emblica"], "a": 2}, {"q": "Amla is commonly propagated through:", "o": ["Seeds only", "Suckers", "Stem cuttings only", "Softwood grafting and patch budding", "Air layering only"], "a": 3}, {"q": "Which of the following are diseases of amla mentioned in the document?", "o": ["Powdery mildew", "Canker", "Scab", "Anthracnose", "Ring Rust or Aonla Rust, Fruit Rot / Bird's eye spot"], "a": 4}, {"q": "The scientific name of apple is:", "o": ["Malus domestica", "Malus sylvestris", "Pyrus malus", "Prunus domestica", "Cydonia oblonga"], "a": 0}, {"q": "The ideal soil pH for apple cultivation is around:", "o": ["6.5-7.5", "5.8 to 6.2", "4.0-4.5", "7.5-8.5", "8.5-9.0"], "a": 1}, {"q": "A minimum soil depth of how much is desirable for apple cultivation?", "o": ["0.5 metre", "1.0 metre", "1.6 metre", "2.5 metre", "3.0 metre"], "a": 2}, {"q": "Apple planting material typically consists of one-year-old grafts on which rootstocks?", "o": ["M.9 and M.111", "MM 106", "EMLA 26", "M.778 and M.779 rootstocks", "M.7"], "a": 3}, {"q": "Apple trees are trained to which system, and pruned during which months?", "o": ["Modified leader system, February-March", "Espalier system, November-December", "Central leader system, April-May", "Vase system, June-July", "Open centre system; pruned during December \u2013 January"], "a": 4}, {"q": "Which of the following is NOT listed as a disease of apple?", "o": ["Ring rust", "Scab", "Powdery mildew", "Premature leaf fall", "None, all are listed apple diseases"], "a": 0}, {"q": "San Jose scale, along with Wooly aphids and Stem borer, is a common:", "o": ["Disease of apple", "Physiological disorder of apple", "Pest of apple", "Post-harvest disorder", "Nutrient deficiency"], "a": 2}, {"q": "As per the previous year questions in the document, the sale of cut rose is maximum on which occasion(s)?", "o": ["Mother's Day", "Rose Day", "Valentine's Day", "All of the above", "None of the above"], "a": 3}, {"q": "The white powdery fungus that appears on grape leaves, stems and fruit, hugely impacting the crop during monsoon, is:", "o": ["Damping off", "Rhizopus", "Downy mildew", "Anthracnose", "Fusarium"], "a": 2}, {"q": "Damping off, a common disease while raising papaya seedlings in the nursery, is caused by:", "o": ["Phytophthora", "Actinomycetes", "Fusarium", "Rhizoctonia", "Alternaria"], "a": 0}, {"q": "Stalk end rot is a very common disease of which fruit crop, as per the document?", "o": ["Banana", "Apple", "Grapes", "Mango", "Guava"], "a": 3}, {"q": "The citrus disease that becomes noticeable by profuse gumminess on the bark surface, which turns brown with longitudinal cracks and also causes leaf-rot, is:", "o": ["Foot rot (gummosis)", "Anthracnose", "Damping off", "Brown heart", "Canker"], "a": 0}, {"q": "Which of the following is NOT one of the three main categories of vegetable production mentioned in the document?", "o": ["Home gardening", "Plantation gardening", "Market gardening", "Truck gardening", "None \u2013 all three listed are correct categories"], "a": 1}, {"q": "Market gardening specializes in the cultivation of high value perishable crops mainly for:", "o": ["Export markets", "Rural markets", "Urban markets", "Wholesale distant markets", "Self-consumption only"], "a": 2}, {"q": "Truck farming, as compared to market gardening, is usually:", "o": ["More intensive than market gardening", "Restricted to home use only", "Only practised for flowers", "Less intensive and diversified than market gardening", "Identical to home gardening"], "a": 3}, {"q": "According to the classification of vegetable crops by method of cultivation, cauliflower, cabbage, and broccoli belong to the group of:", "o": ["Cucurbits", "Root crops", "Cole crops", "Tuber crops", "Bulb crops"], "a": 2}, {"q": "According to the classification of vegetable crops by method of cultivation, onion and garlic belong to the group of:", "o": ["Bulb crops", "Root crops", "Cole crops", "Cucurbits", "Leafy vegetables"], "a": 0}, {"q": "In direct sowing of vegetables, broadcasting is exemplified by which crops in the document?", "o": ["Carrot and radish", "Celosia and Amaranthus", "Tomato and brinjal", "Onion and garlic", "Cauliflower and cabbage"], "a": 1}, {"q": "Staking, as a vegetable cultivation practice, is mainly required for crops that:", "o": ["Have bulbous roots", "Are rhizomatous", "Have a climbing growth habit or weak stems", "Have tuberous roots", "Have fibrous roots only"], "a": 2}, {"q": "The primary purpose of mulching in vegetable cultivation, as per the document, is to:", "o": ["Increase soil pH", "Kill soil pests", "Add nitrogen to soil", "Conserve soil moisture", "Increase soil temperature drastically"], "a": 3}, {"q": "Which vegetables are cited as being propagated by vegetative methods rather than seeds?", "o": ["Tomato, brinjal", "Pointed gourd, colocasia, basella, ivy gourd", "Cauliflower, cabbage", "Carrot, radish", "Onion, garlic (always by seed)"], "a": 1}, {"q": "The scientific name of tomato is:", "o": ["Lycopersicon esculentum", "Solanum tuberosum", "Solanum melongena", "Capsicum annuum", "Solanum lycopersicum L."], "a": 4}, {"q": "Which of the following is listed as a hybrid variety of tomato?", "o": ["Arka Rakshak", "Paiyur 1", "PKM 1", "CO 3 (Marutham)", "K 1"], "a": 0}, {"q": "The ideal soil pH range for tomato cultivation is:", "o": ["5.0-6.0", "6.5 - 7.5", "7.5-8.5", "4.5-5.5", "8.5-9.5"], "a": 1}, {"q": "The seed rate for hybrid tomato varieties per hectare is:", "o": ["300-350 g", "1 kg", "100-150 g / ha", "500 g", "2 kg"], "a": 2}, {"q": "Which of the following is NOT listed as a disease of tomato?", "o": ["Damping off", "Leaf spot", "Fusarial wilt", "Club root disease", "Tomato early blight"], "a": 3}, {"q": "The duration of the tomato crop from transplanting to harvest is approximately:", "o": ["60-70 days", "200 days", "80-90 days", "150-160 days", "110-115 days"], "a": 4}, {"q": "The yield of hybrid tomato varieties is approximately:", "o": ["80-95 t / ha", "30-40 t/ha", "10-20 t/ha", "50-60 t/ha", "120-150 t/ha"], "a": 0}, {"q": "The scientific name of potato is:", "o": ["Ipomoea batatas", "Solanum tuberosum L.", "Dioscorea alata", "Colocasia esculenta", "Manihot esculenta"], "a": 1}, {"q": "The optimum soil pH range for potato cultivation is:", "o": ["6.5-7.5", "7.5-8.5", "4.8 to 5.4", "3.5-4.0", "8.5-9.0"], "a": 2}, {"q": "Potato is typically cultivated in regions receiving a rainfall of about:", "o": ["500-800 mm", "200-500 mm", "3000-4000 mm", "1200 - 2000 mm per annum", "100-300 mm"], "a": 3}, {"q": "Which chemical is used at the rate of 30 g/100 kg tubers to break dormancy and induce sprouting in potato?", "o": ["Ethylene", "Gibberellic acid", "Cycocel", "Mancozeb", "Carbon disulphide"], "a": 4}, {"q": "The recommended seed rate for potato is:", "o": ["3,000 \u2013 3,500 kg/ha", "500-1000 kg/ha", "10,000 kg/ha", "1500-2000 kg/ha", "7500 kg/ha"], "a": 0}, {"q": "Potato crop should first be irrigated how many days after planting?", "o": ["1 day after planting", "10 days after planting", "25 days after planting", "45 days after planting", "No irrigation needed initially"], "a": 1}, {"q": "The yield of potato is approximately how much, achieved in a crop duration of how many days?", "o": ["25 t/ha in 150 days", "10 t/ha in 90 days", "15 \u2013 20 t/ha in a duration of 120 days", "30 t/ha in 200 days", "5 t/ha in 60 days"], "a": 2}, {"q": "Which of the following is NOT listed as a pest of potato?", "o": ["Cut worms", "Potato tuber moth", "Aphids", "Diamondback moth", "Jassids"], "a": 3}, {"q": "The scientific name of onion (both small and big) is:", "o": ["Allium sativum", "Allium fistulosum", "Allium porrum", "Allium ascalonicum", "Allium cepa"], "a": 4}, {"q": "Which small onion variety is described as a free flowering and seed setting type?", "o": ["CO (On) 5", "CO 1", "MDU 1", "CO 3", "CO 4"], "a": 0}, {"q": "The ideal soil pH range for small onion cultivation is:", "o": ["7-8", "6 - 7", "4-5", "8-9", "3-4"], "a": 1}, {"q": "The seed bulb requirement for planting small onion is:", "o": ["500 kg/ha", "2000 kg/ha", "1000 kg/ha", "5000 kg/ha", "200 kg/ha"], "a": 2}, {"q": "For small onion, irrigation should be withheld how many days before harvest?", "o": ["2 days", "20 days", "5 days", "10 days before harvest", "30 days"], "a": 3}, {"q": "Which of the following is a variety of Big Onion mentioned in the document?", "o": ["CO 1", "CO (On) 5", "MDU 1", "CO 4", "Arka Kalyan"], "a": 4}, {"q": "The optimum soil pH for big onion cultivation is:", "o": ["5.8-6.5", "6-7", "4.5-5", "7.5-8.5", "3.5-4.5"], "a": 0}, {"q": "The recommended seed rate for big onion is:", "o": ["2.5 kg/ha", "7.5 kg/ha", "1000 kg/ha", "375 g/ha", "10 kg/ha"], "a": 1}, {"q": "Big onion seedlings of what age are transplanted at 10 cm apart on the ridges?", "o": ["15 days old", "90 days old", "45 days old", "60 days old", "120 days old"], "a": 2}, {"q": "The scientific name of chillies is:", "o": ["Capsicum frutescens", "Capsicum chinense", "Piper nigrum", "Capsicum annuum", "Capsicum baccatum"], "a": 3}, {"q": "The ideal soil pH range for chilli cultivation is:", "o": ["4.5-5.5", "5-6", "7.5-8.5", "8.5-9.5", "6.5-7.5"], "a": 4}, {"q": "FYM is applied during field preparation for chillies at what rate?", "o": ["25 t/ha", "10 t/ha", "50 t/ha", "5 t/ha", "100 t/ha"], "a": 0}, {"q": "Chilli seedlings are transplanted at what age, along with the ball of earth?", "o": ["20-25 days old", "40-45 days old", "60-70 days old", "10-15 days old", "90-100 days old"], "a": 1}, {"q": "The recommended spacing for hybrid chilli varieties is:", "o": ["60 x 45 cm", "45 x 30 cm", "75 x 60 cm", "90 x 90 cm", "30 x 30 cm"], "a": 2}, {"q": "Which of the following is NOT listed as a pest of chillies?", "o": ["Fruit borer", "Thrips", "Aphids", "Wooly aphids", "Yellow Muranai mite"], "a": 3}, {"q": "Which of the following is NOT listed as a disease of chilli?", "o": ["Damping off", "Powdery mildew", "Anthracnose", "Die-back and fruit rot", "Ring rust"], "a": 4}, {"q": "The scientific name of cauliflower is:", "o": ["Brassica oleracea", "Brassica juncea", "Brassica rapa", "Brassica napus", "Raphanus sativus"], "a": 0}, {"q": "The ideal soil pH range for cauliflower cultivation is:", "o": ["6.5-7.5", "5.5 to 6.6", "4.0-5.0", "7.5-8.5", "3.5-4.5"], "a": 1}, {"q": "Cauliflower (early varieties) can be grown in the plains during which months?", "o": ["March-June", "July-August", "September to February", "November-December only", "Year round"], "a": 2}, {"q": "The seed rate recommended for cauliflower is:", "o": ["1 kg/ha", "500 g/ha", "200 g/ha", "375 g/ha", "750 g/ha"], "a": 3}, {"q": "The cauliflower physiological disorder caused by boron deficiency is called:", "o": ["Whip tail", "Buttoning", "Blindness", "Club root", "Browning or brown rot"], "a": 4}, {"q": "The cauliflower physiological disorder 'whip tail' results from deficiency of which nutrient?", "o": ["Molybdenum", "Boron", "Zinc", "Iron", "Magnesium"], "a": 0}, {"q": "The development of small curds or buttons in cauliflower is termed:", "o": ["Blindness", "Buttoning", "Whip tail", "Browning", "Bolting"], "a": 1}, {"q": "'Blind' cauliflower plants are characterized by:", "o": ["Excess terminal buds", "Yellow leaves", "Being without terminal buds", "Purple curds", "Stunted roots"], "a": 2}, {"q": "The yield of cauliflower in hills and plains, respectively, is approximately:", "o": ["10-15 t/ha and 5-10 t/ha", "40-50 t/ha and 30-40 t/ha", "5-10 t/ha and 2-5 t/ha", "Hills 20\u201330 t/ha, Plains 15\u201320 t/ha", "50-60 t/ha and 40-50 t/ha"], "a": 3}, {"q": "Which of the following is NOT listed as a pest of cauliflower?", "o": ["Aphids", "Diamondback moth", "Cut worms", "None, both listed are correct", "N/A"], "a": 2}, {"q": "Soil sterilization for eliminating soil-borne diseases in flower cultivation is done using formalin at what concentration, covered for how long?", "o": ["5%, 24 hours", "10%, 72 hours", "1%, 12 hours", "0.5%, 96 hours", "2 per cent formalin, covered for 48 hours"], "a": 4}, {"q": "Removing seedlings from their original container and replanting into individual pots or beds for more growing space is termed:", "o": ["Pricking (or thinning out)", "Staking", "Defoliation", "Deshooting", "Wintering"], "a": 0}, {"q": "Under Indian conditions, the best period to transplant deciduous/ornamental plants (provided there is no water-logging) is considered to be during:", "o": ["Winter", "The rainy season", "Peak summer", "Spring", "Autumn"], "a": 1}, {"q": "How many types of transplanting are generally recognized in a garden, as per the document?", "o": ["Two", "Three", "Four", "Five", "Six"], "a": 2}, {"q": "Pinching or stopping is hardly required for which category of plants?", "o": ["Annuals", "Herbaceous perennials", "Biennials", "Flowering trees", "Bulbous plants"], "a": 3}, {"q": "Which of the following plants is NOT mentioned in the document as needing pinching?", "o": ["Dahlia", "Chrysanthemum", "Carnation", "Marigold", "Gladiolus"], "a": 4}, {"q": "Deshooting is described as a common practice for which two flower crops (for cut flower trade / exhibition)?", "o": ["Carnations and chrysanthemum", "Roses and marigold", "Gladiolus and dahlia", "Jasmine and rose", "Tulsi and mint"], "a": 0}, {"q": "Defoliation, done after pruning and just prior to the flowering season, is a common practice in which flower crop?", "o": ["Rose", "Jasmine", "Chrysanthemum", "Marigold", "Carnation"], "a": 1}, {"q": "'Wintering', as an alternative to root pruning, is especially resorted to in:", "o": ["Coastal regions", "High altitude hills", "Hotter parts of India", "Coldest regions of India", "Coastal humid regions"], "a": 2}, {"q": "The art of clipping and shearing shrubs and small trees into ornamental or abstract shapes is known as:", "o": ["Pruning", "Pinching", "Deshooting", "Topiary", "Wintering"], "a": 3}, {"q": "Hybrid rose (cut rose) is commonly propagated by:", "o": ["Seeds only", "Layering only", "Grafting only", "Air layering only", "Rooted cuttings or by budding"], "a": 4}, {"q": "The optimum temperature range for hybrid rose (cut rose) cultivation is:", "o": ["Minimum of 15\u00b0C and maximum of 28\u00b0C", "5-10\u00b0C", "30-40\u00b0C", "0-10\u00b0C", "40-50\u00b0C"], "a": 0}, {"q": "Which of the following is a variety of chrysanthemum, as per the document?", "o": ["Gladiator", "Bonfire Orange", "Edward Rose", "Ycd 1", "Button Rose"], "a": 1}, {"q": "The scientific name of chrysanthemum given in the document is:", "o": ["Chrysanthemum indicum", "Tagetes erecta", "Dendranthema grandiflora", "Dianthus spp", "Rosa hybrida"], "a": 2}, {"q": "The optimum soil pH range for commercial chrysanthemum cultivation is:", "o": ["6.5-7.5", "4.5-5.0", "7.5-8.5", "5.5 to 6.5", "8.5-9.0"], "a": 3}, {"q": "The scientific name of carnation given in the document is:", "o": ["Rosa sp", "Gladiolus spp", "Tagetes erecta L", "Dendranthema grandiflora", "Dianthus spp"], "a": 4}, {"q": "The optimum temperature range for carnation cultivation is:", "o": ["18-24\u00b0C", "10-15\u00b0C", "30-35\u00b0C", "5-10\u00b0C", "40-45\u00b0C"], "a": 0}, {"q": "The optimum temperature range for gladiolus cultivation is:", "o": ["15-20\u00b0C", "27 - 30\u00b0C", "5-10\u00b0C", "35-40\u00b0C", "0-5\u00b0C"], "a": 1}, {"q": "The soil best suited for gladiolus cultivation is:", "o": ["Clayey soil", "Saline soil", "Sandy loam soil rich in organic matter with pH of 6 to 7", "Pure sand", "Rocky soil"], "a": 2}, {"q": "Which rose varieties are mentioned as being found mainly under cultivation (under the general 'Rose' entry)?", "o": ["Gladiator, Baby Pink", "Bonfire Orange, Bonfire Yellow", "Ycd 1, Ycd 2, Ycd 3", "Edward Rose, Andra Red Rose, Button Rose", "Sofia Lawrence"], "a": 3}, {"q": "The scientific name of marigold is:", "o": ["Calendula officinalis", "Rosa sp", "Dianthus spp", "Gladiolus spp", "Tagetes Erecta L"], "a": 4}, {"q": "The ideal soil pH for marigold cultivation is:", "o": ["7.0 to 7.5", "5.5-6.0", "4.5-5.0", "8.5-9.0", "3.5-4.0"], "a": 0}, {"q": "The scientific name of tea is:", "o": ["Coffea arabica", "Camellia sinensis", "Cocos nucifera", "Elaeis guineensis", "Theobroma cacao"], "a": 1}, {"q": "The ideal soil pH for tea cultivation is:", "o": ["6.5-7.5", "7.5-8.5", "4.5 to 5.5", "3.0-4.0", "8.5-9.5"], "a": 2}, {"q": "Tea performs excellently at elevations ranging from:", "o": ["0-500 m", "500-1000 m", "3000-4000 m", "1000 - 2500 m", "above 4000 m"], "a": 3}, {"q": "The optimum temperature for tea cultivation is:", "o": ["10-15\u00b0C", "35-40\u00b0C", "5-10\u00b0C", "40-45\u00b0C", "20-27o C"], "a": 4}, {"q": "Tea cuttings are taken during which months?", "o": ["April - May and August - September", "January-February, June-July", "October-November, March", "December-January, May-June", "September-October, February-March"], "a": 0}, {"q": "The scientific name of coffee, as given in the document, is:", "o": ["Camellia sinensis", "Coffea arabica L.", "Theobroma cacao", "Cocos nucifera", "Piper nigrum"], "a": 1}, {"q": "Coffee belongs to which plant family?", "o": ["Rosaceae", "Poaceae", "Rubiaceae", "Myrtaceae", "Arecaceae"], "a": 2}, {"q": "The optimum soil pH for coffee cultivation is:", "o": ["6.5-7.5", "7.5-8.5", "3.0-4.0", "4.5 to 6.5", "8.5-9.5"], "a": 3}, {"q": "Coffee is propagated by:", "o": ["Cuttings", "Grafting", "Budding", "Layering", "Seeds"], "a": 4}, {"q": "Which type of coffee produced in India has a higher market value due to its mild aromatic flavour?", "o": ["Arabica", "Robusta", "Liberica", "Excelsa", "Both are valued equally"], "a": 0}, {"q": "The scientific name of coconut is:", "o": ["Elaeis guineensis", "Cocos nucifera L.", "Areca catechu", "Borassus flabellifer", "Phoenix dactylifera"], "a": 1}, {"q": "The suitable soil pH range for coconut cultivation is:", "o": ["6.5-7.5", "4.0-5.0", "5.2 to 8.0", "8.5-9.5", "3.0-4.0"], "a": 2}, {"q": "The annual rainfall requirement for coconut is approximately:", "o": ["50 cm", "100 cm", "350 cm", "200 cm per year", "500 cm"], "a": 3}, {"q": "Coconut planting seasons are:", "o": ["January-February, April-May", "March-April, July-August", "May-June, September-October", "February-March, August-September", "June - July, December - January"], "a": 4}, {"q": "The scientific name of oil palm is:", "o": ["Elaeis guineensis", "Cocos nucifera", "Areca catechu", "Phoenix sylvestris", "Borassus flabellifer"], "a": 0}, {"q": "The optimum temperature range for oil palm cultivation is:", "o": ["10-15\u00b0C", "21o C to 32o C", "35-40\u00b0C", "0-10\u00b0C", "40-50\u00b0C"], "a": 1}, {"q": "The optimum altitude range for oil palm cultivation is:", "o": ["0-100 m", "1500-2000 m", "450 -900 m", "3000-4000 m", "above 5000 m"], "a": 2}, {"q": "The suitable soil pH range for oil palm cultivation is:", "o": ["6.5-7.5", "7.5-8.5", "8.5-9.5", "4 \u2013 6", "3.0-3.5"], "a": 3}, {"q": "The first harvest of oil palm can be done how many years after planting?", "o": ["1-2 years", "10 years", "15-20 years", "2 years", "3.5 to 4 years"], "a": 4}, {"q": "The yield of oil palm fresh fruit bunches per hectare is approximately:", "o": ["25 \u2013 30 tonnes/hectare", "5-10 tonnes/hectare", "50-60 tonnes/hectare", "100 tonnes/hectare", "1-2 tonnes/hectare"], "a": 0}, {"q": "The scientific name of Tulsi, as given in the document, is:", "o": ["Ocimum basilicum", "Ocimum Sanctum L", "Mentha sp", "Cymbopogon flexuosus", "Aloe barbadensis"], "a": 1}, {"q": "The principal constituents of the volatile oil found in Tulsi leaves are:", "o": ["Menthol and camphor", "Citral and geraniol", "Eugenol, eugenol methyl ether and carvacrol", "Linalool and limonene", "Thymol and cineole"], "a": 2}, {"q": "Tulsi, in the form of tincture, tea or decoction, is traditionally considered useful in treating:", "o": ["Only skin diseases", "Only fever", "Only wounds", "Coughs, bronchitis, skin diseases, and diarrhoea", "Only high blood pressure"], "a": 3}, {"q": "The scientific name of Aloe, as given in the document, is:", "o": ["Aloe vera (var. officinalis)", "Aloe ferox", "Aloe arborescens", "Aloe chinensis", "Aloe barbadensis"], "a": 4}, {"q": "The suitable soil pH range for aloe cultivation is:", "o": ["7.0 to 8.5", "4.5-5.5", "5.5-6.5", "3.5-4.5", "9.0-10.0"], "a": 0}, {"q": "Commercial cultivation of aloe can be done in regions having what temperature range?", "o": ["10-20\u00b0C", "25 \u2013 40\u00b0C", "0-10\u00b0C", "45-55\u00b0C", "5-15\u00b0C"], "a": 1}, {"q": "Aloe planting can be done during two seasons, namely:", "o": ["March-April, September-October", "January-February, June-July", "June \u2013 July and September \u2013 October", "November-December, February-March", "August-September, December-January"], "a": 2}, {"q": "The scientific name of stevia is:", "o": ["Ocimum sanctum", "Mentha piperita", "Cymbopogon citratus", "Stevia rebaudiana", "Aloe barbadensis"], "a": 3}, {"q": "The economic part of the stevia plant is:", "o": ["Root", "Flower", "Stem", "Seed", "Leaf"], "a": 4}, {"q": "Stevia is propagated using stem cuttings of what length, taken during which months for best results?", "o": ["15 cm length, taken during February-March", "5 cm length, June-July", "30 cm length, October-November", "50 cm length, December-January", "10 cm length, April-May"], "a": 0}, {"q": "Stevia cuttings are ready for transplanting after how many days of rooting?", "o": ["5-10 days", "25-30 days of rooting", "60-70 days", "90 days", "2-3 days"], "a": 1}, {"q": "The scientific name of lemongrass is:", "o": ["Cymbopogon citratus", "Cymbopogon martinii", "Cymbopogon flexuosus", "Cymbopogon nardus", "Andropogon sp"], "a": 2}, {"q": "The ideal soil pH for lemongrass cultivation is:", "o": ["4.5-5.5", "7.5-8.5", "8.5-9.5", "6.0", "3.0-3.5"], "a": 3}, {"q": "Lemongrass performs better up to what elevation above mean sea level?", "o": ["500 m", "3000 m", "100 m", "5000 m", "1500 m"], "a": 4}, {"q": "When propagated by seed, the recommended seed rate for lemongrass is:", "o": ["4 kg/ha", "1 kg/ha", "10 kg/ha", "0.5 kg/ha", "20 kg/ha"], "a": 0}, {"q": "Lemongrass is commonly used to make which kind of repellent product?", "o": ["Fungicide", "Mosquito repellent creams", "Rodent repellent", "Bird repellent", "Herbicide"], "a": 1}, {"q": "The scientific name of mint is:", "o": ["Ocimum sanctum", "Cymbopogon flexuosus", "Mentha sp", "Stevia rebaudiana", "Aloe barbadensis"], "a": 2}, {"q": "The ideal soil pH for mint cultivation is:", "o": ["5.0-5.5", "7.5-8.0", "4.5-5.0", "6.5 to 7.0", "8.5-9.0"], "a": 3}, {"q": "Mint is commonly propagated through:", "o": ["Seeds only", "Grafting", "Layering", "Budding", "Root suckers and terminal cuttings"], "a": 4}];
+
+let order = [];
+let current = 0;
+let score = 0;
+let answered = false;
+let userAnswers = []; // {qIndex, chosen, correct}
+
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+document.getElementById('totalQCount').textContent = QUESTIONS.length;
+
+function startQuiz(){
+  order = shuffle(QUESTIONS.map((_,i)=>i));
+  current = 0;
+  score = 0;
+  userAnswers = [];
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('endScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  answered = false;
+  const qIndex = order[current];
+  const q = QUESTIONS[qIndex];
+  document.getElementById('qnum').textContent = 'Question ' + (current+1) + ' of ' + order.length;
+  document.getElementById('qtext').textContent = q.q;
+  document.getElementById('progressLabel').textContent = (current+1) + ' / ' + order.length;
+  document.getElementById('scoreLabel').textContent = 'Score: ' + score + ' / ' + current;
+  document.getElementById('progressFill').style.width = (current/order.length*100) + '%';
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('nextBtn').classList.remove('show');
+
+  const letters = ['A','B','C','D','E'];
+  const optsDiv = document.getElementById('options');
+  optsDiv.innerHTML = '';
+  q.o.forEach((optText, idx)=>{
+    const div = document.createElement('div');
+    div.className = 'opt';
+    div.innerHTML = '<span class="letter">'+letters[idx]+'</span><span>'+optText+'</span>';
+    div.onclick = ()=>selectAnswer(idx, qIndex, div);
+    optsDiv.appendChild(div);
+  });
+}
+
+function selectAnswer(idx, qIndex, el){
+  if(answered) return;
+  answered = true;
+  const q = QUESTIONS[qIndex];
+  const correctIdx = q.a;
+  const allOpts = document.querySelectorAll('.opt');
+  allOpts.forEach(o=>o.classList.add('disabled'));
+
+  if(idx === correctIdx){
+    el.classList.add('correct');
+    score++;
+    document.getElementById('feedback').textContent = '✓ Correct!';
+    document.getElementById('feedback').className = 'feedback correct';
+  } else {
+    el.classList.add('incorrect');
+    allOpts[correctIdx].classList.add('correct');
+    document.getElementById('feedback').textContent = '✗ Incorrect — correct answer highlighted above.';
+    document.getElementById('feedback').className = 'feedback incorrect';
+  }
+  allOpts.forEach((o,i)=>{ if(i!==idx && i!==correctIdx) o.classList.add('dim'); });
+
+  userAnswers.push({qIndex: qIndex, chosen: idx, correctIdx: correctIdx, isCorrect: idx===correctIdx});
+  document.getElementById('scoreLabel').textContent = 'Score: ' + score + ' / ' + (current+1);
+  document.getElementById('nextBtn').classList.add('show');
+  document.getElementById('nextBtn').textContent = (current+1 === order.length) ? 'Finish Quiz →' : 'Next Question →';
+}
+
+function nextQuestion(){
+  current++;
+  if(current >= order.length){
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResults(){
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('endScreen').classList.remove('hidden');
+  const total = order.length;
+  const pct = Math.round((score/total)*100);
+  document.getElementById('pctScore').textContent = pct + '%';
+  document.getElementById('correctCount').textContent = score;
+  document.getElementById('incorrectCount').textContent = (total-score);
+
+  const letters = ['A','B','C','D','E'];
+  const missed = userAnswers.filter(a=>!a.isCorrect);
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML = '';
+  if(missed.length === 0){
+    reviewList.innerHTML = '<div class="no-miss">Perfect score — no questions missed! 🎯</div>';
+  } else {
+    missed.forEach(m=>{
+      const q = QUESTIONS[m.qIndex];
+      const div = document.createElement('div');
+      div.className = 'review-item';
+      div.innerHTML =
+        '<div class="rq">'+q.q+'</div>' +
+        '<div class="ra">Your answer: <b>'+letters[m.chosen]+') '+q.o[m.chosen]+'</b></div>' +
+        '<div class="ra rc">Correct answer: <b>'+letters[m.correctIdx]+') '+q.o[m.correctIdx]+'</b></div>';
+      reviewList.appendChild(div);
+    });
+  }
+}
+
+function restartQuiz(){
+  document.getElementById('endScreen').classList.add('hidden');
+  document.getElementById('startScreen').classList.remove('hidden');
+}
+</script>
+</body>
+</html>

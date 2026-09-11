@@ -1,0 +1,2253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NABARD Grade A -- Poultry Breeds Quiz</title>
+<style>
+  :root{
+    --paper:#F1E8D6;
+    --paper-dark:#E6D9BE;
+    --ink:#2B2118;
+    --ink-soft:#5A4A3A;
+    --oxblood:#7A2E2E;
+    --oxblood-dark:#5E2222;
+    --green:#3F5B3C;
+    --green-dark:#2F6B3A;
+    --mustard:#C98A2C;
+    --wrong:#A23B2E;
+    --line:#C9B99A;
+    --card:#FAF4E6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px);
+    background-size: 100% 2.1em;
+    color:var(--ink);
+    font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+    min-height:100vh;
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:28px 20px 60px;}
+  .masthead{
+    display:flex;align-items:center;gap:14px;
+    border-bottom:3px double var(--ink);
+    padding-bottom:14px;margin-bottom:22px;
+  }
+  .masthead svg{flex:none;}
+  .masthead h1{
+    font-size:1.5em;margin:0;letter-spacing:.3px;
+  }
+  .masthead .sub{
+    font-family: ui-monospace, 'Courier New', monospace;
+    font-size:.78em;color:var(--ink-soft);text-transform:uppercase;letter-spacing:1.5px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:2px;
+    box-shadow:0 2px 0 var(--line);
+    padding:22px 24px;
+    margin-bottom:18px;
+  }
+  .start-card h2{margin-top:0;font-size:1.15em;}
+  .start-card p{color:var(--ink-soft);line-height:1.55;font-size:.96em;}
+  .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px;}
+  @media (max-width:640px){.mode-grid{grid-template-columns:1fr;}}
+  .mode-btn{
+    text-align:left;
+    background:var(--paper-dark);
+    border:1px solid var(--ink);
+    border-radius:2px;
+    padding:16px 16px;
+    cursor:pointer;
+    font-family:inherit;
+    color:var(--ink);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .mode-btn:hover{transform:translateY(-2px);box-shadow:3px 3px 0 var(--oxblood);}
+  .mode-btn .tag{
+    display:inline-block;font-family: ui-monospace,'Courier New',monospace;
+    font-size:.72em;letter-spacing:1px;text-transform:uppercase;
+    background:var(--oxblood);color:var(--paper);padding:2px 8px;border-radius:2px;margin-bottom:8px;
+  }
+  .mode-btn.test .tag{background:var(--green);}
+  .mode-btn h3{margin:4px 0 6px;font-size:1.05em;}
+  .mode-btn p{margin:0;font-size:.86em;color:var(--ink-soft);line-height:1.4;}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px;}
+  .topbar .loc{font-family: ui-monospace,'Courier New',monospace;font-size:.78em;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.8px;}
+  .topbar .score{
+    font-family: ui-monospace,'Courier New',monospace;font-size:.85em;background:var(--paper-dark);
+    padding:4px 10px;border:1px solid var(--ink);border-radius:2px;
+  }
+  .progress-outer{height:8px;background:var(--paper-dark);border:1px solid var(--ink);border-radius:2px;overflow:hidden;margin-bottom:20px;}
+  .progress-inner{height:100%;background:var(--oxblood);width:0%;transition:width .25s ease;}
+
+  .qid{font-family: ui-monospace,'Courier New',monospace;font-size:.78em;color:var(--oxblood);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+  .diff-badge{
+    display:inline-block;font-size:.7em;padding:1px 7px;border-radius:8px;margin-left:8px;
+    font-family: ui-monospace,'Courier New',monospace;letter-spacing:.5px;vertical-align:middle;
+  }
+  .diff-Easy{background:#DDE9DA;color:var(--green-dark);}
+  .diff-Moderate{background:#F3E3C2;color:#7A5A15;}
+  .diff-Hard{background:#F0DAD5;color:var(--wrong);}
+
+  .qtext{font-size:1.14em;line-height:1.5;margin:6px 0 18px;}
+  .opt{
+    display:block;width:100%;text-align:left;
+    background:var(--paper);
+    border:1px solid var(--ink);
+    border-radius:2px;
+    padding:11px 14px;margin-bottom:9px;
+    cursor:pointer;font-family:inherit;font-size:.98em;color:var(--ink);
+    transition:background .12s ease;
+  }
+  .opt:hover:not(.locked){background:var(--paper-dark);}
+  .opt .letter{
+    font-family: ui-monospace,'Courier New',monospace;font-weight:bold;margin-right:10px;color:var(--oxblood);
+  }
+  .opt.correct{background:#DDE9DA;border-color:var(--green-dark);}
+  .opt.correct .letter{color:var(--green-dark);}
+  .opt.incorrect{background:#F0DAD5;border-color:var(--wrong);}
+  .opt.incorrect .letter{color:var(--wrong);}
+  .opt.locked{cursor:default;}
+
+  .feedback{
+    margin-top:6px;padding:12px 14px;border-radius:2px;font-size:.92em;line-height:1.5;
+    border-left:4px solid var(--ink);background:var(--paper-dark);
+  }
+  .feedback.correct{border-color:var(--green-dark);}
+  .feedback.incorrect{border-color:var(--wrong);}
+  .feedback b{display:block;margin-bottom:4px;font-family: ui-monospace,'Courier New',monospace;font-size:.85em;text-transform:uppercase;letter-spacing:.5px;}
+
+  .nav-row{display:flex;justify-content:space-between;gap:10px;margin-top:20px;}
+  .nav-btn{
+    font-family:inherit;font-size:.92em;padding:10px 18px;border-radius:2px;cursor:pointer;
+    border:1px solid var(--ink);background:var(--paper-dark);color:var(--ink);
+  }
+  .nav-btn.primary{background:var(--oxblood);border-color:var(--oxblood-dark);color:var(--paper);}
+  .nav-btn:disabled{opacity:.4;cursor:not-allowed;}
+  .nav-btn:hover:not(:disabled){filter:brightness(0.95);}
+
+  .end-title{font-size:1.4em;margin-bottom:4px;}
+  .score-big{font-family: ui-monospace,'Courier New',monospace;font-size:2.4em;color:var(--oxblood);margin:6px 0 2px;}
+  .breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+  .breakdown .b{background:var(--paper-dark);border:1px solid var(--line);border-radius:2px;padding:10px;text-align:center;}
+  .breakdown .b .n{font-family: ui-monospace,'Courier New',monospace;font-size:1.3em;}
+  .breakdown .b .l{font-size:.72em;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-soft);}
+  .review-item{border-top:1px solid var(--line);padding:14px 0;}
+  .review-item .qtag{font-family: ui-monospace,'Courier New',monospace;font-size:.75em;color:var(--ink-soft);}
+  .review-item .status{font-weight:bold;}
+  .status.wrong{color:var(--wrong);}
+  .status.skip{color:var(--mustard);}
+  .hidden{display:none;}
+  a.dl{color:var(--oxblood);}
+  .footer-note{font-size:.78em;color:var(--ink-soft);text-align:center;margin-top:24px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="masthead">
+    <svg width="40" height="40" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="30" fill="none" stroke="#2B2118" stroke-width="2"/>
+      <path d="M20 40 Q22 22 34 18 Q30 24 34 26 Q42 24 44 30 Q38 30 36 34 Q44 36 44 42 Q36 40 32 44 Q30 38 24 40 Q22 44 18 44 Q20 42 20 40 Z" fill="#7A2E2E"/>
+      <circle cx="33" cy="23" r="1.6" fill="#2B2118"/>
+    </svg>
+    <div>
+      <h1>NABARD Grade A -- Practice Quiz</h1>
+      <div class="sub">Poultry &middot; Breeds of Chicken &middot; 111 Questions</div>
+    </div>
+  </div>
+
+  <div id="start-screen">
+    <div class="card start-card">
+      <h2>Before you begin</h2>
+      <p>This quiz is built entirely from one TNAU Agritech page on chicken breeds. It is a compact factual source (industry stats, breed classification, native-breed and commercial-strain data tables, and detailed Asil / Kadaknath profiles), so the bank realistically runs to <b>111 hard, non-repetitive questions</b> rather than 140+ -- there wasn't enough distinct source material to go further without padding.</p>
+      <p>Each question has 5 options (A-E), an instant colour-coded check, and a short explanation tied to the source. Pick a mode to start:</p>
+      <div class="mode-grid">
+        <button class="mode-btn revision" onclick="startQuiz('revision')">
+          <span class="tag">Mode 1</span>
+          <h3>Section-wise / Revision</h3>
+          <p>Questions run in source order, Part by Part, Section by Section -- ideal for first-pass learning and topic revision.</p>
+        </button>
+        <button class="mode-btn test" onclick="startQuiz('test')">
+          <span class="tag">Mode 2</span>
+          <h3>Shuffled / Test Mode</h3>
+          <p>All 111 questions fully randomized, as in a real exam. Part/Topic labels stay visible on every question.</p>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="quiz-screen" class="hidden">
+    <div class="topbar">
+      <div class="loc" id="loc-label"></div>
+      <div class="score" id="score-label"></div>
+    </div>
+    <div class="progress-outer"><div class="progress-inner" id="progress-bar"></div></div>
+    <div class="card">
+      <div class="qid" id="qid-label"></div>
+      <div class="qtext" id="qtext"></div>
+      <div id="options"></div>
+      <div id="feedback-box"></div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" id="btn-prev" onclick="goPrev()">&larr; Previous</button>
+      <div>
+        <button class="nav-btn" id="btn-skip" onclick="skipQ()">Skip</button>
+        <button class="nav-btn primary" id="btn-next" onclick="goNext()">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="end-screen" class="hidden">
+    <div class="card">
+      <div class="end-title">Quiz complete</div>
+      <div class="score-big" id="final-score"></div>
+      <div id="final-pct" style="color:var(--ink-soft);"></div>
+      <div class="breakdown">
+        <div class="b"><div class="n" id="stat-correct">0</div><div class="l">Correct</div></div>
+        <div class="b"><div class="n" id="stat-wrong">0</div><div class="l">Incorrect</div></div>
+        <div class="b"><div class="n" id="stat-skip">0</div><div class="l">Skipped</div></div>
+      </div>
+      <button class="nav-btn primary" onclick="location.reload()">Restart / choose mode</button>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0;">Review: missed &amp; skipped questions</h2>
+      <div id="review-list"></div>
+    </div>
+  </div>
+
+  <div class="footer-note">Source: TNAU Agritech, "Breeds of Chicken" &middot; Built for NABARD Grade A exam preparation</div>
+</div>
+
+<script>
+const QUESTIONS = [
+ {
+  "num": 1,
+  "part_no": 1,
+  "part_name": "Part I",
+  "section": "Poultry Industry & Advantages of Broiler Farming",
+  "q": "As per the source, India's annual egg output is approximately?",
+  "options": [
+   "41.06 billion",
+   "30 billion",
+   "35 billion",
+   "45 billion",
+   "50 billion"
+  ],
+  "correct": "A",
+  "exp": "The source states an annual output of 41.06 billion eggs, placing India 4th in world egg production.",
+  "diff": "Easy"
+ },
+ {
+  "num": 2,
+  "part_no": 1,
+  "part_name": "Part I",
+  "section": "Poultry Industry & Advantages of Broiler Farming",
+  "q": "India ranks ____ in the world in egg production and ____ in broiler production.",
+  "options": [
+   "3rd, 4th",
+   "4th, 5th",
+   "5th, 4th",
+   "2nd, 3rd",
+   "4th, 6th"
+  ],
+  "correct": "B",
+  "exp": "India ranks fourth largest producer of eggs and fifth largest producer of poultry broilers.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 3,
+  "part_no": 1,
+  "part_name": "Part I",
+  "section": "Poultry Industry & Advantages of Broiler Farming",
+  "q": "The annual output of broilers mentioned in the source is approximately?",
+  "options": [
+   "500 million",
+   "750 million",
+   "1000 million",
+   "900 million",
+   "1200 million"
+  ],
+  "correct": "C",
+  "exp": "The source states an annual output of 1000 million broilers.",
+  "diff": "Easy"
+ },
+ {
+  "num": 4,
+  "part_no": 1,
+  "part_name": "Part I",
+  "section": "Poultry Industry & Advantages of Broiler Farming",
+  "q": "The broiler production sector has grown at an annual rate of about?",
+  "options": [
+   "5%",
+   "10%",
+   "12%",
+   "15%",
+   "20%"
+  ],
+  "correct": "D",
+  "exp": "Broiler production has grown at an annual growth rate of about 15 percent at present.",
+  "diff": "Easy"
+ },
+ {
+  "num": 5,
+  "part_no": 1,
+  "part_name": "Part I",
+  "section": "Poultry Industry & Advantages of Broiler Farming",
+  "q": "Compared to layer farming, the initial investment required for broiler/chicken farming is?",
+  "options": [
+   "Much higher",
+   "Equal",
+   "Unpredictable",
+   "Government-subsidized",
+   "Slightly lower"
+  ],
+  "correct": "E",
+  "exp": "The source notes initial investment for chicken farming is a little lower than layer farming.",
+  "diff": "Hard"
+ },
+ {
+  "num": 6,
+  "part_no": 1,
+  "part_name": "Part I",
+  "section": "Poultry Industry & Advantages of Broiler Farming",
+  "q": "The rearing period for broilers, as per the source, is?",
+  "options": [
+   "6-7 weeks",
+   "3-4 weeks",
+   "9-10 weeks",
+   "12-14 weeks",
+   "20 weeks"
+  ],
+  "correct": "A",
+  "exp": "Broiler rearing period is stated as only 6-7 weeks.",
+  "diff": "Easy"
+ },
+ {
+  "num": 7,
+  "part_no": 1,
+  "part_name": "Part I",
+  "section": "Poultry Industry & Advantages of Broiler Farming",
+  "q": "High feed conversion efficiency in broilers, as described in the source, specifically means?",
+  "options": [
+   "Broilers eat more feed per kg of body weight gain than other livestock",
+   "Broilers require the least amount of feed for unit body weight gain compared to other livestock",
+   "Broilers convert feed entirely into eggs",
+   "Broilers require no supplementary feed",
+   "Feed conversion efficiency refers to disease resistance"
+  ],
+  "correct": "B",
+  "exp": "The source defines this advantage as broilers requiring the least feed for unit body weight gain versus other livestock.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 8,
+  "part_no": 1,
+  "part_name": "Part I",
+  "section": "Poultry Industry & Advantages of Broiler Farming",
+  "q": "Which of the following is NOT listed as an advantage of chicken/broiler farming in the source?",
+  "options": [
+   "Faster return from investment",
+   "More flocks can be reared in the same shed",
+   "Lower disease incidence than all other livestock",
+   "Higher feed conversion efficiency",
+   "Greater demand than sheep/goat meat"
+  ],
+  "correct": "C",
+  "exp": "'Lower disease incidence than all other livestock' is not among the six advantages listed in the source; the others are directly stated.",
+  "diff": "Hard"
+ },
+ {
+  "num": 9,
+  "part_no": 1,
+  "part_name": "Part I",
+  "section": "Poultry Industry & Advantages of Broiler Farming",
+  "q": "As per the source, demand for poultry meat compared to sheep/goat meat is?",
+  "options": [
+   "Lower",
+   "Equal",
+   "Seasonal only",
+   "More",
+   "Not compared"
+  ],
+  "correct": "D",
+  "exp": "The source states demand for poultry meat is more compared to sheep/goat meat.",
+  "diff": "Easy"
+ },
+ {
+  "num": 10,
+  "part_no": 1,
+  "part_name": "Part I",
+  "section": "Poultry Industry & Advantages of Broiler Farming",
+  "q": "Broiler farming has been given considerable importance in?",
+  "options": [
+   "State agricultural policy only",
+   "International trade policy only",
+   "Cooperative policy",
+   "None of the listed",
+   "National policy"
+  ],
+  "correct": "E",
+  "exp": "The source states broiler farming has been given considerable importance in the national policy.",
+  "diff": "Hard"
+ },
+ {
+  "num": 11,
+  "part_no": 1,
+  "part_name": "Part I",
+  "section": "Poultry Industry & Advantages of Broiler Farming",
+  "q": "Which pair of figures correctly matches India's annual poultry output as per the source?",
+  "options": [
+   "41.06 billion eggs / 1000 million broilers",
+   "45 billion eggs / 800 million broilers",
+   "41.06 million eggs / 1000 billion broilers",
+   "38 billion eggs / 1200 million broilers",
+   "41.06 billion eggs / 500 million broilers"
+  ],
+  "correct": "A",
+  "exp": "The exact figures cited are an annual output of 41.06 billion eggs and 1000 million broilers.",
+  "diff": "Hard"
+ },
+ {
+  "num": 12,
+  "part_no": 2,
+  "part_name": "Part II",
+  "section": "Classification of Poultry Breeds",
+  "q": "Which of the following is classified under the American Class of poultry breeds?",
+  "options": [
+   "Leghorn",
+   "Rhode Island Red",
+   "Australorp",
+   "Ancona",
+   "Sussex"
+  ],
+  "correct": "B",
+  "exp": "Rhode Island Red is listed under the American Class along with New Hampshire, White Plymouth Rock and Wyandotte.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 13,
+  "part_no": 2,
+  "part_name": "Part II",
+  "section": "Classification of Poultry Breeds",
+  "q": "Which breed is NOT part of the American Class as per the source?",
+  "options": [
+   "New Hampshire",
+   "White Plymouth Rock",
+   "Minorca",
+   "Wyandotte",
+   "Rhode Island Red"
+  ],
+  "correct": "C",
+  "exp": "Minorca belongs to the Mediterranean Class, not the American Class.",
+  "diff": "Hard"
+ },
+ {
+  "num": 14,
+  "part_no": 2,
+  "part_name": "Part II",
+  "section": "Classification of Poultry Breeds",
+  "q": "Breeds that are light-bodied and well developed for high egg production are classified under?",
+  "options": [
+   "American Class",
+   "English Class",
+   "Asiatic Class",
+   "Mediterranean Class",
+   "Indian Class"
+  ],
+  "correct": "D",
+  "exp": "The source states Mediterranean Class breeds are light bodied and well developed for high egg production.",
+  "diff": "Easy"
+ },
+ {
+  "num": 15,
+  "part_no": 2,
+  "part_name": "Part II",
+  "section": "Classification of Poultry Breeds",
+  "q": "Which of the following breeds belongs to the Mediterranean Class?",
+  "options": [
+   "Orpington",
+   "New Hampshire",
+   "Sussex",
+   "Wyandotte",
+   "Ancona"
+  ],
+  "correct": "E",
+  "exp": "Ancona is listed under the Mediterranean Class along with Leghorn and Minorca.",
+  "diff": "Easy"
+ },
+ {
+  "num": 16,
+  "part_no": 2,
+  "part_name": "Part II",
+  "section": "Classification of Poultry Breeds",
+  "q": "Australorp, Sussex, and Orpington belong to which class of poultry breeds?",
+  "options": [
+   "English Class",
+   "Mediterranean Class",
+   "Asiatic Class",
+   "American Class",
+   "Indian Class"
+  ],
+  "correct": "A",
+  "exp": "These three breeds are grouped under the English Class in the source.",
+  "diff": "Easy"
+ },
+ {
+  "num": 17,
+  "part_no": 2,
+  "part_name": "Part II",
+  "section": "Classification of Poultry Breeds",
+  "q": "English Class breeds are especially described as utility breeds known for their excellent?",
+  "options": [
+   "Fighting qualities",
+   "Flushing properties",
+   "Meat marbling",
+   "Disease resistance",
+   "Feather colour variation"
+  ],
+  "correct": "B",
+  "exp": "The source describes English Class breeds as utility breeds noted for their excellent flushing properties.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 18,
+  "part_no": 2,
+  "part_name": "Part II",
+  "section": "Classification of Poultry Breeds",
+  "q": "Which of the following is NOT a correct characteristic of the Asiatic Class as per the source?",
+  "options": [
+   "Large bodied",
+   "Heavy bones",
+   "Excellent layers",
+   "Feathered shanks",
+   "Poor layers"
+  ],
+  "correct": "C",
+  "exp": "The source explicitly states Asiatic Class birds are poor layers, so 'excellent layers' is incorrect.",
+  "diff": "Hard"
+ },
+ {
+  "num": 19,
+  "part_no": 2,
+  "part_name": "Part II",
+  "section": "Classification of Poultry Breeds",
+  "q": "A distinguishing physical feature of the Asiatic Class mentioned in the source is?",
+  "options": [
+   "Pea comb",
+   "Naked neck",
+   "Bare face",
+   "Feathered shanks",
+   "Rose comb"
+  ],
+  "correct": "D",
+  "exp": "Asiatic Class breeds are described as large bodied, with heavy bones and feathered shanks.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 20,
+  "part_no": 2,
+  "part_name": "Part II",
+  "section": "Classification of Poultry Breeds",
+  "q": "Which class is associated with birds that are 'large bodied with heavy bones, feathered shanks and poor layers'?",
+  "options": [
+   "English",
+   "Mediterranean",
+   "American",
+   "Indigenous",
+   "Asiatic"
+  ],
+  "correct": "E",
+  "exp": "This description corresponds exactly to the Asiatic Class as per the source.",
+  "diff": "Easy"
+ },
+ {
+  "num": 21,
+  "part_no": 2,
+  "part_name": "Part II",
+  "section": "Classification of Poultry Breeds",
+  "q": "Identify the odd one out based on classification: New Hampshire, White Plymouth Rock, Wyandotte, Leghorn.",
+  "options": [
+   "Leghorn",
+   "New Hampshire",
+   "White Plymouth Rock",
+   "Wyandotte",
+   "All belong to the same class"
+  ],
+  "correct": "A",
+  "exp": "Leghorn belongs to the Mediterranean Class while the other three are American Class breeds.",
+  "diff": "Hard"
+ },
+ {
+  "num": 22,
+  "part_no": 2,
+  "part_name": "Part II",
+  "section": "Classification of Poultry Breeds",
+  "q": "Indian breeds such as Asil and Kadaknath are placed, in the source, under the ____ Class section.",
+  "options": [
+   "American",
+   "Asiatic (Indian breeds section)",
+   "English",
+   "Mediterranean",
+   "Mediterranean-Indian"
+  ],
+  "correct": "B",
+  "exp": "Indian breeds such as Asil and Kadaknath are listed under the Asiatic Class section in the source.",
+  "diff": "Hard"
+ },
+ {
+  "num": 23,
+  "part_no": 2,
+  "part_name": "Part II",
+  "section": "Classification of Poultry Breeds",
+  "q": "Which Indian breed is specifically noted in the source as being reared for fighting purpose?",
+  "options": [
+   "Kadaknath",
+   "Bursa",
+   "Asil",
+   "Naked Neck",
+   "Frizzle"
+  ],
+  "correct": "C",
+  "exp": "The source explicitly labels Asil as being kept for 'fighting purpose.'",
+  "diff": "Easy"
+ },
+ {
+  "num": 24,
+  "part_no": 2,
+  "part_name": "Part II",
+  "section": "Classification of Poultry Breeds",
+  "q": "The source notes that the flesh of which Indian breed is black in colour?",
+  "options": [
+   "Asil",
+   "Bursa",
+   "Naked neck",
+   "Kadaknath",
+   "Frizzle"
+  ],
+  "correct": "D",
+  "exp": "The source describes Kadaknath as the breed whose flesh is black in colour.",
+  "diff": "Easy"
+ },
+ {
+  "num": 25,
+  "part_no": 2,
+  "part_name": "Part II",
+  "section": "Classification of Poultry Breeds",
+  "q": "Wyandotte is classified under which poultry class, as per the source?",
+  "options": [
+   "English",
+   "Mediterranean",
+   "Asiatic",
+   "Indigenous",
+   "American"
+  ],
+  "correct": "E",
+  "exp": "Wyandotte (listed as 'Wyandote II') is grouped in the American Class.",
+  "diff": "Hard"
+ },
+ {
+  "num": 26,
+  "part_no": 3,
+  "part_name": "Part III",
+  "section": "Broiler/Grower/Layer Definitions & Egg-type vs Meat-type Classification",
+  "q": "Young chickens of either sex reared primarily for meat and marketed at 6-8 weeks of age are termed?",
+  "options": [
+   "Broilers",
+   "Growers",
+   "Layers",
+   "Pullets",
+   "Cockerels"
+  ],
+  "correct": "A",
+  "exp": "The source defines broilers exactly this way -- reared for meat, marketed at 6-8 weeks age.",
+  "diff": "Easy"
+ },
+ {
+  "num": 27,
+  "part_no": 3,
+  "part_name": "Part III",
+  "section": "Broiler/Grower/Layer Definitions & Egg-type vs Meat-type Classification",
+  "q": "The management of birds during the 9-20 week period, up to the point of laying, is referred to as the ____ period.",
+  "options": [
+   "Layer",
+   "Grower",
+   "Brooder",
+   "Starter",
+   "Finisher"
+  ],
+  "correct": "B",
+  "exp": "The source defines the grower period as management during 9-20 weeks or up to the point of laying.",
+  "diff": "Easy"
+ },
+ {
+  "num": 28,
+  "part_no": 3,
+  "part_name": "Part III",
+  "section": "Broiler/Grower/Layer Definitions & Egg-type vs Meat-type Classification",
+  "q": "The management of birds during 21-72 weeks of age for egg production purposes is called the?",
+  "options": [
+   "Grower period",
+   "Starter period",
+   "Layer period",
+   "Finisher period",
+   "Brooder period"
+  ],
+  "correct": "C",
+  "exp": "The layer period is defined in the source as management during 21-72 weeks of age for egg production.",
+  "diff": "Easy"
+ },
+ {
+  "num": 29,
+  "part_no": 3,
+  "part_name": "Part III",
+  "section": "Broiler/Grower/Layer Definitions & Egg-type vs Meat-type Classification",
+  "q": "As per the source, chickens are broadly classified into egg-type and meat-type based on?",
+  "options": [
+   "Their colour",
+   "Their geographic origin",
+   "Their comb type",
+   "The purpose/stock they are developed and maintained for",
+   "Their age at slaughter"
+  ],
+  "correct": "D",
+  "exp": "Egg-type stock is developed/maintained principally for egg production while meat-type is developed for meat, per the source.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 30,
+  "part_no": 3,
+  "part_name": "Part III",
+  "section": "Broiler/Grower/Layer Definitions & Egg-type vs Meat-type Classification",
+  "q": "Which of the following is NOT listed by the source as a meat-type chicken category?",
+  "options": [
+   "Broilers",
+   "Fryers",
+   "Roasters",
+   "Other meat-type chickens",
+   "Layers"
+  ],
+  "correct": "E",
+  "exp": "Meat-type chickens primarily include broilers, fryers, roasters and other meat-type chickens; layers is an egg-type category.",
+  "diff": "Hard"
+ },
+ {
+  "num": 31,
+  "part_no": 3,
+  "part_name": "Part III",
+  "section": "Broiler/Grower/Layer Definitions & Egg-type vs Meat-type Classification",
+  "q": "Egg-type chicken stock, as per the source, is maintained principally for the purpose of?",
+  "options": [
+   "Producing chicks for ultimate egg production for human consumption",
+   "Producing meat for the broiler market",
+   "Cockfighting purposes",
+   "Feather production",
+   "Producing dual-purpose birds only"
+  ],
+  "correct": "A",
+  "exp": "The source states egg-type stock is maintained for producing chicks for ultimate egg production for human consumption.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 32,
+  "part_no": 3,
+  "part_name": "Part III",
+  "section": "Broiler/Grower/Layer Definitions & Egg-type vs Meat-type Classification",
+  "q": "WSML, mentioned among broiler genetic line examples, stands for?",
+  "options": [
+   "White Synthetic Meat Line",
+   "White Synthetic Male Line",
+   "Wyandotte Special Male Line",
+   "White Standard Male Layer",
+   "Weight Selected Male Line"
+  ],
+  "correct": "B",
+  "exp": "WSML is listed in the source as White Synthetic Male Line, an example of broiler genetic stock.",
+  "diff": "Hard"
+ },
+ {
+  "num": 33,
+  "part_no": 3,
+  "part_name": "Part III",
+  "section": "Broiler/Grower/Layer Definitions & Egg-type vs Meat-type Classification",
+  "q": "The 'white synthetic dam line' used in broiler genetics is abbreviated in the source as?",
+  "options": [
+   "WSDL",
+   "WDL",
+   "SDL",
+   "SDML",
+   "WSML"
+  ],
+  "correct": "C",
+  "exp": "The source lists 'white synthetic dam line (SDL)' as an example broiler genetic line.",
+  "diff": "Hard"
+ },
+ {
+  "num": 34,
+  "part_no": 3,
+  "part_name": "Part III",
+  "section": "Broiler/Grower/Layer Definitions & Egg-type vs Meat-type Classification",
+  "q": "CSML and CSFL, as listed in the source, refer respectively to?",
+  "options": [
+   "Commercial synthetic male line and commercial synthetic female line",
+   "Coloured Sussex male line and coloured Sussex female line",
+   "Cross synthetic male line and cross synthetic female line",
+   "Coloured synthetic male line and coloured synthetic female line",
+   "Coloured standard male line and coloured standard female line"
+  ],
+  "correct": "D",
+  "exp": "The source lists CSML as coloured synthetic male line and CSFL as coloured synthetic female line.",
+  "diff": "Hard"
+ },
+ {
+  "num": 35,
+  "part_no": 3,
+  "part_name": "Part III",
+  "section": "Broiler/Grower/Layer Definitions & Egg-type vs Meat-type Classification",
+  "q": "Which specific gene's introgression is mentioned in the source as an example related to broiler genetic lines?",
+  "options": [
+   "Naked neck gene",
+   "Dwarf gene",
+   "Rose comb gene",
+   "Silkie gene",
+   "Frizzle gene"
+  ],
+  "correct": "E",
+  "exp": "The source specifically mentions 'introgression of frizzle gene etc.' as an example of broiler-line genetics.",
+  "diff": "Hard"
+ },
+ {
+  "num": 36,
+  "part_no": 3,
+  "part_name": "Part III",
+  "section": "Broiler/Grower/Layer Definitions & Egg-type vs Meat-type Classification",
+  "q": "The definitions of Broiler, Grower and Layer given in the source are credited to?",
+  "options": [
+   "Dr. Paul Pricely Rajkumar, AC&RI, Madurai",
+   "Central Avian Research Institute",
+   "Dr. Acharya, Handbook of Animal Husbandry",
+   "www.vuatkerala.org",
+   "KVK Namakkal"
+  ],
+  "correct": "A",
+  "exp": "The source attributes these definitions to Dr. Paul Pricely Rajkumar, AC&RI, Madurai.",
+  "diff": "Hard"
+ },
+ {
+  "num": 37,
+  "part_no": 4,
+  "part_name": "Part IV",
+  "section": "Commercial Broiler & Layer Strains",
+  "q": "Which of the following is listed as a commercial broiler strain in the source?",
+  "options": [
+   "Hyline",
+   "Cobb",
+   "Dekalb",
+   "BV-300",
+   "H & N Nick"
+  ],
+  "correct": "B",
+  "exp": "Cobb is listed among commercial broiler strains (Cobb, Hubbard, Lohman, Anak 2000, Avian-34, Starbro, Samrat).",
+  "diff": "Easy"
+ },
+ {
+  "num": 38,
+  "part_no": 4,
+  "part_name": "Part IV",
+  "section": "Commercial Broiler & Layer Strains",
+  "q": "Which of the following is NOT listed as a commercial layer strain?",
+  "options": [
+   "BV-300",
+   "Bowans",
+   "Anak 2000",
+   "Hyline",
+   "Dekalb"
+  ],
+  "correct": "C",
+  "exp": "Anak 2000 is listed as a commercial broiler strain, not a layer strain; the others are layer strains.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 39,
+  "part_no": 4,
+  "part_name": "Part IV",
+  "section": "Commercial Broiler & Layer Strains",
+  "q": "Which of these is given as an example of a commercial broiler strain in the source?",
+  "options": [
+   "H & N Nick",
+   "Bowans",
+   "Hyline",
+   "Starbro",
+   "Dekalb"
+  ],
+  "correct": "D",
+  "exp": "'Starbra' (Starbro) is listed among commercial broiler strains in the source.",
+  "diff": "Hard"
+ },
+ {
+  "num": 40,
+  "part_no": 4,
+  "part_name": "Part IV",
+  "section": "Commercial Broiler & Layer Strains",
+  "q": "Lohman, as per the source, is listed under which category(ies)?",
+  "options": [
+   "Only as a layer strain",
+   "Only as a broiler strain",
+   "Neither -- it is an Indian native breed",
+   "It is a meat-type chicken breed table entry",
+   "Both broiler and layer strain examples"
+  ],
+  "correct": "E",
+  "exp": "The source lists Lohman as both a commercial broiler strain and among commercial layer strains.",
+  "diff": "Hard"
+ },
+ {
+  "num": 41,
+  "part_no": 4,
+  "part_name": "Part IV",
+  "section": "Commercial Broiler & Layer Strains",
+  "q": "Which of the following is listed as a commercial layer strain?",
+  "options": [
+   "H & N Nick",
+   "Avian-34",
+   "Samrat",
+   "Anak 2000",
+   "Hubbard"
+  ],
+  "correct": "A",
+  "exp": "H & N Nick is listed among commercial layer strains (BV-300, Bowans, Hyline, H&N Nick, Dekalb, Lohman).",
+  "diff": "Moderate"
+ },
+ {
+  "num": 42,
+  "part_no": 4,
+  "part_name": "Part IV",
+  "section": "Commercial Broiler & Layer Strains",
+  "q": "Which of these is NOT among the commercial broiler strains listed in the source?",
+  "options": [
+   "Cobb",
+   "Bowans",
+   "Hubbard",
+   "Avian-34",
+   "Samrat"
+  ],
+  "correct": "B",
+  "exp": "Bowans is a layer strain example in the source, not a broiler strain.",
+  "diff": "Hard"
+ },
+ {
+  "num": 43,
+  "part_no": 4,
+  "part_name": "Part IV",
+  "section": "Commercial Broiler & Layer Strains",
+  "q": "'Anak 2000', as per the source, is an example of a?",
+  "options": [
+   "Commercial layer strain",
+   "Native Indian breed",
+   "Commercial broiler strain",
+   "Meat-type chicken table entry",
+   "Egg-type chicken table entry"
+  ],
+  "correct": "C",
+  "exp": "Anak 2000 is listed among the commercial broiler strains.",
+  "diff": "Hard"
+ },
+ {
+  "num": 44,
+  "part_no": 4,
+  "part_name": "Part IV",
+  "section": "Commercial Broiler & Layer Strains",
+  "q": "'Dekalb', mentioned in the source, is an example of a?",
+  "options": [
+   "Commercial broiler strain",
+   "Asiatic class breed",
+   "Mediterranean class breed",
+   "Commercial layer strain",
+   "Indigenous breed"
+  ],
+  "correct": "D",
+  "exp": "Dekalb appears in the source's list of commercial layer strains.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 45,
+  "part_no": 5,
+  "part_name": "Part V",
+  "section": "Native Egg-Type Breeds of India (Data Table)",
+  "q": "Among the native egg-type breeds listed, which has the highest annual egg production?",
+  "options": [
+   "Aseel",
+   "Kadaknath",
+   "Naked neck",
+   "All are equal",
+   "Frizzle"
+  ],
+  "correct": "E",
+  "exp": "Frizzle has the highest annual egg production at 110 eggs, per the CARI data table.",
+  "diff": "Hard"
+ },
+ {
+  "num": 46,
+  "part_no": 5,
+  "part_name": "Part V",
+  "section": "Native Egg-Type Breeds of India (Data Table)",
+  "q": "Which native breed has the lowest body weight at 20 weeks as per the source table?",
+  "options": [
+   "Kadaknath",
+   "Aseel",
+   "Frizzle",
+   "Naked neck",
+   "Cannot be determined"
+  ],
+  "correct": "A",
+  "exp": "Kadaknath has the lowest body weight at 20 weeks (920 g) in the table.",
+  "diff": "Hard"
+ },
+ {
+  "num": 47,
+  "part_no": 5,
+  "part_name": "Part V",
+  "section": "Native Egg-Type Breeds of India (Data Table)",
+  "q": "Which native breed attains sexual maturity earliest (lowest age in days)?",
+  "options": [
+   "Aseel",
+   "Kadaknath",
+   "Frizzle",
+   "Naked neck",
+   "Bursa"
+  ],
+  "correct": "B",
+  "exp": "Kadaknath reaches sexual maturity earliest at 180 days as per the table.",
+  "diff": "Hard"
+ },
+ {
+  "num": 48,
+  "part_no": 5,
+  "part_name": "Part V",
+  "section": "Native Egg-Type Breeds of India (Data Table)",
+  "q": "Which native breed has the lowest hatchability (FES) percentage in the table?",
+  "options": [
+   "Aseel",
+   "Frizzle",
+   "Kadaknath",
+   "Naked neck",
+   "They are all equal"
+  ],
+  "correct": "C",
+  "exp": "Kadaknath shows the lowest hatchability (FES) at 52%, per the CARI table.",
+  "diff": "Hard"
+ },
+ {
+  "num": 49,
+  "part_no": 5,
+  "part_name": "Part V",
+  "section": "Native Egg-Type Breeds of India (Data Table)",
+  "q": "Which breed(s) show a fertility rate of 66% as per the native breeds table?",
+  "options": [
+   "Aseel and Frizzle",
+   "Frizzle and Kadaknath",
+   "Kadaknath and Naked neck",
+   "Aseel and Naked neck",
+   "Only Aseel"
+  ],
+  "correct": "D",
+  "exp": "Both Aseel and Naked neck are recorded with a 66% fertility rate in the table.",
+  "diff": "Hard"
+ },
+ {
+  "num": 50,
+  "part_no": 5,
+  "part_name": "Part V",
+  "section": "Native Egg-Type Breeds of India (Data Table)",
+  "q": "The body weight at 20 weeks for Aseel, as per the table, is?",
+  "options": [
+   "920 g",
+   "1005 g",
+   "1300 g",
+   "1105 g",
+   "1220 g"
+  ],
+  "correct": "E",
+  "exp": "The table lists Aseel's body weight at 20 weeks as 1220 g.",
+  "diff": "Easy"
+ },
+ {
+  "num": 51,
+  "part_no": 5,
+  "part_name": "Part V",
+  "section": "Native Egg-Type Breeds of India (Data Table)",
+  "q": "Which native breed has the highest egg weight at 40 weeks?",
+  "options": [
+   "Naked neck",
+   "Aseel",
+   "Frizzle",
+   "Kadaknath",
+   "Bursa"
+  ],
+  "correct": "A",
+  "exp": "Naked neck has the highest egg weight at 40 weeks (54 g) among the four listed native breeds.",
+  "diff": "Hard"
+ },
+ {
+  "num": 52,
+  "part_no": 5,
+  "part_name": "Part V",
+  "section": "Native Egg-Type Breeds of India (Data Table)",
+  "q": "The data on native egg-type breeds (Aseel, Frizzle, Kadaknath, Naked neck) is sourced from?",
+  "options": [
+   "Dr. Acharya, Handbook of Animal Husbandry",
+   "Central Avian Research Institute",
+   "www.vuatkerala.org",
+   "Dr. Paul Pricely Rajkumar, AC&RI Madurai",
+   "KVK Namakkal"
+  ],
+  "correct": "B",
+  "exp": "The source cites the Central Avian Research Institute for this data table.",
+  "diff": "Easy"
+ },
+ {
+  "num": 53,
+  "part_no": 5,
+  "part_name": "Part V",
+  "section": "Native Egg-Type Breeds of India (Data Table)",
+  "q": "Which of the following statements about the native breeds table is NOT correct?",
+  "options": [
+   "Frizzle has the highest annual egg production",
+   "Kadaknath has the lowest hatchability",
+   "Kadaknath has the highest body weight at 20 weeks",
+   "Naked neck attains sexual maturity latest among the four",
+   "Aseel has the lowest annual egg production"
+  ],
+  "correct": "C",
+  "exp": "Kadaknath actually has the lowest, not the highest, body weight at 20 weeks (920 g); all other statements are correct.",
+  "diff": "Hard"
+ },
+ {
+  "num": 54,
+  "part_no": 5,
+  "part_name": "Part V",
+  "section": "Native Egg-Type Breeds of India (Data Table)",
+  "q": "Which native breed has an age at sexual maturity of 201 days?",
+  "options": [
+   "Aseel",
+   "Frizzle",
+   "Kadaknath",
+   "Naked neck",
+   "None of these"
+  ],
+  "correct": "D",
+  "exp": "Naked neck attains sexual maturity at 201 days, the latest among the four listed breeds.",
+  "diff": "Hard"
+ },
+ {
+  "num": 55,
+  "part_no": 6,
+  "part_name": "Part VI",
+  "section": "Indigenous Breeds of India",
+  "q": "As per the source, the common desi/country hen is generally regarded as?",
+  "options": [
+   "A poor forager",
+   "Unsuitable for hatching",
+   "Best suited only for fighting",
+   "A high egg producer only",
+   "The best mother for hatching"
+  ],
+  "correct": "E",
+  "exp": "The source states the desi hen 'is as a rule the best mother for hatching' and is a good forager.",
+  "diff": "Easy"
+ },
+ {
+  "num": 56,
+  "part_no": 6,
+  "part_name": "Part VI",
+  "section": "Indigenous Breeds of India",
+  "q": "The variety of Indian fowl resembling Sussex/Plymouth Rock in shape but smaller is described as more common in which part of India?",
+  "options": [
+   "Eastern parts",
+   "Western parts",
+   "Northern parts",
+   "Southern coastal belt",
+   "Central plateau"
+  ],
+  "correct": "A",
+  "exp": "The source notes this smaller variety lays well and is more common in the eastern parts of the country.",
+  "diff": "Hard"
+ },
+ {
+  "num": 57,
+  "part_no": 6,
+  "part_name": "Part VI",
+  "section": "Indigenous Breeds of India",
+  "q": "Which of the following is NOT listed among the local Indian fowl breed names in the source?",
+  "options": [
+   "Ghagus",
+   "Cornish",
+   "Tellicherry",
+   "Kalahasti",
+   "Danki"
+  ],
+  "correct": "B",
+  "exp": "Cornish is not mentioned in the source's list of local breed names; the others are listed.",
+  "diff": "Hard"
+ },
+ {
+  "num": 58,
+  "part_no": 6,
+  "part_name": "Part VI",
+  "section": "Indigenous Breeds of India",
+  "q": "Which breed mentioned in the source occurs in western India, among the pure breeds named?",
+  "options": [
+   "Kadaknath (Karaknath)",
+   "Naked Neck",
+   "Bursa",
+   "Tellicherry",
+   "Danki"
+  ],
+  "correct": "C",
+  "exp": "The source states 'the last occurs in western India,' referring to Bursa among the pure breeds named (Karaknath and Bursa).",
+  "diff": "Hard"
+ },
+ {
+  "num": 59,
+  "part_no": 6,
+  "part_name": "Part VI",
+  "section": "Indigenous Breeds of India",
+  "q": "Birds with blood from Chittagong, Aseel, Langshan or Brahma are noted in the source to be?",
+  "options": [
+   "Smaller and poorer meat quality",
+   "Poor egg producers only",
+   "Prone to Marek's disease",
+   "Bigger in size and better meat quality",
+   "Restricted to eastern India only"
+  ],
+  "correct": "D",
+  "exp": "The source states such crossbred birds are bigger in size and better in meat quality than the common fowls.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 60,
+  "part_no": 6,
+  "part_name": "Part VI",
+  "section": "Indigenous Breeds of India",
+  "q": "Which breed's 'blood' contribution to bigger, better-quality Indian fowl is NOT mentioned in the source?",
+  "options": [
+   "Chittagong",
+   "Aseel",
+   "Langshan",
+   "Brahma",
+   "Cochin"
+  ],
+  "correct": "E",
+  "exp": "Cochin is not mentioned; the source cites Chittagong, Aseel, Langshan and Brahma blood as contributing to bigger, better birds.",
+  "diff": "Hard"
+ },
+ {
+  "num": 61,
+  "part_no": 6,
+  "part_name": "Part VI",
+  "section": "Indigenous Breeds of India",
+  "q": "As per the source, most Indian country fowls (non-descripts) are described as being of?",
+  "options": [
+   "Very little value as layers",
+   "High value as layers",
+   "Exceptional value for both meat and eggs",
+   "Used exclusively for fighting",
+   "Officially classified as Mediterranean type"
+  ],
+  "correct": "A",
+  "exp": "The source states Indian birds are mostly non-descripts and of very little value as layers.",
+  "diff": "Hard"
+ },
+ {
+  "num": 62,
+  "part_no": 6,
+  "part_name": "Part VI",
+  "section": "Indigenous Breeds of India",
+  "q": "Some Indian fowls resemble the ____ in size and shape but have poor laying qualities.",
+  "options": [
+   "Orpington",
+   "Leghorn",
+   "Wyandotte",
+   "Sussex",
+   "New Hampshire"
+  ],
+  "correct": "B",
+  "exp": "The source states some Indian fowls resemble the Leghorn in size and shape but have poor laying qualities.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 63,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "Asil is particularly noted in the source for its?",
+  "options": [
+   "High egg production",
+   "Naked neck trait",
+   "Pugnacity, stamina and fighting qualities",
+   "Black flesh colour",
+   "Frizzled feathers"
+  ],
+  "correct": "C",
+  "exp": "The source describes Asil as noted for pugnacity, high stamina, majestic gait and dogged fighting qualities.",
+  "diff": "Easy"
+ },
+ {
+  "num": 64,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "The best specimens of Asil, though rare, are found in parts of?",
+  "options": [
+   "Kerala, Tamil Nadu, Karnataka",
+   "Punjab, Haryana, Himachal Pradesh",
+   "West Bengal, Odisha, Bihar",
+   "Andhra Pradesh, Uttar Pradesh, Rajasthan",
+   "Gujarat, Maharashtra, Goa"
+  ],
+  "correct": "D",
+  "exp": "The source states best Asil specimens are encountered in parts of Andhra Pradesh, Uttar Pradesh and Rajasthan.",
+  "diff": "Hard"
+ },
+ {
+  "num": 65,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "Which Asil variety is described in the source as 'golden red' in colour?",
+  "options": [
+   "Yarkin",
+   "Nurie",
+   "Kagar",
+   "Reza",
+   "Peela"
+  ],
+  "correct": "E",
+  "exp": "Peela is the Asil variety described as golden red in the source.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 66,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "The Asil variety described as 'white' in colour is?",
+  "options": [
+   "Nurie",
+   "Kagar",
+   "Chitta",
+   "Teekar",
+   "Reza"
+  ],
+  "correct": "A",
+  "exp": "Nurie is listed as the white-coloured Asil variety in the source.",
+  "diff": "Hard"
+ },
+ {
+  "num": 67,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "Which Asil variety is described as 'black and red'?",
+  "options": [
+   "Peela",
+   "Yarkin",
+   "Kagar",
+   "Chitta",
+   "Reza"
+  ],
+  "correct": "B",
+  "exp": "Yarkin is described in the source as the black and red Asil variety.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 68,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "'Kagar', an Asil variety, is described in the source as being what colour?",
+  "options": [
+   "Brown",
+   "Light red",
+   "Black",
+   "White",
+   "Black and white/silver"
+  ],
+  "correct": "C",
+  "exp": "Kagar is described as black in the source's list of Asil varieties.",
+  "diff": "Hard"
+ },
+ {
+  "num": 69,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "'Chitta', an Asil variety, is described as?",
+  "options": [
+   "Golden red",
+   "Light red",
+   "Brown",
+   "Black and white/silver",
+   "White"
+  ],
+  "correct": "D",
+  "exp": "Chitta is described in the source as black and white silver.",
+  "diff": "Hard"
+ },
+ {
+  "num": 70,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "Which Asil variety is described as 'brown' in colour?",
+  "options": [
+   "Reza",
+   "Peela",
+   "Yarkin",
+   "Nurie",
+   "Teekar"
+  ],
+  "correct": "E",
+  "exp": "Teekar is the brown-coloured Asil variety per the source.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 71,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "'Reza', an Asil variety, is described in the source as?",
+  "options": [
+   "Light red",
+   "Black",
+   "White",
+   "Golden red",
+   "Brown"
+  ],
+  "correct": "A",
+  "exp": "Reza is described as light red in the source.",
+  "diff": "Hard"
+ },
+ {
+  "num": 72,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "The comb type of the Asil breed, as per the source, is?",
+  "options": [
+   "Rose comb",
+   "Pea comb, small and firmly set",
+   "Single comb, large and floppy",
+   "Cushion comb",
+   "Strawberry comb"
+  ],
+  "correct": "B",
+  "exp": "The source describes Asil as possessing pea combs which are small but firmly set on the head.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 73,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "As per the source, the face of the Asil is described as?",
+  "options": [
+   "Short and broad, heavily feathered",
+   "Round with dense feathering",
+   "Long and slender, not covered with feather",
+   "Wattle-less and bare-necked",
+   "Short with a crest"
+  ],
+  "correct": "C",
+  "exp": "The source describes the Asil's face as long and slender, not covered with feather.",
+  "diff": "Hard"
+ },
+ {
+  "num": 74,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "The standard weight of Asil cocks, as per the source, is?",
+  "options": [
+   "2.5-3.5 kg",
+   "3-4 kg",
+   "3.5-4.5 kg",
+   "4-5 kg",
+   "5-6 kg"
+  ],
+  "correct": "D",
+  "exp": "The source lists the standard weight of Asil cocks as 4 to 5 kg.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 75,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "The standard weight range for Asil pullets, as per the source, is?",
+  "options": [
+   "3-4 kg",
+   "3.5-4.5 kg",
+   "4-5 kg",
+   "1.5-2.5 kg",
+   "2.5-3.5 kg"
+  ],
+  "correct": "E",
+  "exp": "Standard weight for Asil pullets is given as 2.5 to 3.5 kg in the source.",
+  "diff": "Hard"
+ },
+ {
+  "num": 76,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "Broodiness in the Asil breed, as per the source, is described as?",
+  "options": [
+   "Common; hen is a good sitter and efficient mother",
+   "Rare and undesirable",
+   "Absent entirely",
+   "Present only in cockerels",
+   "Suppressed through selective breeding"
+  ],
+  "correct": "A",
+  "exp": "The source states broodiness is most common in Asil and the hen is a good sitter and efficient mother.",
+  "diff": "Easy"
+ },
+ {
+  "num": 77,
+  "part_no": 7,
+  "part_name": "Part VII",
+  "section": "Asil Breed",
+  "q": "Despite being poor in productivity (egg production), the Asil breed is well known for its?",
+  "options": [
+   "Feather colour variety only",
+   "Meat qualities",
+   "High fertility rate",
+   "Disease resistance research",
+   "Ornamental plumage competitions"
+  ],
+  "correct": "B",
+  "exp": "The source states that although poor in productivity, Asil birds are well-known for their meat qualities.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 78,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "The original name of the Kadaknath breed, meaning 'a fowl with black flesh,' is?",
+  "options": [
+   "Karaknath",
+   "Nakedneck",
+   "Kalamasi",
+   "Bursa",
+   "Asil"
+  ],
+  "correct": "C",
+  "exp": "The source states the original name of the breed seems to be Kalamasi, meaning a fowl with black flesh.",
+  "diff": "Hard"
+ },
+ {
+  "num": 79,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "The egg colour of Kadaknath, as per the source, is?",
+  "options": [
+   "Pure white",
+   "Deep chocolate brown",
+   "Bluish-green",
+   "Light brown",
+   "Speckled grey"
+  ],
+  "correct": "D",
+  "exp": "The source states Kadaknath eggs are light brown in colour.",
+  "diff": "Easy"
+ },
+ {
+  "num": 80,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "Day-old Kadaknath chicks are described in the source as being?",
+  "options": [
+   "Pure yellow with no markings",
+   "White with black spots",
+   "Solid brown",
+   "Golden with black tips",
+   "Bluish to black with irregular dark stripes on the back"
+  ],
+  "correct": "E",
+  "exp": "The source describes day-old chicks as bluish to black with irregular dark stripes over the back.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 81,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "The adult plumage of Kadaknath, as per the source, ranges from?",
+  "options": [
+   "Silver and gold-spangled to bluish-black",
+   "Pure white to grey",
+   "Red to orange",
+   "Brown to tan",
+   "Yellow to cream"
+  ],
+  "correct": "A",
+  "exp": "The source states adult plumage varies from silver and gold-spangled to bluish-black without spangling.",
+  "diff": "Hard"
+ },
+ {
+  "num": 82,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "The skin, beak, shanks, toes and soles of feet of Kadaknath are described as being?",
+  "options": [
+   "Bright yellow",
+   "Slate-like in colour",
+   "Pink",
+   "White",
+   "Golden brown"
+  ],
+  "correct": "B",
+  "exp": "The source describes these body parts as slate-like in colour.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 83,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "The comb, wattles and tongue of Kadaknath are described as being?",
+  "options": [
+   "Bright red",
+   "Black",
+   "Purple",
+   "Pale pink",
+   "Yellow"
+  ],
+  "correct": "C",
+  "exp": "The source states the comb, wattles and tongue of Kadaknath are purple.",
+  "diff": "Hard"
+ },
+ {
+  "num": 84,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "The black colouration seen in Kadaknath's internal organs and tissues is caused by?",
+  "options": [
+   "Excess iron deposition",
+   "A viral infection",
+   "Vitamin deficiency",
+   "Melanin deposition",
+   "Genetic albinism"
+  ],
+  "correct": "D",
+  "exp": "The source attributes the black pigmentation to deposition of melanin.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 85,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "Which of the following organs is specifically mentioned in the source as showing intense black colouration in Kadaknath?",
+  "options": [
+   "Kidney",
+   "Liver",
+   "Spleen",
+   "Lungs",
+   "Trachea"
+  ],
+  "correct": "E",
+  "exp": "The source mentions the trachea, along with thoracic/abdominal air-sacs, gonads and base of the heart/mesentery, as showing intense black colouration.",
+  "diff": "Hard"
+ },
+ {
+  "num": 86,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "Which of the following is NOT mentioned by the source as showing black colouration in Kadaknath?",
+  "options": [
+   "Beak sheath colour changes with age",
+   "Trachea",
+   "Gonads",
+   "Base of the heart",
+   "Skeletal muscles (to varying degree)"
+  ],
+  "correct": "A",
+  "exp": "The source does not mention age-related beak colour change; it mentions the trachea, gonads, base of heart and varying black in skeletal muscles.",
+  "diff": "Hard"
+ },
+ {
+  "num": 87,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "Despite its unappealing black appearance, the flesh of Kadaknath is described in the source as?",
+  "options": [
+   "Tasteless",
+   "Delicious",
+   "Tough and fibrous",
+   "Rarely consumed",
+   "Toxic if undercooked"
+  ],
+  "correct": "B",
+  "exp": "The source states the flesh, though repulsive to look at, is delicious.",
+  "diff": "Easy"
+ },
+ {
+  "num": 88,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "As a 'medium layer,' Kadaknath lays approximately how many eggs per year, as per the source?",
+  "options": [
+   "50",
+   "65",
+   "80",
+   "100",
+   "120"
+  ],
+  "correct": "C",
+  "exp": "The source describes Kadaknath as a medium layer that lays about 80 eggs per year.",
+  "diff": "Hard"
+ },
+ {
+  "num": 89,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "Kadaknath is noted in the source to be more susceptible, under intensive rearing conditions, to?",
+  "options": [
+   "Newcastle disease",
+   "Coccidiosis",
+   "Avian influenza",
+   "Marek's disease",
+   "Fowl pox"
+  ],
+  "correct": "D",
+  "exp": "The source states the bird is more susceptible to Marek's disease under intensive rearing conditions.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 90,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "In its natural free-range habitat, Kadaknath is described in the source as being?",
+  "options": [
+   "Highly disease-susceptible",
+   "Prone to frequent mortality",
+   "Unable to forage",
+   "Dependent on vaccination",
+   "Resistant to diseases"
+  ],
+  "correct": "E",
+  "exp": "The source states the bird is resistant to diseases in its natural habitat under free range.",
+  "diff": "Hard"
+ },
+ {
+  "num": 91,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "The blood of Kadaknath, as per the source, is described as?",
+  "options": [
+   "Darker than normal blood",
+   "Lighter than normal blood",
+   "Identical to other breeds' blood",
+   "Blue-tinged",
+   "Not addressed in the source"
+  ],
+  "correct": "A",
+  "exp": "The source explicitly states the blood is darker than normal blood.",
+  "diff": "Moderate"
+ },
+ {
+  "num": 92,
+  "part_no": 8,
+  "part_name": "Part VIII",
+  "section": "Kadaknath Breed",
+  "q": "The detailed description of the Kadaknath breed in the source is credited to?",
+  "options": [
+   "Central Avian Research Institute",
+   "Dr. Acharya, Handbook of Animal Husbandry",
+   "www.vuatkerala.org",
+   "KVK Namakkal",
+   "Dr. Paul Pricely Rajkumar, AC&RI Madurai"
+  ],
+  "correct": "B",
+  "exp": "The Kadaknath description is sourced from Dr. Acharya's Handbook of Animal Husbandry.",
+  "diff": "Hard"
+ },
+ {
+  "num": 93,
+  "part_no": 9,
+  "part_name": "Part IX",
+  "section": "Other Commercial Broiler Chicken Breeds (Table)",
+  "q": "Which breed shows the highest net egg production at 72 weeks, as per the table?",
+  "options": [
+   "ILI-80",
+   "Golden-92",
+   "Priya",
+   "Sonali",
+   "Devendra"
+  ],
+  "correct": "C",
+  "exp": "Priya records the highest net egg production at 72 weeks (290 eggs) in the table.",
+  "diff": "Hard"
+ },
+ {
+  "num": 94,
+  "part_no": 9,
+  "part_name": "Part IX",
+  "section": "Other Commercial Broiler Chicken Breeds (Table)",
+  "q": "Which breed has the highest egg weight, as per the table?",
+  "options": [
+   "ILI-80",
+   "Golden-92",
+   "Sonali",
+   "Priya",
+   "Devendra"
+  ],
+  "correct": "D",
+  "exp": "Priya has the highest egg weight at 57 g among the breeds listed.",
+  "diff": "Hard"
+ },
+ {
+  "num": 95,
+  "part_no": 9,
+  "part_name": "Part IX",
+  "section": "Other Commercial Broiler Chicken Breeds (Table)",
+  "q": "Which breed shows the poorest (highest numeric) feed efficiency figure in the table?",
+  "options": [
+   "ILI-80",
+   "Golden-92",
+   "Priya",
+   "Sonali",
+   "Devendra"
+  ],
+  "correct": "E",
+  "exp": "Devendra has the highest (poorest) feed efficiency figure at 2.5, compared to 2.1-2.2 for the others.",
+  "diff": "Hard"
+ },
+ {
+  "num": 96,
+  "part_no": 9,
+  "part_name": "Part IX",
+  "section": "Other Commercial Broiler Chicken Breeds (Table)",
+  "q": "Which breed records the lowest net egg production at 72 weeks?",
+  "options": [
+   "Devendra",
+   "ILI-80",
+   "Golden-92",
+   "Priya",
+   "Sonali"
+  ],
+  "correct": "A",
+  "exp": "Devendra shows the lowest net egg production at 72 weeks (200 eggs) in the table.",
+  "diff": "Hard"
+ },
+ {
+  "num": 97,
+  "part_no": 9,
+  "part_name": "Part IX",
+  "section": "Other Commercial Broiler Chicken Breeds (Table)",
+  "q": "Which pair of breeds reaches 50% production at the earliest, tied at the same number of days?",
+  "options": [
+   "Golden-92 and Sonali",
+   "ILI-80 and Priya",
+   "Priya and Devendra",
+   "ILI-80 and Sonali",
+   "Golden-92 and Devendra"
+  ],
+  "correct": "B",
+  "exp": "Both ILI-80 and Priya reach 50% production at 150 days, earlier than the other listed breeds.",
+  "diff": "Hard"
+ },
+ {
+  "num": 98,
+  "part_no": 9,
+  "part_name": "Part IX",
+  "section": "Other Commercial Broiler Chicken Breeds (Table)",
+  "q": "Which breed has the highest grower livability percentage, as per the table?",
+  "options": [
+   "ILI-80",
+   "Golden-92",
+   "Devendra",
+   "Priya",
+   "Sonali"
+  ],
+  "correct": "C",
+  "exp": "Devendra shows grower livability of 97%, the highest among the breeds listed (others show 96%).",
+  "diff": "Hard"
+ },
+ {
+  "num": 99,
+  "part_no": 9,
+  "part_name": "Part IX",
+  "section": "Other Commercial Broiler Chicken Breeds (Table)",
+  "q": "The data table on ILI-80, Golden-92, Priya, Sonali and Devendra breeds is credited to?",
+  "options": [
+   "www.vuatkerala.org",
+   "Dr. Acharya, Handbook of Animal Husbandry",
+   "KVK Namakkal",
+   "Central Avian Research Institute",
+   "Dr. Paul Pricely Rajkumar, AC&RI Madurai"
+  ],
+  "correct": "D",
+  "exp": "This table is sourced from the Central Avian Research Institute.",
+  "diff": "Easy"
+ },
+ {
+  "num": 100,
+  "part_no": 9,
+  "part_name": "Part IX",
+  "section": "Other Commercial Broiler Chicken Breeds (Table)",
+  "q": "Which breed shares the same first-egg age (18-19 weeks) and peak-production timing (27-29 weeks) as Golden-92 and Sonali?",
+  "options": [
+   "ILI-80",
+   "Priya",
+   "No breed shares this exact pattern",
+   "Only Golden-92 shows this timing, uniquely",
+   "Devendra"
+  ],
+  "correct": "E",
+  "exp": "Devendra shares the 18-19 weeks first-egg age and 27-29 weeks peak production timing with Golden-92 and Sonali.",
+  "diff": "Hard"
+ },
+ {
+  "num": 101,
+  "part_no": 9,
+  "part_name": "Part IX",
+  "section": "Other Commercial Broiler Chicken Breeds (Table)",
+  "q": "Which of the following statements about the table is INCORRECT?",
+  "options": [
+   "Devendra has the best (lowest) feed efficiency value",
+   "ILI-80 and Priya both attain first egg at 17-18 weeks",
+   "Priya has the highest net egg production at 72 weeks",
+   "Golden-92 and Sonali share identical first-egg, 50%-production and peak-production timings",
+   "Devendra has the highest grower livability"
+  ],
+  "correct": "A",
+  "exp": "Devendra actually has the worst (highest) feed efficiency value of 2.5, not the best; all other statements are correct.",
+  "diff": "Hard"
+ },
+ {
+  "num": 102,
+  "part_no": 9,
+  "part_name": "Part IX",
+  "section": "Other Commercial Broiler Chicken Breeds (Table)",
+  "q": "The egg production peak percentage of ILI-80, as per the table, is?",
+  "options": [
+   "90%",
+   "92%",
+   "91%",
+   "94%",
+   "96%"
+  ],
+  "correct": "B",
+  "exp": "ILI-80's egg production peak percentage is listed as 92% in the table.",
+  "diff": "Hard"
+ },
+ {
+  "num": 103,
+  "part_no": 10,
+  "part_name": "Part X",
+  "section": "Commercial Meat-Type Chicken (Table)",
+  "q": "Which breed shows the highest body weight at seven weeks, as per the table?",
+  "options": [
+   "B-77",
+   "CARIBRO Multicoloured",
+   "CARIBRO-91",
+   "CARIBRO Naked necked",
+   "Varna"
+  ],
+  "correct": "C",
+  "exp": "CARIBRO-91 has the highest 7-week weight at 2100 g in the table.",
+  "diff": "Hard"
+ },
+ {
+  "num": 104,
+  "part_no": 10,
+  "part_name": "Part X",
+  "section": "Commercial Meat-Type Chicken (Table)",
+  "q": "Which breed has the lowest body weight at six weeks, as per the table?",
+  "options": [
+   "CARIBRO-91",
+   "CARIBRO Multicoloured",
+   "CARIBRO Naked necked",
+   "B-77",
+   "Varna"
+  ],
+  "correct": "D",
+  "exp": "B-77 has the lowest 6-week weight (1300 g) among the breeds in the table.",
+  "diff": "Hard"
+ },
+ {
+  "num": 105,
+  "part_no": 10,
+  "part_name": "Part X",
+  "section": "Commercial Meat-Type Chicken (Table)",
+  "q": "Which breed name directly indicates the presence of the naked-neck gene trait?",
+  "options": [
+   "B-77",
+   "CARIBRO-91",
+   "CARIBRO Multicoloured",
+   "Varna",
+   "CARIBRO Naked necked"
+  ],
+  "correct": "E",
+  "exp": "CARIBRO Naked necked's name directly reflects the naked-neck genetic trait.",
+  "diff": "Easy"
+ },
+ {
+  "num": 106,
+  "part_no": 10,
+  "part_name": "Part X",
+  "section": "Commercial Meat-Type Chicken (Table)",
+  "q": "Which breed shows the best (lowest) food conversion ratio range, as per the table?",
+  "options": [
+   "CARIBRO Naked necked",
+   "B-77",
+   "CARIBRO-91",
+   "CARIBRO Multicoloured",
+   "Varna"
+  ],
+  "correct": "A",
+  "exp": "CARIBRO Naked necked shows the lowest (best) FCR range at 1.9-2.0.",
+  "diff": "Hard"
+ },
+ {
+  "num": 107,
+  "part_no": 10,
+  "part_name": "Part X",
+  "section": "Commercial Meat-Type Chicken (Table)",
+  "q": "Which breed has the highest livability percentage in the table?",
+  "options": [
+   "CARIBRO-91",
+   "B-77",
+   "CARIBRO Multicoloured",
+   "CARIBRO Naked necked",
+   "Varna"
+  ],
+  "correct": "B",
+  "exp": "B-77 shows the highest livability at 98-99%.",
+  "diff": "Hard"
+ },
+ {
+  "num": 108,
+  "part_no": 10,
+  "part_name": "Part X",
+  "section": "Commercial Meat-Type Chicken (Table)",
+  "q": "The table listing B-77, CARIBRO strains and Varna as commercially available meat-type chickens is sourced from?",
+  "options": [
+   "Central Avian Research Institute",
+   "Dr. Acharya, Handbook of Animal Husbandry",
+   "www.vuatkerala.org",
+   "Dr. Paul Pricely Rajkumar, AC&RI Madurai",
+   "KVK Namakkal"
+  ],
+  "correct": "C",
+  "exp": "This table is credited to www.vuatkerala.org in the source.",
+  "diff": "Easy"
+ },
+ {
+  "num": 109,
+  "part_no": 10,
+  "part_name": "Part X",
+  "section": "Commercial Meat-Type Chicken (Table)",
+  "q": "Which two breeds share an identical seven-week body weight of 2000 g, as per the table?",
+  "options": [
+   "B-77 and Varna",
+   "CARIBRO-91 and Varna",
+   "B-77 and CARIBRO-91",
+   "CARIBRO Multicoloured and CARIBRO Naked necked",
+   "Varna and CARIBRO Multicoloured"
+  ],
+  "correct": "D",
+  "exp": "Both CARIBRO Multicoloured and CARIBRO Naked necked record a 7-week weight of 2000 g.",
+  "diff": "Hard"
+ },
+ {
+  "num": 110,
+  "part_no": 10,
+  "part_name": "Part X",
+  "section": "Commercial Meat-Type Chicken (Table)",
+  "q": "Which of the following statements about the meat-type chicken table is INCORRECT?",
+  "options": [
+   "CARIBRO-91 has the highest 7-week body weight",
+   "B-77 has the highest livability among the five breeds",
+   "CARIBRO Naked necked has the best FCR range",
+   "Varna has the lowest livability among the five breeds",
+   "B-77 has the highest 6-week body weight among the five breeds"
+  ],
+  "correct": "E",
+  "exp": "B-77 actually has the lowest 6-week body weight (1300 g), not the highest; the other statements are correct as per the table.",
+  "diff": "Hard"
+ },
+ {
+  "num": 111,
+  "part_no": 10,
+  "part_name": "Part X",
+  "section": "Commercial Meat-Type Chicken (Table)",
+  "q": "The livability of CARIBRO-91 and CARIBRO Multicoloured, as per the table, is?",
+  "options": [
+   "97-98%",
+   "98-99%",
+   "96-97%",
+   "95-96%",
+   "97%"
+  ],
+  "correct": "A",
+  "exp": "Both CARIBRO-91 and CARIBRO Multicoloured show a livability of 97-98% in the table.",
+  "diff": "Hard"
+ }
+];
+
+</script>
+<script>
+let order = [];
+let idx = 0;
+let answers = {}; // num -> {selected, correct(bool), skipped}
+let mode = 'revision';
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(m){
+  mode = m;
+  order = (m === 'test') ? shuffle(QUESTIONS) : QUESTIONS.slice();
+  idx = 0;
+  answers = {};
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  document.getElementById('end-screen').classList.add('hidden');
+  renderQuestion();
+}
+
+function currentScore(){
+  let correct=0, wrong=0, skipped=0;
+  Object.values(answers).forEach(a=>{
+    if(a.skipped) skipped++;
+    else if(a.correct) correct++;
+    else wrong++;
+  });
+  return {correct, wrong, skipped};
+}
+
+function renderQuestion(){
+  const q = order[idx];
+  const total = order.length;
+  document.getElementById('loc-label').textContent = `${q.part_name} \u00b7 ${q.section}`;
+  const s = currentScore();
+  document.getElementById('score-label').textContent = `Score: ${s.correct} / ${total} answered so far: ${s.correct+s.wrong+s.skipped}`;
+  document.getElementById('progress-bar').style.width = `${((idx)/total)*100}%`;
+  document.getElementById('qid-label').innerHTML = `${q.qid} &mdash; Question ${idx+1} of ${total} <span class="diff-badge diff-${q.diff}">${q.diff}</span>`;
+  document.getElementById('qtext').textContent = q.q;
+
+  const optsDiv = document.getElementById('options');
+  optsDiv.innerHTML = '';
+  const letters = ['A','B','C','D','E'];
+  const existing = answers[q.num];
+  letters.forEach((L,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.innerHTML = `<span class="letter">${L}.</span> ${q.options[i]}`;
+    if(existing && !existing.skipped){
+      btn.classList.add('locked');
+      if(L === q.correct) btn.classList.add('correct');
+      if(L === existing.selected && L !== q.correct) btn.classList.add('incorrect');
+    } else {
+      btn.onclick = ()=>selectOption(L);
+    }
+    optsDiv.appendChild(btn);
+  });
+
+  const fb = document.getElementById('feedback-box');
+  if(existing && !existing.skipped){
+    fb.innerHTML = `<div class="feedback ${existing.correct ? 'correct':'incorrect'}"><b>${existing.correct ? 'Correct' : 'Incorrect -- correct answer: ' + q.correct}</b>${q.exp}</div>`;
+  } else if(existing && existing.skipped){
+    fb.innerHTML = `<div class="feedback"><b>Skipped -- correct answer: ${q.correct}</b>${q.exp}</div>`;
+  } else {
+    fb.innerHTML = '';
+  }
+
+  document.getElementById('btn-prev').disabled = (idx===0);
+  document.getElementById('btn-next').textContent = (idx===total-1) ? 'Finish \u2192' : 'Next \u2192';
+}
+
+function selectOption(L){
+  const q = order[idx];
+  answers[q.num] = { selected:L, correct: (L===q.correct), skipped:false };
+  renderQuestion();
+}
+
+function skipQ(){
+  const q = order[idx];
+  if(!answers[q.num]) answers[q.num] = { selected:null, correct:false, skipped:true };
+  goNext();
+}
+
+function goNext(){
+  if(idx < order.length-1){
+    idx++;
+    renderQuestion();
+  } else {
+    finishQuiz();
+  }
+}
+
+function goPrev(){
+  if(idx>0){ idx--; renderQuestion(); }
+}
+
+function finishQuiz(){
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('end-screen').classList.remove('hidden');
+  const s = currentScore();
+  const total = order.length;
+  document.getElementById('final-score').textContent = `${s.correct} / ${total}`;
+  document.getElementById('final-pct').textContent = `${Math.round(s.correct/total*100)}% correct \u00b7 ${s.wrong} incorrect \u00b7 ${s.skipped} skipped`;
+  document.getElementById('stat-correct').textContent = s.correct;
+  document.getElementById('stat-wrong').textContent = s.wrong;
+  document.getElementById('stat-skip').textContent = s.skipped;
+
+  const reviewList = document.getElementById('review-list');
+  reviewList.innerHTML = '';
+  order.forEach(q=>{
+    const a = answers[q.num];
+    if(!a || a.skipped || !a.correct){
+      const div = document.createElement('div');
+      div.className = 'review-item';
+      const statusText = (!a) ? 'Not reached' : (a.skipped ? 'Skipped' : 'Incorrect');
+      const statusClass = (!a || a.skipped) ? 'skip' : 'wrong';
+      div.innerHTML = `<div class="qtag">${q.qid} &middot; ${q.part_name} &middot; ${q.section}</div>
+        <div><b>${q.q}</b></div>
+        <div class="status ${statusClass}">${statusText}${a && !a.skipped ? ' (you chose ' + a.selected + ')' : ''} -- Correct answer: ${q.correct}. ${q.options[['A','B','C','D','E'].indexOf(q.correct)]}</div>
+        <div style="color:var(--ink-soft);font-size:.9em;margin-top:4px;">${q.exp}</div>`;
+      reviewList.appendChild(div);
+    }
+  });
+  if(reviewList.innerHTML===''){
+    reviewList.innerHTML = '<p>Perfect run -- no missed or skipped questions.</p>';
+  }
+}
+</script>
+</body>
+</html>

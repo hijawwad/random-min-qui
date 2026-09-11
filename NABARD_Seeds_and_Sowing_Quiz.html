@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seeds &amp; Sowing — NABARD Grade A Practice Quiz</title>
+<style>
+  :root{
+    --navy:#16233f;
+    --navy-2:#22355c;
+    --paper:#f5f3ee;
+    --paper-2:#ffffff;
+    --line:#d9d3c4;
+    --ink:#1c1c1c;
+    --muted:#6b6558;
+    --gold:#b8860b;
+    --gold-2:#8a6600;
+    --green:#1e7a42;
+    --green-bg:#e5f3ea;
+    --red:#a3282b;
+    --red-bg:#f8e6e6;
+    --easy:#3f7d5c;
+    --moderate:#a3781f;
+    --hard:#a3282b;
+    --radius:10px;
+    --serif: "Iowan Old Style","Palatino Linotype",Georgia,"Times New Roman",serif;
+    --sans: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    line-height:1.5;
+  }
+  .wrap{
+    max-width:820px;
+    margin:0 auto;
+    padding:28px 20px 60px;
+  }
+  header.top{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    border-bottom:2px solid var(--navy);
+    padding-bottom:14px;
+    margin-bottom:28px;
+  }
+  header.top .brand{
+    font-family:var(--serif);
+    font-size:15px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--gold-2);
+  }
+  header.top h1{
+    font-family:var(--serif);
+    font-size:26px;
+    margin:2px 0 0;
+    color:var(--navy);
+    font-weight:600;
+  }
+  .pill{
+    font-size:12px;
+    color:var(--muted);
+    border:1px solid var(--line);
+    padding:4px 10px;
+    border-radius:100px;
+    background:var(--paper-2);
+    white-space:nowrap;
+  }
+
+  /* ---------- HOME SCREEN ---------- */
+  .home-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-bottom:26px;
+  }
+  @media (max-width:640px){ .home-grid{grid-template-columns:1fr;} }
+  .mode-card{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px;
+    cursor:pointer;
+    transition:box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+    position:relative;
+  }
+  .mode-card:hover{
+    box-shadow:0 6px 18px rgba(22,35,63,.10);
+    border-color:var(--navy-2);
+    transform:translateY(-2px);
+  }
+  .mode-card .num{
+    font-family:var(--serif);
+    font-size:13px;
+    color:var(--gold-2);
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .mode-card h2{
+    font-family:var(--serif);
+    font-size:21px;
+    margin:0 0 8px;
+    color:var(--navy);
+  }
+  .mode-card p{
+    margin:0;
+    font-size:14px;
+    color:var(--muted);
+  }
+
+  .section-title{
+    font-family:var(--serif);
+    font-size:15px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--navy);
+    margin:30px 0 14px;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+
+  .toggle-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:14px 0 20px;
+  }
+  .toggle{
+    display:inline-flex;
+    border:1px solid var(--navy);
+    border-radius:100px;
+    overflow:hidden;
+  }
+  .toggle button{
+    border:none;
+    background:transparent;
+    padding:8px 18px;
+    font-size:13px;
+    cursor:pointer;
+    color:var(--navy);
+    font-family:var(--sans);
+  }
+  .toggle button.active{
+    background:var(--navy);
+    color:#fff;
+  }
+
+  .btn{
+    display:inline-block;
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    padding:12px 26px;
+    border-radius:6px;
+    font-size:14px;
+    cursor:pointer;
+    font-family:var(--sans);
+    font-weight:600;
+    letter-spacing:.02em;
+  }
+  .btn:hover{background:var(--navy-2);}
+  .btn.secondary{
+    background:transparent;
+    color:var(--navy);
+    border:1px solid var(--navy);
+  }
+  .btn.secondary:hover{background:#eceadf;}
+  .btn.ghost{
+    background:transparent;
+    color:var(--muted);
+    border:1px solid var(--line);
+  }
+  .btn:disabled{opacity:.45;cursor:not-allowed;}
+
+  .topic-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+  }
+  @media (max-width:520px){ .topic-grid{grid-template-columns:1fr;} }
+  .topic-card{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 16px;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .topic-card:hover{border-color:var(--navy-2); transform:translateX(2px);}
+  .topic-card .tname{font-size:14px; color:var(--ink); font-weight:600; max-width:75%;}
+  .topic-card .tcount{font-size:12px; color:var(--muted); background:var(--paper); border:1px solid var(--line); padding:3px 9px; border-radius:100px;}
+
+  /* ---------- QUIZ SCREEN ---------- */
+  .quiz-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .progress-bar{
+    height:6px;
+    background:var(--line);
+    border-radius:100px;
+    overflow:hidden;
+    margin-bottom:22px;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--gold);
+    transition:width .25s ease;
+  }
+  .score-row{
+    display:flex;
+    gap:16px;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .score-row b{color:var(--navy);}
+
+  .q-card{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px 26px 22px;
+  }
+  .q-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+  }
+  .diff-tag{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    padding:3px 10px;
+    border-radius:100px;
+    font-weight:700;
+  }
+  .diff-easy{color:var(--easy); background:#e4f2e9;}
+  .diff-moderate{color:var(--moderate); background:#f6ecd6;}
+  .diff-hard{color:var(--hard); background:var(--red-bg);}
+  .topic-tag{font-size:12px; color:var(--muted);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:18px;
+    line-height:1.55;
+    color:var(--ink);
+    white-space:pre-line;
+    margin-bottom:20px;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:12px 14px;
+    cursor:pointer;
+    background:var(--paper-2);
+    font-size:14.5px;
+    transition:background .12s ease, border-color .12s ease;
+  }
+  .opt:hover:not(.locked){border-color:var(--navy-2); background:#fbfaf6;}
+  .opt .letter{
+    flex:0 0 auto;
+    width:26px;height:26px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12.5px; font-weight:700; color:var(--navy);
+    background:var(--paper);
+  }
+  .opt.correct{
+    background:var(--green-bg);
+    border-color:var(--green);
+  }
+  .opt.correct .letter{background:var(--green); color:#fff; border-color:var(--green);}
+  .opt.wrong{
+    background:var(--red-bg);
+    border-color:var(--red);
+  }
+  .opt.wrong .letter{background:var(--red); color:#fff; border-color:var(--red);}
+  .opt.locked{cursor:default;}
+  .opt.dim{opacity:.55;}
+
+  .explain{
+    margin-top:16px;
+    padding:14px 16px;
+    border-left:3px solid var(--gold);
+    background:#fbf6e9;
+    font-size:13.5px;
+    color:#4a3f1f;
+    border-radius:4px;
+    display:none;
+  }
+  .explain.show{display:block;}
+  .explain b{color:var(--navy);}
+
+  .q-actions{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:22px;
+  }
+
+  /* ---------- END SCREEN ---------- */
+  .score-hero{
+    text-align:center;
+    padding:30px 20px;
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    margin-bottom:22px;
+  }
+  .score-hero .big{
+    font-family:var(--serif);
+    font-size:52px;
+    color:var(--navy);
+    line-height:1;
+  }
+  .score-hero .label{font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin-top:8px;}
+
+  .breakdown{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:26px;
+  }
+  .bd-card{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px;
+    text-align:center;
+  }
+  .bd-card .n{font-family:var(--serif); font-size:22px; color:var(--navy);}
+  .bd-card .l{font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-top:4px;}
+
+  .review-item{
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:10px;
+    background:var(--paper-2);
+  }
+  .review-item .rq{font-size:14px; margin-bottom:8px; white-space:pre-line; font-family:var(--serif);}
+  .review-item .status{
+    display:inline-block;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    padding:2px 9px;
+    border-radius:100px;
+    margin-bottom:8px;
+    font-weight:700;
+  }
+  .status-missed{background:var(--red-bg); color:var(--red);}
+  .status-skipped{background:#eef1f6; color:var(--muted);}
+  .review-item .ans{font-size:13px; color:var(--muted);}
+  .review-item .ans b{color:var(--green);}
+  .review-item .yourans b{color:var(--red);}
+
+  .end-actions{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    margin:24px 0 34px;
+  }
+
+  .hidden{display:none !important;}
+  .footer-note{
+    text-align:center;
+    font-size:12px;
+    color:var(--muted);
+    margin-top:30px;
+  }
+  .skip-btn{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--muted);
+    padding:8px 16px;
+    border-radius:6px;
+    font-size:13px;
+    cursor:pointer;
+  }
+  .skip-btn:hover{border-color:var(--red); color:var(--red);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <div class="brand">EduTap · Seeds &amp; Sowing</div>
+      <h1>NABARD Grade A Practice Quiz</h1>
+    </div>
+    <span class="pill" id="qCountPill"></span>
+  </header>
+
+  <!-- ============ HOME SCREEN ============ -->
+  <div id="screen-home">
+    <div class="home-grid">
+      <div class="mode-card" id="cardFull">
+        <div class="num">Mode I</div>
+        <h2>Full Practice Test</h2>
+        <p>Run through every question in the bank in one sitting, either in document order or shuffled.</p>
+      </div>
+      <div class="mode-card" id="cardSection">
+        <div class="num">Mode II</div>
+        <h2>Section-wise Revision</h2>
+        <p>Drill one topic at a time — pick from every scheme/topic covered in the document.</p>
+      </div>
+    </div>
+
+    <div id="fullOptions" class="hidden">
+      <div class="section-title">Full Practice Test — Order</div>
+      <div class="toggle-row">
+        <div class="toggle">
+          <button id="btnPdfOrder" class="active">PDF Order</button>
+          <button id="btnShuffled">Shuffled</button>
+        </div>
+        <span class="pill" id="fullCountPill"></span>
+      </div>
+      <button class="btn" id="startFull">Start Full Test</button>
+    </div>
+
+    <div id="sectionOptions" class="hidden">
+      <div class="section-title">Choose a Topic</div>
+      <div class="topic-grid" id="topicGrid"></div>
+    </div>
+  </div>
+
+  <!-- ============ QUIZ SCREEN ============ -->
+  <div id="screen-quiz" class="hidden">
+    <div class="quiz-top">
+      <span id="quizLabel"></span>
+      <div class="score-row">
+        <span>Score: <b id="liveScore">0</b>/<span id="liveTotal">0</span></span>
+        <span>Q <b id="liveIndex">1</b> of <span id="liveCount">1</span></span>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+    <div class="q-card">
+      <div class="q-meta">
+        <span class="diff-tag" id="diffTag"></span>
+        <span class="topic-tag" id="topicTag"></span>
+      </div>
+      <div class="q-text" id="qText"></div>
+      <div class="options" id="optionsWrap"></div>
+      <div class="explain" id="explainBox"></div>
+      <div class="q-actions">
+        <button class="skip-btn" id="skipBtn">Skip question →</button>
+        <button class="btn" id="nextBtn" disabled>Next Question</button>
+      </div>
+    </div>
+    <div style="margin-top:16px;">
+      <button class="btn ghost" id="quitBtn">← Exit to Menu</button>
+    </div>
+  </div>
+
+  <!-- ============ END SCREEN ============ -->
+  <div id="screen-end" class="hidden">
+    <div class="score-hero">
+      <div class="big" id="finalScoreText">0 / 0</div>
+      <div class="label" id="finalPctText">Final Score</div>
+    </div>
+
+    <div class="section-title">Accuracy by Difficulty</div>
+    <div class="breakdown" id="breakdownGrid"></div>
+
+    <div class="section-title" id="reviewTitle">Review — Missed &amp; Skipped</div>
+    <div id="reviewList"></div>
+    <div id="reviewEmpty" class="hidden" style="text-align:center;color:var(--muted);font-size:14px;padding:18px 0;">
+      No missed or skipped questions — clean sweep.
+    </div>
+
+    <div class="end-actions">
+      <button class="btn secondary" id="retryBtn">Retry Same Set</button>
+      <button class="btn" id="menuBtn">Back to Menu</button>
+    </div>
+  </div>
+
+  <div class="footer-note">Sourced from the EduTap "Seeds and Sowing" summary sheet · Offline practice tool</div>
+</div>
+
+<script>
+const ALL_QUESTIONS = [{"section": "Seed Basics & Seed Rate", "difficulty": "easy", "type": "single", "question": "Biologically, a seed is defined as a ripe, fertilized ___ and a unit of reproduction of flowering plants.", "options": ["Ovule", "Anther", "Stigma", "Pollen grain", "Cotyledon"], "answer": 0, "explanation": "A seed is biologically a ripe, fertilized ovule and the unit of reproduction of flowering plants.", "id": 0}, {"section": "Seed Basics & Seed Rate", "difficulty": "moderate", "type": "single", "question": "Seed rate is expressed by the number of germinating seeds (millions) and which other unit?", "options": ["Volume of seeds (litres)", "Weight of seeds (kg)", "Number of pods", "Moisture percentage", "Area covered (ha)"], "answer": 1, "explanation": "Seed rate is expressed by number of germinating seeds (millions) and the weight of seeds (kg).", "id": 1}, {"section": "Seed Basics & Seed Rate", "difficulty": "hard", "type": "single", "question": "In the seed rate formula, Seed Rate (kg/ha) = Target plants/m\u00b2 \u00d7 Seed weight (mg) \u00f7 ___.", "options": ["Seed multiplication ratio", "Isolation distance", "Germination percentage (%)", "Physical purity (%)", "Moisture content (%)"], "answer": 2, "explanation": "Seed Rate (kg/ha) = Target plants/m\u00b2 \u00d7 Seed weight (mg) / Germination percentage (%).", "id": 2}, {"section": "Seed Basics & Seed Rate", "difficulty": "moderate", "type": "single", "question": "What is the recommended seed rate for rice sown by the SRI method?", "options": ["50-60 kg/ha", "80-100 kg/ha", "25-30 kg/ha", "6-8 kg/ha", "15 kg/ha"], "answer": 3, "explanation": "SRI method rice has the lowest seed rate of 6-8 kg/ha as per the table.", "id": 3}, {"section": "Seed Basics & Seed Rate", "difficulty": "moderate", "type": "single", "question": "What is the seed rate for rice under the broadcasting method?", "options": ["50-60 kg/ha", "25-30 kg/ha", "15 kg/ha", "6-8 kg/ha", "80-100 kg/ha"], "answer": 4, "explanation": "Rice broadcasting method requires 80-100 kg/ha seed rate.", "id": 4}, {"section": "Seed Basics & Seed Rate", "difficulty": "hard", "type": "single", "question": "The seed rate for hybrid rice is:", "options": ["15 kg/ha", "50-60 kg/ha", "80-100 kg/ha", "25-30 kg/ha", "100-125 kg/ha"], "answer": 0, "explanation": "Hybrid rice seed rate is given as 15 kg/ha in the table.", "id": 5}, {"section": "Seed Basics & Seed Rate", "difficulty": "moderate", "type": "single", "question": "What is the seed rate for wheat under late sowing conditions?", "options": ["100-125 kg/ha", "125-150 kg/ha", "67 kg/ha", "25-30 kg/ha", "80-100 kg/ha"], "answer": 1, "explanation": "Wheat late sowing requires a higher seed rate of 125-150 kg/ha compared to normal sowing (100-125 kg/ha).", "id": 6}, {"section": "Seed Basics & Seed Rate", "difficulty": "hard", "type": "single", "question": "What is the seed rate for hybrid wheat?", "options": ["100-125 kg/ha", "125-150 kg/ha", "67 kg/ha", "25-30 kg/ha", "15-20 kg/ha"], "answer": 2, "explanation": "Hybrid wheat seed rate is 67 kg/ha as per the reference table.", "id": 7}, {"section": "Seed Basics & Seed Rate", "difficulty": "moderate", "type": "single", "question": "What is the seed rate range for hybrid maize?", "options": ["40-60 kg/ha", "15-20 kg/ha", "12-15 kg/ha", "20-25 kg/ha", "2-3 kg/ha"], "answer": 3, "explanation": "Hybrid maize seed rate is 20-25 kg/ha; composite maize is 15-20 kg/ha and fodder maize 40-60 kg/ha.", "id": 8}, {"section": "Seed Basics & Seed Rate", "difficulty": "hard", "type": "single", "question": "Which crop among the following has the lowest seed rate as per the recommended seed rate table?", "options": ["Groundnut (bunch type)", "Soybean", "Gram", "Field Pea", "Pearl Millet (2-3 kg/ha)"], "answer": 4, "explanation": "Pearl millet has a very low seed rate of only 2-3 kg/ha due to its small seed size.", "id": 9}, {"section": "Seed Basics & Seed Rate", "difficulty": "moderate", "type": "single", "question": "What is the seed rate for soybean?", "options": ["70-80 kg/ha", "60-80 kg/ha", "30-40 kg/ha", "15 kg/ha", "8-10 kg/ha"], "answer": 0, "explanation": "Soybean seed rate is 70-80 kg/ha as per the table (gram is 60-80 kg/ha, a close but distinct figure).", "id": 10}, {"section": "Seed Basics & Seed Rate", "difficulty": "hard", "type": "single", "question": "What is the seed rate for hybrid cotton and tobacco?", "options": ["10-12 kg/ha", "2.5-3 kg/ha", "15-20 kg/ha", "8-10 kg/ha", "20-25 kg/ha"], "answer": 1, "explanation": "Hybrid cotton and tobacco have a very low seed rate of 2.5-3 kg/ha, while American cotton needs 15-20 kg/ha and Desi cotton needs 10-12 kg/ha.", "id": 11}, {"section": "Seed Basics & Seed Rate", "difficulty": "moderate", "type": "single", "question": "Potato seed rate is expressed in which unit, unlike most other field crops?", "options": ["Kg per hectare", "Grams per m\u00b2", "Quintals per hectare (10-15 q/ha)", "Tonnes per acre", "Millions of seeds per ha"], "answer": 2, "explanation": "Potato is unique in the table as its seed rate is given in quintals (10-15 quintals/ha) rather than kg/ha.", "id": 12}, {"section": "Seed Basics & Seed Rate", "difficulty": "hard", "type": "single", "question": "What is the seed rate for tetraploid species of Berseem?", "options": ["20-25 kg/ha", "40-50 kg/ha", "8-10 kg/ha", "30-35 kg/ha", "12-15 kg/ha"], "answer": 3, "explanation": "Berseem tetraploid species requires 30-35 kg/ha while diploid species require 20-25 kg/ha.", "id": 13}, {"section": "Seed Basics & Seed Rate", "difficulty": "hard", "type": "statements", "question": "Consider the following statements regarding seed rate:\nI. Seed rate depends on germination of the seed, size of the seed, and growing habit of the crop.\nII. Extremes from the recommended seed rate do not affect plant population or yield.\nIII. Sesame seeds, being too small, are mixed with sand before broadcasting.\nIV. The seed rate for rice transplanting is higher than for rice broadcasting.\nHow many of the above statements are correct?", "options": ["Only one", "Only three", "All four", "None of the above are correct", "Only two"], "answer": 4, "explanation": "Statements I and III are correct. II is false (extremes DO affect plant population and yield). IV is false (transplanting is 50-60 kg/ha, lower than broadcasting's 80-100 kg/ha).", "id": 14}, {"section": "Seed Sowing Methods", "difficulty": "easy", "type": "single", "question": "Which seed sowing method is otherwise called 'random sowing' and literally means 'scattering the seeds'?", "options": ["Broadcasting", "Dibbling", "Seed Drilling", "Transplanting", "Sowing behind the plough"], "answer": 0, "explanation": "Broadcasting is otherwise called random sowing, meaning scattering the seeds.", "id": 15}, {"section": "Seed Sowing Methods", "difficulty": "moderate", "type": "single", "question": "In broadcasting, sesame seeds (being too small) are mixed with sand at what ratio for easy handling?", "options": ["1:5 or 1:3", "1:15 or 1:10", "1:50 or 1:40", "1:100", "1:2 or 1:1"], "answer": 1, "explanation": "Sesame seeds are mixed with sand at 1:15 or 1:10 ratio and sown due to their small size.", "id": 16}, {"section": "Seed Sowing Methods", "difficulty": "moderate", "type": "single", "question": "Which implement is described as 'the best used one' for covering broadcast seeds when seeds are large and levelers collect and leave them aside?", "options": ["Country plough", "Wooden planks", "Comb harrow", "Tree twigs", "Seed drill"], "answer": 2, "explanation": "The document states comb harrow is the best used implement for covering large broadcast seeds.", "id": 17}, {"section": "Seed Sowing Methods", "difficulty": "easy", "type": "single", "question": "Which seed sowing method is actually a form of 'line sowing' using a pointed tool to place seeds at cross marks?", "options": ["Broadcasting", "Seed drilling", "Transplanting", "Dibbling", "Sowing behind plough"], "answer": 3, "explanation": "Dibbling is line sowing where seeds are placed at cross marks using a dibbler.", "id": 18}, {"section": "Seed Sowing Methods", "difficulty": "moderate", "type": "single", "question": "At what position on a ridge are seeds typically dibbled?", "options": ["Exactly at the top", "Exactly at the bottom", "1/2 from top", "At the furrow base only", "2/3rd from top or 1/3rd from bottom"], "answer": 4, "explanation": "Seeds are dibbled at 2/3rd from top or 1/3rd at bottom of the ridge.", "id": 19}, {"section": "Seed Sowing Methods", "difficulty": "easy", "type": "single", "question": "A dibber/dibble/dibbler is best described as:", "options": ["A pointed wooden stick for making holes in the ground for seeds, seedlings or small bulbs", "A mechanical seed drill for row sowing", "A wide flat basket used for winnowing", "A digital instrument to measure seed moisture", "A sieve used to separate chaff from seeds"], "answer": 0, "explanation": "A dibbler is a pointed wooden stick used to make holes in the ground for planting seeds, seedlings, or small bulbs.", "id": 20}, {"section": "Seed Sowing Methods", "difficulty": "hard", "type": "single", "question": "Which crop is specifically noted as being 'dibbled on a plain surface' in the rice-fallow system?", "options": ["Rice fallow wheat", "Rice fallow cotton", "Rice fallow maize", "Rice fallow sorghum", "Rice fallow groundnut"], "answer": 1, "explanation": "The document specifically states rice fallow cotton is dibbled on a plain surface.", "id": 21}, {"section": "Seed Sowing Methods", "difficulty": "moderate", "type": "single", "question": "In seed drilling, seeds are dropped at a definite depth and then:", "options": ["Left exposed on the surface", "Mixed with sand before covering", "Covered with soil and compacted", "Soaked in hot water first", "Covered only with tree twigs"], "answer": 2, "explanation": "Drilling is the practice of dropping seeds at a definite depth, covering with soil, and compacting.", "id": 22}, {"section": "Seed Sowing Methods", "difficulty": "moderate", "type": "single", "question": "In the transplanting method, the age of seedlings at transplanting is typically what fraction of total crop duration?", "options": ["1/2", "1/10th", "1/3rd", "1/4th", "2/3rd"], "answer": 3, "explanation": "The age of seedlings for transplanting is 1/4th of the total duration of the crop.", "id": 23}, {"section": "Seed Sowing Methods", "difficulty": "hard", "type": "single", "question": "As per the thumb rule for transplanting, a crop with a minimum duration of 4 months requires a nursery duration of:", "options": ["3 weeks", "5 weeks", "6 weeks", "2 weeks", "4 weeks minimum"], "answer": 4, "explanation": "Thumb rule: 3-month crop needs 3 weeks nursery, 4-month crop needs minimum 4 weeks, 5-month crop needs 5 weeks.", "id": 24}, {"section": "Seed Sowing Methods", "difficulty": "hard", "type": "single", "question": "If 1 hectare of land is to be sown via transplanting, what should be the nursery area (given nursery area is 1/10th of total area)?", "options": ["1000 sq m", "100 sq m", "5000 sq m", "2000 sq m", "500 sq m"], "answer": 0, "explanation": "Nursery area is 1/10th of total area; for 1 ha (10,000 sqm), the nursery required is 1000 sqm.", "id": 25}, {"section": "Seed Sowing Methods", "difficulty": "moderate", "type": "single", "question": "Which crops are specifically mentioned as being sown behind the country plough, with groundnut being the major one?", "options": ["Wheat, gram and maize", "Red gram, cowpea and groundnut", "Rice, wheat and barley", "Sorghum, bajra and ragi", "Soybean, sunflower and mustard"], "answer": 1, "explanation": "Seeds like red gram, cowpea and groundnut are sown behind the country plough; groundnut is the major crop sown this way.", "id": 26}, {"section": "Seed Sowing Methods", "difficulty": "easy", "type": "single", "question": "Which sowing method is described as the 'easiest and cheapest' requiring minimum laborers?", "options": ["Seed drilling", "Dibbling", "Broadcasting", "Transplanting", "Sowing behind the plough"], "answer": 2, "explanation": "Broadcasting is described as the easiest and cheapest method requiring minimum laborers.", "id": 27}, {"section": "Seed Sowing Methods", "difficulty": "hard", "type": "statements", "question": "Consider the following statements on sowing methods:\nI. To ensure uniform population in broadcasting, criss-cross sowing is recommended.\nII. In some cases, the sower beats seeds against the basket for uniform scattering, e.g., for sorghum and pearl millet.\nIII. Dibbling is practiced only on plain surfaces and never on ridges and furrows.\nIV. Manual sowing behind the plough is a quick, low-labor process.\nHow many of the above statements are correct?", "options": ["Only one", "Only three", "All four", "Only two", "None of the above are correct"], "answer": 3, "explanation": "I and II are correct. III is false (dibbling is practiced on plain surface AND ridges/furrows/beds/channels). IV is false (manual sowing behind plough is described as laborious and time-consuming).", "id": 28}, {"section": "Seed Sowing Methods", "difficulty": "moderate", "type": "notcorrect", "question": "Which of the following statements about seed sowing methods is NOT correct?", "options": ["Broadcasting is also called random sowing", "A dibbler is a pointed wooden stick used to make holes for seeds", "Seed drilling drops seeds at a definite depth followed by covering and compaction", "Transplanting involves raising seedlings in a nursery before shifting to the main field", "Dibbling requires the maximum seed rate among all sowing methods for a given crop"], "answer": 4, "explanation": "Dibbling/line sowing actually requires a LOWER seed rate (e.g., rice dibbling 25-30 kg/ha) compared to broadcasting (80-100 kg/ha), not the maximum.", "id": 29}, {"section": "Germination Process", "difficulty": "easy", "type": "single", "question": "The process by which a seed fills with water before growth begins is called:", "options": ["Imbibition", "Photomorphogenesis", "Stratification", "Scarification", "Vernalization"], "answer": 0, "explanation": "When water is plentiful, the seed fills with water in a process called imbibition.", "id": 30}, {"section": "Germination Process", "difficulty": "moderate", "type": "single", "question": "The process by which leaves continue to grow towards a light source is called:", "options": ["Imbibition", "Photomorphogenesis", "Germination", "Stratification", "Dormancy"], "answer": 1, "explanation": "Leaves grow towards the light source in a process called photomorphogenesis.", "id": 31}, {"section": "Germination Process", "difficulty": "easy", "type": "single", "question": "In which type of germination does the hypocotyl elongate rapidly, pulling the cotyledons above the soil surface?", "options": ["Hypogeal germination", "Vegetative germination", "Epigeal germination", "Vivipary", "Apomixis"], "answer": 2, "explanation": "In epigeal germination, the hypocotyl elongates and arches upward, pulling cotyledons above the soil.", "id": 32}, {"section": "Germination Process", "difficulty": "moderate", "type": "single", "question": "Which of the following is an example of epigeal germination?", "options": ["Gram", "Redgram", "Lentil", "Castor", "Cereals"], "answer": 3, "explanation": "Castor (along with mustard, tamarind, sunflower, onion) shows epigeal germination; gram, redgram, lentil, and cereals show hypogeal germination.", "id": 33}, {"section": "Germination Process", "difficulty": "hard", "type": "single", "question": "In hypogeal germination, which part of the seedling elongates while the cotyledons remain below the soil?", "options": ["Hypocotyl", "Radicle", "Plumule sheath only", "Coleoptile tip", "Epicotyl"], "answer": 4, "explanation": "In hypogeal germination, the epicotyl elongates while the cotyledons remain below the soil.", "id": 34}, {"section": "Germination Process", "difficulty": "hard", "type": "single", "question": "Which wavelength of light is most effective for promoting germination, according to the document?", "options": ["Red (662 nm)", "Blue (450 nm)", "Green (550 nm)", "Ultraviolet (300 nm)", "Infrared (900 nm)"], "answer": 0, "explanation": "Red light at 662 nm is the most effective wavelength for promoting germination, while 730 nm inhibits it.", "id": 35}, {"section": "Germination Process", "difficulty": "moderate", "type": "single", "question": "What is the general thumb rule for the optimum depth of sowing relative to seed diameter?", "options": ["1 to 2 times the diameter of the seed", "3 to 4 times the diameter of the seed", "6 to 8 times the diameter of the seed", "10 times the diameter of the seed", "Equal to the diameter of the seed"], "answer": 1, "explanation": "The thumb rule is to sow seeds to a depth of approximately 3 to 4 times the diameter of the seed.", "id": 36}, {"section": "Germination Process", "difficulty": "moderate", "type": "single", "question": "What is the optimum sowing depth range for most field crops?", "options": ["1 to 2 cm", "6 to 10 cm", "3 to 5 cm", "10 to 15 cm", "0.5 to 1 cm"], "answer": 2, "explanation": "The optimum depth of sowing for most field crops ranges between 3 and 5 cm.", "id": 37}, {"section": "Germination Process", "difficulty": "easy", "type": "single", "question": "Small seeds require what kind of soil tilth for germination, as per the document?", "options": ["Coarse tilth", "Moderate tilth only", "No tilth requirement", "Fine tilth", "Waterlogged tilth"], "answer": 3, "explanation": "Small seeds require fine tilth, whereas larger seeds require coarse tilth soils.", "id": 38}, {"section": "Germination Process", "difficulty": "hard", "type": "statements", "question": "Consider the following statements on germination:\nI. If seeds are placed at deeper soil layers, they spend more energy to germinate.\nII. If seeds are placed on the surface, they risk being taken away by birds or worked away.\nIII. 730 nm wavelength light promotes germination more effectively than red light.\nIV. Soil type, texture, structure and microorganisms influence seed germination.\nHow many of the above statements are correct?", "options": ["Only two", "All four", "Only one", "None of the above are correct", "Only three"], "answer": 4, "explanation": "I, II, and IV are correct. III is false \u2014 730 nm inhibits germination, whereas red light (662 nm) promotes it.", "id": 39}, {"section": "Plant Population & Crop Stand", "difficulty": "easy", "type": "single", "question": "The number of plants per unit area in a cropped field is termed as:", "options": ["Plant population", "Crop geometry", "Seed rate", "Crop stand establishment", "Optimum density index"], "answer": 0, "explanation": "Number of plants per unit area in the cropped field is called plant population.", "id": 40}, {"section": "Plant Population & Crop Stand", "difficulty": "moderate", "type": "single", "question": "As plant population per unit area increases beyond the optimum level, yield per plant:", "options": ["Increases indefinitely", "Decreases gradually", "Remains completely unchanged", "Doubles instantly", "Becomes negative"], "answer": 1, "explanation": "Yield per plant decreases gradually as plant population increases, though yield per unit area increases up to a certain optimum level.", "id": 41}, {"section": "Plant Population & Crop Stand", "difficulty": "hard", "type": "single", "question": "Which of the following crops is cited as occupying a LARGER volume of space in the field compared to rice and wheat?", "options": ["Ragi", "Bajra", "Sugarcane", "Wheat", "Rice"], "answer": 2, "explanation": "Plants like red gram, cotton, and sugarcane occupy a larger volume of space compared to rice and wheat.", "id": 42}, {"section": "Plant Population & Crop Stand", "difficulty": "moderate", "type": "single", "question": "Which term describes the variation in plant size from the minimum needed for economic yield to the maximum under unlimited space/resources?", "options": ["Foraging area", "Dry matter partitioning", "Optimum plant population", "Elasticity of the plant", "Crop geometry"], "answer": 3, "explanation": "Elasticity of the plant is the variation in size between minimum economic yield size and maximum size under unlimited resources.", "id": 43}, {"section": "Plant Population & Crop Stand", "difficulty": "hard", "type": "single", "question": "Which type of plants (e.g., pearl millet, sorghum) have a LESS optimum plant population range due to limited branching?", "options": ["Indeterminate plants", "Perennial plants", "Biennial plants", "Rosette plants", "Determinate plants"], "answer": 4, "explanation": "Determinate (limited branching) plants like pearl millet and sorghum have a less optimum plant population range, unlike indeterminate plants like cotton and red gram.", "id": 44}, {"section": "Plant Population & Crop Stand", "difficulty": "moderate", "type": "single", "question": "What is the calculated plant population for short-duration rice sown at 15 cm x 10 cm spacing?", "options": ["6,66,666 plants/ha", "5,00,000 plants/ha", "3,33,333 plants/ha", "1,16,000 plants/ha", "4,44,444 plants/ha"], "answer": 0, "explanation": "Short duration rice at 15 cm x 10 cm gives a calculated plant population of 6,66,666 plants/ha (using plant population = area/spacing).", "id": 45}, {"section": "Plant Population & Crop Stand", "difficulty": "hard", "type": "single", "question": "What is the plant population for medium-duration cotton at 60 cm x 30 cm spacing?", "options": ["44,444 plants/ha", "55,555 plants/ha", "18,518 plants/ha", "67,000 plants/ha", "1,48,000 plants/ha"], "answer": 1, "explanation": "Medium cotton at 60 cm x 30 cm gives 55,555 plants/ha; long duration cotton (75x30 cm) gives 44,444, and hybrid cotton (120x45 cm) gives 18,518.", "id": 46}, {"section": "Plant Population & Crop Stand", "difficulty": "moderate", "type": "single", "question": "Under rainfed conditions compared to irrigated conditions, plant population is generally recommended to be:", "options": ["More", "Exactly the same", "Less", "Doubled", "Not a relevant factor"], "answer": 2, "explanation": "Plant population is less under rainfed conditions than irrigated conditions, since higher densities lose more water via transpiration.", "id": 47}, {"section": "Plant Population & Crop Stand", "difficulty": "hard", "type": "single", "question": "As per the document's example, what is the seed rate for rice under direct sowing versus transplanting?", "options": ["Direct sowing 40 kg/ha; transplanting 100 kg/ha", "Direct sowing 60 kg/ha; transplanting 100 kg/ha", "Direct sowing 100 kg/ha; transplanting 60 kg/ha", "Direct sowing 100 kg/ha; transplanting 40 kg/ha", "Both are 60 kg/ha"], "answer": 3, "explanation": "Example given: Rice - Direct sowing 100 kg/ha; Line sowing 60 kg/ha; Transplanting 40 kg/ha.", "id": 48}, {"section": "Plant Population & Crop Stand", "difficulty": "hard", "type": "statements", "question": "Consider the following statements on plant population:\nI. High plant population is necessary to fully utilize higher nutrient levels in soil for higher yield.\nII. High population under low-fertility soils leads to nutrient deficiency symptoms and lower yield.\nIII. Under broadcasting, seed rate is lower compared to line sowing/transplanting.\nIV. Low temperature retards growth, so high plant population is required to cover the soil.\nHow many of the above statements are correct?", "options": ["Only two", "All four", "Only one", "None of the above are correct", "Only three"], "answer": 4, "explanation": "I, II and IV are correct. III is false \u2014 under broadcasting, seed rate is HIGHER compared to line sowing/transplanting.", "id": 49}, {"section": "Plant Geometry", "difficulty": "easy", "type": "single", "question": "Crop geometry is otherwise described in the document as:", "options": ["Area occupied by a single plant", "Total cropped area of the field", "Distance between two adjacent fields", "Rate of germination per unit area", "Depth of seed placement"], "answer": 0, "explanation": "Crop geometry is the arrangement of plants in rows/columns to utilize resources efficiently; it is otherwise the area occupied by a single plant.", "id": 50}, {"section": "Plant Geometry", "difficulty": "moderate", "type": "single", "question": "Which type of plant geometry results from the broadcasting method of sowing, with no equal spacing maintained?", "options": ["Square plant geometry", "Random plant geometry", "Rectangular method", "Triangular method", "Quincunx pattern"], "answer": 1, "explanation": "Random plant geometry results from broadcasting, where resources are either underutilized or over-exploited.", "id": 51}, {"section": "Plant Geometry", "difficulty": "moderate", "type": "single", "question": "Which crop geometry type is mostly followed by perennial and tree crops, e.g., coconut at 7.5 x 7.5 m?", "options": ["Rectangular method", "Triangular method", "Square plant geometry", "Quincunx or diamond pattern", "Hexagonal system"], "answer": 2, "explanation": "Square plant geometry, where plants are at equal distances on either side, is mostly used for perennial/tree crops like coconut (7.5x7.5m) and banana (1.8x1.8m).", "id": 52}, {"section": "Plant Geometry", "difficulty": "hard", "type": "single", "question": "In the rectangular sowing method, which sub-type has 'definite row arrangement but no column arrangement' and is exemplified by wheat?", "options": ["Skip row", "Paired row", "Quincunx pattern", "Solid row", "Hexagonal system"], "answer": 3, "explanation": "Solid row has no proper spacing between plants in a row but has definite row arrangement without column arrangement; example is wheat.", "id": 53}, {"section": "Plant Geometry", "difficulty": "hard", "type": "single", "question": "In the skip row rectangular method, the population reduction from skipping a row is typically compensated by:", "options": ["Increasing irrigation frequency", "Doubling the fertilizer dose", "Using a wider dibbler", "Sowing behind the plough", "Planting an intercrop"], "answer": 4, "explanation": "In skip row method, population reduction is compensated by planting an intercrop; practiced in rainfed/dry-land agriculture.", "id": 54}, {"section": "Plant Geometry", "difficulty": "moderate", "type": "single", "question": "The quincunx or diamond pattern consists of a square formed by how many closest plants, with one additional plant at the center?", "options": ["4 closest plants", "6 closest plants", "3 closest plants", "5 closest plants", "8 closest plants"], "answer": 0, "explanation": "The quincunx/diamond pattern is a square formed by 4 closest plants with an additional (filler) plant at the center.", "id": 55}, {"section": "Plant Geometry", "difficulty": "moderate", "type": "single", "question": "In the quincunx pattern, the crop at the center of the square is referred to as the:", "options": ["Main crop", "Filler crop", "Nucleus crop", "Border crop", "Companion crop"], "answer": 1, "explanation": "The 4 plants forming the square are the main crops, while the crop at the center is called the filler crop.", "id": 56}, {"section": "Plant Geometry", "difficulty": "hard", "type": "single", "question": "In the hexagonal system of planting, how many trees form a hexagon around a seventh central tree?", "options": ["Four", "Five", "Six", "Eight", "Three"], "answer": 2, "explanation": "In the hexagonal system, trees at each corner of an equilateral triangle form a hexagon with six trees, with a seventh tree in the center; hence also called 'septule'.", "id": 57}, {"section": "Plant Geometry", "difficulty": "hard", "type": "single", "question": "In paired row plantation with square geometry, how does plant-to-plant spacing (Z) compare to row-to-row spacing (X)?", "options": ["Z is more than X", "Z is always half of X", "Z is unrelated to X", "Z is the same as X", "Z is double X always"], "answer": 3, "explanation": "In paired row with square geometry, plant-to-plant spacing (Z) equals row-to-row spacing (X); in rectangular geometry, Z is more than X.", "id": 58}, {"section": "Plant Geometry", "difficulty": "moderate", "type": "single", "question": "What is the recommended spacing for rice under the SRI method?", "options": ["20 cm x 10 cm", "20 cm x 15 cm", "60 cm x 25 cm", "45 cm x 15 cm", "25 cm x 25 cm"], "answer": 4, "explanation": "SRI method rice spacing is 25 cm x 25 cm, giving a plant population of about 1,16,000/ha.", "id": 59}, {"section": "Plant Geometry", "difficulty": "hard", "type": "single", "question": "What is the recommended spacing and plant population for hybrid cotton?", "options": ["120 x 60 cm; 13,388 plants/ha", "60 x 30 cm; 55,000 plants/ha", "45 x 60 cm; 37,111 plants/ha", "30 x 10 cm; 3,33,000 plants/ha", "20 x 7 cm; 7,14,286 plants/ha"], "answer": 0, "explanation": "Hybrid cotton spacing is 120 x 60 cm with a plant population of 13,388 plants/ha as per the planting geometry table.", "id": 60}, {"section": "Plant Geometry", "difficulty": "hard", "type": "single", "question": "What is the recommended plant population per ha for Jute, given its spacing of 20 cm x 7 cm?", "options": ["4,44,444 plants/ha", "7,14,286 plants/ha", "6,66,666 plants/ha", "3,33,000 plants/ha", "1,48,000 plants/ha"], "answer": 1, "explanation": "Jute at 20 cm x 7 cm spacing gives a plant population of 7,14,286 plants/ha, the highest among crops listed in the table.", "id": 61}, {"section": "Plant Geometry", "difficulty": "moderate", "type": "notcorrect", "question": "Which of the following statements about plant geometry is NOT correct?", "options": ["Random plant geometry results from broadcasting sowing", "Square plant geometry is mostly followed by perennial/tree crops", "The triangular method of planting results in fewer plants per unit area than the square method", "The hexagonal system is also called 'septule'", "Paired row arrangement can be seen in both square and rectangular plant geometry types"], "answer": 2, "explanation": "The document states the triangular method has MORE plants per unit area, not fewer, making this statement incorrect.", "id": 62}, {"section": "Plant Geometry", "difficulty": "hard", "type": "statements", "question": "Consider the following statements on plant geometry:\nI. The triangular method of planting is recommended for widely spaced crops like coconut.\nII. In rectangular sowing, row spacing is narrower than plant-to-plant spacing.\nIII. The number of rows per hectare remains the same in paired row arrangement.\nIV. Dimension Y in paired row arrangement refers to the distance between two paired rows.\nHow many of the above statements are correct?", "options": ["Only two", "All four", "Only one", "Only three", "None of the above are correct"], "answer": 3, "explanation": "I, III, and IV are correct. II is false \u2014 in rectangular sowing, row spacing is WIDER than the spacing between plants, not narrower.", "id": 63}, {"section": "Seed Production - Quality & Factors", "difficulty": "easy", "type": "single", "question": "Which of the following is NOT a stated characteristic of good quality seeds?", "options": ["Good seed health with high germination capacity and vigor", "Physical purity of 96-98%", "Genetic purity maintained across generations", "Moisture content maintained at 9-13%", "High market price"], "answer": 4, "explanation": "The four characteristics listed are seed health, physical purity, genetic purity, and moisture content \u2014 market price is not among them.", "id": 64}, {"section": "Seed Production - Quality & Factors", "difficulty": "moderate", "type": "single", "question": "Physical purity of seeds should be maintained at what percentage range?", "options": ["96-98%", "90-95%", "99-100%", "85-90%", "70-80%"], "answer": 0, "explanation": "The physical purity of seeds should be maintained at 96-98%, with uniform size and shape without damage.", "id": 65}, {"section": "Seed Production - Quality & Factors", "difficulty": "moderate", "type": "single", "question": "Seeds should be stored at what safe moisture level to maintain viability and vigor?", "options": ["1-5%", "9-13%", "15-20%", "20-25%", "25-30%"], "answer": 1, "explanation": "Seeds should be stored at a safe moisture level of 9-13% to ensure good germination capacity and viability.", "id": 66}, {"section": "Seed Production - Quality & Factors", "difficulty": "easy", "type": "single", "question": "Which instrument is used to directly measure the moisture content of seeds?", "options": ["Hygrometer probe", "Refractometer", "Digital moisture meter", "Seed germinator", "Soil pH meter"], "answer": 2, "explanation": "Moisture content of seeds is measured directly using a digital moisture meter.", "id": 67}, {"section": "Seed Production - Quality & Factors", "difficulty": "moderate", "type": "single", "question": "A germination rate of what percentage is considered an indication of high seed viability?", "options": ["50-60%", "90-100%", "40-50%", "70-80%", "95-99%"], "answer": 3, "explanation": "A germination rate of 70-80% indicates high seed viability, per the document.", "id": 68}, {"section": "Seed Production - Quality & Factors", "difficulty": "hard", "type": "single", "question": "In seed selection using salt solution, which seeds sink and are considered good quality?", "options": ["Seeds that float on the surface", "Seeds that dissolve", "Seeds that change color", "Seeds that split open", "Seeds that sink into the water"], "answer": 4, "explanation": "Good quality seeds sink in the salt solution; unviable seeds that float on the surface are removed.", "id": 69}, {"section": "Seed Production - Quality & Factors", "difficulty": "moderate", "type": "single", "question": "How many times should selected seeds be washed after salt solution treatment to remove salt deposits?", "options": ["2-3 times", "Once only", "5-6 times", "10 times", "Not required at all"], "answer": 0, "explanation": "Selected seeds should be washed in good water 2-3 times to remove salt deposits after salt-solution based selection.", "id": 70}, {"section": "Seed Production - Quality & Factors", "difficulty": "easy", "type": "single", "question": "Which method breaks seed dormancy by removing the hard seed coat using sand paper, commonly applied to pulses?", "options": ["Stratification", "Scarification", "Leaching", "Hot water treatment", "Light treatment"], "answer": 1, "explanation": "Scarification involves removing the hard seed coat by rubbing seeds with sand paper; example: pulses.", "id": 71}, {"section": "Seed Production - Quality & Factors", "difficulty": "moderate", "type": "single", "question": "Which dormancy-breaking method involves soaking seeds in hot water at 77-100\u00b0C, typically for tree crops?", "options": ["Scarification", "Leaching", "Hot water treatment", "Stratification", "Light treatment"], "answer": 2, "explanation": "Hot water treatment soaks seeds at 77-100\u00b0C to break dormancy in tree crop seeds.", "id": 72}, {"section": "Seed Production - Quality & Factors", "difficulty": "moderate", "type": "single", "question": "Which method removes germination-inhibiting chemicals by soaking seeds overnight in water, exemplified by coriander?", "options": ["Scarification", "Stratification", "Hot water treatment", "Leaching", "Light treatment"], "answer": 3, "explanation": "Leaching soaks seeds overnight in water to remove germination-inhibiting chemicals; example: coriander.", "id": 73}, {"section": "Seed Production - Quality & Factors", "difficulty": "moderate", "type": "single", "question": "Which dormancy-breaking method subjects seeds to a very low temperature of 0-5\u00b0C to break embryo dormancy, exemplified by cole crops?", "options": ["Scarification", "Leaching", "Hot water treatment", "Light treatment", "Stratification"], "answer": 4, "explanation": "Stratification exposes seeds to 0-5\u00b0C to break embryo dormancy; example: cole crops.", "id": 74}, {"section": "Seed Production - Quality & Factors", "difficulty": "easy", "type": "single", "question": "Which crop is given as the example for the light-treatment method of breaking seed dormancy?", "options": ["Lettuce", "Coriander", "Cole crops", "Pulses", "Tree crops"], "answer": 0, "explanation": "Some seeds like Lettuce do not germinate in the dark, so periodic light exposure breaks dormancy.", "id": 75}, {"section": "Seed Production - Quality & Factors", "difficulty": "hard", "type": "single", "question": "Which of the following is NOT listed as a cause of seed dormancy?", "options": ["Hard seed coat", "Excess soil nitrogen content", "Immature embryo", "Presence of germination inhibitors", "Excess exposure to heat, light or darkness"], "answer": 1, "explanation": "The document lists hard seed coat, immature embryo, germination inhibitors, and excess heat/light/darkness/chemical toxins as causes \u2014 not soil nitrogen content.", "id": 76}, {"section": "Seed Production - Quality & Factors", "difficulty": "hard", "type": "statements", "question": "Consider the following statements on factors influencing seed production:\nI. The site selected for seed production should not have been cultivated with the same crop variety in the previous season.\nII. More densely populated planting acquires more weed infestation with uneven ripening.\nIII. Weed seeds remain dormant for a long period and can grow faster than the main crop.\nIV. Seed vigour is unrelated to a seedling's standard establishment in the field.\nHow many of the above statements are correct?", "options": ["Only one", "Only three", "Only two", "All four", "None of the above are correct"], "answer": 2, "explanation": "I and III are correct. II is false \u2014 LESS populated planting (not more) acquires more weed infestation; MORE densely populated leads to disease incidence. IV is false \u2014 seed vigour is defined as favouring rapid and uniform stand establishment.", "id": 77}, {"section": "Seed Production - Quality & Factors", "difficulty": "hard", "type": "statements", "question": "Consider the following statements:\nI. Scientifically produced seeds follow a well-designed seed programme, unlike grains used as seeds.\nII. Grains used as seeds undergo the same processing, labelling, and tagging procedures as scientifically produced seeds.\nIII. Seeds can never be converted into grains unless directed by the seed inspector.\nIV. Grains are typically dried at higher temperatures than scientifically produced seeds.\nHow many of the above statements are correct?", "options": ["Only two", "All four", "Only one", "Only three", "None of the above are correct"], "answer": 3, "explanation": "I, III, and IV are correct. II is false \u2014 grain production does NOT follow processing, labelling, and tagging procedures, unlike scientific seed production.", "id": 78}, {"section": "Seed Multiplication & Replacement Ratios", "difficulty": "easy", "type": "single", "question": "Seed Multiplication Ratio (SMR) is defined as:", "options": ["Seed Rate / Seed Yield", "Total area sown / Total cultivated area", "Number of germinated seeds / Total seeds", "Certified seed area / Farm-saved seed area", "Seed Yield / Seed Rate"], "answer": 4, "explanation": "SMR = Seed Yield / Seed Rate \u2014 the number of seeds produced from a single seed sown and harvested.", "id": 79}, {"section": "Seed Multiplication & Replacement Ratios", "difficulty": "moderate", "type": "single", "question": "What is the Seed Multiplication Ratio (SMR) for wheat?", "options": ["1:20", "1:10", "1:40", "1:100", "1:200"], "answer": 0, "explanation": "Wheat has an SMR of 1:20 as per the document's table.", "id": 80}, {"section": "Seed Multiplication & Replacement Ratios", "difficulty": "hard", "type": "single", "question": "What is the SMR for paddy varieties versus paddy hybrids respectively?", "options": ["1:100 (varieties), 1:80 (hybrids)", "1:80 (varieties), 1:100 (hybrids)", "1:40 (varieties), 1:80 (hybrids)", "1:20 (varieties), 1:100 (hybrids)", "1:200 (varieties), 1:100 (hybrids)"], "answer": 1, "explanation": "Paddy SMR is 1:80 for varieties and 1:100 for hybrids, same pattern as maize (1:80 varieties, 1:100 hybrids).", "id": 81}, {"section": "Seed Multiplication & Replacement Ratios", "difficulty": "hard", "type": "single", "question": "Which crop has the highest Seed Multiplication Ratio listed in the document at 1:450?", "options": ["Tomato", "Chillies", "Brinjal", "Cole crops", "Sesame"], "answer": 2, "explanation": "Brinjal has an SMR of 1:450, higher than tomato (1:400), chillies (1:240), and sesame (1:250); cole crops SMR is 1:433 which is second highest.", "id": 82}, {"section": "Seed Multiplication & Replacement Ratios", "difficulty": "hard", "type": "single", "question": "What is the SMR for Bajra (pearl millet)?", "options": ["1:100", "1:80", "1:40", "1:200", "1:20"], "answer": 3, "explanation": "Bajra has an SMR of 1:200 as per the document.", "id": 83}, {"section": "Seed Multiplication & Replacement Ratios", "difficulty": "moderate", "type": "single", "question": "What is the SMR for Groundnut?", "options": ["1:4", "1:50", "1:100", "1:20", "1:8"], "answer": 4, "explanation": "Groundnut has a low SMR of 1:8; Potato has an even lower SMR of 1:4.", "id": 84}, {"section": "Seed Multiplication & Replacement Ratios", "difficulty": "hard", "type": "single", "question": "Which crop has the lowest SMR listed among all crops in the document?", "options": ["Potato (1:4)", "Groundnut (1:8)", "Gram (1:10)", "Berseem (1:10)", "Wheat (1:20)"], "answer": 0, "explanation": "Potato has the lowest SMR at 1:4, meaning it multiplies the least among all listed crops.", "id": 85}, {"section": "Seed Multiplication & Replacement Ratios", "difficulty": "moderate", "type": "single", "question": "What is the SMR for Sunflower?", "options": ["1:100", "1:50", "1:16", "1:19", "1:171"], "answer": 1, "explanation": "Sunflower SMR is 1:50; Soybean is 1:16, Peas is 1:19, and Onion is 1:171.", "id": 86}, {"section": "Seed Multiplication & Replacement Ratios", "difficulty": "hard", "type": "single", "question": "What is the SMR value for Onion?", "options": ["1:83", "1:100", "1:171", "1:19", "1:60"], "answer": 2, "explanation": "Onion has an SMR of 1:171; Carrot is 1:83, Radish is 1:100, Peas is 1:19.", "id": 87}, {"section": "Seed Multiplication & Replacement Ratios", "difficulty": "easy", "type": "single", "question": "Seed Replacement Rate (SRR) is defined as the percentage of area sown with:", "options": ["Only nucleus seeds out of total area", "Hybrid seeds only, regardless of source", "Organic seeds out of total cultivated area", "Certified/quality seeds other than farm-saved seeds, out of total cultivated area", "Imported seeds out of total cultivated area"], "answer": 3, "explanation": "SRR is the percentage of area sown out of total cultivated area using certified/quality seeds other than farm-saved seeds.", "id": 88}, {"section": "Seed Multiplication & Replacement Ratios", "difficulty": "moderate", "type": "single", "question": "In the SRR formula SRR = X/Y x 100, what does 'Y' represent?", "options": ["Area sown with certified/quality seeds", "Total number of seed producers", "Total seed yield in a season", "Total isolation distance required", "Total cultivated area under a crop in a season"], "answer": 4, "explanation": "In SRR = X/Y \u00d7 100, Y is the total cultivated area under a crop in a season, and X is the area sown with certified/quality seeds.", "id": 89}, {"section": "Seed Multiplication & Replacement Ratios", "difficulty": "hard", "type": "single", "question": "According to the document, despite the organized seed programme, what level has the Seed Replacement Rate reached?", "options": ["15 per cent", "50 per cent", "75 per cent", "25 per cent", "5 per cent"], "answer": 0, "explanation": "Despite the organized seed programme, the seed replacement rate has only reached 15 per cent, per the document.", "id": 90}, {"section": "Seed Multiplication & Replacement Ratios", "difficulty": "hard", "type": "statements", "question": "Consider the following statements on SMR and SRR:\nI. Higher Seed Replacement Ratio leads to higher production and productivity.\nII. Ideally, seed should be replaced every year for hybrids and every three to four years for non-hybrids.\nIII. Good quality seed alone can increase yield by 15-20 per cent.\nIV. The SMR for Redgram equals the SMR for Cotton.\nHow many of the above statements are correct?", "options": ["Only two", "Only three", "All four", "Only one", "None of the above are correct"], "answer": 1, "explanation": "I, II, and III are correct. IV is false \u2014 Redgram SMR is 1:100 while Cotton SMR is 1:50, so they are not equal.", "id": 91}, {"section": "Purity Maintenance (Isolation, Bagging, Rouging)", "difficulty": "easy", "type": "single", "question": "Isolation distance is maintained between seed crops mainly to preserve:", "options": ["Soil fertility", "Water table levels", "Genetic purity of the seeds", "Seed moisture content", "Seed color"], "answer": 2, "explanation": "Isolation distance maintains genetic purity of seeds by preventing cross-pollination from adjacent varieties.", "id": 92}, {"section": "Purity Maintenance (Isolation, Bagging, Rouging)", "difficulty": "moderate", "type": "single", "question": "What are the two types of isolation followed for maintaining seed purity?", "options": ["Wet isolation and dry isolation", "Genetic isolation and physical isolation", "Chemical isolation and mechanical isolation", "Space isolation and time isolation", "Hot isolation and cold isolation"], "answer": 3, "explanation": "The two types of isolation are space isolation (planting distance) and time isolation (difference in sowing time).", "id": 93}, {"section": "Purity Maintenance (Isolation, Bagging, Rouging)", "difficulty": "moderate", "type": "single", "question": "What is the isolation distance required for self-pollinated Paddy, Wheat, and Ragi?", "options": ["10 metres", "100 metres", "400 metres", "1000 metres", "3 metres"], "answer": 4, "explanation": "Self-pollinated crops Paddy, Wheat, and Ragi each require an isolation distance of 3 metres.", "id": 94}, {"section": "Purity Maintenance (Isolation, Bagging, Rouging)", "difficulty": "hard", "type": "single", "question": "What is the isolation distance required for Blackgram and Greengram (self-pollinated)?", "options": ["10 metres", "3 metres", "100 metres", "200 metres", "400 metres"], "answer": 0, "explanation": "Blackgram and Greengram require an isolation distance of 10 metres, higher than paddy/wheat/ragi/groundnut (3m).", "id": 95}, {"section": "Purity Maintenance (Isolation, Bagging, Rouging)", "difficulty": "hard", "type": "single", "question": "Which cross-pollinated crop requires the highest isolation distance among those listed?", "options": ["Maize at 400 metres", "Pearl millet (Bajra) hybrid at 1000 metres", "Sunflower at 400 metres", "Redgram at 200 metres", "Sesame at 100 metres"], "answer": 1, "explanation": "Pearl millet (Bajra) hybrid requires 1000 metres isolation distance \u2014 the highest among cross-pollinated crops listed.", "id": 96}, {"section": "Purity Maintenance (Isolation, Bagging, Rouging)", "difficulty": "moderate", "type": "single", "question": "What is the isolation distance for Redgram (cross-pollinated)?", "options": ["400 metres", "100 metres", "200 metres", "1000 metres", "3 metres"], "answer": 2, "explanation": "Redgram requires an isolation distance of 200 metres; Sesame requires 100 metres.", "id": 97}, {"section": "Purity Maintenance (Isolation, Bagging, Rouging)", "difficulty": "moderate", "type": "single", "question": "The bagging technique to protect pollination is exemplified in the document by which crop?", "options": ["Maize", "Sunflower", "Sesame", "Tomato", "Redgram"], "answer": 3, "explanation": "The bagging technique, where the floral portion is covered and secured with a cotton ball, is exemplified by Tomato \u2014 suitable for small seed quantities.", "id": 98}, {"section": "Purity Maintenance (Isolation, Bagging, Rouging)", "difficulty": "easy", "type": "single", "question": "'Rouging' refers to the process of:", "options": ["Drying seeds using natural sunlight", "Testing seed moisture content digitally", "Packaging seeds for transport", "Soaking seeds in salt solution", "Removing plant varieties other than the one grown for seed production, including weeds"], "answer": 4, "explanation": "Rouging is the process of removing off-type plants, other varieties, and weeds to conserve genetic purity.", "id": 99}, {"section": "Purity Maintenance (Isolation, Bagging, Rouging)", "difficulty": "moderate", "type": "notcorrect", "question": "Which of the following statements about isolation distance and purity maintenance is NOT correct?", "options": ["Time isolation is not recognized as a valid method of isolation for seed crops", "Space isolation refers to planting distance between varieties", "Isolation distance for maize is 400 metres", "Bagging is a mechanical isolation method suitable for small seed quantities", "Rouging helps conserve the genetic purity of seed crops"], "answer": 0, "explanation": "Time isolation (difference in time of sowing) IS a recognized valid method alongside space isolation, contrary to this statement.", "id": 100}, {"section": "Purity Maintenance (Isolation, Bagging, Rouging)", "difficulty": "hard", "type": "statements", "question": "Consider the following statements:\nI. Isolation distance for Sunflower and Maize are both 400 metres.\nII. Isolation distance for Sesame (cross-pollinated) is 100 metres.\nIII. Timely rouging is not considered critical for conserving genetic purity.\nIV. The bagging technique's base is secured around the stem using a cotton ball.\nHow many of the above statements are correct?", "options": ["Only two", "Only three", "All four", "Only one", "None of the above are correct"], "answer": 1, "explanation": "I, II, and IV are correct. III is false \u2014 timely rouging IS described as critical for conservation of genetic purity.", "id": 101}, {"section": "Harvest & Seed Processing", "difficulty": "easy", "type": "single", "question": "Which harvesting method is described as most preferred since it reduces mechanical damage to seeds?", "options": ["Combine harvesting", "Mechanical threshing only", "Manual harvesting", "Aerial harvesting", "Chemical desiccation harvesting"], "answer": 2, "explanation": "Manual harvesting is the most preferred method as it reduces mechanical damage to seeds.", "id": 102}, {"section": "Harvest & Seed Processing", "difficulty": "moderate", "type": "single", "question": "Which of the following is cited as an example of a single-harvest seed crop?", "options": ["Tomato and Brinjal", "Bhendi and Tomato", "Brinjal and Bhendi", "Paddy and Maize", "Chillies and Tomato"], "answer": 3, "explanation": "Paddy and Maize are single harvest crops, whereas Tomato, Brinjal, Bhendi are multiple harvest crops.", "id": 103}, {"section": "Harvest & Seed Processing", "difficulty": "moderate", "type": "single", "question": "Wet cleaning of seeds, used for crops like cucumber and tomato, involves rubbing seeds with which material to remove flesh?", "options": ["Fine ash", "Wood shavings", "Charcoal powder", "Talcum powder", "Coarse sand"], "answer": 4, "explanation": "In wet cleaning, seeds scooped from ripened fruit flesh are rubbed vigorously with coarse sand to remove the flesh.", "id": 104}, {"section": "Harvest & Seed Processing", "difficulty": "moderate", "type": "single", "question": "After wet cleaning, seeds should be dried for how many days before storage?", "options": ["10 days", "2 days", "20 days", "30 days", "1 day"], "answer": 0, "explanation": "After wet cleaning and washing, seeds should be dried for 10 days before storage.", "id": 105}, {"section": "Harvest & Seed Processing", "difficulty": "easy", "type": "single", "question": "Dry cleaning is applied to matured seeds in a dry capsule/pod, and is exemplified by which crop group?", "options": ["Cucumber, Tomato, Brinjal", "Paddy, Millets, Pulses, Oilseeds", "Onion, Carrot, Radish", "Cole crops only", "Sugarcane and Jute"], "answer": 1, "explanation": "Dry cleaning applies to matured seeds in dry pods/capsules like Paddy, Millets, Pulses, and Oilseeds.", "id": 106}, {"section": "Harvest & Seed Processing", "difficulty": "easy", "type": "single", "question": "Winnowing is an ancient method used to remove chaff from seeds by:", "options": ["Rubbing them with sand", "Soaking them overnight in water", "Tossing them in the air using flat baskets", "Sieving through fine mesh sieves only", "Exposure to hot water at 100\u00b0C"], "answer": 2, "explanation": "Winnowing removes chaff by tossing seeds in the air using elongated flat baskets, along with mechanical winnowers.", "id": 107}, {"section": "Harvest & Seed Processing", "difficulty": "moderate", "type": "single", "question": "In sieving, where does large debris get retained relative to the seeds?", "options": ["In the smallest sieve", "Nowhere - debris passes through all sieves", "Only in the seed lot itself", "In the larger sieve", "In the winnowing basket only"], "answer": 3, "explanation": "Large debris is retained in the larger sieve, while dust materials smaller than the seeds pass through the small sieve.", "id": 108}, {"section": "Harvest & Seed Processing", "difficulty": "easy", "type": "single", "question": "The purpose of seed drying is to lower the seed's moisture content in order to:", "options": ["Increase the seed's overall weight", "Change the seed's genetic composition", "Speed up seed germination immediately", "Reduce the seed's physical purity", "Improve vigour and viability and increase storage life"], "answer": 4, "explanation": "Seed drying lowers moisture content to improve vigour and viability, thereby increasing storage life.", "id": 109}, {"section": "Harvest & Seed Processing", "difficulty": "moderate", "type": "single", "question": "Natural/sun drying of seeds uses which energy source, common in the field or threshing yard?", "options": ["Radiant energy of the sun", "Electric heating coils", "Diesel-powered burners", "Gas-fired furnaces", "Solar panels for electricity"], "answer": 0, "explanation": "Natural/sun drying uses the radiant energy of the sun, with seeds spread in a thin layer for uniform drying.", "id": 110}, {"section": "Harvest & Seed Processing", "difficulty": "hard", "type": "single", "question": "What is the main disadvantage of artificial/mechanical seed drying mentioned in the document?", "options": ["It cannot be done during dry seasons", "The cost of equipment and fuel requirement is very expensive", "It cannot dry seeds uniformly", "It significantly reduces seed germination", "It requires very long drying periods"], "answer": 1, "explanation": "The main advantage of mechanical drying is uniform, quick drying, but its main disadvantage is high equipment and fuel cost.", "id": 111}, {"section": "Harvest & Seed Processing", "difficulty": "moderate", "type": "single", "question": "In the traditional test for seed dryness, thick seeds are tested by:", "options": ["Twisting them between fingers", "Squeezing them between fingernails", "Biting them with the front tooth", "Soaking them in water", "Weighing them on a scale"], "answer": 2, "explanation": "Traditionally, thin seeds are twisted between fingers, thick seeds are bitten by the front tooth, and small seeds are squeezed between fingernails; a cracking sound indicates good dryness.", "id": 112}, {"section": "Harvest & Seed Processing", "difficulty": "hard", "type": "statements", "question": "Consider the following statements on harvest and seed processing:\nI. Harvest should coincide with the dry season to increase germination capacity.\nII. Tomato and Brinjal are examples of single-harvest crops.\nIII. Wet cleaning is used for seeds carried in moist flesh, such as cucumber.\nIV. Mechanical drying can be carried out inside the storage godown itself.\nHow many of the above statements are correct?", "options": ["Only two", "All four", "Only one", "Only three", "None of the above are correct"], "answer": 3, "explanation": "I, III, and IV are correct. II is false \u2014 Tomato and Brinjal are multiple-harvest crops, while Paddy and Maize are single-harvest crops.", "id": 113}, {"section": "Seed Certification", "difficulty": "easy", "type": "single", "question": "Seed certification is best described as:", "options": ["A voluntary marketing scheme for seed companies only", "A mandatory system for grain trading", "An informal community-level seed exchange practice", "A system exclusively for organic seed labelling", "A legally sanctioned system for quality control of seed multiplication and production"], "answer": 4, "explanation": "Seed certification is a legally sanctioned system for quality control of seed multiplication and production.", "id": 114}, {"section": "Seed Certification", "difficulty": "moderate", "type": "single", "question": "Which body defines the four main classes of seeds mentioned in the document?", "options": ["Association of Official Seed Certification Agency", "National Seed Corporation", "Ministry of Agriculture", "Krishi Vigyan Kendra", "Department of Organic Certification"], "answer": 0, "explanation": "The Association of Official Seed Certification Agency defines the four main classes: Nucleus, Breeder, Foundation, and Certified seeds.", "id": 115}, {"section": "Seed Certification", "difficulty": "moderate", "type": "single", "question": "What is the genetic purity level of Nucleus Seeds?", "options": ["99.5%", "100%", "99%", "95%", "90%"], "answer": 1, "explanation": "Nucleus seeds possess a genetic purity of 100%, being the basic seed class maintained directly by the plant breeder.", "id": 116}, {"section": "Seed Certification", "difficulty": "moderate", "type": "single", "question": "What color tag is provided for Breeder Seeds?", "options": ["White", "Purple", "Golden yellow", "Blue", "Green"], "answer": 2, "explanation": "Breeder seeds have a golden yellow tag and 100% genetic purity.", "id": 117}, {"section": "Seed Certification", "difficulty": "moderate", "type": "single", "question": "What is the genetic purity percentage and tag color for Foundation Seeds?", "options": ["100% purity, golden yellow tag", "99% purity, blue tag", "98% purity, purple tag", "99.5% purity, white tag", "95% purity, green tag"], "answer": 3, "explanation": "Foundation seeds have 99.5% genetic purity and a white certification tag.", "id": 118}, {"section": "Seed Certification", "difficulty": "moderate", "type": "single", "question": "What color tag is issued for Registered Seed, considered the parent of Certified Seed?", "options": ["Golden yellow", "White", "Blue", "Green", "Purple"], "answer": 4, "explanation": "Registered Seed has a purple tag and is considered the parent of Certified Seed, produced from Foundation or Registered seed.", "id": 119}, {"section": "Seed Certification", "difficulty": "moderate", "type": "single", "question": "What is the genetic purity percentage and tag color of Certified Seeds?", "options": ["99% purity, blue tag", "100% purity, golden yellow tag", "99.5% purity, white tag", "98% purity, purple tag", "95% purity, green tag"], "answer": 0, "explanation": "Certified seeds have 99% genetic purity and a blue certification tag.", "id": 120}, {"section": "Seed Certification", "difficulty": "hard", "type": "single", "question": "Which class of seeds does NOT come under the purview of the Department of Seed Certification, though labelling is compulsory for it?", "options": ["Nucleus Seeds", "Truthfully Labeled (TFL) Seeds", "Breeder Seeds", "Foundation Seeds", "Registered Seed"], "answer": 1, "explanation": "Truthfully Labeled (TFL) seeds do not fall under the Department of Seed Certification; labeling is compulsory but certification is voluntary.", "id": 121}, {"section": "Seed Certification", "difficulty": "hard", "type": "single", "question": "As per which Act is seed certification stated to be voluntary in India?", "options": ["Seed Act 1988", "Plant Varieties Act 2001", "Seed Act 1966", "Essential Commodities Act 1955", "Seeds Rules 1968"], "answer": 2, "explanation": "As per the Seed Act 1966, seed certification is voluntary, though seed standards are uniform across the country.", "id": 122}, {"section": "Seed Certification", "difficulty": "moderate", "type": "single", "question": "Which of the following is NOT listed as a step involved in seed certification?", "options": ["Application for seed production", "Field inspection", "Seed sample and seed analysis", "Export licensing approval", "Tagging and sealing"], "answer": 3, "explanation": "The listed steps are application for seed production, registration of sowing report, field inspection, seed processing, seed sample & analysis, and tagging & sealing \u2014 export licensing is not mentioned.", "id": 123}, {"section": "Seed Certification", "difficulty": "hard", "type": "single", "question": "To produce certified organic seeds, farmers must follow organic certification standards according to which programme, in addition to seed certification standards?", "options": ["National Seed Policy 2002", "Pradhan Mantri Fasal Bima Yojana", "National Food Security Mission", "Rashtriya Krishi Vikas Yojana", "National Programme for Organic Production (NPOP)"], "answer": 4, "explanation": "Organic seed producers must follow NPOP standards in addition to seed certification standards, registering land with an accredited organic certification body.", "id": 124}, {"section": "Seed Certification", "difficulty": "hard", "type": "single", "question": "Breeder seeds are produced under whose direct supervision, monitored also by which body's representatives?", "options": ["A breeder, monitored also by representatives of the National Seed Corporation", "A farmer, monitored by the local Panchayat", "An exporter, monitored by Customs", "A trader, monitored by the State Marketing Board", "A seed dealer, monitored by the local Mandi committee"], "answer": 0, "explanation": "Breeder seeds are produced under a breeder's supervision at research institutes/universities, monitored by Seed Certification Department scientists/officers and National Seed Corporation representatives.", "id": 125}, {"section": "Seed Certification", "difficulty": "hard", "type": "notcorrect", "question": "Which of the following statements about seed certification classes is NOT correct?", "options": ["Nucleus seeds have 100% genetic purity", "Registered Seed has the highest genetic purity among all seed classes at 100%", "Foundation seeds have a white certification tag", "Certified seeds have a blue certification tag", "TFL seeds are tested only for physical purity and germination"], "answer": 1, "explanation": "Nucleus seeds, not Registered Seed, have the highest genetic purity (100%); Registered Seed's purity is not separately quantified but is a step below foundation/nucleus level in the certification chain.", "id": 126}, {"section": "Seed Certification", "difficulty": "hard", "type": "statements", "question": "Consider the following statements on seed certification:\nI. Foundation seeds can be produced at Government farms, by private seed producers, or by farmers using suitable breeder seeds.\nII. Seed certification procedures and fees are uniform across all Indian states.\nIII. Seed standards are specified and uniform throughout the country.\nIV. Certified seeds can only be produced by the National Seed Corporation, never by private companies or farmers.\nHow many of the above statements are correct?", "options": ["Only one", "Only three", "Only two", "All four", "None of the above are correct"], "answer": 2, "explanation": "I and III are correct. II is false \u2014 certification procedures and fees VARY from state to state, while seed standards are uniform. IV is false \u2014 certified seed production is taken up by National/State Seed Corporations, private seed companies, AND farmers.", "id": 127}, {"section": "Germination & Purity Standards (Vegetables)", "difficulty": "moderate", "type": "single", "question": "What is the minimum germination percentage prescribed for Cowpea seeds?", "options": ["65%", "60%", "70%", "75%", "98%"], "answer": 3, "explanation": "Cowpea has a minimum germination percentage of 75% and minimum purity of 98%.", "id": 128}, {"section": "Germination & Purity Standards (Vegetables)", "difficulty": "hard", "type": "single", "question": "Which vegetable crop has the lowest minimum germination percentage standard among those listed (60%), shared by several cucurbits?", "options": ["Cabbage", "Ladies finger", "Beans", "Cauliflower", "Bitter gourd / Bottle gourd / Cucumber / Watermelon / Pumpkin (all at 60%)"], "answer": 4, "explanation": "Several cucurbit crops \u2014 bitter gourd, sponge gourd, bottle gourd, cucumber, watermelon, pumpkin \u2014 share the lowest minimum germination standard of 60%.", "id": 129}, {"section": "Germination & Purity Standards (Vegetables)", "difficulty": "moderate", "type": "single", "question": "What is the minimum purity percentage prescribed for Carrot seeds, the lowest purity figure in the table?", "options": ["95%", "98%", "99%", "96%", "97%"], "answer": 0, "explanation": "Carrot has the lowest minimum purity percentage in the table at 95%, while most other crops require 98-99%.", "id": 130}, {"section": "Germination & Purity Standards (Vegetables)", "difficulty": "moderate", "type": "single", "question": "What is the minimum germination percentage prescribed for Cabbage?", "options": ["65%", "70%", "60%", "75%", "98%"], "answer": 1, "explanation": "Cabbage requires a minimum germination percentage of 70% and minimum purity of 98%.", "id": 131}, {"section": "Germination & Purity Standards (Vegetables)", "difficulty": "hard", "type": "single", "question": "What is the minimum germination percentage for Ladies finger (Okra)?", "options": ["60%", "70%", "65%", "75%", "98%"], "answer": 2, "explanation": "Ladies finger (okra) requires a minimum germination percentage of 65% and minimum purity of 99%.", "id": 132}, {"section": "Germination & Purity Standards (Vegetables)", "difficulty": "hard", "type": "statements", "question": "Consider the following statements on germination and purity standards:\nI. Tomato and Brinjal both require a minimum germination percentage of 70%.\nII. Onion requires a minimum germination percentage of 70% and a minimum purity of 98%.\nIII. Chillies and Capsicum both require a minimum germination percentage of 60%.\nIV. Carrot requires a higher minimum purity than Cauliflower.\nHow many of the above statements are correct?", "options": ["Only two", "All four", "Only one", "Only three", "None of the above are correct"], "answer": 3, "explanation": "I, II, and III are correct. IV is false \u2014 Carrot's minimum purity (95%) is LOWER than Cauliflower's (98%), not higher.", "id": 133}, {"section": "Seed Village Concept", "difficulty": "easy", "type": "single", "question": "A 'seed village' is defined as a village where trained farmers produce seeds mainly to cater to:", "options": ["Only export markets abroad", "Only government procurement agencies", "Only large corporate agribusinesses", "Only research institutions", "Themselves, fellow farmers of the village, and farmers of neighboring villages"], "answer": 4, "explanation": "A seed village is where trained farmers produce seeds catering to themselves, fellow villagers, and neighboring village farmers at affordable cost and appropriate time.", "id": 134}, {"section": "Seed Village Concept", "difficulty": "moderate", "type": "single", "question": "According to the document, good quality seed alone can increase yield by what percentage?", "options": ["15-20 per cent", "5-10 per cent", "25-30 per cent", "40-50 per cent", "1-5 per cent"], "answer": 0, "explanation": "Good quality seed alone increases yield by 15-20 per cent, as stated in the document.", "id": 135}, {"section": "Seed Village Concept", "difficulty": "moderate", "type": "single", "question": "Under the seed village scheme, foundation/certified/university-labeled seeds are supplied to farmers through KVKs and Research Stations at what subsidy?", "options": ["100% free of cost", "50% subsidy cost", "25% subsidy cost", "No subsidy at all", "75% subsidy cost"], "answer": 1, "explanation": "Quality seeds are supplied at 50% subsidy cost to identified farmers through Krishi Vigyan Kendras (KVKs) and Research Stations.", "id": 136}, {"section": "Seed Village Concept", "difficulty": "hard", "type": "single", "question": "Under the seed village scheme, farmers take up their own seed production in what typical area for their own use?", "options": ["5 acres", "10 acres", "1 acre", "0.5 acre", "2 hectares"], "answer": 2, "explanation": "Farmers use the supplied quality seeds to take up their own seed production in a small area of about 1 acre for their own use.", "id": 137}, {"section": "Seed Village Concept", "difficulty": "moderate", "type": "single", "question": "What is the total duration of the capacity-building training given to farmers under the seed village programme?", "options": ["1 day", "5 days", "7 days", "3 days", "10 days"], "answer": 3, "explanation": "The training on seed production and technology is conducted over a duration of 3 days, one day each for sowing, flowering, and post-harvest stages.", "id": 138}, {"section": "Seed Village Concept", "difficulty": "hard", "type": "single", "question": "The second day of the seed village training (during flowering) focuses on which topics?", "options": ["Isolation distance and sowing practices only", "Seed cleaning and grading only", "Seed bagging and storage only", "Seed sampling and lab testing only", "Identifying off-types and removal, maintenance of seed plots, plant protection, maturity status and harvesting methods"], "answer": 4, "explanation": "Day 2 training (during flowering) covers identifying/removing off-types, maintaining seed plots, plant protection, and maturity/harvesting methods.", "id": 139}, {"section": "Seed Village Concept", "difficulty": "moderate", "type": "single", "question": "Which crops are mentioned as being taken up for the farmers' own seed production under the seed supply component of the seed village scheme?", "options": ["Rice, Pulses and Oilseeds", "Wheat, Maize and Barley", "Cotton, Jute and Sugarcane", "Vegetables and Fruits only", "Fodder crops only"], "answer": 0, "explanation": "The seed supply component mentions Rice, Pulses, and Oilseeds as the crops for farmers' own seed production using quality seeds.", "id": 140}, {"section": "Seed Village Concept", "difficulty": "hard", "type": "statements", "question": "Consider the following statements on the seed village concept:\nI. Ideally, seeds should be replaced every year for hybrids and every 3-4 years for non-hybrids.\nII. Selection of area for seed villages considers irrigation facilities and climatic suitability for more than one season.\nIII. Closeness to urban areas is irrelevant for selecting a seed village area.\nIV. The seed village programme has only one phase covering seed production alone.\nHow many of the above statements are correct?", "options": ["Only one", "Only two", "Only three", "All four", "None of the above are correct"], "answer": 1, "explanation": "I and II are correct. III is false \u2014 closeness to urban areas IS considered relevant, for easy movement of seed and inputs. IV is false \u2014 the programme has two phases: seed production of different crops, AND establishment of a seed production unit.", "id": 141}];
+
+// ---------- state ----------
+let state = {
+  mode: null,        // 'full' or 'section'
+  order: 'pdf',       // 'pdf' or 'shuffled'
+  sectionName: null,
+  activeSet: [],       // array of question objects for current run
+  idx: 0,
+  score: 0,
+  answers: [],          // {qid, chosen (or null if skipped), correct(bool), skipped(bool)}
+  locked: false
+};
+
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+// ---------- topic list ----------
+function getTopics(){
+  const map = {};
+  ALL_QUESTIONS.forEach(q=>{
+    map[q.section] = (map[q.section]||0)+1;
+  });
+  return map;
+}
+
+function renderHome(){
+  document.getElementById('qCountPill').textContent = ALL_QUESTIONS.length + ' questions total';
+  document.getElementById('fullCountPill').textContent = ALL_QUESTIONS.length + ' questions';
+
+  const grid = document.getElementById('topicGrid');
+  grid.innerHTML='';
+  const topics = getTopics();
+  Object.keys(topics).forEach(t=>{
+    const div = document.createElement('div');
+    div.className='topic-card';
+    div.innerHTML = `<span class="tname">${t}</span><span class="tcount">${topics[t]} Qs</span>`;
+    div.onclick = ()=> startSection(t);
+    grid.appendChild(div);
+  });
+}
+
+document.getElementById('cardFull').onclick = ()=>{
+  document.getElementById('fullOptions').classList.remove('hidden');
+  document.getElementById('sectionOptions').classList.add('hidden');
+};
+document.getElementById('cardSection').onclick = ()=>{
+  document.getElementById('sectionOptions').classList.remove('hidden');
+  document.getElementById('fullOptions').classList.add('hidden');
+};
+document.getElementById('btnPdfOrder').onclick = ()=>{
+  state.order='pdf';
+  document.getElementById('btnPdfOrder').classList.add('active');
+  document.getElementById('btnShuffled').classList.remove('active');
+};
+document.getElementById('btnShuffled').onclick = ()=>{
+  state.order='shuffled';
+  document.getElementById('btnShuffled').classList.add('active');
+  document.getElementById('btnPdfOrder').classList.remove('active');
+};
+document.getElementById('startFull').onclick = ()=> startFull();
+
+function startFull(){
+  state.mode='full';
+  state.sectionName=null;
+  let set = ALL_QUESTIONS.slice();
+  if(state.order==='shuffled') set = shuffleArr(set);
+  beginRun(set, 'Full Practice Test — ' + (state.order==='shuffled' ? 'Shuffled' : 'PDF Order'));
+}
+
+function startSection(topic){
+  state.mode='section';
+  state.sectionName=topic;
+  const set = ALL_QUESTIONS.filter(q=>q.section===topic);
+  beginRun(set, 'Section: ' + topic);
+}
+
+function beginRun(set, label){
+  state.activeSet = set;
+  state.idx = 0;
+  state.score = 0;
+  state.answers = [];
+  state.runLabel = label;
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function showScreen(name){
+  document.getElementById('screen-home').classList.toggle('hidden', name!=='home');
+  document.getElementById('screen-quiz').classList.toggle('hidden', name!=='quiz');
+  document.getElementById('screen-end').classList.toggle('hidden', name!=='end');
+  if(name==='home'){
+    document.getElementById('fullOptions').classList.add('hidden');
+    document.getElementById('sectionOptions').classList.add('hidden');
+    renderHome();
+  }
+}
+
+// ---------- quiz rendering ----------
+const letters = ['A','B','C','D','E'];
+
+function renderQuestion(){
+  state.locked = false;
+  const q = state.activeSet[state.idx];
+  document.getElementById('quizLabel').textContent = state.runLabel;
+  document.getElementById('liveScore').textContent = state.score;
+  document.getElementById('liveTotal').textContent = state.idx; // answered so far (before this one)
+  document.getElementById('liveIndex').textContent = state.idx+1;
+  document.getElementById('liveCount').textContent = state.activeSet.length;
+  const pct = Math.round((state.idx)/state.activeSet.length*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+
+  const diffTag = document.getElementById('diffTag');
+  diffTag.textContent = q.difficulty.charAt(0).toUpperCase()+q.difficulty.slice(1);
+  diffTag.className = 'diff-tag diff-'+q.difficulty;
+  document.getElementById('topicTag').textContent = q.section;
+  document.getElementById('qText').textContent = q.question;
+
+  const wrap = document.getElementById('optionsWrap');
+  wrap.innerHTML='';
+  q.options.forEach((opt,i)=>{
+    const div = document.createElement('div');
+    div.className='opt';
+    div.innerHTML = `<span class="letter">${letters[i]}</span><span>${opt}</span>`;
+    div.onclick = ()=> selectOption(i);
+    wrap.appendChild(div);
+  });
+
+  document.getElementById('explainBox').classList.remove('show');
+  document.getElementById('explainBox').innerHTML='';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('skipBtn').disabled = false;
+  document.getElementById('skipBtn').style.opacity = 1;
+}
+
+function selectOption(i){
+  if(state.locked) return;
+  state.locked = true;
+  const q = state.activeSet[state.idx];
+  const correct = (i === q.answer);
+  if(correct) state.score++;
+
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach((el,idx)=>{
+    el.classList.add('locked');
+    if(idx === q.answer) el.classList.add('correct');
+    if(idx === i && !correct) el.classList.add('wrong');
+    if(idx !== q.answer && idx !== i) el.classList.add('dim');
+  });
+
+  const exp = document.getElementById('explainBox');
+  exp.innerHTML = `<b>${correct?'Correct.':'Not quite.'}</b> ${q.explanation}`;
+  exp.classList.add('show');
+
+  state.answers.push({qid:q.id, chosen:i, correct:correct, skipped:false});
+
+  document.getElementById('nextBtn').disabled = false;
+  document.getElementById('skipBtn').style.opacity = .4;
+  document.getElementById('skipBtn').disabled = true;
+}
+
+document.getElementById('skipBtn').onclick = ()=>{
+  if(state.locked) return;
+  state.locked = true;
+  const q = state.activeSet[state.idx];
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach((el,idx)=>{
+    el.classList.add('locked');
+    if(idx === q.answer) el.classList.add('correct');
+    else el.classList.add('dim');
+  });
+  const exp = document.getElementById('explainBox');
+  exp.innerHTML = `<b>Skipped.</b> ${q.explanation}`;
+  exp.classList.add('show');
+  state.answers.push({qid:q.id, chosen:null, correct:false, skipped:true});
+  document.getElementById('nextBtn').disabled = false;
+  document.getElementById('skipBtn').disabled = true;
+};
+
+document.getElementById('nextBtn').onclick = ()=>{
+  if(state.idx < state.activeSet.length-1){
+    state.idx++;
+    renderQuestion();
+  } else {
+    finishRun();
+  }
+};
+
+document.getElementById('quitBtn').onclick = ()=>{
+  showScreen('home');
+};
+
+// ---------- end screen ----------
+function finishRun(){
+  document.getElementById('progressFill').style.width='100%';
+  showScreen('end');
+
+  const total = state.activeSet.length;
+  document.getElementById('finalScoreText').textContent = state.score + ' / ' + total;
+  const pct = total? Math.round(state.score/total*100) : 0;
+  document.getElementById('finalPctText').textContent = 'Final Score · ' + pct + '% · ' + state.runLabel;
+
+  // breakdown by difficulty
+  const diffs = ['easy','moderate','hard'];
+  const grid = document.getElementById('breakdownGrid');
+  grid.innerHTML='';
+  diffs.forEach(d=>{
+    const qs = state.activeSet.filter(q=>q.difficulty===d);
+    const idxs = qs.map(q=>state.activeSet.indexOf(q));
+    let correctCount=0, attempted=0;
+    qs.forEach(q=>{
+      const ans = state.answers.find(a=>a.qid===q.id);
+      if(ans){ attempted++; if(ans.correct) correctCount++; }
+    });
+    const div = document.createElement('div');
+    div.className='bd-card';
+    const pctD = qs.length ? Math.round(correctCount/qs.length*100) : 0;
+    div.innerHTML = `<div class="n">${correctCount}/${qs.length}</div><div class="l">${d} · ${pctD}%</div>`;
+    grid.appendChild(div);
+  });
+
+  // review list: missed or skipped
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML='';
+  const missedOrSkipped = state.answers.filter(a=>!a.correct);
+  if(missedOrSkipped.length===0){
+    document.getElementById('reviewEmpty').classList.remove('hidden');
+  } else {
+    document.getElementById('reviewEmpty').classList.add('hidden');
+    missedOrSkipped.forEach(a=>{
+      const q = ALL_QUESTIONS.find(qq=>qq.id===a.qid);
+      const div = document.createElement('div');
+      div.className='review-item';
+      const statusHtml = a.skipped
+        ? `<span class="status status-skipped">Skipped</span>`
+        : `<span class="status status-missed">Missed</span>`;
+      const yourAnsHtml = a.skipped ? '' : `<div class="ans yourans">Your answer: <b>${letters[a.chosen]}. ${q.options[a.chosen]}</b></div>`;
+      div.innerHTML = `
+        ${statusHtml}
+        <div class="rq">${q.question}</div>
+        ${yourAnsHtml}
+        <div class="ans">Correct answer: <b>${letters[q.answer]}. ${q.options[q.answer]}</b></div>
+        <div class="ans" style="margin-top:6px;">${q.explanation}</div>
+      `;
+      reviewList.appendChild(div);
+    });
+  }
+}
+
+document.getElementById('retryBtn').onclick = ()=>{
+  let set = state.activeSet.slice();
+  if(state.mode==='full' && state.order==='shuffled') set = shuffleArr(ALL_QUESTIONS.slice());
+  beginRun(set, state.runLabel);
+};
+document.getElementById('menuBtn').onclick = ()=> showScreen('home');
+
+// init
+renderHome();
+showScreen('home');
+</script>
+</body>
+</html>

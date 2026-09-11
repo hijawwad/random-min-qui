@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NABARD Grade A Practice Quiz — Water Resources & Irrigation Management</title>
+<style>
+  :root {
+    --green: #0f7a3d;
+    --green-dark: #0a5c2c;
+    --red: #c0392b;
+    --amber: #b8860b;
+    --bg: #f6f7f5;
+    --card: #ffffff;
+    --border: #dfe3e0;
+    --text: #1f2a22;
+    --muted: #6b7770;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 20px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  header {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  header h1 {
+    font-size: 1.35rem;
+    margin: 0 0 4px 0;
+    color: var(--green-dark);
+  }
+  header p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    position: sticky;
+    top: 10px;
+    z-index: 10;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  .progress-bar-outer {
+    flex: 1;
+    height: 8px;
+    background: #e6e9e6;
+    border-radius: 4px;
+    margin: 0 14px;
+    overflow: hidden;
+  }
+  .progress-bar-inner {
+    height: 100%;
+    background: var(--green);
+    width: 0%;
+    transition: width .25s ease;
+  }
+  .score-pill {
+    background: var(--green-dark);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .qnum {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .qtext {
+    font-size: 1.02rem;
+    font-weight: 600;
+    line-height: 1.45;
+    margin-bottom: 14px;
+  }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: left;
+    padding: 10px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: #fbfcfb;
+    cursor: pointer;
+    font-size: 0.94rem;
+    line-height: 1.4;
+    transition: background .15s, border-color .15s, transform .1s;
+  }
+  .opt:hover:not(.locked) { border-color: var(--green); background: #f0f8f2; }
+  .opt .letter {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #e6e9e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--text);
+  }
+  .opt.correct { border-color: var(--green); background: #e5f5ea; }
+  .opt.correct .letter { background: var(--green); color: white; }
+  .opt.incorrect { border-color: var(--red); background: #fbe9e7; }
+  .opt.incorrect .letter { background: var(--red); color: white; }
+  .opt.locked { cursor: default; }
+  .opt.dim { opacity: 0.55; }
+
+  .feedback {
+    margin-top: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 8px 10px;
+    border-radius: 6px;
+  }
+  .feedback.correct { color: var(--green-dark); background: #e5f5ea; }
+  .feedback.incorrect { color: var(--red); background: #fbe9e7; }
+
+  .navrow {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  button.nav {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: var(--green);
+    color: white;
+    font-weight: 700;
+    font-size: 0.94rem;
+    cursor: pointer;
+  }
+  button.nav:disabled { background: #b9c4bd; cursor: not-allowed; }
+  button.nav.secondary { background: #eef1ee; color: var(--text); }
+
+  .jumpgrid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+    margin: 10px 0 4px 0;
+  }
+  .jumpgrid button {
+    aspect-ratio: 1;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: white;
+    font-size: 0.68rem;
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .jumpgrid button.answered { background: #dcefe1; border-color: var(--green); color: var(--green-dark); }
+  .jumpgrid button.wrong-flag { background: #fbe4e0; border-color: var(--red); color: var(--red); }
+  .jumpgrid button.current { outline: 2px solid var(--green-dark); }
+
+  #results { display: none; }
+  .score-hero {
+    text-align: center;
+    padding: 26px 20px;
+  }
+  .score-hero .big {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: var(--green-dark);
+  }
+  .score-hero .sub { color: var(--muted); margin-top: 4px; }
+
+  .review-item {
+    border-left: 4px solid var(--red);
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    background: #fdfaf9;
+    border-radius: 6px;
+  }
+  .review-item .rq { font-weight: 700; margin-bottom: 6px; }
+  .review-item .ra { font-size: 0.88rem; margin: 3px 0; }
+  .review-item .ra.your { color: var(--red); }
+  .review-item .ra.correctans { color: var(--green-dark); }
+
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .toolbar button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1.5px solid var(--green);
+    background: white;
+    color: var(--green-dark);
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .toolbar button.solid { background: var(--green); color: white; }
+
+  footer { text-align: center; color: var(--muted); font-size: 0.78rem; margin-top: 24px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>NABARD Grade A Practice Quiz</h1>
+    <p>Water Resources and Irrigation Management &middot; 140 Questions</p>
+  </header>
+
+  <div class="topbar">
+    <span id="qCounter">Question 1 / 140</span>
+    <div class="progress-bar-outer"><div class="progress-bar-inner" id="progBar"></div></div>
+    <span class="score-pill" id="scorePill">Score: 0 / 0</span>
+  </div>
+
+  <div id="quizArea">
+    <div class="card">
+      <div class="jumpgrid" id="jumpgrid"></div>
+    </div>
+    <div class="card">
+      <div class="qnum" id="qnum">QUESTION 1</div>
+      <div class="qtext" id="qtext"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback" style="display:none;"></div>
+    </div>
+    <div class="navrow">
+      <button class="nav secondary" id="prevBtn">&larr; Previous</button>
+      <button class="nav" id="nextBtn">Next &rarr;</button>
+    </div>
+  </div>
+
+  <div id="results">
+    <div class="card score-hero">
+      <div class="sub">Your Final Score</div>
+      <div class="big" id="finalScore">0 / 140</div>
+      <div class="sub" id="finalPct"></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">Review — Questions Missed</h3>
+      <div id="reviewList"></div>
+      <div id="noMisses" style="display:none;color:var(--green-dark);font-weight:600;">
+        Perfect score — no questions missed. Excellent work!
+      </div>
+    </div>
+    <div class="toolbar">
+      <button class="solid" id="retryBtn">Retake Quiz</button>
+    </div>
+  </div>
+
+  <footer>Generated from the uploaded EduTap summary sheet on Water Resources and Irrigation Management.</footer>
+</div>
+
+<script>
+const QUESTIONS = [{"q": "What percentage of Earth's total water is saline water found in oceans?", "options": ["97%", "91%", "89%", "94%", "99%"], "correct": 0, "note": ""}, {"q": "As per the distribution chart, Icecaps and Glaciers account for approximately what share of Earth's freshwater?", "options": ["30.1%", "68.7%", "90%", "75%", "55%"], "correct": 1, "note": ""}, {"q": "Within the freshwater breakdown shown in the document, groundwater accounts for approximately:", "options": ["68.7%", "0.9%", "30.1%", "3%", "0.3%"], "correct": 2, "note": ""}, {"q": "Within fresh surface water (liquid), what percentage is contributed by lakes?", "options": ["11%", "2%", "97%", "87%", "68.7%"], "correct": 3, "note": ""}, {"q": "Which category represents 'Other' in the freshwater distribution chart in the document?", "options": ["30.1%", "68.7%", "2%", "11%", "0.9%"], "correct": 4, "note": ""}, {"q": "The distribution of Earth's water chart cited in the document credits which source?", "options": ["Timothy Bralower", "IMD", "United Nations Development Program", "Schofield", "Briggs and Shantz"], "correct": 0, "note": ""}, {"q": "Rivers constitute what percentage of fresh surface water (liquid) as per the document's chart?", "options": ["87%", "2%", "11%", "3%", "0.3%"], "correct": 1, "note": ""}, {"q": "The hydrologic cycle consists of 4 key components. Which of the following is NOT one of them as per the document?", "options": ["Precipitation", "Runoff", "Infiltration", "Storage", "Evapotranspiration"], "correct": 2, "note": ""}, {"q": "Precipitation denotes all forms of water reaching the earth from the atmosphere EXCEPT:", "options": ["Rainfall", "Snowfall", "Hail", "Runoff", "Dew"], "correct": 3, "note": ""}, {"q": "That part of rainfall which leaches into the soil and moves laterally without joining the water table is also known as:", "options": ["Base flow", "Surface runoff", "Delayed runoff", "Ground water flow", "Interflow"], "correct": 4, "note": ""}, {"q": "Base flow, as described in the document, is also referred to as:", "options": ["Delayed runoff", "Interflow", "Overland flow", "Surface runoff", "Service runoff"], "correct": 0, "note": ""}, {"q": "As per the document, Total Runoff is correctly expressed as:", "options": ["Surface runoff only", "Surface runoff + Base flow (including sub-surface runoff)", "Base flow only", "Interflow + Overland flow", "Precipitation minus Evapotranspiration"], "correct": 1, "note": ""}, {"q": "Sub-surface runoff is sometimes called 'service runoff' because:", "options": ["It requires servicing of irrigation infrastructure", "It is used mainly for domestic services", "It takes very little time to reach the river or channel compared to groundwater", "It directly serves crop irrigation needs", "It is regulated by a water service authority"], "correct": 2, "note": ""}, {"q": "Evapotranspiration, as defined in the document, is the combination of which two terms?", "options": ["Precipitation and Runoff", "Infiltration and Percolation", "Seepage and Leaching", "Evaporation and Transpiration", "Storage and Percolation"], "correct": 3, "note": ""}, {"q": "Which of the following statements about aquifers is NOT correct as per the document?", "options": ["A saturated soil or rock layer with spaces allowing water movement is called an aquifer", "Aquifers may be separated by layers of rock or clay that do not allow water to move through", "The upper groundwater surface in an unconfined aquifer is called the water table", "Groundwater in a confined aquifer is under pressure and rises inside a borehole drilled into it", "Confined aquifers are usually shallower than unconfined aquifers"], "correct": 4, "note": ""}, {"q": "The top of the saturated zone in the ground is called the:", "options": ["Water table", "Aquiclude", "Field capacity", "Wilting point", "Permeable layer"], "correct": 0, "note": ""}, {"q": "A rock layer so solid that it does not let water move through it is called a/an:", "options": ["Permeable layer", "Impermeable layer", "Aquifer", "Saturated zone", "Unconfined layer"], "correct": 1, "note": ""}, {"q": "Because the water table is its top layer, an unconfined aquifer is also known as a:", "options": ["Artesian aquifer", "Perched aquifer", "Water table aquifer", "Confined aquifer", "Semi-confined aquifer"], "correct": 2, "note": ""}, {"q": "As per the document, water resources on the planet can broadly be classified into two categories, namely:", "options": ["Rain water and Ground water", "Fresh water and Saline water only", "Precipitation and Storage", "Surface Water Resources and Sub-surface Water Resources", "Renewable and Non-renewable water resources"], "correct": 3, "note": ""}, {"q": "As per the document, water forms approximately what percentage of the plant body on a green/fresh weight basis?", "options": ["50%", "70%", "80%", "60%", "Over 90%"], "correct": 4, "note": ""}, {"q": "During photosynthesis, plants synthesize carbohydrates from:", "options": ["Carbon dioxide and water", "Nitrogen and water", "Oxygen and minerals", "Water and sunlight only", "Carbon dioxide and oxygen"], "correct": 0, "note": ""}, {"q": "Firmness in plant cells is primarily provided due to:", "options": ["Cell wall thickness alone", "Water pressure (turgor) in plant cells", "Lignin deposition", "Chlorophyll concentration", "Cuticle layer thickness"], "correct": 1, "note": ""}, {"q": "Irrigation is defined in the document as the application of water to the soil for crop growth:", "options": ["Instead of rainfall", "Independent of rainfall and groundwater", "In supplement to rainfall and ground water contribution", "Only during the Rabi season", "As a substitute for fertilizers"], "correct": 2, "note": ""}, {"q": "Which of the following is NOT listed among the factors required for effective irrigation management?", "options": ["Soil physical and chemical properties", "Biology of crop plants", "Time of application of water", "Market price of the crop", "Climatological or meteorological influence on irrigation"], "correct": 3, "note": ""}, {"q": "Management of irrigation structures, conveyances, and reservoirs constitutes:", "options": ["Irrigation Agronomy", "Socio-economic study", "Command Area Development", "Water budgeting", "Irrigation Engineering"], "correct": 4, "note": ""}, {"q": "Social setup, activities, irrigation policies, irrigation associations, and farmer's participation together constitute:", "options": ["Socio-economic study", "Irrigation Agronomy", "Irrigation Engineering", "Command Area Development", "Water Use Efficiency study"], "correct": 0, "note": ""}, {"q": "As per the document, approximately what percentage of India's total rainfall is received during the monsoon period?", "options": ["60%", "80%", "50%", "90%", "70%"], "correct": 1, "note": ""}, {"q": "Which soil type requires more frequent irrigation because of its low water holding capacity?", "options": ["Clay soil", "Loamy soil", "Sandy soil", "Black soil", "Alluvial soil"], "correct": 2, "note": ""}, {"q": "As per the document, the Kharif (South-West monsoon) season in India spans:", "options": ["March-May", "October-December", "January-February", "June-September", "July-October"], "correct": 3, "note": ""}, {"q": "As per the document, the Rabi (North-East monsoon) season in India spans:", "options": ["June-September", "January-February", "March-May", "November-January", "October-December"], "correct": 4, "note": ""}, {"q": "As per the document, the Winter (cold dry period) season spans:", "options": ["January-February", "March-May", "June-September", "October-December", "November-January"], "correct": 0, "note": ""}, {"q": "For the purpose of water budgeting, rainfall below which threshold is not considered, since it evaporates without contributing to surface or ground water?", "options": ["5 mm", "2.5 mm", "10 mm", "1 mm", "0.5 mm"], "correct": 1, "note": ""}, {"q": "According to the IMD, a 'rainy day' is defined as a day with rainfall of:", "options": ["5 mm or more", "1 mm or more", "2.5 mm or more", "10 mm or more", "0.1 mm or more"], "correct": 2, "note": ""}, {"q": "As per the Falkenmark indicator (UNDP), a country is said to be experiencing 'water stress' when renewable water availability falls below:", "options": ["500 m3 per person per year", "1,000 m3 per person per year", "2,500 m3 per person per year", "1,700 m3 per person per year", "3,000 m3 per person per year"], "correct": 3, "note": ""}, {"q": "As per the Falkenmark indicator, 'absolute water scarcity' is defined as renewable water availability below:", "options": ["1,700 m3 per person per year", "1,000 m3 per person per year", "2,000 m3 per person per year", "750 m3 per person per year", "500 m3 per person per year"], "correct": 4, "note": ""}, {"q": "Using the criticality ratio approach described in the document, a country is 'severely water scarce' if annual withdrawals exceed:", "options": ["40% of annual supply", "20% of annual supply", "60% of annual supply", "10% of annual supply", "50% of annual supply"], "correct": 0, "note": ""}, {"q": "The Falkenmark/water stress indicator cited in the document is associated with which organization's framework?", "options": ["World Bank", "United Nations Development Program", "World Health Organization", "Food and Agriculture Organization", "India Meteorological Department"], "correct": 1, "note": ""}, {"q": "Which of the following best describes 'seepage' as per the document?", "options": ["Vertical movement of water in unsaturated soil", "Downward movement of nutrients with water", "Horizontal flow of water from an irrigation channel or canal", "Maximum water holding capacity of soil", "Upward capillary movement of water"], "correct": 2, "note": ""}, {"q": "Which of the following statements about infiltration is NOT correct?", "options": ["It is the entry of water from the upper layer of the soil", "It occurs in unsaturated soil", "Infiltration rates on grassland are substantially higher than on bare uncultivated land", "Addition of organic matter decreases the infiltration rate", "Infiltration velocity is the actual rate at which water enters the soil at a given time"], "correct": 3, "note": ""}, {"q": "The maximum rate at which water can enter the soil under specific conditions is termed:", "options": ["Infiltration velocity", "Percolation rate", "Seepage rate", "Moisture equivalent", "Infiltration rate"], "correct": 4, "note": ""}, {"q": "Percolation is best described as:", "options": ["Downward movement of water through saturated or nearly saturated soil", "Horizontal movement of water in a canal", "Downward movement of nutrients and salts", "Upward capillary rise of water", "Entry of water into unsaturated topsoil"], "correct": 0, "note": ""}, {"q": "The downward movement of nutrients and salts from the root zone along with water is called:", "options": ["Percolation", "Leaching", "Seepage", "Infiltration", "Runoff"], "correct": 1, "note": ""}, {"q": "Saturation capacity refers to a soil condition where:", "options": ["Only micropores are filled with water", "Only macropores are filled with water", "All soil pores (macro and micro) are filled with water", "Soil moisture equals field capacity", "Soil moisture equals PWP"], "correct": 2, "note": ""}, {"q": "Field capacity is typically measured:", "options": ["Immediately after irrigation", "Before irrigation begins", "At the permanent wilting point", "2-3 days after irrigation, once drainage has become very slow", "At saturation capacity"], "correct": 3, "note": ""}, {"q": "At field capacity, as per the document:", "options": ["All pores are filled with water", "Only micropores contain air", "Both macro and micropores are filled with water", "The soil is at its driest possible state", "Large pores are filled with air and micropores are filled with water"], "correct": 4, "note": ""}, {"q": "Which of the following is considered the upper limit of water availability to plants?", "options": ["Field capacity", "Permanent wilting point", "Saturation capacity", "Ultimate wilting point", "Moisture equivalent"], "correct": 0, "note": ""}, {"q": "The concept of Permanent Wilting Point (PWP) was proposed in 1912 by:", "options": ["Veihmayer and Hendrickson", "Briggs and Shantz", "Schofield", "Simcha Blass", "Timothy Bralower"], "correct": 1, "note": ""}, {"q": "Briggs and Shantz used which indicator plant while proposing the concept of PWP?", "options": ["Wheat", "Maize", "Dwarf sunflower", "Groundnut", "Paddy rice"], "correct": 2, "note": ""}, {"q": "Permanent Wilting Point (PWP) represents:", "options": ["The maximum water holding capacity of the soil", "The upper limit of available water", "The moisture content at saturation", "The lower limit of available water to the plant", "The point at which the plant is completely dead"], "correct": 3, "note": ""}, {"q": "The percentage of moisture in the root zone at the permanent wilting of plants is termed the:", "options": ["Field capacity", "Moisture equivalent", "Saturation capacity", "Available water", "Wilting coefficient"], "correct": 4, "note": ""}, {"q": "The concept of 'Available water' (moisture available for maximum plant use) was proposed by:", "options": ["Veihmayer and Hendrickson", "Briggs and Shantz", "Schofield", "Blass brothers", "Timothy Bralower"], "correct": 0, "note": ""}, {"q": "Available water is arrived at by:", "options": ["Adding water at field capacity and water at PWP", "Subtracting water at PWP from water at Field Capacity", "Multiplying field capacity by wilting coefficient", "Dividing saturation capacity by field capacity", "Subtracting saturation capacity from field capacity"], "correct": 1, "note": ""}, {"q": "Which statement correctly distinguishes infiltration from percolation, as explained in the document?", "options": ["Percolation occurs near the surface while infiltration moves water deeper", "They are essentially identical processes", "Infiltration delivers water from the surface into the soil/root zone, while percolation moves it further down to replenish groundwater", "Infiltration occurs only in fully saturated soil", "Percolation is always faster than infiltration"], "correct": 2, "note": ""}, {"q": "At the Ultimate Wilting Point (UWP), the soil moisture tension is as high as:", "options": ["-15 bars", "-31 bars", "-100 bars", "-60 bars", "-0.33 bars"], "correct": 3, "note": ""}, {"q": "The Ultimate Wilting Point (UWP) is the point at which:", "options": ["Field capacity is exceeded", "The water table rises into the root zone", "The soil reaches saturation", "Kor watering is first applied", "Wilting is complete and the plant dies"], "correct": 4, "note": ""}, {"q": "Soil moisture tension is a measure of:", "options": ["The force per unit area required to remove water from the soil", "The rate of water entry into the soil", "The volume of water stored in an aquifer", "The salinity of irrigation water", "The depth of the water table"], "correct": 0, "note": ""}, {"q": "In the equation for total soil water potential, Ψt = Ψg + Ψo + Ψm, 'Ψo' refers to:", "options": ["Gravitational potential", "Osmotic potential", "Matric potential", "Overall potential", "Oven-dry potential"], "correct": 1, "note": ""}, {"q": "Which of the following statements about soil water potential is NOT correct?", "options": ["Water moves from wet soil (high potential) toward dry soil (low potential)", "The reference state is saturated soil, where Ψ is nominally zero", "Soil water potential becomes more positive as the soil dries out", "'High' soil water potential means loosely held water that is readily available", "In saturated soil, matric potential (Ψm) is not a factor and equals 0"], "correct": 2, "note": ""}, {"q": "High levels of soluble salts in the soil solution reduce which potential, leading to physiological drought in saline soils?", "options": ["Gravitational potential", "Matric potential", "Total potential", "Osmotic potential", "Atmospheric potential"], "correct": 3, "note": ""}, {"q": "Who introduced the concept of the pF curve relating soil water content to the force with which it is held?", "options": ["Briggs", "Shantz", "Veihmayer", "Blass", "Schofield"], "correct": 4, "note": ""}, {"q": "As per the pF scale table in the document, the pF value corresponding to Field Capacity is:", "options": ["2.53", "4.18", "4.50", "7.0", "0"], "correct": 0, "note": ""}, {"q": "The pF value corresponding to Permanent Wilting Point, as per the document's table, is:", "options": ["2.53", "4.18", "0", "7.0", "4.50"], "correct": 1, "note": ""}, {"q": "Which pressure (atm/bars) corresponds to Oven Dry soil per the document's pF scale table?", "options": ["15", "31", "10000", "1/3", "0.001"], "correct": 2, "note": ""}, {"q": "The Hygroscopic point corresponds to a pF value of:", "options": ["7.0", "2.53", "0", "4.50", "4.18"], "correct": 3, "note": ""}, {"q": "Moisture equivalent is defined as the water retained by an initially saturated soil sample after being subjected to a centrifugal force of:", "options": ["500 times gravity for 1 hour", "2000 times gravity for 15 minutes", "100 times gravity for 1 hour", "1500 times gravity for 45 minutes", "1000 times gravity for about half an hour"], "correct": 4, "note": ""}, {"q": "The formula for 'Duty of water' given in the document is:", "options": ["8.64 × Base period / Delta", "Delta / Base period", "Base period / (8.64 × Delta)", "8.64 × Delta / Base period", "Base period × Delta / 8.64"], "correct": 0, "note": ""}, {"q": "The difference between the gross duty of water and the net duty of water gives:", "options": ["Water use efficiency", "Efficiency of distributaries", "Irrigation intensity", "Cropping intensity", "Water conveyance efficiency"], "correct": 1, "note": ""}, {"q": "'Base period' in irrigation terminology refers to:", "options": ["The total depth of water required by a crop", "The first watering given before sowing", "The period, in days, during which irrigation water is supplied to the crop", "The percentage soil moisture at atmospheric pressure", "The process of distributing irrigation water"], "correct": 2, "note": ""}, {"q": "'Delta' in irrigation terminology refers to:", "options": ["The base period in days", "The process of water distribution", "The first irrigation given before sowing", "The total depth of water (cm) required by a crop", "The percentage moisture at wilting point"], "correct": 3, "note": ""}, {"q": "Since crop water requirement is not uniform through the base period, the first watering given is known as:", "options": ["Palco", "Rostering", "Delta", "Duty of water", "Kor watering"], "correct": 4, "note": ""}, {"q": "The process of distribution of irrigation water is termed:", "options": ["Rostering / water regulation", "Kor watering", "Palco", "Duty of water", "Moisture regime"], "correct": 0, "note": ""}, {"q": "'Palco' refers to:", "options": ["The distribution process of irrigation water", "The first irrigation given before sowing a crop, for seed germination and seedling establishment", "The percentage of moisture at atmospheric pressure", "The total depth of water required by a crop", "The area commanded by a canal"], "correct": 1, "note": ""}, {"q": "Total Cultivable Area (TCA) includes all of the following EXCEPT:", "options": ["Net sown area", "Current fallows", "Area under permanent water bodies such as reservoirs", "Fallow lands other than current fallows", "Culturable waste land and land under miscellaneous tree crops"], "correct": 2, "note": ""}, {"q": "Net Sown Area (NSA) is defined such that:", "options": ["Area sown twice in a year is counted twice", "It excludes orchards", "It only includes irrigated land", "Area sown more than once in the same year is counted only once", "It is always equal to Gross Sown Area"], "correct": 3, "note": ""}, {"q": "Gross Sown Area (GSA) is computed over an agriculture year running from:", "options": ["1st January to 31st December", "1st April to 31st March", "1st June to 31st May", "1st October to 30th September", "1st July to 30th June of the following year"], "correct": 4, "note": ""}, {"q": "Cropping Intensity, as defined in the document, is:", "options": ["The ratio of gross sown area to net sown area, expressed as a percentage", "The ratio of net sown area to gross sown area", "The ratio of gross irrigated area to net irrigated area", "The ratio of TCA to NSA", "The ratio of irrigation potential utilised to irrigation potential created"], "correct": 0, "note": ""}, {"q": "Irrigation Intensity is defined as the ratio of:", "options": ["Gross sown area to net sown area", "Gross irrigated area to net irrigated area, expressed as a percentage", "Net irrigated area to gross irrigated area", "Irrigation potential utilised to ultimate irrigation potential", "Cultural command area to gross command area"], "correct": 1, "note": ""}, {"q": "Irrigation Potential Utilised (IPU) refers to:", "options": ["The area that can theoretically be irrigated upon full project development", "The gross area that can ultimately be irrigated for a projected cropping pattern", "The total gross area actually irrigated by a project/scheme during the agricultural year under consideration", "The net sown area under a scheme", "The command area around a dam"], "correct": 2, "note": ""}, {"q": "As per the document's classification, a Major Irrigation Project covers a cultural command area of:", "options": ["Less than 2,000 hectares", "2,000-10,000 hectares", "5,000-15,000 hectares", "More than 10,000 hectares", "More than 20,000 hectares"], "correct": 3, "note": ""}, {"q": "A Medium Irrigation Project, per the document, involves a project cost of:", "options": ["Less than 2.5 million rupees", "More than 50 million rupees", "10-100 million rupees", "5-25 million rupees", "2.5 million to 50 million rupees"], "correct": 4, "note": ""}, {"q": "A Minor Irrigation Project, per the document, covers a cultural command area of:", "options": ["Less than 2,000 hectares", "2,000-10,000 hectares", "More than 10,000 hectares", "5,000-8,000 hectares", "3,000-6,000 hectares"], "correct": 0, "note": ""}, {"q": "The 'Command Area' of an irrigation project refers to:", "options": ["The gross area that can be economically irrigated regardless of water availability", "The area around the dam/project that gets benefits from it, such as irrigation water and electricity", "Only the area actually irrigated in a given year", "The area under high-value crops only", "The area fit for cultivation only"], "correct": 1, "note": ""}, {"q": "'Gross Command Area (GCA)' is defined as:", "options": ["The area that can be irrigated after considering water availability limitations", "The area currently under irrigation", "The total area that can be economically irrigated from a system, without considering limitations on the quantity of available water", "The area benefiting from electricity generation only", "The command area minus the cultural command area"], "correct": 2, "note": ""}, {"q": "The Command Area Development plan aimed to narrow the gap between:", "options": ["Gross duty of water and net duty of water", "Cropping intensity and irrigation intensity", "Surface water and groundwater usage", "Irrigation potential created and irrigation potential utilised", "Major and minor irrigation projects"], "correct": 3, "note": ""}, {"q": "The Command Area Development plan referenced in the document was initiated in:", "options": ["1950-51", "1985-86", "1991-92", "1965-66", "1974-75"], "correct": 4, "note": ""}, {"q": "In flood irrigation, the bunds constructed to maximize rainfall usage typically have a height of:", "options": ["15 cm", "30 cm", "5 cm", "50 cm", "75 cm"], "correct": 0, "note": ""}, {"q": "Which surface irrigation method involves water spreading unguided across the entire field and is minimum labor-intensive?", "options": ["Furrow irrigation", "Flood irrigation", "Border irrigation", "Drip irrigation", "Surge irrigation"], "correct": 1, "note": ""}, {"q": "Basin irrigation, as per the document, can be divided into which two types?", "options": ["Straight and Contour", "Surface and Subsurface", "Check Basin and Ring Basin", "Natural and Artificial", "Deep and Shallow"], "correct": 2, "note": ""}, {"q": "The Check Basin method is particularly helpful for:", "options": ["Preventing soil erosion on slopes", "Increasing infiltration rate on sandy soils", "Reducing labor requirements alone", "Leaching out salts from the soil", "Improving water conveyance efficiency"], "correct": 3, "note": ""}, {"q": "The Ring Basin method of irrigation, where a separate circular basin is made for each plant, is primarily used for:", "options": ["Paddy rice", "Wheat", "Maize", "Groundnut", "Trees in orchards"], "correct": 4, "note": ""}, {"q": "Which of the following statements about Border Irrigation is NOT correct?", "options": ["Land is divided into long parallel strips called borders", "Borders are separated by low ridges", "It is suitable for wheat, barley, fodder crops and legumes", "It is well suited for rice cultivation", "The border strip has a uniform gentle slope in the direction of irrigation"], "correct": 3, "note": ""}, {"q": "The width of a border strip in border irrigation typically varies from:", "options": ["1-5 m", "3-15 m", "20-30 m", "0.5-2 m", "15-25 m"], "correct": 1, "note": ""}, {"q": "As per the document's table, a slope of 0.05-0.20% on clay loam/clay soil corresponds to a recommended border length of:", "options": ["60-120 m", "100-180 m", "150-300 m", "30-60 m", "200-400 m"], "correct": 2, "note": ""}, {"q": "In furrow irrigation, the crop is grown:", "options": ["Inside the furrow channel itself", "On flat, unridged land", "Only in raised nursery beds", "On ridges between the furrows", "Below the soil surface"], "correct": 3, "note": ""}, {"q": "Small and shallow furrows, suitable for close-growing crops like wheat and groundnut, are known as:", "options": ["Deep furrows", "Contour furrows", "Straight furrows", "Basin furrows", "Corrugations"], "correct": 4, "note": ""}, {"q": "Surge irrigation, which applies water in on-off cycles, offers irrigation efficiencies ranging:", "options": ["85% to 95%", "50% to 60%", "25% to 40%", "70% to 75%", "95% to 99%"], "correct": 0, "note": ""}, {"q": "In surge irrigation, land loss due to elimination of criss-cross ridges and feeder channels is limited to around:", "options": ["15%", "5%", "25%", "10%", "1%"], "correct": 1, "note": ""}, {"q": "In sub-surface (sub-irrigation) systems, the artificial water table is usually maintained below the ground surface at a depth of:", "options": ["5 to 15 cm", "100 to 150 cm", "30 to 75 cm", "200 to 250 cm", "1 to 5 cm"], "correct": 2, "note": ""}, {"q": "Artificial sub-surface irrigation functions effectively only if the root-zone soil has:", "options": ["Low horizontal and low vertical permeability", "High vertical permeability and low horizontal permeability", "Equal horizontal and vertical permeability", "High horizontal permeability and low vertical permeability", "No permeability at all"], "correct": 3, "note": ""}, {"q": "Sprinkler irrigation, as per the document, is generally NOT suitable for which crops?", "options": ["Wheat and barley", "Groundnut and cotton", "Sugarcane and maize", "Vegetables and oilseeds", "Rice and jute"], "correct": 4, "note": ""}, {"q": "The practical pressure range at the sprinkler head considered most suitable for most farms, per the document, is:", "options": ["16-40 m head", "70-100 m head", "1-5 m head", "100-150 m head", "5-10 m head"], "correct": 0, "note": ""}, {"q": "Perforated pipe systems in sprinkler irrigation are usually designed for a relatively low pressure of about:", "options": ["5 kg/cm2", "1 kg/cm2", "10 kg/cm2", "0.1 kg/cm2", "2.5 kg/cm2"], "correct": 1, "note": ""}, {"q": "The application rate of sprinkler systems (for various pressures and spacing), as per the document, ranges from:", "options": ["0.5 to 1 cm/hour", "10 to 15 cm/hour", "1.25 to 5 cm/hour", "5 to 10 cm/hour", "15 to 20 cm/hour"], "correct": 2, "note": ""}, {"q": "Which of the following is NOT listed as an advantage of sprinkler irrigation in the document?", "options": ["Water savings ranging from 25-50%", "Water use efficiency up to 60%", "Labor savings of 40-60%", "It always achieves the highest water use efficiency of any irrigation method without exception", "Can be used to protect crops from frost and high temperatures"], "correct": 3, "note": ""}, {"q": "Drip irrigation was developed in Israel by:", "options": ["Timothy Bralower and colleagues", "Briggs and Shantz", "Veihmayer and Hendrickson", "Schofield and associates", "Simcha Blass and Yeshayahu Blass"], "correct": 4, "note": ""}, {"q": "In a drip irrigation system, the discharge rate of emitters usually ranges from:", "options": ["2 to 10 litres per hour", "50 to 100 litres per hour", "0.1 to 0.5 litres per hour", "20 to 30 litres per hour", "100 to 200 litres per hour"], "correct": 0, "note": ""}, {"q": "In Subsurface Drip Irrigation (SDI), the tubing is typically placed how far below the surface?", "options": ["1-2 inches", "4-12 inches", "24-36 inches", "0.5-1 inch", "18-24 inches"], "correct": 1, "note": ""}, {"q": "Which of the following is listed as a limitation of Surface Drip Irrigation (as opposed to SDI)?", "options": ["High initial installation cost", "Difficult to inspect buried lines for leaks", "Higher water loss due to evaporation compared to subsurface systems", "Not suitable for shallow-rooted crops", "Reduces weed growth since soil surface remains dry"], "correct": 2, "note": ""}, {"q": "Fertigation, as described in the document, increases fertilizer use efficiency to approximately:", "options": ["50 to 60 percent", "40 to 50 percent", "95 to 100 percent", "80 to 90 percent", "60 to 70 percent"], "correct": 3, "note": ""}, {"q": "As per the comparative table in the document, the water saving achieved through drip irrigation (versus surface irrigation) is:", "options": ["10-16%", "25-50%", "Up to 10%", "15-25%", "60-70%"], "correct": 4, "note": ""}, {"q": "As per the comparative table, drip irrigation's land saving figure is shown as:", "options": ["Not specified/applicable (marked '-')", "10-16%", "25-50%", "60-70%", "5-10%"], "correct": 0, "note": ""}, {"q": "The correct formula for the water requirement of a crop, as per the document, is:", "options": ["Water requirement = ET + Runoff − Percolation", "Water requirement = IW + ER + S", "Water requirement = Delta × Base period", "Water requirement = C.U. − Seepage", "Water requirement = Duty of water / Base period"], "correct": 1, "note": ""}, {"q": "In the formula for water requirement of a crop, 'ER' stands for:", "options": ["Evaporation Rate", "Excess Rainfall", "Effective Rainfall", "Evapotranspiration Rate", "Emitter Rate"], "correct": 2, "note": ""}, {"q": "As per the crop water requirement table in the document, which crop has the highest total water requirement (mm)?", "options": ["Rice", "Cotton", "Maize", "Sugarcane", "Sunflower"], "correct": 3, "note": ""}, {"q": "As per the document's table, the total water requirement for Rice, over its 110-day duration, is:", "options": ["500 mm", "2200 mm", "600 mm", "310 mm", "1250 mm"], "correct": 4, "note": ""}, {"q": "According to the crop water requirement table, which crop has the shortest duration among those listed?", "options": ["Blackgram (65 days)", "Sesame (85 days)", "Ragi (95 days)", "Maize (100 days)", "Groundnut (105 days)"], "correct": 0, "note": ""}, {"q": "The total water requirement for Groundnut, as per the document's table, is:", "options": ["600 mm", "510 mm", "320 mm", "450 mm", "280 mm"], "correct": 1, "note": ""}, {"q": "The critical stages for irrigation in Wheat include all of the following EXCEPT:", "options": ["CRI (Crown Root Initiation)", "Tillering", "Panicle initiation", "Late joining", "Milking and dough"], "correct": 2, "note": ""}, {"q": "The critical stages for irrigation in Rice, as per the document, are:", "options": ["CRI and tillering only", "Booting and blooming", "Buttoning and knee high", "Tillering, panicle initiation, heading and flowering", "Blooming and seed formation"], "correct": 3, "note": ""}, {"q": "For Groundnut (an oilseed crop), the critical stages for irrigation listed in the document are:", "options": ["Blooming and seed formation only", "Buttoning, knee high and flowering", "Late vegetative phase and pod development", "Blooming to maturity", "Flowering, peg formation and pod development"], "correct": 4, "note": ""}, {"q": "Which of the following is listed as a critical irrigation stage for Chickpea?", "options": ["Late vegetative phase and pod development", "Flowering and early pod formation", "After cutting and flowering", "Tasseling and silking", "Blooming and seed formation"], "correct": 0, "note": ""}, {"q": "Field Water Use Efficiency is calculated as crop yield divided by:", "options": ["E + T + G", "ET + S + D", "Wcu / Wd", "Wc / Wr", "Ws / Ww"], "correct": 1, "note": ""}, {"q": "In the Field WUE formula (ET + S + D), 'D' represents:", "options": ["Duty of water", "Delta", "Deep percolation losses", "Drainage coefficient", "Days of base period"], "correct": 2, "note": ""}, {"q": "As per the document's water use efficiency table, which crop shows the LOWEST WUE (kg/ha-mm)?", "options": ["Wheat", "Groundnut", "Sorghum", "Rice", "Finger Millet"], "correct": 3, "note": ""}, {"q": "As per the document's table, which crop shows the HIGHEST water use efficiency (kg/ha-mm)?", "options": ["Wheat", "Sorghum", "Rice", "Pearl millet, maize", "Finger Millet"], "correct": 4, "note": ""}, {"q": "The document states that Irrigation Efficiency (Ei) in most irrigation projects generally ranges between:", "options": ["12% to 34%", "50% to 70%", "80% to 90%", "5% to 15%", "40% to 60%"], "correct": 0, "note": ""}, {"q": "Water Conveyance Efficiency, as defined in the document, measures:", "options": ["The ratio of crop yield to water depleted by evapotranspiration", "The efficiency of water conveyance from the canal network to watercourses and field channels", "The ratio of water stored in the root zone to water needed to reach field capacity", "The ratio of consumptive water use to water stored in the root zone", "The salt content of irrigation water"], "correct": 1, "note": ""}, {"q": "As per the document, approximately what percentage of water losses occur in earthen watercourses alone, affecting conveyance efficiency?", "options": ["5%", "10%", "21%", "35%", "50%"], "correct": 2, "note": ""}, {"q": "Water Storage Efficiency (Es) is also termed:", "options": ["Consumptive use efficiency", "Distribution efficiency", "Application efficiency", "Water storage factor", "Conveyance factor"], "correct": 3, "note": ""}, {"q": "Irrigation water is conventionally classified as 'saline' when total dissolved salts exceed:", "options": ["0.5 mmhos/cm", "5.0 mmhos/cm", "0.1 mmhos/cm", "10 mmhos/cm", "1.5 mmhos/cm"], "correct": 4, "note": ""}, {"q": "Saline irrigation waters, as described in the document, predominantly contain which salt?", "options": ["Sodium chloride", "Calcium carbonate", "Magnesium sulfate", "Potassium nitrate", "Sodium bicarbonate"], "correct": 0, "note": ""}, {"q": "As per the classification table, irrigation water with EC between 3-5 ds/m falls under which class?", "options": ["C2 - Low salinity waters", "C3 - Medium salinity waters", "C1 - Normal waters", "C4 - Saline waters", "C5 - High salinity waters"], "correct": 1, "note": ""}, {"q": "As per the classification table, 'C5' class irrigation water (EC above 10 ds/m) is characterised as:", "options": ["Normal waters, suitable for all soils", "Saline waters suitable for tolerant crops", "High salinity waters, not suitable for any soils", "Medium salinity waters", "Low salinity waters for light-textured soils"], "correct": 2, "note": ""}, {"q": "Irrigation water is considered harmful to crops, especially on light soils, when boron content exceeds:", "options": ["10 ppm", "1 ppm", "0.5 ppm", "3 ppm", "5 ppm"], "correct": 3, "note": ""}, {"q": "As per the boron classification table, 'B4' class water (5-10 ppm boron) is suitable for:", "options": ["All soils", "Clay soils and medium-textured soils", "Not suitable for any soil", "Light soils only", "Heavy-textured soils"], "correct": 4, "note": ""}, {"q": "Which of the following parameters is NOT listed in the document as being used to judge irrigation water quality?", "options": ["Dissolved Oxygen (DO)", "pH", "Electrical Conductivity (EC)", "Sodium Adsorption Ratio (SAR)", "Residual Sodium Carbonate (RSC)"], "correct": 0, "note": ""}, {"q": "As per the summary table of water quality indicators, water is classified as 'Excellent' when EC (m.mhos/cm) is:", "options": ["0.5-1.5", "0.5", "1.5-3.0", "3.0-5.0", "5.0-6.0"], "correct": 1, "note": ""}, {"q": "As per the summary table, irrigation water is classified 'Unsuitable' when SAR exceeds:", "options": ["8.0", "4.0", "15", "1.0", "2.0"], "correct": 2, "note": ""}, {"q": "As per the summary table, 'Poor' quality irrigation water corresponds to a pH range of:", "options": ["6.5-7.5", "7.5-8.0", "9.0-10.0", "8.5-9.0", ">10"], "correct": 3, "note": ""}, {"q": "As per the summary table, 'Very poor' quality irrigation water corresponds to a sodium (Na%) range of:", "options": ["30-60", "60-75", "75-90", ">90", "80-90"], "correct": 4, "note": ""}];
+
+let current = 0;
+let answers = new Array(QUESTIONS.length).fill(null); // selected option index or null
+let score = 0;
+
+const qCounter = document.getElementById('qCounter');
+const progBar = document.getElementById('progBar');
+const scorePill = document.getElementById('scorePill');
+const qnum = document.getElementById('qnum');
+const qtext = document.getElementById('qtext');
+const optionsDiv = document.getElementById('options');
+const feedback = document.getElementById('feedback');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const jumpgrid = document.getElementById('jumpgrid');
+const quizArea = document.getElementById('quizArea');
+const resultsDiv = document.getElementById('results');
+
+const LETTERS = ['A','B','C','D','E'];
+
+function buildJumpgrid() {
+  jumpgrid.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const b = document.createElement('button');
+    b.textContent = i + 1;
+    b.addEventListener('click', () => { current = i; render(); });
+    jumpgrid.appendChild(b);
+  });
+}
+
+function updateJumpgrid() {
+  const btns = jumpgrid.querySelectorAll('button');
+  btns.forEach((b, i) => {
+    b.classList.remove('answered','wrong-flag','current');
+    if (answers[i] !== null) {
+      const correct = answers[i] === QUESTIONS[i].correct;
+      b.classList.add(correct ? 'answered' : 'wrong-flag');
+    }
+    if (i === current) b.classList.add('current');
+  });
+}
+
+function updateTopbar() {
+  qCounter.textContent = `Question ${current + 1} / ${QUESTIONS.length}`;
+  const answeredCount = answers.filter(a => a !== null).length;
+  progBar.style.width = (answeredCount / QUESTIONS.length * 100) + '%';
+  scorePill.textContent = `Score: ${score} / ${answeredCount}`;
+}
+
+function render() {
+  const q = QUESTIONS[current];
+  qnum.textContent = `QUESTION ${current + 1}`;
+  qtext.textContent = q.q;
+  optionsDiv.innerHTML = '';
+  const selected = answers[current];
+
+  q.options.forEach((optText, i) => {
+    const div = document.createElement('div');
+    div.className = 'opt';
+    div.innerHTML = `<span class="letter">${LETTERS[i]}</span><span>${optText}</span>`;
+    if (selected !== null) {
+      div.classList.add('locked');
+      if (i === q.correct) div.classList.add('correct');
+      else if (i === selected) div.classList.add('incorrect');
+      else div.classList.add('dim');
+    }
+    div.addEventListener('click', () => selectOption(i));
+    optionsDiv.appendChild(div);
+  });
+
+  if (selected !== null) {
+    const isCorrect = selected === q.correct;
+    feedback.style.display = 'block';
+    feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'incorrect');
+    feedback.textContent = isCorrect
+      ? '✓ Correct!'
+      : `✗ Incorrect. The correct answer is ${LETTERS[q.correct]}.`;
+  } else {
+    feedback.style.display = 'none';
+  }
+
+  prevBtn.disabled = current === 0;
+  nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish Quiz' : 'Next →';
+
+  updateJumpgrid();
+  updateTopbar();
+}
+
+function selectOption(i) {
+  if (answers[current] !== null) return; // already locked
+  answers[current] = i;
+  if (i === QUESTIONS[current].correct) score++;
+  render();
+}
+
+prevBtn.addEventListener('click', () => {
+  if (current > 0) { current--; render(); }
+});
+
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1) {
+    current++;
+    render();
+  } else {
+    showResults();
+  }
+});
+
+function showResults() {
+  quizArea.style.display = 'none';
+  resultsDiv.style.display = 'block';
+  const answeredCount = answers.filter(a => a !== null).length;
+  document.getElementById('finalScore').textContent = `${score} / ${QUESTIONS.length}`;
+  const pct = QUESTIONS.length ? ((score / QUESTIONS.length) * 100).toFixed(1) : 0;
+  document.getElementById('finalPct').textContent =
+    `${pct}% correct` + (answeredCount < QUESTIONS.length ? ` (${QUESTIONS.length - answeredCount} unanswered, counted as incorrect)` : '');
+
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML = '';
+  let missCount = 0;
+  QUESTIONS.forEach((q, i) => {
+    const userAns = answers[i];
+    if (userAns !== q.correct) {
+      missCount++;
+      const div = document.createElement('div');
+      div.className = 'review-item';
+      const yourAnsText = userAns === null ? 'Not answered' : `${LETTERS[userAns]}. ${q.options[userAns]}`;
+      div.innerHTML = `
+        <div class="rq">Q${i + 1}. ${q.q}</div>
+        <div class="ra your">Your answer: ${yourAnsText}</div>
+        <div class="ra correctans">Correct answer: ${LETTERS[q.correct]}. ${q.options[q.correct]}</div>
+      `;
+      reviewList.appendChild(div);
+    }
+  });
+  document.getElementById('noMisses').style.display = missCount === 0 ? 'block' : 'none';
+  window.scrollTo(0, 0);
+}
+
+document.getElementById('retryBtn').addEventListener('click', () => {
+  current = 0;
+  answers = new Array(QUESTIONS.length).fill(null);
+  score = 0;
+  resultsDiv.style.display = 'none';
+  quizArea.style.display = 'block';
+  render();
+  window.scrollTo(0, 0);
+});
+
+buildJumpgrid();
+render();
+</script>
+</body>
+</html>
