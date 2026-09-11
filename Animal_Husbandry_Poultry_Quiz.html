@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARD Practice Register — Animal Husbandry &amp; Poultry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#16140F;
+    --bg-alt:#1B1811;
+    --surface:#201C15;
+    --surface-2:#2A251A;
+    --border:#3A3527;
+    --border-soft:#2C2819;
+    --text:#EAE4D6;
+    --text-muted:#A89B7D;
+    --text-faint:#6E6450;
+    --accent:#C99A4A;
+    --accent-strong:#E0AD5E;
+    --accent-dim:#8A6B36;
+    --good:#7C9B63;
+    --good-bg:rgba(124,155,99,0.14);
+    --bad:#BD5B44;
+    --bad-bg:rgba(189,91,68,0.14);
+    --easy:#7C9B63;
+    --moderate:#C99A4A;
+    --hard:#BD5B44;
+    --radius:3px;
+    --serif:"Source Serif 4", Georgia, serif;
+    --sans:"IBM Plex Sans", -apple-system, sans-serif;
+    --mono:"IBM Plex Mono", monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    background-image:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(201,154,74,0.06), transparent 60%);
+    color:var(--text);
+    font-family:var(--sans);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent-strong);}
+  ::selection{background:var(--accent-dim);color:var(--text);}
+
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding:28px 20px 80px;
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead{
+    border-bottom:1px solid var(--border);
+    padding-bottom:18px;
+    margin-bottom:28px;
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .masthead-title{
+    font-family:var(--serif);
+    font-size:1.5rem;
+    font-weight:600;
+    letter-spacing:0.01em;
+    margin:0;
+    color:var(--text);
+  }
+  .masthead-sub{
+    font-family:var(--mono);
+    font-size:0.72rem;
+    color:var(--text-faint);
+    letter-spacing:0.03em;
+  }
+
+  /* ---------- Home ---------- */
+  .intro-line{
+    font-family:var(--serif);
+    font-style:italic;
+    color:var(--text-muted);
+    font-size:1.02rem;
+    line-height:1.6;
+    margin:0 0 30px;
+    max-width:56ch;
+  }
+  .section-label{
+    font-family:var(--mono);
+    font-size:0.7rem;
+    color:var(--text-faint);
+    letter-spacing:0.04em;
+    margin:0 0 10px;
+    padding-left:2px;
+  }
+
+  .mode-list{ display:flex; flex-direction:column; gap:10px; margin-bottom:36px; }
+  .mode-tab{
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-left:4px solid var(--accent);
+    border-radius:var(--radius);
+    padding:16px 18px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    transition:background 0.15s ease, border-color 0.15s ease;
+    text-align:left;
+    width:100%;
+    font-family:inherit;
+    color:inherit;
+  }
+  .mode-tab:hover{ background:var(--surface-2); border-left-color:var(--accent-strong); }
+  .mode-tab:focus-visible{ outline:2px solid var(--accent-strong); outline-offset:2px; }
+  .mode-tab .mt-name{
+    font-family:var(--serif);
+    font-size:1.12rem;
+    font-weight:600;
+    color:var(--text);
+    margin:0 0 4px;
+  }
+  .mode-tab .mt-desc{
+    font-size:0.85rem;
+    color:var(--text-muted);
+    margin:0;
+    line-height:1.45;
+  }
+  .mode-tab .mt-count{
+    font-family:var(--mono);
+    font-size:0.85rem;
+    color:var(--accent-strong);
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+
+  .order-toggle{
+    display:flex;
+    gap:0;
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:var(--radius);
+    width:fit-content;
+    margin:-20px 0 36px;
+    overflow:hidden;
+  }
+  .order-toggle button{
+    font-family:var(--mono);
+    font-size:0.75rem;
+    letter-spacing:0.02em;
+    padding:8px 16px;
+    border:none;
+    background:transparent;
+    color:var(--text-muted);
+    cursor:pointer;
+  }
+  .order-toggle button.active{ background:var(--accent-dim); color:var(--text); }
+
+  .topic-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:20px;
+  }
+  @media (max-width:560px){ .topic-grid{ grid-template-columns:1fr; } }
+  .topic-tile{
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:var(--radius);
+    padding:14px 16px;
+    cursor:pointer;
+    text-align:left;
+    font-family:inherit;
+    color:inherit;
+    transition:background 0.15s ease, border-color 0.15s ease;
+  }
+  .topic-tile:hover{ background:var(--surface-2); border-color:var(--accent-dim); }
+  .topic-tile .tt-name{
+    font-family:var(--serif);
+    font-size:0.95rem;
+    font-weight:600;
+    color:var(--text);
+    margin:0 0 6px;
+    line-height:1.3;
+  }
+  .topic-tile .tt-count{
+    font-family:var(--mono);
+    font-size:0.72rem;
+    color:var(--accent);
+  }
+
+  .back-link{
+    background:none;
+    border:none;
+    color:var(--text-muted);
+    font-family:var(--mono);
+    font-size:0.75rem;
+    cursor:pointer;
+    padding:0 0 20px;
+    display:inline-block;
+  }
+  .back-link:hover{ color:var(--accent-strong); }
+
+  /* ---------- Quiz screen ---------- */
+  .quiz-header{
+    margin-bottom:20px;
+  }
+  .quiz-meta-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:var(--mono);
+    font-size:0.75rem;
+    color:var(--text-faint);
+    margin-bottom:8px;
+  }
+  .quiz-meta-row .score-live{ color:var(--accent-strong); }
+  .progress-track{
+    height:3px;
+    background:var(--border-soft);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--accent);
+    transition:width 0.25s ease;
+  }
+
+  .diff-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:var(--mono);
+    font-size:0.72rem;
+    color:var(--text-muted);
+    margin-bottom:14px;
+  }
+  .diff-dot{ width:7px; height:7px; border-radius:50%; display:inline-block; }
+  .diff-dot.Easy{ background:var(--easy); }
+  .diff-dot.Moderate{ background:var(--moderate); }
+  .diff-dot.Hard{ background:var(--hard); }
+
+  .passage-box{
+    background:var(--bg-alt);
+    border-left:3px solid var(--accent-dim);
+    border-radius:0 var(--radius) var(--radius) 0;
+    padding:16px 18px;
+    margin:0 0 18px;
+    font-family:var(--serif);
+    font-size:0.98rem;
+    line-height:1.7;
+    color:var(--text-muted);
+    white-space:pre-line;
+  }
+  .passage-label{
+    font-family:var(--mono);
+    font-size:0.65rem;
+    letter-spacing:0.04em;
+    color:var(--text-faint);
+    margin-bottom:8px;
+    display:block;
+  }
+
+  .question-stem{
+    font-family:var(--serif);
+    font-size:1.18rem;
+    font-weight:500;
+    line-height:1.5;
+    color:var(--text);
+    margin:0 0 20px;
+    white-space:pre-line;
+  }
+
+  .options{ display:flex; flex-direction:column; gap:8px; margin-bottom:18px; }
+  .option{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:var(--radius);
+    padding:12px 14px;
+    cursor:pointer;
+    text-align:left;
+    font-family:var(--sans);
+    font-size:0.92rem;
+    color:var(--text);
+    transition:background 0.12s ease, border-color 0.12s ease;
+    width:100%;
+  }
+  .option:hover:not(.locked){ background:var(--surface-2); border-color:var(--accent-dim); }
+  .option:focus-visible{ outline:2px solid var(--accent-strong); outline-offset:1px; }
+  .option .opt-letter{
+    font-family:var(--mono);
+    font-size:0.78rem;
+    color:var(--text-faint);
+    flex-shrink:0;
+    width:16px;
+  }
+  .option.correct{ background:var(--good-bg); border-color:var(--good); }
+  .option.correct .opt-letter{ color:var(--good); }
+  .option.incorrect{ background:var(--bad-bg); border-color:var(--bad); }
+  .option.incorrect .opt-letter{ color:var(--bad); }
+  .option.locked{ cursor:default; }
+  .option.dim{ opacity:0.5; }
+
+  .feedback-box{
+    border-radius:var(--radius);
+    padding:14px 16px;
+    margin:4px 0 20px;
+    font-size:0.88rem;
+    line-height:1.6;
+    display:none;
+  }
+  .feedback-box.show{ display:block; }
+  .feedback-box.correct{ background:var(--good-bg); border:1px solid rgba(124,155,99,0.35); }
+  .feedback-box.incorrect{ background:var(--bad-bg); border:1px solid rgba(189,91,68,0.35); }
+  .feedback-box.skipped{ background:var(--surface-2); border:1px solid var(--border-soft); }
+  .feedback-verdict{
+    font-family:var(--mono);
+    font-size:0.72rem;
+    letter-spacing:0.03em;
+    margin:0 0 6px;
+  }
+  .feedback-verdict.correct{ color:var(--good); }
+  .feedback-verdict.incorrect{ color:var(--bad); }
+  .feedback-verdict.skipped{ color:var(--text-muted); }
+  .feedback-box p{ margin:0; color:var(--text-muted); }
+
+  .quiz-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-top:6px;
+  }
+  .btn{
+    font-family:var(--sans);
+    font-size:0.85rem;
+    font-weight:600;
+    padding:11px 20px;
+    border-radius:var(--radius);
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--text);
+    cursor:pointer;
+    transition:background 0.15s ease;
+  }
+  .btn:hover{ background:var(--surface-2); }
+  .btn-primary{ background:var(--accent); border-color:var(--accent); color:#1A1508; }
+  .btn-primary:hover{ background:var(--accent-strong); }
+  .btn-ghost{ background:none; border:none; color:var(--text-faint); }
+  .btn-ghost:hover{ color:var(--text-muted); background:none; }
+  .btn:disabled{ opacity:0.35; cursor:not-allowed; }
+
+  /* ---------- End screen ---------- */
+  .end-score{
+    text-align:center;
+    padding:28px 0 24px;
+    border-bottom:1px solid var(--border);
+    margin-bottom:24px;
+  }
+  .end-score .big-num{
+    font-family:var(--serif);
+    font-size:3.2rem;
+    font-weight:600;
+    color:var(--accent-strong);
+    line-height:1;
+    margin:0 0 6px;
+  }
+  .end-score .big-label{
+    font-family:var(--mono);
+    font-size:0.78rem;
+    color:var(--text-muted);
+  }
+  .stat-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:26px;
+  }
+  .stat-block{
+    flex:1;
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:var(--radius);
+    padding:14px 12px;
+    text-align:center;
+  }
+  .stat-block .sb-diff{
+    font-family:var(--mono);
+    font-size:0.68rem;
+    color:var(--text-faint);
+    margin-bottom:6px;
+  }
+  .stat-block .sb-frac{
+    font-family:var(--serif);
+    font-size:1.3rem;
+    font-weight:600;
+  }
+  .stat-block.Easy .sb-frac{ color:var(--easy); }
+  .stat-block.Moderate .sb-frac{ color:var(--moderate); }
+  .stat-block.Hard .sb-frac{ color:var(--hard); }
+
+  .review-list{ margin-bottom:28px; }
+  .review-item{
+    border:1px solid var(--border-soft);
+    border-radius:var(--radius);
+    margin-bottom:8px;
+    overflow:hidden;
+  }
+  .review-item-head{
+    padding:12px 14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    background:var(--surface);
+  }
+  .review-item-head:hover{ background:var(--surface-2); }
+  .review-item-head .ri-stem{
+    font-family:var(--serif);
+    font-size:0.9rem;
+    color:var(--text);
+    margin:0;
+    line-height:1.4;
+  }
+  .review-item-head .ri-status{
+    font-family:var(--mono);
+    font-size:0.68rem;
+    flex-shrink:0;
+    white-space:nowrap;
+  }
+  .review-item-head .ri-status.incorrect{ color:var(--bad); }
+  .review-item-head .ri-status.skipped{ color:var(--text-faint); }
+  .review-item-body{
+    display:none;
+    padding:0 14px 14px;
+    font-size:0.85rem;
+    color:var(--text-muted);
+    line-height:1.6;
+  }
+  .review-item-body.show{ display:block; }
+  .review-item-body .ri-correct{ color:var(--good); font-weight:600; }
+  .review-item-body .ri-yours{ color:var(--bad); }
+
+  .end-actions{ display:flex; gap:10px; }
+  .end-actions .btn{ flex:1; }
+
+  .empty-note{
+    font-family:var(--serif);
+    font-style:italic;
+    color:var(--text-muted);
+    padding:30px 0;
+    text-align:center;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+const QUESTIONS = [{"topic": "Livestock Basics, Census & Reproductive Terms", "type": "figure", "difficulty": "Moderate", "passage": null, "stem": "As per the 20th Livestock Census (2019), what is India's total cattle population (in millions)?", "options": {"A": "192.49", "B": "148.88", "C": "302.79", "D": "74.26", "E": "109.85"}, "correct": "A", "explanation": "As per the 20th Livestock Census-2019, India's cattle population is 192.49 million, ranking first in the world.", "sprint": false, "id": 1}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "figure", "difficulty": "Moderate", "passage": null, "stem": "As per the 20th Livestock Census (2019), India's goat population of 148.88 million ranks at which position globally?", "options": {"A": "Fourth", "B": "Third", "C": "Fifth", "D": "First", "E": "Second"}, "correct": "E", "explanation": "India's goat population (148.88 million) ranks Second in the world, while cattle and buffaloes both rank First.", "sprint": false, "id": 2}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "As per the 20th Livestock Census, India's total poultry population ranks at which position in the world?", "options": {"A": "Tenth", "B": "Third", "C": "First", "D": "Fifth", "E": "Seventh"}, "correct": "E", "explanation": "Total poultry population of India (851.81 million) ranks Seventh in the world, while chicken alone ranks Fifth.", "sprint": false, "id": 3}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "passage", "difficulty": "Moderate", "passage": "________ is an important member among the bovines with a black colour cattle-like appearance. Usually all types are black in colour and larger in physique compared to other cattle species. Most have horns whose shape and size vary according to species — one African type has a thick horn with downward-and-upward curves while a wild Asian type has slender horns with an upward curve. Importantly, this animal lacks sweat glands on its skin, causing more heat retention in the body, so it prefers staying around water and mud during the day.", "stem": "This blank refers to which bovine species?", "options": {"A": "Buffalo", "B": "Cattle", "C": "Bison", "D": "Mithun", "E": "Yak"}, "correct": "A", "explanation": "Buffalo is described this way — black colour, larger physique, absence of sweat glands, and horn shapes varying by type (e.g. Cape buffalo vs Wild Asian buffalo).", "sprint": false, "id": 4}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "passage", "difficulty": "Moderate", "passage": "________ is an important member among the bovines with a black colour cattle-like appearance. Usually all types are black in colour and larger in physique compared to other cattle species. Most have horns whose shape and size vary according to species — one African type has a thick horn with downward-and-upward curves while a wild Asian type has slender horns with an upward curve. Importantly, this animal lacks sweat glands on its skin, causing more heat retention in the body, so it prefers staying around water and mud during the day.", "stem": "Which of the following is stated as the reason this animal prefers staying around water during the daytime?", "options": {"A": "It cannot see well in sunlight", "B": "Its skin is allergic to sunlight", "C": "It lacks sweat glands, causing more body heat retention", "D": "It cannot digest feed without water nearby", "E": "All of the above"}, "correct": "C", "explanation": "The passage notes the animal lacks sweat glands, causing it to retain more body heat, so it prefers staying near water and covering itself with mud to cool down.", "sprint": false, "id": 5}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "The scientific name Bos taurus refers to which animal?", "options": {"A": "Cattle", "B": "Sheep", "C": "Yak", "D": "Goat", "E": "Water Buffalo"}, "correct": "A", "explanation": "Bos taurus is the scientific name for cattle, as listed among scientific names of important livestock and poultry.", "sprint": false, "id": 6}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which is the correct scientific name for Water Buffalo?", "options": {"A": "Capra aegagrus hircus", "B": "Ovis aries", "C": "Bos taurus", "D": "Bubalus bubalis", "E": "Bos frontalis"}, "correct": "D", "explanation": "Water Buffalo's scientific name is Bubalus bubalis; Bos frontalis is Mithun, and Ovis aries is Sheep.", "sprint": false, "id": 7}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which scientific name correctly corresponds to Mithun?", "options": {"A": "Bos javanicus", "B": "Bos grunniens", "C": "Bos frontalis", "D": "Bos taurus", "E": "Bubalus bubalis"}, "correct": "C", "explanation": "Mithun's scientific name is Bos frontalis. Bos javanicus is Bali cattle and Bos grunniens is Yak.", "sprint": false, "id": 8}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "What is the adult female of a goat called?", "options": {"A": "Hen", "B": "Mare", "C": "Nanny", "D": "Sow", "E": "Ewe"}, "correct": "C", "explanation": "The adult female goat is called Nanny, as per the terminology table for domesticated animals.", "sprint": false, "id": 9}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "What is the meat of goat specifically called?", "options": {"A": "Mutton", "B": "Pork", "C": "Venison", "D": "Beef", "E": "Chevon"}, "correct": "E", "explanation": "The meat of goat is called Chevon, per the terminology table of domesticated animals.", "sprint": false, "id": 10}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "The mating/service process in sheep is referred to by which specific term?", "options": {"A": "Foaling", "B": "Serving", "C": "Tupping", "D": "Coupling", "E": "Covering"}, "correct": "C", "explanation": "As per the terminology table, the mating term used specifically for sheep is 'Tupping'; goats use 'Serving' and pigs use 'Coupling'.", "sprint": false, "id": 11}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "What is the parturition (birthing) process called specifically in goats?", "options": {"A": "Hatching", "B": "Farrowing", "C": "Foaling", "D": "Kidding", "E": "Lambing"}, "correct": "D", "explanation": "The parturition process in goats is termed Kidding. Lambing is for sheep, Farrowing is for pigs, and Foaling is for horses.", "sprint": false, "id": 12}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "figure", "difficulty": "Hard", "passage": null, "stem": "What is the normal body temperature of a hen, as listed among domesticated animals?", "options": {"A": "38.5°C", "B": "37.5°C", "C": "39.1°C", "D": "39.2°C", "E": "41.7°C"}, "correct": "E", "explanation": "The hen has the highest listed body temperature among the domesticated animals at 41.7°C, compared to cow (38.5°C), buffalo (37.5°C), goat (39.1°C), sheep (39°C) and pig (39.2°C).", "sprint": false, "id": 13}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "statement", "difficulty": "Hard", "passage": "1. Estrus is the stage characterised by receptivity to a male, commonly called 'heat'.\n2. Cattle and pigs are classified as Polyestrous animals, having estrous cycles throughout the year.\n3. Horses, sheep and goats are Seasonally Polyestrous, cycling only during certain periods of the year.\n4. Dogs, wolves and foxes are classified as Polyestrous animals, having estrous cycles throughout the year.", "stem": "Which of the above statements is/are INCORRECT?", "options": {"A": "None of the above", "B": "1 and 3", "C": "Only 4", "D": "2 and 4", "E": "Only 2"}, "correct": "C", "explanation": "Statement 4 is incorrect — dogs, wolves and foxes are classified as Monoestrous animals (one estrous cycle per year), not Polyestrous. Statements 1, 2 and 3 correctly describe Estrus, Polyestrous, and Seasonally Polyestrous animals respectively.", "sprint": true, "id": 14}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "statement", "difficulty": "Moderate", "passage": "1. The gestation period of cattle is 282 days.\n2. The gestation period of buffaloes is 316 days.\n3. The gestation period of sheep (ewe) is 250 days.\n4. The gestation period of goat (doe) is 150 days.", "stem": "Which of the above statements is/are correct?", "options": {"A": "1 and 2 only", "B": "1, 2 and 4", "C": "1, 2, 3 and 4", "D": "2, 3 and 4", "E": "Only 4"}, "correct": "B", "explanation": "Statement 3 is incorrect — the gestation period of sheep (ewe) is 148 days, not 250 days. Cattle (282 days), buffaloes (316 days), and goat (150 days) are correctly stated.", "sprint": true, "id": 15}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "What is the average length of the estrous cycle in cattle?", "options": {"A": "28 days", "B": "15-18 days", "C": "20 days", "D": "10 days", "E": "21 days"}, "correct": "E", "explanation": "Cattle have an estrous cycle length of 21 days, same as buffaloes; sheep have 15-18 days and goats have 20 days.", "sprint": false, "id": 16}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "A group of sheep, goats, or poultry birds is collectively called a:", "options": {"A": "Herd", "B": "Trip", "C": "Flock", "D": "Litter", "E": "Drove"}, "correct": "C", "explanation": "A Flock refers to a group of sheep, goat, or poultry birds, whereas a Herd refers to a group of cattle or buffalo.", "sprint": false, "id": 17}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "What term describes a sterile heifer born as a twin with a male calf?", "options": {"A": "Teaser", "B": "Buller", "C": "Free martin", "D": "Atavism", "E": "Cryptorchid"}, "correct": "C", "explanation": "A Free martin is a sterile heifer born twin with a male calf, due to hormonal exposure in utero.", "sprint": false, "id": 18}, {"topic": "Livestock Basics, Census & Reproductive Terms", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "A vasectomized bull used to detect heat/estrus in cows is called a:", "options": {"A": "Teaser", "B": "Free martin", "C": "Wether", "D": "Steer", "E": "Buller"}, "correct": "A", "explanation": "A Teaser is a vasectomized (castrated) bull used specifically to detect the heat or estrus of a female cow.", "sprint": false, "id": 19}, {"topic": "Indian Milch & Dual-Purpose Cattle Breeds", "type": "passage", "difficulty": "Easy", "passage": "This breed originally belongs to the Montgomery district of present-day Pakistan and is mainly found in Punjab, Haryana, U.P., Delhi, Bihar and M.P. It is otherwise known as Lola (loose skin), Lambi Bar, Montgomery, Multani, and Teli. It is considered the best indigenous dairy breed of India, reddish dun or pale red in colour, sometimes flashed with white patches, with a heavy body and loose skin.", "stem": "Which breed is being described in the above passage?", "options": {"A": "Rathi", "B": "Gir", "C": "Tharparkar", "D": "Sahiwal", "E": "Red Sindhi"}, "correct": "D", "explanation": "This is Sahiwal — originally from the Montgomery district (Pakistan), also known as Lola, Lambi Bar, Montgomery, Multani, Teli, and considered the best indigenous dairy breed.", "sprint": false, "id": 20}, {"topic": "Indian Milch & Dual-Purpose Cattle Breeds", "type": "passage", "difficulty": "Moderate", "passage": "This breed originally belongs to the Montgomery district of present-day Pakistan and is mainly found in Punjab, Haryana, U.P., Delhi, Bihar and M.P. It is otherwise known as Lola (loose skin), Lambi Bar, Montgomery, Multani, and Teli. It is considered the best indigenous dairy breed of India, reddish dun or pale red in colour, sometimes flashed with white patches, with a heavy body and loose skin.", "stem": "As per the passage and related chapter data, which of the following is correct about this breed?", "options": {"A": "It has the highest fat percentage among Indian buffalo breeds", "B": "Its milk yield averages less than 500 litres per lactation", "C": "Age at first calving is 32-36 months and calving interval is 15 months", "D": "It is a pure draught breed used only for ploughing", "E": "It originated in the Gir forests of Gujarat"}, "correct": "C", "explanation": "Sahiwal has an age at first calving of 32-36 months and a calving interval of 15 months. It is a milch (dairy) breed, not draught, and does not originate from Gir forests (that is Gir cattle) nor is it a buffalo breed.", "sprint": false, "id": 21}, {"topic": "Indian Milch & Dual-Purpose Cattle Breeds", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "Which of the following breeds originally belonged to the Kohistan, Sindh province of present-day Pakistan and is otherwise called Red Karachi, Sindhi and Mahi?", "options": {"A": "Sahiwal", "B": "Tharparkar", "C": "Kankrej", "D": "Gir", "E": "Red Sindhi"}, "correct": "E", "explanation": "Red Sindhi hails from Kohistan, Sindh province (Pakistan) and is otherwise called Red Karachi, Sindhi, and Mahi.", "sprint": false, "id": 22}, {"topic": "Indian Milch & Dual-Purpose Cattle Breeds", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which milch breed of cattle is otherwise known as Bhadawari, Desan, Gujarati, Kathiawari, Sorthi, and Surati, and originated in the Gir forests of South Kathiawar, Gujarat?", "options": {"A": "Gir", "B": "Deoni", "C": "Red Sindhi", "D": "Ongole", "E": "Sahiwal"}, "correct": "A", "explanation": "Gir cattle originated in the Gir forests of South Kathiawar, Gujarat and is otherwise known as Bhadawari, Desan, Gujarati, Kathiawari, Sorthi, and Surati. It is known for its 'half-moon' shaped curved horns.", "sprint": false, "id": 23}, {"topic": "Indian Milch & Dual-Purpose Cattle Breeds", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which breed's horns are described as giving a 'half-moon' appearance along with pendulous ears?", "options": {"A": "Murrah", "B": "Sahiwal", "C": "Kangayam", "D": "Gir", "E": "Ongole"}, "correct": "D", "explanation": "Gir cattle have peculiarly curved horns giving a 'half moon' appearance and pendulous ears.", "sprint": false, "id": 24}, {"topic": "Indian Milch & Dual-Purpose Cattle Breeds", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "Which dual-purpose breed is mainly found in Karnal, Hisar and Gurgaon districts of Haryana, Delhi, and Western M.P., known for powerful bullocks used for road transport and rapid ploughing?", "options": {"A": "Deoni", "B": "Tharparkar", "C": "Hariana", "D": "Ongole", "E": "Kankrej"}, "correct": "C", "explanation": "Hariana is mainly found in Karnal, Hisar and Gurgaon districts of Haryana, Delhi and Western M.P., known for powerful bullocks.", "sprint": false, "id": 25}, {"topic": "Indian Milch & Dual-Purpose Cattle Breeds", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which breed is otherwise known as White Sindhi, Gray Sindhi and Thari, and originated in the Tharparkar district of undivided India (present Pakistan)?", "options": {"A": "Red Sindhi", "B": "Hariana", "C": "Kankrej", "D": "Sahiwal", "E": "Tharparkar"}, "correct": "E", "explanation": "Tharparkar is otherwise known as White Sindhi, Gray Sindhi and Thari, originating in Tharparkar district (Pakistan) and also found in Rajasthan.", "sprint": false, "id": 26}, {"topic": "Indian Milch & Dual-Purpose Cattle Breeds", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "The peculiar gait of the Kankrej breed, known as '1¼ paces', is locally called:", "options": {"A": "Dhak chal", "B": "Jallikattu chal", "C": "Sawai chal", "D": "Lambi chal", "E": "Swaichal gait"}, "correct": "C", "explanation": "Kankrej's peculiar 1¼-pace gait is called 'sawai chal' in the text (also referenced as 'Swaichal' elsewhere in the summary table).", "sprint": false, "id": 27}, {"topic": "Indian Milch & Dual-Purpose Cattle Breeds", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which breed, otherwise called Nellore, has its home tract in Ongole taluk of Guntur district, Andhra Pradesh, and is a large muscular breed suitable for heavy draught work?", "options": {"A": "Rathi", "B": "Krishna Valley", "C": "Kankrej", "D": "Deoni", "E": "Ongole"}, "correct": "E", "explanation": "Ongole (otherwise known as Nellore) has its home tract in Ongole taluk, Guntur district, Andhra Pradesh, and is a large muscular breed with a well-developed hump.", "sprint": false, "id": 28}, {"topic": "Indian Milch & Dual-Purpose Cattle Breeds", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Deoni cattle, known for an average calving interval of 447 days, originated in Western Andhra Pradesh and is also known by which of the following names?", "options": {"A": "Wadad or Waged", "B": "Dongerpati, Dongari, Wannera", "C": "Kongu, Konganad", "D": "Wadhiar", "E": "Lola, Lambi Bar"}, "correct": "B", "explanation": "Deoni is also known as Dongerpati, Dongari, Wannera, Waghyd, Balankya, and Shevera.", "sprint": false, "id": 29}, {"topic": "Indian Milch & Dual-Purpose Cattle Breeds", "type": "statement", "difficulty": "Hard", "passage": "1. Sahiwal is native to Montgomery (Pakistan) and is India's highest and sweetest milk-producing cow breed, yielding about 2200 kg/lactation.\n2. Gir is native to Kathiawar (Gujarat) and yields about 2100 kg/lactation.\n3. Hariana, native to Hissar/Rohtak (Haryana), is a draught breed with a milk yield of only 700 kg/lactation.\n4. Kankrej, native to Kutchh (Gujarat), has the highest body weight among Indian cow breeds and yields about 1700 kg/lactation.", "stem": "Which of the above statements is/are INCORRECT?", "options": {"A": "Only 3", "B": "None of the above", "C": "Only 1", "D": "3 and 4", "E": "1 and 2"}, "correct": "A", "explanation": "Statement 3 is incorrect on two counts — Hariana is classified as a Dual-Purpose breed (not draught) with a milk yield of 1500 kg/lactation, not 700 kg (700 kg/lactation is Ongole's figure). Statements 1, 2 and 4 are correctly stated as per the ICAR summary table.", "sprint": true, "id": 30}, {"topic": "Indian Milch & Dual-Purpose Cattle Breeds", "type": "figure", "difficulty": "Hard", "passage": null, "stem": "As per the summary table of Indian cattle breeds (ICAR), which dairy breed has the highest listed milk yield per lactation among Sahiwal, Red Sindhi, and Gir?", "options": {"A": "Gir (2100 kg)", "B": "All three are equal", "C": "Red Sindhi (2000 kg)", "D": "None of the above", "E": "Sahiwal (2200 kg)"}, "correct": "E", "explanation": "Among the three dairy breeds listed, Sahiwal has the highest milk yield at 2200 litres/kg per lactation, followed by Gir (2100) and Red Sindhi (2000).", "sprint": false, "id": 31}, {"topic": "Indian Milch & Dual-Purpose Cattle Breeds", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which breed is described as having a body colour that varies from silver-grey to iron-grey or steel black, with lyre-shaped horns, native to the Southeast Rann of Kutch?", "options": {"A": "Deoni", "B": "Tharparkar", "C": "Ongole", "D": "Kankrej", "E": "Hariana"}, "correct": "D", "explanation": "Kankrej, originating from the Southeast Rann of Kutch (Gujarat), has a colour varying from silver-grey to iron-grey/steel black and lyre-shaped horns.", "sprint": false, "id": 32}, {"topic": "Indian Milch & Dual-Purpose Cattle Breeds", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which of the following is NOT listed as an example of a Dual-Purpose breed of Indian cattle?", "options": {"A": "Kankrej", "B": "Rathi", "C": "Amritmahal", "D": "Hariana", "E": "Ongole"}, "correct": "C", "explanation": "Amritmahal is classified as a Draught-purpose breed, not Dual-purpose. Dual-purpose breed examples include Ongole, Hariana, Kankrej, Deoni, Tharparkar, Krishna Valley, Rathi and Goalo Mewathi.", "sprint": false, "id": 33}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which of the following breeds originated in Hassan, Chikmagalur and Chitradurga districts of Karnataka, with a grey shade varying from almost white to near black, and a black muzzle, feet and tail?", "options": {"A": "Bargur", "B": "Amritmahal", "C": "Kangayam", "D": "Hallikar", "E": "Khillari"}, "correct": "B", "explanation": "Amritmahal originated in Hassan, Chikmagalur and Chitradurga districts of Karnataka, is grey-coloured with shade variation, and has a black muzzle, feet and tail.", "sprint": false, "id": 34}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which draught breed, found in Tumkur, Hassan and Mysore districts of Karnataka, is best known for its trotting ability?", "options": {"A": "Kangayam", "B": "Hallikar", "C": "Amritmahal", "D": "Khillari", "E": "Bargur"}, "correct": "B", "explanation": "Hallikar, from Tumkur, Hassan and Mysore districts of Karnataka, is best known for its draught capacity and especially its trotting ability.", "sprint": false, "id": 35}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which breed is otherwise called Jathi madu, Mottai madu, Molai madu, or Therkathi madu, and is peculiar for the practice of dehorning its bullocks?", "options": {"A": "Pulikulam", "B": "Alambadi", "C": "Bargur", "D": "Khillari", "E": "Umblacherry"}, "correct": "E", "explanation": "Umblacherry (from Tanjore district, Tamil Nadu) is otherwise called Jathi madu, Mottai madu, Molai madu, Therkathi madu, and is known for the peculiar practice of dehorning its bullocks.", "sprint": false, "id": 36}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which breed, resembling Hallikar and originating from Sholapur and Sitapur districts of Maharashtra, has long horns that turn forward in a peculiar fashion?", "options": {"A": "Amritmahal", "B": "Pulikulam", "C": "Alambadi", "D": "Khillari", "E": "Bargur"}, "correct": "D", "explanation": "Khillari, originating from Sholapur and Sitapur districts of Maharashtra, closely resembles Hallikar and has long horns turning forwards peculiarly.", "sprint": false, "id": 37}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which breed is commonly seen in the Cumbum valley of Madurai district, Tamil Nadu, also known as Jallikattu madu, kidai madu, or sentharai, and is mainly used for penning in the field?", "options": {"A": "Bargur", "B": "Alambadi", "C": "Kangayam", "D": "Pulikulam", "E": "Umblacherry"}, "correct": "D", "explanation": "Pulikulam, from Cumbum valley (Madurai district, Tamil Nadu), is also known as Jallikattu madu, kidai madu, sentharai, and is mainly used for penning in the field.", "sprint": false, "id": 38}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which breed is bred in the southern/southeastern areas of Erode district, Tamil Nadu, and is also known as Kongu and Konganad?", "options": {"A": "Umblacherry", "B": "Pulikulam", "C": "Kangayam", "D": "Bargur", "E": "Alambadi"}, "correct": "C", "explanation": "Kangayam is bred in the Erode district area of Tamil Nadu and is also known as Kongu and Konganad.", "sprint": false, "id": 39}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "passage", "difficulty": "Moderate", "passage": "This breed is found around a specific hill range in the Bhavani taluk of Erode district, Tamil Nadu, and was developed for work in uneven hilly terrains. It is generally brown in colour with white markings, well-built, compact and of medium size, known for its speed and endurance in trotting, but is cautious in behaviour and tends to remain away from strangers.", "stem": "Which breed is being described in the above passage?", "options": {"A": "Kangayam", "B": "Khillari", "C": "Hallikar", "D": "Alambadi", "E": "Bargur"}, "correct": "E", "explanation": "This is the Bargur breed, found around Bargur hills in Bhavani taluk, Erode district, developed for hilly terrain work, brown with white markings, and cautious/shy of strangers.", "sprint": false, "id": 40}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "passage", "difficulty": "Moderate", "passage": "This breed is found around a specific hill range in the Bhavani taluk of Erode district, Tamil Nadu, and was developed for work in uneven hilly terrains. It is generally brown in colour with white markings, well-built, compact and of medium size, known for its speed and endurance in trotting, but is cautious in behaviour and tends to remain away from strangers.", "stem": "Which of the following characteristics is explicitly attributed to this breed in the passage?", "options": {"A": "Excellent milk yield exceeding 2000 litres/lactation", "B": "Origin from crossing with exotic breeds", "C": "Speed and endurance in trotting", "D": "Highest fat percentage among Indian cattle", "E": "All of the above"}, "correct": "C", "explanation": "The passage explicitly attributes speed and endurance in trotting to Bargur cattle, along with being cautious/shy of strangers.", "sprint": false, "id": 41}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "Which exotic dairy cattle breed, originating in the Netherlands (Friesland province), is the largest dairy breed with typical black-and-white markings?", "options": {"A": "Jersey", "B": "Brown Swiss", "C": "Ayrshire", "D": "Holstein Friesian", "E": "Guernsey"}, "correct": "D", "explanation": "Holstein Friesian, originating from northern Netherlands (Friesland), is the largest dairy breed, ruggedly built, with characteristic black-and-white markings.", "sprint": false, "id": 42}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "figure", "difficulty": "Moderate", "passage": null, "stem": "Which exotic cattle breed has the highest fat percentage in milk among exotic breeds, as noted in the chapter?", "options": {"A": "Holstein Friesian", "B": "Brown Swiss", "C": "Guernsey", "D": "Jersey", "E": "Ayrshire"}, "correct": "D", "explanation": "The chapter explicitly notes: 'Jersey has the highest fat% in exotic breeds' — with about 4.5% fat and average yield of 4500 kg/lactation.", "sprint": false, "id": 43}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which exotic breed, originating from a small island near France, produces milk with a distinctive golden colour due to high beta-carotene content?", "options": {"A": "Jersey", "B": "Holstein Friesian", "C": "Guernsey", "D": "Ayrshire", "E": "Brown Swiss"}, "correct": "C", "explanation": "Guernsey, originating from the small island of Guernsey, produces milk with a golden colour due to an exceptionally high content of beta-carotene.", "sprint": false, "id": 44}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "The Ayrshire cattle breed was also historically known by which other names?", "options": {"A": "Shanghai cattle", "B": "Dunlop cattle or Cunningham cattle", "C": "Kongu and Konganad", "D": "Wadad or Waged", "E": "Lola or Multani"}, "correct": "B", "explanation": "Ayrshire, originating in Scotland, was also known as Dunlop cattle or Cunningham cattle.", "sprint": false, "id": 45}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Karan Swiss is a crossbred cattle developed at NDRI, Karnal, by crossing Brown Swiss with which Indian breed?", "options": {"A": "Hariana", "B": "Sahiwal", "C": "Gir", "D": "Red Sindhi", "E": "Tharparkar"}, "correct": "B", "explanation": "Karan Swiss is the crossbred obtained by crossing Brown Swiss cattle with Sahiwal cattle, developed at NDRI, Karnal.", "sprint": false, "id": 46}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Karan Fries is a crossbreed developed from which two breeds?", "options": {"A": "Ayrshire and Red Sindhi", "B": "Brown Swiss and Sahiwal", "C": "Holstein-Friesian and Sahiwal", "D": "Jersey and Gir", "E": "Tharparkar and Holstein-Friesian"}, "correct": "E", "explanation": "Karan Fries is a crossbreed of Tharparkar and Holstein-Friesian, developed at NDRI Karnal.", "sprint": false, "id": 47}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "statement", "difficulty": "Hard", "passage": "1. Karan Swiss is a cross of Brown Swiss and Sahiwal.\n2. Karan Fries is a cross of Tharparkar and Holstein-Friesian.\n3. Frieswal is a cross of Holstein-Friesian and Sahiwal.\n4. Among the four breeds compared at NDRI Karnal, Karan Fries has the highest total lactation yield (3585 kg) followed by Karan Swiss (3602 kg).", "stem": "Which of the above statements is/are INCORRECT?", "options": {"A": "2 and 4", "B": "Only 4", "C": "1 and 3", "D": "None of the above", "E": "Only 1"}, "correct": "B", "explanation": "Statement 4 reverses the figures — Karan Swiss actually has the highest total lactation yield (3602 kg) among the four, slightly ahead of Karan Fries (3585 kg), not the other way around. Statements 1, 2 and 3 correctly describe the crossbred origins.", "sprint": true, "id": 48}, {"topic": "Draught Cattle Breeds & Exotic/Crossbred Cattle", "type": "figure", "difficulty": "Hard", "passage": null, "stem": "As per the NDRI Karnal performance data, which breed among Sahiwal, Tharparkar, Karan Swiss and Karan Fries has the highest fat percentage in milk?", "options": {"A": "Sahiwal (5.1%)", "B": "All are equal", "C": "Tharparkar (5.3%)", "D": "Karan Fries (4.1%)", "E": "Karan Swiss (4.2%)"}, "correct": "C", "explanation": "Among the four breeds at NDRI Karnal, Tharparkar has the highest fat percentage at 5.3%, followed by Sahiwal (5.1%), Karan Swiss (4.2%) and Karan Fries (4.1%).", "sprint": false, "id": 49}, {"topic": "Buffalo Breeds of India", "type": "passage", "difficulty": "Easy", "passage": "This is the most important breed of buffaloes, whose home tract is Rohtak, Hisar and Jind of Haryana, and Nabha and Patiala districts of Punjab. It is also called Delhi, Kundi, or Kali. Its colour is usually jet black, with a tightly curved horn as an important character, and it is one of the most efficient milk and butterfat producers in India, with a butterfat content of 7.8%.", "stem": "Which buffalo breed is being described in the above passage?", "options": {"A": "Bhadawari", "B": "Nili Ravi", "C": "Jaffarabadi", "D": "Surti", "E": "Murrah"}, "correct": "E", "explanation": "This is Murrah, from Rohtak/Hisar/Jind (Haryana) and Nabha/Patiala (Punjab), also called Delhi, Kundi, Kali, jet black with tightly curved horns, and 7.8% butterfat.", "sprint": false, "id": 50}, {"topic": "Buffalo Breeds of India", "type": "passage", "difficulty": "Moderate", "passage": "This is the most important breed of buffaloes, whose home tract is Rohtak, Hisar and Jind of Haryana, and Nabha and Patiala districts of Punjab. It is also called Delhi, Kundi, or Kali. Its colour is usually jet black, with a tightly curved horn as an important character, and it is one of the most efficient milk and butterfat producers in India, with a butterfat content of 7.8%.", "stem": "As per the chapter, which of the following is correctly stated about this breed?", "options": {"A": "It has distinctive white 'wall eyes'", "B": "It originated in Kathiawar, Gujarat", "C": "It has the highest fat percentage (13%) among all buffalo breeds", "D": "Age at first calving is 45-50 months and inter-calving period is 450-500 days", "E": "Average lactation yield exceeds 3000 kg"}, "correct": "D", "explanation": "Murrah's age at first calving is 45-50 months, with an inter-calving period of 450-500 days. The 13% fat and 'wall eyes' belong to Bhadawari and Nili Ravi respectively, not Murrah; average lactation yield is 1500-2000 kg.", "sprint": false, "id": 51}, {"topic": "Buffalo Breeds of India", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which buffalo breed is known for having distinctive white 'wall eyes' and is found in the Sutlej valley of Ferozpur district, Punjab?", "options": {"A": "Nili Ravi", "B": "Jaffarabadi", "C": "Mehsana", "D": "Toda", "E": "Murrah"}, "correct": "A", "explanation": "Nili Ravi, found in Sutlej valley (Ferozpur district, Punjab) and Sahiwal district (Pakistan), is known for its distinctive white 'wall eyes'.", "sprint": false, "id": 52}, {"topic": "Buffalo Breeds of India", "type": "figure", "difficulty": "Hard", "passage": null, "stem": "Which buffalo breed has the highest fat percentage in milk (13%) among the breeds described in the chapter?", "options": {"A": "Nili Ravi", "B": "Toda", "C": "Bhadawari", "D": "Surti", "E": "Murrah"}, "correct": "C", "explanation": "Bhadawari, from Agra (UP), has the highest fat percentage at 13% among buffalo breeds listed, along with copper-coloured body coat.", "sprint": false, "id": 53}, {"topic": "Buffalo Breeds of India", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which buffalo breed is found in Kutch and Jamnagar districts of Gujarat, is massive in size, and is traditionally maintained by nomadic breeders called Maldharis?", "options": {"A": "Jaffarabadi", "B": "Godavari", "C": "Surti", "D": "Murrah", "E": "Mehsana"}, "correct": "A", "explanation": "Jaffarabadi, found in Kutch and Jamnagar districts of Gujarat (Gir forests), is massive, and traditionally maintained by nomadic Maldhari breeders.", "sprint": false, "id": 54}, {"topic": "Buffalo Breeds of India", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which buffalo breed has two white lines called 'Chevron' present on the lower side of the neck, similar to Surti buffaloes?", "options": {"A": "Mehsana", "B": "Godavari", "C": "Bhadawari", "D": "Nagpuri", "E": "Toda"}, "correct": "C", "explanation": "Bhadawari has two white lines called 'Chevron' at the lower neck, similar to Surti buffaloes.", "sprint": false, "id": 55}, {"topic": "Buffalo Breeds of India", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which buffalo breed, found in Kaira and Baroda districts of Gujarat, is known for two white collars — one around the jaw and the other at the brisket — and a high fat percentage of 8-12%?", "options": {"A": "Jaffarabadi", "B": "Mehsana", "C": "Bhadawari", "D": "Surti", "E": "Nagpuri"}, "correct": "D", "explanation": "Surti, from Kaira and Baroda districts of Gujarat, has two white collars (jaw and brisket regions) and high fat percentage (8-12%).", "sprint": false, "id": 56}, {"topic": "Buffalo Breeds of India", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Mehsana buffalo is a breed evolved by crossbreeding which two buffalo breeds?", "options": {"A": "Nagpuri and Surti", "B": "Murrah and Nili Ravi", "C": "Jaffarabadi and Bhadawari", "D": "Surti and Murrah", "E": "Godavari and Toda"}, "correct": "D", "explanation": "Mehsana buffalo evolved from crossbreeding between Surti and Murrah breeds.", "sprint": false, "id": 57}, {"topic": "Buffalo Breeds of India", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which buffalo breed, also called Elitchpuri or Barari, is black-coloured with white patches and has sword-shaped horns bending backward?", "options": {"A": "Nagpuri", "B": "Godavari", "C": "Mehsana", "D": "Surti", "E": "Toda"}, "correct": "A", "explanation": "Nagpuri (also called Elitchpuri or Barari), from Nagpur/Akola/Amrawati districts of Maharashtra, is black with white patches and has sword-shaped horns.", "sprint": false, "id": 58}, {"topic": "Buffalo Breeds of India", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which buffalo breed is named after a tribe of the Nilgiri Hills, is semi-wild, gregarious, and has horns forming a characteristic crescent shape?", "options": {"A": "Toda", "B": "Mehsana", "C": "Surti", "D": "Godavari", "E": "Nagpuri"}, "correct": "A", "explanation": "Toda buffalo, named after the Toda tribe of Nilgiri Hills, is semi-wild, gregarious, with crescent-shaped horns.", "sprint": false, "id": 59}, {"topic": "Buffalo Breeds of India", "type": "statement", "difficulty": "Hard", "passage": "1. Murrah has the best milk production among buffalo breeds with average fat around 7%.\n2. Bhadawari has the highest fat percentage (13%) among Indian buffalo breeds.\n3. Nili Ravi is known for 'wall eyes' and is found in the Montgomery and Firozpur regions.\n4. Godavari buffalo was developed purely as an indigenous breed with no crossing involved.", "stem": "Which of the above statements is/are INCORRECT?", "options": {"A": "2 and 4", "B": "None of the above", "C": "Only 4", "D": "Only 2", "E": "1 and 3"}, "correct": "C", "explanation": "Statement 4 is incorrect — Godavari buffalo originated from interbreed crossing, followed by grading up of local non-descript buffaloes with the Murrah breed; it is not purely indigenous with no crossing. Statements 1, 2 and 3 are correctly stated.", "sprint": true, "id": 60}, {"topic": "Buffalo Breeds of India", "type": "figure", "difficulty": "Moderate", "passage": null, "stem": "As per the buffalo breed summary table, which breed has the lowest average milk yield per lactation (500 kg) but a high fat content of 8%?", "options": {"A": "Murrah", "B": "Surti", "C": "Toda", "D": "Bhadawari", "E": "Nagpuri"}, "correct": "C", "explanation": "Toda buffalo has the lowest listed average milk yield (500 kg/lactation) among the breeds, but with a high fat content of 8%.", "sprint": false, "id": 61}, {"topic": "Goat & Sheep Breeds of India", "type": "passage", "difficulty": "Moderate", "passage": "This is the largest and most elegant of the long-legged goat breeds of India, found mainly in Uttar Pradesh. It has a pronounced Roman nose with a tuft of hair giving a parrot-mouth appearance, large folded pendulous ears, and a convex face line. An adult female weighs 45-60 kg while an adult male weighs 65-80 kg, with an average milk yield of 280 kg over a 274-day lactation.", "stem": "Which goat breed is being described in the above passage?", "options": {"A": "Sirohi", "B": "Barbari", "C": "Black Bengal", "D": "Beetal", "E": "Jamunapari"}, "correct": "E", "explanation": "This is Jamunapari, from Uttar Pradesh — the largest, most elegant long-legged Indian goat breed, with Roman nose/parrot mouth appearance and the given weight/yield figures.", "sprint": false, "id": 62}, {"topic": "Goat & Sheep Breeds of India", "type": "passage", "difficulty": "Moderate", "passage": "This is the largest and most elegant of the long-legged goat breeds of India, found mainly in Uttar Pradesh. It has a pronounced Roman nose with a tuft of hair giving a parrot-mouth appearance, large folded pendulous ears, and a convex face line. An adult female weighs 45-60 kg while an adult male weighs 65-80 kg, with an average milk yield of 280 kg over a 274-day lactation.", "stem": "Which of the following statements about this breed's milk is correct as per the passage and chapter?", "options": {"A": "Fat content exceeds 10%", "B": "It gives no milk at all, being a pure meat breed", "C": "Milk yield exceeds 500 kg per lactation", "D": "Fat content of the milk ranges between 3 to 3.5%", "E": "Average yield is 2 to 2.5 kg per day only during winters"}, "correct": "D", "explanation": "The chapter states Jamunapari's milk fat content ranges between 3 to 3.5%, with the ability to yield 2 to 2.5 kg of milk per day.", "sprint": false, "id": 63}, {"topic": "Goat & Sheep Breeds of India", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which goat breed is popular in urban areas of Delhi, U.P., Gurgaon, Karnal, Panipat and Rohtak, known as a good stall-fed breed that usually gives 2-3 kids per parturition?", "options": {"A": "Osmanabadi", "B": "Beetal", "C": "Sirohi", "D": "Barbari", "E": "Jamunapari"}, "correct": "D", "explanation": "Barbari is popular in urban areas of Delhi, UP, Gurgaon, Karnal, Panipat, and Rohtak, known for stall-feeding and 2-3 kids per parturition.", "sprint": false, "id": 64}, {"topic": "Goat & Sheep Breeds of India", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "Which goat breed, native to Western Bengal, is excellent for meat with black skin colour and is considered the most prolific among Indian breeds?", "options": {"A": "Black Bengal", "B": "Barbari", "C": "Jamunapari", "D": "Malabari", "E": "Beetal"}, "correct": "A", "explanation": "Black Bengal, from Western Bengal, is excellent for meat, has black skin (in demand for shoemaking), and is the most prolific among Indian goat breeds.", "sprint": false, "id": 65}, {"topic": "Goat & Sheep Breeds of India", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which goat breed, found in Gurdaspur (Punjab), resembles Jamunapari, and is notable for the presence of a beard in males?", "options": {"A": "Marwari", "B": "Osmanabadi", "C": "Jhakrana", "D": "Beetal", "E": "Sirohi"}, "correct": "D", "explanation": "Beetal, from Gurdaspur (Punjab), resembles Jamunapari and is a good dairy-type breed with a beard present in males.", "sprint": false, "id": 66}, {"topic": "Goat & Sheep Breeds of India", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which exotic goat breed is called the 'milk queen of goats' and originates from Switzerland?", "options": {"A": "Anglo-Nubian", "B": "Angora", "C": "Toggenburg", "D": "Alpine", "E": "Saanen"}, "correct": "E", "explanation": "Saanen, originating from Switzerland, is called the 'milk queen of goats'.", "sprint": false, "id": 67}, {"topic": "Goat & Sheep Breeds of India", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which exotic goat breed, originating in Turkey, is known for producing the lustrous fibre called mohair?", "options": {"A": "Angora", "B": "Anglo-Nubian", "C": "Saanen", "D": "Alpine", "E": "Boer"}, "correct": "A", "explanation": "Angora, originating in Turkey, produces the lustrous fibre known as mohair.", "sprint": false, "id": 68}, {"topic": "Goat & Sheep Breeds of India", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "The Anglo-Nubian goat breed, a cross of Indian Jamunapari and Egyptian Nubians, is sometimes called the 'Jersey cow' among goats because of:", "options": {"A": "Both good milk (5% fat) and meat production", "B": "Its origin in the island of Jersey", "C": "Its jet-black colour", "D": "Its ability to survive in cold climates only", "E": "Its extremely small body size"}, "correct": "A", "explanation": "Anglo-Nubian is called the 'Jersey cow' of goats due to both good milk production (5% fat) and meat qualities, similar to how the Jersey cattle breed is valued.", "sprint": false, "id": 69}, {"topic": "Goat & Sheep Breeds of India", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which region-wise classification does the Chokla sheep breed, called the 'Merino of Rajasthan', belong to?", "options": {"A": "Southern", "B": "Himalayan", "C": "Western", "D": "None of the above", "E": "Eastern"}, "correct": "C", "explanation": "Chokla belongs to the Western region classification of Indian sheep breeds (along with Lohi, Bikaneri/Pugal, Marwari, Jaisalmeri, Malpura, Hisardale), and is called the 'Merino of Rajasthan' for its fine carpet wool.", "sprint": false, "id": 70}, {"topic": "Goat & Sheep Breeds of India", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which sheep breed, found in Pakistan, is described as the 'largest sheep' among those listed under the Western region?", "options": {"A": "Malpura", "B": "Marwari", "C": "Jaisalmeri", "D": "Lohi", "E": "Chokla"}, "correct": "D", "explanation": "Lohi, native to Pakistan, is described as the 'largest sheep' among the Western-region breeds listed.", "sprint": false, "id": 71}, {"topic": "Goat & Sheep Breeds of India", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which sheep breed, formerly known as Bikaneri (also Bikaneri Chokhla/Chakri), is described as the only lustrous carpet-wool producing breed, found in villages around Bikaner?", "options": {"A": "Jaisalmeri", "B": "Magra", "C": "Marwari", "D": "Chokla", "E": "Nali"}, "correct": "B", "explanation": "Magra, formerly known as Bikaneri (also Bikaneri Chokhla/Chakri), is the only lustrous carpet-wool producing breed, found near Bikaner.", "sprint": false, "id": 72}, {"topic": "Goat & Sheep Breeds of India", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which sheep breed is described as the largest breed (in body size) among the eight breeds of Rajasthan, with a typical Roman nose and long drooping ears?", "options": {"A": "Jaisalmeri", "B": "Marwari", "C": "Chokla", "D": "Nali", "E": "Magra"}, "correct": "A", "explanation": "Jaisalmeri is the largest of the eight Rajasthan sheep breeds in body size, with a Roman nose and long drooping ears.", "sprint": false, "id": 73}, {"topic": "Goat & Sheep Breeds of India", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which sheep breed, found in Karnataka under the Southern region classification, is white in colour with a typical reverse 'U' shape from the rear end?", "options": {"A": "Mandya", "B": "Shahabadi", "C": "Balangir", "D": "Nellore", "E": "Deccani"}, "correct": "A", "explanation": "Mandya, from Karnataka (Southern region), is white in colour, compact-bodied, with the characteristic reverse 'U' shape from the rear.", "sprint": false, "id": 74}, {"topic": "Goat & Sheep Breeds of India", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Approximately what share of the world's wool production comes from Merino sheep and its crosses?", "options": {"A": "About 60%", "B": "About 80%", "C": "About 95%", "D": "About 20%", "E": "About 40%"}, "correct": "B", "explanation": "The chapter states that about 80% of the world's wool production comes from Merino and its crosses (the main exotic sheep breeds mentioned, along with Rambouillet).", "sprint": false, "id": 75}, {"topic": "Goat & Sheep Breeds of India", "type": "statement", "difficulty": "Hard", "passage": "1. Jamunapari is the largest and most elegant of the long-legged Indian goat breeds, native to Uttar Pradesh.\n2. Barbari is a dual-purpose breed suitable for stall feeding, known as the 'city goat'.\n3. Black Bengal is excellent for wool production and is native to Rajasthan.\n4. Sirohi is a dual-purpose breed with flattened, drooping, leaf-like ears.", "stem": "Which of the above statements is/are INCORRECT?", "options": {"A": "Only 1", "B": "1 and 2", "C": "Only 3", "D": "None of the above", "E": "3 and 4"}, "correct": "C", "explanation": "Statement 3 is incorrect — Black Bengal is excellent for meat (not wool) and is native to Western Bengal (not Rajasthan). Statements 1, 2 and 4 are correctly stated as per the chapter.", "sprint": true, "id": 76}, {"topic": "Feeding, Fodder Classification & Nutrition", "type": "passage", "difficulty": "Moderate", "passage": "These are the feedstuffs which contain more than 18 percent crude fibre and less than 60 percent Total Digestible Nutrients (TDN). Due to higher crude fibre content, they are more bulky and have lower digestibility as compared to another category of feed. The most common example of this type is grass; legumes such as lucerne, berseem and clover also fall in this category.", "stem": "________ is defined in the above passage. Which term fits the blank?", "options": {"A": "Unconventional feed stuff", "B": "Concentrates", "C": "Roughages", "D": "Feed additives", "E": "Feed supplements"}, "correct": "C", "explanation": "Roughages are feedstuffs with more than 18% crude fibre and less than 60% TDN, more bulky and less digestible than concentrates; grass and legumes like lucerne, berseem and clover are examples.", "sprint": false, "id": 77}, {"topic": "Feeding, Fodder Classification & Nutrition", "type": "passage", "difficulty": "Moderate", "passage": "These are the feedstuffs which contain more than 18 percent crude fibre and less than 60 percent Total Digestible Nutrients (TDN). Due to higher crude fibre content, they are more bulky and have lower digestibility as compared to another category of feed. The most common example of this type is grass; legumes such as lucerne, berseem and clover also fall in this category.", "stem": "Based on Digestible Crude Protein (DCP) content, which of the following is an example of the 'Production type' among this feed category, containing more than 5% DCP?", "options": {"A": "Green maize", "B": "Straw", "C": "Oat", "D": "Kadbi", "E": "Berseem, lucerne"}, "correct": "E", "explanation": "Production-type roughages contain more than 5% DCP — examples are Berseem and lucerne. Green maize and oat are Maintenance type (3-5% DCP); straw and kadbi are Non-maintenance type (less than 3% DCP).", "sprint": false, "id": 78}, {"topic": "Feeding, Fodder Classification & Nutrition", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "Which category of feedstuff contains less than 18 percent crude fibre and more than 60 percent TDN, making it a concentrated, highly digestible source of nutrients?", "options": {"A": "Green fodder", "B": "Unconventional feed stuff", "C": "Concentrates", "D": "Roughages", "E": "Feed additives"}, "correct": "C", "explanation": "Concentrates contain less than 18% crude fibre and more than 60% TDN, are less bulky, and have higher digestibility and nutritive value than roughages.", "sprint": false, "id": 79}, {"topic": "Feeding, Fodder Classification & Nutrition", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which of the following is an example of an Energy-Rich Concentrate?", "options": {"A": "Cereal grains", "B": "Blood meal", "C": "Fish meal", "D": "Oilseed cake", "E": "Brewer's yeast"}, "correct": "A", "explanation": "Cereal grains, cereal grain by-products, and roots/tubers are examples of Energy-Rich Concentrates. Fish meal and blood meal are animal-origin Protein-Rich Concentrates.", "sprint": false, "id": 80}, {"topic": "Feeding, Fodder Classification & Nutrition", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which feed additive category includes examples like Terramycin and Zinc bacitracin?", "options": {"A": "Antioxidants", "B": "Probiotics", "C": "Antibiotics", "D": "Coccidiostats", "E": "Enzymes"}, "correct": "C", "explanation": "Terramycin, Zinc bacitracin, and Flavomycin are examples of Antibiotic feed additives.", "sprint": false, "id": 81}, {"topic": "Feeding, Fodder Classification & Nutrition", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which feed additive category includes Amprolsol powder and Furasol powder as examples?", "options": {"A": "Mold inhibitors", "B": "Biostimulators", "C": "Pellet binders", "D": "Coccidiostats", "E": "Thyroprotein"}, "correct": "D", "explanation": "Amprolsol powder and Furasol powder are examples of Coccidiostats, a category of feed additives.", "sprint": false, "id": 82}, {"topic": "Feeding, Fodder Classification & Nutrition", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which of the following processing methods for feed involves treating straw with 1-3 percent urea, keeping moisture at 50 percent, and stacking for 20-30 days?", "options": {"A": "Formaldehyde treatment", "B": "Alkali treatment", "C": "Urea treatment", "D": "Chaffing", "E": "Pelleting"}, "correct": "C", "explanation": "Urea treatment involves treating poor-quality roughages with 1-3% urea at 50% moisture, stacked for 20-30 days, which breaks the lignocellulose complex and adds nitrogen.", "sprint": false, "id": 83}, {"topic": "Feeding, Fodder Classification & Nutrition", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which processing method for feed involves cutting roughages, especially fodder crops, into smaller size pieces to minimize wastage?", "options": {"A": "Chaffing", "B": "Heat treatment", "C": "Pelleting", "D": "Soaking", "E": "Grinding"}, "correct": "A", "explanation": "Chaffing is the process of cutting roughages (especially fodder crops) into smaller pieces to minimize fodder wastage.", "sprint": false, "id": 84}, {"topic": "Feeding, Fodder Classification & Nutrition", "type": "statement", "difficulty": "Hard", "passage": "1. Ruminants like cattle and buffaloes utilize micro-organisms in the rumen to digest feed.\n2. Buffaloes utilize fibre less efficiently than cattle, with a coefficient of digestion 5-8% lower.\n3. The recommended Ca:P ratio in animal feed is about 2:1.\n4. Lignin (wood-fibre) is not utilized by ruminants despite the presence of rumen microbes.", "stem": "Which of the above statements is/are INCORRECT?", "options": {"A": "None of the above", "B": "Only 2", "C": "Only 1", "D": "1 and 4", "E": "2 and 3"}, "correct": "B", "explanation": "Statement 2 is incorrect and reversed — buffaloes utilize fibre MORE efficiently than cattle, with a coefficient of digestion 5-8% HIGHER, not lower. Statements 1, 3 and 4 are correctly stated.", "sprint": true, "id": 85}, {"topic": "Feeding, Fodder Classification & Nutrition", "type": "statement", "difficulty": "Moderate", "passage": "1. The average Dry Matter (DM) requirement of a desi cow is 2 (dry) to 2.5 (lactating) kg per 100 kg body weight per day.\n2. For crossbred cows/buffaloes, DM requirement is 2.5 (dry) to 3.0 kg (lactating) per 100 kg body weight per day.\n3. A lactating animal should be given 1 kg additional concentrate for every 2.5 kg (buffalo) to 3 kg (cow) milk produced.\n4. Pregnant cows/buffaloes should receive an extra 3 kg per day of concentrate during advanced pregnancy.", "stem": "Which of the above statements is/are correct?", "options": {"A": "1, 2, 3 and 4", "B": "Only 1", "C": "2 and 3 only", "D": "1, 2 and 3", "E": "1 and 4 only"}, "correct": "D", "explanation": "Statement 4 is incorrect — pregnant cows/buffaloes should receive an extra 1.5 kg per day of concentrate (not 3 kg) during advanced pregnancy. Statements 1, 2 and 3 are correctly stated as per the thumb rule for cattle feeding.", "sprint": true, "id": 86}, {"topic": "Feeding, Fodder Classification & Nutrition", "type": "figure", "difficulty": "Hard", "passage": null, "stem": "As per the thumb rule for cattle feeding, breeding bulls in service should be given how much extra concentrate per day to maintain health and sex libido?", "options": {"A": "2 kg", "B": "2.5 kg", "C": "1.5 kg", "D": "1 kg", "E": "0.5 kg"}, "correct": "D", "explanation": "Breeding bulls in service should get 1 kg per day extra concentrate allowance to maintain good health and sex libido.", "sprint": false, "id": 87}, {"topic": "Feeding, Fodder Classification & Nutrition", "type": "figure", "difficulty": "Moderate", "passage": null, "stem": "As per the NABARD model project's feeding schedule, calves should be fed how much colostrum per day for the first 3 days following birth?", "options": {"A": "3 to 3.5 litres", "B": "2 to 2.5 litres", "C": "1 to 1.5 litres", "D": "0.5 to 1 litre", "E": "4 to 5 litres"}, "correct": "B", "explanation": "Calves should be fed 2 to 2.5 litres of colostrum daily for the first 3 days after birth, given within 15 minutes of calving.", "sprint": false, "id": 88}, {"topic": "Feeding, Fodder Classification & Nutrition", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "As per the colostrum feeding schedule, at what rate (relative to body weight) should buffalo calves be fed colostrum?", "options": {"A": "1/20th of body weight", "B": "1/8th of body weight", "C": "1/10th of body weight", "D": "1/5th of body weight", "E": "1/15th of body weight"}, "correct": "E", "explanation": "Cow calves should be fed colostrum at 1/10th of body weight while buffalo calves are fed at the rate of 1/15th of body weight.", "sprint": false, "id": 89}, {"topic": "Feeding, Fodder Classification & Nutrition", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Colostrum's immunoglobulins are best absorbed by a newborn calf within which window after birth?", "options": {"A": "72 hours only", "B": "2-4 hours (up to 16-27 hours)", "C": "1 week", "D": "Immediately and not thereafter", "E": "24-48 hours only"}, "correct": "B", "explanation": "Immunoglobulins in colostrum are absorbed during the first 16-27 hours after birth, preferably within 2-4 hours of age.", "sprint": false, "id": 90}, {"topic": "Breeding Systems, Artificial Insemination & Embryo Transfer", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Mating of a Grand-son and Grand-daughter, or half-brother and half-sister, is an example of which type of inbreeding?", "options": {"A": "Close breeding", "B": "Line breeding", "C": "Species hybridization", "D": "Grading up", "E": "Out crossing"}, "correct": "B", "explanation": "Line breeding is the mating of distinctly related animals like grandson-granddaughter or half-siblings, promoting uniformity in progeny.", "sprint": false, "id": 91}, {"topic": "Breeding Systems, Artificial Insemination & Embryo Transfer", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Mating of a Dam and her son, or a Sire and his Daughter, is an example of which type of inbreeding?", "options": {"A": "Cross breeding", "B": "Close breeding", "C": "Grading up", "D": "Line breeding", "E": "Out crossing"}, "correct": "B", "explanation": "Close breeding involves mating closely related animals like dam-son or sire-daughter, developing uniform progeny.", "sprint": false, "id": 92}, {"topic": "Breeding Systems, Artificial Insemination & Embryo Transfer", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "The mating of unrelated purebred animals within the same breed (e.g., unrelated Deoni sire × Deoni cow) is called:", "options": {"A": "Species hybridization", "B": "Grading up", "C": "Out crossing", "D": "Cross breeding", "E": "Close breeding"}, "correct": "C", "explanation": "Out crossing is mating of unrelated purebred animals within the same breed, considered the best method for genetic improvement within a breed.", "sprint": false, "id": 93}, {"topic": "Breeding Systems, Artificial Insemination & Embryo Transfer", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Mating of a Jack (male ass) with a Mare (female horse) to produce a Mule is an example of:", "options": {"A": "Out crossing", "B": "Grading up", "C": "Cross breeding", "D": "Close breeding", "E": "Species hybridization"}, "correct": "E", "explanation": "Species hybridization is mating of animals of two different species, e.g., Jack × Mare producing a Mule, or European cattle × American buffalo producing Catallo.", "sprint": false, "id": 94}, {"topic": "Breeding Systems, Artificial Insemination & Embryo Transfer", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "In which type of systematic cross-breeding are F1(AB) females back-crossed to breed B, and F1(AB) males back-crossed to breed A, and so on?", "options": {"A": "Double cross", "B": "Single cross", "C": "Three-way rotational cross", "D": "Criss crossing (Reciprocal back crossing)", "E": "Back cross"}, "correct": "D", "explanation": "Criss crossing (Reciprocal back crossing) involves F1(AB) females being back-crossed to breed B and F1(AB) males back-crossed to breed A, repeating in rotation.", "sprint": false, "id": 95}, {"topic": "Breeding Systems, Artificial Insemination & Embryo Transfer", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Grading up is generally used for improvement of non-descript animals. After how many generations do the graded animals become more or less similar to the pure breed used for grading (reaching 98-99% inheritance)?", "options": {"A": "10 to 12 generations", "B": "1 to 2 generations", "C": "3 to 4 generations", "D": "8 to 10 generations", "E": "5 to 6 generations"}, "correct": "E", "explanation": "After about 5 to 6 generations of grading up, the animals will be more or less similar to the pure breed used for grading, reaching nearly 98-99% inheritance of the original breed.", "sprint": false, "id": 96}, {"topic": "Breeding Systems, Artificial Insemination & Embryo Transfer", "type": "statement", "difficulty": "Hard", "passage": "1. Artificial Insemination (AI) reduces the chances of spread of venereal diseases like brucellosis and trichomoniasis.\n2. AI increases the market value of breeding bulls significantly.\n3. AI permits crossbreeding to improve production performance and reduces the number of bulls required.\n4. AI is a low-cost technique requiring no special training.", "stem": "Which of the above statements is/are correct?", "options": {"A": "2 and 4", "B": "1, 2, 3 and 4", "C": "Only 2", "D": "1, 2 and 3", "E": "Only 1 and 3"}, "correct": "E", "explanation": "Statements 2 and 4 are incorrect — AI actually reduces the market value of bulls (a limitation) and is a costly technique requiring well-trained operators and special instruments (also a limitation), not low-cost/untrained. Statements 1 and 3 are correctly listed as advantages of AI.", "sprint": true, "id": 97}, {"topic": "Breeding Systems, Artificial Insemination & Embryo Transfer", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "In Embryo Transfer Technology, the sexually mature female injected with hormones to produce more ova is called the:", "options": {"A": "Teaser", "B": "Buller", "C": "Surrogate", "D": "Donor", "E": "Recipient"}, "correct": "D", "explanation": "The donor is the sexually mature female injected with exogenous hormones to super-ovulate and produce more ova for embryo transfer.", "sprint": false, "id": 98}, {"topic": "Breeding Systems, Artificial Insemination & Embryo Transfer", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "In a Three-way cross breeding programme, the first-generation crossbred females (from breeds A and B) are crossed with males of which breed?", "options": {"A": "They are crossed with each other", "B": "Breed B again", "C": "Breed A again", "D": "No further crossing occurs", "E": "A third breed (Breed C)"}, "correct": "E", "explanation": "In three-way crosses, the F1 crossbred females (from A×B) are crossed with males of a third breed (C), using the hybrid vigor of the dam.", "sprint": false, "id": 99}, {"topic": "Nutrient Deficiencies in Livestock", "type": "passage", "difficulty": "Moderate", "passage": "This is a highly fatal disease of livestock caused by magnesium deficiency, occurring especially when there is a change from indoor feeding to outdoor grazing. It is also called 'Grass Staggers'. Symptoms include excitability, inability to stand, stiff muscles, convulsions and sometimes death. It is associated with grazing on lush, newly emerging grass that is low in magnesium and high in potassium and nitrogen.", "stem": "________ is being described in the above passage. Identify the condition.", "options": {"A": "Protein Deficiency", "B": "Secondary Hyperparathyroidism", "C": "Milk Fever", "D": "Phosphorus Deficiency", "E": "Grass Tetany"}, "correct": "E", "explanation": "Grass Tetany (also called Grass Staggers) is caused by magnesium deficiency, often triggered by a switch from indoor feeding to grazing on lush grass low in Mg and high in K/N.", "sprint": false, "id": 100}, {"topic": "Nutrient Deficiencies in Livestock", "type": "passage", "difficulty": "Moderate", "passage": "This is a highly fatal disease of livestock caused by magnesium deficiency, occurring especially when there is a change from indoor feeding to outdoor grazing. It is also called 'Grass Staggers'. Symptoms include excitability, inability to stand, stiff muscles, convulsions and sometimes death. It is associated with grazing on lush, newly emerging grass that is low in magnesium and high in potassium and nitrogen.", "stem": "Which mineral deficiency is directly responsible for this condition?", "options": {"A": "Magnesium", "B": "Phosphorus", "C": "Copper", "D": "Zinc", "E": "Calcium"}, "correct": "A", "explanation": "Grass Tetany is directly caused by a low level of magnesium in the blood, distinct from Milk Fever which is caused by low blood calcium (hypocalcaemia).", "sprint": false, "id": 101}, {"topic": "Nutrient Deficiencies in Livestock", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Milk Fever, a metabolic disorder mainly affecting dairy cows close to calving, is caused by a low blood level of which mineral?", "options": {"A": "Calcium", "B": "Potassium", "C": "Phosphorus", "D": "Magnesium", "E": "Sodium"}, "correct": "A", "explanation": "Milk Fever is caused by a low blood calcium level (hypocalcaemia), distinct from Grass Tetany which is caused by magnesium deficiency.", "sprint": false, "id": 102}, {"topic": "Nutrient Deficiencies in Livestock", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "'Steely wool' condition in sheep, where wool loses its crimp and colour, becoming hair-like, is a symptom of which mineral deficiency?", "options": {"A": "Zinc", "B": "Cobalt", "C": "Selenium", "D": "Copper", "E": "Iodine"}, "correct": "D", "explanation": "Copper deficiency in sheep causes the 'steely wool' condition where wool loses its crimp, becomes hair-like, and loses colour.", "sprint": false, "id": 103}, {"topic": "Nutrient Deficiencies in Livestock", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which mineral deficiency in cattle, buffaloes and sheep causes enlargement of the thyroid gland known as 'goitre'?", "options": {"A": "Cobalt", "B": "Zinc", "C": "Copper", "D": "Selenium", "E": "Iodine"}, "correct": "E", "explanation": "Iodine deficiency causes goitre (enlarged thyroid gland), particularly noted in areas lacking iodine in salt/water and in sub-mountainous Himalayan regions.", "sprint": false, "id": 104}, {"topic": "Nutrient Deficiencies in Livestock", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Sheep grazing on molybdenum-rich grasses may give birth to lambs showing a 'copper-deficient nervous syndrome' known as:", "options": {"A": "Wall eye", "B": "Sway back", "C": "Grass staggers", "D": "Perosis", "E": "Steely wool"}, "correct": "B", "explanation": "Lambs born to ewes grazing molybdenum-rich grass may show 'sway back', a copper-deficient nervous syndrome caused by molybdenum-induced copper deficiency.", "sprint": false, "id": 105}, {"topic": "Nutrient Deficiencies in Livestock", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which condition refers to the excessive secretion of parathyroid hormone in response to hypocalcemia, especially seen in animals fed high-bran or all-meat diets without supplements?", "options": {"A": "Secondary Hyperparathyroidism", "B": "Phosphorus Deficiency", "C": "Osteoporosis", "D": "Grass Tetany", "E": "Milk Fever"}, "correct": "A", "explanation": "Secondary Hyperparathyroidism (SHPT) is the excessive PTH secretion due to hypocalcemia, seen in livestock on high-bran diets or pets on all-meat diets lacking supplements.", "sprint": false, "id": 106}, {"topic": "Nutrient Deficiencies in Livestock", "type": "statement", "difficulty": "Hard", "passage": "1. Phosphorus deficiency is a possibility when pasture contains less than 0.25% phosphorus.\n2. Cobalt deficiency shows symptoms including anemia, loss of appetite and progressive emaciation.\n3. Selenium deficiency is noticed in animals grazed on fodders in acidic soils with excess nitrate fertilizers.\n4. Zinc deficiency in sheep causes loss of wool and thick wrinkled skin.", "stem": "Which of the above statements is/are INCORRECT?", "options": {"A": "Only 3", "B": "2 and 3", "C": "None of the above", "D": "Only 1", "E": "1 and 4"}, "correct": "A", "explanation": "Statement 3 is incorrect — Selenium deficiency is noticed in animals grazed on fodders in alkaline soils (not acidic) and areas using excess sulphate fertilizers (not nitrate). Statements 1, 2 and 4 are correctly stated.", "sprint": true, "id": 107}, {"topic": "Vaccination Programmes (Sheep, Goat & Dairy Cattle)", "type": "statement", "difficulty": "Hard", "passage": "1. In the goat/sheep vaccination programme, Anthrax primary vaccination is given at 6 months of age for kid/lamb, with regular vaccination once annually in affected areas only.\n2. Enterotoxaemia primary vaccination is given at 4 months of age for kid/lamb if the dam is vaccinated, or at 1st week of age if the dam is not vaccinated.\n3. Foot & Mouth Disease (F.M.D.) regular vaccination is given once annually before monsoon.\n4. P.P.R. regular vaccination is given once in three years.", "stem": "Which of the above statements is/are INCORRECT?", "options": {"A": "1 and 2", "B": "Only 1", "C": "Only 3", "D": "3 and 4", "E": "None of the above"}, "correct": "C", "explanation": "Statement 3 is incorrect — F.M.D. regular vaccination for goats/sheep is given TWICE a year (September & March), not once annually. Statements 1, 2 and 4 are correctly stated as per the vaccination programme for goats.", "sprint": true, "id": 108}, {"topic": "Vaccination Programmes (Sheep, Goat & Dairy Cattle)", "type": "statement", "difficulty": "Hard", "passage": "1. In the dairy cattle vaccination programme, Foot and Mouth Disease (FMD) first dose is given at 4 months and above, with a booster 1 month later, and subsequent doses six-monthly.\n2. Brucellosis vaccination (for female calves only) is given at 4-8 months of age, once in a lifetime.\n3. Theileriosis vaccination at 3 months and above is required for all cattle including indigenous breeds, given six-monthly.\n4. Haemorrhagic Septicaemia (HS) is given from 6 months and above, annually in endemic areas.", "stem": "Which of the above statements is/are INCORRECT?", "options": {"A": "1 and 2", "B": "Only 3", "C": "Only 1", "D": "3 and 4", "E": "None of the above"}, "correct": "B", "explanation": "Statement 3 is incorrect on two counts — Theileriosis vaccination is required ONLY for crossbred and exotic cattle (not all cattle), and it is given once in a lifetime (not six-monthly). Statements 1, 2 and 4 are correctly stated.", "sprint": true, "id": 109}, {"topic": "Vaccination Programmes (Sheep, Goat & Dairy Cattle)", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "In the dairy cattle vaccination programme, how frequently should the IBR vaccine's subsequent dose be given (noting the vaccine is presently not produced in India)?", "options": {"A": "Quarterly", "B": "Once in a lifetime", "C": "Annually", "D": "Once in three years", "E": "Six monthly"}, "correct": "E", "explanation": "IBR vaccination in dairy cattle requires a first dose (3 months+), a booster 1 month later, and subsequent doses six-monthly; the chapter notes the vaccine is presently not produced in India.", "sprint": false, "id": 110}, {"topic": "Vaccination Programmes (Sheep, Goat & Dairy Cattle)", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "For post-bite Rabies therapy in dairy cattle, after the first dose administered immediately following a suspected bite and a 4th-day booster, subsequent doses are given on which days?", "options": {"A": "1, 2, 3 days only", "B": "3, 6, 9 and 12 days", "C": "7, 14, 28 and 90 (optional) days", "D": "15, 30, 45, 60 days", "E": "10, 20, 30 days only"}, "correct": "C", "explanation": "Post-bite rabies therapy doses (after the immediate first dose and 4th-day booster) are given on the 7th, 14th, 28th, and 90th (optional) days.", "sprint": false, "id": 111}, {"topic": "Vaccination Programmes (Sheep, Goat & Dairy Cattle)", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "In the goat/sheep vaccination programme, when is the Goat Pox vaccine given as regular annual vaccination?", "options": {"A": "March month", "B": "September month", "C": "May month", "D": "December month", "E": "January month"}, "correct": "D", "explanation": "Goat Pox regular vaccination is given once annually in December month, for kids aged 3 months and above.", "sprint": false, "id": 112}, {"topic": "Floor Space Norms & Milk Composition", "type": "figure", "difficulty": "Moderate", "passage": null, "stem": "As per the floor space requirement norms for cattle and buffaloes, what is the covered floor space (m²) required per adult cow?", "options": {"A": "1.0", "B": "7.0", "C": "12.0", "D": "3.5", "E": "4.0"}, "correct": "D", "explanation": "The covered floor space requirement for cows is 3.5 m² (with 7.0 m² open area), housing a maximum of 50 animals per pen.", "sprint": false, "id": 113}, {"topic": "Floor Space Norms & Milk Composition", "type": "figure", "difficulty": "Hard", "passage": null, "stem": "What is the covered floor space (m²) required per bull, as per the norms table?", "options": {"A": "12.0", "B": "4.0", "C": "1.0", "D": "7.0", "E": "3.5"}, "correct": "A", "explanation": "Bulls require 12.0 m² covered area and 24.0 m² open area, housed one per pen — the largest individual space requirement among cattle categories listed.", "sprint": false, "id": 114}, {"topic": "Floor Space Norms & Milk Composition", "type": "figure", "difficulty": "Hard", "passage": null, "stem": "As per the floor space norms, what is the recommended shed height for cattle and buffaloes in medium/heavy rainfall areas versus dry areas?", "options": {"A": "150 cm in rainfall areas, 300 cm in dry areas", "B": "200 cm in both cases", "C": "175 cm in medium/heavy rainfall areas, 220 cm in dry areas", "D": "175 cm in dry areas, 220 cm in rainfall areas", "E": "220 cm in both cases"}, "correct": "C", "explanation": "The shed height for cattle/buffaloes is 175 cm in medium and heavy rainfall areas, and 220 cm in dry areas.", "sprint": false, "id": 115}, {"topic": "Floor Space Norms & Milk Composition", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "As per the composition of milk from important milch breeds, which breed has the highest Total Solids and Fat percentage among Red Sindhi, Jersey, Friesian, and Crossbred?", "options": {"A": "Friesian", "B": "Jersey", "C": "Crossbred", "D": "Red Sindhi", "E": "All are equal"}, "correct": "B", "explanation": "Jersey has the highest Total Solids (14.91%) and Fat (5.37%) among the four breeds compared, consistent with Jersey being noted as the highest-fat exotic breed.", "sprint": false, "id": 116}, {"topic": "Floor Space Norms & Milk Composition", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "What does 'SNF' stand for in the context of milk composition?", "options": {"A": "Standard Nutrient Factor", "B": "Solid Neutral Fat", "C": "Solid Not Fat", "D": "Simple Non-Fat", "E": "Skimmed Natural Fat"}, "correct": "C", "explanation": "SNF stands for Solid Not Fat — it contains everything in milk except fat and water, i.e., minerals, proteins, etc.", "sprint": false, "id": 117}, {"topic": "Floor Space Norms & Milk Composition", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Under the influence of which hormone is milk released by alveoli, a process called 'milk ejection' or the 'let-down reflex'?", "options": {"A": "Cortisol", "B": "Prolactin", "C": "Progesterone", "D": "Oxytocin", "E": "Estrogen"}, "correct": "D", "explanation": "Milk release by alveoli under the influence of oxytocin hormone is called 'milk ejection' or the 'let-down reflex'.", "sprint": false, "id": 118}, {"topic": "Floor Space Norms & Milk Composition", "type": "figure", "difficulty": "Hard", "passage": null, "stem": "What is the average lactation period duration, defined as the period of milk production between birth and the next pregnancy?", "options": {"A": "365 days", "B": "210 days", "C": "180 days", "D": "300 days", "E": "120 days"}, "correct": "D", "explanation": "Lactation period usually lasts about 300 days — the period of milk production between the birth of a young one and the next pregnancy.", "sprint": false, "id": 119}, {"topic": "Poultry Breed Classification (Origin & Utility)", "type": "passage", "difficulty": "Moderate", "passage": "Breeds of this class belong to the Asian continent and are characterised by a large body with heavy bones, feathered shanks, red ear lobes, and yellow skin. They are used for both egg and meat purposes, and their egg shells are light to dark brown in colour. Important breeds include one from the Brahmaputra valley in India, and two others originating from China.", "stem": "________ describes which classification of poultry breeds based on origin?", "options": {"A": "None of the above", "B": "Mediterranean class", "C": "Asiatic class", "D": "American class", "E": "English class"}, "correct": "C", "explanation": "The Asiatic class includes breeds from the Asian continent — large body, heavy bones, feathered shanks, red ear lobes, yellow skin; e.g., Brahma (Brahmaputra valley, India), Cochin and Langshan (China).", "sprint": false, "id": 120}, {"topic": "Poultry Breed Classification (Origin & Utility)", "type": "passage", "difficulty": "Moderate", "passage": "Breeds of this class belong to the Asian continent and are characterised by a large body with heavy bones, feathered shanks, red ear lobes, and yellow skin. They are used for both egg and meat purposes, and their egg shells are light to dark brown in colour. Important breeds include one from the Brahmaputra valley in India, and two others originating from China.", "stem": "Which of the following is an important breed belonging to this class, originating from the Brahmaputra valley in India?", "options": {"A": "Rhode Island Red", "B": "Minorca", "C": "Cochin", "D": "Leghorn", "E": "Brahma"}, "correct": "E", "explanation": "Brahma is the important Asiatic-class breed originating from the Brahmaputra valley in India, known for its massive body, heavy bones, and pea comb.", "sprint": false, "id": 121}, {"topic": "Poultry Breed Classification (Origin & Utility)", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which poultry breed of the Asiatic class, abundant in Madhya Pradesh and bred by tribals, has black flesh due to melanin and lays light brown eggs?", "options": {"A": "Asil", "B": "Brahma", "C": "Cochin", "D": "Longson", "E": "Kadaknath"}, "correct": "E", "explanation": "Kadaknath is a fowl with black flesh (due to melanin), abundant in Madhya Pradesh, bred by tribals, and lays light brown eggs.", "sprint": false, "id": 122}, {"topic": "Poultry Breed Classification (Origin & Utility)", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which Asiatic-class poultry breed originated in the Chittagong and Comilla districts of Bangladesh and is very skilled in fighting?", "options": {"A": "Cochin", "B": "Kadaknath", "C": "Longson", "D": "Asil", "E": "Brahma"}, "correct": "D", "explanation": "Asil originated from Chittagong and Comilla districts of Bangladesh, is very skilled in fighting, big-sized, and famous for meat production.", "sprint": false, "id": 123}, {"topic": "Poultry Breed Classification (Origin & Utility)", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "Rhode Island Red, known for its hardy nature and large brown-shelled eggs, belongs to which class of poultry breeds based on origin?", "options": {"A": "None of the above", "B": "American class", "C": "English class", "D": "Mediterranean class", "E": "Asiatic class"}, "correct": "B", "explanation": "Rhode Island Red belongs to the American class, developed in the United States generally by crossing Mediterranean and Asian types.", "sprint": false, "id": 124}, {"topic": "Poultry Breed Classification (Origin & Utility)", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which American-class poultry breed was developed by crossing barred Plymouth Rock males with New Hampshire females, making it the newest of the American breeds?", "options": {"A": "Rhode Island White", "B": "New Hampshire", "C": "Delawares", "D": "Plymouth Rock", "E": "Wyandotte"}, "correct": "C", "explanation": "Delawares were developed by crossing barred Plymouth Rock males with New Hampshire females, the newest of the American breeds.", "sprint": false, "id": 125}, {"topic": "Poultry Breed Classification (Origin & Utility)", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which poultry breed of the English class is also known as 'Indian Game' and is considered the source of most modern broiler breeds?", "options": {"A": "Orpington", "B": "Cornish", "C": "Sussex", "D": "Wyandotte", "E": "Australorp"}, "correct": "B", "explanation": "Cornish (Cornwall, UK), also known as Indian Game, is a perfect dual-purpose chicken and the source breed for most modern broiler chicken breeds.", "sprint": false, "id": 126}, {"topic": "Poultry Breed Classification (Origin & Utility)", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which Mediterranean-class poultry breed is known as the world's No. 1 egg-producing breed?", "options": {"A": "Fayoumi", "B": "Leghorn", "C": "Cornish", "D": "Ancona", "E": "Minorca"}, "correct": "B", "explanation": "Leghorn, from Italy, is known for its stylish carriage and is the world's No. 1 egg-producing breed.", "sprint": false, "id": 127}, {"topic": "Poultry Breed Classification (Origin & Utility)", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Minorca, also known as 'Red faced black Spanish', originating from Spain, is notable for being:", "options": {"A": "An Asiatic-class breed", "B": "A pure broiler-only breed", "C": "The smallest Mediterranean breed", "D": "A dual-purpose American breed", "E": "The largest and heaviest of all Mediterranean breeds of poultry"}, "correct": "E", "explanation": "Minorca is the largest and heaviest of all Mediterranean breeds of poultry, also known as Red faced black Spanish.", "sprint": false, "id": 128}, {"topic": "Poultry Breed Classification (Origin & Utility)", "type": "statement", "difficulty": "Hard", "passage": "1. Broilers are reared for meat production only, examples being Cornish, Plymouth Rock, Cochin, Brahma and Asil.\n2. Layers are used for egg production, examples being Leghorn, Minorca, Ancona, Fayoumi, Isa Brown.\n3. Broilers attain a body weight of around 2.2-2.4 kg within 6 weeks.\n4. Layers attain a body weight of 2.2-2.4 kg at sexual maturity (20-22 weeks), same as broilers.", "stem": "Which of the above statements is/are INCORRECT?", "options": {"A": "Only 3", "B": "None of the above", "C": "1 and 2", "D": "Only 4", "E": "3 and 4"}, "correct": "D", "explanation": "Statement 4 is incorrect — layers attain a body weight of only 1.5-1.8 kg at sexual maturity (20-22 weeks), not 2.2-2.4 kg (which is the broiler figure at 6 weeks). Statements 1, 2 and 3 are correctly stated.", "sprint": true, "id": 129}, {"topic": "Poultry Breed Classification (Origin & Utility)", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Layers typically attain sexual maturity around which age and continue laying eggs up to what age?", "options": {"A": "16 weeks maturity, laying up to 60 weeks", "B": "8 weeks maturity, laying up to 52 weeks", "C": "12-14 weeks maturity, laying up to 40 weeks", "D": "20-22 weeks maturity, laying up to 72 weeks", "E": "30 weeks maturity, laying up to 100 weeks"}, "correct": "D", "explanation": "Layers attain sexual maturity around 20-22 weeks and continue laying eggs up to 72 weeks of age, after which they are moulted or sold as spent hens.", "sprint": false, "id": 130}, {"topic": "Poultry Breed Classification (Origin & Utility)", "type": "figure", "difficulty": "Hard", "passage": null, "stem": "Among commercial layer breeds in India, which of the following has the highest net egg production at 72 weeks as per the chapter's data — ILI-80, Golden-92, Priya, Sonali or Devendra?", "options": {"A": "Devendra (200 eggs)", "B": "Sonali (275 eggs)", "C": "ILI-80 (280 eggs)", "D": "Golden-92 (265 eggs)", "E": "Priya (290 eggs)"}, "correct": "E", "explanation": "Priya has the highest net egg production at 72 weeks among the listed commercial layer breeds, with 290 eggs.", "sprint": false, "id": 131}, {"topic": "Poultry Breed Classification (Origin & Utility)", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which type of comb is the distinguishing feature found ONLY in the Sicilian Buttercup breed among the examples given?", "options": {"A": "Rose comb", "B": "Buttercup comb", "C": "V-shaped comb", "D": "Single comb", "E": "Pea comb"}, "correct": "B", "explanation": "The Buttercup comb is found exclusively in the Sicilian Buttercup breed, as noted in the chapter's list of comb types and associated breeds.", "sprint": false, "id": 132}, {"topic": "Poultry Housing, Egg Production & Hatching", "type": "statement", "difficulty": "Hard", "passage": "1. The Deep Litter system saves labour involved in frequent cleaning of faecal matter but requires periodical stirring.\n2. In the Cage system, the floor area provided is 450-525 sq. cm per bird.\n3. 'Fatty liver syndrome' in caged layers can be reduced by adding choline, vitamin B12, inositol and vitamin E to the diet.\n4. The Deep Litter system has a higher incidence of blood spots in eggs compared to the Cage system.", "stem": "Which of the above statements is/are INCORRECT?", "options": {"A": "Only 4", "B": "1 and 2", "C": "Only 1", "D": "None of the above", "E": "3 and 4"}, "correct": "A", "explanation": "Statement 4 is incorrect and reversed — it is the CAGE system (not deep litter) that has a higher incidence of blood spots in eggs, listed as a disadvantage of caging. Statements 1, 2 and 3 are correctly stated.", "sprint": true, "id": 133}, {"topic": "Poultry Housing, Egg Production & Hatching", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "As per the floor space requirement for poultry layers, what is the floor space (sq. ft.) needed per bird in the Deep Litter system during the 18-72 weeks age group?", "options": {"A": "1.25", "B": "0.30", "C": "0.60", "D": "1.50", "E": "0.65"}, "correct": "D", "explanation": "For layers aged 18-72 weeks in the deep litter system, the floor space requirement is 1.50 sq. ft. per bird (vs 0.65 sq. ft. in cages for the same age group).", "sprint": false, "id": 134}, {"topic": "Poultry Housing, Egg Production & Hatching", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "In the Elevated Cage system, what is the distance maintained between two supporting concrete pillars?", "options": {"A": "30-33 feet", "B": "2 feet", "C": "20-25 feet", "D": "6-7 feet", "E": "10 feet"}, "correct": "E", "explanation": "In the Elevated Cage system, the distance between two pillars is 10 feet, with the shed height raised by 6-7 feet using concrete pillars.", "sprint": false, "id": 135}, {"topic": "Poultry Housing, Egg Production & Hatching", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "As per management practices for broilers, what is the recommended poultry house temperature during the 1st week?", "options": {"A": "80°F", "B": "70°F", "C": "95°F", "D": "100°F", "E": "60°F"}, "correct": "C", "explanation": "The recommended poultry house temperature for broilers during the 1st week is 95°F, reduced at the rate of 5°F weekly until reaching 70°F by the 6th week.", "sprint": false, "id": 136}, {"topic": "Poultry Housing, Egg Production & Hatching", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "The management of birds during 9-20 weeks of age, or up to the point of laying, is referred to as which period?", "options": {"A": "Brooder period", "B": "Starter period", "C": "Layer period", "D": "Finisher period", "E": "Grower period"}, "correct": "E", "explanation": "The 9-20 weeks age period (up to the point of laying) is called the Grower period.", "sprint": false, "id": 137}, {"topic": "Poultry Housing, Egg Production & Hatching", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "As per the Egg Production Cycle, the typical production cycle lasts about how many months and involves how many distinct phases?", "options": {"A": "6 months, 1 phase", "B": "24 months, 4 phases", "C": "17 months, 3 phases", "D": "12 months, 2 phases", "E": "9 months, 3 phases"}, "correct": "C", "explanation": "The typical egg production cycle lasts about 17 months (72 weeks) and involves three distinct phases: brooders (0-8 weeks), growers (9-20 weeks), and layers (21-72 weeks).", "sprint": false, "id": 138}, {"topic": "Poultry Housing, Egg Production & Hatching", "type": "figure", "difficulty": "Moderate", "passage": null, "stem": "What is the optimum temperature that eggs need during natural incubation, especially in the early stage when the embryo is microscopic?", "options": {"A": "45°C", "B": "38°C", "C": "41°C", "D": "33°C", "E": "35°C"}, "correct": "B", "explanation": "During natural incubation, eggs need a controlled optimum temperature of 38°C, especially in the early stages when the embryo is microscopic.", "sprint": false, "id": 139}, {"topic": "Poultry Housing, Egg Production & Hatching", "type": "figure", "difficulty": "Hard", "passage": null, "stem": "What hatchability percentage is considered normal for natural incubation, with a satisfactory range given in the chapter?", "options": {"A": "100%", "B": "65-75%", "C": "75-80% (80% considered normal)", "D": "50-60%", "E": "90-95%"}, "correct": "C", "explanation": "A hatchability of 80% (of eggs set) from natural incubation is normal, with a range of 75-80% considered satisfactory. Artificial incubation using parched rice/husk gives 65-75% hatchability.", "sprint": false, "id": 140}, {"topic": "Poultry Housing, Egg Production & Hatching", "type": "figure", "difficulty": "Hard", "passage": null, "stem": "In artificial incubators, the relative humidity should be maintained around what percentage during the first 18 days, increasing to what percentage in the last 3 days?", "options": {"A": "40% then 50%", "B": "70% then 80%", "C": "50% then 60%", "D": "80% then 90%", "E": "60% then 70%"}, "correct": "E", "explanation": "Relative humidity in artificial incubators should be around 60% during the first 18 days of incubation and 70% during the last 3 days for optimum hatchability.", "sprint": false, "id": 141}, {"topic": "Poultry Housing, Egg Production & Hatching", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Eggs are candled on which two days during artificial incubation to identify infertile eggs and dead embryos?", "options": {"A": "Days 5 and 13", "B": "Days 1 and 7", "C": "Days 10 and 20", "D": "Days 3 and 15", "E": "Days 7 and 21"}, "correct": "A", "explanation": "Eggs are candled on days 5 and 13 during artificial incubation to identify infertile eggs/dead embryos and assess embryo development.", "sprint": false, "id": 142}, {"topic": "Poultry Housing, Egg Production & Hatching", "type": "figure", "difficulty": "Moderate", "passage": null, "stem": "As per Agmark grading of eggs, what is the air-cell depth allowed for an A-grade egg?", "options": {"A": "2 mm", "B": "10 mm", "C": "8 mm", "D": "6 mm", "E": "4 mm"}, "correct": "E", "explanation": "An A-grade egg under Agmark has a clean, unbroken shell with an air-cell depth of 4 mm; B-grade allows 8 mm air-cell depth.", "sprint": false, "id": 143}, {"topic": "Poultry Housing, Egg Production & Hatching", "type": "figure", "difficulty": "Moderate", "passage": null, "stem": "As per the egg grading by weight, what is the weight range for a 'Large' sized egg?", "options": {"A": "53-59 g", "B": "45-52 g", "C": "60 g and above", "D": "38-44 g", "E": "30-37 g"}, "correct": "A", "explanation": "Grading of eggs by weight: Extra large 60 g, Large 53-59 g, Medium 45-52 g, Small 38-44 g.", "sprint": false, "id": 144}, {"topic": "Poultry Housing, Egg Production & Hatching", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which government certifying agency issues the AGMARK quality certification for agricultural products in India, as mentioned in the egg grading section?", "options": {"A": "National Dairy Development Board", "B": "Indian Council of Agricultural Research", "C": "Directorate of Marketing and Inspection", "D": "Bureau of Indian Standards", "E": "Food Safety and Standards Authority of India"}, "correct": "C", "explanation": "AGMARK's certifying agency is the Directorate of Marketing and Inspection, Government of India.", "sprint": false, "id": 145}, {"topic": "Poultry Diseases & Vaccination", "type": "passage", "difficulty": "Moderate", "passage": "This is one of the most destructive diseases in broilers, capable of causing up to 100% mortality. It is caused by a paramyxo virus, with chicken as the natural host, though ducks and turkeys are also susceptible. Clinical signs include sneezing, cough, gasping for breath, depression, greenish watery diarrhoea, and twisting of the head in the neurotropic form.", "stem": "________ is being described above. Identify the disease.", "options": {"A": "Fowl Pox", "B": "Gumboro Disease", "C": "Ranikhet Disease (New Castle disease)", "D": "Avian Influenza", "E": "Marek's Disease"}, "correct": "C", "explanation": "Ranikhet Disease (New Castle disease), caused by a paramyxo virus, is one of the most destructive poultry diseases, up to 100% mortality in broilers, with the described neurotropic symptoms.", "sprint": false, "id": 146}, {"topic": "Poultry Diseases & Vaccination", "type": "passage", "difficulty": "Moderate", "passage": "This is one of the most destructive diseases in broilers, capable of causing up to 100% mortality. It is caused by a paramyxo virus, with chicken as the natural host, though ducks and turkeys are also susceptible. Clinical signs include sneezing, cough, gasping for breath, depression, greenish watery diarrhoea, and twisting of the head in the neurotropic form.", "stem": "Which of the following statements about this disease's causative agent and susceptibility is correct?", "options": {"A": "It is caused by a paramyxo virus and chicken is the natural host, though ducks/turkeys are also susceptible", "B": "It is caused by a bacteria and affects only chickens", "C": "It only affects birds above 2 years of age", "D": "It has no known causative agent identified yet", "E": "It is caused by a protozoan parasite affecting only ducks"}, "correct": "A", "explanation": "Ranikhet Disease is caused by a paramyxo virus; chicken is the natural host, but ducks and turkeys are also susceptible to infection.", "sprint": false, "id": 147}, {"topic": "Poultry Diseases & Vaccination", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which viral poultry disease is caused by the Influenza Type A virus (H5N1) and has zoonotic as well as pandemic potential?", "options": {"A": "Gumboro Disease", "B": "Avian Influenza (Bird Flu)", "C": "Ranikhet Disease", "D": "Fowl Pox", "E": "Infectious Bronchitis"}, "correct": "B", "explanation": "Avian Influenza (Bird Flu), caused by Influenza Type A virus (H5N1), has zoonotic and pandemic potential, with mortality rates of 50-100%.", "sprint": false, "id": 148}, {"topic": "Poultry Diseases & Vaccination", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which poultry disease targets the Bursa of Fabricius, an important part of the immune system, making chicks around 3 weeks old most susceptible?", "options": {"A": "Avian Leucosis", "B": "Egg Drop Syndrome", "C": "Infectious Bronchitis", "D": "Marek's Disease", "E": "Gumboro Disease (Infectious Bursal Disease)"}, "correct": "E", "explanation": "Gumboro Disease (Infectious Bursal Disease/IBD) targets the Bursa of Fabricius; chicks of 3 weeks age are most susceptible as immunity weakens.", "sprint": false, "id": 149}, {"topic": "Poultry Diseases & Vaccination", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which viral poultry disease is caused by a Herpes Virus, resulting in enlarged nerves, tumour formation, and immunosuppression in affected birds?", "options": {"A": "Fowl Pox", "B": "Gumboro Disease", "C": "Marek's Disease", "D": "Infectious Bronchitis", "E": "Egg Drop Syndrome"}, "correct": "C", "explanation": "Marek's Disease is caused by a Herpes Virus, causing enlarged nerves, tumour formation, and immunosuppression, making birds susceptible to other infections.", "sprint": false, "id": 150}, {"topic": "Poultry Diseases & Vaccination", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which poultry disease, caused by an adenovirus, produces a sudden and variable drop (30-40%) in egg production along with depigmented, cracked, or shell-less eggs?", "options": {"A": "Avian Leucosis", "B": "Gumboro Disease", "C": "Egg Drop Syndrome", "D": "Infectious Bronchitis", "E": "Fowl Pox"}, "correct": "C", "explanation": "Egg Drop Syndrome, caused by an adenovirus, causes a sudden 30-40% drop in egg production along with depigmented, cracked, or shell-less eggs.", "sprint": false, "id": 151}, {"topic": "Poultry Diseases & Vaccination", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which bacterial poultry disease is detected through the 'tuberculin test', with no treatment available, requiring isolation of the affected bird?", "options": {"A": "Tuberculosis", "B": "Fowl Cholera", "C": "Bacillary white diarrhoea", "D": "Infectious Coryza", "E": "Collibacillosis"}, "correct": "A", "explanation": "Tuberculosis in poultry, caused by Mycobacterium tuberculosis, is detected via the tuberculin test; there is no treatment, requiring isolation of affected birds.", "sprint": false, "id": 152}, {"topic": "Poultry Diseases & Vaccination", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Bacillary white diarrhoea (causing pullorum disease) in young chicks is caused by which organism?", "options": {"A": "Haemophilus gallinarum", "B": "Pasteurella ariseptica", "C": "E. coli", "D": "Staphylococcus", "E": "Salmonella pullorum"}, "correct": "E", "explanation": "Bacillary white diarrhoea, causing pullorum disease (fatal septicemia in young chicks), is caused by Salmonella pullorum.", "sprint": false, "id": 153}, {"topic": "Poultry Diseases & Vaccination", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Coccidiosis in poultry is caused by a group of protozoan parasites, with two important members being Eimeria tenella and Eimeria mitis. Which body part does Eimeria tenella primarily affect?", "options": {"A": "Liver", "B": "Kidney", "C": "Caeca (caecal coccidiosis)", "D": "Anterior small intestine", "E": "Lungs"}, "correct": "C", "explanation": "Eimeria tenella affects the caeca (causing caecal coccidiosis), while Eimeria mitis affects the anterior portion of the small intestine (intestinal coccidiosis).", "sprint": false, "id": 154}, {"topic": "Poultry Diseases & Vaccination", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Spirochaetosis (Tick fever) in poultry, caused by Borrelia gallinarum, is transmitted by which agent?", "options": {"A": "Mosquitoes", "B": "Airborne droplets", "C": "The fowl tick (Argus persicus)", "D": "Rodents", "E": "Contaminated water only"}, "correct": "C", "explanation": "The fowl tick (Argus persicus) is the transmitting agent of Spirochaetosis (Tick fever), a highly fatal disease with 70-100% mortality.", "sprint": false, "id": 155}, {"topic": "Poultry Diseases & Vaccination", "type": "statement", "difficulty": "Hard", "passage": "1. Vitamin D3 deficiency in poultry leads to rickets, thin-shelled eggs, and a 'penguin-like' sitting posture.\n2. Vitamin E deficiency leads to encephalomalacia (crazy chick disease) and exudative diathesis.\n3. Riboflavin (Vitamin B2) deficiency causes 'star-gazing' position in birds.\n4. Manganese deficiency causes Perosis, characterised by enlargement of hock joints, and is an incurable condition.", "stem": "Which of the above statements is/are INCORRECT?", "options": {"A": "Only 1", "B": "Only 3", "C": "None of the above", "D": "3 and 4", "E": "1 and 2"}, "correct": "B", "explanation": "Statement 3 is incorrect — the 'star-gazing' posture is a symptom of Thiamine (Vitamin B1) deficiency, not Riboflavin (B2), which instead causes 'curled toe paralysis'. Statements 1, 2 and 4 are correctly stated.", "sprint": true, "id": 156}, {"topic": "Poultry Diseases & Vaccination", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which vitamin deficiency in poultry causes 'curled toe paralysis' in birds between the first and second week of age?", "options": {"A": "Vitamin A", "B": "Pyridoxine (B6)", "C": "Riboflavin (B2)", "D": "Thiamine (B1)", "E": "Vitamin K"}, "correct": "C", "explanation": "Riboflavin (Vitamin B2) deficiency causes diarrhoea and 'curled toe paralysis' in birds between the 1st and 2nd week of age.", "sprint": false, "id": 157}, {"topic": "Poultry Diseases & Vaccination", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Deficiency of which vitamin in poultry is associated with increased blood spots in eggs, haemorrhages, and a failure of blood clotting, due to its role in prothrombin synthesis?", "options": {"A": "Vitamin A", "B": "Vitamin D3", "C": "Vitamin B12", "D": "Vitamin K", "E": "Vitamin E"}, "correct": "D", "explanation": "Vitamin K deficiency causes increased blood spots in eggs, haemorrhages, and failure of clotting, as it is essential for prothrombin synthesis.", "sprint": false, "id": 158}, {"topic": "Poultry Diseases & Vaccination", "type": "statement", "difficulty": "Hard", "passage": "1. An Attenuated vaccine uses an organism weakened during manufacture so it loses its ability to cause serious disease, while still triggering immunity.\n2. A Killed vaccine uses an organism that has been killed, generally producing STRONGER immunity than live/attenuated vaccines.\n3. In-ovo vaccination is administered into the embryo before hatch, at the late stage of development.\n4. In the Wing web method, the vaccine (e.g., Fowl pox) is introduced via a special grooved needle through the wing web.", "stem": "Which of the above statements is/are INCORRECT?", "options": {"A": "Only 2", "B": "None of the above", "C": "1 and 3", "D": "2 and 4", "E": "Only 1"}, "correct": "A", "explanation": "Statement 2 is incorrect — killed vaccines generally produce WEAKER immunity than live and attenuated vaccines, not stronger. Statements 1, 3 and 4 are correctly stated.", "sprint": true, "id": 159}, {"topic": "Poultry Diseases & Vaccination", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "In the commercial broiler vaccination programme, which vaccine is given at 0 day (day-old), administered strictly subcutaneously?", "options": {"A": "Marek's disease (HVT strain)", "B": "Ranikhet Disease (Lasota)", "C": "Infectious Bronchitis", "D": "Fowl Pox", "E": "IBD/Gumboro (Georgia vaccine)"}, "correct": "A", "explanation": "Marek's disease vaccine (HVT strain) is given at 0 day (day-old chicks), administered strictly subcutaneously.", "sprint": false, "id": 160}, {"topic": "Poultry Diseases & Vaccination", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which method of vaccine administration in poultry is described as the most recent/latest method, involving injection into the embryo or allantoic sac before hatching?", "options": {"A": "In-ovo vaccination", "B": "Aerosol spray", "C": "Subcutaneous", "D": "Wing web", "E": "Intra-ocular"}, "correct": "A", "explanation": "In-ovo vaccination is the most latest method, involving injecting the vaccine into the embryo/allantoic sac before hatch, at the late stage of development.", "sprint": false, "id": 161}, {"topic": "Animal Husbandry & Poultry Terminology", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "What is the term for the period between the date of calving and the date of successful conception, with an optimum duration of 60-90 days for cattle?", "options": {"A": "Calving interval", "B": "Gestation period", "C": "Lactation period", "D": "Service period", "E": "Dry period"}, "correct": "D", "explanation": "Service period is the period between calving and successful conception; the optimum service period for cattle is 60-90 days.", "sprint": false, "id": 162}, {"topic": "Animal Husbandry & Poultry Terminology", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "What is the desirable age at first calving in Indian cattle breeds, as noted in the chapter?", "options": {"A": "5 years", "B": "2 years", "C": "3 years", "D": "4 years", "E": "3.5 years"}, "correct": "C", "explanation": "The desirable age at first calving in Indian breeds is 3 years (2 years in crossbred cattle, and 3.5 years in buffaloes).", "sprint": false, "id": 163}, {"topic": "Animal Husbandry & Poultry Terminology", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "What term describes the ability of certain individuals to stamp or impress their characters upon their offspring to a marked degree?", "options": {"A": "Prolificacy", "B": "Fertility", "C": "Fecundity", "D": "Prepotency", "E": "Atavism"}, "correct": "D", "explanation": "Prepotency is the ability of certain individuals to transmit/impress their characteristics upon their offspring to a marked degree.", "sprint": false, "id": 164}, {"topic": "Animal Husbandry & Poultry Terminology", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "The failure of testes to descend fully into the scrotum is termed:", "options": {"A": "Atavism", "B": "Cryptorchid", "C": "Sterility", "D": "Buller", "E": "Free martin"}, "correct": "B", "explanation": "Cryptorchid refers to the failure of testes to descend fully into the scrotum; if both testes are retained in the abdominal cavity, sterility usually results.", "sprint": false, "id": 165}, {"topic": "Animal Husbandry & Poultry Terminology", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Dressing percentage is calculated by dividing which two quantities?", "options": {"A": "Carcass weight by live weight, ×100", "B": "Milk yield by lactation days", "C": "Live weight by carcass weight, ×100", "D": "Meat yield by feed consumed", "E": "Total feed by body weight"}, "correct": "A", "explanation": "Dressing percentage is the percentage of live animal weight that becomes carcass weight at slaughter, calculated as (carcass weight ÷ live weight) × 100.", "sprint": false, "id": 166}, {"topic": "Animal Husbandry & Poultry Terminology", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "What is a castrated male sheep called?", "options": {"A": "Buck", "B": "Wether", "C": "Barrow", "D": "Ram", "E": "Bullock"}, "correct": "B", "explanation": "A castrated male sheep is called a Wether. (Note: a castrated male goat is also called Wether, while a castrated bull is simply termed 'Bull' in the castration terms list, and a castrated male pig is called Barrow.)", "sprint": false, "id": 167}, {"topic": "Animal Husbandry & Poultry Terminology", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "As per the castration terminology table, what is a castrated female pig called?", "options": {"A": "Wether", "B": "Spayed", "C": "Barrow", "D": "Gilt", "E": "Sow"}, "correct": "B", "explanation": "As per the chapter's castration terms table, a castrated female pig is termed 'Spayed', while a castrated male pig is termed 'Barrow'.", "sprint": false, "id": 168}, {"topic": "Animal Husbandry & Poultry Terminology", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "What poultry term describes a male chicken less than 1 year old?", "options": {"A": "Cock", "B": "Pullet", "C": "Rooster", "D": "Cockerel", "E": "Capon"}, "correct": "D", "explanation": "Cockerel is a male chicken less than 1 year old. Cock and Rooster refer to a male chicken at least 1 year old. Capon is a castrated male chicken raised for meat.", "sprint": false, "id": 169}, {"topic": "Animal Husbandry & Poultry Terminology", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "What is the term for male chickens castrated at 4-8 months old, weighing 5-9 pounds, producing more white meat with higher fat content?", "options": {"A": "Capon", "B": "Pullet", "C": "Cockerel", "D": "Rooster", "E": "Bantam"}, "correct": "A", "explanation": "Capon refers to male chickens castrated at 4-8 months old, weighing 5-9 pounds, producing more white meat with higher fat content than other chickens.", "sprint": false, "id": 170}, {"topic": "Animal Husbandry & Poultry Terminology", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "A layer hen no longer commercially viable at around thirteen months of laying is termed a 'spent hen', also referred to by which term?", "options": {"A": "Broodiness", "B": "Henopause or Pause", "C": "Culling", "D": "Non-setter", "E": "Molt"}, "correct": "B", "explanation": "A layer hen no longer commercially viable at around 13 months is called a 'spent hen'; this phenomenon is also called 'Henopause' or 'Pause'.", "sprint": false, "id": 171}, {"topic": "Animal Husbandry & Poultry Terminology", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "What is the process called by which the comb, and sometimes wattles and earlobes, of poultry are removed?", "options": {"A": "Debeaking", "B": "Candling", "C": "Sexing", "D": "Culling", "E": "Dubbing"}, "correct": "E", "explanation": "Dubbing is the procedure of removing the comb, and sometimes wattles and earlobes, of poultry (removing wattles alone is called 'dewattling').", "sprint": false, "id": 172}, {"topic": "Animal Husbandry & Poultry Terminology", "type": "recall", "difficulty": "Easy", "passage": null, "stem": "What is the term for the process of shining light through an egg to determine if it is fertilised?", "options": {"A": "Turning", "B": "Candling", "C": "Sexing", "D": "Lockdown", "E": "Pipping"}, "correct": "B", "explanation": "Candling is the procedure of shining light through an egg to determine whether it is fertilised or not.", "sprint": false, "id": 173}, {"topic": "Animal Husbandry & Poultry Terminology", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which term refers to a chicken breed trait of having no tailbone, exemplified by the Araucana breed?", "options": {"A": "Bantam", "B": "Non-setter", "C": "Rumpless", "D": "Ratite", "E": "Ornamental breed"}, "correct": "C", "explanation": "Rumpless is the trait in some chicken breeds of having no tail/tailbone, with Araucana as an example.", "sprint": false, "id": 174}, {"topic": "Animal Husbandry & Poultry Terminology", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "What is the perch space recommended per bird in a poultry roost, with perches placed how far apart?", "options": {"A": "20-25 cm per bird, 35-40 cm apart", "B": "40-50 cm per bird, 60-70 cm apart", "C": "30-35 cm per bird, 50-60 cm apart", "D": "10-15 cm per bird, 20-25 cm apart", "E": "5-10 cm per bird, 15-20 cm apart"}, "correct": "A", "explanation": "The perch space recommended per bird is 20-25 cm, with perches placed at a distance of 35-40 cm apart.", "sprint": false, "id": 175}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "passage", "difficulty": "Moderate", "passage": "This is an indigenous anti-bacterial system present in cow and buffalo milk (and human saliva), mediated by short-lived oxidation products of a compound called thiocyanate. To activate this system in milk for preservation purposes, adequate concentrations of thiocyanate and hydrogen peroxide are added. This method must be controlled at the society level, with individual farmers not having direct access to the chemicals involved.", "stem": "________ is being described above. Identify the system.", "options": {"A": "Barfoed's test", "B": "Rosalic acid test", "C": "Hansa test", "D": "AOAC method", "E": "LP system (Lactoperoxidase system)"}, "correct": "E", "explanation": "The LP system (Lactoperoxidase/thiocyanate/hydrogen peroxide system) is an indigenous anti-bacterial system in milk, used for preserving raw milk under tropical conditions, controlled at the society level.", "sprint": false, "id": 176}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "passage", "difficulty": "Moderate", "passage": "This is an indigenous anti-bacterial system present in cow and buffalo milk (and human saliva), mediated by short-lived oxidation products of a compound called thiocyanate. To activate this system in milk for preservation purposes, adequate concentrations of thiocyanate and hydrogen peroxide are added. This method must be controlled at the society level, with individual farmers not having direct access to the chemicals involved.", "stem": "Why must this preservation method be controlled at the society level rather than allowing individual farmer access, as implied by the chapter?", "options": {"A": "Because the chemicals are radioactive", "B": "Because it requires expensive laboratory-grade equipment only societies can afford", "C": "Because only societies are legally permitted to sell milk", "D": "To ensure the chemicals used are not misused, given the importance of food safety over other objectives", "E": "Because farmers are not aware such a system exists"}, "correct": "D", "explanation": "The chapter states the main objective of such methods should be to maintain food safety, and hence control at the society level (rather than direct farmer access to chemicals) is emphasised as important for that reason.", "sprint": false, "id": 177}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "In rural milk collection systems in India, within how many hours of milking should milk ideally be brought for chilling/processing to avoid serious deterioration?", "options": {"A": "3 hours", "B": "24 hours", "C": "1 hour", "D": "12 hours", "E": "6 hours"}, "correct": "A", "explanation": "Milk should be brought for chilling/processing within 3 hours of milking, otherwise serious deterioration takes place, affecting product quality.", "sprint": false, "id": 178}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "figure", "difficulty": "Moderate", "passage": null, "stem": "At a chilling centre, rurally collected milk is chilled to what temperature before being transported to the milk processing plant?", "options": {"A": "2°C", "B": "10°C", "C": "0°C", "D": "4°C", "E": "8°C"}, "correct": "D", "explanation": "At the chilling centre, milk is promptly chilled to 4°C and transported at the same temperature to the milk processing plant.", "sprint": false, "id": 179}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "A chilling centre operation is considered economical only when it handles approximately how much milk per day?", "options": {"A": "5,000 litres", "B": "10,000 litres", "C": "50,000 litres", "D": "20,000 litres", "E": "30,000 litres"}, "correct": "E", "explanation": "Chilling centre operations are economical only when about 30,000 litres of milk is handled per day.", "sprint": false, "id": 180}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "The large vertical storage tank at a dairy plant, with a capacity of 25,000-1,50,000 litres, into which milk is pumped through a flow meter, is called a:", "options": {"A": "Silo", "B": "Chilling tank", "C": "Reservoir", "D": "Bulk cooler", "E": "Vat"}, "correct": "A", "explanation": "The large vertical storage tank (25,000-1,50,000 litre capacity) at the dairy plant reception dock is called a 'Silo'.", "sprint": false, "id": 181}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which milk adulterant is detected by observing the appearance of a blue colour (on adding iodine solution) that disappears on boiling and reappears on cooling?", "options": {"A": "Gelatin", "B": "Cane sugar", "C": "Formalin", "D": "Urea", "E": "Starch"}, "correct": "E", "explanation": "Starch adulteration is detected by adding 1% iodine solution — a blue colour appears, which disappears on boiling the sample and reappears on cooling.", "sprint": false, "id": 182}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which milk adulterant test involves adding p-dimethyl amino benzaldehyde reagent, with a distinct yellow colour indicating presence?", "options": {"A": "Starch", "B": "Urea", "C": "Formalin", "D": "Sodium chloride", "E": "Cane sugar"}, "correct": "B", "explanation": "Urea in milk is detected by adding p-dimethyl amino benzaldehyde reagent — a distinct yellow colour denotes presence of urea (pure milk shows a faint pink colour due to natural urea).", "sprint": false, "id": 183}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "The presence of buffalo milk in cow milk is detected using which immunological test?", "options": {"A": "Rosalic acid test", "B": "Resorcinol test", "C": "Barfoed's test", "D": "Hansa test", "E": "AOAC method"}, "correct": "D", "explanation": "The Hansa test, based on immunological assay using antiserum from rabbits injected with buffalo milk proteins, detects the presence of buffalo milk in cow milk.", "sprint": false, "id": 184}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "recall", "difficulty": "Hard", "passage": null, "stem": "Which milk adulterant test involves adding concentrated sulfuric acid containing traces of ferric chloride, with a purple ring at the junction indicating presence?", "options": {"A": "Gelatin", "B": "Hydrogen peroxide", "C": "Cane sugar", "D": "Added colour", "E": "Formalin"}, "correct": "E", "explanation": "Formalin (formaldehyde) is detected by adding concentrated sulfuric acid with traces of ferric chloride — a purple ring forms at the junction if formalin is present.", "sprint": false, "id": 185}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which two Indian research institutes are mentioned as having developed rapid detection kits for chemical adulterants and environmental contaminants respectively?", "options": {"A": "CIRB Hisar and CSWRI Avikanagar", "B": "IARI Delhi and ICAR Bangalore", "C": "NDRI Karnal and CFTRI Mysore", "D": "IVRI Izatnagar and NDDB Anand", "E": "IIT Delhi and AIIMS Delhi"}, "correct": "C", "explanation": "The National Dairy Research Institute (NDRI), Karnal, and Central Food Technological Research Institute (CFTRI), Mysore, developed rapid detection kits for chemical adulterants and environmental contaminants respectively.", "sprint": false, "id": 186}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "statement", "difficulty": "Hard", "passage": "1. Grading of milk at collection centres uses organoleptic criteria including flavour, sediment, and cleanliness of container.\n2. Cans are used for handling up to 2,000 litres of milk per day, while tankers handle between 2,000 and 5,000 litres per day.\n3. Rail tankers are used for handling 10,000 litres or more for long-distance transportation, as in the National Milk Grid.\n4. Milk received at the dairy plant by tanker is always measured by weight, never by volume.", "stem": "Which of the above statements is/are INCORRECT?", "options": {"A": "Only 4", "B": "Only 1", "C": "1 and 2", "D": "None of the above", "E": "3 and 4"}, "correct": "A", "explanation": "Statement 4 is incorrect — milk received by tanker CAN be measured by weight or volume, but generally the milk from the tanker is measured by volume (via a flow meter), not always by weight. Statements 1, 2 and 3 are correctly stated.", "sprint": true, "id": 187}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "Which method of manual milking is described as the 'best method of hand milking', though most milkmen instead follow another (less ideal) method?", "options": {"A": "Wet milking", "B": "Fisting", "C": "Dry milking", "D": "Stripping", "E": "Knuckling"}, "correct": "B", "explanation": "Fisting is described as the best method of hand milking, though most milkmen follow the Knuckling method instead, which is injurious to the teat.", "sprint": false, "id": 188}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "figure", "difficulty": "Hard", "passage": null, "stem": "What is the approximate pressure (mm Hg) applied over the teat canal by a calf during natural suckling, compared to hand milking (310 mm Hg)?", "options": {"A": "535 mm Hg", "B": "100 mm Hg", "C": "400 mm Hg", "D": "310 mm Hg (same as hand milking)", "E": "200 mm Hg"}, "correct": "A", "explanation": "The pressure applied by a calf during natural suckling is about 535 mm Hg, compared to 310 mm Hg in hand milking, and 350-400 mm Hg in mechanical milking.", "sprint": false, "id": 189}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "As per the frequency of milking guidelines, how many times a day should milking be done when the milk yield exceeds 10 litres/day?", "options": {"A": "Four times", "B": "Three times", "C": "Twice", "D": "Continuously", "E": "Once"}, "correct": "B", "explanation": "When milk yield is less than 10 litres/day, milking is done twice; when more than 10 litres/day, three-times milking is followed, improving yield by 10-15%.", "sprint": false, "id": 190}, {"topic": "Clean Milk Production, Milking Methods & Milk Adulteration", "type": "recall", "difficulty": "Moderate", "passage": null, "stem": "As per milk composition norms, milk obtained how many days before calving or after calving is excluded from the definition of 'milk' for clean milk production standards?", "options": {"A": "7 days before or 2 days after", "B": "20 days before or 10 days after", "C": "5 days before or 1 day after", "D": "10 days before or 3 days after", "E": "15 days before or 5 days after"}, "correct": "E", "explanation": "Milk is defined as the lacteal secretion from complete milking of healthy milch animals, excluding that obtained 15 days before or 5 days after calving.", "sprint": false, "id": 191}, {"topic": "Scenario-Based Diagnostic Questions", "type": "scenario", "difficulty": "Hard", "passage": "A veterinarian examines three animals on a farm with the following presentations:\n1. A dairy cow close to calving showing loss of appetite, depression, muscle tremors and lying on its sternum with head turned to the side.\n2. A herd of cattle recently shifted from indoor feeding to grazing on lush, newly emerging pasture, now showing excitability, stiff muscles and convulsions.\n3. A flock of sheep grazing on soil deficient in a trace mineral, showing 'steely wool' with loss of crimp and colour.", "stem": "Which of the above cases is/are consistent with a magnesium-deficiency-related disorder (Grass Tetany)?", "options": {"A": "1 and 2", "B": "2 and 3", "C": "1, 2 and 3", "D": "Only 1", "E": "Only 2"}, "correct": "E", "explanation": "Only Case 2 matches Grass Tetany (Grass Staggers) — magnesium deficiency triggered by a switch from indoor feeding to grazing on lush pasture, showing excitability, stiff muscles and convulsions. Case 1 describes Milk Fever (calcium deficiency), and Case 3 describes Copper deficiency ('steely wool').", "sprint": true, "id": 192}, {"topic": "Scenario-Based Diagnostic Questions", "type": "scenario", "difficulty": "Hard", "passage": "A farmer is choosing a cattle breed for his farm and lists the following animals under consideration:\n1. A breed native to Montgomery district (Pakistan), known as the best indigenous dairy breed with loose skin, called 'Lola'.\n2. A breed native to Ongole taluk, Guntur district, large and muscular, known mainly for heavy draught work with a milk yield of about 700 kg/lactation.\n3. A breed native to Hassan/Chikmagalur/Chitradurga (Karnataka), used purely for draught purposes, not milk production.", "stem": "The farmer wants a breed primarily suited for HIGH MILK PRODUCTION. Which of the above animals meet this requirement?", "options": {"A": "Only 1", "B": "2 and 3", "C": "1, 2 and 3", "D": "1 and 2", "E": "Only 2"}, "correct": "A", "explanation": "Only animal 1 (Sahiwal) is a dedicated high-yield milch breed. Animal 2 (Ongole) is a dual-purpose/draught breed mainly valued for heavy draught work with comparatively low milk yield, and animal 3 (Amritmahal) is a pure draught breed not used for milk.", "sprint": true, "id": 193}, {"topic": "Scenario-Based Diagnostic Questions", "type": "scenario", "difficulty": "Hard", "passage": "A poultry farmer observes the following birds in his flock:\n1. A young chick, 5 days old, showing signs of paralysis, greenish watery diarrhoea and twisting of the head.\n2. A 3-week-old chick showing whitish diarrhoea and dullness, with the Bursa of Fabricius found enlarged and haemorrhagic on post-mortem.\n3. An adult layer showing enlarged nerves, tumour formation, and vision impairment with an irregular pupil.", "stem": "Which of the above cases correctly match their described poultry disease — 1: Ranikhet Disease, 2: Gumboro Disease, 3: Marek's Disease?", "options": {"A": "Only 1 and 2 match correctly", "B": "1, 2 and 3 all match correctly", "C": "None of them match correctly", "D": "Only 2 and 3 match correctly", "E": "Only 1 matches correctly"}, "correct": "B", "explanation": "All three match: Case 1 (paralysis, greenish diarrhoea, head twisting) is Ranikhet Disease; Case 2 (3-week-old, whitish diarrhoea, enlarged/haemorrhagic Bursa) is Gumboro Disease (IBD); Case 3 (enlarged nerves, tumours, irregular pupil) is Marek's Disease.", "sprint": true, "id": 194}, {"topic": "Scenario-Based Diagnostic Questions", "type": "scenario", "difficulty": "Hard", "passage": "A dairy extension officer is assessing three farmers' calf-rearing practices:\n1. Farmer A feeds his newborn calf 2.5 litres of colostrum within the first hour after birth.\n2. Farmer B waits 3 days before feeding any colostrum, believing ordinary milk is just as good from birth.\n3. Farmer C feeds his buffalo calf colostrum at the rate of 1/10th of its body weight, believing this is the correct standard for all species.", "stem": "Which of the above farmers is/are following practices ALIGNED with the recommended colostrum feeding guidelines in the chapter?", "options": {"A": "Only Farmer A", "B": "Only Farmer B", "C": "All three farmers", "D": "Farmers A and C", "E": "Farmers B and C"}, "correct": "A", "explanation": "Only Farmer A follows correct practice — colostrum should be fed within 15 minutes to a few hours of birth (immunoglobulins best absorbed within 2-4 hours, up to 16-27 hours). Farmer B delays colostrum feeding for 3 days, which is incorrect, and Farmer C is wrong because buffalo calves should get colostrum at 1/15th of body weight, not 1/10th (which is the cow calf standard).", "sprint": true, "id": 195}, {"topic": "Scenario-Based Diagnostic Questions", "type": "scenario", "difficulty": "Moderate", "passage": "A dairy officer is evaluating three animals for a breeding programme aimed at combining high milk yield with heat tolerance and disease resistance suited to local conditions:\n1. A pure Holstein Friesian cow imported from the Netherlands.\n2. A Frieswal animal, being a crossbred of Holstein-Friesian and Sahiwal.\n3. A pure indigenous Amritmahal bullock used only for draught purposes.", "stem": "Which of the above animals best fits the officer's objective of combining exotic high-yield genes with indigenous heat tolerance and disease resistance?", "options": {"A": "Only 2", "B": "Only 1", "C": "Only 3", "D": "1 and 3", "E": "2 and 3"}, "correct": "A", "explanation": "Only animal 2 (Frieswal, a crossbreed of Holstein-Friesian and Sahiwal) fits — crossbreeding combines the exotic parent's high milk yield with the indigenous parent's heat tolerance and disease resistance, as explicitly described under advantages of cross breeding. A pure exotic breed (1) lacks indigenous adaptation, and a pure draught breed (3) is not a milk-focused animal.", "sprint": true, "id": 196}];
+
+const TOPIC_ORDER = [];
+QUESTIONS.forEach(q => { if(!TOPIC_ORDER.includes(q.topic)) TOPIC_ORDER.push(q.topic); });
+
+const state = {
+  screen: 'home',
+  order: 'pdf',
+  set: [],
+  setLabel: '',
+  index: 0,
+  answers: {},
+  score: 0,
+};
+window.state = state; // exposed for diagnostics
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function startSet(list, label, allowShuffleToggle){
+  state.set = list;
+  state.setLabel = label;
+  state.index = 0;
+  state.answers = {};
+  state.score = 0;
+  state.screen = 'quiz';
+  state.allowShuffleToggle = !!allowShuffleToggle;
+  render();
+}
+
+function goHome(){
+  state.screen = 'home';
+  render();
+}
+
+function render(){
+  const app = document.getElementById('app');
+  if(state.screen === 'home') app.innerHTML = renderHome();
+  else if(state.screen === 'sections') app.innerHTML = renderSections();
+  else if(state.screen === 'quiz') app.innerHTML = renderQuiz();
+  else if(state.screen === 'end') app.innerHTML = renderEnd();
+  try{ window.scrollTo(0,0); }catch(e){}
+  attachHandlers();
+}
+
+function renderMasthead(){
+  return `<div class="masthead">
+    <h1 class="masthead-title">ARD Practice Register</h1>
+    <span class="masthead-sub">ANIMAL HUSBANDRY &amp; POULTRY · ${QUESTIONS.length} ITEMS</span>
+  </div>`;
+}
+
+function renderHome(){
+  const sprintCount = QUESTIONS.filter(q => q.sprint).length;
+  return renderMasthead() + `
+    <p class="intro-line">A NABARD Grade A drill built from a single chapter of the ARD syllabus — breeds, feeding, breeding systems, poultry management and clean milk production. No shortcuts to the numbers; every figure traces back to the text.</p>
+    <p class="section-label">CHOOSE A MODE</p>
+    <div class="mode-list">
+      <button class="mode-tab" data-action="mode-full">
+        <div>
+          <p class="mt-name">Full Practice Test</p>
+          <p class="mt-desc">Every question in the bank, one sitting. Toggle order below.</p>
+        </div>
+        <span class="mt-count">${QUESTIONS.length} Qs</span>
+      </button>
+      <button class="mode-tab" data-action="mode-sections">
+        <div>
+          <p class="mt-name">Section-wise Revision</p>
+          <p class="mt-desc">Drill one topic at a time — pick from the syllabus grid.</p>
+        </div>
+        <span class="mt-count">${TOPIC_ORDER.length} topics</span>
+      </button>
+      <button class="mode-tab" data-action="mode-sprint">
+        <div>
+          <p class="mt-name">Statement &amp; Scenario Sprint</p>
+          <p class="mt-desc">Just the multi-statement and diagnostic-reasoning items — the exam's hardest format.</p>
+        </div>
+        <span class="mt-count">${sprintCount} Qs</span>
+      </button>
+    </div>
+  `;
+}
+
+function renderSections(){
+  let html = renderMasthead();
+  html += `<button class="back-link" data-action="go-home">&larr; back to menu</button>`;
+  html += `<p class="section-label">SYLLABUS SECTIONS</p>`;
+  html += `<div class="topic-grid">`;
+  TOPIC_ORDER.forEach(topic => {
+    const count = QUESTIONS.filter(q => q.topic === topic).length;
+    html += `<button class="topic-tile" data-action="pick-topic" data-topic="${escAttr(topic)}">
+      <p class="tt-name">${esc(topic)}</p>
+      <span class="tt-count">${count} questions</span>
+    </button>`;
+  });
+  html += `</div>`;
+  return html;
+}
+
+function renderQuizHeader(){
+  const total = state.set.length;
+  const answeredCount = Object.keys(state.answers).length;
+  return `<div class="quiz-header">
+    <div class="quiz-meta-row">
+      <span>${esc(state.setLabel)} · Q ${Math.min(state.index+1,total)} / ${total}</span>
+      <span class="score-live">SCORE ${state.score}</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" style="width:${(answeredCount/total*100).toFixed(1)}%"></div></div>
+  </div>`;
+}
+function renderQuiz(){
+  if(state.set.length === 0){
+    return renderMasthead() + `<button class="back-link" data-action="go-home">&larr; back to menu</button>
+    <p class="empty-note">No questions matched this selection.</p>`;
+  }
+  if(state.index >= state.set.length){
+    state.screen = 'end';
+    return renderEnd();
+  }
+  const q = state.set[state.index];
+  const rec = state.answers[q.id];
+  const locked = !!rec;
+  const showToggle = state.allowShuffleToggle && state.index === 0 && Object.keys(state.answers).length === 0;
+
+  let html = renderMasthead();
+  html += `<button class="back-link" data-action="go-home">&larr; back to menu</button>`;
+  if(showToggle){
+    html += `<div class="order-toggle">
+        <button class="${state.order==='pdf'?'active':''}" data-action="toggle-order" data-order="pdf">PDF ORDER</button>
+        <button class="${state.order==='shuffled'?'active':''}" data-action="toggle-order" data-order="shuffled">SHUFFLED</button>
+      </div>`;
+  }
+  html += renderQuizHeader();
+  html += `<div class="diff-tag"><span class="diff-dot ${q.difficulty}"></span>${q.difficulty}</div>`;
+
+  if(q.passage){
+    html += `<div class="passage-box"><span class="passage-label">INSTRUCTION</span>${esc(q.passage)}</div>`;
+  }
+
+  html += `<p class="question-stem">${esc(q.stem)}</p>`;
+  html += `<div class="options">`;
+  ['A','B','C','D','E'].forEach(letter => {
+    const val = q.options[letter];
+    let cls = 'option';
+    if(locked){
+      cls += ' locked';
+      if(letter === q.correct) cls += ' correct';
+      else if(rec.selected === letter) cls += ' incorrect';
+      else cls += ' dim';
+    }
+    html += `<button class="${cls}" data-action="answer" data-letter="${letter}" ${locked ? 'disabled':''}>
+      <span class="opt-letter">${letter}</span><span>${esc(val)}</span>
+    </button>`;
+  });
+  html += `</div>`;
+
+  if(locked){
+    let fcls, verdict;
+    if(rec.status === 'skipped'){ fcls='skipped'; verdict='SKIPPED — CORRECT ANSWER SHOWN ABOVE'; }
+    else if(rec.status === 'correct'){ fcls='correct'; verdict='CORRECT'; }
+    else { fcls='incorrect'; verdict='NOT QUITE'; }
+    html += `<div class="feedback-box show ${fcls}">
+      <p class="feedback-verdict ${fcls}">${verdict}</p>
+      <p>${esc(q.explanation)}</p>
+    </div>`;
+  }
+
+  html += `<div class="quiz-footer">`;
+  if(!locked){
+    html += `<button class="btn btn-ghost" data-action="skip">Skip</button>`;
+    html += `<span></span>`;
+  } else {
+    html += `<span></span>`;
+    const isLast = state.index === state.set.length - 1;
+    html += `<button class="btn btn-primary" data-action="next">${isLast ? 'See results' : 'Next question'}</button>`;
+  }
+  html += `</div>`;
+
+  return html;
+}
+
+function renderEnd(){
+  const total = state.set.length;
+  const correct = Object.values(state.answers).filter(a => a.status === 'correct').length;
+  const skipped = Object.values(state.answers).filter(a => a.status === 'skipped').length;
+  const incorrect = total - correct - skipped;
+
+  const diffs = ['Easy','Moderate','Hard'];
+  const diffStats = diffs.map(d => {
+    const qs = state.set.filter(q => q.difficulty === d);
+    const cor = qs.filter(q => state.answers[q.id] && state.answers[q.id].status === 'correct').length;
+    return {d, cor, total: qs.length};
+  }).filter(s => s.total > 0);
+
+  let html = renderMasthead();
+  html += `<div class="end-score">
+    <p class="big-num">${correct} / ${total}</p>
+    <p class="big-label">${esc(state.setLabel)} · ${skipped} skipped · ${incorrect} missed</p>
+  </div>`;
+
+  if(diffStats.length){
+    html += `<div class="stat-row">`;
+    diffStats.forEach(s => {
+      html += `<div class="stat-block ${s.d}"><div class="sb-diff">${s.d.toUpperCase()}</div><div class="sb-frac">${s.cor}/${s.total}</div></div>`;
+    });
+    html += `</div>`;
+  }
+
+  const missedOrSkipped = state.set.filter(q => {
+    const a = state.answers[q.id];
+    return a && a.status !== 'correct';
+  });
+
+  if(missedOrSkipped.length){
+    html += `<p class="section-label">REVIEW — MISSED &amp; SKIPPED (${missedOrSkipped.length})</p>`;
+    html += `<div class="review-list">`;
+    missedOrSkipped.forEach((q,i) => {
+      const a = state.answers[q.id];
+      html += `<div class="review-item">
+        <div class="review-item-head" data-action="toggle-review" data-idx="${i}">
+          <p class="ri-stem">${esc(truncate(q.stem, 90))}</p>
+          <span class="ri-status ${a.status}">${a.status === 'skipped' ? 'SKIPPED' : 'MISSED'}</span>
+        </div>
+        <div class="review-item-body" id="review-body-${i}">
+          ${q.passage ? `<p>${esc(q.passage)}</p>` : ''}
+          <p><strong>${esc(q.stem)}</strong></p>
+          <p class="ri-correct">Correct: ${q.correct}. ${esc(q.options[q.correct])}</p>
+          ${a.status==='incorrect' ? `<p class="ri-yours">Your answer: ${a.selected}. ${esc(q.options[a.selected])}</p>` : ''}
+          <p>${esc(q.explanation)}</p>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  } else {
+    html += `<p class="empty-note">Clean sweep — nothing missed or skipped.</p>`;
+  }
+
+  html += `<div class="end-actions">
+    <button class="btn" data-action="retry">Retry same set</button>
+    <button class="btn btn-primary" data-action="go-home">Back to menu</button>
+  </div>`;
+
+  return html;
+}
+
+function truncate(s, n){ return s.length > n ? s.slice(0,n-1) + '…' : s; }
+function esc(s){
+  const d = document.createElement('div');
+  d.textContent = s == null ? '' : s;
+  return d.innerHTML;
+}
+function escAttr(s){ return esc(s).replace(/"/g,'&quot;'); }
+
+function attachHandlers(){
+  document.querySelectorAll('[data-action]').forEach(el => {
+    el.addEventListener('click', onAction);
+  });
+}
+
+function onAction(e){
+  const action = e.currentTarget.dataset.action;
+  if(action === 'go-home'){ goHome(); }
+  else if(action === 'mode-sections'){ state.screen = 'sections'; render(); }
+  else if(action === 'mode-full'){ openFullTest(); }
+  else if(action === 'mode-sprint'){
+    const list = QUESTIONS.filter(q => q.sprint);
+    startSet(list, 'Statement & Scenario Sprint', false);
+  }
+  else if(action === 'pick-topic'){
+    const topic = e.currentTarget.dataset.topic;
+    const list = QUESTIONS.filter(q => q.topic === topic);
+    startSet(list, topic, false);
+  }
+  else if(action === 'answer'){
+    const letter = e.currentTarget.dataset.letter;
+    submitAnswer(letter);
+  }
+  else if(action === 'skip'){
+    submitAnswer(null);
+  }
+  else if(action === 'next'){
+    state.index += 1;
+    render();
+  }
+  else if(action === 'retry'){
+    startSet(state.set, state.setLabel, state.allowShuffleToggle);
+  }
+  else if(action === 'toggle-review'){
+    const idx = e.currentTarget.dataset.idx;
+    const body = document.getElementById('review-body-' + idx);
+    body.classList.toggle('show');
+  }
+  else if(action === 'toggle-order'){
+    state.order = e.currentTarget.dataset.order;
+    openFullTest(true);
+  }
+}
+
+function openFullTest(preserveScreen){
+  const list = state.order === 'shuffled' ? shuffle(QUESTIONS) : QUESTIONS.slice();
+  startSet(list, 'Full Practice Test (' + (state.order === 'shuffled' ? 'Shuffled' : 'PDF Order') + ')', true);
+}
+
+function submitAnswer(letter){
+  const q = state.set[state.index];
+  if(letter === null){
+    state.answers[q.id] = {status:'skipped', selected:null};
+  } else if(letter === q.correct){
+    state.answers[q.id] = {status:'correct', selected:letter};
+    state.score += 1;
+  } else {
+    state.answers[q.id] = {status:'incorrect', selected:letter};
+  }
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

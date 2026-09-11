@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NABARD Grade A | Cropping Patterns &amp; Cropping Systems — Practice Quiz</title>
+<style>
+:root{
+  --navy:#0b2f4a;
+  --navy-deep:#081f33;
+  --green:#0f7a52;
+  --green-deep:#0a5c3d;
+  --amber:#c98a1f;
+  --amber-light:#f2b53c;
+  --paper:#f7f5ef;
+  --paper-card:#ffffff;
+  --ink:#1c2b33;
+  --ink-soft:#5b6b73;
+  --line:#e2ded2;
+  --red:#b13a2e;
+  --red-bg:#fdecea;
+  --green-bg:#e9f6ef;
+  --shadow: 0 6px 20px rgba(11,47,74,0.08);
+  --radius: 14px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Georgia','Iowan Old Style', 'Times New Roman', serif;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(15,122,82,0.05), transparent 40%),
+    radial-gradient(circle at 90% 10%, rgba(201,138,31,0.06), transparent 45%),
+    var(--paper);
+  color:var(--ink);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+.app-font{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;}
+#root{max-width:900px;margin:0 auto;padding:22px 16px 60px;}
+
+.brandbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;background:linear-gradient(120deg,var(--navy-deep),var(--navy) 60%,#0e3a58);
+  border-radius:16px;color:#f4efe1;margin-bottom:22px;box-shadow:var(--shadow);
+}
+.brandbar .brand-left{display:flex;align-items:center;gap:12px;}
+.brand-badge{
+  width:40px;height:40px;border-radius:10px;background:linear-gradient(145deg,var(--amber-light),var(--amber));
+  display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--navy-deep);font-family:'Segoe UI',sans-serif;font-size:16px;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.35);
+}
+.brandbar h1{font-size:16.5px;margin:0;font-weight:700;letter-spacing:.2px;font-family:'Segoe UI',sans-serif;}
+.brandbar p{margin:2px 0 0;font-size:12px;color:#c9d6de;font-family:'Segoe UI',sans-serif;}
+.pill{font-family:'Segoe UI',sans-serif;font-size:11px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);padding:5px 10px;border-radius:20px;color:#f2e9d4;}
+
+.card{
+  background:var(--paper-card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:22px;
+}
+.hidden{display:none !important;}
+
+/* HOME */
+.home-title{font-family:'Segoe UI',sans-serif;font-size:22px;font-weight:800;color:var(--navy-deep);margin:6px 0 4px;}
+.home-sub{font-family:'Segoe UI',sans-serif;font-size:13.5px;color:var(--ink-soft);margin-bottom:22px;line-height:1.5;}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:8px;}
+@media(max-width:640px){.mode-grid{grid-template-columns:1fr;}}
+.mode-card{
+  border-radius:14px;padding:20px;cursor:pointer;border:1.5px solid var(--line);
+  background:linear-gradient(160deg,#ffffff,#faf8f2);transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  font-family:'Segoe UI',sans-serif;
+}
+.mode-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(11,47,74,0.12);border-color:var(--green);}
+.mode-icon{
+  width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:20px;margin-bottom:12px;
+}
+.mode-icon.full{background:#e9f6ef;color:var(--green-deep);}
+.mode-icon.sect{background:#fdf1de;color:var(--amber);}
+.mode-card h3{margin:0 0 6px;font-size:16px;color:var(--navy-deep);}
+.mode-card p{margin:0;font-size:12.5px;color:var(--ink-soft);line-height:1.5;}
+.stat-strip{
+  margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;font-family:'Segoe UI',sans-serif;
+}
+.stat-chip{
+  background:var(--navy-deep);color:#f2e9d4;font-size:11.5px;padding:7px 12px;border-radius:20px;
+  display:flex;align-items:center;gap:6px;
+}
+.stat-chip b{color:var(--amber-light);}
+
+/* toggle */
+.toggle-row{display:flex;align-items:center;gap:10px;margin:16px 0 4px;font-family:'Segoe UI',sans-serif;font-size:13px;color:var(--ink-soft);}
+.toggle-switch{
+  display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;background:#fff;
+}
+.toggle-opt{padding:7px 14px;font-size:12.5px;cursor:pointer;color:var(--ink-soft);font-family:'Segoe UI',sans-serif;transition:.15s;}
+.toggle-opt.active{background:var(--green-deep);color:#fff;}
+
+.btn{
+  font-family:'Segoe UI',sans-serif;border:none;cursor:pointer;border-radius:10px;padding:11px 18px;font-size:13.5px;font-weight:600;
+  transition:transform .1s ease, box-shadow .1s ease, opacity .15s;
+}
+.btn:active{transform:scale(0.97);}
+.btn-primary{background:linear-gradient(120deg,var(--green-deep),var(--green));color:#fff;box-shadow:0 4px 12px rgba(15,122,82,0.28);}
+.btn-primary:hover{box-shadow:0 6px 16px rgba(15,122,82,0.35);}
+.btn-secondary{background:#fff;color:var(--navy-deep);border:1.5px solid var(--line);}
+.btn-secondary:hover{border-color:var(--navy);}
+.btn-ghost{background:transparent;color:var(--ink-soft);border:1.5px dashed var(--line);}
+.btn-amber{background:linear-gradient(120deg,var(--amber),var(--amber-light));color:#3a2705;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+
+/* section grid */
+.section-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+@media(max-width:640px){.section-grid{grid-template-columns:1fr;}}
+.section-tile{
+  border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;background:#fff;
+  font-family:'Segoe UI',sans-serif;transition:.15s;
+}
+.section-tile:hover{border-color:var(--amber);background:#fffaf0;transform:translateY(-2px);}
+.section-tile h4{margin:0 0 4px;font-size:13.5px;color:var(--navy-deep);line-height:1.35;}
+.section-tile span{font-size:11.5px;color:var(--ink-soft);}
+.count-badge{
+  display:inline-block;margin-top:6px;background:var(--green-bg);color:var(--green-deep);font-size:11px;
+  padding:2px 8px;border-radius:20px;font-weight:700;
+}
+
+/* QUIZ SCREEN */
+.quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-family:'Segoe UI',sans-serif;}
+.qmeta{font-size:12px;color:var(--ink-soft);}
+.qmeta b{color:var(--navy-deep);}
+.score-box{
+  font-family:'Segoe UI',sans-serif;background:var(--navy-deep);color:#f4efe1;padding:6px 14px;border-radius:10px;font-size:13px;font-weight:700;
+}
+.progress-outer{height:8px;background:#eee7d6;border-radius:6px;overflow:hidden;margin-bottom:18px;}
+.progress-inner{height:100%;background:linear-gradient(90deg,var(--green-deep),var(--green));border-radius:6px;transition:width .3s ease;}
+
+.diff-tag{
+  font-family:'Segoe UI',sans-serif;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+  padding:3px 9px;border-radius:20px;display:inline-block;
+}
+.diff-Easy{background:#e9f6ef;color:var(--green-deep);}
+.diff-Moderate{background:#fdf1de;color:#8a5a12;}
+.diff-Hard{background:var(--red-bg);color:var(--red);}
+.type-tag{
+  font-family:'Segoe UI',sans-serif;font-size:10.5px;color:var(--ink-soft);background:#f0eee5;padding:3px 9px;border-radius:20px;margin-left:6px;
+}
+
+.question-text{
+  font-size:17px;line-height:1.55;color:var(--ink);margin:14px 0 18px;white-space:pre-wrap;font-weight:500;
+}
+.options{display:flex;flex-direction:column;gap:10px;}
+.opt{
+  display:flex;align-items:flex-start;gap:12px;border:1.5px solid var(--line);border-radius:12px;
+  padding:12px 14px;cursor:pointer;background:#fff;font-family:'Segoe UI',sans-serif;font-size:14px;line-height:1.5;
+  transition:.12s;
+}
+.opt:hover:not(.locked){border-color:var(--navy);background:#f9fbfc;}
+.opt .letter{
+  flex:0 0 26px;height:26px;border-radius:50%;background:#eef0ea;color:var(--navy-deep);font-weight:800;
+  display:flex;align-items:center;justify-content:center;font-size:12.5px;
+}
+.opt.correct{background:var(--green-bg);border-color:var(--green);}
+.opt.correct .letter{background:var(--green-deep);color:#fff;}
+.opt.wrong{background:var(--red-bg);border-color:var(--red);}
+.opt.wrong .letter{background:var(--red);color:#fff;}
+.opt.locked{cursor:default;}
+.opt.dim{opacity:.55;}
+
+.explain-box{
+  margin-top:16px;padding:14px 16px;border-radius:12px;background:#fbf9f2;border:1px solid var(--line);
+  font-family:'Segoe UI',sans-serif;font-size:13px;color:var(--ink-soft);line-height:1.55;
+}
+.explain-box b{color:var(--navy-deep);}
+
+.qfooter{display:flex;justify-content:space-between;align-items:center;margin-top:20px;flex-wrap:wrap;gap:10px;}
+
+/* RESULTS */
+.result-hero{
+  text-align:center;padding:26px 10px 10px;
+}
+.result-score{font-size:46px;font-weight:800;color:var(--navy-deep);font-family:'Segoe UI',sans-serif;}
+.result-score span{font-size:20px;color:var(--ink-soft);font-weight:500;}
+.result-sub{font-family:'Segoe UI',sans-serif;font-size:13px;color:var(--ink-soft);margin-top:4px;}
+.diff-breakdown{display:flex;gap:12px;justify-content:center;margin:22px 0;flex-wrap:wrap;}
+.diff-block{
+  font-family:'Segoe UI',sans-serif;text-align:center;background:#fff;border:1.5px solid var(--line);border-radius:12px;
+  padding:12px 18px;min-width:100px;
+}
+.diff-block .num{font-size:20px;font-weight:800;color:var(--navy-deep);}
+.diff-block .lbl{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+
+.review-list{margin-top:10px;}
+.review-item{
+  border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;font-family:'Segoe UI',sans-serif;
+}
+.review-item .rq{font-size:13.5px;color:var(--ink);white-space:pre-wrap;line-height:1.5;margin-bottom:8px;}
+.review-tag{font-size:10.5px;padding:2px 8px;border-radius:20px;margin-right:6px;font-weight:700;}
+.tag-wrong{background:var(--red-bg);color:var(--red);}
+.tag-skip{background:#fdf1de;color:#8a5a12;}
+.review-answers{font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
+.review-answers b{color:var(--navy-deep);}
+
+.section-title{font-family:'Segoe UI',sans-serif;font-weight:700;color:var(--navy-deep);font-size:16px;margin:26px 0 10px;display:flex;align-items:center;gap:8px;}
+.section-title::before{content:'';width:5px;height:16px;background:var(--amber);border-radius:3px;display:inline-block;}
+
+.topbar-mini{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-family:'Segoe UI',sans-serif;}
+.back-link{font-size:12.5px;color:var(--navy);cursor:pointer;text-decoration:none;font-weight:600;}
+.back-link:hover{text-decoration:underline;}
+
+footer.credit{
+  text-align:center;font-family:'Segoe UI',sans-serif;font-size:11px;color:#9aa4a9;margin-top:30px;
+}
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="brandbar">
+    <div class="brand-left">
+      <div class="brand-badge">CS</div>
+      <div>
+        <h1>NABARD Grade A — Practice Quiz</h1>
+        <p>Cropping Patterns &amp; Cropping Systems</p>
+      </div>
+    </div>
+    <div class="pill" id="qcountpill">121 Questions</div>
+  </div>
+
+  <div id="screen-home" class="card"></div>
+  <div id="screen-sectionpick" class="card hidden"></div>
+  <div id="screen-quiz" class="card hidden"></div>
+  <div id="screen-results" class="card hidden"></div>
+
+  <footer class="credit">Built from the EduTap Summary Sheet — Cropping Patterns and Cropping Systems · For offline self-practice</footer>
+</div>
+
+<script>
+const QUESTIONS = [{"section": "Cropping System vs Farming System", "difficulty": "Hard", "type": "recall", "q": "As per the document, which of the following correctly defines 'Cropping System'?", "exp": "Cropping system = cropping patterns on a farm + their interaction with farm resources, other enterprises and technology.", "options": {"A": "The cropping patterns used on a farm and their interaction with farm resources, other farm enterprises and available technology which determines their make-up", "B": "A system limited only to wet-land and dry-land classification of farms", "C": "A system that is defined mainly by its crop residue recycling practices", "D": "The integration of farm enterprises such as cropping, animal husbandry and fisheries for optimal resource utilisation leading to remunerative farming", "E": "A system evaluated exclusively through livestock productivity indices"}, "correct_letter": "A", "id": 0}, {"section": "Cropping System vs Farming System", "difficulty": "Moderate", "type": "recall", "q": "Which of the following is cited as an example of a 'Farming System' (not a Cropping System) in the text?", "exp": "Farming system examples given: wet land based, dry land based, and garden land farming system.", "options": {"A": "Wheat based cropping system", "B": "Garden land farming system", "C": "Oilseed based cropping system", "D": "Sugarcane based cropping system", "E": "Rice based cropping system"}, "correct_letter": "B", "id": 1}, {"section": "Cropping System vs Farming System", "difficulty": "Hard", "type": "notcorrect", "q": "Which of the following statements regarding the difference between Cropping System and Farming System is NOT correct?", "exp": "It is the reverse: the cropping system mitigates adverse effects of aberrant weather; the farming system does not.", "options": {"A": "Farming system includes enterprises such as dairy and piggery along with crops", "B": "Cropping system involves no recycling of crop residues, unlike farming system, which follows crop residue recycling", "C": "Farming system mitigates the adverse effects of aberrant weather, whereas cropping system does not", "D": "Some indices are available to evaluate a cropping system, whereas there are no special indices to evaluate a farming system", "E": "Cropping system includes monocropping, multiple cropping and intercropping"}, "correct_letter": "C", "id": 2}, {"section": "Cropping System vs Farming System", "difficulty": "Easy", "type": "recall", "q": "Farming systems represent integration of farm enterprises for what ultimate objective, as per the text?", "exp": "Farming systems integrate cropping, animal husbandry, fisheries etc. for optimal resource use leading to remunerative farming.", "options": {"A": "Complete mechanization of Indian agriculture", "B": "Exclusive focus on cereal production", "C": "Maximum use of chemical fertilizers and pesticides", "D": "Optimal utilisation of resources leading to remunerative farming", "E": "Elimination of all cropping patterns"}, "correct_letter": "D", "id": 3}, {"section": "Cropping System vs Farming System", "difficulty": "Hard", "type": "statement", "q": "Consider the following statements about Cropping System and Farming System:\nI. Cropping system includes monocropping, multiple cropping and intercropping.\nII. Farming system does not mitigate the adverse effects of aberrant weather.\nIII. Cropping system follows recycling of crop residues.\nIV. Examples of farming system include wet land based, dry land based and garden land farming systems.\nHow many of the above statements are correct?", "exp": "Statement III is false \u2014 recycling of crop residues is a feature of the farming system, not the cropping system. I, II and IV are correct, so 'Only three'.", "options": {"A": "Only two are correct", "B": "None of the above are correct", "C": "Only one is correct", "D": "All four are correct", "E": "Only three are correct"}, "correct_letter": "E", "id": 4}, {"section": "Cropping System vs Farming System", "difficulty": "Moderate", "type": "recall", "q": "Which of the following is correctly listed as an example under 'Cropping System' as per the text?", "exp": "Cropping system examples: rice based, wheat based, oilseed based and sugarcane based cropping systems.", "options": {"A": "Wheat based cropping system", "B": "Garden land farming system", "C": "Dairy based farming system", "D": "Wet land based farming system", "E": "Dry land based farming system"}, "correct_letter": "A", "id": 5}, {"section": "Cropping System vs Farming System", "difficulty": "Moderate", "type": "notcorrect", "q": "Which of the following is NOT correctly paired (Cropping System vs Farming System)?", "exp": "Piggery is listed under Farming System (along with dairy and crops), not Cropping System.", "options": {"A": "Rice based cropping system is listed as an example under Cropping System", "B": "Piggery is listed as an example under Cropping System", "C": "Sugarcane based cropping system is listed as an example under Cropping System", "D": "Dry land based farming system is listed as an example under Farming System", "E": "Dairy is listed as an example under Farming System"}, "correct_letter": "B", "id": 6}, {"section": "Cropping System vs Farming System", "difficulty": "Moderate", "type": "statement", "q": "Consider the following statements:\nI. Cropping system includes rice based, wheat based, oilseed based, and sugarcane based systems.\nII. Farming system includes dairy, piggery and crops.\nIII. Both cropping system and farming system have special indices for their evaluation.\nIV. Farming system follows recycling of crop residues while cropping system does not.\nHow many of the above statements are correct?", "exp": "Statement III is false \u2014 only the cropping system has indices available for evaluation; there are no special indices for farming system. I, II, IV are correct \u2192 Only three.", "options": {"A": "All four are correct", "B": "None of the above are correct", "C": "Only three are correct", "D": "Only two are correct", "E": "Only one is correct"}, "correct_letter": "C", "id": 7}, {"section": "Cropping Pattern - Basics", "difficulty": "Easy", "type": "recall", "q": "As per the text, a Cropping Pattern is best described as a:", "exp": "Cropping pattern = yearly sequence and spatial arrangement of sowing and fallow on a given area.", "options": {"A": "Government scheme for crop insurance", "B": "Fixed ratio of fertilizer application across seasons", "C": "Permanent arrangement of irrigation infrastructure on a farm", "D": "Yearly sequence and spatial arrangement of sowing and fallow on a given area", "E": "Method of mechanized harvesting"}, "correct_letter": "D", "id": 8}, {"section": "Cropping Pattern - Basics", "difficulty": "Moderate", "type": "recall", "q": "In India, the cropping pattern is determined by which of the following factors, as per the document?", "exp": "The text states cropping pattern in India is determined by rainfall, climate, temperature, soil type and technology.", "options": {"A": "Only government subsidy levels", "B": "Only technology and export demand", "C": "Only soil type and labour availability", "D": "Only rainfall and market price of crops", "E": "Rainfall, climate, temperature, soil type and technology"}, "correct_letter": "E", "id": 9}, {"section": "Cropping Pattern - Basics", "difficulty": "Easy", "type": "recall", "q": "Cropping pattern can be summarised, as per the text, as a combination of crops in:", "exp": "The text explicitly states cropping pattern is a 'combination of crops in time and space.'", "options": {"A": "Time and space", "B": "Season and market price", "C": "Yield and cost", "D": "Labour and capital", "E": "Soil and water only"}, "correct_letter": "A", "id": 10}, {"section": "Cropping Pattern - Basics", "difficulty": "Moderate", "type": "notcorrect", "q": "Which of the following statements about Cropping Pattern is NOT correct?", "exp": "The text attributes cropping pattern determination to rainfall, climate, temperature, soil type and technology \u2014 not market demand or trade policy.", "options": {"A": "Cropping pattern can be described as a combination of crops in time and space", "B": "Cropping pattern is determined mainly by market demand and international trade policy", "C": "In India, cropping pattern is influenced by rainfall and climate", "D": "Cropping pattern is influenced by soil type and available technology", "E": "Cropping pattern is a yearly sequence and spatial arrangement of sowing and fallow on a given area"}, "correct_letter": "B", "id": 11}, {"section": "Cropping Pattern - Basics", "difficulty": "Moderate", "type": "recall", "q": "As per the classification given in the text, the two broad types of Cropping Patterns are:", "exp": "The chart in the document splits Types of Cropping Patterns into Monocropping/Monoculture and Multiple Cropping.", "options": {"A": "Ley farming and Multistoreyed cropping", "B": "Rice based and Wheat based systems", "C": "Monocropping/Monoculture and Multiple Cropping", "D": "Sequential Cropping and Relay Cropping only", "E": "Intercropping and Ratoon Cropping only"}, "correct_letter": "C", "id": 12}, {"section": "Cropping Pattern - Basics", "difficulty": "Hard", "type": "statement", "q": "Consider the following statements about Cropping Pattern:\nI. It is a yearly sequence and spatial arrangement of sowing and fallow.\nII. It is determined solely by irrigation availability and nothing else.\nIII. It can be described as a combination of crops in time and space.\nIV. In India it is influenced by rainfall, climate, temperature, soil type and technology.\nHow many of the above statements are correct?", "exp": "Statement II is false \u2014 the text lists multiple determining factors (rainfall, climate, temperature, soil type, technology), not irrigation alone. I, III, IV are correct \u2192 Only three.", "options": {"A": "Only one is correct", "B": "All four are correct", "C": "None of the above are correct", "D": "Only three are correct", "E": "Only two are correct"}, "correct_letter": "D", "id": 13}, {"section": "Monoculture & Monocropping", "difficulty": "Moderate", "type": "recall", "q": "If land is occupied by one crop during one season only, this cropping pattern is termed:", "exp": "One crop occupying land in one season = monocropping, described as a space sequence.", "options": {"A": "Sequential cropping", "B": "Ley farming", "C": "Relay intercropping", "D": "Monoculture (time sequence)", "E": "Monocropping (space sequence)"}, "correct_letter": "E", "id": 14}, {"section": "Monoculture & Monocropping", "difficulty": "Moderate", "type": "recall", "q": "When the same crop is grown year after year on the same land across successive seasons, this is termed:", "exp": "Growing the same crop season after season, year after year = monoculture, a time sequence.", "options": {"A": "Monoculture (time sequence)", "B": "Monocropping (space sequence)", "C": "Ratoon cropping", "D": "Strip intercropping", "E": "Companion cropping"}, "correct_letter": "A", "id": 15}, {"section": "Monoculture & Monocropping", "difficulty": "Hard", "type": "notcorrect", "q": "Which of the following statements about Monocropping and Monoculture is NOT correct?", "exp": "This reverses the actual definitions \u2014 monocropping is the single-season (space) case; monoculture is the multi-year (time) case.", "options": {"A": "Monocropping refers to one crop occupying land during a single season", "B": "Monocropping refers to the same crop being grown across successive years, while monoculture refers to one crop occupying land in a single season", "C": "Monoculture is described as a time sequence", "D": "Monoculture refers to the same crop being grown season after season, year after year", "E": "Monocropping is described as a space sequence"}, "correct_letter": "B", "id": 16}, {"section": "Monoculture & Monocropping", "difficulty": "Moderate", "type": "statement", "q": "Consider the following statements:\nI. Monocropping is a time sequence concept.\nII. Monoculture involves growing the same crop year after year.\nIII. Monocropping involves one crop occupying the land in one season.\nIV. Monoculture is described in the text as a space sequence.\nHow many of the above statements are correct?", "exp": "Statements I and IV are false (monocropping is a space sequence; monoculture is a time sequence). II and III are correct \u2192 Only two.", "options": {"A": "All four are correct", "B": "None of the above are correct", "C": "Only two are correct", "D": "Only one is correct", "E": "Only three are correct"}, "correct_letter": "C", "id": 17}, {"section": "Monoculture & Monocropping", "difficulty": "Easy", "type": "recall", "q": "Which type of cropping pattern is described in the text as a 'time sequence'?", "exp": "Monoculture (same crop grown year after year) is the time-sequence concept in the text.", "options": {"A": "Multistoreyed cropping", "B": "Monocropping", "C": "Relay cropping", "D": "Monoculture", "E": "Intercropping"}, "correct_letter": "D", "id": 18}, {"section": "Multiple Cropping, Intensive Farming & Crop Rotation", "difficulty": "Easy", "type": "recall", "q": "Multiple Cropping is defined in the text as:", "exp": "Multiple cropping = growing two or more crops on the same field in a year.", "options": {"A": "Growing crops exclusively under greenhouse conditions", "B": "Rotating livestock grazing across multiple pastures", "C": "Applying multiple types of fertilizer to a single crop", "D": "Growing only one crop across multiple fields simultaneously", "E": "Growing two or more crops on the same field in a year"}, "correct_letter": "E", "id": 19}, {"section": "Multiple Cropping, Intensive Farming & Crop Rotation", "difficulty": "Moderate", "type": "recall", "q": "Effective adoption of multiple cropping by farmers, as per the text, particularly requires:", "exp": "The text notes that with sufficient irrigation facilities, multiple cropping can be effectively adopted by farmers.", "options": {"A": "Sufficient irrigation facilities", "B": "Complete mechanization of harvesting", "C": "Exclusive use of ratoon crops", "D": "Absence of crop rotation", "E": "Government-fixed minimum support price"}, "correct_letter": "A", "id": 20}, {"section": "Multiple Cropping, Intensive Farming & Crop Rotation", "difficulty": "Moderate", "type": "recall", "q": "'Intensive farming', as described in the text, primarily aims to maximize yields through:", "exp": "Intensive farming is described as an intensification/mechanization system maximizing yields via heavy pesticide and chemical fertilizer use.", "options": {"A": "Exclusive reliance on legume rotation", "B": "Heavy use of pesticides and chemical fertilizers along with mechanization", "C": "Complete avoidance of chemical inputs", "D": "Ley farming practices only", "E": "Multistoreyed cropping only"}, "correct_letter": "B", "id": 21}, {"section": "Multiple Cropping, Intensive Farming & Crop Rotation", "difficulty": "Easy", "type": "recall", "q": "In crop rotation, as defined in the text, crops are changed:", "exp": "Crop rotation: crops changed from year to year according to a planned sequence.", "options": {"A": "Only when pest infestation occurs", "B": "Only once in a decade", "C": "From year to year according to a planned sequence", "D": "Based solely on market speculation", "E": "Within the same day across different plots"}, "correct_letter": "C", "id": 22}, {"section": "Multiple Cropping, Intensive Farming & Crop Rotation", "difficulty": "Hard", "type": "notcorrect", "q": "Which of the following is NOT listed as an advantage of crop rotation in the text?", "exp": "The text never claims crop rotation eliminates irrigation needs; the listed advantages relate to soil fertility, erosion, pest/disease control and weed control.", "options": {"A": "It is the most effective method to control insect and mite pests", "B": "It prevents soil depletion and maintains soil fertility", "C": "It helps prevent diseases and control weeds", "D": "It guarantees complete elimination of the need for irrigation", "E": "It reduces soil erosion and reduces reliance on synthetic chemicals"}, "correct_letter": "D", "id": 23}, {"section": "Multiple Cropping, Intensive Farming & Crop Rotation", "difficulty": "Hard", "type": "statement", "q": "Consider the following statements regarding advantages of crop rotation as per the text:\nI. Crop rotation prevents soil depletion and maintains soil fertility.\nII. Crop rotation increases reliance on synthetic chemicals.\nIII. Crop rotation is described as the most effective method to control insect pests.\nIV. Crop rotation helps prevent diseases and control weeds.\nHow many of the above statements are correct?", "exp": "Statement II is false \u2014 crop rotation reduces reliance on synthetic chemicals, not increases it. I, III, IV are correct \u2192 Only three.", "options": {"A": "Only two are correct", "B": "None of the above are correct", "C": "Only one is correct", "D": "All four are correct", "E": "Only three are correct"}, "correct_letter": "E", "id": 24}, {"section": "Multiple Cropping, Intensive Farming & Crop Rotation", "difficulty": "Moderate", "type": "recall", "q": "Multiple cropping is described in the text as a method of intensification of cropping along which two dimensions?", "exp": "Multiple cropping is a method of intensification of cropping in time and space dimensions.", "options": {"A": "Time and space", "B": "Yield and market price", "C": "Irrigation and drainage", "D": "Soil and climate", "E": "Cost and labour"}, "correct_letter": "A", "id": 25}, {"section": "Multiple Cropping, Intensive Farming & Crop Rotation", "difficulty": "Moderate", "type": "notcorrect", "q": "Which of the following statements about Multiple Cropping is NOT correct?", "exp": "Multiple cropping is about growing two or more DIFFERENT crops on the SAME field within a year, not one crop across different fields.", "options": {"A": "Multiple cropping means growing two or more crops on the same field in a year", "B": "Multiple cropping refers to growing the same single crop repeatedly on different fields within a year", "C": "Multiple cropping is a method of intensification of cropping in time and space", "D": "Sequential cropping and intercropping are the two types of multiple cropping", "E": "Sufficient irrigation facilities help farmers effectively adopt multiple cropping"}, "correct_letter": "B", "id": 26}, {"section": "Multiple Cropping, Intensive Farming & Crop Rotation", "difficulty": "Moderate", "type": "statement", "q": "Consider the following statements:\nI. Multiple cropping requires growing two or more crops on the same field in a year.\nII. Intensive farming avoids the use of chemical fertilizers.\nIII. Crop rotation involves changing crops year to year in a planned sequence.\nIV. Multiple cropping is a method of intensification of cropping only in space, not time.\nHow many of the above statements are correct?", "exp": "Statements II and IV are false: intensive farming relies heavily on chemical fertilizers/pesticides, and multiple cropping intensifies both time and space. I and III are correct \u2192 Only two.", "options": {"A": "None of the above are correct", "B": "Only one is correct", "C": "Only two are correct", "D": "Only three are correct", "E": "All four are correct"}, "correct_letter": "C", "id": 27}, {"section": "Sequential Cropping & Ratoon Cropping", "difficulty": "Easy", "type": "recall", "q": "Sequential Cropping is defined as growing two or more crops:", "exp": "Sequential cropping = growing two or more crops in sequence on the same land in a farming year, one after another.", "options": {"A": "On separate, unrelated plots of land", "B": "At different heights on the same field at the same time", "C": "Only as ratoon crops from stubble", "D": "In sequence on the same piece of land in a farming year, one after the other", "E": "Simultaneously on the same field with no distinct arrangement"}, "correct_letter": "D", "id": 28}, {"section": "Sequential Cropping & Ratoon Cropping", "difficulty": "Moderate", "type": "recall", "q": "Which of the following is given as an example of DOUBLE (sequential) cropping in the text?", "exp": "Rice-Potato and Rice-Mustard are given as examples of double cropping.", "options": {"A": "Short duration rice-mustard-mungbean-short duration rice", "B": "Rice-Potato-Groundnut", "C": "Coconut-black pepper-Cacao-Pineapple", "D": "Wheat-Rice-Wheat-Chickpea", "E": "Rice-Potato"}, "correct_letter": "E", "id": 29}, {"section": "Sequential Cropping & Ratoon Cropping", "difficulty": "Hard", "type": "recall", "q": "Which of the following is cited in the text as an example of TRIPLE sequential cropping?", "exp": "Rice-Potato-Groundnut is given as an example of triple sequential cropping.", "options": {"A": "Rice-Potato-Groundnut", "B": "Wheat-Chickpea", "C": "Rice-Mustard", "D": "Short duration rice-mustard-mungbean-short duration rice", "E": "Rice-Potato"}, "correct_letter": "A", "id": 30}, {"section": "Sequential Cropping & Ratoon Cropping", "difficulty": "Hard", "type": "recall", "q": "Which of the following is cited in the text as an example of QUADRUPLE sequential cropping?", "exp": "The example given for quadruple sequential cropping is: short duration rice-mustard-mungbean-short duration rice.", "options": {"A": "Rice-Potato-Groundnut", "B": "Short duration rice-mustard-mungbean-short duration rice", "C": "Wheat-Rice-Wheat", "D": "Rice-Mustard", "E": "Maize-Wheat-Maize-Wheat"}, "correct_letter": "B", "id": 31}, {"section": "Sequential Cropping & Ratoon Cropping", "difficulty": "Moderate", "type": "recall", "q": "The tendency of some cut crops to resprout is termed, as per the text:", "exp": "When crops are cut, some have a tendency to resprout \u2014 this is called ratooning.", "options": {"A": "Strip intercropping", "B": "Companion cropping", "C": "Ratooning", "D": "Relay cropping", "E": "Ley farming"}, "correct_letter": "C", "id": 32}, {"section": "Sequential Cropping & Ratoon Cropping", "difficulty": "Moderate", "type": "recall", "q": "Ratoon cropping is also referred to in the text by all of the following names EXCEPT:", "exp": "Ratoon cropping is also called stubble cropping, re-harvesting, and second crop \u2014 not companion cropping (a different, unrelated concept).", "options": {"A": "Re-harvesting", "B": "Ratoon cropping", "C": "Stubble cropping", "D": "Companion cropping", "E": "Second crop"}, "correct_letter": "D", "id": 33}, {"section": "Sequential Cropping & Ratoon Cropping", "difficulty": "Easy", "type": "recall", "q": "Which crops are given as examples of Ratoon Cropping in the text?", "exp": "Sugarcane and Rice are cited as examples of ratoon cropping.", "options": {"A": "Cotton and Groundnut", "B": "Soybean and Chickpea", "C": "Wheat and Maize", "D": "Turmeric and Banana", "E": "Sugarcane and Rice"}, "correct_letter": "E", "id": 34}, {"section": "Sequential Cropping & Ratoon Cropping", "difficulty": "Hard", "type": "notcorrect", "q": "Which of the following statements about Sequential and Ratoon Cropping is NOT correct?", "exp": "Ratoon cropping specifically avoids replanting \u2014 a fresh crop is grown from stubbles/suckers of the existing plant.", "options": {"A": "Ratoon cropping requires complete replanting of the crop from fresh seed after each harvest", "B": "Sequential cropping can be classified as double, triple or quadruple based on the number of crops grown", "C": "Sugarcane and Rice are given as examples of ratoon cropping", "D": "Sequential cropping involves growing crops in sequence on the same land in a farming year", "E": "Ratoon cropping grows a fresh crop from stubbles or suckers of the plant crop without replanting"}, "correct_letter": "A", "id": 35}, {"section": "Sequential Cropping & Ratoon Cropping", "difficulty": "Hard", "type": "statement", "q": "Consider the following statements:\nI. Rice-Potato is an example of double cropping.\nII. Rice-Potato-Groundnut is an example of quadruple sequential cropping.\nIII. Ratooning refers to the tendency of cut crops to resprout.\nIV. Ratoon cropping is also called stubble cropping or re-harvesting.\nHow many of the above statements are correct?", "exp": "Statement II is false \u2014 Rice-Potato-Groundnut is a TRIPLE (not quadruple) sequential cropping example. I, III, IV are correct \u2192 Only three.", "options": {"A": "None of the above are correct", "B": "Only three are correct", "C": "Only two are correct", "D": "Only one is correct", "E": "All four are correct"}, "correct_letter": "B", "id": 36}, {"section": "Sequential Cropping & Ratoon Cropping", "difficulty": "Moderate", "type": "statement", "q": "Consider the following statements regarding sequential cropping classification based on number of crops per year:\nI. Double cropping refers to two crops grown in a year.\nII. Triple cropping refers to three crops grown in a year.\nIII. Quadruple cropping refers to five crops grown in a year.\nIV. Sequential cropping refers to crops grown one after the other on the same land.\nHow many of the above statements are correct?", "exp": "Statement III is false \u2014 quadruple cropping means FOUR crops in a year, not five. I, II, IV are correct \u2192 Only three.", "options": {"A": "Only two are correct", "B": "Only one is correct", "C": "Only three are correct", "D": "All four are correct", "E": "None of the above are correct"}, "correct_letter": "C", "id": 37}, {"section": "Intercropping (Types & Companion Cropping)", "difficulty": "Easy", "type": "recall", "q": "Intercropping refers to growing two or more crops:", "exp": "Intercropping = growing two or more crops in the same field at the same time.", "options": {"A": "In sequence, one after another, on the same field", "B": "On separate fields located far apart", "C": "Only as a soil conservation measure with grasses", "D": "In the same field at the same time", "E": "Only under multistoreyed conditions with trees"}, "correct_letter": "D", "id": 38}, {"section": "Intercropping (Types & Companion Cropping)", "difficulty": "Moderate", "type": "recall", "q": "Which type of intercropping involves growing two or more crops simultaneously with no distinct row arrangement?", "exp": "Mixed intercropping: two or more crops grown simultaneously with no distinct row arrangement.", "options": {"A": "Row intercropping", "B": "Relay intercropping", "C": "Sequential intercropping", "D": "Strip intercropping", "E": "Mixed intercropping"}, "correct_letter": "E", "id": 39}, {"section": "Intercropping (Types & Companion Cropping)", "difficulty": "Moderate", "type": "recall", "q": "Which type of intercropping involves component crops arranged in alternate rows?", "exp": "Row intercropping involves component crops arranged in alternate rows.", "options": {"A": "Row intercropping", "B": "Mixed intercropping", "C": "Relay intercropping", "D": "Strip intercropping", "E": "Ratoon intercropping"}, "correct_letter": "A", "id": 40}, {"section": "Intercropping (Types & Companion Cropping)", "difficulty": "Hard", "type": "recall", "q": "Strip intercropping involves growing two or more crops in strips that are:", "exp": "Strip intercropping: strips wide enough for independent cultivation but narrow enough for agronomic interaction between crops.", "options": {"A": "Only usable for ratoon crops", "B": "Wide enough to permit independent cultivation but narrow enough for the crops to interact agronomically", "C": "Limited strictly to a single row per crop", "D": "Too narrow to allow any mechanized cultivation at all", "E": "So wide that the crops never interact agronomically"}, "correct_letter": "B", "id": 41}, {"section": "Intercropping (Types & Companion Cropping)", "difficulty": "Hard", "type": "recall", "q": "Relay intercropping involves planting a second crop:", "exp": "In relay intercropping, the second crop is planted after the first reaches its reproductive stage but before harvest, so both share part of the season.", "options": {"A": "Only as a ratoon crop from the first crop's stubble", "B": "At the exact same time as sowing the first crop, in alternate rows", "C": "After the first crop has reached its reproductive stage but before it is ready for harvest", "D": "Only after the first crop has been fully harvested and cleared", "E": "Before the first crop has even been sown"}, "correct_letter": "C", "id": 42}, {"section": "Intercropping (Types & Companion Cropping)", "difficulty": "Hard", "type": "recall", "q": "The concept describing raising morphologically and physiologically different, mutually complementary crops with potential under declining water conditions is termed in the text as:", "exp": "The text refers to this concept \u2014 under relay intercropping \u2014 as 'complementary intensive intercropping systems'.", "options": {"A": "Ratoon cropping systems", "B": "Sequential rotation systems", "C": "Ley farming systems", "D": "Complementary intensive intercropping systems", "E": "Multistoreyed cropping systems"}, "correct_letter": "D", "id": 43}, {"section": "Intercropping (Types & Companion Cropping)", "difficulty": "Moderate", "type": "recall", "q": "Companion cropping, as defined in the text, refers to:", "exp": "Companion cropping = a secondary crop planted to increase or hasten returns on a plot of land.", "options": {"A": "A crop grown solely to control weeds by grazing livestock", "B": "A crop grown at a different height under a taller canopy crop", "C": "A crop resprouted from stubble after harvest", "D": "A crop grown in rotation with grasses for soil conservation", "E": "A secondary crop planted to increase or hasten returns on a plot of land"}, "correct_letter": "E", "id": 44}, {"section": "Intercropping (Types & Companion Cropping)", "difficulty": "Moderate", "type": "recall", "q": "Which example is given in the text for Companion Cropping?", "exp": "The text gives Sugarcane + Toria as the example of companion cropping.", "options": {"A": "Sugarcane + Toria", "B": "Legume (Cowpea) + Cereal (Maize)", "C": "Grass + Stylosanthes", "D": "Rice + Potato", "E": "Coconut + Black pepper"}, "correct_letter": "A", "id": 45}, {"section": "Intercropping (Types & Companion Cropping)", "difficulty": "Hard", "type": "notcorrect", "q": "Which of the following statements about the types of Intercropping is NOT correct?", "exp": "Strip intercropping strips are wide enough to permit independent cultivation \u2014 not too narrow, as the false statement claims.", "options": {"A": "Mixed intercropping has no distinct row arrangement for the crops grown", "B": "Strip intercropping strips are made deliberately too narrow to permit any independent cultivation of each crop", "C": "Row intercropping arranges component crops in alternate rows", "D": "There are four types of intercropping described in the text: mixed, row, strip and relay", "E": "Relay intercropping means both crops share part of the growing season"}, "correct_letter": "B", "id": 46}, {"section": "Intercropping (Types & Companion Cropping)", "difficulty": "Hard", "type": "statement", "q": "Consider the following statements about Intercropping:\nI. Mixed intercropping has no distinct row arrangement.\nII. Relay intercropping involves planting the second crop only after the first crop is completely harvested.\nIII. Strip intercropping strips permit independent cultivation while allowing agronomic interaction.\nIV. Companion cropping example given in the text is Sugarcane + Toria.\nHow many of the above statements are correct?", "exp": "Statement II is false \u2014 in relay intercropping the second crop is planted before the first is fully harvested (they share part of the season). I, III, IV are correct \u2192 Only three.", "options": {"A": "All four are correct", "B": "None of the above are correct", "C": "Only three are correct", "D": "Only two are correct", "E": "Only one is correct"}, "correct_letter": "C", "id": 47}, {"section": "Intercropping (Types & Companion Cropping)", "difficulty": "Moderate", "type": "statement", "q": "Consider the following statements:\nI. There are four types of intercropping: mixed, row, strip and relay.\nII. Row intercropping has no distinct arrangement of crops.\nIII. Companion cropping is a secondary crop planted to hasten returns.\nIV. Intercropping means growing two or more crops on the same field but never at the same time.\nHow many of the above statements are correct?", "exp": "Statements II and IV are false (row intercropping HAS a distinct alternate-row arrangement; intercropping is specifically at the SAME time). I and III are correct \u2192 Only two.", "options": {"A": "None of the above are correct", "B": "Only one is correct", "C": "Only three are correct", "D": "Only two are correct", "E": "All four are correct"}, "correct_letter": "D", "id": 48}, {"section": "Rice Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "Rice-based cropping system is described in the text as a mix of practices where rice is:", "exp": "Rice-based cropping system comprises rice as the major crop followed by subsequent cultivation of other crops.", "options": {"A": "Grown only once every alternate year", "B": "Never rotated with any other crop", "C": "Grown exclusively as a ratoon crop", "D": "Grown only under multistoreyed canopy systems", "E": "The major crop followed by subsequent cultivation of other crops"}, "correct_letter": "E", "id": 49}, {"section": "Rice Based Cropping System", "difficulty": "Hard", "type": "recall", "q": "In the mixed varietal cropping of rice practiced in West Bengal, early rice seed is mixed with late-maturing deep-water rice seed in what ratio, and for what purpose?", "exp": "The text states early rice and late maturing deep-water rice seeds are mixed in a 1:1 ratio in West Bengal to avoid total crop loss during floods, giving higher yield than sole cropping.", "options": {"A": "1:1 ratio, to avoid total crop loss in the event of flood", "B": "1:3 ratio, to reduce irrigation requirement", "C": "2:1 ratio, to improve seed germination rate", "D": "4:1 ratio, to control weed growth", "E": "3:1 ratio, to maximize fertilizer efficiency"}, "correct_letter": "A", "id": 50}, {"section": "Rice Based Cropping System", "difficulty": "Hard", "type": "recall", "q": "In Tamil Nadu and Kerala, a mixture of autumn and winter rice varieties is frequently grown in which ratio?", "exp": "Growing a mixture of autumn and winter varieties in 3:1 ratio is frequently practiced in Tamil Nadu and Kerala.", "options": {"A": "4:1", "B": "3:1", "C": "2:1", "D": "1:4", "E": "1:1"}, "correct_letter": "B", "id": 51}, {"section": "Rice Based Cropping System", "difficulty": "Hard", "type": "recall", "q": "Under upland conditions in north and north-eastern India, rice is commonly intercropped with all of the following EXCEPT:", "exp": "The text lists blackgram, greengram, sesame, maize, finger millet or other minor millets as intercrops with rice in upland north/north-east India \u2014 chickpea is not mentioned here.", "options": {"A": "Sesame", "B": "Blackgram", "C": "Chickpea", "D": "Finger millet", "E": "Greengram"}, "correct_letter": "C", "id": 52}, {"section": "Rice Based Cropping System", "difficulty": "Hard", "type": "recall", "q": "The preferred ratio of rice to intercrop under upland intercropping conditions in north and north-eastern India, as per the text, is:", "exp": "The text states the ratio of rice to intercrop is preferred to be 3-4:1.", "options": {"A": "5:1", "B": "2:3", "C": "1:3", "D": "3-4:1", "E": "1:1"}, "correct_letter": "D", "id": 53}, {"section": "Rice Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "Relay/paira/utera cropping involves broadcasting the seed of succeeding crops into:", "exp": "In relay/paira/utera cropping, seed of succeeding crops (lentil, gram, pea, lathyrus, berseem, linseed etc.) is broadcast into the maturing rice crop.", "options": {"A": "A field under multistoreyed cropping", "B": "A pasture under ley farming", "C": "A field being prepared for ratoon cropping", "D": "A freshly harvested, bare field", "E": "A maturing rice crop"}, "correct_letter": "E", "id": 54}, {"section": "Rice Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "Which of the following crops is NOT mentioned in the text as being broadcast under Relay/paira/utera cropping in a maturing rice crop?", "exp": "The text lists lentil, gram, pea, lathyrus, berseem and linseed for relay/paira/utera cropping \u2014 groundnut is not mentioned here.", "options": {"A": "Groundnut", "B": "Pea", "C": "Linseed", "D": "Gram", "E": "Lentil"}, "correct_letter": "A", "id": 55}, {"section": "Rice Based Cropping System", "difficulty": "Easy", "type": "recall", "q": "One of the key benefits of relay/paira/utera cropping mentioned in the text is that it:", "exp": "The text states this practice saves time and money (on land preparation etc.) and utilizes residual fertility.", "options": {"A": "Prevents any use of residual soil fertility", "B": "Saves time and money, and utilizes residual fertility", "C": "Requires no seed of the succeeding crop", "D": "Requires complete land preparation before sowing", "E": "Eliminates the need for rice cultivation entirely"}, "correct_letter": "B", "id": 56}, {"section": "Rice Based Cropping System", "difficulty": "Hard", "type": "notcorrect", "q": "Which of the following statements regarding the types of Rice-based Cropping System is NOT correct?", "exp": "Sequential cropping in rice refers to crops grown before or after rice (in sequence), not simultaneously in the same row \u2014 that would be intercropping.", "options": {"A": "Mixed varietal cropping of rice is practiced in West Bengal to avoid flood-related crop loss", "B": "Sequential cropping in rice refers to crops grown as preceding or succeeding rice", "C": "Sequential cropping in rice refers exclusively to crops grown simultaneously with rice in the same row", "D": "Relay/paira/utera cropping broadcasts seed of succeeding crops into a maturing rice crop", "E": "Intercropping rice with blackgram, greengram or sesame is common under upland conditions in north-eastern India"}, "correct_letter": "C", "id": 57}, {"section": "Rice Based Cropping System", "difficulty": "Hard", "type": "notcorrect", "q": "Which of the following is NOT listed as a category of Rice-based Cropping System in the text?", "exp": "The four types listed are mixed varietal cropping, intercropping, relay/paira/utera cropping, and sequential cropping \u2014 multistoreyed cropping of rice is not among them.", "options": {"A": "Mixed varietal cropping of rice", "B": "Intercropping rice with other crops", "C": "Sequential cropping in rice", "D": "Multistoreyed cropping of rice", "E": "Relay/paira/utera cropping"}, "correct_letter": "D", "id": 58}, {"section": "Rice Based Cropping System", "difficulty": "Hard", "type": "statement", "q": "Consider the following statements about Rice-based Cropping System:\nI. Mixed varietal cropping mixes early and late-maturing rice seed in 1:1 ratio in West Bengal.\nII. The ratio of rice to intercrop under upland intercropping is preferred at 3-4:1.\nIII. Relay/paira/utera cropping requires complete removal of the standing rice crop before sowing the succeeding crop.\nIV. A rice-based cropping system may involve rotation with cereals, pulses, oilseeds, cotton, sugarcane, green manures and vegetables.\nHow many of the above statements are correct?", "exp": "Statement III is false \u2014 relay/paira/utera cropping broadcasts seed into the STANDING maturing rice crop, without removing it first. I, II, IV are correct \u2192 Only three.", "options": {"A": "Only one is correct", "B": "Only two are correct", "C": "None of the above are correct", "D": "All four are correct", "E": "Only three are correct"}, "correct_letter": "E", "id": 59}, {"section": "Rice Based Cropping System", "difficulty": "Moderate", "type": "statement", "q": "Consider the following statements:\nI. Autumn and winter rice varieties are mixed in a 3:1 ratio in Tamil Nadu and Kerala.\nII. Rice-based cropping system is a major cropping system practiced in India.\nIII. Relay/paira/utera cropping saves time and money on land preparation.\nIV. Rice can never be intercropped with maize under any condition described in the text.\nHow many of the above statements are correct?", "exp": "Statement IV is false \u2014 the text explicitly mentions rice intercropped with maize among other crops under upland conditions. I, II, III are correct \u2192 Only three.", "options": {"A": "Only three are correct", "B": "None of the above are correct", "C": "Only two are correct", "D": "Only one is correct", "E": "All four are correct"}, "correct_letter": "A", "id": 60}, {"section": "Rice Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "Which crops does the text mention as part of the crop rotation typically involved in India's rice-based cropping system?", "exp": "The text states the rotation includes cereals, pulses, oilseeds, cotton, sugarcane, green manures and vegetables etc.", "options": {"A": "Only oilseeds and vegetables", "B": "Cereals, pulses, oilseeds, cotton, sugarcane, green manures and vegetables", "C": "Only cereals and pulses", "D": "Only cotton and sugarcane", "E": "Only green manures and cereals"}, "correct_letter": "B", "id": 61}, {"section": "Root Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "The Root Crop Farming System, as described in the text, involves growing root/tuber crops such as Cassava and Sweet Potato in rotation with:", "exp": "Root/tuber crops like cassava and sweet potato are grown in rotation with rice or maize.", "options": {"A": "Groundnut or Soybean", "B": "Turmeric or Banana", "C": "Rice or Maize", "D": "Wheat or Barley", "E": "Cotton or Sugarcane"}, "correct_letter": "C", "id": 62}, {"section": "Root Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "The most suitable agro-ecological zones for the Root Crop Farming System, as per the text, are:", "exp": "The text states the most suitable land for root-based cropping is largely moist sub-humid and humid agro-ecological zones.", "options": {"A": "High-altitude alpine zones", "B": "Arid and semi-arid zones", "C": "Cold temperate zones", "D": "Moist sub-humid and humid zones", "E": "Coastal saline zones"}, "correct_letter": "D", "id": 63}, {"section": "Root Based Cropping System", "difficulty": "Hard", "type": "notcorrect", "q": "Which of the following statements about the Root Based Cropping System is NOT correct?", "exp": "The text specifies moist sub-humid and humid zones as most suitable \u2014 not arid/semi-arid zones.", "options": {"A": "It is a recognized type of cropping system alongside rice-based and grain-legume based systems", "B": "These crops are grown in rotation with Rice or Maize", "C": "It is most suitable for moist sub-humid and humid agro-ecological zones", "D": "It involves root or tuber crops like Cassava and Sweet Potato", "E": "It is most suitable for arid and semi-arid agro-ecological zones"}, "correct_letter": "E", "id": 64}, {"section": "Root Based Cropping System", "difficulty": "Easy", "type": "recall", "q": "Which two root/tuber crops are specifically named in the text under the Root Based Cropping System?", "exp": "The text names Cassava and Sweet Potato as examples of root/tuber crops in this system.", "options": {"A": "Cassava and Sweet Potato", "B": "Turmeric and Ginger", "C": "Potato and Turmeric", "D": "Sweet Potato and Sugarcane", "E": "Groundnut and Cassava"}, "correct_letter": "A", "id": 65}, {"section": "Root Based Cropping System", "difficulty": "Moderate", "type": "statement", "q": "Consider the following statements about the Root Based Cropping System:\nI. It involves crops like Cassava and Sweet Potato.\nII. These crops are grown in rotation with Rice or Maize.\nIII. It is most suited to arid, water-scarce zones.\nIV. It is one of the three types of cropping systems mentioned, alongside rice-based and grain-legume based systems.\nHow many of the above statements are correct?", "exp": "Statement III is false \u2014 the system suits moist sub-humid and humid zones, not arid zones. I, II, IV are correct \u2192 Only three.", "options": {"A": "Only one is correct", "B": "Only three are correct", "C": "None of the above are correct", "D": "All four are correct", "E": "Only two are correct"}, "correct_letter": "B", "id": 66}, {"section": "Grain-Legume Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "Grain legumes fulfil important roles in cropping systems primarily as a source of which nutrient for the following crop?", "exp": "The text states grain legumes are sources of nitrogen for the following crop, besides phytosanitary effects and supporting biodiversity.", "options": {"A": "Phosphorus", "B": "Potassium", "C": "Nitrogen", "D": "Zinc", "E": "Sulphur"}, "correct_letter": "C", "id": 67}, {"section": "Grain-Legume Based Cropping System", "difficulty": "Hard", "type": "recall", "q": "Which of the following is NOT listed in the text as a grain legume commonly grown in sub-humid and semi-arid zones?", "exp": "Listed grain legumes: cowpeas, soybeans, groundnuts, red gram, black gram, green gram, alfalfa and common beans. Wheat is a cereal, not a legume.", "options": {"A": "Groundnuts", "B": "Cowpeas", "C": "Alfalfa", "D": "Wheat", "E": "Soybeans"}, "correct_letter": "D", "id": 68}, {"section": "Grain-Legume Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "As per the text, grain-legume based cropping systems support farm biodiversity and also provide which effects in crop rotation?", "exp": "The text states legumes fulfil roles as nitrogen sources, phytosanitary effects in crop rotation, and support for farm biodiversity.", "options": {"A": "Only mechanical soil-loosening effects", "B": "Purely ornamental effects", "C": "Only aesthetic landscaping effects", "D": "Exclusively pest-attracting effects", "E": "Phytosanitary effects"}, "correct_letter": "E", "id": 69}, {"section": "Grain-Legume Based Cropping System", "difficulty": "Hard", "type": "notcorrect", "q": "Which of the following statements about Grain-Legume Based Cropping System is NOT correct?", "exp": "The text explicitly says grain legumes are grown as mono crop, intercrop, or in rotation with other crops \u2014 not only as sole crops.", "options": {"A": "Grain legumes are grown only as sole/mono crops and are never intercropped or rotated with other crops", "B": "Grain legumes support farm biodiversity", "C": "Common grain legumes include cowpeas, soybeans, groundnuts and common beans", "D": "Grain legumes act as a nitrogen source for the following crop", "E": "Grain legumes have phytosanitary effects in crop rotation"}, "correct_letter": "A", "id": 70}, {"section": "Grain-Legume Based Cropping System", "difficulty": "Moderate", "type": "statement", "q": "Consider the following statements about Grain-Legume Based Cropping System:\nI. Grain legumes serve as a nitrogen source for the following crop.\nII. Grain legumes are grown as mono crop, intercrop, or in rotation with other crops.\nIII. Red gram, black gram and green gram are listed as examples of grain legumes.\nIV. Grain-legume based systems are most suited to cold, temperate high-altitude zones.\nHow many of the above statements are correct?", "exp": "Statement IV is false \u2014 the text states these systems suit sub-humid and semi-arid zones, not cold high-altitude zones. I, II, III are correct \u2192 Only three.", "options": {"A": "Only two are correct", "B": "Only three are correct", "C": "All four are correct", "D": "None of the above are correct", "E": "Only one is correct"}, "correct_letter": "B", "id": 71}, {"section": "Grain-Legume Based Cropping System", "difficulty": "Easy", "type": "recall", "q": "Which of the following is listed in the text as a grain legume?", "exp": "Groundnuts are among the grain legumes named in the text, along with cowpeas, soybeans, red gram, black gram, green gram, alfalfa, and common beans.", "options": {"A": "Rice", "B": "Wheat", "C": "Groundnuts", "D": "Sugarcane", "E": "Maize"}, "correct_letter": "C", "id": 72}, {"section": "Grain-Legume Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "Grain-legume based cropping systems are commonly grown in which agro-ecological zones as per the text?", "exp": "The text states grain legumes are commonly grown in the sub-humid and semi-arid zones.", "options": {"A": "Coastal mangrove zones only", "B": "Alpine tundra zones only", "C": "Humid tropical rainforest zones only", "D": "Sub-humid and semi-arid zones", "E": "Arid desert zones only"}, "correct_letter": "D", "id": 73}, {"section": "Maize Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "Among different maize-based cropping systems, which one ranks 1st, having maximum area concentrated mainly in rainfed ecologies?", "exp": "The text states Maize-Wheat ranks 1st among maize-based cropping systems, with maximum area mainly in rainfed ecologies.", "options": {"A": "Cotton-Maize", "B": "Maize-Chickpea", "C": "Maize-Mustard", "D": "Maize-Maize", "E": "Maize-Wheat"}, "correct_letter": "E", "id": 74}, {"section": "Maize Based Cropping System", "difficulty": "Hard", "type": "recall", "q": "Which of the following is NOT listed in the text among the major maize-based cropping systems in India?", "exp": "The text lists Maize-Wheat, Maize-Mustard, Maize-Chickpea, Maize-Maize and Cotton-Maize; Maize-Sugarcane is not mentioned.", "options": {"A": "Maize-Sugarcane", "B": "Maize-Mustard", "C": "Maize-Chickpea", "D": "Maize-Maize", "E": "Cotton-Maize"}, "correct_letter": "A", "id": 75}, {"section": "Maize Based Cropping System", "difficulty": "Hard", "type": "recall", "q": "As per the text, the water use efficiency of maize-based cropping systems was found to be how much higher, at different locations?", "exp": "The text states water use efficiency of maize-based cropping systems was about 100 to 200% higher at different locations.", "options": {"A": "About 300 to 400% higher", "B": "About 100 to 200% higher", "C": "About 500% higher", "D": "About 10 to 20% higher", "E": "About 50 to 75% higher"}, "correct_letter": "B", "id": 76}, {"section": "Maize Based Cropping System", "difficulty": "Moderate", "type": "notcorrect", "q": "Which of the following statements about the Maize Based Cropping System is NOT correct?", "exp": "Maize-Wheat ranks 1st (having MAXIMUM, not least, area) among maize-based cropping systems.", "options": {"A": "Maize-Mustard and Maize-Chickpea are among the other major maize-based systems", "B": "Maize-Wheat area is mainly concentrated in rainfed ecologies", "C": "Maize-Wheat has the least area among maize-based cropping systems in India", "D": "Water use efficiency of maize-based systems is about 100 to 200% higher at different locations", "E": "Maize-Wheat ranks 1st among maize-based cropping systems by area"}, "correct_letter": "C", "id": 77}, {"section": "Maize Based Cropping System", "difficulty": "Hard", "type": "statement", "q": "Consider the following statements about Maize Based Cropping System:\nI. Maize-Wheat ranks first by area among maize-based systems.\nII. Maize-Wheat area is mainly concentrated in rainfed ecologies.\nIII. Cotton-Maize is listed as one of the major maize systems in India.\nIV. The water use efficiency of maize-based systems was found to be about 500-600% higher at different locations.\nHow many of the above statements are correct?", "exp": "Statement IV is false \u2014 the figure given in the text is about 100 to 200% higher, not 500-600%. I, II, III are correct \u2192 Only three.", "options": {"A": "Only two are correct", "B": "None of the above are correct", "C": "All four are correct", "D": "Only three are correct", "E": "Only one is correct"}, "correct_letter": "D", "id": 78}, {"section": "Maize Based Cropping System", "difficulty": "Easy", "type": "recall", "q": "Which crop pairing is described in the text as ranking 1st among maize-based cropping systems in India?", "exp": "Maize-Wheat ranks 1st among maize-based cropping systems in India as per the text.", "options": {"A": "Maize-Cotton", "B": "Maize-Rice", "C": "Maize-Groundnut", "D": "Maize-Sugarcane", "E": "Maize-Wheat"}, "correct_letter": "E", "id": 79}, {"section": "Maize Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "Other major maize-based systems mentioned in the text besides Maize-Wheat include all of the following EXCEPT:", "exp": "The text lists Maize-Mustard, Maize-Chickpea, Maize-Maize and Cotton-Maize; Maize-Groundnut is not mentioned.", "options": {"A": "Maize-Groundnut", "B": "Maize-Mustard", "C": "Maize-Chickpea", "D": "Maize-Maize", "E": "Cotton-Maize"}, "correct_letter": "A", "id": 80}, {"section": "Wheat Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "Which is described in the text as one of the major cropping systems under wheat-based cropping systems?", "exp": "The text states one of the major wheat-based cropping systems is the Wheat-Rice cropping system.", "options": {"A": "Wheat-Sugarcane cropping system", "B": "Wheat-Rice cropping system", "C": "Wheat-Banana cropping system", "D": "Wheat-Turmeric cropping system", "E": "Wheat-Cotton cropping system"}, "correct_letter": "B", "id": 81}, {"section": "Wheat Based Cropping System", "difficulty": "Hard", "type": "recall", "q": "Which of the following is NOT listed in the text as a major Rice-Wheat growing state?", "exp": "The text lists Punjab, Haryana, Uttar Pradesh, Himachal Pradesh, Bihar and West Bengal as major Rice-Wheat growing states \u2014 Maharashtra is not mentioned.", "options": {"A": "Haryana", "B": "Punjab", "C": "Maharashtra", "D": "Uttar Pradesh", "E": "Bihar"}, "correct_letter": "C", "id": 82}, {"section": "Wheat Based Cropping System", "difficulty": "Hard", "type": "recall", "q": "Which of the following states IS listed in the text as a major Rice-Wheat growing state?", "exp": "Himachal Pradesh is listed among the major Rice-Wheat growing states, along with Punjab, Haryana, UP, Bihar and West Bengal.", "options": {"A": "Kerala", "B": "Tamil Nadu", "C": "Maharashtra", "D": "Himachal Pradesh", "E": "Gujarat"}, "correct_letter": "D", "id": 83}, {"section": "Wheat Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "Which of the following is listed in the text as one of the 'other' wheat-based cropping systems, besides Wheat-Rice?", "exp": "Other wheat-based systems named: Wheat-Chickpea, Wheat-fallow, Wheat-Rice-Wheat, Wheat-Green manure-Wheat, and Wheat-fallow-Wheat.", "options": {"A": "Wheat-Groundnut", "B": "Wheat-Mustard", "C": "Wheat-Cotton", "D": "Wheat-Sugarcane", "E": "Wheat-Chickpea"}, "correct_letter": "E", "id": 84}, {"section": "Wheat Based Cropping System", "difficulty": "Hard", "type": "notcorrect", "q": "Which of the following statements regarding the Wheat Based Cropping System is NOT correct?", "exp": "Wheat-fallow and Wheat-fallow-Wheat ARE explicitly listed among the wheat-based cropping systems in the text.", "options": {"A": "Wheat-fallow and Wheat-fallow-Wheat are not recognized wheat-based systems mentioned in the text", "B": "Wheat-Chickpea is listed as one of the wheat-based cropping systems", "C": "Wheat-Rice is described as one of the major wheat-based cropping systems", "D": "Punjab, Haryana, Uttar Pradesh, Himachal Pradesh, Bihar and West Bengal are named as major Rice-Wheat growing states", "E": "Wheat-Green manure-Wheat is listed as one of the wheat-based cropping systems"}, "correct_letter": "A", "id": 85}, {"section": "Wheat Based Cropping System", "difficulty": "Moderate", "type": "statement", "q": "Consider the following statements about Wheat Based Cropping System:\nI. Wheat-Rice is described as a major wheat-based cropping system.\nII. Punjab and Haryana are listed as major Rice-Wheat growing states.\nIII. Wheat-Green manure-Wheat is listed as one of the other wheat-based systems.\nIV. Wheat-based systems are entirely absent from West Bengal as per the text.\nHow many of the above statements are correct?", "exp": "Statement IV is false \u2014 West Bengal is explicitly listed as a major Rice-Wheat growing state. I, II, III are correct \u2192 Only three.", "options": {"A": "All four are correct", "B": "Only three are correct", "C": "Only two are correct", "D": "None of the above are correct", "E": "Only one is correct"}, "correct_letter": "B", "id": 86}, {"section": "Wheat Based Cropping System", "difficulty": "Easy", "type": "recall", "q": "Which of the following systems is NOT mentioned under 'Wheat based cropping system' in the text?", "exp": "The text lists Wheat-Rice, Wheat-Chickpea, Wheat-fallow, Wheat-Rice-Wheat, Wheat-Green manure-Wheat and Wheat-fallow-Wheat \u2014 not Wheat-Sugarcane.", "options": {"A": "Wheat-Chickpea", "B": "Wheat-Rice-Wheat", "C": "Wheat-Sugarcane", "D": "Wheat-Green manure-Wheat", "E": "Wheat-fallow"}, "correct_letter": "C", "id": 87}, {"section": "Sugarcane Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "Combining crops with sugarcane in time and space helps achieve which outcome as per the text?", "exp": "The text states this combination helps balance resource/input use, maintain optimum leaf area, and maximize solar energy harvesting for sustainable production.", "options": {"A": "Complete elimination of any need for fertilizer inputs", "B": "Elimination of pest control requirements", "C": "Permanent monocropping of sugarcane alone", "D": "Balanced use of natural resources and applied inputs, and maximum harvesting of solar energy for sustainable production", "E": "Total avoidance of intercropping practices"}, "correct_letter": "D", "id": 88}, {"section": "Sugarcane Based Cropping System", "difficulty": "Hard", "type": "recall", "q": "Which of the following is NOT listed in the text as a crop suitable for growing in sequence with sugarcane?", "exp": "The text lists Rice, Banana, Turmeric, Groundnut, Cowpea, Black gram, Green gram, Soybean, Daincha and Sunn-hemp \u2014 Maize is not mentioned.", "options": {"A": "Banana", "B": "Groundnut", "C": "Rice", "D": "Turmeric", "E": "Maize"}, "correct_letter": "E", "id": 89}, {"section": "Sugarcane Based Cropping System", "difficulty": "Moderate", "type": "recall", "q": "Which of the following IS listed in the text as a crop suitable for growing in sequence with sugarcane?", "exp": "Sunn-hemp is listed among crops suitable for sequencing with sugarcane, along with rice, banana, turmeric, groundnut, cowpea, black gram, green gram, soybean and daincha.", "options": {"A": "Sunn-hemp", "B": "Maize", "C": "Barley", "D": "Mustard", "E": "Wheat"}, "correct_letter": "A", "id": 90}, {"section": "Sugarcane Based Cropping System", "difficulty": "Hard", "type": "notcorrect", "q": "Which of the following statements about the Sugarcane Based Cropping System is NOT correct?", "exp": "The text states this combination FACILITATES development and maintenance of optimum leaf area \u2014 it does not reduce it.", "options": {"A": "Combining crops with sugarcane facilitates maximum harvesting of solar energy", "B": "Combining other crops with sugarcane reduces the maintenance of optimum leaf area throughout the season", "C": "Rice, Banana and Turmeric are listed as crops suitable for sequencing with sugarcane", "D": "Sugarcane based cropping helps in balanced use of both natural resources and applied inputs", "E": "Cowpea, Black gram, Green gram and Soybean are listed as suitable crops for sequencing with sugarcane"}, "correct_letter": "B", "id": 91}, {"section": "Sugarcane Based Cropping System", "difficulty": "Moderate", "type": "statement", "q": "Consider the following statements about Sugarcane Based Cropping System:\nI. Daincha and Sunn-hemp are listed as suitable crops for sequencing with sugarcane.\nII. Groundnut and Turmeric are listed as suitable crops for sequencing with sugarcane.\nIII. Sugarcane based cropping helps maximize the harvesting of solar energy.\nIV. Wheat is explicitly listed as a crop grown in sequence with sugarcane.\nHow many of the above statements are correct?", "exp": "Statement IV is false \u2014 wheat is not among the crops listed for sequencing with sugarcane. I, II, III are correct \u2192 Only three.", "options": {"A": "Only two are correct", "B": "All four are correct", "C": "Only three are correct", "D": "None of the above are correct", "E": "Only one is correct"}, "correct_letter": "C", "id": 92}, {"section": "Sugarcane Based Cropping System", "difficulty": "Easy", "type": "recall", "q": "Which of the following crops is listed in the text as suitable for growing in sequence with sugarcane?", "exp": "Black gram is among the crops listed: Rice, Banana, Turmeric, Groundnut, Cowpea, Black gram, Green gram, Soybean, Daincha, Sunn-hemp.", "options": {"A": "Maize", "B": "Wheat", "C": "Mustard", "D": "Black gram", "E": "Barley"}, "correct_letter": "D", "id": 93}, {"section": "Multistoreyed / Multi-level Cropping", "difficulty": "Easy", "type": "recall", "q": "Multistoreyed or Multi-level cropping involves growing crops that are:", "exp": "Multistoreyed cropping = two or more crops of different heights grown simultaneously on a piece of land.", "options": {"A": "Of the same height, grown in sequence", "B": "Grown in rotation with grasses over several years", "C": "Grown only underground, such as root crops", "D": "Grown only as a single tall canopy crop", "E": "Of different heights, simultaneously on a piece of land"}, "correct_letter": "E", "id": 94}, {"section": "Multistoreyed / Multi-level Cropping", "difficulty": "Moderate", "type": "recall", "q": "Which of the following is given as an example of a multistoreyed cropping combination in the text?", "exp": "Coconut-black pepper-Cacao-Pineapple is one of the multistoreyed cropping examples given in the text.", "options": {"A": "Coconut-black pepper-Cacao-Pineapple", "B": "Wheat-Rice-Wheat", "C": "Grass + Stylosanthes", "D": "Rice-Potato-Groundnut", "E": "Maize-Wheat-Chickpea"}, "correct_letter": "A", "id": 95}, {"section": "Multistoreyed / Multi-level Cropping", "difficulty": "Hard", "type": "recall", "q": "Which of the following is NOT listed in the text as an example of a multistoreyed cropping combination?", "exp": "The text's multistoreyed examples are Coconut-based combinations; Sugarcane-Rice-Banana-Turmeric is not one of them (those crops appear separately under the sugarcane-based cropping system).", "options": {"A": "Coconut-black pepper-Cacao-Pineapple", "B": "Sugarcane-Rice-Banana-Turmeric", "C": "Coconut-Jackfruit-coffee-Papaya-Pineapple", "D": "Coconut-Papaya-Pineapple", "E": "Coconut-black pepper-Cacao-Pineapple"}, "correct_letter": "B", "id": 96}, {"section": "Multistoreyed / Multi-level Cropping", "difficulty": "Moderate", "type": "recall", "q": "Which of the following is listed as an advantage of multi-storied cropping system in the text?", "exp": "The text lists better use of growth resources (sunlight, nutrient, water) as an advantage, along with yield stability, ecological stability and income flow.", "options": {"A": "Elimination of the need for ecological balance", "B": "Guaranteed elimination of all pest and disease problems", "C": "Better use of growth resources including sunlight, nutrient and water", "D": "Reduced labour requirement compared to monocropping", "E": "Complete ease of mechanization"}, "correct_letter": "C", "id": 97}, {"section": "Multistoreyed / Multi-level Cropping", "difficulty": "Hard", "type": "notcorrect", "q": "Which of the following is NOT listed as a disadvantage of multi-storied cropping in the text?", "exp": "The listed disadvantages are labour intensiveness, difficulty of chemical control, difficulty in mechanization, and adverse competitive/allelopathic effects \u2014 increased soil erosion is not mentioned.", "options": {"A": "There is difficulty in mechanization", "B": "There may be an adverse competitive effect or allelopathy", "C": "Chemical control of weeds, pests and diseases may be difficult", "D": "It leads to greater soil erosion compared to monocropping systems", "E": "It is labour intensive"}, "correct_letter": "D", "id": 98}, {"section": "Multistoreyed / Multi-level Cropping", "difficulty": "Moderate", "type": "recall", "q": "Allelopathy, as defined in the text, is a biological phenomenon by which an organism:", "exp": "Allelopathy = a biological phenomenon where an organism produces biochemicals influencing germination, growth, survival and reproduction of other organisms.", "options": {"A": "Resprouts from cut stubble without replanting", "B": "Shares its root system physically with a neighbouring plant", "C": "Converts sunlight into stored starch more efficiently than others", "D": "Absorbs nitrogen exclusively from the atmosphere for its own growth", "E": "Produces one or more biochemicals that influence the germination, growth, survival, and reproduction of other organisms"}, "correct_letter": "E", "id": 99}, {"section": "Multistoreyed / Multi-level Cropping", "difficulty": "Hard", "type": "statement", "q": "Consider the following statements about Multistoreyed Cropping:\nI. It involves crops of different heights grown simultaneously on a piece of land.\nII. One advantage listed is yield stability through suppression of weed growth.\nIII. One disadvantage listed is difficulty in mechanization.\nIV. Allelopathy is listed as a guaranteed advantage of this system.\nHow many of the above statements are correct?", "exp": "Statement IV is false \u2014 allelopathy is discussed as a potential DISADVANTAGE (adverse competitive effect), not an advantage. I, II, III are correct \u2192 Only three.", "options": {"A": "Only three are correct", "B": "Only two are correct", "C": "None of the above are correct", "D": "All four are correct", "E": "Only one is correct"}, "correct_letter": "A", "id": 100}, {"section": "Multistoreyed / Multi-level Cropping", "difficulty": "Easy", "type": "recall", "q": "Which of the following is listed among the advantages of multi-storied cropping system in the text?", "exp": "Flow of income during cropping periods is listed as an advantage, along with better resource use, yield stability and ecological stability.", "options": {"A": "Automatic mechanization of all field operations", "B": "Flow of income during cropping periods", "C": "Total elimination of chemical pest control needs", "D": "Complete freedom from labour requirements", "E": "Guaranteed absence of any competitive effects among crops"}, "correct_letter": "B", "id": 101}, {"section": "Multistoreyed / Multi-level Cropping", "difficulty": "Moderate", "type": "notcorrect", "q": "Which of the following statements about Multistoreyed Cropping is NOT correct?", "exp": "Multistoreyed cropping specifically involves crops of DIFFERENT heights, not the same height.", "options": {"A": "Coconut-Papaya-Pineapple is an example combination", "B": "It can suppress weed growth, contributing to yield stability", "C": "It always involves crops of the exact same height grown in strict rows", "D": "It improves ecological stability including soil health", "E": "It involves crops of different heights grown simultaneously"}, "correct_letter": "C", "id": 102}, {"section": "Multistoreyed / Multi-level Cropping", "difficulty": "Moderate", "type": "statement", "q": "Consider the following statements:\nI. Ecological stability, including improved soil health, is listed as an advantage of multistoreyed cropping.\nII. Labour intensity is listed as a disadvantage of multistoreyed cropping.\nIII. Coconut-Jackfruit-coffee-Papaya-Pineapple is one of the example combinations given.\nIV. Multistoreyed cropping is stated in the text to require no chemical control of pests at all.\nHow many of the above statements are correct?", "exp": "Statement IV is false \u2014 the text says chemical control of weeds, pests and diseases MAY BE DIFFICULT, not unnecessary. I, II, III are correct \u2192 Only three.", "options": {"A": "Only two are correct", "B": "All four are correct", "C": "None of the above are correct", "D": "Only three are correct", "E": "Only one is correct"}, "correct_letter": "D", "id": 103}, {"section": "Ley Farming", "difficulty": "Easy", "type": "recall", "q": "Ley Farming is defined in the text as:", "exp": "Ley farming = growing grass or legumes in rotation with grain or tilled crops as a soil conservation measure.", "options": {"A": "The broadcasting of succeeding crop seeds into standing rice", "B": "The growing of crops at different heights on the same land", "C": "The mixing of two rice varieties in a fixed ratio", "D": "The permanent cultivation of a single grain crop without rotation", "E": "The growing of grass or legumes in rotation with grain or tilled crops as a soil conservation measure"}, "correct_letter": "E", "id": 104}, {"section": "Ley Farming", "difficulty": "Moderate", "type": "recall", "q": "Ley farming is described in the text as a type of:", "exp": "The text states ley farming is a type of crop rotation involving annual and perennial crops (grasses, legumes).", "options": {"A": "Crop rotation", "B": "Relay intercropping", "C": "Multistoreyed cropping", "D": "Companion cropping", "E": "Ratoon cropping"}, "correct_letter": "A", "id": 105}, {"section": "Ley Farming", "difficulty": "Moderate", "type": "recall", "q": "Ley farming is described as particularly important for increased fodder production, which is a critical component of:", "exp": "The text states ley farming is important for increased fodder production, a critical component in rainfed farming.", "options": {"A": "Greenhouse farming", "B": "Rainfed farming", "C": "Irrigated multistoreyed farming", "D": "Coastal aquaculture farming", "E": "Hydroponic farming"}, "correct_letter": "B", "id": 106}, {"section": "Ley Farming", "difficulty": "Moderate", "type": "recall", "q": "Which combination is given as an example of Ley Farming in the text?", "exp": "Grass + stylosanthes is given as the example of ley farming.", "options": {"A": "Coconut + Black pepper", "B": "Wheat + Chickpea", "C": "Grass + Stylosanthes", "D": "Rice + Potato", "E": "Sugarcane + Toria"}, "correct_letter": "C", "id": 107}, {"section": "Ley Farming", "difficulty": "Hard", "type": "recall", "q": "In the ley farming cycle diagram shown in the text, which sequence is depicted?", "exp": "The diagram shows a cycle alternating between Pasture/Legume (e.g. Cowpea) and Cereal (e.g. Maize).", "options": {"A": "Rice \u2192 Wheat \u2192 Rice, in a fixed annual cycle", "B": "Grass \u2192 Sugarcane \u2192 Grass, in a soil recovery cycle", "C": "Sugarcane \u2192 Rice \u2192 Banana, in a fixed sequence", "D": "Pasture (or Legume, e.g. Cowpea) \u2192 Cereal (e.g. Maize) \u2192 back to Pasture/Legume", "E": "Coconut \u2192 Papaya \u2192 Pineapple, in a multistoreyed cycle"}, "correct_letter": "D", "id": 108}, {"section": "Ley Farming", "difficulty": "Hard", "type": "recall", "q": "As per the text, meadow grasses under ley farming increase soil organic matter by approximately how much per year?", "exp": "The text states it has been scientifically proven that meadow grasses increase soil organic matter by about 0.1% per year.", "options": {"A": "About 10%", "B": "About 1%", "C": "About 0.01%", "D": "About 5%", "E": "About 0.1%"}, "correct_letter": "E", "id": 109}, {"section": "Ley Farming", "difficulty": "Moderate", "type": "recall", "q": "Which advantage of ley farming relates to legumes improving soil fertility and grain quality because nitrogen is otherwise used up by grains?", "exp": "This is the 'Improvement of nitrogen content for subsequent plantations' advantage \u2014 legumes offset nitrogen depletion caused by grain crops.", "options": {"A": "Improvement of nitrogen content for subsequent plantations", "B": "Preventing deep drainage and erosion", "C": "Controlling the growth of weeds", "D": "Restoration of soil and organic matter structure", "E": "Improves livestock efficiency"}, "correct_letter": "A", "id": 110}, {"section": "Ley Farming", "difficulty": "Moderate", "type": "recall", "q": "Which advantage of ley farming is achieved through cattle grazing on unwanted plants in the pasture?", "exp": "Cattle grazing on unwanted plants under ley pastures is the mechanism behind the 'controlling the growth of weeds' advantage.", "options": {"A": "Preventing deep drainage and erosion", "B": "Controlling the growth of weeds", "C": "Improvement of nitrogen content for subsequent plantations", "D": "Restoration of soil and organic matter structure", "E": "Natural fertilizers"}, "correct_letter": "B", "id": 111}, {"section": "Ley Farming", "difficulty": "Hard", "type": "recall", "q": "Which advantage of ley farming is explained by perennial pasture root systems developing well and accessing water/nutrients at considerable depth, thereby drying the top layer?", "exp": "This is the 'Preventing deep drainage and erosion' advantage \u2014 deep perennial roots dry the top layer, preventing water/nutrient loss during drainage.", "options": {"A": "Improves livestock efficiency", "B": "Improvement of nitrogen content for subsequent plantations", "C": "Preventing deep drainage and erosion", "D": "Natural fertilizers", "E": "Controlling the growth of weeds"}, "correct_letter": "C", "id": 112}, {"section": "Ley Farming", "difficulty": "Hard", "type": "notcorrect", "q": "Which of the following is NOT listed as an advantage of Ley Farming in the text?", "exp": "Seed quality and weather-related risks are actually listed as DISADVANTAGES of ley farming, not eliminated advantages.", "options": {"A": "Improvement of nitrogen content for subsequent plantations", "B": "Improves livestock efficiency", "C": "Controlling the growth of weeds", "D": "Guaranteed elimination of all seed quality and weather-related risks", "E": "Restoration of soil and organic matter structure"}, "correct_letter": "D", "id": 113}, {"section": "Ley Farming", "difficulty": "Hard", "type": "notcorrect", "q": "Which of the following is NOT listed as a disadvantage of Ley Farming in the text?", "exp": "Ley farming is stated to INCREASE soil organic matter (about 0.1% per year via meadow grasses) \u2014 it does not permanently reduce it.", "options": {"A": "Unfavorable weather conditions can create problems", "B": "Problems can arise due to improper seed preparation or low seed quality", "C": "A certain interval must sometimes be observed before removing and sowing plants", "D": "It requires considerable time and investment of money", "E": "It permanently reduces soil organic matter content over time"}, "correct_letter": "E", "id": 114}, {"section": "Ley Farming", "difficulty": "Hard", "type": "statement", "q": "Consider the following statements about Ley Farming:\nI. It is defined as growing grass or legumes in rotation with grain or tilled crops as a soil conservation measure.\nII. It involves the use of only annual crops, never perennial crops.\nIII. Grass + Stylosanthes is given as an example.\nIV. It is important for increased fodder production in rainfed farming.\nHow many of the above statements are correct?", "exp": "Statement II is false \u2014 the text explicitly states ley farming uses both annual AND perennial crops (grasses, legumes). I, III, IV are correct \u2192 Only three.", "options": {"A": "Only three are correct", "B": "Only two are correct", "C": "None of the above are correct", "D": "All four are correct", "E": "Only one is correct"}, "correct_letter": "A", "id": 115}, {"section": "Ley Farming", "difficulty": "Hard", "type": "statement", "q": "Consider the following statements regarding the advantages of Ley Farming:\nI. Legume pastures alone (without grass) are stated to produce the desired effect just as well as when combined with grass.\nII. Meadow grasses are scientifically proven to increase soil organic matter by about 0.1% per year.\nIII. Ley farming improves livestock efficiency by providing high nutritional support during grazing, improving milk quality.\nIV. Ley farming is listed as contributing natural fertilizers to the soil.\nHow many of the above statements are correct?", "exp": "Statement I is false \u2014 the text says legume pastures CANNOT produce the desired effect if used separately (without grass as a helper). II, III, IV are correct \u2192 Only three.", "options": {"A": "Only one is correct", "B": "Only three are correct", "C": "Only two are correct", "D": "None of the above are correct", "E": "All four are correct"}, "correct_letter": "B", "id": 116}, {"section": "Ley Farming", "difficulty": "Moderate", "type": "statement", "q": "Consider the following statements regarding the disadvantages of Ley Farming:\nI. It requires considerable time and monetary investment.\nII. Problems may arise from improper seed preparation or low seed quality.\nIII. It is stated in the text to require no interval before removing and sowing new plants.\nIV. Unfavourable weather conditions may create problems for the system.\nHow many of the above statements are correct?", "exp": "Statement III is false \u2014 the text says it is sometimes necessary to observe a certain interval before removing and sowing plants. I, II, IV are correct \u2192 Only three.", "options": {"A": "Only two are correct", "B": "None of the above are correct", "C": "Only three are correct", "D": "Only one is correct", "E": "All four are correct"}, "correct_letter": "C", "id": 117}, {"section": "Ley Farming", "difficulty": "Easy", "type": "recall", "q": "Which of the following is listed as a disadvantage of Ley Farming in the text?", "exp": "Considerable time and monetary investment is explicitly listed as a disadvantage of ley farming.", "options": {"A": "It eliminates the possibility of livestock grazing", "B": "It requires no seed preparation whatsoever", "C": "It always reduces soil fertility permanently", "D": "It requires considerable time and investment of money", "E": "It cannot be combined with legumes at all"}, "correct_letter": "D", "id": 118}, {"section": "Ley Farming", "difficulty": "Moderate", "type": "notcorrect", "q": "Which of the following statements about Ley Farming is NOT correct?", "exp": "The text explicitly states ley farming IS a type of crop rotation, not unrelated to it.", "options": {"A": "Ley farming is a soil conservation measure involving grass or legumes in rotation with grain or tilled crops", "B": "Grass + Stylosanthes is given as an example of ley farming", "C": "It uses both annual and perennial crops such as grasses and legumes", "D": "It plays an important role in fodder production for rainfed farming", "E": "Ley farming is described in the text as entirely unrelated to the concept of crop rotation"}, "correct_letter": "E", "id": 119}, {"section": "Ley Farming", "difficulty": "Moderate", "type": "recall", "q": "'Natural fertilizers' is listed in the text as which type of outcome of ley farming?", "exp": "Natural fertilizers is listed among the advantages of ley farming, alongside improved nitrogen content, soil restoration, weed control, erosion prevention and livestock efficiency.", "options": {"A": "An advantage", "B": "A disadvantage", "C": "A type of intercropping", "D": "A type of ratoon cropping", "E": "A precondition"}, "correct_letter": "A", "id": 120}];
+const SECTIONS = ["Cropping System vs Farming System", "Cropping Pattern - Basics", "Monoculture & Monocropping", "Multiple Cropping, Intensive Farming & Crop Rotation", "Sequential Cropping & Ratoon Cropping", "Intercropping (Types & Companion Cropping)", "Rice Based Cropping System", "Root Based Cropping System", "Grain-Legume Based Cropping System", "Maize Based Cropping System", "Wheat Based Cropping System", "Sugarcane Based Cropping System", "Multistoreyed / Multi-level Cropping", "Ley Farming"];
+
+// ---------- State ----------
+let state = {
+  mode: null,          // 'full' | 'section'
+  order: 'pdf',         // 'pdf' | 'shuffled'
+  sectionName: null,
+  pool: [],             // active question ids in play order
+  idx: 0,
+  answers: {},           // qid -> {selected, correct, skipped}
+  score: 0
+};
+
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function sectionCount(name){
+  return QUESTIONS.filter(q=>q.section===name).length;
+}
+
+// ---------- Render: HOME ----------
+function renderHome(){
+  hideAll();
+  const el = document.getElementById('screen-home');
+  el.classList.remove('hidden');
+  el.innerHTML = `
+    <div class="app-font">
+      <div class="home-title">Choose your practice mode</div>
+      <div class="home-sub">121 exam-style questions (5 options, A–E) covering every section of the source document — direct recall, "NOT correct" trap questions, and multi-statement "how many are correct" questions.</div>
+      <div class="mode-grid">
+        <div class="mode-card" id="card-full">
+          <div class="mode-icon full">&#9776;</div>
+          <h3>Full Practice Test</h3>
+          <p>Attempt all ${QUESTIONS.length} questions in one sitting. Choose PDF order (as the document flows) or a fresh shuffle each attempt.</p>
+        </div>
+        <div class="mode-card" id="card-section">
+          <div class="mode-icon sect">&#9673;</div>
+          <h3>Section-wise Revision</h3>
+          <p>Drill one topic at a time — pick from all 14 sections of the document, each showing its own question count.</p>
+        </div>
+      </div>
+      <div class="stat-strip">
+        <div class="stat-chip">Sections <b>${SECTIONS.length}</b></div>
+        <div class="stat-chip">Statement-based <b>${QUESTIONS.filter(q=>q.type==='statement').length}</b></div>
+        <div class="stat-chip">Hard <b>${QUESTIONS.filter(q=>q.difficulty==='Hard').length}</b></div>
+        <div class="stat-chip">Moderate <b>${QUESTIONS.filter(q=>q.difficulty==='Moderate').length}</b></div>
+        <div class="stat-chip">Easy <b>${QUESTIONS.filter(q=>q.difficulty==='Easy').length}</b></div>
+      </div>
+    </div>
+  `;
+  document.getElementById('card-full').onclick = ()=>renderFullSetup();
+  document.getElementById('card-section').onclick = ()=>renderSectionPick();
+}
+
+// ---------- Render: FULL TEST SETUP (inline on home replaced by a small setup panel) ----------
+function renderFullSetup(){
+  hideAll();
+  const el = document.getElementById('screen-sectionpick');
+  el.classList.remove('hidden');
+  el.innerHTML = `
+    <div class="app-font">
+      <div class="topbar-mini">
+        <a class="back-link" id="backHome">&larr; Back to menu</a>
+      </div>
+      <div class="home-title">Full Practice Test</div>
+      <div class="home-sub">All ${QUESTIONS.length} questions. Choose the order in which they appear.</div>
+      <div class="toggle-row">
+        Question order:
+        <div class="toggle-switch">
+          <div class="toggle-opt ${state.order==='pdf'?'active':''}" id="opt-pdf">PDF Order</div>
+          <div class="toggle-opt ${state.order==='shuffled'?'active':''}" id="opt-shuffled">Shuffled</div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="startFull">Start Full Test &rarr;</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('backHome').onclick = renderHome;
+  document.getElementById('opt-pdf').onclick = ()=>{state.order='pdf';renderFullSetup();};
+  document.getElementById('opt-shuffled').onclick = ()=>{state.order='shuffled';renderFullSetup();};
+  document.getElementById('startFull').onclick = ()=>{
+    let ids = QUESTIONS.map(q=>q.id);
+    if(state.order==='shuffled') ids = shuffleArr(ids);
+    startQuiz('full', ids, null);
+  };
+}
+
+// ---------- Render: SECTION PICK GRID ----------
+function renderSectionPick(){
+  hideAll();
+  const el = document.getElementById('screen-sectionpick');
+  el.classList.remove('hidden');
+  let tiles = SECTIONS.map(s=>{
+    const c = sectionCount(s);
+    return `<div class="section-tile" data-sec="${escapeAttr(s)}">
+      <h4>${s}</h4>
+      <span class="count-badge">${c} question${c===1?'':'s'}</span>
+    </div>`;
+  }).join('');
+  el.innerHTML = `
+    <div class="app-font">
+      <div class="topbar-mini">
+        <a class="back-link" id="backHome">&larr; Back to menu</a>
+      </div>
+      <div class="home-title">Section-wise Revision</div>
+      <div class="home-sub">Tap a topic to drill only those questions.</div>
+      <div class="section-grid">${tiles}</div>
+    </div>
+  `;
+  document.getElementById('backHome').onclick = renderHome;
+  el.querySelectorAll('.section-tile').forEach(t=>{
+    t.onclick = ()=>{
+      const sec = t.getAttribute('data-sec');
+      const ids = QUESTIONS.filter(q=>q.section===sec).map(q=>q.id);
+      startQuiz('section', ids, sec);
+    };
+  });
+}
+
+function escapeAttr(s){ return s.replace(/"/g,'&quot;'); }
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ---------- Quiz flow ----------
+function startQuiz(mode, ids, sectionName){
+  state.mode = mode;
+  state.sectionName = sectionName;
+  state.pool = ids;
+  state.idx = 0;
+  state.answers = {};
+  state.score = 0;
+  renderQuiz();
+}
+
+function currentQ(){
+  const id = state.pool[state.idx];
+  return QUESTIONS.find(q=>q.id===id);
+}
+
+function renderQuiz(){
+  hideAll();
+  const el = document.getElementById('screen-quiz');
+  el.classList.remove('hidden');
+  const q = currentQ();
+  const total = state.pool.length;
+  const answered = Object.keys(state.answers).length;
+  const pct = Math.round((state.idx)/total*100);
+  const letters = ['A','B','C','D','E'];
+
+  const already = state.answers[q.id];
+
+  let optsHtml = letters.map(L=>{
+    const txt = q.options[L];
+    let cls = 'opt';
+    if(already){
+      cls += ' locked';
+      if(L===q.correct_letter) cls += ' correct';
+      else if(L===already.selected) cls += ' wrong';
+      else cls += ' dim';
+    }
+    return `<div class="${cls}" data-letter="${L}">
+      <div class="letter">${L}</div>
+      <div>${escapeHtml(txt)}</div>
+    </div>`;
+  }).join('');
+
+  let explainHtml = '';
+  if(already){
+    explainHtml = `<div class="explain-box"><b>${already.skipped? 'Skipped — correct answer: '+q.correct_letter : (already.correct? 'Correct!' : 'Not quite — correct answer: '+q.correct_letter)}.</b><br>${escapeHtml(q.exp)}</div>`;
+  }
+
+  el.innerHTML = `
+    <div class="app-font">
+      <div class="quiz-header">
+        <div class="qmeta">
+          ${state.mode==='section' ? `<b>${state.sectionName}</b> &middot; ` : ''}Question <b>${state.idx+1}</b> of <b>${total}</b>
+        </div>
+        <div class="score-box">Score: ${state.score} / ${answered}</div>
+      </div>
+      <div class="progress-outer"><div class="progress-inner" style="width:${pct}%"></div></div>
+      <div>
+        <span class="diff-tag diff-${q.difficulty}">${q.difficulty}</span>
+        <span class="type-tag">${q.section}</span>
+      </div>
+      <div class="question-text">${escapeHtml(q.q)}</div>
+      <div class="options">${optsHtml}</div>
+      ${explainHtml}
+      <div class="qfooter">
+        <div>
+          <button class="btn btn-secondary" id="btnMenu">Back to Menu</button>
+        </div>
+        <div class="btn-row" style="margin-top:0">
+          ${!already ? '<button class="btn btn-ghost" id="btnSkip">Skip &rarr;</button>' : ''}
+          <button class="btn btn-primary" id="btnNext" ${already?'':'disabled'}>${state.idx+1===total ? 'Finish Quiz' : 'Next Question &rarr;'}</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('btnMenu').onclick = renderHome;
+
+  if(!already){
+    el.querySelectorAll('.opt').forEach(o=>{
+      o.onclick = ()=>{
+        const sel = o.getAttribute('data-letter');
+        const correct = sel === q.correct_letter;
+        state.answers[q.id] = {selected: sel, correct: correct, skipped:false};
+        if(correct) state.score++;
+        renderQuiz();
+      };
+    });
+    const skipBtn = document.getElementById('btnSkip');
+    if(skipBtn) skipBtn.onclick = ()=>{
+      state.answers[q.id] = {selected:null, correct:false, skipped:true};
+      renderQuiz();
+    };
+  } else {
+    document.getElementById('btnNext').onclick = ()=>{
+      if(state.idx+1 === total){
+        renderResults();
+      } else {
+        state.idx++;
+        renderQuiz();
+      }
+    };
+  }
+}
+
+// ---------- Results ----------
+function renderResults(){
+  hideAll();
+  const el = document.getElementById('screen-results');
+  el.classList.remove('hidden');
+  const total = state.pool.length;
+  const answeredIds = state.pool.filter(id=>state.answers[id] && !state.answers[id].skipped);
+  const skippedIds = state.pool.filter(id=>state.answers[id] && state.answers[id].skipped);
+  const correctCount = state.pool.filter(id=>state.answers[id] && state.answers[id].correct).length;
+  const pct = total ? Math.round(correctCount/total*100) : 0;
+
+  const diffs = ['Easy','Moderate','Hard'];
+  const diffStats = diffs.map(d=>{
+    const idsInDiff = state.pool.filter(id=>QUESTIONS.find(q=>q.id===id).difficulty===d);
+    const correctInDiff = idsInDiff.filter(id=>state.answers[id] && state.answers[id].correct).length;
+    return {d, total: idsInDiff.length, correct: correctInDiff};
+  });
+
+  const missedIds = state.pool.filter(id=>{
+    const a = state.answers[id];
+    return a && !a.correct; // includes wrong + skipped
+  });
+
+  let reviewHtml = missedIds.length===0 ? '<p style="font-family:Segoe UI,sans-serif;color:var(--ink-soft);font-size:13px;">Nothing missed — clean sweep!</p>' :
+    missedIds.map(id=>{
+      const q = QUESTIONS.find(qq=>qq.id===id);
+      const a = state.answers[id];
+      const tag = a.skipped ? '<span class="review-tag tag-skip">SKIPPED</span>' : '<span class="review-tag tag-wrong">INCORRECT</span>';
+      const yourAns = a.skipped ? '—' : (a.selected + '. ' + q.options[a.selected]);
+      return `<div class="review-item">
+        <div>${tag}<span class="diff-tag diff-${q.difficulty}" style="margin-left:4px;">${q.difficulty}</span></div>
+        <div class="rq">${escapeHtml(q.q)}</div>
+        <div class="review-answers">
+          ${a.skipped ? '' : '<div><b>Your answer:</b> '+escapeHtml(yourAns)+'</div>'}
+          <div><b>Correct answer:</b> ${q.correct_letter}. ${escapeHtml(q.options[q.correct_letter])}</div>
+          <div style="margin-top:4px;">${escapeHtml(q.exp)}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+  el.innerHTML = `
+    <div class="app-font">
+      <div class="result-hero">
+        <div class="result-score">${correctCount}<span> / ${total}</span></div>
+        <div class="result-sub">${pct}% accuracy ${state.mode==='section' ? '&middot; '+state.sectionName : '&middot; Full Practice Test ('+(state.order==='pdf'?'PDF Order':'Shuffled')+')'}</div>
+      </div>
+      <div class="diff-breakdown">
+        ${diffStats.map(s=>`<div class="diff-block"><div class="num">${s.total? Math.round(s.correct/s.total*100):0}%</div><div class="lbl">${s.d} (${s.correct}/${s.total})</div></div>`).join('')}
+        <div class="diff-block"><div class="num">${skippedIds.length}</div><div class="lbl">Skipped</div></div>
+      </div>
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn btn-primary" id="btnRetry">Retry Same Set</button>
+        <button class="btn btn-secondary" id="btnMenu2">Back to Menu</button>
+      </div>
+      <div class="section-title">Review — Missed &amp; Skipped (${missedIds.length})</div>
+      <div class="review-list">${reviewHtml}</div>
+    </div>
+  `;
+  document.getElementById('btnRetry').onclick = ()=>{
+    let ids = state.pool.slice();
+    if(state.mode==='full' && state.order==='shuffled') ids = shuffleArr(state.pool.slice());
+    startQuiz(state.mode, ids, state.sectionName);
+  };
+  document.getElementById('btnMenu2').onclick = renderHome;
+}
+
+function hideAll(){
+  ['screen-home','screen-sectionpick','screen-quiz','screen-results'].forEach(id=>{
+    document.getElementById(id).classList.add('hidden');
+  });
+}
+
+// init
+document.getElementById('qcountpill').textContent = QUESTIONS.length + ' Questions';
+renderHome();
+</script>
+</body>
+</html>

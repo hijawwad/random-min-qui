@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NABARD Grade A — Agronomy & Field Crops Practice Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root{
+    --bg:#0e1117; --panel:#161b24; --panel2:#1c2230; --border:#2a3346;
+    --text:#e6e9ef; --muted:#8b93a7; --accent:#4f8cff; --accent2:#7c5cff;
+    --green:#22c55e; --red:#ef4444; --amber:#f5b942; --easy:#22c55e; --mod:#f5b942; --hard:#ef4444;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:radial-gradient(circle at 20% -10%,#1a2136,var(--bg) 60%);color:var(--text);min-height:100vh;}
+  .wrap{max-width:900px;margin:0 auto;padding:22px 16px 60px;}
+  h1{font-size:1.35rem;margin:0 0 4px;letter-spacing:.3px;}
+  .sub{color:var(--muted);font-size:.85rem;margin-bottom:22px;}
+  .card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 6px 20px rgba(0,0,0,.35);}
+  .btn{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:white;padding:12px 18px;border-radius:10px;font-size:.95rem;cursor:pointer;font-weight:600;transition:transform .1s, opacity .15s;}
+  .btn:hover{opacity:.92;}
+  .btn:active{transform:scale(.97);}
+  .btn.secondary{background:var(--panel2);border:1px solid var(--border);color:var(--text);}
+  .btn.ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+  .row{display:flex;gap:12px;flex-wrap:wrap;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:14px;}
+  .topic{background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;transition:.15s;}
+  .topic:hover{border-color:var(--accent);transform:translateY(-2px);}
+  .topic h3{margin:0 0 6px;font-size:.92rem;}
+  .topic span{color:var(--muted);font-size:.78rem;}
+  .toggle-group{display:flex;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px;}
+  .toggle-group button{flex:1;background:transparent;border:none;color:var(--muted);padding:9px 10px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600;}
+  .toggle-group button.active{background:var(--accent);color:white;}
+  .progress-wrap{height:8px;background:var(--panel2);border-radius:6px;overflow:hidden;margin:10px 0 16px;border:1px solid var(--border);}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .25s;}
+  .meta-row{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:var(--muted);margin-bottom:6px;}
+  .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.3px;}
+  .badge.Easy{background:rgba(34,197,94,.15);color:var(--easy);}
+  .badge.Moderate{background:rgba(245,185,66,.15);color:var(--mod);}
+  .badge.Hard{background:rgba(239,68,68,.15);color:var(--hard);}
+  .qtext{font-size:1.03rem;line-height:1.5;margin:10px 0 16px;white-space:pre-line;}
+  .opt{display:block;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:12px 14px;border-radius:10px;margin-bottom:9px;cursor:pointer;font-size:.92rem;transition:.12s;line-height:1.4;}
+  .opt:hover{border-color:var(--accent);}
+  .opt.correct{background:rgba(34,197,94,.18);border-color:var(--green);}
+  .opt.wrong{background:rgba(239,68,68,.18);border-color:var(--red);}
+  .opt.disabled{cursor:default;}
+  .opt b{color:var(--accent);margin-right:8px;}
+  .explain{background:var(--panel2);border-left:3px solid var(--accent);padding:10px 14px;border-radius:8px;font-size:.87rem;color:var(--muted);margin-top:6px;display:none;}
+  .footer-nav{display:flex;justify-content:space-between;margin-top:18px;gap:10px;}
+  .score-pill{background:var(--panel2);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:.82rem;font-weight:700;color:var(--accent);}
+  .center{text-align:center;}
+  .hidden{display:none !important;}
+  .statlist{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0;}
+  .stat{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+  .stat .num{font-size:1.4rem;font-weight:800;}
+  .review-item{background:var(--panel2);border:1px solid var(--border);border-left:4px solid var(--red);border-radius:8px;padding:12px 14px;margin-bottom:10px;font-size:.87rem;}
+  .review-item.skipped{border-left-color:var(--amber);}
+  .review-item .q{font-weight:600;margin-bottom:6px;}
+  .review-item .ans{color:var(--green);}
+  .review-item .yours{color:var(--red);}
+  a.link, .backlink{color:var(--accent);cursor:pointer;text-decoration:none;font-size:.85rem;}
+  .flexbetween{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+  ::selection{background:var(--accent2);}
+  input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px;}
+  label.cb{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.85rem;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+/* ============ QUESTION BANK ============
+   Each question: correct answer authored at options[0].
+   Renderer rotates options deterministically per-question so the
+   correct letter cycles evenly across A-E over the whole bank. */
+const RAW = [];
+function Q(section, diff, text, opts, exp, type){
+  RAW.push({section, diff, text, opts, exp, type: type||"single"});
+}
+const MS = "Consider the following statements:\n";
+const MSQ = "\nHow many of the above statements are correct?";
+const MSOPT = ["Only one","Only two","Only three","All four","None of the above are correct"];
+
+/* ---------------- SECTION 1: Agronomy Basics ---------------- */
+Q("Agronomy Basics","Easy","The word 'Agronomy' is derived from the Greek words 'agros' and 'nomos', which respectively mean:",
+["Field and Management","Soil and Water","Crop and Harvest","Land and Law","Farm and Machine"],
+"'Agros' = field, 'nomos' = management.");
+Q("Agronomy Basics","Moderate","Who defined Agronomy as 'the science of manipulating the crop environment complex with dual aims of improving agricultural productivity and gaining a degree of understanding of the process involved'?",
+["Norman Borlaug (1980)","Jethro Tull","Pietro de'Crescenzi","M.S. Swaminathan","Blackman"],
+"This definition of Agronomy was given by Norman Borlaug in 1980.");
+Q("Agronomy Basics","Easy","Which of the following is NOT one of the three branches of Agronomy?",
+["Genetics","Crop Science","Soil Science","Environmental Science","(All are branches)"],
+"The three branches are Crop Science, Soil Science, and Environmental Science.");
+Q("Agronomy Basics","Moderate",MS+"I. Agronomy has four major dimensions.\nII. The Physical dimension includes soil, water, nutrients, and solar radiation.\nIII. The Economic dimension includes food, nutrition and health.\nIV. The Social dimension includes farm structure and land ownership."+MSQ,
+["Only one","Only two","Only three","All four","None of the above are correct"],
+"Statement III and IV are swapped — Economic dimension covers farm structure/ownership/markets; Social dimension covers food/nutrition/health. Only I and II are correct.",
+"multi");
+Q("Agronomy Basics","Hard","Who is regarded as the 'Father of Agronomy'?",
+["Pietro de'Crescenzi","Jethro Tull","Norman Borlaug","Justus von Liebig","Charles Darwin"],
+"Pietro de'Crescenzi is the father of Agronomy.");
+Q("Agronomy Basics","Moderate","The central theme of Agronomy is best described as:",
+["Soil-Crop-Environment relationship","Seed-Water-Fertilizer relationship","Farmer-Market-Policy relationship","Plant-Pest-Pesticide relationship","Climate-Yield-Price relationship"],
+"The central theme of agronomy is the Soil-Crop-Environment relationship.");
+Q("Agronomy Basics","Easy","Which of the following is NOT listed as part of the Scope of Agronomy in the text?",
+["Genetic engineering of crop DNA","Identification of proper season for cultivation","Availability of herbicides for weed control","Water management practices","Intensive cropping"],
+"Scope of Agronomy covers season identification, cultivation methods, fertilizers, herbicides, water management and intensive cropping — not DNA engineering.");
+Q("Agronomy Basics","Easy","A 'crop' is best defined as:",
+["A plant that can be grown and harvested for profit or subsistence","Any wild plant growing in a forest","A plant that only grows in irrigated land","A genetically modified plant species","A plant used exclusively for ornamental purposes"],
+"Crop = plant grown and harvested for profit or subsistence.");
+Q("Agronomy Basics","Moderate","A Field crop is defined as a crop, other than fruits or vegetables, that is:",
+["Grown for agricultural purposes on a large scale","Grown only in glasshouses","Grown exclusively for export","Grown only using organic methods","Grown only in hilly terrain"],
+"Field crop = crop (other than fruits/vegetables) grown for agricultural purposes on a large scale.");
+Q("Agronomy Basics","Moderate",MS+"I. Agronomy is a synthesis of disciplines such as soil science, agricultural chemistry, crop physiology, plant ecology, biochemistry and economics.\nII. Crop Science as a branch of Agronomy deals only with field crops.\nIII. The Biological dimension of Agronomy includes crops, forests and vegetation.\nIV. Cotton, Cereal and Pulses are examples of field crops."+MSQ,
+["Only one","Only two","Only three","All four","None of the above are correct"],
+"All four statements are directly supported by the text.",
+"multi");
+
+/* ---------------- SECTION 2: Field Crops Classification ---------------- */
+Q("Field Crops Classification","Easy","A cereal is generally defined as a cultivated grass grown for:",
+["Their edible starchy grains","Their fibrous stems","Their oil-rich seeds","Their nitrogen-fixing roots","Their aromatic leaves"],
+"Cereal = cultivated grass grown for edible starchy grains.");
+Q("Field Crops Classification","Moderate","Cereal crops are divided into two types:",
+["Major Cereal Crops and Millets","Kharif Cereals and Rabi Cereals","Tropical Cereals and Temperate Cereals","Wet Cereals and Dry Cereals","Hybrid Cereals and Native Cereals"],
+"Cereals are divided into Major Cereal Crops and Millets.");
+Q("Field Crops Classification","Hard","Which of the following is classified as a Minor Millet in the document?",
+["Kodo millet (Paspalum scrobiculatum)","Sorghum/Jowar (Sorghum bicolor)","Bajra/Pearl millet (Pennisetum typhoides)","Ragi/Finger millet (Eleusine corcana)","Wheat (Triticum aestivum)"],
+"Kodo millet is a Minor Millet; Jowar, Bajra and Ragi are Major Millets.");
+Q("Field Crops Classification","Easy","Which of the following is NOT correct regarding Major Millets?",
+["They are grown mostly for fodder use on residual moisture","They are found in abundance and grown in large quantities","They are easy to grow","Proper irrigation is essential for growing them","Examples include Jowar, Bajra and Ragi"],
+"Growing mostly for fodder on residual moisture describes Minor Millets, not Major Millets.");
+Q("Field Crops Classification","Moderate","The word 'legume' is derived from the Latin word 'legere', meaning:",
+["To gather","To grow","To flower","To fix nitrogen","To sow"],
+"'Legere' in Latin means 'to gather'.");
+Q("Field Crops Classification","Moderate","Pulses help maintain soil fertility mainly because of their unique built-in ability to:",
+["Fix atmospheric nitrogen in their root system","Absorb excess soil salinity","Retain soil moisture for longer periods","Produce natural herbicides","Increase soil pH rapidly"],
+"Pulses fix atmospheric nitrogen through their root system.");
+Q("Field Crops Classification","Hard","Pulse crops are classified into three types based on the document. Which of the following is one of them?",
+["Beans","Cereals","Fibres","Millets","Spices"],
+"Pulses are classified as Grams, Beans, and Peas.");
+Q("Field Crops Classification","Hard","The scientific name Macrotyloma uniflorum corresponds to which pulse crop?",
+["Horse gram","Black gram/Urad","Green gram/Mung","Bengal gram/Chickpea","Red gram/Pigeon pea"],
+"Macrotyloma uniflorum = Horse gram.");
+Q("Field Crops Classification","Moderate","Which of the following pulse crops falls under the 'Peas' category rather than 'Grams' or 'Beans'?",
+["Cowpea (Vigna unguiculata)","Soybean (Glycine max)","Black gram (Phaseolus mungo)","Red gram (Cajanus cajan)","Horse gram (Macrotyloma uniflorum)"],
+"Pea (Pisum sativum) and Cowpea fall under the 'Peas' category.");
+Q("Field Crops Classification","Easy","Oil seed crops are broadly divided into:",
+["Edible and Non-edible oil seed crops","Major and Minor oil seed crops","Annual and Perennial oil seed crops","Tropical and Temperate oil seed crops","Kharif and Rabi oil seed crops"],
+"Oil seed crops are of 2 types: Edible and Non-edible.");
+Q("Field Crops Classification","Moderate","Which of the following is a Non-Edible Oil Seed Crop as per the document?",
+["Karanja (Pongamia pinnata)","Groundnut (Arachis hypogaea)","Soybean (Glysine max)","Sunflower (Helianthus annus)","Safflower (Carthamus tinctorius)"],
+"Karanja, Mahua, and Castor are non-edible oil seed crops.");
+Q("Field Crops Classification","Hard","Which of the following statements about Fibre Crops is NOT correct?",
+["Fibre crops are classified into 2 types based on the part of plant used","Cotton and Silk cotton are examples of Fruit Fibres","Jute, Mesta and Linseed are examples of Stem/Stalk/Bast Fibres","Sisal and Manila hemp are examples of Leaf/Hard Fibres","Fibres are mainly used for clothing, rope making and carpet making"],
+"Fibre crops are classified into 3 types (Fruit, Stem/Stalk/Bast, Leaf/Hard fibres), not 2.");
+Q("Field Crops Classification","Moderate","In commercial crops, what minimum percentage of the product must be intended for trade (not home consumption)?",
+["More than 75 per cent","More than 50 per cent","More than 90 per cent","More than 60 per cent","More than 40 per cent"],
+"In commercial crops, more than 75% of the product is for trade.");
+Q("Field Crops Classification","Easy","Forage crops refer to vegetative matter used as feed for animals, and include:",
+["Fodder, hay, silage and pastures","Only grains stored for cattle","Only green manure crops","Only leguminous trees","Only aromatic plants"],
+"Forage crops include fodder, hay, silage, and pastures.");
+Q("Field Crops Classification","Hard","Silage crops such as corn, legumes and grasses are harvested at early maturity, finely chopped, and stored to exclude air in:",
+["Tower silos, pits or trenches","Open fields under sunlight","Cold storage warehouses","Underground wells","Ventilated barns"],
+"Silage crops are packed tightly to exclude air and stored in tower silos, pits, or trenches.");
+Q("Field Crops Classification","Moderate","Green manure crops such as Sunnhemp (Crotalaria juncea) are grown mainly to:",
+["Incorporate plant tissue into the soil to improve soil productivity","Provide fibre for clothing","Provide oil for cooking","Serve as a staple food grain","Act as a border/guard crop only"],
+"Green manure crops are used for incorporating plant tissue into the soil to improve productivity.");
+Q("Field Crops Classification","Easy","Ginger (Zingiber officinale) and Garlic (Allium sativum) are examples of which category of field crops?",
+["Spices and Condiment Crops","Green Manure Crops","Fibre Crops","Forage Crops","Oil Seed Crops"],
+"Ginger and Garlic are Spices and Condiment crops.");
+Q("Field Crops Classification","Hard",MS+"I. Sugarcane (Saccharum officinarum) is classified as both a Sugar crop and a Commercial crop.\nII. Cotton (Gossypium hirsutum) is classified as a Fibre crop and a Commercial crop.\nIII. All minor millets require proper irrigation and are grown in large quantities.\nIV. Karanja, Mahua and Castor seeds are examples of non-edible oil seed crops."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement III is incorrect (that describes Major Millets, and minor millets grow on residual moisture). I, II and IV are correct.",
+"multi");
+Q("Field Crops Classification","Moderate","Which of the following is the correct scientific name for Cotton as given in the document?",
+["Gossypium hirsutum","Corchorus capsularis","Hibiscus cannabinus","Linum usitatisamum","Agave sisalana"],
+"Cotton = Gossypium hirsutum.");
+Q("Field Crops Classification","Hard","Which of these is NOT correct about the classification of Field Crops based on use of plants and products?",
+["Spices and Condiment crops are considered a type of Cereal crop","Cereal crops are grown for edible starchy grains","Fibre crops are grown for extraction of fibres","Sugar crops are grown to produce sugars and starch","Forage crops refer to vegetative matter used as animal feed"],
+"Spices/Condiment crops are a separate category, not a subtype of Cereal crops.");
+
+/* ---------------- SECTION 3: Ontogeny & Season ---------------- */
+Q("Ontogeny & Season","Easy","Based on lifecycle (Ontogeny), field crops are classified into how many types?",
+["Three","Two","Four","Five","Six"],
+"Three types: Annual, Biennial, and Perennial crops.");
+Q("Ontogeny & Season","Moderate","Which of the following best describes a Biennial crop?",
+["A plant with a life span of two consecutive seasons or years","A plant that completes its life cycle within one season","A plant that lives for three or more years","A plant that never produces seeds","A plant grown only in the Rabi season"],
+"Biennial crops have a life span of two consecutive seasons/years.");
+Q("Ontogeny & Season","Hard","In Biennial crops, during the first year/season the plant typically shows:",
+["Purely vegetative growth confined to a rosette of leaves","Full flowering and seed setting","Complete death after harvest","Only root decay","Rapid stem elongation and flowering"],
+"First year: purely vegetative growth, rosette of leaves, fleshy taproot storing food.");
+Q("Ontogeny & Season","Easy","Sugar beet (Beta vulgaris) is given as an example of which ontogeny-based crop class?",
+["Biennial crop","Annual crop","Perennial crop","Ephemeral crop","Semi-perennial crop"],
+"Sugar beet is the example given for biennial crops.");
+Q("Ontogeny & Season","Moderate","Napier fodder grass (Pennisetum purpureum) and Coconut (Cocos nucifera) are examples of:",
+["Perennial crops","Annual crops","Biennial crops","Kharif crops","Rabi crops"],
+"Both are examples of perennial crops (live 3+ years).");
+Q("Ontogeny & Season","Moderate","According to the season-based classification, Kharif crop sowing generally happens in:",
+["June - July","October - November","February - March","December - January","April - May"],
+"Kharif sowing season: June-July.");
+Q("Ontogeny & Season","Moderate","Rabi crops require which type of weather during their major period of growth?",
+["Cold and dry weather","Warm and wet weather","Hot and humid weather","Cold and wet weather","Warm and dry weather with shorter days"],
+"Rabi crops require cold dry weather and longer day length for flowering.");
+Q("Ontogeny & Season","Hard","Which of the following is NOT correct about Kharif crops?",
+["They require longer day length for flowering","Sowing season is June-July","Harvesting season is September-October","They require warm wet weather during major growth period","Rice, maize, castor and groundnut are examples"],
+"Kharif crops require SHORTER day length for flowering, not longer.");
+Q("Ontogeny & Season","Easy","Which of the following crops is listed as a Summer/Zaid crop?",
+["Watermelon","Wheat","Barley","Rice","Bengal gram"],
+"Zaid crop examples include watermelon, musk melon, cucumber, and seasonal vegetables.");
+Q("Ontogeny & Season","Hard",MS+"I. Classification of field crops based on season is considered a universal classification.\nII. Kharif crops require shorter day length for flowering.\nIII. Rabi harvesting season is March-April.\nIV. Summer/Zaid sowing season is February-March."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement I is false — the text explicitly says the seasonal classification is NOT a universal one. II, III, IV are correct.",
+"multi");
+
+/* ---------------- SECTION 4: Pollination & Root Systems ---------------- */
+Q("Pollination & Root Systems","Easy","Pollination by wind is scientifically termed as:",
+["Anemophily","Hydrophily","Zoophily","Entomophily","Autogamy"],
+"Wind pollination = Anemophily.");
+Q("Pollination & Root Systems","Easy","Pollination by water is scientifically termed as:",
+["Hydrophily","Anemophily","Zoophily","Entomophily","Xenogamy"],
+"Water pollination = Hydrophily.");
+Q("Pollination & Root Systems","Moderate","Pollination carried out by insects is termed:",
+["Entomophily","Zoophily","Hydrophily","Anemophily","Ornithophily"],
+"Insect pollination = Entomophily.");
+Q("Pollination & Root Systems","Moderate","Which crops are classified as Naturally/Normally self-pollinated (with cross-pollination less than 5%)?",
+["Barley, Wheat, Groundnut, Tobacco","Maize, Rye, Sugarcane, Sunflower","Sorghum, Cotton, Safflower","Alfalfa, Castor, Mustard","Beans, Hemp, Cucurbits"],
+"Self-pollinated (>95%) crops include barley, ragi, wheat, beans, grams, groundnut, sesamum, tobacco.");
+Q("Pollination & Root Systems","Hard","Which of the following field crops is described as 'Often Cross-Pollinated' (normally self-pollinated, but cross-pollination usually exceeds 5% due to various agencies)?",
+["Sorghum","Wheat","Barley","Groundnut","Tobacco"],
+"Often cross-pollinated: Sorghum, Cotton, Safflower.");
+Q("Pollination & Root Systems","Hard","Which of the following is a Naturally/Normally cross-pollinated field crop (>95% cross-pollination)?",
+["Maize","Wheat","Barley","Groundnut","Sesamum"],
+"Field crops with >95% cross-pollination include Alfalfa, Castor, Beans, Hemp, Maize, Rye, Mustard, Sugarcane, Sunflower.");
+Q("Pollination & Root Systems","Moderate","Based on depth of root system, crops whose roots extend to more than 1.5 metres are classified as:",
+["Deep root crops","Shallow root crops","Intermediate crops","Fibrous root crops","Tap root crops"],
+"Deep root crops extend beyond 1.5 metres (e.g., Alfalfa).");
+Q("Pollination & Root Systems","Moderate","Wheat, barley and rye are given as examples of which root-depth category?",
+["Shallow root crops","Intermediate crops","Deep root crops","Tap root crops only","Adventitious root crops only"],
+"Wheat, barley and rye are shallow root crops (up to 1 metre).");
+Q("Pollination & Root Systems","Hard","Faba bean and sugar beet are cited as examples of which root system depth category?",
+["Intermediate crops (1-1.5 m)","Shallow root crops (up to 1 m)","Deep root crops (>1.5 m)","Fibrous root crops only","Adventitious crops only"],
+"Faba bean and sugar beet: root depth ranges 1-1.5 metres (Intermediate).");
+Q("Pollination & Root Systems","Easy","Based on the root system type, cereal crops like wheat and rice have which kind of root system?",
+["Adventitious/Fibrous rooted","Tap root system","Aerial root system","Prop root system","Storage root system"],
+"Cereal crops (wheat, rice) have adventitious/fibrous roots; Red gram and grape have tap roots.");
+Q("Pollination & Root Systems","Hard",MS+"I. Unisexual flowers possess only one kind of sex organ.\nII. A bisexual flower has both male and female reproductive parts.\nIII. Pollination by animals is termed Entomophily.\nIV. Sorghum, Cotton and Safflower fall under 'Often Cross-Pollinated' crops."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement III is wrong — pollination by animals is Zoophily, not Entomophily (that's insects). I, II, IV are correct.",
+"multi");
+
+/* ---------------- SECTION 5: Photosynthesis & CO2 Fixation ---------------- */
+Q("Photosynthesis & CO2 Fixation","Easy","Photosynthetically Active Radiation (PAR) refers to the solar radiation wave band of:",
+["400 to 700 nanometers","100 to 300 nanometers","700 to 1000 nanometers","0 to 200 nanometers","300 to 500 nanometers only"],
+"PAR spans 400-700 nm.");
+Q("Photosynthesis & CO2 Fixation","Moderate","The Light reaction of photosynthesis, in which ATP and NADPH2 are produced, is also known as:",
+["Hill's reaction","Blackman's reaction","Calvin cycle","Krebs cycle","Arnon's dark reaction"],
+"Light reaction = Hill's reaction (also called Arnon's cycle).");
+Q("Photosynthesis & CO2 Fixation","Moderate","The Dark reaction of photosynthesis, where CO2 is reduced using ATP and NADPH2 to form glucose, was initially explained by:",
+["Blackman","Hill","Arnon","Calvin","Borlaug"],
+"Dark reaction is also known as Blackman's reaction.");
+Q("Photosynthesis & CO2 Fixation","Easy","The two types of cyclic reactions occurring in the dark reaction of photosynthesis are:",
+["Calvin cycle (C3) and Hatch-Slack cycle (C4)","Krebs cycle and Calvin cycle","Light cycle and Dark cycle","Nitrogen cycle and Carbon cycle","Hill cycle and Blackman cycle"],
+"The two cyclic reactions are the Calvin cycle (C3 cycle) and Hatch-Slack cycle (C4 cycle).");
+Q("Photosynthesis & CO2 Fixation","Hard","Approximately what percentage of plant species in the plant kingdom follow the C3 pathway of photosynthesis?",
+["85%","3%","8%","50%","95%"],
+"C3 plants make up about 85% of plant species.");
+Q("Photosynthesis & CO2 Fixation","Hard","What percentage of plant species follow the C4 photosynthetic pathway?",
+["3%","85%","8%","15%","25%"],
+"C4 plants constitute about 3% of plant species.");
+Q("Photosynthesis & CO2 Fixation","Moderate","In C3 plants, the primary CO2 acceptor is:",
+["Ribulose bisphosphate (RuBP), a 5-carbon compound","Phosphoenol pyruvic acid (PEP), a 3-carbon compound","Oxaloacetic acid (OAA), a 4-carbon compound","Glucose, a 6-carbon compound","Pyruvate, a 3-carbon compound"],
+"C3 plants: primary CO2 acceptor is RuBP (5-carbon compound).");
+Q("Photosynthesis & CO2 Fixation","Hard","In C4 plants, the first stable product of CO2 fixation is:",
+["Oxaloacetic acid (OAA), a 4-carbon compound","Phosphoglyceric acid (PGA), a 3-carbon compound","Glucose","RuBP","Pyruvate"],
+"C4 plants: first stable product is OAA (4-carbon compound); C3 plants form PGA (3-carbon).");
+Q("Photosynthesis & CO2 Fixation","Moderate","Which enzyme acts as the carboxylase in C3 plants?",
+["Rubisco","PEP carboxylase","ATP synthase","NADP reductase","Amylase"],
+"C3 plants use Rubisco as the carboxylase enzyme; C4 plants use both PEP carboxylase and Rubisco.");
+Q("Photosynthesis & CO2 Fixation","Hard","Which of the following crops is classified as a C4 plant?",
+["Sugarcane","Rice","Wheat","Soybean","Barley"],
+"C4 examples: sugarcane, maize, sorghum, millet. Rice, wheat, soybean, barley are C3 plants.");
+Q("Photosynthesis & CO2 Fixation","Hard","CAM plants exhibit an inverted stomatal cycle where stomata:",
+["Open at night and close during the day","Open during the day and close at night","Remain permanently open","Remain permanently closed","Open only at dawn and dusk"],
+"CAM plants have an inverted stomatal cycle: open at night, closed in the day.");
+Q("Photosynthesis & CO2 Fixation","Moderate","Cacti, orchids and pineapple are examples of which photosynthetic plant type?",
+["CAM plants","C3 plants","C4 plants","C5 plants","Non-photosynthetic plants"],
+"CAM plant examples: cacti, orchids, pineapple.");
+Q("Photosynthesis & CO2 Fixation","Easy","Which of the following is NOT correct about C4 plants?",
+["CO2 fixation occurs only via the C3 cycle","CO2 fixation occurs spatially — C4 cycle in mesophyll cells, then C3 cycle in bundle sheath cells","They are commonly found in tropical/semi-tropical, high light intensity conditions","CO2 fixation is fast and more efficient than in C3 plants","Examples include maize, sorghum and sugarcane"],
+"C4 plants fix CO2 via BOTH C3 and C4 cycles (spatially separated) — not via the C3 cycle only (that's C3 plants).");
+Q("Photosynthesis & CO2 Fixation","Hard",MS+"I. RuBisCO is involved in the first major step of carbon fixation.\nII. C4 cycle occurs only in C4 plants.\nIII. CAM plants fix CO2 both spatially and temporally within the same cell.\nIV. C3 cycle operates in all plants."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are correct as per the text.",
+"multi");
+Q("Photosynthesis & CO2 Fixation","Moderate","In terms of stomatal movement, C3 and C4 plants both:",
+["Open stomata at daytime and close at night","Open stomata at night and close during the day","Keep stomata permanently open","Keep stomata permanently closed","Alternate stomata opening every 6 hours"],
+"C3 and C4 plants: stomata open at daytime, close at night (unlike CAM's inverted cycle).");
+
+/* ---------------- SECTION 6: Climate & Nutrient Uptake ---------------- */
+Q("Climate & Nutrient Uptake","Moderate","Temperate zone crops generally grow in which latitude range?",
+["Between 30° North and 50° South","Between 20° North and 20° South","Between 25° North and 40° South","Between 0° and 10° North","Between 50° and 70° North"],
+"Temperate zone crops grow between latitude 30°N and 50°S.");
+Q("Climate & Nutrient Uptake","Moderate","Tropical zone crops are those that grow where frost does not occur during the growing season, in latitudes between:",
+["20° North and 20° South","30° North and 50° South","25° North and 40° South","0° and 5° North","40° North and 60° South"],
+"Tropical zone crops grow between latitude 20°N and 20°S.");
+Q("Climate & Nutrient Uptake","Hard","Sub-tropical zone crops can tolerate some sub-freezing temperature but are killed by temperatures below:",
+["-7°C","0°C","-15°C","5°C","-20°C"],
+"Sub-tropical fruit plants are killed by temperatures below -7°C.");
+Q("Climate & Nutrient Uptake","Easy","Which of the following is an example of a Tropical zone crop?",
+["Rice","Wheat","Oat","Rye","Citrus"],
+"Tropical zone crop examples: rice, sugarcane, mango, pineapple.");
+Q("Climate & Nutrient Uptake","Moderate","Citrus, date, fig and pomegranate are examples of crops grown in which climatic zone?",
+["Sub-tropical zone","Temperate zone","Tropical zone","Arctic zone","Alpine zone"],
+"These are Sub-tropical zone crop examples.");
+Q("Climate & Nutrient Uptake","Easy","Crops such as Berseem, alfalfa, soybean and other legumes, which return nutrients and organic matter to the soil, are called:",
+["Restorative crops","Exhaustive crops","Cover crops","Catch crops","Nurse crops"],
+"Restorative crops return nutrients/organic matter to the soil.");
+Q("Climate & Nutrient Uptake","Moderate","Sorghum, tobacco and sunflower are examples of crops that feed heavily on the soil and deplete nutrients — these are called:",
+["Exhaustive crops","Restorative crops","Cover crops","Trap crops","Nurse crops"],
+"Exhaustive crops feed heavily on soil and deplete its nutrients.");
+Q("Climate & Nutrient Uptake","Hard",MS+"I. Temperate zone crops can tolerate chilling temperatures.\nII. Wheat, oat and rye are examples of temperate zone crops.\nIII. Tropical zone crop growth is affected below 10°C and plants are killed at freezing temperature.\nIV. Sub-tropical crops grow between latitude 25° North and 40° South."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are accurate per the text.",
+"multi");
+
+/* ---------------- SECTION 7: Special Purpose Crops ---------------- */
+Q("Special Purpose Crops","Moderate","Arable crops are defined as crops that are:",
+["Cultivated on ploughed land, and are annual crops","Grown only along farm roads and fences","Grown to trap pests away from the main crop","Grown for medicinal alkaloids only","Grown in permanently waterlogged fields"],
+"Arable crops are cultivated on ploughed land and are annual crops (cereals, root crops, tobacco).");
+Q("Special Purpose Crops","Moderate","Alley cropping (hedge-row intercropping) involves growing an arable crop simultaneously with:",
+["Perennial, preferably leguminous trees or shrubs","Only cereal crops in rotation","Aquatic weeds for biomass","Non-leguminous annual grasses","Ornamental flowering plants"],
+"Alley crops are grown under an agroforestry practice with perennial, preferably leguminous trees/shrubs.");
+Q("Special Purpose Crops","Hard","Which crop combination is given as an example of a Complementary crop relationship?",
+["Jowar + Lobia","Maize + Cucurbits","Berseem + Mustard","Two cereals grown together","Sunnhemp + Sugarcane"],
+"Complementary crops example: Jowar + Lobia (both benefit each other).");
+Q("Special Purpose Crops","Moderate","Border/guard crops are grown mainly to:",
+["Protect another crop from trespassing animals or restrict wind speed","Provide shade for the main crop","Fix atmospheric nitrogen for the main crop","Trap pests away from cash crops","Improve soil pH near field borders"],
+"Border/guard crops protect crops from animal trespassing and restrict wind speed, e.g., safflower around gram.");
+Q("Special Purpose Crops","Hard","Which of the following is an example of a Catch/Contingent crop?",
+["Linseed","Sugarcane","Coconut","Berseem","Napier grass"],
+"Catch/contingent crop examples: linseed, toria, urd, moong, cowpea — cultivated when the main crop fails.");
+Q("Special Purpose Crops","Moderate","Cover crops are primarily grown to:",
+["Improve or protect soil from erosion via ground-covering foliage/root mats","Provide timber for construction","Serve exclusively as ornamental plants","Act as a substitute for chemical fertilizers only","Provide shade to livestock"],
+"Cover crops protect soil from erosion; examples: lobia, groundnut, urd, sweet potato, methi.");
+Q("Special Purpose Crops","Hard","An 'Energy crop' as described in the document is grown for the purpose of:",
+["Making bio-fuels or being directly exploited for its energy content","Increasing soil fertility only","Attracting pollinators","Producing medicinal alkaloids","Fixing atmospheric nitrogen"],
+"Energy crops (e.g., sugarcane, potato, maize, tapioca) are used for biofuels/energy content.");
+Q("Special Purpose Crops","Hard","Which of the following is NOT correctly matched?",
+["Nurse crop — Provides shade/protection to another crop (e.g., Sunhemp in sugarcane)","Trap crop — Protects the main cash crop from a pest (e.g., Ladyfinger around cotton)","Smother crop — Suppresses weeds via dense foliage (e.g., buckwheat, urd)","Mulch crop — Conserves soil moisture through ground-covering foliage (e.g., cowpea)","Cash crop — Grown exclusively for animal grazing and never sold"],
+"Cash crops are grown primarily for direct sale, not exclusively for grazing.");
+Q("Special Purpose Crops","Moderate","Aromatic crops are characterized by containing:",
+["Odoriferous and volatile substances such as essential oils and gum exudates","High protein content only","Fibrous stems used for rope-making","High starch content for staple food","Toxic alkaloids for pest resistance"],
+"Aromatic crops contain odoriferous/volatile substances (essential oils, gum exudates, balsam, oleoresin).");
+Q("Special Purpose Crops","Hard","'Paira/Utera' cropping refers to sowing seeds of succeeding crops like lentil, gram, pea, or linseed:",
+["10 to 15 days before harvesting the standing rice crop, by broadcast","After the harvest of the rice crop only","Only through machinery-assisted drilling","Simultaneously with rice transplantation","30 days after rice harvest"],
+"Paira/Utera crops: seed broadcast 10-15 days before harvesting rice.");
+Q("Special Purpose Crops","Moderate","Which crop is cited as the classic example of a 'Fouling crop', whose cultural practices allow intensive weed infestation?",
+["Direct seeded upland rice","Sugarcane","Wheat","Potato","Berseem"],
+"Fouling crop example: direct seeded upland rice.");
+Q("Special Purpose Crops","Hard","Truck crops involve growing vegetables on a large scale primarily for:",
+["Fresh shipment to distant markets","Local household subsistence only","Seed multiplication programs","On-farm animal feed only","Export as processed canned goods only"],
+"Truck crops: large-scale vegetable growing for fresh shipment to distant markets (potato, tomatoes, lettuce).");
+Q("Special Purpose Crops","Hard",MS+"I. Nurse crops are introduced to foster other crops by shading, frost protection or wind insulation.\nII. Competitive crops are unsuitable for intercropping, e.g., two cereals grown together.\nIII. Supplementary crops are those that are neither complementary nor competitive, e.g., Maize + cucurbits.\nIV. Smother crops are cover crops that suppress weeds through dense foliage, e.g., buckwheat and urd."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements match the document precisely.",
+"multi");
+
+/* ---------------- SECTION 8: Famous Crop Names ---------------- */
+Q("Famous Crop Names","Easy","Which crop is popularly known as the 'King of Cereals'?",
+["Wheat","Maize","Rice","Sorghum","Barley"],
+"Wheat = King of Cereals.");
+Q("Famous Crop Names","Easy","Which crop is known as the 'Queen of Cereals'?",
+["Maize","Wheat","Rice","Sorghum","Oats"],
+"Maize = Queen of Cereals.");
+Q("Famous Crop Names","Moderate","'King of Coarse Cereals' and 'Camel Crop' are both names given to which crop?",
+["Sorghum","Maize","Bajra","Ragi","Wheat"],
+"Sorghum is both the King of coarse Cereals and the Camel Crop.");
+Q("Famous Crop Names","Moderate","Which crop is referred to as the 'King of Pulses'?",
+["Chickpea","Pigeon pea","Green gram","Black gram","Pea"],
+"Chickpea = King of Pulses.");
+Q("Famous Crop Names","Moderate","'Queen of Pulses' refers to which crop?",
+["Pea","Chickpea","Pigeon pea","Green gram","Lentil"],
+"Pea = Queen of Pulses.");
+Q("Famous Crop Names","Easy","Groundnut is popularly known as the:",
+["King of oil-seeds","Queen of oil-seeds","King of Pulses","Thorny oil-seed crop","Wonder crop"],
+"Groundnut = King of oil-seeds.");
+Q("Famous Crop Names","Hard","Which plant is called the 'King of Weeds'?",
+["Congress Grass","Parthenium hysterophorus (also Congress Grass)","Cynodon dactylon","Cyperus rotundus","Striga lutea"],
+"'King of Weeds' = Congress Grass.");
+Q("Famous Crop Names","Moderate","'King of fodder Crops' and 'Queen of fodder Crops' are respectively:",
+["Berseem and Lucerne","Lucerne and Berseem","Napier grass and Setaria","Guinea grass and Berseem","Sorghum and Maize"],
+"King of fodder crops = Berseem; Queen of fodder crops = Lucerne.");
+Q("Famous Crop Names","Hard","Millets are collectively referred to as:",
+["Famine Reserves","White Gold of America","Poor Man's Food","Wonder Crop","Golden Fibre"],
+"Millets = Famine Reserves.");
+Q("Famous Crop Names","Moderate","Which crop is known as the 'White Gold of America'?",
+["Cotton","Wheat","Maize","Soybean","Jute"],
+"Cotton = White Gold of America.");
+Q("Famous Crop Names","Hard","Safflower, being a thorny oilseed crop, is often used as a border/guard crop and is called:",
+["Thorny oil-seed crop","King of oil-seeds","Poor Man's substitute for Ghee","Wonder Crop","Yellow Jewel of America"],
+"Safflower = Thorny oil-seed crop.");
+Q("Famous Crop Names","Hard","Soybean carries multiple famous names in the document. Which of the following is NOT one of them?",
+["Poor Man's Food","Poor Man's Meat","Wonder Crop","Yellow Jewel of America","(All are correct names for Soybean)"],
+"Soybean = Poor Man's Meat, Wonder Crop, Yellow Jewel of America. 'Poor Man's Food' refers to Pearl Millet, not soybean.");
+Q("Famous Crop Names","Moderate","Sesame is referred to in the document as:",
+["Poor Man's substitute for Ghee","Poor Man's Meat","Poor Man's Food","Wonder Crop","Camel Crop"],
+"Sesame = Poor Man's substitute for Ghee.");
+Q("Famous Crop Names","Hard","Maize carries which of the following famous titles as per the document?",
+["Drosophila of Crop Plant and Backbone of America","King of Pulses and Queen of Pulses","Golden Fibre and White Gold of America","Famine Reserves and Wonder Crop","King of Weeds and Camel Crop"],
+"Maize = Drosophila of Crop Plant, also Backbone of America.");
+Q("Famous Crop Names","Hard","Which crop is described as the 'Coarsest of Coarse Millet'?",
+["Kodo","Ragi","Bajra","Jowar","Proso millet"],
+"Kodo millet = Coarsest of Coarse Millet.");
+Q("Famous Crop Names","Moderate","Jute is famously known as the:",
+["Golden Fibre","White Gold of America","Wonder Fibre","Silver Fibre","King Fibre"],
+"Jute = Golden Fibre.");
+Q("Famous Crop Names","Hard","'Small holder's irrigated crop' refers to:",
+["Oil Palm","Sugarcane","Cotton","Rice","Groundnut"],
+"Oil Palm = Small holder's irrigated crop.");
+
+/* ---------------- SECTION 9: Cell Organelles ---------------- */
+Q("Cell Organelles","Easy","Which cell organelle is described as the 'powerhouse of the cell'?",
+["Mitochondria","Nucleus","Golgi bodies","Ribosomes","Lysosome"],
+"Mitochondria are double-membranous, rod-shaped organelles — the powerhouse of the cell.");
+Q("Cell Organelles","Easy","Which organelle is primarily responsible for protein synthesis?",
+["Ribosomes","Golgi bodies","Vacuoles","Plastids","Centrioles"],
+"Ribosomes help in protein synthesis.");
+Q("Cell Organelles","Moderate","Which organelle is present only in animal cells and helps in spindle formation during cell division?",
+["Centrioles","Cell wall","Plastids","Nucleus","Vacuoles"],
+"Centrioles are cylindrical, tubulin-based structures found only in animal cells.");
+Q("Cell Organelles","Moderate","The organelle that occurs only in plant cells and is responsible for storing pigments is:",
+["Plastids","Centrioles","Lysosome","Golgi bodies","Nuclear membrane"],
+"Plastids are double-membrane-bound, plant-only organelles that store pigments.");
+Q("Cell Organelles","Easy","Which organelle is described as helping in cell secretion, made of membranous sacs stacked to form cisternae?",
+["Golgi bodies","Ribosomes","Mitochondria","Lysosome","Nucleus"],
+"Golgi bodies are membranous sacs stacked as cisternae; they help in cell secretion.");
+Q("Cell Organelles","Moderate","Which organelle is rigid, made of cellulose, occurs only in plant cells, and helps in the selective passage of molecules while protecting the cell?",
+["Cell wall","Cell membrane","Nuclear membrane","Vacuole","Plastid"],
+"Cell wall: outer rigid layer made of cellulose, present only in plant cells.");
+Q("Cell Organelles","Hard","Which organelle digests older cells and breaks food particles into smaller components?",
+["Lysosome","Vacuole","Ribosome","Golgi body","Endoplasmic reticulum"],
+"Lysosome is a small round membrane-bound organelle that digests older cells/breaks down food particles.");
+Q("Cell Organelles","Moderate","The network of tubes or membranes that provides a transport channel within the cell is the:",
+["Endoplasmic reticulum","Golgi body","Nucleus","Cell membrane","Centriole"],
+"Endoplasmic reticulum is the network of tubes/membranes providing an intracellular transport channel.");
+Q("Cell Organelles","Easy","Which of the following organelles is responsible for controlling cell activity as well as cell division?",
+["Nucleus","Mitochondria","Ribosome","Vacuole","Lysosome"],
+"Nucleus: large, oval; controls cell activity and cell division.");
+Q("Cell Organelles","Hard",MS+"I. Vacuoles are membrane-bound sacs mainly found in plant cells that store cell sap.\nII. The cell membrane is a semi-permeable membrane controlling molecule movement across it.\nIII. Centrioles are found in both plant and animal cells.\nIV. The nuclear membrane surrounds the nucleus and is selectively permeable."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement III is incorrect — centrioles are present only in animal cells. I, II, IV are correct.",
+"multi");
+
+/* ---------------- SECTION 10: Soil Preparation & Tillage ---------------- */
+Q("Soil Preparation & Tillage","Easy","The three steps followed in the preparation of soil are:",
+["Ploughing, Levelling, Manuring","Ploughing, Sowing, Harvesting","Levelling, Weeding, Irrigation","Manuring, Harvesting, Storage","Tillage, Sowing, Manuring"],
+"Three soil preparation steps: Ploughing, Levelling, Manuring.");
+Q("Soil Preparation & Tillage","Moderate","Which of the following best distinguishes Ploughing from Tillage?",
+["Ploughing just turns the soil upside down; Tillage is the mechanical manipulation of soil for crop production affecting characteristics like water conservation and temperature","Ploughing is done only in Rabi season, Tillage only in Kharif","Ploughing uses tractors, Tillage uses only bullocks","Tillage is a subset of manuring","There is no real difference between the two"],
+"Ploughing = turning soil upside down; Tillage = broader mechanical manipulation affecting soil water conservation, temperature, infiltration, evapotranspiration.");
+Q("Soil Preparation & Tillage","Hard","The word 'Tillage' is derived from the Anglo-Saxon words 'Tilian' and 'Teolian'. Who is considered the 'Father of Tillage'?",
+["Jethro Tull","Pietro de'Crescenzi","Norman Borlaug","Justus von Liebig","Blackman"],
+"Jethro Tull is considered the father of tillage.");
+Q("Soil Preparation & Tillage","Moderate","'Tilth' is best described as:",
+["The physical condition of soil obtained as a result of tillage","The chemical composition of fertilizer applied to soil","The depth to which ploughing is done","A type of soil-borne pathogen","A unit of soil moisture measurement"],
+"Tilth = physical condition of soil resulting from tillage (coarse, fine, or moderate tilth).");
+Q("Soil Preparation & Tillage","Easy","Which of the following is NOT listed as an objective of tillage?",
+["To increase soil salinity","To control weeds effectively","To aerate the soil","To provide adequate seed-soil contact","To remove the hard pan and increase soil depth"],
+"Increasing soil salinity is not an objective of tillage; the other four are explicitly listed objectives.");
+Q("Soil Preparation & Tillage","Moderate","The Country Plough, made of wood with an iron share point, is characterized by:",
+["Cutting a V-shaped furrow with no inversion of soil","Complete inversion of the furrow slice","Being suitable only for stone-free soils","Using a revolving concave steel disc","Being animal-drawn only and never tractor-drawn"],
+"Country plough cuts a V-shaped furrow, opens soil, but there is no inversion.");
+Q("Soil Preparation & Tillage","Hard","The 'Victory plough' referred to in the document is:",
+["An animal-drawn mouldboard plough with a short shaft","A tractor-drawn disc plough","A hand-operated hoe","A power tiller model","A type of harrow"],
+"Victory plough = animal-drawn MB plough with a short shaft.");
+Q("Soil Preparation & Tillage","Moderate","The Disc Plough is most suitable for land with:",
+["Much fibrous growth of weeds, and works well in stone-free soils","Heavy stone content and rocky terrain","Waterlogged rice fields only","Very low weed growth","Saline and alkaline soils exclusively"],
+"Disc plough suits land with fibrous weed growth and works well in soils free from stones.");
+Q("Soil Preparation & Tillage","Hard","Which plough allows the mouldboard and share to be reversed to the left or right side of the beam, saving the trouble of turning the plough in hilly tracts?",
+["Turn-wrest / Reversible / One-way Plough","Country Plough","Disc Plough","MB Plough","Power tiller"],
+"Turn-wrest/Reversible/One-way plough has a hinged bottom that can reverse to left or right.");
+Q("Soil Preparation & Tillage","Moderate","Deep ploughing done in summer produces large clods that:",
+["Crumble due to alternate heating and cooling, improving soil structure","Immediately dissolve upon contact with irrigation water","Cause an increase in weed seed dormancy only","Have no impact on pest populations","Reduce soil aeration permanently"],
+"Summer deep ploughing: large clods crumble due to alternate heating/cooling; kills pests via pupae exposure to sun.");
+Q("Soil Preparation & Tillage","Moderate","Subsoiling is best described as:",
+["Breaking hard pans without inversion and with less disturbance of topsoil","Complete inversion of topsoil to a depth of 2 metres","A form of wet tillage done in standing water","Removing all vegetation before planting","Applying manure below the root zone"],
+"Subsoiling: breaking hard pans without inversion, less disturbance of topsoil; needed once every 4-5 years typically.");
+Q("Soil Preparation & Tillage","Hard","'Year-round Tillage' is most commonly practiced in:",
+["Dry farming regions, using summer showers to initiate field preparation","Rice fallow pulse cultivation only","Wetland puddled rice fields","Greenhouse cultivation","Hydroponic systems"],
+"Year-round tillage: carried out throughout the year, common in dry farming regions.");
+Q("Soil Preparation & Tillage","Moderate","Secondary tillage, performed after primary tillage, mainly consists of two operations:",
+["Harrowing and Planking","Ploughing and Manuring","Puddling and Levelling","Subsoiling and Mulching","Thinning and Weeding"],
+"Secondary tillage = Harrowing (crushing clods) and Planking (smoothing/compacting soil surface).");
+Q("Soil Preparation & Tillage","Hard","How does a Harrow differ from a Plough?",
+["A harrow breaks up and smooths the surface of the soil, while a plough cuts deeper and lifts/tips the soil over","A harrow is used only after sowing, a plough only before sowing","A harrow is animal-drawn only, a plough is tractor-drawn only","A harrow works only in wetland fields","There is no functional difference between them"],
+"Harrow: breaks and smooths surface; Plough: cuts deeper and lifts/tips soil.");
+Q("Soil Preparation & Tillage","Moderate","A Cultivator, also known as a tiller or tooth harrow, is used for:",
+["Finer operations like breaking clods to achieve a fine tilth","Deep sub-soil breaking only","Puddling standing water fields","Harvesting mature grain crops","Applying granular fertilizer"],
+"Cultivator = tiller/tooth harrow, used for finer seedbed preparation.");
+Q("Soil Preparation & Tillage","Hard","In areas with ill-drained conditions during the rainy season (deep black soils), which land treatment is formed before the monsoon to allow dry sowing?",
+["Broadbed and Furrows (BBF)","Puddled fields","Zero-till strips","Raised nursery beds","Contour bunds"],
+"BBF (Broadbed and Furrows) are formed before monsoon onset for dry sowing in deep black soils.");
+Q("Soil Preparation & Tillage","Moderate","The After-Cultivation (intercultivation) practices broadly include three operations. Which of the following is NOT one of them?",
+["Primary ploughing","Thinning and gap filling","Weeding and hoeing","Earthing up","(All three listed operations are correct)"],
+"After-cultivation/intercultivation = Thinning & gap filling, Weeding & hoeing, Earthing up. Primary ploughing is preparatory, not after-cultivation.");
+Q("Soil Preparation & Tillage","Hard","'Roguing' refers to:",
+["Removal of plants of a variety admixed with other varieties of the same crop","Removal of terminal buds to stimulate lateral growth","Removal of older leaves from sugarcane","Removal of auxiliary buds/suckers","Tying leaves together in sugarcane and banana"],
+"Roguing = removing off-type/admixed plant varieties.");
+Q("Soil Preparation & Tillage","Moderate","'Topping', the removal of terminal buds to stimulate auxiliary/lateral growth, is practiced mainly in:",
+["Cotton and tobacco","Wheat and rice","Sugarcane and banana","Groundnut and soybean","Mustard and barley"],
+"Topping is practiced in cotton and tobacco.");
+Q("Soil Preparation & Tillage","Hard","'De-trashing' refers to removing older leaves specifically from which crop?",
+["Sugarcane","Tobacco","Cotton","Potato","Banana"],
+"De-trashing = removing older leaves from sugarcane crop.");
+Q("Soil Preparation & Tillage","Moderate","Earthing up is the practice of putting soil near the base of certain crops to give them support. Which crop is NOT among the examples given?",
+["Wheat","Sugarcane","Cassava","Papaya","Potato"],
+"Earthing up examples: sugarcane, cassava, papaya, potato — not wheat.");
+Q("Soil Preparation & Tillage","Hard",MS+"I. The optimum soil moisture content for tillage is 60% of field capacity.\nII. Zero tillage is practiced in rice fallow pulses.\nIII. The desirable depth of ploughing for field crops is 12 to 20 cm.\nIV. As per CRIDA (1985) classification, 'Deep' ploughing depth is 25-30 cm."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are accurately drawn from the document.",
+"multi");
+
+/* ---------------- SECTION 11: Modern Tillage Systems ---------------- */
+Q("Modern Tillage Systems","Moderate","Which of the following collectively refers to Minimum tillage, Zero tillage and Stubble mulch tillage?",
+["Conservation tillage","Conventional tillage","Reduced-till farming","Puddling systems","Special purpose tillage"],
+"Minimum, Zero and Stubble mulch tillage are collectively called Conservation tillage.");
+Q("Modern Tillage Systems","Hard","Conservation tillage is defined as a tillage/planting combination that retains what minimum percentage of crop residue cover on the soil surface?",
+["30% or greater","10% or greater","50% or greater","75% or greater","5% or greater"],
+"Conservation tillage retains 30% or greater crop residue cover.");
+Q("Modern Tillage Systems","Moderate","The concept of Minimum Tillage, which aims to reduce tillage operations to the minimum necessity, was started in:",
+["USA","India","UK","Japan","Australia"],
+"Minimum tillage concept originated in the USA.");
+Q("Modern Tillage Systems","Hard","Which of the following is NOT one of the three Minimum Tillage systems mentioned in the document?",
+["Broadbed Furrow tillage","Row zone tillage","Plough plant tillage","Wheel Track tillage","(All three listed are correct Minimum Tillage systems)"],
+"Minimum tillage systems: Row zone, Plough plant, Wheel Track tillage. BBF is unrelated to minimum tillage systems.");
+Q("Modern Tillage Systems","Moderate","In Zero Tillage (No-Tillage), the soil is left undisturbed from harvest to planting except for:",
+["Nutrient injection","Complete ploughing","Puddling","Deep sub-soiling","Levelling"],
+"No-till: soil undisturbed from harvest to planting, except for nutrient injection.");
+Q("Modern Tillage Systems","Hard","In Zero Tillage systems, which broad-spectrum, non-selective herbicides with relatively short residual effect are typically used to destroy existing vegetation before sowing?",
+["Paraquat and Glyphosate","2,4-D and Atrazine","Butachlor and Pendimethalin","Metribuzin and Diuron","Glufosinate and Simazine"],
+"Zero-tillage vegetation destruction uses broad-spectrum herbicides like Paraquat and Glyphosate.");
+Q("Modern Tillage Systems","Easy","Which of the following is NOT correct regarding Zero Tillage?",
+["It requires a lower dose of nitrogen compared to conventional tillage","It is applicable to soils with a coarse-textured surface horizon and good internal drainage","A large population of perennial weeds can appear in zero-tilled plots","Herbicide functions are extended, requiring selective/persistent herbicides at later stages","Mineralization of organic matter is slower under zero tillage"],
+"Zero tillage actually requires a HIGHER dose of nitrogen (since mineralization is slower), not a lower dose.");
+Q("Modern Tillage Systems","Hard","Stubble Mulch Tillage/Farming refers to:",
+["Leaving crop residue essentially in place as surface cover during a fallow period","Complete removal of all crop residue before ploughing","Burning crop residue immediately after harvest","Deep burial of crop residue via mouldboard plough","Puddling crop residue into standing water"],
+"Stubble-mulching leaves crop residue on the land as surface cover during a fallow period, chiefly for dryland agriculture.");
+Q("Modern Tillage Systems","Moderate","Rotary Tillage is defined as tillage operations that:",
+["Employ rotary action of a special tool to cut, break and mix the soil in one go","Are performed exclusively by bullock-drawn implements","Involve applying water before every tillage pass","Are used only for subsoiling","Are applied only in orchard crops"],
+"Rotary tillage: special tool cuts, breaks, mixes soil — primary and secondary operations combined in one pass.");
+Q("Modern Tillage Systems","Moderate","In Strip Tillage, which portion of the field is tilled?",
+["Only isolated bands/strips of soil","The entire field uniformly","Only the field borders","Only the sub-soil layer","No tillage is done at all"],
+"Strip tillage: only isolated bands of soil are tilled.");
+Q("Modern Tillage Systems","Hard","Combined Tillage refers to:",
+["Utilizing two or more different tillage tools/implements simultaneously to reduce the number of field operations","Combining tillage with irrigation scheduling only","Combining crop rotation with fertilizer application","Combining pest control with weed control operations","Using only manual labor combined with animal power"],
+"Combined tillage = simultaneous use of two or more tillage tools/implements to reduce operations.");
+Q("Modern Tillage Systems","Moderate","Which of the following disadvantages is associated with Conventional Tillage as per the document?",
+["Continuous use of heavy ploughs creates a hard pan in the subsoil, resulting in poor infiltration","It always increases soil organic matter content","It eliminates the need for secondary tillage entirely","It is the least capital-intensive tillage system","It is universally recommended over conservation tillage"],
+"Conventional tillage's disadvantages include hard-pan formation, poor infiltration, susceptibility to run-off/erosion, capital intensity.");
+Q("Modern Tillage Systems","Hard","'Reduced-Till' is generally placed under which broader category, though it can be considered a mid-way point?",
+["Conventional tillage","Conservation tillage","Special purpose tillage","Wet tillage","Off-season tillage"],
+"Reduced-Till is generally categorized under Conventional tillage, as a midway between Conventional and Conservation tillage.");
+Q("Modern Tillage Systems","Moderate","'Clean Tillage' refers to working the soil so that:",
+["No living plant is left undisturbed in the entire field","Only weeds near field borders are removed","Only the topsoil is loosened without removing weeds","Crop residues are left entirely undisturbed","Only sub-surface hard pans are broken"],
+"Clean tillage = working soil of entire field so no living plant is left undisturbed (controls weeds, pathogens, pests).");
+Q("Modern Tillage Systems","Hard","'Blind Tillage' is done after seeding/planting, typically at the pre-emergence stage, so that:",
+["Crop plants are not damaged, but extra plants and broad-leaved weeds are uprooted","The entire crop stand is destroyed intentionally","Only irrigation channels are cleared","Deep sub-soiling occurs without surface disturbance","Only fertilizer is applied without any soil disturbance"],
+"Blind tillage: done pre-emergence or in early growth so the crop isn't damaged but weeds are uprooted.");
+Q("Modern Tillage Systems","Moderate","Dry Tillage is practiced in soil having what approximate moisture content?",
+["21-23%","5-10%","40-50%","60-70%","0-2%"],
+"Dry tillage is done in soil with 21-23% moisture, making it porous and soft; suitable for broadcasted rice, jute, wheat.");
+Q("Modern Tillage Systems","Hard","During Wet Tillage/Puddling, after the initial application of 5-10 cm of water, ploughing is typically repeated how many times, at what interval?",
+["3 times, at an interval of 3-5 days","2 times, at an interval of 10 days","5 times, at an interval of 1 day","Once only, immediately","4 times, at an interval of 7 days"],
+"Puddling: repeated 3 times, with a 3-5 day interval between each ploughing.");
+Q("Modern Tillage Systems","Moderate","Wet tillage/puddling is stated to be the only means of land preparation for transplanting which semi-aquatic crop plant?",
+["Rice","Sugarcane","Wheat","Cotton","Jute"],
+"Puddling is the only means of land preparation for transplanting rice.");
+Q("Modern Tillage Systems","Hard",MS+"I. Puddling creates an impervious layer below the surface to reduce deep percolation losses.\nII. Zero tillage is applicable to soils with poor internal drainage and low biological activity.\nIII. Conservation tillage retains 30% or greater crop residue cover on the soil surface.\nIV. Rotary tillage combines primary and secondary tillage operations in one pass."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement II is false — zero tillage requires GOOD internal drainage and HIGH biological activity, not poor/low. I, III, IV are correct.",
+"multi");
+
+/* ---------------- SECTION 12: Factors Affecting Crop Production ---------------- */
+Q("Factors Affecting Crop Production","Easy","Factors affecting crop production are broadly classified into two types:",
+["Internal (Genetic/heredity) and External (Environmental)","Biotic and Abiotic only","Chemical and Physical only","Kharif and Rabi factors","Pre-harvest and Post-harvest factors"],
+"Two types: Internal (Genetic/heredity) and External (Environmental) factors.");
+Q("Factors Affecting Crop Production","Moderate","Pokkali, a traditional salt-tolerant variety of paddy, is grown mainly in the saline waters of which state?",
+["Kerala","Punjab","Tamil Nadu","West Bengal","Odisha"],
+"Pokkali is a traditional salt-tolerant paddy variety grown in saline waters of Kerala.");
+Q("Factors Affecting Crop Production","Hard","Which of the following is NOT listed as an Internal (Genetic) factor affecting crop production?",
+["Soil pH level","High yielding ability","Early maturity","Resistance to lodging","Drought, flood and salinity tolerance"],
+"Soil pH is an External (Edaphic) factor, not an internal/genetic factor.");
+Q("Factors Affecting Crop Production","Moderate","The External (Environmental) factors affecting crop production are classified into how many categories?",
+["Five","Three","Four","Six","Two"],
+"Five categories: Climatic, Edaphic, Biotic, Physiographic, Socio-economic.");
+Q("Factors Affecting Crop Production","Easy","Approximately what percentage of crop yield is attributed to the influence of climatic factors?",
+["Nearly 50%","Nearly 10%","Nearly 90%","Nearly 25%","Nearly 75%"],
+"Nearly 50% of yield is attributed to climatic factors.");
+
+/* ---------------- SECTION 13: Climatic Factors ---------------- */
+Q("Climatic Factors","Moderate","Which of the following is NOT among the six atmospheric weather variables listed as influencing crop production?",
+["Soil pH","Precipitation","Temperature","Solar radiation","Wind velocity"],
+"The six variables are Precipitation, Temperature, Atmospheric humidity, Solar radiation, Wind velocity, Atmospheric gases. Soil pH is an edaphic factor.");
+Q("Climatic Factors","Hard","As per the temperature requirement table, what is the optimum temperature (°C) for Rice?",
+["32","20","25","29","36"],
+"Rice: min 10°C, optimum 32°C, max 36-38°C.");
+Q("Climatic Factors","Moderate","What is the minimum temperature (°C) requirement for Wheat as listed in the document?",
+["4.5","10","8-10","12-13","12-14"],
+"Wheat: minimum temperature 4.5°C, optimum 20°C, max 30-32°C.");
+Q("Climatic Factors","Hard","What is the maximum temperature (°C) tolerance for Maize as per the document?",
+["40-43","36-38","30-32","35","40"],
+"Maize: min 8-10°C, optimum 20°C, max 40-43°C.");
+Q("Climatic Factors","Moderate","The minimum, maximum, and optimum temperature of an individual plant is collectively called:",
+["Cardinal temperature","Base temperature","Threshold temperature","Critical temperature","Ambient temperature"],
+"Cardinal temperature = minimum, maximum and optimum temperature for a plant.");
+Q("Climatic Factors","Moderate","What relative humidity (RH) range is generally suitable for most crop plants?",
+["40-60%","10-20%","80-100%","0-20%","70-90%"],
+"RH of 40-60% is suitable for most crop plants.");
+Q("Climatic Factors","Hard","If relative humidity is 100%, this means:",
+["The entire space is filled with water, and there is no soil evaporation and plant transpiration","Plants transpire at maximum rate","Soil moisture is at wilting point","Crop yield is automatically maximized","Photosynthesis rate doubles"],
+"RH 100% = entire space filled with water; no soil evaporation or plant transpiration.");
+Q("Climatic Factors","Moderate","Photoperiodism, the response of a plant to day length, classifies Rice, Sunflower and Cotton as:",
+["Short day plants (day length <12 hours)","Long day plants (day length >12 hours)","Day neutral plants","Photo-insensitive plants","CAM plants"],
+"Rice, Sunflower and Cotton are short-day plants (day length <12 hours).");
+Q("Climatic Factors","Moderate","Barley, oat, carrot and cabbage are examples of which photoperiodic response category?",
+["Long day plants","Short day plants","Day neutral plants","CAM-response plants","Facultative short-day plants"],
+"Barley, oat, carrot, cabbage = Long day plants (day length >12 hours).");
+Q("Climatic Factors","Easy","Tomato and Maize are given as examples of which photoperiodic category?",
+["Day neutral","Short day","Long day","Obligate short day","Obligate long day"],
+"Tomato and maize = Day neutral (little/no influence of day length).");
+Q("Climatic Factors","Hard","'Phototropism', the response of plants to light direction, is exemplified in the document by which crop?",
+["Sunflower","Cotton","Rice","Maize","Wheat"],
+"Phototropism example given: Sunflower.");
+Q("Climatic Factors","Moderate","What wind velocity range (km/hour) is stated as suitable for the growth of most crops?",
+["4-6 km/hour","1-2 km/hour","10-15 km/hour","20-25 km/hour","0.5-1 km/hour"],
+"Wind movement of 4-6 km/hour is suitable for more crops.");
+Q("Climatic Factors","Hard","As per the composition of atmosphere chart, what is the approximate percentage of Nitrogen in the atmosphere?",
+["78.09%","20.95%","0.93%","0.039%","2%"],
+"Nitrogen constitutes about 78.09% of the atmosphere.");
+Q("Climatic Factors","Moderate","Atmospheric Nitrogen is fixed in the soil through which of the following mechanisms?",
+["Lightning, rainfall, and N-fixing microbes in pulse crops","Only through chemical fertilizers","Only through soil erosion","Only through animal excreta","Only through irrigation water"],
+"Atmospheric N is fixed by lightning, rainfall, and N-fixing microbes in pulse crops.");
+Q("Climatic Factors","Hard",MS+"I. Rice and tea are examples of crops grown in heavy and evenly distributed rainfall areas.\nII. Pearl millet, sorghum and minor millets are drought-resistant crops grown in low/uneven rainfall dryland areas.\nIII. Crop yields are always directly proportional to the amount of precipitation.\nIV. Distribution of rainfall is more important than total rainfall, especially in drylands."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement III is incorrect — the document explicitly states yields are NOT always directly proportional to precipitation (excess above optimum reduces yield). I, II, IV are correct.",
+"multi");
+
+/* ---------------- SECTION 14: Edaphic Factors ---------------- */
+Q("Edaphic Factors","Easy","The word 'Edaphic' is derived from the Greek word 'Edephos', meaning:",
+["Influenced by the soil","Influenced by climate","Influenced by water","Influenced by light","Influenced by wind"],
+"Edaphic means 'influenced by the soil', from Greek 'Edephos'.");
+Q("Edaphic Factors","Moderate","How many main types of soil water are recognized in the document?",
+["Three (Gravitational, Capillary, Hygroscopic)","Two (Free and Bound)","Four (Gravitational, Capillary, Hygroscopic, Osmotic)","Five types","Six types"],
+"Three types: Gravitational water, Capillary water, and Hygroscopic water.");
+Q("Edaphic Factors","Hard","Which type of soil water is found in macropores, moves rapidly out of well-drained soil, and is NOT considered available to plants?",
+["Gravitational water","Capillary water","Hygroscopic water","Osmotic water","Combined water"],
+"Gravitational water moves through macropores under gravity and is not available to plants.");
+Q("Edaphic Factors","Moderate","Which type of soil water remains after gravitational water drains, follows capillary movement, and IS available for plant growth?",
+["Capillary water","Gravitational water","Hygroscopic water","Chemically bound water","Structural water"],
+"Capillary water is available for plant growth.");
+Q("Edaphic Factors","Hard","Hygroscopic water, held tightly as a thin film around soil particles by adsorption forces, is:",
+["Unavailable to plants in amounts sufficient for survival","Fully available to all plants","Only available to deep-rooted plants","Available only in sandy soils","Removed entirely during ploughing"],
+"Hygroscopic water is unavailable to plants in sufficient amounts.");
+Q("Edaphic Factors","Moderate","The soil moisture range between Field Capacity and Permanent Wilting Point that is available to plants is known as:",
+["Available Water Capacity","Gravitational Water Capacity","Maximum Allowable Depletion","Saturation Capacity","Hygroscopic Coefficient"],
+"Available Water Capacity (AWC) = moisture range between field capacity and permanent wilting point.");
+Q("Edaphic Factors","Hard","In good plant growing soil conditions, the approximate volume ratio of Solid : Water : Air is:",
+["50% : 25% : 25%","70% : 25% : 5%","50% : 45% : 5%","33% : 33% : 33%","60% : 20% : 20%"],
+"Good plant growing conditions: Solid 50%, Water 25%, Air 25%.");
+Q("Edaphic Factors","Hard","Field air capacity (fractional volume of air in soil at field capacity) is generally around what percentage in sandy soils?",
+["25 percent or more","5-10 percent","50 percent or more","1-2 percent","70 percent or more"],
+"Sandy soils: field air capacity ~25% or more; loamy soils 15-20%; clay soils <10%.");
+Q("Edaphic Factors","Moderate","Which crop is noted as requiring low O2 in soil air and being able to tolerate waterlogged (absence of O2) conditions?",
+["Rice","Potato","Tobacco","Cotton","Tea"],
+"Rice requires low O2 and tolerates waterlogging; potato, tobacco, cotton, linseed, tea and legumes need higher O2.");
+Q("Edaphic Factors","Hard","What is stated as the ideal soil temperature range (°F) for planting most plants?",
+["65 to 75°F","40 to 50°F","90 to 100°F","30 to 40°F","110 to 120°F"],
+"Ideal soil temperatures for planting most plants: 65-75°F (18-24°C).");
+Q("Edaphic Factors","Hard","In terms of overall soil composition, what is the approximate percentage of Mineral Particles?",
+["45%","25%","5%","10%","80%"],
+"Soil composition: Mineral particles 45%, Air 25%, Water 25%, Organic matter 5%.");
+Q("Edaphic Factors","Hard","Within Soil Organic Matter (SOM), what is the approximate range for Stabilized Organic Matter (Humus)?",
+["33-50%","5-10%","less than 5%","70-90%","1-2%"],
+"SOM breakdown: Living organisms <5%, Fresh residue ~10%, Stabilized organic matter (humus) 33-50%, Decomposing organic matter 33-50%.");
+Q("Edaphic Factors","Hard","According to the document, 1% organic matter in the top 15 cm root zone weighs approximately how much per hectare?",
+["20,000 Kg","2,000 Kg","200,000 Kg","500 Kg","50,000 Kg"],
+"1% organic matter in top 15cm root zone weighs about 20,000 Kg per hectare.");
+Q("Edaphic Factors","Moderate","Soil organisms are commonly divided into five arbitrary groups according to size. Which of the following is NOT one of them?",
+["Endofauna","Protists","Microfauna","Mesofauna","Macrofauna"],
+"Five groups: Protists, Microfauna, Mesofauna, Macrofauna, Megafauna. 'Endofauna' is not one of them.");
+Q("Edaphic Factors","Hard","Which soil organism group is described as being less than 100 microns in length and generally feeding upon other microorganisms (including single-celled protozoans and nematodes)?",
+["Microfauna","Protists","Mesofauna","Macrofauna","Megafauna"],
+"Microfauna: <100 microns, feed on other microorganisms.");
+Q("Edaphic Factors","Moderate","Which group constitutes the largest soil organisms and includes the largest earthworms?",
+["Megafauna","Macrofauna","Mesofauna","Microfauna","Protists"],
+"Megafauna: largest soil organisms, includes largest earthworms.");
+Q("Edaphic Factors","Moderate","The pH range across which soils generally vary is:",
+["An extremely acidic pH of 3 to a very alkaline pH of 10","A pH of 0 to 5 only","A pH of 5 to 14 only","A pH of 6.5 to 7.5 only","A pH of 1 to 3 only"],
+"Soils range from pH 3 (extremely acidic) to pH 10 (very alkaline).");
+Q("Edaphic Factors","Hard","Availability of Phosphorus is highest within which soil pH range, due to higher solubility of phosphorus compounds?",
+["6.0 to 7.5","3.0 to 5.0","8.0 to 10.0","1.0 to 3.0","9.0 to 10.0"],
+"Phosphorus availability is highest at pH 6.0-7.5.");
+Q("Edaphic Factors","Hard","Metallic cations like Fe, Mn, Cu, and Zn tend to precipitate and become less available to plants at:",
+["High soil pH (alkaline soils)","Low soil pH (acidic soils)","Neutral soil pH exactly 7.0","Any pH — availability is unaffected","Only in waterlogged conditions"],
+"Metallic cations (Fe, Mn, Cu, Zn) precipitate at high pH, reducing availability in alkaline soils.");
+Q("Edaphic Factors","Moderate","As per the optimum pH range table, Nitrogen (N) availability is best within which pH range?",
+["6 to 8","3 to 5","9 to 10","1 to 3","2 to 4"],
+"Nitrogen: optimum pH range 6 to 8.");
+Q("Edaphic Factors","Hard","According to the optimum pH range table for nutrient availability, Molybdenum (Mo) is best available at:",
+["7 and above","6 and below","5 to 6.5","3 to 4","1 to 2"],
+"Molybdenum (Mo): optimum pH 7 and above.");
+Q("Edaphic Factors","Hard","Which nutrient has an optimum pH availability range of 6 and below, per the document's table?",
+["Iron (Fe)","Sulphur (S)","Calcium (Ca) and Magnesium (Mg)","Phosphorus (P)","Molybdenum (Mo)"],
+"Iron (Fe): optimum pH 6 and below.");
+Q("Edaphic Factors","Hard",MS+"I. Neutral soils with pH 7.0 are best for the growth of most crops.\nII. At lower pH, H+ ions replace K, causing leaching of Potassium.\nIII. Boron is leached out at high pH.\nIV. At high pH, potassium compound availability is reduced."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement III is incorrect — Boron is leached out at LOW pH, not high pH. I, II, and IV are correct.",
+"multi");
+Q("Edaphic Factors","Moderate","Soil temperature at different depths affects seed germination and growth. Which of the following is NOT correct?",
+["Cold soils are highly conducive for rapid growth of most agricultural crops","Soil temperature influences the rate of absorption of water and nutrients","Soil temperature affects germination of seeds and growth of underground portions like tapioca","Soil temperature controls microbial activity and nutrient availability processes","Nighttime and daytime soil temperatures are both important"],
+"Cold soils are NOT conducive for rapid growth of most agricultural crops — the opposite of what's claimed.");
+
+/* ---------------- SECTION 15: Numerical Concepts ---------------- */
+Q("Numerical Concepts","Moderate","Theoretical Field Capacity assumes the machine performs its function 100% of the time at rated forward speed while covering:",
+["100% of its rated width","50% of its rated width","75% of its rated width","Only half the field length","Variable width depending on soil type"],
+"Theoretical field capacity = rate of coverage at 100% time and 100% rated width.");
+Q("Numerical Concepts","Hard","Field Efficiency is defined as the ratio of:",
+["Effective field capacity to Theoretical field capacity, expressed as a percentage","Theoretical field capacity to Effective field capacity","Soil inversion to soil pulverization","Ploughing depth to ploughing speed","Number of ploughings to time taken"],
+"Field efficiency (E) = (Effective field capacity / Theoretical field capacity) × 100.");
+Q("Numerical Concepts","Hard","A 5×20 cm double action disc harrow is operated by a tractor at 5 km/h. Assuming field efficiency of 80%, what is the actual (effective) field capacity?",
+["0.4 ha/h","0.8 ha/h","0.2 ha/h","1.0 ha/h","0.6 ha/h"],
+"Width = 100cm = 1m; FCA = (1×5×80)/1000 = 0.4 ha/h.");
+Q("Numerical Concepts","Hard","A 3×30 cm plough moves at 4 km/h with 70% field efficiency. How long does it take to plough a 500×500 m field?",
+["100 hours","250 hours","50 hours","400 hours","10 hours"],
+"Width=0.9m; FCA=(0.9×4×70)/1000=0.25 ha/h=2500 m²/h; Time=250000/2500=100 hours.");
+Q("Numerical Concepts","Hard","A 4-bottom, 40 cm mould board plough operates at 5.5 km/h with 75% field efficiency. What is its rate of work in hectares per hour?",
+["0.66 ha/h","0.44 ha/h","0.88 ha/h","1.2 ha/h","0.33 ha/h"],
+"Width = 4×40=160cm=1.6m; Area covered = 1.6×5.5×75/1000 = 0.66 ha/h.");
+Q("Numerical Concepts","Hard","An indigenous plough has a furrow 20 cm wide at the top and 10 cm deep, working at 2.5 km/h for 8 hours. What is the volume of soil handled per day?",
+["200 m³","100 m³","400 m³","50 m³","1000 m³"],
+"Furrow cross-section = 10×20/2 = 100 cm²; Distance in 8h = 20,000 m; Volume = 20000×100/10000 = 200 m³.");
+Q("Numerical Concepts","Moderate","Soil Pulverization, the quality of work performed by a plough expressed in terms of particle size distribution, is determined by:",
+["Sieve analysis","Soil pH testing","Hydrometer analysis of texture","Field capacity measurement","Infiltration rate testing"],
+"Soil pulverization is determined by sieve analysis.");
+Q("Numerical Concepts","Moderate","Soil Inversion is calculated using the ratio of:",
+["Weeds seen on the surface after ploughing to weeds seen before ploughing, ×100","Weeds before ploughing to weeds after ploughing, ×100","Clods before ploughing to clods after ploughing","Area ploughed to time taken","Depth ploughed to width covered"],
+"Soil Inversion = (No. of weeds seen after ploughing / No. of weeds seen before ploughing) × 100.");
+Q("Numerical Concepts","Easy","'Effective operating time' is best defined as:",
+["The time during which the machine is actually performing its intended function","The theoretical time required at rated width","The total downtime of the machine","The time spent transporting the machine to the field","The time spent on machine maintenance"],
+"Effective operating time = time during which the machine actually performs its intended function.");
+Q("Numerical Concepts","Hard",MS+"I. Effective field capacity is usually expressed as hectares per hour.\nII. Theoretical time per hectare is the time required at theoretical field capacity.\nIII. Effective operating time per hectare is always less than theoretical time per hectare.\nIV. Soil pulverization is determined by sieve analysis."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement III is incorrect — effective operating time per hectare is GREATER than theoretical time per hectare if less than full rated width is used. I, II, IV are correct.",
+"multi");
+
+/* ---------------- SECTION 16: Weed Classification ---------------- */
+Q("Weed Classification","Easy","Based on life span (Ontogeny), weeds are classified into which three types?",
+["Annual, Biennial, Perennial","Monocot, Dicot, CAM","Kharif, Rabi, Zaid weeds","Aquatic, Terrestrial, Aerial","Native, Exotic, Hybrid"],
+"Weeds by life span: Annual, Biennial, Perennial.");
+Q("Weed Classification","Moderate","Chenopodium album is given as an example of which type of annual weed?",
+["Winter annual","Monsoon annual","Summer annual","Biennial weed","Perennial weed"],
+"Chenopodium album = winter annual example. Commelina benghalensis and Boerhavia erecta = monsoon annuals.");
+Q("Weed Classification","Moderate","Perennial weeds are further classified based on their propagation structures. Which of the following is NOT one of these sub-types?",
+["Aromatic perennials","Simple perennials","Bulbous perennials","Corm perennials","Creeping perennials"],
+"Perennial sub-types: Simple, Bulbous, Corm, and Creeping perennials. 'Aromatic perennials' is not a category.");
+Q("Weed Classification","Hard","Among Creeping perennials, Sorghum halepense reproduces via which underground structure?",
+["Rhizome","Stolon","Tuber","Enlarged root","Bulb"],
+"Sorghum halepense = rhizome example among creeping perennials.");
+Q("Weed Classification","Hard","Cynodon dactylon, a creeping perennial weed, reproduces mainly via:",
+["Stolon (horizontal creeping stem above ground)","Rhizome (underground stem)","Tuber (modified rhizome)","Enlarged root system","Bulb with scales"],
+"Cynodon dactylon = stolon example (horizontal creeping stems above ground).");
+Q("Weed Classification","Hard","Cyperus rotundus, a well-known weed, reproduces through:",
+["Tubers (modified rhizomes adapted for food storage)","Stolons only","Bulbs only","Corms only","Seeds only"],
+"Cyperus rotundus = tuber example among creeping perennials.");
+Q("Weed Classification","Moderate","Based on ecological affinities, weeds are classified into wetland, garden land (irrigated), and:",
+["Dryland weeds","Aquatic weeds only","Aerial weeds","Marginal weeds","Alpine weeds"],
+"Ecological affinity classification: Wetland, Garden land (irrigated), and Dryland weeds.");
+Q("Weed Classification","Hard","Weeds such as Tribulus terrestris and Argemone mexicana, adapted with mucilaginous stems and hairiness to withstand drought, belong to which ecological category?",
+["Dryland weeds","Wetland weeds","Garden land (irrigated) weeds","Aquatic weeds","Marginal weeds"],
+"Dryland weeds: hardy, deep-rooted, drought-adapted; examples Tribulus terrestris, Argemone mexicana.");
+Q("Weed Classification","Moderate","Based on origin, weeds are classified as Indigenous and:",
+["Introduced or Exotic weeds","Hybrid weeds","Genetically modified weeds","Cultivated weeds","Wild weeds"],
+"Origin-based classification: Indigenous weeds and Introduced/Exotic weeds.");
+Q("Weed Classification","Hard","Parthenium hysterophorus is given as a classic example of which weed category based on origin?",
+["Introduced or Exotic weed","Indigenous weed","Wetland weed","Bulbous perennial weed","Acidophile weed"],
+"Parthenium hysterophorus = introduced/exotic weed example.");
+Q("Weed Classification","Moderate","Based on soil pH, weeds tolerant of acidic soils are termed:",
+["Acidophile","Basophile","Neutrophile","Halophile","Xerophile"],
+"Acidophile = acid soil weeds (e.g., Rumex acetosella).");
+Q("Weed Classification","Hard","Which of the following is the correct example-category match for pH-based weed classification?",
+["Taraxacum sp. — Basophile (saline & alkaline soil weeds)","Rumex acetosella — Basophile","Acalypha indica — Acidophile","Taraxacum sp. — Neutrophile","Rumex acetosella — Neutrophile"],
+"Taraxacum sp. = Basophile; Rumex acetosella = Acidophile; Acalypha indica = Neutrophile.");
+Q("Weed Classification","Moderate","Based on morphology (the most widely used classification by weed scientists), weeds are classified into Grasses, Sedges and:",
+["Broad-leaved weeds","Aquatic weeds","Parasitic weeds","Poisonous weeds","Fibrous weeds"],
+"Morphology-based classification: Grasses, Sedges, Broad-leaved weeds.");
+Q("Weed Classification","Moderate","Weeds classified under 'Sedges' belong to which plant family?",
+["Cyperaceae","Poaceae","Fabaceae","Asteraceae","Solanaceae"],
+"Sedges belong to family Cyperaceae; Grasses belong to family Poaceae.");
+Q("Weed Classification","Hard","Under the specificity-based classification, weeds are grouped into Poisonous, Parasitic, and:",
+["Aquatic weeds","Border weeds","Fibrous weeds","Ornamental weeds","Wind-dispersed weeds"],
+"Specificity-based classification: Poisonous, Parasitic, and Aquatic weeds.");
+Q("Weed Classification","Hard","Orobanche cernua, which parasitizes tobacco, is classified as a:",
+["Total root parasite","Partial root parasite","Total stem parasite","Partial stem parasite","Facultative parasite"],
+"Orobanche cernua on Tobacco = Total root parasite.");
+Q("Weed Classification","Hard","Striga lutea, which attacks sugarcane and sorghum, is classified as a:",
+["Partial root parasite","Total root parasite","Total stem parasite","Partial stem parasite","Non-parasitic weed"],
+"Striga lutea on sugarcane/sorghum = Partial root parasite.");
+Q("Weed Classification","Hard","Cuscuta chinensis, which parasitizes lucerne and onion, is an example of a:",
+["Total stem parasite","Total root parasite","Partial root parasite","Partial stem parasite","Facultative parasite"],
+"Cuscuta chinensis on lucerne/onion = Total stem parasite.");
+Q("Weed Classification","Hard","Loranthus longiflorus, found on mango and other trees, is classified as a:",
+["Partial stem parasite","Total stem parasite","Total root parasite","Partial root parasite","Emersed aquatic weed"],
+"Loranthus longiflorus on mango = Partial stem parasite.");
+Q("Weed Classification","Moderate","Aquatic weeds are further grouped into how many categories?",
+["Four (submersed, emersed, marginal, floating)","Two (rooted and unrooted)","Three (surface, subsurface, deep)","Five categories","Six categories"],
+"Aquatic weeds: submersed, emersed, marginal, and floating.");
+Q("Weed Classification","Hard","Eichhornia crassipes and Pistia stratiotes are examples of which type of aquatic weed?",
+["Floating weeds","Submersed weeds","Emersed weeds","Marginal weeds","Semi-terrestrial weeds"],
+"Eichhornia crassipes, Pistia stratiotes, Salvinia, Nymphaea = floating weed examples.");
+Q("Weed Classification","Hard","Utricularia stellaris and Ceratophyllum demersum, which produce most of their vegetative growth beneath the water surface, are examples of:",
+["Submersed weeds","Emersed weeds","Marginal weeds","Floating weeds","Terrestrial weeds"],
+"Submersed weeds: produce growth beneath water surface with true roots/stems/leaves.");
+Q("Weed Classification","Hard","Marginal aquatic weeds are typically rooted in moist shoreline areas with a water depth of:",
+["60 to 90 cm","5 to 10 cm","150 to 200 cm","1 to 5 cm","300 to 400 cm"],
+"Marginal weeds grow in moist shoreline areas with 60-90 cm water depth; genera include Typha, Polygonum, Scirpus.");
+Q("Weed Classification","Moderate",MS+"I. All dicotyledon weeds are classified as broad-leaved weeds.\nII. Sedges have triangular, solid, non-jointed stems in cross-section.\nIII. Nelumbium speciosum is an example of a submersed weed.\nIV. Weeds found in playgrounds and roadsides are usually hardy, prostrate perennials."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement III is incorrect — Nelumbium speciosum is an example of an EMERSED weed, not submersed. I, II, IV are correct.",
+"multi");
+
+/* ---------------- SECTION 17: Weed Biology & Control ---------------- */
+Q("Weed Biology & Control","Moderate","Weed seed dispersal by 'Man' occurs mainly through:",
+["Unknowingly harvesting weeds along with crop due to similar maturity/size/shape, called Satellite weeds","Only via deliberate weed planting","Only via export of processed grain","Only via composting operations","Only via aerial application of pesticides"],
+"Weeds maturing similarly to crops get harvested along with them — called Satellite weeds (e.g., Avena fatua, Phalaris minor).");
+Q("Weed Biology & Control","Hard","'Crop Mimicry Dispersal' refers to weed seed adaptations that resemble crop seed in size/shape/morphology. Which example is given?",
+["Barnyard grass mimicking rice","Parthenium mimicking wheat","Cuscuta mimicking cotton seed","Striga mimicking maize kernels","Cynodon mimicking sugarcane setts"],
+"Barnyard grass biotype resembles rice, escaping hand weeding and dispersing with rice.");
+Q("Weed Biology & Control","Moderate","Weed seeds with cottony coverings, parachute-like pappus, or feathery persistent styles are primarily adapted for dispersal by:",
+["Wind","Water","Animals","Man","Machinery"],
+"Wind dispersal organs include pappus, comose, feathery persistent styles, balloon, and wings.");
+Q("Weed Biology & Control","Hard","Which of the following organs is described as a 'modified papery calyx that encloses the fruits loosely along with entrapped air', aiding wind dispersal?",
+["Balloon","Pappus","Comose","Wings","Awn"],
+"Balloon = modified papery calyx enclosing fruits loosely with entrapped air, aiding wind float.");
+Q("Weed Biology & Control","Moderate","Weed seeds with hooks, stiff hairs, sharp spines or scarious bracts are primarily dispersed by:",
+["Animals","Wind","Water","Machinery","Gravity alone"],
+"Animal dispersal: hooks (Xanthium strumarium), stiff hairs (Cenchrus), sharp spines (Tribulus terrestris), scarious bracts (Achyranthus aspera).");
+Q("Weed Biology & Control","Easy","Reproduction by seed in weeds is termed:",
+["Sexual reproduction","Asexual/vegetative reproduction","Parthenogenesis","Apomixis","Budding"],
+"Reproduction by seed = sexual reproduction, requiring pollination and fertilization.");
+Q("Weed Biology & Control","Hard","Weed dormancy caused by deep placement of seeds in soil during ploughing, where germination resumes only upon return to the top 3-5 cm, is termed:",
+["Enforced Dormancy","Innate Dormancy","Induced Dormancy","Physiological Dormancy","Photodormancy"],
+"Enforced dormancy: due to deep seed placement; broken when seeds return to top 3-5cm with light/aeration exposure.");
+Q("Weed Biology & Control","Hard","Dormancy that is genetically controlled, where seeds fail to germinate even under adequate moisture/temperature/light due to hard seed coats or immature embryos, is called:",
+["Innate Dormancy","Enforced Dormancy","Induced Dormancy","Vernal Dormancy","Photoperiodic Dormancy"],
+"Innate dormancy: genetically controlled, e.g., hard seed coats (Setaria, Xanthium), immature embryos (Polygonum).");
+Q("Weed Biology & Control","Hard","Induced Dormancy in weed seeds typically results from:",
+["A sudden physiological change due to rise in temperature/CO2, low O2 pressure or waterlogging","Deep burial during ploughing operations only","Genetic hard seed coats only","Presence of light exposure only","Application of herbicides only"],
+"Induced dormancy = sudden physiological change under marked temperature/CO2 rise, low O2, waterlogging etc.");
+Q("Weed Biology & Control","Hard","Which weed species is specifically noted in the document as exhibiting all three kinds of dormancy (enforced, innate, and induced)?",
+["Wild oat (Avena fatua)","Parthenium hysterophorus","Cyperus rotundus","Cynodon dactylon","Striga lutea"],
+"Wild oat (Avena fatua) exhibits all three kinds of dormancy.");
+Q("Weed Biology & Control","Moderate","Crop-weed competition occurs over several resources. Which of the following is NOT listed as a competition factor?",
+["Soil pH buffering capacity","Nutrients","Moisture","Light","Space"],
+"Competition factors listed: nutrients, moisture, light, space, and allelopathy — not soil pH buffering capacity.");
+Q("Weed Biology & Control","Moderate","Allelopathy refers to:",
+["Detrimental effects of chemicals/exudates from one living plant species on germination/growth of another species sharing the same habitat","Beneficial effects of intercropping legumes with cereals","The competitive uptake of nitrogen by weeds","The process of weed seed dormancy breaking","The dispersal of weed seeds by wind"],
+"Allelopathy = detrimental chemical effects of one plant species on another sharing the habitat.");
+Q("Weed Biology & Control","Hard","The use of living organisms such as insects, disease organisms, or herbivorous fish for weed control is termed:",
+["Biological control","Mycoherbicide application","Mechanical control","Cultural control","Chemical control"],
+"Biological control = use of living organisms (insects, pathogens, fish, snails, competitive plants) to control weeds.");
+Q("Weed Biology & Control","Hard","Prickly pear (Opuntia sp.) is controlled biologically in India mainly by cochineal insects, namely:",
+["Dactylopius indicus and D. tomentosus","Crocidosema lantana","Bactra verutana","Altica cynanea","Melanagromyza cuscutae"],
+"Opuntia sp. controlled by Cactoblastis cactorum larvae; in India specifically by cochineal insects Dactylopius indicus and D. tomentosus.");
+Q("Weed Biology & Control","Moderate","Lantana camara is biologically controlled by the larvae of which moth?",
+["Crocidosema lantana","Cactoblastis cactorum","Bactra verutana","Altica cynanea","Melanagromyza cuscutae"],
+"Lantana camara controlled by larvae of Crocidosema lantana, which bores into flowers and stems.");
+Q("Weed Biology & Control","Hard","Cyperus rotundus is biologically controlled by which moth borer?",
+["Bactra verutana","Crocidosema lantana","Cactoblastis cactorum","Melanagromyza cuscutae","Dactylopius indicus"],
+"Cyperus rotundus is controlled by Bactra verutana, a moth borer.");
+Q("Weed Biology & Control","Moderate","Bio-herbicides (Mycoherbicides) primarily use:",
+["Plant pathogens cultured artificially and sprayed like post-emergence herbicides","Only synthetic chemical compounds","Only mechanical uprooting tools","Only grazing animals","Only crop rotation schedules"],
+"Bio-herbicides/Mycoherbicides = plant pathogens cultured and sprayed as post-emergence herbicide substitutes.");
+Q("Weed Biology & Control","Hard","Fungal pathogens have been more extensively used as bio-herbicides than bacterial/viral/nematode pathogens mainly because:",
+["Bacteria and viruses cannot actively penetrate the host and require natural openings or vectors","Fungi are cheaper to culture in all cases","Bacteria are toxic to non-target crops","Viruses spread too slowly to be effective","Nematodes are banned under IWM regulations"],
+"Bacteria/viruses need natural openings or vectors to initiate disease, unlike fungi which can actively penetrate hosts.");
+Q("Weed Biology & Control","Moderate","Integrated Weed Management (IWM) primarily aims to:",
+["Minimize residue problems in plants, soil, air and water via a planned combination of methods","Rely exclusively on chemical herbicides","Eliminate the need for crop rotation","Focus solely on mechanical tillage","Apply a single fixed herbicide dose regardless of weed species"],
+"IWM = combination of mechanical, chemical, and cultural weed management practices to minimize residue problems.");
+Q("Weed Biology & Control","Hard",MS+"I. Reproduction by seed requires pollination and fertilization of an egg.\nII. In vegetative (asexual) reproduction, a new plant develops from a stem, root or leaf.\nIII. Vegetative structures generally survive longer in soil than seeds.\nIV. Weed seed dispersal agents include wind, water, animals, humans and machinery."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement III is incorrect — vegetative structures generally do NOT survive as long in soil as seeds. I, II, IV are correct.",
+"multi");
+Q("Weed Biology & Control","Moderate","Disc-type cultivation equipment, compared to shovels or sweeps, is:",
+["Less likely to drag vegetative plant parts across fields","More likely to spread vegetative weed parts","Incapable of tillage in any soil type","Only usable for wetland puddling","Banned under IWM guidelines"],
+"Disc-type equipment is less likely to drag vegetative plant parts than shovels or sweeps, per the document.");
+
+/* ---------------- EXTRA MULTI-STATEMENT QUESTIONS (spread across sections) ---------------- */
+Q("Agronomy Basics","Hard", MS+"I. Agronomy is one of the branches of Agriculture.\nII. The three branches of Agronomy are Crop Science, Soil Science and Environmental Science.\nIII. Crop Science deals with only field crops.\nIV. Pietro de'Crescenzi is regarded as the father of Tillage."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement IV is wrong — Jethro Tull is the father of tillage, not Pietro de'Crescenzi (who is the father of Agronomy). I, II, III are correct.",
+"multi");
+Q("Agronomy Basics","Moderate", MS+"I. The Crop Science branch of Agronomy deals only with field crops.\nII. Soil Science is one of the three branches of Agronomy.\nIII. Norman Borlaug defined Agronomy in the year 1980.\nIV. The scope of Agronomy includes availability and application of chemical fertilizers."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are accurate as per the document.",
+"multi");
+
+Q("Field Crops Classification","Hard", MS+"I. Millets are divided into Major Millets and Minor Millets.\nII. Foxtail millet and Barnyard millet are examples of Minor Millets.\nIII. Pulses are divided into Grams, Beans and Peas.\nIV. Groundnut and Soybean are examples of Edible Oil Seed Crops."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are correct as per the document.",
+"multi");
+Q("Field Crops Classification","Moderate", MS+"I. Fibre crops are classified into only two types based on the part of the plant used.\nII. Cotton is an example of a Fruit fibre.\nIII. Commercial crops require more than 50% of the product to be for trade.\nIV. Green manure crops are used to incorporate plant tissue into the soil."+MSQ,
+["Only two","Only one","Only three","All four","None of the above are correct"],
+"Statements I and III are incorrect — fibre crops are classified into THREE types (Fruit, Stem/Stalk/Bast, Leaf/Hard), and commercial crops require more than 75% (not 50%) of the product for trade. II and IV are correct.",
+"multi");
+Q("Field Crops Classification","Hard", MS+"I. Sunnhemp (Crotalaria juncea) is an example of a Green Manure crop.\nII. Ginger and Garlic are Spices and Condiment crops.\nIII. Guinea and Setaria are examples of Sugar crops.\nIV. Forage crops include fodder, hay, silage and pastures."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement III is wrong — Guinea and Setaria are Forage crop examples, not Sugar crops. I, II, IV are correct.",
+"multi");
+
+Q("Ontogeny & Season","Moderate", MS+"I. Annual crops complete their life cycle within a season or year.\nII. Biennial crops may be seed bearing or non-seed bearing.\nIII. Perennial crops live for three or more years.\nIV. Paddy, wheat and maize are examples of annual crops."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement II is wrong — it is Perennial crops that may be seed bearing or non-seed bearing, not biennials. I, III, IV are correct.",
+"multi");
+Q("Ontogeny & Season","Hard", MS+"I. Summer/Zaid crops have a sowing season of February-March and harvesting season of May-June.\nII. Summer/Zaid crops require warm dry weather and a longer day length for flowering.\nIII. Kharif crops require a shorter day length for flowering.\nIV. Rabi crop examples include wheat, mustard, barley and oats."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are accurate per the seasonal classification table.",
+"multi");
+
+Q("Pollination & Root Systems","Hard", MS+"I. Alfalfa is an example of a deep root crop.\nII. Faba bean and sugar beet are examples of intermediate root crops.\nIII. Wheat, barley and rye are examples of deep root crops.\nIV. Red gram and grape have a tap root system."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement III is wrong — wheat, barley and rye are shallow root crops, not deep. I, II, IV are correct.",
+"multi");
+
+Q("Photosynthesis & CO2 Fixation","Hard", MS+"I. C3 plants constitute about 85% of plant species.\nII. CAM plants constitute about 8% of plant species, mostly succulents.\nIII. In C4 plants, the C4 cycle occurs in the mesophyll cell and the C3 cycle in the bundle sheath cell.\nIV. C3 plants are typically found in temperate, cool and wet environments."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are correct as per the document.",
+"multi");
+Q("Photosynthesis & CO2 Fixation","Hard", MS+"I. The dark reaction is also called Blackman's reaction.\nII. The light reaction is also called Hill's reaction and Arnon's cycle.\nIII. Photosynthesis is a process where water is oxidized and CO2 is reduced.\nIV. At the end of photosynthesis, food is ready for plants in the form of Glucose."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are correct as per the document.",
+"multi");
+
+Q("Climate & Nutrient Uptake","Moderate", MS+"I. Rice, sugarcane, mango and pineapple are temperate zone crop examples.\nII. Temperate zone crops grow between latitude 30°N and 50°S.\nIII. Exhaustive crops include Berseem, alfalfa, soybean and legumes.\nIV. Exhaustive crops feed heavily on the soil and deplete its nutrients."+MSQ,
+["Only two","Only one","Only three","All four","None of the above are correct"],
+"Statements I and III are incorrect — rice, sugarcane, mango and pineapple are TROPICAL zone crops, not temperate; and Berseem, alfalfa, soybean, legumes are RESTORATIVE crops, not exhaustive. II and IV are correct.",
+"multi");
+
+Q("Special Purpose Crops","Hard", MS+"I. Avenue crops are grown exclusively inside greenhouses, e.g., Pigeon pea, Glyricidia.\nII. Augment crops supplement the yield of main crops, e.g., Japanese mustard with berseem.\nIII. Cash crops are grown primarily for the farmer's personal consumption.\nIV. Contour crops are grown along the contour line to protect land from soil erosion."+MSQ,
+["Only two","Only one","Only three","All four","None of the above are correct"],
+"Statements I and III are incorrect — Avenue crops are grown along farm roads/fences (not in greenhouses), and Cash crops are grown primarily for sale (not personal consumption). II and IV are correct.",
+"multi");
+Q("Special Purpose Crops","Moderate", MS+"I. Ley crops are grown exclusively for fibre extraction, e.g., Berseem + Mustard.\nII. Medicinal crops contain alkaloids, glycosides or steroids of medicinal value.\nIII. Stimulate crops are grown only for their fibre content, e.g., tobacco and opium.\nIV. Trap crops protect the main cash crop from a pest, e.g., cotton red bug trapped by ladyfinger."+MSQ,
+["Only two","Only one","Only three","All four","None of the above are correct"],
+"Statements I and III are incorrect — Ley crops are grown for grazing/livestock feeding (not fibre), and Stimulate crops stimulate the human body (not grown for fibre). II and IV are correct.",
+"multi");
+Q("Special Purpose Crops","Hard", MS+"I. Catch/Contingent crops are cultivated only after the main crop succeeds, as a bonus crop.\nII. Competitive crops compete with each other and are unsuitable for intercropping.\nIII. Border/guard crops are grown solely to increase soil pH near field borders.\nIV. Cover crops protect soil from erosion between periods of regular crop production."+MSQ,
+["Only two","Only one","Only three","All four","None of the above are correct"],
+"Statements I and III are incorrect — Catch/Contingent crops are grown when the main crop FAILS (not succeeds), and Border/guard crops protect against animal trespass/wind, not soil pH. II and IV are correct.",
+"multi");
+
+Q("Famous Crop Names","Moderate", MS+"I. Maize is called the King of Cereals.\nII. Maize is called the Queen of Cereals.\nIII. Jute is called the White Gold of America.\nIV. Jute is called the Golden Fibre."+MSQ,
+["Only two","Only one","Only three","All four","None of the above are correct"],
+"Statements I and III are incorrect — Wheat (not Maize) is the King of Cereals, and Cotton (not Jute) is the White Gold of America. II and IV are correct.",
+"multi");
+Q("Famous Crop Names","Hard", MS+"I. Pigeon pea is the King of Pulses.\nII. Pea is the Queen of Pulses.\nIII. Lucerne is the King of fodder crops.\nIV. Lucerne is the Queen of fodder crops."+MSQ,
+["Only two","Only one","Only three","All four","None of the above are correct"],
+"Statements I and III are incorrect — Chickpea (not Pigeon pea) is the King of Pulses, and Berseem (not Lucerne) is the King of fodder crops. II and IV are correct.",
+"multi");
+Q("Famous Crop Names","Hard", MS+"I. Sorghum is called both the King of coarse Cereals and the Camel Crop.\nII. Congress Grass is called the King of Weeds.\nIII. Oil Palm is called the Small holder's irrigated crop.\nIV. Kodo is called the Coarsest of Coarse Millet."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements correctly match the document's famous names table.",
+"multi");
+
+Q("Cell Organelles","Moderate", MS+"I. Vacuoles are membrane-bound sacs mainly found in plant cells that store cell sap.\nII. The cell membrane is a semi-permeable membrane controlling molecule movement across it.\nIII. Centrioles are found in both plant and animal cells.\nIV. The nuclear membrane surrounds the nucleus and is selectively permeable."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement III is incorrect — centrioles are present only in animal cells. I, II, IV are correct.",
+"multi");
+Q("Cell Organelles","Moderate", MS+"I. The nucleus is large and oval, controlling cell activity and division.\nII. Endoplasmic reticulum provides a transport channel within the cell.\nIII. Mitochondria are double membranous, rod-shaped organelles.\nIV. Plastids occur in plant cells and are responsible for storing pigments."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are correct as per the document.",
+"multi");
+
+Q("Soil Preparation & Tillage","Hard", MS+"I. The Country plough is made entirely of iron and produces complete furrow inversion.\nII. The MB plough leaves no unploughed land as furrow slices are cut clean and inverted.\nIII. The Disc plough works well only in heavily stone-laden soils.\nIV. Jethro Tull is considered the father of tillage."+MSQ,
+["Only two","Only one","Only three","All four","None of the above are correct"],
+"Statements I and III are incorrect — the Country plough is wood with an iron share point and gives NO inversion; the Disc plough works well in soils FREE from stones. II and IV are correct.",
+"multi");
+Q("Soil Preparation & Tillage","Moderate", MS+"I. Primary tillage is done only during the standing crop stage, never after harvest.\nII. Secondary tillage includes harrowing and planking.\nIII. Layout of seed bed operations are identical and universal for every crop.\nIV. Broadbed and furrows (BBF) are formed before the onset of monsoon."+MSQ,
+["Only two","Only one","Only three","All four","None of the above are correct"],
+"Statements I and III are incorrect — primary tillage is done AFTER harvest (not during the standing crop), and seed bed layout operations ARE crop specific (not universal). II and IV are correct.",
+"multi");
+Q("Soil Preparation & Tillage","Hard", MS+"I. Topping is practiced in wheat and rice to stimulate root growth.\nII. De-trashing refers to removing older leaves from sugarcane.\nIII. De-suckering is practiced in sugarcane to remove older leaves.\nIV. Propping is practiced in sugarcane and banana."+MSQ,
+["Only two","Only one","Only three","All four","None of the above are correct"],
+"Statements I and III are incorrect — Topping is practiced in cotton and tobacco (not wheat/rice), and De-suckering (removing suckers) is practiced in tobacco, not sugarcane (that's De-trashing). II and IV are correct.",
+"multi");
+Q("Soil Preparation & Tillage","Moderate", MS+"I. Ploughing never disturbs deep soil layers and only affects the surface crust.\nII. Levelling is done only to prepare land for building construction, unrelated to irrigation.\nIII. Manuring is always done before ploughing in the standard sequence.\nIV. Ploughs of wood or iron, pulled by bullocks or tractors, are used for ploughing."+MSQ,
+["Only one","Only two","Only three","All four","None of the above are correct"],
+"Statements I, II and III are incorrect — ploughing DOES loosen/dig soil bringing nutrients up; levelling helps water distribution during irrigation (not construction); and the standard sequence is Ploughing → Levelling → Manuring. Only IV is correct.",
+"multi");
+
+Q("Modern Tillage Systems","Hard", MS+"I. Minimum tillage requires adding extra tillage operations regardless of cost-benefit.\nII. In Row zone tillage, secondary tillage is increased across the entire field area.\nIII. In Wheel Track tillage, no machinery is used at any stage.\nIV. Primary tillage is done as usual in all Minimum Tillage systems."+MSQ,
+["Only one","Only two","Only three","All four","None of the above are correct"],
+"Statements I, II and III are incorrect — minimum tillage reduces operations (doesn't add them); Row zone tillage reduces secondary tillage to the row zone only (not the whole field); and Wheel Track tillage DOES use tractor wheels to pulverize the row zone. Only IV is correct.",
+"multi");
+Q("Modern Tillage Systems","Moderate", MS+"I. Conventional tillage involves only secondary tillage, skipping primary tillage entirely.\nII. Continuous use of heavy ploughs in conventional tillage always improves subsoil infiltration.\nIII. Conservation tillage aims to maximize the frequency of ploughing operations.\nIV. Strip tillage tills only isolated bands/strips of soil."+MSQ,
+["Only one","Only two","Only three","All four","None of the above are correct"],
+"Statements I, II and III are incorrect — conventional tillage involves BOTH primary and secondary tillage; heavy ploughs create a hard pan causing POOR infiltration; and conservation tillage aims to MINIMIZE (not maximize) tillage frequency. Only IV is correct.",
+"multi");
+Q("Modern Tillage Systems","Hard", MS+"I. Dry tillage is suitable only for crops grown in permanently flooded fields.\nII. Wet tillage/puddling is done only in completely dry, sandy land.\nIII. Puddling increases percolation losses by making the soil highly porous.\nIV. Blind tillage is done at the pre-emergence stage or early growth stages of the crop."+MSQ,
+["Only one","Only two","Only three","All four","None of the above are correct"],
+"Statements I, II and III are incorrect — dry tillage suits broadcasted rice/jute/wheat (not flooded fields); puddling is done in standing water (not dry sandy land); and puddling REDUCES percolation losses via an impervious layer. Only IV is correct.",
+"multi");
+Q("Modern Tillage Systems","Hard", MS+"I. Reduced-Till is generally categorized under Wet tillage/Puddling.\nII. Combined tillage refers to combining fertilizer application with harvesting only.\nIII. Rotary tillage can only be performed manually without any machinery.\nIV. Clean tillage ensures no living plant is left undisturbed in the field."+MSQ,
+["Only one","Only two","Only three","All four","None of the above are correct"],
+"Statements I, II and III are incorrect — Reduced-Till falls under Conventional tillage (not Puddling); Combined tillage uses multiple tillage TOOLS together; and Rotary tillage uses a special rotary TOOL, not manual labour only. Only IV is correct.",
+"multi");
+
+Q("Factors Affecting Crop Production","Moderate", MS+"I. Factors affecting crop production are classified into only External factors.\nII. High yielding ability and early maturity are External (environmental) factors.\nIII. External factors include only Climatic and Edaphic factors.\nIV. Pokkali variety of paddy is a traditional salt-tolerant variety grown in Kerala."+MSQ,
+["Only one","Only two","Only three","All four","None of the above are correct"],
+"Statements I, II and III are incorrect — factors are classified into BOTH Internal and External; high yielding ability/early maturity are INTERNAL (genetic) factors; and External factors include five categories (Climatic, Edaphic, Biotic, Physiographic, Socio-economic), not just two. Only IV is correct.",
+"multi");
+Q("Factors Affecting Crop Production","Hard", MS+"I. Nearly 90% of crop yield is attributed to climatic factors.\nII. Socio-economic factors are unrelated to the economic condition of farmers.\nIII. Physiographic factors include only soil pH and soil temperature.\nIV. Biotic factors include both beneficial and harmful effects of other organisms on crops."+MSQ,
+["Only one","Only two","Only three","All four","None of the above are correct"],
+"Statements I, II and III are incorrect — climatic factors account for nearly 50% (not 90%) of yield; socio-economic factors DO include farmers' economic condition; and physiographic factors are Topography, Altitude, Steepness of slope, and Exposure to light/wind (not soil pH/temperature, which are edaphic). Only IV is correct.",
+"multi");
+Q("Factors Affecting Crop Production","Moderate", MS+"I. Internal factors of crop production relate to the genetic makeup of plants.\nII. Chemical composition of grains, such as oil and protein content, is an internal factor.\nIII. Quality of straw (sweetness, juiciness) is considered an internal factor.\nIV. Socio-economic factors are classified under Internal factors, not External factors."+MSQ,
+["Only three","Only one","Only two","All four","None of the above are correct"],
+"Statement IV is wrong — Socio-economic factors are classified under EXTERNAL (environmental) factors, not internal. I, II, III are correct.",
+"multi");
+
+Q("Climatic Factors","Hard", MS+"I. The temperature range for maximum growth of most agricultural plants is between 60°C and 80°C.\nII. Germination, growth and development of crops are completely unaffected by temperature.\nIII. The temperature of a place is determined solely by its distance from the nearest ocean.\nIV. Sorghum has a higher optimum temperature requirement than Wheat."+MSQ,
+["Only one","Only two","Only three","All four","None of the above are correct"],
+"Statements I, II and III are incorrect — the range for maximum growth is 15-40°C (not 60-80°C); germination/growth ARE highly influenced by temperature; and temperature is determined by latitude AND altitude (not distance from ocean alone). Only IV is correct.",
+"multi");
+Q("Climatic Factors","Moderate", MS+"I. Most crops perform best when relative humidity is 80% and above.\nII. When relative humidity is high, there is a lower chance of pest and disease outbreaks.\nIII. Relative humidity has no bearing on the water requirement of crops.\nIV. Relative humidity is the ratio between moisture present in the air and the saturation capacity of air at a given temperature."+MSQ,
+["Only one","Only two","Only three","All four","None of the above are correct"],
+"Statements I, II and III are incorrect — very FEW crops perform well at 80%+ RH; high RH INCREASES pest/disease outbreak chances; and RH DOES influence water requirements. Only IV is correct.",
+"multi");
+Q("Climatic Factors","Hard", MS+"I. Solar radiation has no relationship with the distribution of crops in a region.\nII. Photosynthetically Active Radiation spans 1000-1400 nanometers.\nIII. As wind velocity increases, damage to plants generally decreases.\nIV. Wind dispersal of pollen and seeds is natural and necessary for certain crops."+MSQ,
+["Only one","Only two","Only three","All four","None of the above are correct"],
+"Statements I, II and III are incorrect — solar radiation DOES control crop distribution via temperature; PAR spans 400-700nm (not 1000-1400nm); and wind damage INCREASES with velocity, not decreases. Only IV is correct.",
+"multi");
+Q("Climatic Factors","Hard", MS+"I. Low and uneven distribution of rainfall is common in heavy irrigated wetland farming.\nII. In desert areas, dense tropical rainforest vegetation is common.\nIII. Atmospheric humidity is normally known as visible water vapour.\nIV. Oxygen is unimportant for respiration and is absorbed, not released, by plants during photosynthesis."+MSQ,
+["None of the above are correct","Only one","Only two","Only three","All four"],
+"All four statements are incorrect — low/uneven rainfall is typical of DRYLAND (not wetland) farming; deserts have grasses/shrubs (not rainforest); humidity is INVISIBLE water vapour; and oxygen IS important for respiration and IS released during photosynthesis.",
+"multi");
+
+Q("Edaphic Factors","Hard", MS+"I. Soil moisture is also called xylem water.\nII. Available moisture is always equal in clay soil and sandy soil.\nIII. Soil water plays no role in the chemical or biological activities of soil.\nIV. Soil water has no effect on soil temperature."+MSQ,
+["None of the above are correct","Only one","Only two","Only three","All four"],
+"All four statements are incorrect — soil moisture is called RHIZIC water (not xylem water); available moisture IS more in clay than sandy soil (not equal); soil water DOES help chemical/biological activity including mineralization; and it DOES moderate soil temperature from extremes.",
+"multi");
+Q("Edaphic Factors","Hard", MS+"I. Soil air has no influence on plant growth or soil organism activity.\nII. Germination is enhanced in the complete absence of oxygen.\nIII. O2 is not required for respiration of roots or micro-organisms.\nIV. In clay soils, field air capacity is always above 40 percent of total soil volume."+MSQ,
+["None of the above are correct","Only one","Only two","Only three","All four"],
+"All four statements are incorrect — soil air DOES play an important role; germination is INHIBITED (not enhanced) without oxygen; O2 IS required for root/microbial respiration; and clay soils' field air capacity falls BELOW 10%, not above 40%.",
+"multi");
+Q("Edaphic Factors","Moderate", MS+"I. Soil organic matter supplies no nutrients to crops and has no effect on soil texture.\nII. Organic acids released during decomposition permanently lock away plant nutrients.\nIII. Soil organic matter decreases the water holding capacity of soil.\nIV. Soil organic matter constitutes about 60% of total soil composition."+MSQ,
+["None of the above are correct","Only one","Only two","Only three","All four"],
+"All four statements are incorrect — SOM DOES supply nutrients and improve texture; decomposition acids RELEASE (not lock away) nutrients; SOM INCREASES water holding capacity; and SOM is about 5% (not 60%) of soil composition.",
+"multi");
+Q("Edaphic Factors","Hard", MS+"I. Soil organisms are always visible to the naked eye and never microscopic.\nII. Mesofauna are the largest soil organisms, larger than megafauna.\nIII. Macrofauna include only bacteria and algae.\nIV. No soil organism is ever considered a pest."+MSQ,
+["None of the above are correct","Only one","Only two","Only three","All four"],
+"All four statements are incorrect — soil organisms range from microscopic to small mammals (not always visible); Mesofauna are mid-sized (Protists are smallest, Megafauna largest, not Mesofauna); Macrofauna include slugs/snails/millipedes/centipedes (not just bacteria/algae, which are Protists); and SOME soil organisms ARE pests.",
+"multi");
+
+Q("Numerical Concepts","Hard", MS+"I. Theoretical field capacity is the rate of field coverage at only 50% rated width.\nII. Effective field capacity refers only to the machine's fuel consumption rate.\nIII. Field efficiency is expressed as the ratio of theoretical field capacity to effective field capacity.\nIV. Soil inversion is calculated using the machine's forward travel speed alone."+MSQ,
+["None of the above are correct","Only one","Only two","Only three","All four"],
+"All four statements are incorrect — theoretical field capacity assumes 100% (not 50%) rated width; effective field capacity is actual field coverage (not fuel consumption); field efficiency is EFFECTIVE/THEORETICAL (reversed in the statement); and soil inversion uses weed counts before/after ploughing, not travel speed.",
+"multi");
+Q("Numerical Concepts","Moderate", MS+"I. A 5x20cm double action disc harrow operated at 5 km/h with 80% field efficiency gives an actual field capacity of 4.0 ha/h.\nII. A 4-bottom 40cm mould board plough at 5.5 km/h with 75% efficiency gives a rate of 6.6 ha/h.\nIII. Soil pulverization is determined through soil pH testing.\nIV. An indigenous plough with a 20cm wide, 10cm deep furrow at 2.5 km/h for 8 hours handles 2000 m³ of soil."+MSQ,
+["None of the above are correct","Only one","Only two","Only three","All four"],
+"All four statements have incorrect figures (each off by a factor of 10 or wrong method) — the correct values are 0.4 ha/h, 0.66 ha/h, sieve analysis for pulverization, and 200 m³ respectively, as worked out in the document's solved problems.",
+"multi");
+Q("Numerical Concepts","Moderate", MS+"I. Theoretical time per hectare is the time required at the effective field capacity.\nII. Effective operating time is the total idle/downtime of a machine.\nIII. Field efficiency is expressed only in hectares.\nIV. Soil inversion is calculated using the depth of ploughing alone."+MSQ,
+["None of the above are correct","Only one","Only two","Only three","All four"],
+"All four statements are incorrect — theoretical time per hectare uses THEORETICAL (not effective) field capacity; effective operating time is time actually performing the function (not idle time); field efficiency is a PERCENTAGE (not hectares); and soil inversion uses weed counts, not ploughing depth.",
+"multi");
+
+Q("Weed Classification","Hard", MS+"I. Perennial weeds are always more common than annual weeds in field crops.\nII. Biennials complete their entire life cycle, including flowering, within a single season.\nIII. Perennials propagate only through seeds and never through vegetative structures.\nIV. Simple perennials, e.g., Sonchus arvensis, are propagated only by rhizomes."+MSQ,
+["None of the above are correct","Only one","Only two","Only three","All four"],
+"All four statements are incorrect — annual weeds ARE the most common field weeds; biennials take TWO seasons (vegetative growth first, flowering second); perennials propagate via seeds AND underground structures; and Simple perennials like Sonchus arvensis propagate only by SEEDS, not rhizomes.",
+"multi");
+Q("Weed Classification","Moderate", MS+"I. Wetland weeds are hardy perennials with fully terrestrial habits, propagated chiefly by rhizomes.\nII. Garden land weeds require exactly the same amount of water as wetland weeds.\nIII. Dryland weeds are usually delicate plants with shallow, weak root systems.\nIV. Trianthema portulacastrum is an example of a submersed aquatic weed."+MSQ,
+["None of the above are correct","Only one","Only two","Only three","All four"],
+"All four statements are incorrect — wetland weeds are tender ANNUALS with semi-aquatic habits (not hardy perennials); Garden land weeds need moderate water (not the same as wetland weeds); Dryland weeds are hardy with DEEP roots (not delicate/shallow); and Trianthema portulacastrum is a Garden land weed, not a submersed aquatic weed.",
+"multi");
+Q("Weed Classification","Hard", MS+"I. Based on cotyledon number, weeds are classified as monocots and dicots.\nII. Panicum flavidum is an example of a monocot weed.\nIII. Based on soil pH, weeds are classified as Acidophile, Basophile and Neutrophile.\nIV. Sedges (family Cyperaceae) have leaves arising mostly from the base with modified stems, with or without tubers."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are correct as per the document.",
+"multi");
+Q("Weed Classification","Moderate", MS+"I. Weeds of croplands hinder successful crop production, e.g., Phalaris minor in wheat.\nII. Weeds of waste places grow in corners of fields and margins of channels.\nIII. Weeds of playgrounds and roadsides are usually hardy, prostrate perennials capable of withstanding trampling.\nIV. Indigofera enneaphylla is an example of a weed of pasture lands."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are correct as per the document.",
+"multi");
+
+Q("Weed Biology & Control","Hard", MS+"I. Enforced dormancy occurs due to deep placement of weed seeds during ploughing.\nII. High soil temperature and NO3 content of surface soil may help break seed dormancy.\nIII. Innate dormancy can be overcome with time or under the influence of climatic pressure.\nIV. Innate dormancy is a genetically controlled character of specific weed seeds."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are correct as per the document.",
+"multi");
+Q("Weed Biology & Control","Moderate", MS+"I. Weeds usually absorb mineral nutrients faster than many crop plants.\nII. Nutrient removal by weeds is often twice that of crop plants in a season.\nIII. Once weeds shade a crop plant, increased light intensity cannot benefit it.\nIV. For producing equal dry matter, weeds generally transpire MORE water than most crop plants."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are correct as per the document.",
+"multi");
+Q("Weed Biology & Control","Hard", MS+"I. Biological control uses living organisms such as insects, disease organisms or herbivorous fish to control weeds.\nII. Ludwigia parviflora is completely denuded by Altica cynanea (steel blue beetle).\nIII. Mycoherbicides use fungal pathogens more extensively than bacterial or viral pathogens.\nIV. Integrated Weed Management relies on a planned combination of mechanical, chemical and cultural practices."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are correct as per the document.",
+"multi");
+Q("Weed Biology & Control","Hard", MS+"I. Weed seeds move with surface water runoff into irrigation water and ponds.\nII. Terrestrial weed seeds can also disperse through irrigation and drainage water.\nIII. Weed seeds are commonly dispersed by tillage and harvesting equipment.\nIV. Disc-type cultivation equipment is less likely to drag vegetative plant parts than shovels or sweeps."+MSQ,
+["All four","Only one","Only two","Only three","None of the above are correct"],
+"All four statements are correct as per the document.",
+"multi");
+</script>
+<script>
+/* Build final rotated question bank so that correct answers cycle evenly across the 5 option positions. */
+const LETTERS = ["A","B","C","D","E"];
+function rotateArray(arr, k){
+  const n = arr.length;
+  const shift = ((k % n) + n) % n;
+  return arr.slice(shift).concat(arr.slice(0, shift));
+}
+const QUESTIONS = RAW.map((raw, idx) => {
+  const shift = idx % 5; // deterministic rotation offset -> even distribution of correct letter
+  // original correct is at index 0. We want the correct item to move to position `shift`.
+  // rotateArray moves element at position p to (p - shift) mod n. We want p=0 to land at `shift`.
+  // So we rotate LEFT by (n - shift) i.e. rotateArray(arr, -shift) equivalently rotate by (5-shift)%5 using our function's convention.
+  const opts = raw.opts.slice();
+  const rotated = rotateArray(opts, (opts.length - shift) % opts.length);
+  return {
+    id: idx,
+    section: raw.section,
+    diff: raw.diff,
+    text: raw.text,
+    options: rotated,
+    correct: shift,
+    exp: raw.exp,
+    type: raw.type
+  };
+});
+</script>
+<script>
+/* ============ APP LOGIC ============ */
+const app = document.getElementById('app');
+let state = {
+  mode: null,          // 'full' | 'section'
+  order: 'pdf',         // 'pdf' | 'shuffled'
+  pool: [],             // active question set
+  idx: 0,
+  score: 0,
+  answers: [],          // per question: {status:'correct'|'wrong'|'skipped', chosen, correctIdx}
+  sectionName: null
+};
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function sectionsList(){
+  const map = {};
+  QUESTIONS.forEach(q=>{
+    map[q.section] = (map[q.section]||0)+1;
+  });
+  return Object.keys(map).map(k=>({name:k, count:map[k]}));
+}
+
+function renderHome(){
+  state = {mode:null, order:'pdf', pool:[], idx:0, score:0, answers:[], sectionName:null};
+  app.innerHTML = `
+    <h1>📘 NABARD Grade A — Agronomy &amp; Field Crops</h1>
+    <div class="sub">Practice Test built from the Agronomy &amp; Field Crops summary sheet · ${QUESTIONS.length} questions</div>
+    <div class="card">
+      <h3 style="margin-top:0;">Choose a mode</h3>
+      <div class="row">
+        <button class="btn" id="fullBtn" style="flex:1;min-width:220px;">🎯 Full Practice Test</button>
+        <button class="btn secondary" id="sectionBtn" style="flex:1;min-width:220px;">📚 Section-wise Revision</button>
+      </div>
+    </div>
+    <div class="card" style="font-size:.82rem;color:var(--muted);">
+      Tip: Use Full Practice Test for a timed, exam-like run through all ${QUESTIONS.length} questions.
+      Use Section-wise Revision to drill a specific topic until you're confident.
+    </div>
+  `;
+  document.getElementById('fullBtn').onclick = renderFullSetup;
+  document.getElementById('sectionBtn').onclick = renderSectionMenu;
+}
+
+function renderFullSetup(){
+  app.innerHTML = `
+    <h1>🎯 Full Practice Test</h1>
+    <div class="sub">${QUESTIONS.length} questions covering the entire document</div>
+    <div class="card">
+      <div style="margin-bottom:10px;font-weight:600;font-size:.9rem;">Question order</div>
+      <div class="toggle-group" id="orderToggle">
+        <button class="active" data-v="pdf">PDF Order</button>
+        <button data-v="shuffled">Shuffled</button>
+      </div>
+      <div class="row" style="margin-top:18px;">
+        <button class="btn" id="startFull" style="flex:1;">Start Test</button>
+        <button class="btn ghost" id="backHome1">Back to Menu</button>
+      </div>
+    </div>
+  `;
+  let order = 'pdf';
+  document.querySelectorAll('#orderToggle button').forEach(b=>{
+    b.onclick = ()=>{
+      document.querySelectorAll('#orderToggle button').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      order = b.dataset.v;
+    };
+  });
+  document.getElementById('startFull').onclick = ()=>{
+    state.mode='full';
+    state.order = order;
+    state.pool = order==='shuffled' ? shuffle(QUESTIONS) : QUESTIONS.slice();
+    state.idx=0; state.score=0; state.answers=[];
+    state.sectionName = 'Full Practice Test';
+    renderQuestion();
+  };
+  document.getElementById('backHome1').onclick = renderHome;
+}
+
+function renderSectionMenu(){
+  const secs = sectionsList();
+  app.innerHTML = `
+    <h1>📚 Section-wise Revision</h1>
+    <div class="sub">Tap a topic to drill just that section</div>
+    <div class="grid" id="secGrid"></div>
+    <div class="row" style="margin-top:18px;">
+      <button class="btn ghost" id="backHome2">Back to Menu</button>
+    </div>
+  `;
+  const grid = document.getElementById('secGrid');
+  secs.forEach(s=>{
+    const div = document.createElement('div');
+    div.className='topic';
+    div.innerHTML = `<h3>${s.name}</h3><span>${s.count} questions</span>`;
+    div.onclick = ()=>{
+      state.mode='section';
+      state.order='pdf';
+      state.pool = QUESTIONS.filter(q=>q.section===s.name);
+      state.idx=0; state.score=0; state.answers=[];
+      state.sectionName = s.name;
+      renderQuestion();
+    };
+    grid.appendChild(div);
+  });
+  document.getElementById('backHome2').onclick = renderHome;
+}
+
+function renderQuestion(){
+  if(state.idx >= state.pool.length){
+    renderResults();
+    return;
+  }
+  const q = state.pool[state.idx];
+  const pct = Math.round((state.idx/state.pool.length)*100);
+  app.innerHTML = `
+    <div class="flexbetween">
+      <h1 style="font-size:1.1rem;">${state.sectionName}</h1>
+      <span class="score-pill">Score: ${state.score}/${state.idx}</span>
+    </div>
+    <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+    <div class="card">
+      <div class="meta-row">
+        <span>Question ${state.idx+1} of ${state.pool.length} &nbsp;·&nbsp; ${q.section}</span>
+        <span class="badge ${q.diff}">${q.diff}</span>
+      </div>
+      <div class="qtext">${q.text}</div>
+      <div id="optsWrap"></div>
+      <div class="explain" id="explainBox"></div>
+      <div class="footer-nav">
+        <button class="btn ghost" id="skipBtn">Skip ⏭</button>
+        <button class="btn secondary hidden" id="nextBtn">Next →</button>
+      </div>
+    </div>
+  `;
+  const optsWrap = document.getElementById('optsWrap');
+  q.options.forEach((opt, i)=>{
+    const btn = document.createElement('button');
+    btn.className='opt';
+    btn.innerHTML = `<b>${LETTERS[i]}.</b> ${opt}`;
+    btn.onclick = ()=> selectAnswer(i);
+    optsWrap.appendChild(btn);
+  });
+  document.getElementById('skipBtn').onclick = ()=> handleSkip();
+  document.getElementById('nextBtn').onclick = ()=>{
+    state.idx++;
+    renderQuestion();
+  };
+}
+
+function lockOptions(){
+  document.querySelectorAll('.opt').forEach(o=>{
+    o.classList.add('disabled');
+    o.onclick = null;
+  });
+}
+
+function selectAnswer(i){
+  const q = state.pool[state.idx];
+  const opts = document.querySelectorAll('.opt');
+  lockOptions();
+  const correct = i === q.correct;
+  opts[q.correct].classList.add('correct');
+  if(!correct) opts[i].classList.add('wrong');
+  if(correct) state.score++;
+  state.answers.push({q, status: correct?'correct':'wrong', chosen: i});
+  document.getElementById('explainBox').style.display='block';
+  document.getElementById('explainBox').textContent = (correct?'✅ Correct. ':'❌ Not quite. ') + q.exp;
+  document.getElementById('skipBtn').classList.add('hidden');
+  document.getElementById('nextBtn').classList.remove('hidden');
+  document.querySelector('.score-pill').textContent = `Score: ${state.score}/${state.idx+1}`;
+}
+
+function handleSkip(){
+  const q = state.pool[state.idx];
+  lockOptions();
+  const opts = document.querySelectorAll('.opt');
+  opts[q.correct].classList.add('correct');
+  state.answers.push({q, status:'skipped', chosen:null});
+  document.getElementById('explainBox').style.display='block';
+  document.getElementById('explainBox').textContent = '⏭ Skipped. Correct answer: ' + LETTERS[q.correct] + '. ' + q.exp;
+  document.getElementById('skipBtn').classList.add('hidden');
+  document.getElementById('nextBtn').classList.remove('hidden');
+}
+
+function renderResults(){
+  const total = state.pool.length;
+  const correctCount = state.answers.filter(a=>a.status==='correct').length;
+  const wrongCount = state.answers.filter(a=>a.status==='wrong').length;
+  const skippedCount = state.answers.filter(a=>a.status==='skipped').length;
+  const acc = total? Math.round((correctCount/total)*100) : 0;
+
+  const diffStats = {Easy:{c:0,t:0}, Moderate:{c:0,t:0}, Hard:{c:0,t:0}};
+  state.answers.forEach(a=>{
+    const d = a.q.diff;
+    diffStats[d].t++;
+    if(a.status==='correct') diffStats[d].c++;
+  });
+
+  const missed = state.answers.filter(a=>a.status!=='correct');
+
+  app.innerHTML = `
+    <h1>📊 Results — ${state.sectionName}</h1>
+    <div class="card center">
+      <div style="font-size:2.4rem;font-weight:800;">${correctCount} / ${total}</div>
+      <div style="color:var(--muted);margin-bottom:14px;">Overall Accuracy: ${acc}%</div>
+      <div class="statlist">
+        <div class="stat"><div class="num" style="color:var(--green);">${correctCount}</div><div>Correct</div></div>
+        <div class="stat"><div class="num" style="color:var(--red);">${wrongCount}</div><div>Wrong</div></div>
+        <div class="stat"><div class="num" style="color:var(--amber);">${skippedCount}</div><div>Skipped</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">Accuracy by Difficulty</h3>
+      ${["Easy","Moderate","Hard"].map(d=>{
+        const s = diffStats[d];
+        const p = s.t? Math.round((s.c/s.t)*100) : 0;
+        return `<div class="meta-row"><span class="badge ${d}">${d}</span><span>${s.c}/${s.t} correct (${s.t?p:0}%)</span></div>
+        <div class="progress-wrap"><div class="progress-bar" style="width:${s.t?p:0}%"></div></div>`;
+      }).join('')}
+    </div>
+    ${missed.length ? `
+    <div class="card">
+      <h3 style="margin-top:0;">Review — Missed &amp; Skipped (${missed.length})</h3>
+      ${missed.map(a=>{
+        const q=a.q;
+        const yourAns = a.status==='skipped' ? 'Skipped' : (LETTERS[a.chosen]+'. '+q.options[a.chosen]);
+        return `<div class="review-item ${a.status==='skipped'?'skipped':''}">
+          <div class="q">${q.text.replace(/\\n/g,'<br>')}</div>
+          <div class="yours">Your answer: ${yourAns}</div>
+          <div class="ans">Correct answer: ${LETTERS[q.correct]}. ${q.options[q.correct]}</div>
+          <div style="color:var(--muted);margin-top:4px;">${q.exp}</div>
+        </div>`;
+      }).join('')}
+    </div>` : `<div class="card center" style="color:var(--green);font-weight:700;">🎉 Perfect run — nothing missed or skipped!</div>`}
+    <div class="row" style="margin-top:10px;">
+      <button class="btn" id="retryBtn" style="flex:1;">🔁 Retry Same Set</button>
+      <button class="btn secondary" id="menuBtn" style="flex:1;">🏠 Back to Menu</button>
+    </div>
+  `;
+  document.getElementById('retryBtn').onclick = ()=>{
+    state.pool = state.order==='shuffled' ? shuffle(state.pool) : state.pool;
+    state.idx=0; state.score=0; state.answers=[];
+    renderQuestion();
+  };
+  document.getElementById('menuBtn').onclick = renderHome;
+}
+
+renderHome();
+</script>
+</body>
+</html>

@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soil &amp; Water Conservation — NABARD Grade A Practice</title>
+<style>
+  :root{
+    --bg: #11141a;
+    --bg-raised: #171b22;
+    --surface: #1c212a;
+    --surface-2: #242a35;
+    --border: #2c3340;
+    --text: #e9e6dd;
+    --text-dim: #9aa2b1;
+    --text-faint: #6b7383;
+    --gold: #c8a24a;
+    --gold-dim: #8f7538;
+    --correct: #5aa572;
+    --correct-bg: #1c2b22;
+    --incorrect: #d1715f;
+    --incorrect-bg: #2c1e1c;
+    --serif: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+  ::selection{ background: var(--gold-dim); color: #fff; }
+
+  .app{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px 18px 80px;
+    min-height: 100vh;
+  }
+
+  /* ---------- Header / brand ---------- */
+  .brand{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand-title{
+    font-family: var(--serif);
+    font-size: 20px;
+    letter-spacing: 0.2px;
+    color: var(--text);
+  }
+  .brand-title small{
+    display:block;
+    font-family: var(--sans);
+    font-size: 11.5px;
+    color: var(--text-faint);
+    margin-top: 3px;
+    font-weight: 500;
+  }
+  .brand-mark{
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--gold);
+    font-size: 13px;
+  }
+
+  /* ---------- Home screen ---------- */
+  .hero{
+    margin-bottom: 28px;
+  }
+  .hero h1{
+    font-family: var(--serif);
+    font-size: 27px;
+    font-weight: 400;
+    margin: 0 0 8px;
+    color: var(--text);
+  }
+  .hero p{
+    color: var(--text-dim);
+    font-size: 14.5px;
+    max-width: 54ch;
+    margin: 0;
+  }
+
+  .mode-list{
+    display:flex;
+    flex-direction:column;
+    gap: 14px;
+  }
+  .mode-card{
+    display:flex;
+    align-items:center;
+    gap: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--mode-color, var(--gold));
+    border-radius: 6px;
+    padding: 18px 18px;
+    cursor: pointer;
+    text-align:left;
+    width:100%;
+    color: var(--text);
+    transition: background .15s ease, border-color .15s ease, transform .1s ease;
+    font-family: var(--sans);
+  }
+  .mode-card:hover{ background: var(--surface-2); }
+  .mode-card:active{ transform: scale(0.997); }
+  .mode-icon{
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--mode-color, var(--gold));
+    width: 34px;
+    text-align:center;
+    flex: none;
+  }
+  .mode-copy{ flex:1; min-width:0; }
+  .mode-name{ font-size: 16px; font-weight: 600; margin-bottom: 3px; }
+  .mode-desc{ font-size: 13px; color: var(--text-dim); }
+  .mode-count{
+    font-size: 12px;
+    color: var(--text-faint);
+    white-space:nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .order-toggle{
+    display:flex;
+    gap:8px;
+    margin: 16px 0 4px;
+  }
+  .toggle-btn{
+    flex:1;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-dim);
+    font-size: 13.5px;
+    cursor:pointer;
+    font-family: var(--sans);
+  }
+  .toggle-btn.active{
+    border-color: var(--gold-dim);
+    background: var(--surface-2);
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .start-btn{
+    display:block;
+    width:100%;
+    margin-top: 14px;
+    padding: 13px 16px;
+    background: var(--gold);
+    color: #171006;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: var(--sans);
+  }
+  .start-btn:hover{ filter: brightness(1.06); }
+  .back-link{
+    display:inline-block;
+    margin-bottom: 16px;
+    color: var(--text-dim);
+    font-size: 13.5px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .back-link:hover{ color: var(--text); }
+
+  /* ---------- Section grid ---------- */
+  .topic-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 480px){ .topic-grid{ grid-template-columns: 1fr; } }
+  .topic-card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 14px;
+    cursor: pointer;
+    text-align:left;
+    color: var(--text);
+    font-family: var(--sans);
+    transition: background .15s ease;
+  }
+  .topic-card:hover{ background: var(--surface-2); border-color: var(--gold-dim); }
+  .topic-name{ font-size: 13.5px; font-weight: 600; margin-bottom: 6px; line-height:1.3; }
+  .topic-count{ font-size: 12px; color: var(--text-faint); }
+
+  /* ---------- Quiz top bar ---------- */
+  .quiz-topbar{
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding-top: 4px;
+    padding-bottom: 12px;
+    z-index: 10;
+    margin-bottom: 8px;
+  }
+  .quiz-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size: 12.5px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+  .quiz-meta .score{ color: var(--gold); font-weight:600; }
+  .progress-track{
+    height: 5px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill{
+    height: 100%;
+    background: var(--gold);
+    border-radius: 3px;
+    transition: width .25s ease;
+  }
+
+  /* ---------- Question card ---------- */
+  .qcard{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 20px 18px;
+    margin-bottom: 16px;
+  }
+  .qtags{
+    display:flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .tag{
+    font-size: 10.5px;
+    letter-spacing: 0.3px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    color: var(--text-faint);
+  }
+  .tag.diff-Easy{ color: #7fb99a; border-color: #2c4436; }
+  .tag.diff-Moderate{ color: #c8a24a; border-color: #4a3e22; }
+  .tag.diff-Hard{ color: #d1715f; border-color: #4a2b26; }
+
+  .instruction-box{
+    background: var(--bg-raised);
+    border-left: 3px solid var(--gold-dim);
+    padding: 12px 14px;
+    border-radius: 4px;
+    font-family: var(--serif);
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 14px;
+    white-space: pre-wrap;
+  }
+  .instruction-label{
+    font-family: var(--sans);
+    font-size: 10.5px;
+    text-transform: none;
+    color: var(--gold);
+    letter-spacing: 0.3px;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .qtext{
+    font-size: 15.5px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .options{ display:flex; flex-direction:column; gap:9px; }
+  .opt{
+    display:flex;
+    align-items:flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text);
+    transition: border-color .12s ease, background .12s ease;
+  }
+  .opt:hover:not(.locked){ border-color: var(--gold-dim); }
+  .opt-letter{
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--text-faint);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-dim);
+  }
+  .opt-text{ flex:1; padding-top: 1px; }
+  .opt.correct{ background: var(--correct-bg); border-color: var(--correct); }
+  .opt.correct .opt-letter{ background: var(--correct); border-color: var(--correct); color: #0d1b12; }
+  .opt.incorrect{ background: var(--incorrect-bg); border-color: var(--incorrect); }
+  .opt.incorrect .opt-letter{ background: var(--incorrect); border-color: var(--incorrect); color: #2a0f0b; }
+  .opt.locked{ cursor: default; }
+  .opt.dim{ opacity: 0.55; }
+
+  .explain{
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: var(--bg-raised);
+    border-radius: 6px;
+    font-size: 13.5px;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    display:none;
+  }
+  .explain.show{ display:block; }
+  .explain b{ color: var(--text); }
+
+  .qactions{
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    margin-top: 4px;
+  }
+  .skip-btn{
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 9px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: var(--sans);
+  }
+  .skip-btn:hover{ border-color: var(--text-faint); color: var(--text); }
+  .next-btn{
+    background: var(--gold);
+    color: #171006;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: var(--sans);
+    display:none;
+  }
+  .next-btn.show{ display:inline-block; }
+
+  /* ---------- End screen ---------- */
+  .result-hero{
+    text-align:center;
+    padding: 20px 0 10px;
+  }
+  .result-score{
+    font-family: var(--serif);
+    font-size: 52px;
+    color: var(--gold);
+    line-height:1;
+  }
+  .result-score span{ font-size: 22px; color: var(--text-faint); }
+  .result-sub{ color: var(--text-dim); font-size: 14px; margin-top: 8px; }
+
+  .breakdown{
+    display:flex;
+    gap: 10px;
+    margin: 22px 0;
+  }
+  .breakdown-item{
+    flex:1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 10px;
+    text-align:center;
+  }
+  .breakdown-pct{ font-size: 20px; font-weight:700; color: var(--text); }
+  .breakdown-label{ font-size: 11px; color: var(--text-faint); margin-top: 2px; }
+
+  .review-section h2{
+    font-family: var(--serif);
+    font-weight:400;
+    font-size: 18px;
+    margin: 26px 0 12px;
+    color: var(--text);
+  }
+  .review-item{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+  .review-q{ font-size: 13.5px; font-weight:600; margin-bottom: 8px; }
+  .review-row{ font-size: 12.5px; margin-bottom: 3px; }
+  .review-row.wrong{ color: var(--incorrect); }
+  .review-row.right{ color: var(--correct); }
+  .review-explain{ font-size: 12.5px; color: var(--text-dim); margin-top: 6px; }
+  .review-status{
+    display:inline-block;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    font-weight:700;
+    letter-spacing: 0.3px;
+  }
+  .status-missed{ background: var(--incorrect-bg); color: var(--incorrect); }
+  .status-skipped{ background: var(--surface-2); color: var(--text-faint); }
+
+  .end-actions{
+    display:flex;
+    gap: 10px;
+    margin-top: 26px;
+  }
+  .end-actions button{
+    flex:1;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight:600;
+    cursor:pointer;
+    font-family: var(--sans);
+  }
+  .btn-retry{ background: var(--gold); color:#171006; border:none; }
+  .btn-menu{ background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+
+  .empty-note{ color: var(--text-dim); font-size: 13.5px; text-align:center; padding: 30px 0; }
+
+  @media (max-width: 480px){
+    .hero h1{ font-size: 23px; }
+    .result-score{ font-size: 42px; }
+    .breakdown{ flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script id="quiz-data" type="application/json">[{"topic": "Soil Basics & Terminology", "difficulty": "Easy", "type": "definitional", "passage": null, "question": "________ is one of the three major natural resources, alongside air and water, forming at the surface of land and often called the \"skin of the earth\".", "options": ["Soil", "Parent material", "Humus", "Pedon", "Regolith"], "correct": 0, "explanation": "Soil is described in the text as the 'skin of the earth', one of the three major natural resources alongside air and water.", "id": "q1"}, {"topic": "Soil Basics & Terminology", "difficulty": "Easy", "type": "recall", "passage": null, "question": "The term 'Soil' is derived from which Latin word, meaning 'floor'?", "options": ["Regio", "Solum", "Pedum", "Terra", "Humus"], "correct": 1, "explanation": "Soil comes from the Latin word 'Solum', meaning floor.", "id": "q2"}, {"topic": "Soil Basics & Terminology", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Read the following statements about Soil Science and its disciplines:\n1. Soil fertility deals with the nutrient supplying properties of soil.\n2. Soil pedology deals with the genesis, survey and classification of soil.\n3. Soil conservation deals only with the chemical constituents of soil.\n4. Soil microbiology deals with micro-organisms, their population and role in transformations.\nWhich of the statements given above are correct?", "options": ["2, 3 and 4", "Only 3", "1, 2 and 4", "1, 2, 3 and 4", "Only 1 and 3"], "correct": 2, "explanation": "Statement 3 is incorrect \u2014 soil conservation deals with protection against erosion and chemical deterioration (nutrient loss), not merely chemical constituents (that is soil chemistry). Statements 1, 2 and 4 correctly describe soil fertility, pedology and microbiology respectively.", "id": "q3"}, {"topic": "Soil Basics & Terminology", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "There are two main branches of soil science based on the approach used to study soil. One treats soil as a natural body, a weathered and synthesized product in nature, while the other treats soil as a medium for plant growth. The first of these two is called ________.", "options": ["Mineralogy", "Geomorphology", "Edaphology", "Pedology", "Agronomy"], "correct": 3, "explanation": "Pedology treats soil as a natural body; Edaphology treats soil as a medium for plant growth.", "id": "q4"}, {"topic": "Soil Basics & Terminology", "difficulty": "Easy", "type": "recall", "passage": null, "question": "Who is commonly regarded as the 'father of Soil Science'?", "options": ["Hans Jenny", "Mohr and van Baren", "Arnon and Stout", "Justus von Liebig", "Vasily Dokuchaev"], "correct": 4, "explanation": "Vasily Vasil'evich Dokuchaev, a Russian scientist, is commonly regarded as the father of Soil Science.", "id": "q5"}, {"topic": "Soil Basics & Terminology", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "A ________ is the smallest volume that can be called 'a soil' \u2014 a real, natural soil volume just large enough to show all the soil horizons present and their relationships.", "options": ["Pedon", "Regolith", "Horizon", "Solum", "Polypedon"], "correct": 0, "explanation": "A pedon is the smallest volume that can be called 'a soil'.", "id": "q6"}, {"topic": "Soil Basics & Terminology", "difficulty": "Hard", "type": "definitional", "passage": null, "question": "A contiguous group of similar such smallest soil volumes, bounded on all sides by 'not soil' or by units of unlike character, forming a real physical soil body with a minimum area of more than 1 sq. km, is termed a ________.", "options": ["Solum", "Polypedon", "Regolith", "Pedon", "Horizon"], "correct": 1, "explanation": "A polypedon is a contiguous group of similar pedons, with a minimum area of more than 1 sq. km and an unspecified maximum area.", "id": "q7"}, {"topic": "Soil Basics & Terminology", "difficulty": "Moderate", "type": "figure", "passage": null, "question": "On a volume basis, what is the approximate composition of soil in terms of mineral matter, organic matter, soil water and soil air respectively?", "options": ["40%, 10%, 25%, 25%", "50%, 5%, 22.5%, 22.5%", "45%, 5%, 25%, 25%", "50%, 10%, 20%, 20%", "45%, 10%, 20%, 25%"], "correct": 2, "explanation": "Composition of soil on a volume basis: Mineral Matter 45%, Organic Matter 5%, Soil Water 25%, Soil Air 25%.", "id": "q8"}, {"topic": "Soil Basics & Terminology", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which of the following is the amount of soil moisture held in soil after excess water has drained away, usually 2\u20133 days after rain or irrigation, and is regarded as the upper limit of available water?", "options": ["Permanent Wilting Point", "Ultimate Wilting Point", "Saturation", "Field Capacity", "Maximum Allowable Depletion"], "correct": 3, "explanation": "Field Capacity (FC) is the amount of water a soil can hold against drainage by gravity, usually attained 2\u20133 days after rain/irrigation; it is the upper limit of available water.", "id": "q9"}, {"topic": "Soil Basics & Terminology", "difficulty": "Hard", "type": "figure", "passage": null, "question": "The soil moisture tension at the Permanent Wilting Point is about how many bars, while the Ultimate Wilting Point corresponds to a surface tension of about how many bars?", "options": ["20 bars; 50 bars", "15 bars; 100 bars", "10 bars; 30 bars", "5 bars; 15 bars", "15 bars; 60 bars"], "correct": 4, "explanation": "The soil moisture tension at Permanent Wilting Point is about 15 bars, and at the Ultimate Wilting Point the surface tension is about \u221260 bars.", "id": "q10"}, {"topic": "Soil Basics & Terminology", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Clay-containing soils generally have the highest available water capacity mainly because of which characteristic?", "options": ["Greater number of pores", "Lowest cation exchange capacity", "Highest bulk density", "Highest sand fraction", "Lowest organic matter content"], "correct": 0, "explanation": "Clay soils have the highest available water capacity owing to a greater number of pores, e.g., clayey loams.", "id": "q11"}, {"topic": "Soil Profile, Weathering & Erosion", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "________ is the mobilization and translocation of constituents such as clay, Fe2O3, Al2O3, SiO2, humus and CaCO3 from one point of the soil body to another, and literally means 'washing out'; the horizon formed by this process is called the eluvial or A2/E horizon.", "options": ["Calcification", "Eluviation", "Leaching", "Humification", "Illuviation"], "correct": 1, "explanation": "Eluviation means washing out \u2014 the mobilization and translocation of constituents to another point in the soil, forming the eluvial (A2/E) horizon.", "id": "q12"}, {"topic": "Soil Profile, Weathering & Erosion", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Regarding the following passage: \"________ is the mobilization and translocation of constituents such as clay, Fe2O3, Al2O3, SiO2, humus and CaCO3 from one point of the soil body to another, and literally means 'washing out'; the horizon formed by this process is called the eluvial or A2/E horizon.\" Which of the following is/are true according to the passage?", "options": ["None of the above", "It forms the B-horizon", "The horizon formed is called the eluvial horizon", "The process is also known as illuviation", "It increases bulk density directly"], "correct": 2, "explanation": "The passage explicitly states the horizon formed by eluviation is the eluvial (A2 or E) horizon; illuviation and B-horizon formation are the deposition process, not eluviation.", "id": "q13"}, {"topic": "Soil Profile, Weathering & Erosion", "difficulty": "Easy", "type": "recall", "passage": null, "question": "The horizons formed by the process of deposition of translocated soil materials in the lower layer are termed:", "options": ["R horizons", "C horizons", "O horizons", "Illuvial (B) horizons", "Eluvial horizons"], "correct": 3, "explanation": "Illuviation deposits materials removed from the eluvial horizon into the lower layer, forming illuvial (B) horizons.", "id": "q14"}, {"topic": "Soil Profile, Weathering & Erosion", "difficulty": "Easy", "type": "recall", "passage": null, "question": "In the soil horizon sequence, which layer represents unconsolidated parent material, and which represents bedrock?", "options": ["A is parent material, B is bedrock", "O is parent material, A is bedrock", "B is parent material, C is bedrock", "E is parent material, C is bedrock", "C is parent material, R is bedrock"], "correct": 4, "explanation": "C is parent material and R is bedrock in the standard soil horizon sequence (O, A, E, B, C, R).", "id": "q15"}, {"topic": "Soil Profile, Weathering & Erosion", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Pedogenesis (soil formation) involves two consecutive stages: weathering of rock into regolith, and then formation of true soil from regolith. Which soil forming factor is primarily responsible for the second stage?", "options": ["Action of soil forming factors", "Gravity", "Physical weathering alone", "Erosion only", "Chemical weathering alone"], "correct": 0, "explanation": "The first stage is accomplished by weathering; the second stage is associated with the action of soil forming factors.", "id": "q16"}, {"topic": "Soil Profile, Weathering & Erosion", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements on weathering:\n1. Physical weathering changes the chemical composition of rock while breaking it into smaller pieces.\n2. Freeze-thaw weathering occurs because water expands when it freezes, widening cracks.\n3. Chemical weathering occurs when rocks are broken down by a chemical change, and depends on rock type.\n4. Biological weathering occurs when rocks are worn away by living organisms such as plant roots and bacteria.\nWhich of the statements given above are correct?", "options": ["1, 3 and 4", "2, 3 and 4", "Only 2 and 4", "1, 2, 3 and 4", "1, 2 and 3"], "correct": 1, "explanation": "Statement 1 is incorrect: in physical weathering, the chemical composition of the rock remains the same \u2014 only the physical size changes. Statements 2, 3 and 4 accurately describe freeze-thaw, chemical and biological weathering.", "id": "q17"}, {"topic": "Soil Profile, Weathering & Erosion", "difficulty": "Hard", "type": "recall", "passage": null, "question": "Splash erosion, the first stage of the water-erosion process, can throw soil particles as high as ________ above the ground and move them up to ________ from the point of impact.", "options": ["100 cm; 2 metres", "20 cm; 0.5 metres", "60 cm; 1.5 metres", "30 cm; 1 metre", "50 cm; 1 metre"], "correct": 2, "explanation": "Splash erosion can throw particles as high as 60 cm above the ground and move them up to 1.5 metres from the point of impact.", "id": "q18"}, {"topic": "Soil Profile, Weathering & Erosion", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which stage of water erosion is characterised by shallow drainage lines less than 30 cm deep, developing when surface water concentrates in depressions?", "options": ["Stream bank erosion", "Splash erosion", "Gully erosion", "Rill erosion", "Sheet erosion"], "correct": 3, "explanation": "Rill erosion involves shallow drainage lines less than 30 cm deep, common in bare or overgrazed agricultural land.", "id": "q19"}, {"topic": "Soil Profile, Weathering & Erosion", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Gully erosion is characterised by open, unstable channels cut to what minimum depth into the ground?", "options": ["10 cm", "20 cm", "50 cm", "100 cm", "30 cm"], "correct": 4, "explanation": "Gully erosion consists of open, unstable channels cut more than 30 cm deep into the ground \u2014 deeper than rill erosion.", "id": "q20"}, {"topic": "Soil Profile, Weathering & Erosion", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements on wind erosion types:\n1. Saltation involves soil particles of 0.1\u20130.5 mm diameter moving up in a vertical direction under stormy wind.\n2. Suspension involves fine particles less than 0.1 mm diameter being kicked up and taken to distant places.\n3. Surface creep involves large particles of 0.5\u20132 mm diameter creeping along the soil surface.\n4. Overgrazing and deforestation are biotic agents of soil erosion.\nWhich of the statements given above are correct?", "options": ["1, 2, 3 and 4", "1, 2 and 3 only", "Only 1 and 4", "Only 3 and 4", "2, 3 and 4 only"], "correct": 0, "explanation": "All four statements correctly describe the wind erosion mechanisms (saltation, suspension, surface creep) and biotic erosion agents as given in the text.", "id": "q21"}, {"topic": "Soil Profile, Weathering & Erosion", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "________ is the process of formation of humic substances, decomposed organic matter that has reached maturity from plant remains; it can also be referred to as mineralization in this context.", "options": ["Illuviation", "Humification", "Gleization", "Calcification", "Eluviation"], "correct": 1, "explanation": "Humification is the process of formation of humic substances (mature organic matter) from decomposed plant remains.", "id": "q22"}, {"topic": "Soil Profile, Weathering & Erosion", "difficulty": "Easy", "type": "recall", "passage": null, "question": "What is 'Regolith'?", "options": ["A type of soil horizon rich in humus", "A synonym for topsoil", "Unconsolidated residues of weathered rock above solid rock", "The parent rock before any weathering", "Bedrock exposed at the surface"], "correct": 2, "explanation": "Regolith refers to unconsolidated residues of weathering rock on the earth's surface, above the solid rocks.", "id": "q23"}, {"topic": "Soil Conservation: Agronomic Measures", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "________ is defined as the ploughing of a field across the slope during hot summer, using specialized tools, with the primary objective of opening the soil crust along with deep ploughing to disinfect the soil with the help of the sun's rays.", "options": ["Strip cropping", "Ridging", "Contour farming", "Summer ploughing", "Chisel ploughing"], "correct": 3, "explanation": "Summer ploughing opens the soil crust and disinfects the soil via sun exposure, and is best performed with pre-monsoon showers in May.", "id": "q24"}, {"topic": "Soil Conservation: Agronomic Measures", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements about Summer Ploughing:\n1. At best, two summer ploughings are done before the onset of monsoon, at an interval of 15\u201320 days.\n2. Off-season tillage decreases the water content of soils and increases runoff.\n3. A third ploughing may be done with a harrow or cultivator to pulverize soil before sowing.\n4. Deep summer ploughing reduces pest and weed infestation.\nWhich of the statements given above are correct?", "options": ["1, 2, 3 and 4", "1, 2 and 3", "2, 3 and 4", "Only 2", "1, 3 and 4"], "correct": 4, "explanation": "Statement 2 is incorrect: off-season tillage actually increases water content of soils and reduces (not increases) runoff. Statements 1, 3 and 4 are correctly described in the text.", "id": "q25"}, {"topic": "Soil Conservation: Agronomic Measures", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Contour farming \u2014 ploughing, planting and weeding across the slope rather than up and down \u2014 is recommended for lands with a slope range of:", "options": ["2 to 7%", "1 to 2%", "15 to 30%", "0 to 1%", "7 to 15%"], "correct": 0, "explanation": "Contour farming is recommended for lands with a slope range of 2 to 7%.", "id": "q26"}, {"topic": "Soil Conservation: Agronomic Measures", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Vegetative barriers \u2014 grass or shrub strips planted across the slope \u2014 are recommended when the slope of the land is less than 1%, and can be planted at what spacing according to sloppiness?", "options": ["100 metres", "30\u201350 metres", "60\u201380 metres", "10\u201320 metres", "5\u201310 metres"], "correct": 1, "explanation": "Vegetative barriers could be planted at 30\u201350 metre distance according to sloppiness, and yield good benefits in dryland soils.", "id": "q27"}, {"topic": "Soil Conservation: Agronomic Measures", "difficulty": "Easy", "type": "recall", "passage": null, "question": "Growing two or more crops simultaneously on the same land in a definite row pattern, such as maize and black gram in a 1:2 ratio, is called:", "options": ["Strip cropping", "Mulching", "Intercropping", "Crop rotation", "Mixed farming"], "correct": 2, "explanation": "Intercropping is growing two or more crops simultaneously on the same land in a definite row pattern, e.g., maize + black gram in 1:2 ratio.", "id": "q28"}, {"topic": "Soil Conservation: Agronomic Measures", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements on forms of strip cropping:\n1. Contour Strip Cropping alternates a soil-exposing crop with a soil-protecting crop in strips across the slope on contour.\n2. Wind Strip Cropping plants tall and low-growing crops in strips laid out along the direction of the prevailing wind.\n3. Permanent/Temporary Buffer Strip Cropping is established to take care of critical, steep or highly eroded slopes.\nWhich of the statements given above are correct?", "options": ["2 and 3", "1, 2 and 3", "Only 2", "1 and 3", "Only 1"], "correct": 3, "explanation": "Statement 2 is incorrect: Wind Strip Cropping lays strips right across (perpendicular to) the direction of the prevailing wind, not along it. Statements 1 and 3 are correct.", "id": "q29"}, {"topic": "Soil Conservation: Agronomic Measures", "difficulty": "Easy", "type": "definitional", "passage": null, "question": "A material placed on the soil surface to maintain moisture, reduce weed growth, mitigate soil erosion, and improve soil conditions \u2014 which can be organic (grass clippings, straw, bark chips) or inorganic (stones, brick chips, plastic) \u2014 is called ________.", "options": ["Manure", "Vermicompost", "Biofertilizer", "Compost", "Mulch"], "correct": 4, "explanation": "Mulch is placed on the soil surface for moisture retention, weed suppression, and erosion mitigation; it may be organic or inorganic.", "id": "q30"}, {"topic": "Soil Conservation: Agronomic Measures", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which tillage implement is primarily used to loosen and aerate soils while leaving crop residue on top, achieving deep tillage with limited soil disruption?", "options": ["Chisel plough", "Rotavator", "Mould board plough", "Cultivator", "Disc harrow"], "correct": 0, "explanation": "The chisel plough loosens and aerates soil with limited disruption, leaving crop residue on top.", "id": "q31"}, {"topic": "Soil Conservation: Agronomic Measures", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "Alternative systems to crop production on drylands not suitable for crop cultivation \u2014 including range/pasture management, tree farming, ley farming, dryland horticulture and agro-forestry \u2014 are collectively termed ________.", "options": ["Broad Bed and Furrow (BBF)", "Alternate Land Use Pattern (ALUP)", "Basin listing", "Contour bunding", "Compartmental bunding"], "correct": 1, "explanation": "Alternate Land Use Pattern (ALUP) covers systems alternative to crop production on unsuitable drylands, e.g., afforestation and horticulture development.", "id": "q32"}, {"topic": "Soil Conservation: Agronomic Measures", "difficulty": "Easy", "type": "recall", "passage": null, "question": "Ridges and furrows, one of the in-situ soil and water conservation methods for black and red soils, can increase crop yields by up to what percentage?", "options": ["5%", "10%", "15%", "25%", "40%"], "correct": 2, "explanation": "Ridges and furrows (like summer ploughing, BBF, random tie ridging, compartmental bunding) can increase crop yields by up to 15% in black and red soils.", "id": "q33"}, {"topic": "Soil Conservation: Engineering Measures", "difficulty": "Hard", "type": "definitional", "passage": null, "question": "In this soil and water conservation system, a broad bed of 90 cm and a furrow of 45 cm are prepared, with crop sown at a row spacing of 30 cm, before the onset of monsoon in deep black soils where tillage is not possible during the rainy season. This is called ________.", "options": ["Basin listing", "Contour trenching", "Contour bunding", "Broad Bed and Furrow (BBF) system", "Compartmental bunding"], "correct": 3, "explanation": "The BBF system uses a 90 cm broad bed, 45 cm furrow, and 30 cm row spacing, formed before monsoon onset in deep black soils.", "id": "q34"}, {"topic": "Soil Conservation: Engineering Measures", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements on bunding options for soil and water conservation:\n1. Contour bunds are recommended for light soils with rainfall under 600 mm and slope above 1.5%.\n2. Graded bunds are adopted for all soils with rainfall above 600 mm and slope of 1.5%.\n3. Bench terraces are used for deep soils with rainfall above 1000 mm and slope of 6.0%, and can be extended for slopes up to 30%.\n4. Graded border strips apply to deep Alfisol/red soils with rainfall above 800 mm and slope above 1.5%.\nWhich of the statements given above are correct?", "options": ["2, 3 and 4 only", "1 and 3 only", "1, 2 and 4 only", "Only 4", "1, 2, 3 and 4"], "correct": 4, "explanation": "All four statements accurately reflect the bunding-option table: contour bund (light soil, <600mm, >1.5%), graded bund (all soils, >600mm, 1.5%), bench terraces (deep soil, >1000mm, 6.0%, usable 6\u201330% slope), and graded border strip (deep Alfisol, >800mm, >1.5%).", "id": "q35"}, {"topic": "Soil Conservation: Engineering Measures", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Contour bunding, used to intercept runoff via embankments, can be adopted in light and medium textured soils up to what slope?", "options": ["6% slope", "4% slope", "10% slope", "15% slope", "2% slope"], "correct": 0, "explanation": "Contour bunding can be laid up to 6% slopes and helps retain moisture in the field.", "id": "q36"}, {"topic": "Soil Conservation: Engineering Measures", "difficulty": "Hard", "type": "figure", "passage": null, "question": "Contour trenches, dimensioned 2 x 1 x 1 m\u00b3 and formed at 5 to 10 feet vertical distance, are suitable where the slope of the land exceeds:", "options": ["20%", "33.33%", "15%", "25%", "50%"], "correct": 1, "explanation": "Contour trenches are suitable where the slope of the land is greater than 33.33%.", "id": "q37"}, {"topic": "Soil Conservation: Engineering Measures", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Contour stonewalls, recommended where it is difficult to construct bench terraces, are constructed for slopes in which range?", "options": ["Less than 5%", "30% to 50%", "More than 15% to less than 30%", "5% to 15%", "More than 50%"], "correct": 2, "explanation": "Contour stone walls are constructed where the slope is greater than 15% but less than 30%, and are suitable for shallow and gravelly soils.", "id": "q38"}, {"topic": "Soil Conservation: Engineering Measures", "difficulty": "Hard", "type": "figure", "passage": null, "question": "In compartmental bunding, the entire field is divided into small compartments with dimensions of:", "options": ["10 x 10 m\u00b2", "5 x 5 m\u00b2", "12 x 8 m\u00b2", "8 x 5 m\u00b2", "6 x 4 m\u00b2"], "correct": 3, "explanation": "Compartmental bunding divides land into small compartments with dimensions of 8 x 5 m\u00b2, suitable for lesser rainfall areas with slope under 1%.", "id": "q39"}, {"topic": "Soil Conservation: Engineering Measures", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Percolation ponds, formed to store rainwater runoff and allow it to percolate into the ground, are effective up to what distance on the downstream side, and require a minimum depth of how much to reduce evaporation?", "options": ["750 m; 1 m depth", "1500 m; 2 m depth", "2000 m; 2.5 m depth", "500 m; 1 m depth", "1000 m; 1.5 m depth"], "correct": 4, "explanation": "Percolation ponds are effective up to 1000 metres on the downstream side, with a minimum depth of 1.5 m preferred to reduce evaporation losses.", "id": "q40"}, {"topic": "Soil Conservation: Engineering Measures", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "A micro-catchment of size 5 x 5 m, receiving 20 mm of rainfall, will yield approximately how many litres of water?", "options": ["500 litres", "2000 litres", "250 litres", "100 litres", "1000 litres"], "correct": 0, "explanation": "A 5 x 5 m micro-catchment with 20 mm rainfall yields approximately 500 litres of water.", "id": "q41"}, {"topic": "Soil Conservation: Engineering Measures", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "This technique uses enhanced contours to collect and direct water on sloping land without the need for terracing, directing water into dammed ponds for drip-fed gravity irrigation; it also reduces soil erosion and flooding. This is called ________.", "options": ["Percolation pond design", "Keyline design", "Contour trenching", "Basin listing", "Compartmental bunding"], "correct": 1, "explanation": "Keyline design uses enhanced contours to collect and direct water without terracing, reducing erosion and flooding while gathering nutrients.", "id": "q42"}, {"topic": "Soil Conservation: Engineering Measures", "difficulty": "Easy", "type": "figure", "passage": null, "question": "Windbreaks and shelterbelts, comprising rows of trees/shrubs planted across the wind direction, can reduce wind speed on the leeward side by up to:", "options": ["10-20%", "40-50%", "60-80%", "90-95%", "20-30%"], "correct": 2, "explanation": "Windbreaks and shelterbelts reduce wind speed by up to 60-80% on the leeward side.", "id": "q43"}, {"topic": "Soil Conservation: Engineering Measures", "difficulty": "Moderate", "type": "scenario", "passage": null, "question": "A farmer has deep, ill-drained black soils and wants to grow a crop during the rainy season when tillage is not feasible. Which of the following engineering soil-and-water-conservation measures is BEST suited to their situation?", "options": ["Keyline design", "Contour stonewalls", "Bench terracing", "Broad Bed and Furrow (BBF) system", "Windbreaks and shelterbelts"], "correct": 3, "explanation": "BBF is specifically designed for deep black soils with ill-drained conditions during the rainy season, allowing dry sowing before monsoon via broad beds and furrows.", "id": "q44"}, {"topic": "Factors & Scientists of Soil Formation", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Soils form from the interplay of five main factors. Which of the following is NOT one of them?", "options": ["Time", "Parent material", "Organisms", "Climate", "Fertilizer application"], "correct": 4, "explanation": "The five main soil forming factors are Parent material, Time, Climate, Topography and Relief, and Organisms \u2014 fertilizer application is not one of the natural soil forming factors.", "id": "q45"}, {"topic": "Factors & Scientists of Soil Formation", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Dokuchaiev (1889) established that soils develop as a result of soil forming factors expressed by the equation S = f(P, C, O). What do P, C and O stand for?", "options": ["Parent material, Climate, Organisms", "Profile, Climate, Ontogeny", "Precipitation, Climate, Organic matter", "Pedon, Chroma, Origin", "Parent material, Conservation, Oxidation"], "correct": 0, "explanation": "Dokuchaiev's equation S = f(P, C, O) stands for Parent material, Climate, and Organisms.", "id": "q46"}, {"topic": "Factors & Scientists of Soil Formation", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements about Jenny's (1941) soil-forming factor equation S = f(C, O, R, P, T, ...):\n1. The passive factors comprise parent material, relief and time.\n2. The active factors consist of climate and biosphere.\n3. 'R' in the equation stands for rainfall.\n4. The equation includes additional unspecified factors, denoted by an ellipsis.\nWhich of the statements given above are correct?", "options": ["Only 1 and 4", "1, 2 and 4", "2, 3 and 4", "1, 2, 3 and 4", "1, 2 and 3"], "correct": 1, "explanation": "Statement 3 is incorrect: 'R' stands for Relief or topography, not rainfall. Statements 1, 2 and 4 are correct as per Jenny's formulation.", "id": "q47"}, {"topic": "Factors & Scientists of Soil Formation", "difficulty": "Hard", "type": "recall", "passage": null, "question": "According to the five stages of soil development by Mohr and van Baren, which stage is characterised by decomposition reaching its final stage, with only the most weathering-resistant minerals surviving?", "options": ["Juvenile stage", "Virile stage", "Senile stage", "Initial stage", "Final stage"], "correct": 2, "explanation": "In the Senile stage, decomposition arrives at a final stage, and only the most weathering-resistant minerals have survived (distinct from the 'Final' stage where parent material is completely weathered).", "id": "q48"}, {"topic": "Factors & Scientists of Soil Formation", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements on basic processes taking place in the soil:\n1. Additions include rain adding water and humans adding fertilizer.\n2. Losses include organic matter decomposing into carbon dioxide and nutrients leaching into groundwater.\n3. Transformations include weathering of hard rock into soft clay.\n4. Translocations refer only to the addition of new material into the soil, not movement within it.\nWhich of the statements given above are correct?", "options": ["Only 1 and 4", "1, 2, 3 and 4", "Only 2 and 4", "1, 2 and 3", "2, 3 and 4"], "correct": 3, "explanation": "Statement 4 is incorrect: translocation refers to movement of soil constituents within the profile or between horizons, not addition of new material (that is an 'addition'). Statements 1, 2 and 3 are correct.", "id": "q49"}, {"topic": "Factors & Scientists of Soil Formation", "difficulty": "Hard", "type": "definitional", "passage": null, "question": "This soil-formation process occurs when evapotranspiration exceeds precipitation, causing upward movement of dissolved alkaline salts, with the net result being deposition of translocated cations in the B horizon, sometimes forming a hard layer called caliche. This process is ________.", "options": ["Laterization", "Gleization", "Salinization", "Podzolization", "Calcification"], "correct": 4, "explanation": "Calcification occurs when evapotranspiration exceeds precipitation, depositing calcium carbonate-rich cations in the B horizon, sometimes forming caliche.", "id": "q50"}, {"topic": "Factors & Scientists of Soil Formation", "difficulty": "Hard", "type": "recall", "passage": null, "question": "Which soil-forming process is described as the removal of soluble base cations and sesquioxides from the A horizon, creating a white-to-grey sub-layer composed of silica sand?", "options": ["Podzolization", "Calcification", "Gleization", "Salinization", "Laterization"], "correct": 0, "explanation": "Podzolization removes soluble base cations and sesquioxides (Al and Fe compounds) from the A horizon, forming a white-to-grey silica-rich sub-layer.", "id": "q51"}, {"topic": "Factors & Scientists of Soil Formation", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "The Russian-origin term 'glei' refers to blue, grey or green clay. The corresponding soil-forming process, resulting from poor drainage and waterlogged (oxygen-lacking) conditions, is called ________.", "options": ["Desalinization", "Gleization", "Podzolization", "Decalcification", "Solonization"], "correct": 1, "explanation": "Gleization develops a glei (gley) horizon in the lower soil profile due to poor drainage and waterlogging, producing bluish-to-greyish mottled colours.", "id": "q52"}, {"topic": "Factors & Scientists of Soil Formation", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements on pedoturbation (mixing of soil):\n1. Faunal pedoturbation is mixing by animals such as ants, earthworms and moles.\n2. Floral pedoturbation is mixing by plants, as in tree tipping that forms pits and mounds.\n3. Argillic pedoturbation is caused by churning from swell-shrink clays, as observed in deep Black Cotton Soils.\nWhich of the statements given above are correct?", "options": ["Only 1", "2 and 3", "1, 2 and 3", "Only 3", "1 and 2"], "correct": 2, "explanation": "All three statements correctly describe the types of pedoturbation given in the text.", "id": "q53"}, {"topic": "Factors & Scientists of Soil Formation", "difficulty": "Easy", "type": "recall", "passage": null, "question": "The text describes Laterization as being the exact opposite of which other soil-forming process?", "options": ["Salinization", "Gleization", "Desalinization", "Podzolization", "Calcification"], "correct": 3, "explanation": "Laterization removes silica while concentrating sesquioxides, and the text describes it as the opposite process to Podzolization, which removes sesquioxides instead.", "id": "q54"}, {"topic": "Types of Rocks", "difficulty": "Easy", "type": "recall", "passage": null, "question": "There are three types of rocks, formed as rocks go through the Rock Cycle. Which of the following is NOT one of them?", "options": ["None \u2014 all three listed are types of rocks", "Igneous", "Metamorphic", "Sedimentary", "Alluvial"], "correct": 4, "explanation": "The three types of rocks are Igneous, Sedimentary and Metamorphic. 'Alluvial' refers to a type of soil deposit, not a rock type.", "id": "q55"}, {"topic": "Types of Rocks", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "This type of rock forms when magma (a hot liquid of melted minerals) cools and forms crystals, either underground (slow cooling) or above ground (fast cooling). This is ________ rock.", "options": ["Igneous", "Sedimentary", "Alluvial", "Metamorphic", "Regolithic"], "correct": 0, "explanation": "Igneous rock forms when magma cools and crystallizes, either underground or above ground.", "id": "q56"}, {"topic": "Types of Rocks", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "When rock pieces (sediments) broken down by wind and water are deposited in layers and later cemented together by substances like SiO2, Fe2O3 or lime, the resulting rock is:", "options": ["Igneous rock", "Sedimentary rock", "Metamorphic rock", "Regolith", "Laterite"], "correct": 1, "explanation": "Sedimentary rock forms when sediments are cemented together over time by substances such as SiO2, Fe2O3 or lime.", "id": "q57"}, {"topic": "Types of Rocks", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements on Metamorphic Rocks:\n1. They are formed from igneous and sedimentary rocks under the influence of heat, pressure, and chemically active liquids and gases.\n2. Change due to water is called hydro-metamorphosis.\n3. Change due to pressure is called dynamo-metamorphosis.\nWhich of the statements given above are correct?", "options": ["1 and 2", "2 and 3", "1, 2 and 3", "Only 3", "Only 1"], "correct": 2, "explanation": "All three statements accurately describe metamorphic rock formation and its sub-processes (hydro- and dynamo-metamorphosis).", "id": "q58"}, {"topic": "Important Properties of Soil", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Sand, silt and clay particles are classified based on their size. Which of these three is the LEAST reactive, and which is the MOST reactive/active?", "options": ["Sand least reactive; silt most active", "Clay least reactive; silt most active", "Silt least reactive; clay most active", "Sand least reactive; clay most active", "Clay least reactive; sand most active"], "correct": 3, "explanation": "Sand is the least reactive, followed by silt, with clay being the most active among the three particle types.", "id": "q59"}, {"topic": "Important Properties of Soil", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements comparing sand, silt and clay properties:\n1. Sand has low water-holding capacity but good aeration.\n2. Clay has high water-holding capacity but poor aeration and very slow drainage.\n3. Silt has better ability to store plant nutrients than sand.\n4. Clay is more suitable for tillage after rain than sand.\nWhich of the statements given above are correct?", "options": ["Only 1 and 2", "1, 2, 3 and 4", "1, 3 and 4", "Only 2 and 4", "1, 2 and 3"], "correct": 4, "explanation": "Statement 4 is incorrect \u2014 clay has 'poor' suitability for tillage after rain while sand has 'good' suitability (per the properties table). Statements 1, 2 and 3 are correct.", "id": "q60"}, {"topic": "Important Properties of Soil", "difficulty": "Moderate", "type": "figure", "passage": null, "question": "Sandy soils are typically comprised of approximately what percentage of sand and clay by volume?", "options": ["80-100% sand, 0-10% clay", "25-50% sand, 30-50% clay", "0-45% sand, 50-100% clay", "60-80% sand, 20-30% clay", "50-70% sand, 10-20% clay"], "correct": 0, "explanation": "Sandy soils comprise approximately 80-100% sand and 0-10% clay by volume.", "id": "q61"}, {"topic": "Important Properties of Soil", "difficulty": "Hard", "type": "figure", "passage": null, "question": "Loam soils are typically comprised of approximately what proportions of sand, silt and clay by volume respectively?", "options": ["10-30% sand, 50-70% silt, 20-30% clay", "25-50% sand, 30-50% silt, 10-30% clay", "50-70% sand, 20-30% silt, 10-20% clay", "80-100% sand, 0-10% silt, 0-10% clay", "0-45% sand, 0-45% silt, 50-100% clay"], "correct": 1, "explanation": "Loam soils comprise approximately 25-50% sand, 30-50% silt and 10-30% clay by volume.", "id": "q62"}, {"topic": "Important Properties of Soil", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Soil structure \u2014 the arrangement of primary particles and their aggregates into defined patterns \u2014 is denoted in order of which three characteristics (abbreviated GCT)?", "options": ["Granule, Crumb, Type", "Genesis, Class, Texture", "Grade, Class, Type", "Genesis, Colour, Texture", "Grade, Colour, Tilth"], "correct": 2, "explanation": "Soil structure is denoted in order of Grade, Class and Type (GCT).", "id": "q63"}, {"topic": "Important Properties of Soil", "difficulty": "Hard", "type": "recall", "passage": null, "question": "Which of the four principal types of soil structure consists of vertically oriented pillar-like aggregates, up to 15 cm in diameter, occurring in the B horizon of clayey soils in arid/semi-arid regions, called 'columnar' when their tops are rounded?", "options": ["Platy", "Blocky", "Granular", "Prismatic", "Spheroidal"], "correct": 3, "explanation": "Prismatic structure consists of vertically oriented aggregates/pillars up to 15 cm in diameter; when rounded at the top they are called columnar.", "id": "q64"}, {"topic": "Important Properties of Soil", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which soil structure type consists of rounded aggregates not more than 2 cm in diameter, often found loose in the 'A' horizon, and when especially porous is called 'crumb'?", "options": ["Columnar", "Platy", "Blocky", "Prismatic", "Spheroidal"], "correct": 4, "explanation": "Spheroidal structure consists of rounded aggregates (granules) up to 2 cm in diameter in the A horizon; especially porous ones are called 'crumb', favourable for plant growth.", "id": "q65"}, {"topic": "Important Properties of Soil", "difficulty": "Hard", "type": "figure", "passage": null, "question": "According to the bulk density and pore space table, which textural class has a bulk density of 1.1 g/cc and pore space of 58%?", "options": ["Clay", "Silt loam", "Loam", "Sandy soil", "Silty clay loam"], "correct": 0, "explanation": "Clay has a bulk density of 1.1 g/cc and pore space of 58%, the lowest bulk density and highest pore space among the classes listed (Sandy 1.6/40%, Loam 1.4/47%, Silt loam 1.3/50%, Clay 1.1/58%).", "id": "q66"}, {"topic": "Important Properties of Soil", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "The presence of organic matter and tillage operations generally have what effect on bulk density?", "options": ["Organic matter increases it, tillage decreases it", "Both decrease bulk density", "Organic matter decreases it, tillage increases it", "Both increase bulk density", "Neither has any effect"], "correct": 1, "explanation": "The text notes that the presence of organic matter decreases bulk density, and tillage operations too cause a decrease in bulk density.", "id": "q67"}, {"topic": "Important Properties of Soil", "difficulty": "Hard", "type": "figure", "passage": null, "question": "The average value for particle density is about 2.66 g/cm\u00b3. Approximately what is the relationship between bulk density and particle density?", "options": ["There is no consistent relationship", "They are always numerically equal", "Bulk density is roughly half of particle density", "Bulk density is roughly one-third of particle density", "Bulk density is roughly double particle density"], "correct": 2, "explanation": "Generally, bulk density is approximately half of particle density.", "id": "q68"}, {"topic": "Important Properties of Soil", "difficulty": "Easy", "type": "recall", "passage": null, "question": "According to the text, soil colour is due to three main pigments. Red colouring comes from which source?", "options": ["Organic matter", "Calcium carbonate", "Silicates and salt", "Iron and aluminium oxides", "Manganese alone"], "correct": 3, "explanation": "The three main soil pigments are: black (organic matter), red (iron and aluminium oxides), and white (silicates and salt).", "id": "q69"}, {"topic": "Important Properties of Soil", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "The most widely used method for determining soil colours is comparison with colour chips in which system, which expresses colour in terms of hue, value and chroma?", "options": ["RGB colour model", "CIE colour system", "Pantone matching system", "CMYK model", "Munsell soil colour chart"], "correct": 4, "explanation": "The Munsell soil colour system expresses colour in terms of hue, value (lightness/darkness) and chroma (intensity).", "id": "q70"}, {"topic": "Important Properties of Soil", "difficulty": "Hard", "type": "definitional", "passage": null, "question": "This property of soil is its capacity to exchange cations between soil particles and the soil solution, determined by the negative electric charge on particle surfaces, and is commonly expressed in milliequivalents (meq) per 100 g. It is called ________.", "options": ["Cation Exchange Capacity (CEC)", "Pore Space", "Particle Density", "Base Saturation", "Bulk Density"], "correct": 0, "explanation": "Cation Exchange Capacity (CEC) is the soil's capacity to exchange cations, expressed in meq/100g or cmol(+)/kg.", "id": "q71"}, {"topic": "Important Properties of Soil", "difficulty": "Hard", "type": "recall", "passage": null, "question": "Which of the five most abundant exchangeable cations in soil (Ca++, Mg++, K+, Na+, Al+++) are NOT plant nutrients and, in excess, can compete with desired nutrients?", "options": ["Potassium and Sodium", "Aluminium and Sodium", "Calcium and Sodium", "Calcium and Magnesium", "Aluminium and Magnesium"], "correct": 1, "explanation": "Aluminium and Sodium are not plant nutrients among the five most abundant exchangeable cations, and their excess competes with desired nutrients, lowering fertility.", "id": "q72"}, {"topic": "Important Properties of Soil", "difficulty": "Hard", "type": "figure", "passage": null, "question": "Soil CEC could be expected to increase by up to what percentage if the pH was changed from 4.0 to 6.5, and nearly what factor if pH increased from 4.0 to 8.0?", "options": ["50%; nearly triple", "100%; nearly double", "50%; nearly double", "25%; nearly triple", "75%; nearly double"], "correct": 2, "explanation": "CEC could increase up to 50% if pH changes from 4.0 to 6.5, and nearly double if pH increases from 4.0 to 8.0.", "id": "q73"}, {"topic": "Important Properties of Soil", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements on implications of CEC:\n1. High CEC soils generally have greater water holding capacity than low CEC soils.\n2. Low CEC soils are more prone to potassium and magnesium deficiencies.\n3. Sandy (low CEC) soils benefit from a single large one-time addition of potassium rather than smaller frequent doses.\n4. The lower the CEC, the faster soil pH decreases over time.\nWhich of the statements given above are correct?", "options": ["1, 3 and 4", "1, 2, 3 and 4", "Only 1 and 4", "1, 2 and 4", "Only 2 and 3"], "correct": 3, "explanation": "Statement 3 is incorrect: for low-CEC sandy soils, more frequent additions of smaller amounts of potassium are better, since a large one-time addition leads to large leaching losses. Statements 1, 2 and 4 are correct.", "id": "q74"}, {"topic": "Important Properties of Soil", "difficulty": "Moderate", "type": "figure", "passage": null, "question": "Total pore space is highest in which soil type, ranging 50-60%, compared to 20-30% in sandy soils?", "options": ["Peaty soils", "Sandy soils", "Loamy soils", "Silty soils", "Clay soils"], "correct": 4, "explanation": "Clay soils have the highest total pore space (50-60%), compared to 30-50% in loamy soils and 20-30% in sandy soils.", "id": "q75"}, {"topic": "Important Properties of Soil", "difficulty": "Easy", "type": "definitional", "passage": null, "question": "pH, defined as the negative logarithm of hydrogen ion activity, indicates a soil's:", "options": ["Acidity or alkalinity", "Water holding capacity", "Cation exchange capacity", "Particle density", "Bulk density"], "correct": 0, "explanation": "Soil pH indicates its acidity or alkalinity, influencing nutrient availability, physical condition and plant growth.", "id": "q76"}, {"topic": "Soil Types of India", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "The Indian Council of Agricultural Research (ICAR) set up an All India Soil Survey Committee in which year, dividing Indian soils into eight major groups?", "options": ["1950", "1953", "1972", "1961", "1947"], "correct": 1, "explanation": "ICAR set up the All India Soil Survey Committee in 1953, dividing Indian soils into eight major groups.", "id": "q77"}, {"topic": "Soil Types of India", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements on Alluvial soils of India:\n1. They are the most abundant soil in India, covering about 43% of the area.\n2. They are formed mainly from the Vertisol soil order.\n3. Khaddar refers to newly formed, more sandy alluvium, while Bhangar refers to older, more clayey alluvium.\n4. They are rich in potash and lime but lack phosphorus.\nWhich of the statements given above are correct?", "options": ["2, 3 and 4", "1, 2, 3 and 4", "1, 3 and 4", "Only 1 and 4", "1, 2 and 3"], "correct": 2, "explanation": "Statement 2 is incorrect: Alluvial soils are formed mainly from the Entisol soil order, not Vertisol (Vertisol forms black soils). Statements 1, 3 and 4 are correct.", "id": "q78"}, {"topic": "Soil Types of India", "difficulty": "Hard", "type": "figure", "passage": null, "question": "Alluvial soils cover approximately how much area in India, and Black soils cover approximately how much area?", "options": ["100 mha; 40 mha", "150 mha; 45 mha", "120 mha; 60 mha", "143 mha; 55 mha", "130 mha; 50 mha"], "correct": 3, "explanation": "Alluvial soils cover about 143 million hectares (the largest area, in UP) and Black soils cover about 55 million hectares (mainly Maharashtra and MP).", "id": "q79"}, {"topic": "Soil Types of India", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Black soils, also called Regur or black cotton soil in Maharashtra where they are derived from the Deccan trap, are rich in which type of clay mineral?", "options": ["Vermiculite", "Kaolinite", "Chlorite", "Illite", "Montmorillonite (2:1 clay)"], "correct": 4, "explanation": "Black soils are rich in montmorillonite clay (2:1) minerals, formed mainly from the Vertisol soil order.", "id": "q80"}, {"topic": "Soil Types of India", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements comparing Black soils and Red soils of India:\n1. Black soil is called 'late soil' because of its lower permeability, moistening sufficiently only later in the season.\n2. Red soil is called 'early soil' because light, frequent rains allow earlier sowing than in other soils.\n3. Red soils are formed mainly from the Alfisol soil order and are rich in kaolinite clay minerals.\n4. Black soils occupy the largest area in Tamil Nadu followed by Karnataka.\nWhich of the statements given above are correct?", "options": ["1, 2 and 3", "2, 3 and 4", "1, 2, 3 and 4", "Only 1 and 4", "Only 3 and 4"], "correct": 0, "explanation": "Statement 4 is incorrect \u2014 it describes Red soil (largest area in Tamil Nadu, followed by Karnataka & Goa), not Black soil (mainly Maharashtra & MP). Statements 1, 2 and 3 are correct.", "id": "q81"}, {"topic": "Soil Types of India", "difficulty": "Moderate", "type": "figure", "passage": null, "question": "Red soils occupy about how much area in India, and are formed mainly from which soil order?", "options": ["25 mha; Oxisol", "15 mha; Alfisol", "40 mha; Ultisol", "55 mha; Vertisol", "10 mha; Mollisol"], "correct": 1, "explanation": "Red soils occupy about 15 mha and are formed mainly from the Alfisol soil order (largest area in Tamil Nadu, followed by Karnataka & Goa).", "id": "q82"}, {"topic": "Soil Types of India", "difficulty": "Hard", "type": "recall", "passage": null, "question": "Laterite soil derives its name from the Latin word 'Later', meaning brick, and is formed mainly from which soil orders?", "options": ["Entisol and Vertisol", "Histosol and Spodosol", "Ultisol and Oxisol", "Alfisol and Mollisol", "Aridisol and Gelisol"], "correct": 2, "explanation": "Laterite soils are formed mainly from the Ultisol and Oxisol soil orders, under heavy rainfall and high temperature conditions with maximum leaching.", "id": "q83"}, {"topic": "Soil Types of India", "difficulty": "Moderate", "type": "scenario", "passage": null, "question": "A soil scientist observes a soil sample that becomes soft when wet and hardens considerably when dried, occupies about 25 mha in India, and shows red colouration due to iron oxide. Which soil type is this?", "options": ["Arid and Desert soil", "Saline and Alkaline soil", "Alluvial soil", "Laterite soil", "Black soil"], "correct": 3, "explanation": "Laterite soils (named from Latin 'Later' = brick) become soft when wet and hard when dried; they occupy about 25 mha and are red due to iron oxide.", "id": "q84"}, {"topic": "Soil Types of India", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements about Arid and Desert soils of India:\n1. They are deposited mainly by wind activities and have high salt content.\n2. They are rich in Kankar (impure calcium carbonate), which restricts water infiltration.\n3. They are found mainly in Kerala, coastal Orissa and Tamil Nadu.\n4. They lack moisture and humus.\nWhich of the statements given above are correct?", "options": ["1, 3 and 4", "2, 3 and 4", "1, 2, 3 and 4", "Only 3 and 4", "1, 2 and 4"], "correct": 4, "explanation": "Statement 3 is incorrect \u2014 it describes Peaty and Marshy soils' location, not Arid and Desert soils (found in western Rajasthan, north Gujarat and southern Punjab). Statements 1, 2 and 4 are correct.", "id": "q85"}, {"topic": "Soil Types of India", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which soil type of India is described as being rich in iron and organic matter, lacking potash and phosphorus, useful for jute and rice cultivation, and found in Kerala, coastal Orissa, Tamil Nadu and Sunderban areas of West Bengal?", "options": ["Peaty and Marshy soils", "Saline and Alkaline soils", "Laterite soils", "Forest and Mountain soils", "Arid and Desert soils"], "correct": 0, "explanation": "Peaty and Marshy soils are found in Kerala, coastal Orissa, Tamil Nadu and Sunderban (West Bengal), useful for jute and rice.", "id": "q86"}, {"topic": "USDA Soil Taxonomy \u2014 Soil Orders", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "The USDA Soil Taxonomy classification system was developed by the United States Department of Agriculture along with which other organisation?", "options": ["International Soil Reference Centre", "National Cooperative Soil Survey", "World Soil Survey Council", "Food and Agriculture Organization", "Global Soil Partnership"], "correct": 1, "explanation": "USDA Soil Taxonomy was developed by the USDA and the National Cooperative Soil Survey.", "id": "q87"}, {"topic": "USDA Soil Taxonomy \u2014 Soil Orders", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "This soil order shows a moderate degree of soil development, is young with very few diagnostic features, and derives its name from the Latin 'inceptum' meaning beginning. This order is ________.", "options": ["Vertisols", "Aridisols", "Inceptisols", "Mollisols", "Entisols"], "correct": 2, "explanation": "Inceptisols show moderate development, are young soils with few diagnostic features; the name derives from Latin 'inceptum' (beginning).", "id": "q88"}, {"topic": "USDA Soil Taxonomy \u2014 Soil Orders", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements on USDA soil orders:\n1. Vertisols are clay-rich soils that develop cracks when dried and swell when saturated, and give rise to black soils.\n2. Oxisols and Ultisols both give rise to laterite soils and are highly weathered with low natural fertility.\n3. Alfisols are relatively young, less acidic and weathered than Ultisols, and give rise to India's red soils.\n4. Mollisols are acidic soils with low fertility, forming under conifer litter.\nWhich of the statements given above are correct?", "options": ["2, 3 and 4", "1, 3 and 4", "1, 2, 3 and 4", "1, 2 and 3", "Only 2 and 4"], "correct": 3, "explanation": "Statement 4 is incorrect: it describes Spodosols (acidic, low fertility, formed under conifer needle litter), not Mollisols (which are highly fertile, rich in calcium/magnesium). Statements 1, 2 and 3 are correct.", "id": "q89"}, {"topic": "USDA Soil Taxonomy \u2014 Soil Orders", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which soil order is called 'Organic soil', contains more than 20% organic matter, and derives its name from the Greek word 'histos' meaning tissue?", "options": ["Spodosols", "Andisols", "Mollisols", "Gelisols", "Histosols"], "correct": 4, "explanation": "Histosols contain more than 20% organic matter, occur in extremely wet/underwater areas, and derive from Greek 'histos' (tissue).", "id": "q90"}, {"topic": "USDA Soil Taxonomy \u2014 Soil Orders", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which soil order represents permanently frozen soils found in the Arctic and Antarctic, deriving its name from Latin 'gelare', meaning to freeze?", "options": ["Gelisols", "Histosols", "Aridisols", "Spodosols", "Andisols"], "correct": 0, "explanation": "Gelisols are permanently frozen soils found in polar regions and extremely high elevations; the name derives from Latin 'gelare' (to freeze).", "id": "q91"}, {"topic": "USDA Soil Taxonomy \u2014 Soil Orders", "difficulty": "Hard", "type": "recall", "passage": null, "question": "Which soil order forms from weathering of volcanic materials such as ash, is very productive and fertile, and derives its name from the Japanese word 'ando' meaning black soil?", "options": ["Inceptisols", "Andisols/Endisols", "Oxisols", "Vertisols", "Mollisols"], "correct": 1, "explanation": "Andisols/Endisols form from volcanic ash weathering, are very productive, and derive from the Japanese 'ando' (black soil).", "id": "q92"}, {"topic": "USDA Soil Taxonomy \u2014 Soil Orders", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Desert soils of arid regions, deriving their order name from the Latin 'aridus' meaning dry, belong to which USDA soil order?", "options": ["Histosols", "Entisols", "Aridisols", "Gelisols", "Ultisols"], "correct": 2, "explanation": "Aridisols are desert soils of arid regions, named from the Latin 'aridus' (dry).", "id": "q93"}, {"topic": "Problematic Soils", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "EC (Electrical Conductivity) and ESP (Exchangeable Sodium Percentage) are used to characterise Saline, Alkali and Saline-Alkali soils. What does ESP measure?", "options": ["The percentage of calcium ions in the soil solution", "The percentage of organic matter in the soil", "The percentage of exchangeable potassium", "The percentage of sodium cation as a percentage of total CEC", "The electrical conductivity of the soil in dS/m"], "correct": 3, "explanation": "ESP is the percentage of the sodium cation as a percentage of the total CEC.", "id": "q94"}, {"topic": "Problematic Soils", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements about Saline, Alkali and Saline-Alkali soils:\n1. In Saline soils, sodium ions are present in soluble form, so they conduct electricity better than Alkali soils.\n2. In Alkali soils, sodium ions are attached to negatively charged clay/organic matter sites and are also known as sodic soils.\n3. Saline-Alkali soils conduct electricity worse than Alkali soils because sodium is entirely in complex form.\n4. All three soil types have a pH greater than 7.\nWhich of the statements given above are correct?", "options": ["1, 2, 3 and 4", "1, 3 and 4", "2, 3 and 4", "Only 2 and 3", "1, 2 and 4"], "correct": 4, "explanation": "Statement 3 is incorrect: Saline-Alkali soils conduct electricity BETTER than Alkali soils because of the presence of soluble sodium ions. Statements 1, 2 and 4 are correct.", "id": "q95"}, {"topic": "Problematic Soils", "difficulty": "Hard", "type": "figure", "passage": null, "question": "Regarding pH ranges of problematic soils: Saline soils have a pH range of greater than 7 but less than what threshold, while Alkaline soils have a pH above what threshold?", "options": ["8.5; above 8.5", "9.0; above 9.0", "7.5; above 7.5", "8.0; above 8.0", "7.5; above 9.0"], "correct": 0, "explanation": "Saline soils have pH greater than 7 but less than 8.5; Alkaline soils have pH greater than 8.5.", "id": "q96"}, {"topic": "Problematic Soils", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements on reasons for soil acidity:\n1. Rainfall exceeding 100 cm with high relative humidity leaches Ca and Mg, decreasing base saturation.\n2. Continuous application of acid-forming fertilizers like ammonium sulphate results in depletion of Ca via CEC.\n3. Humus decomposition releases large amounts of acids, lowering pH.\n4. Rocks with low silica content, when combined with water, increase soil acidity.\nWhich of the statements given above are correct?", "options": ["2, 3 and 4", "1, 2 and 3", "1, 3 and 4", "Only 3 and 4", "1, 2, 3 and 4"], "correct": 1, "explanation": "Statement 4 is incorrect: rocks with LARGE amounts of silica (SiO2), not low silica, are considered acidic and increase acidity when combined with water. Statements 1, 2 and 3 are correct.", "id": "q97"}, {"topic": "Problematic Soils", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which chemical amendment is described as 'by far the most commonly used' for reclaiming alkali/sodic soils?", "options": ["Ferrous Sulphate (FeSO4)", "Sulphuric acid", "Gypsum", "Pyrites", "Elemental Sulphur"], "correct": 2, "explanation": "Gypsum, a direct calcium supplier, is by far the most commonly used chemical amendment for reclaiming alkali/sodic soils.", "id": "q98"}, {"topic": "Problematic Soils", "difficulty": "Hard", "type": "scenario", "passage": null, "question": "A field has calcareous sodic soil (already containing precipitated CaCO3) that requires chemical amelioration. Why would calcium carbonate NOT be a suitable amendment here, even though it is a 'direct Ca supplier'?", "options": ["It leaches too quickly from the soil", "It increases soil pH excessively", "It is too expensive compared to gypsum", "It is insoluble and of no use in soils that already have precipitated CaCO3", "It only works in acidic soils, not alkali soils"], "correct": 3, "explanation": "Calcium carbonate is insoluble and of no use in calcareous sodic soils (already having precipitated CaCO3), but can be used in non-calcareous sodic soils.", "id": "q99"}, {"topic": "Problematic Soils", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Saline soils are known by different regional names in India. Which term is used in Uttar Pradesh?", "options": ["Khar", "Khajar", "Usar", "Thar", "Reh"], "correct": 4, "explanation": "Saline soils are called 'Reh' in Uttar Pradesh, 'Thar' in Punjab, 'Khajar' in Gujarat, and 'Khar' in Maharashtra.", "id": "q100"}, {"topic": "Problematic Soils", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which crop is preferred for cultivation in alkali/sodic soils because it can grow under submergence, tolerate a fair extent of ESP, and influence microbial processes?", "options": ["Rice", "Barley", "Cotton", "Wheat", "Sugarcane"], "correct": 0, "explanation": "Rice is the preferred crop in alkali/sodic soil because it can grow under submergence and tolerate a fair extent of ESP.", "id": "q101"}, {"topic": "Problematic Soils", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements on physical amelioration methods for alkali/sodic soils:\n1. Deep ploughing breaks the hard pan developed at the subsurface, improving water movement and aeration.\n2. Sand filling reduces the heaviness of soil and increases capillary movement of water.\n3. Physical amelioration methods directly remove sodium from the exchange complex.\n4. Profile inversion improves physical soil condition similarly to deep ploughing.\nWhich of the statements given above are correct?", "options": ["Only 1 and 3", "1, 2 and 4", "1, 2, 3 and 4", "Only 3", "2, 3 and 4"], "correct": 1, "explanation": "Statement 3 is incorrect: physical methods do NOT actually remove sodium from the exchange complex \u2014 they only improve physical soil condition (infiltration, aeration). Statements 1, 2 and 4 are correct.", "id": "q102"}, {"topic": "Problematic Soils", "difficulty": "Easy", "type": "figure", "passage": null, "question": "At what approximate pH level are citrus fruits and blueberries best suited for cultivation among acidic soils, per the acidic-soil crop suitability chart?", "options": ["5.5", "5.0", "4.5", "6.5", "6.0"], "correct": 2, "explanation": "At pH 4.5, citrus and blueberries are the suitable crops; the range progresses up to alfalfa and sugar beet at pH 6.5.", "id": "q103"}, {"topic": "Soil Fertility, Productivity & C:N Ratio", "difficulty": "Easy", "type": "definitional", "passage": null, "question": "________ is the ability of soil to supply essential plant nutrients during the growth period of plants, without toxic concentration of any nutrient.", "options": ["Soil Texture", "Soil Productivity", "Cation Exchange Capacity", "Soil Fertility", "Soil Structure"], "correct": 3, "explanation": "Soil Fertility is the capacity of soil to supply nutrients available to crops, without toxic concentrations.", "id": "q104"}, {"topic": "Soil Fertility, Productivity & C:N Ratio", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which statement best captures the relationship between soil fertility and soil productivity, per the text?", "options": ["Fertility and productivity are always identical", "Fertility is a subset of texture, unrelated to productivity", "Productivity depends only on climate, not fertility", "All fertile soils are productive, but not all productive soils are fertile", "All productive soils are fertile, but all fertile soils may not be productive"], "correct": 4, "explanation": "The text states: all the productive soils are fertile, but all the fertile soils may not be productive.", "id": "q105"}, {"topic": "Soil Fertility, Productivity & C:N Ratio", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "This is the decomposition (oxidation) of chemical compounds in organic matter, releasing nutrients in soluble inorganic forms available to plants, increasing nutrient bioavailability. This process is ________.", "options": ["Mineralization", "Eluviation", "Immobilization", "Humification", "Leaching"], "correct": 0, "explanation": "Mineralization is the decomposition/oxidation of organic compounds, releasing nutrients in soluble inorganic forms available to plants.", "id": "q106"}, {"topic": "Soil Fertility, Productivity & C:N Ratio", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Immobilization is the conversion of inorganic compounds to organic compounds by micro-organisms or plants, preventing plant access to nutrients. It is the opposite of which process?", "options": ["Eluviation", "Mineralization", "Leaching", "Humification", "Calcification"], "correct": 1, "explanation": "Immobilization is explicitly stated to be the opposite of mineralization.", "id": "q107"}, {"topic": "Soil Fertility, Productivity & C:N Ratio", "difficulty": "Hard", "type": "figure", "passage": null, "question": "The required C:N ratio for organic matter decomposition is stated as 30:1. If the parts of carbon per part of nitrogen exceed this threshold, which process dominates and what nutrient becomes deficient near the plant roots?", "options": ["Immobilization; carbon becomes deficient", "Mineralization; phosphorus becomes deficient", "Immobilization; nitrogen becomes deficient", "Mineralization; nitrogen becomes deficient", "Calcification; nitrogen becomes deficient"], "correct": 2, "explanation": "With a high C:N ratio (>30:1), micro-organisms use soil nitrogen for decomposition, causing immobilization and nitrogen deficiency in the plants' immediate environment.", "id": "q108"}, {"topic": "Soil Fertility, Productivity & C:N Ratio", "difficulty": "Moderate", "type": "scenario", "passage": null, "question": "A farmer incorporates crop residue with a C:N ratio of 15:1 into the soil. Based on the text's C:N ratio scenarios, what is the expected outcome for nitrogen availability to the crop?", "options": ["Immobilization and mineralization occur equally", "The C:N ratio has no effect on nitrogen availability", "Nitrogen leaches out completely regardless of C:N ratio", "Mineralization dominates, converting organic N to inorganic form, making it available to plants", "Nitrogen becomes immobilized and unavailable to the crop"], "correct": 3, "explanation": "Since 15:1 is below the 30:1 threshold (a 'Low C:N ratio' scenario), mineralization dominates \u2014 organic nitrogen converts to inorganic form and becomes available to plants.", "id": "q109"}, {"topic": "Plant Nutrient Essentiality & Mobility", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Out of more than 90 elements found in plants, how many elements are known to be essential, further classified into macro- and micro-nutrients?", "options": ["16", "12", "13", "20", "17"], "correct": 4, "explanation": "17 elements are known to be essential, classified into macro-nutrients and micro-nutrients based on relative abundance in plants.", "id": "q110"}, {"topic": "Plant Nutrient Essentiality & Mobility", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Arnon and Stout (1939) and Arnon (1952) proposed criteria of essentiality of mineral nutrients:\n1. Deficiency of the element results in failure to complete the life cycle.\n2. Deficiency can be corrected only by supplying that particular element.\n3. The element must be directly involved in plant nutrition/metabolism, not merely correcting other soil conditions.\n4. Every essential element must be required in equal concentration across all plant species.\nWhich of the statements given above are correct?", "options": ["1, 2 and 3", "Only 3 and 4", "Only 1 and 4", "1, 2, 3 and 4", "2, 3 and 4"], "correct": 0, "explanation": "Statement 4 is not among Arnon's criteria \u2014 essentiality criteria concern function, not equal required concentration across species. Statements 1, 2 and 3 are the correct Arnon/Stout criteria.", "id": "q111"}, {"topic": "Plant Nutrient Essentiality & Mobility", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Primary and Secondary nutrients are together known by which collective term?", "options": ["Micro-nutrients", "Macro-nutrients or Major nutrients", "Essential minerals", "Beneficial elements", "Trace elements"], "correct": 1, "explanation": "Primary and Secondary nutrients together are known as Macro-nutrients or Major nutrients.", "id": "q112"}, {"topic": "Plant Nutrient Essentiality & Mobility", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements on nutrient mobility in plants:\n1. N, P and K are highly mobile nutrients.\n2. Zinc is moderately mobile.\n3. S, Fe, Mn, Cu, Mo and Cl are less mobile.\n4. Calcium and Boron are highly mobile, moving freely to growing points.\nWhich of the statements given above are correct?", "options": ["Only 1 and 4", "1, 2, 3 and 4", "1, 2 and 3", "2, 3 and 4", "Only 4"], "correct": 2, "explanation": "Statement 4 is incorrect: Calcium and Boron are IMMOBILE in plants, not highly mobile. Statements 1, 2 and 3 correctly classify nutrient mobility.", "id": "q113"}, {"topic": "Plant Nutrient Essentiality & Mobility", "difficulty": "Hard", "type": "scenario", "passage": null, "question": "A farmer notices deficiency symptoms appearing specifically on the terminal buds of a crop, rather than on old or new leaves. Based on nutrient mobility principles, which nutrients are most likely deficient?", "options": ["Zinc alone", "Sulphur and Iron", "Potassium and Magnesium", "Calcium and Boron", "Nitrogen and Phosphorus"], "correct": 3, "explanation": "Since Calcium and Boron are immobile in plants, their deficiency symptoms appear specifically on terminal buds, unlike mobile nutrients which show symptoms on older leaves.", "id": "q114"}, {"topic": "Plant Nutrient Essentiality & Mobility", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "According to the text, deficiency symptoms of less mobile elements such as S, Fe, Mn and Cu typically appear on:", "options": ["Roots only", "Stems only", "Middle leaves only", "Old leaves only", "New leaves"], "correct": 4, "explanation": "Deficiency symptoms of less mobile elements (S, Fe, Mn, Cu) appear on new leaves, as they cannot move from older tissue to compensate.", "id": "q115"}, {"topic": "Plant Nutrient Essentiality & Mobility", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "This law, proposed by Justus von Liebig in 1862, states that yield is proportional to the amount of the most limiting nutrient, whichever nutrient it may be. This is called the ________.", "options": ["Law of the Minimum", "Law of Mass Action", "Liebig's Law of Maximum Growth", "Law of Diminishing Returns", "Law of Nutrient Balance"], "correct": 0, "explanation": "Justus von Liebig's Law of the Minimum (1862) states yield is proportional to the amount of the most limiting nutrient.", "id": "q116"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which nutrient's deficiency is characterised by uniform yellowing of older leaves including the veins, cereal crops showing 'V'-shaped pale yellowing at lower leaf tips, and causes 'buttoning' in cauliflower?", "options": ["Calcium", "Nitrogen", "Phosphorus", "Potassium", "Magnesium"], "correct": 1, "explanation": "Nitrogen deficiency causes uniform yellowing of older leaves (including veins), V-shaped yellowing at lower leaf tips in cereals, and buttoning in cauliflower.", "id": "q117"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which nutrient's deficiency causes plants to have small, dark green leaves with a purple tinge, bronzy appearance on the underside, and 'Sickle leaf disease'?", "options": ["Potassium", "Zinc", "Phosphorus", "Nitrogen", "Sulphur"], "correct": 2, "explanation": "Phosphorus deficiency causes stunted growth, purple-coloured older leaves, bronzy underside, and 'Sickle leaf disease'.", "id": "q118"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "'Scorch' \u2014 where the edges of older leaves look burned \u2014 along with yellowing extending from leaf tip/margin to the leaf base, is a characteristic deficiency symptom of which nutrient?", "options": ["Copper", "Iron", "Boron", "Potassium", "Magnesium"], "correct": 3, "explanation": "Potassium deficiency causes yellowing from the tip/margin to the leaf base with necrotic dead spots \u2014 a symptom known as 'scorch'.", "id": "q119"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements on specific plant disorders caused by nutrient deficiencies:\n1. Calcium deficiency causes 'Blossom end rot' in Tomato and Ber.\n2. Magnesium deficiency causes 'Sand drawn disease' in tobacco.\n3. Boron deficiency causes 'Whiptail disease' in cauliflower.\n4. Zinc deficiency causes 'White bud of maize'.\nWhich of the statements given above are correct?", "options": ["2, 3 and 4", "1, 3 and 4", "1, 2, 3 and 4", "Only 3 and 4", "1, 2 and 4"], "correct": 4, "explanation": "Statement 3 is incorrect: 'Whiptail disease and browning in cauliflower' is caused by Molybdenum deficiency, not Boron (Boron deficiency causes 'internal necrosis' in Aonla/mango and 'hen and chicken disorder' in grape). Statements 1, 2 and 4 are correct.", "id": "q120"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Interveinal chlorosis on older leaves \u2014 yellowing between veins while veins remain green \u2014 with leaves detaching easily and causing 'sand drawn disease' in tobacco, is a deficiency symptom of:", "options": ["Magnesium", "Sulphur", "Nitrogen", "Iron", "Phosphorus"], "correct": 0, "explanation": "Magnesium deficiency causes interveinal chlorosis (yellowing between veins, veins remain green), easy leaf detachment, and 'sand drawn disease' in tobacco.", "id": "q121"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements on Boron deficiency:\n1. Chlorosis starts from the base of the terminal bud leaf and extends to the tip, forming a 'whip-like structure'.\n2. It causes 'Internal necrosis in Aonla and mango'.\n3. It causes 'Hen and chicken disorder' in grape and heart rot in sugar beet.\n4. Excess boron causes chlorosis on midribs of upper leaves with dead spots throughout.\nWhich of the statements given above are correct?", "options": ["1, 2, 3 and 4", "1, 2 and 3", "1, 3 and 4", "2, 3 and 4", "Only 4"], "correct": 1, "explanation": "Statement 4 is incorrect \u2014 it describes Zinc deficiency symptoms, not excess boron (excess boron causes leaf tips/margins turning brown and dying). Statements 1, 2 and 3 correctly describe boron deficiency.", "id": "q122"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Interveinal chlorosis in which veins remain conspicuously green while other leaf portions turn yellow/white, causing 'Leaf bleaching in sugarcane' and 'Ivory white of paddy', is a deficiency symptom of:", "options": ["Zinc", "Manganese", "Iron", "Molybdenum", "Copper"], "correct": 2, "explanation": "Iron deficiency causes interveinal chlorosis with veins remaining conspicuously green, leading to 'leaf bleaching in sugarcane' and 'ivory white of paddy'.", "id": "q123"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which micronutrient deficiency causes plants to appear bushy due to reduced internodal elongation, and causes 'White bud of maize', 'Khaira disease of rice' and 'Little leaf of cotton and apple'?", "options": ["Manganese", "Molybdenum", "Iron", "Zinc", "Copper"], "correct": 3, "explanation": "Zinc deficiency causes bushy appearance from reduced internodal elongation, 'White bud of maize', 'Khaira disease of rice', and 'Little leaf' in cotton/apple.", "id": "q124"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Hard", "type": "recall", "passage": null, "question": "Which nutrient's deficiency is characterised by translucent spots of irregular shape between leaf veins, impregnated with resinous gum, and causes 'Whiptail disease and browning in cauliflower'?", "options": ["Copper", "Manganese", "Zinc", "Boron", "Molybdenum"], "correct": 4, "explanation": "Molybdenum deficiency causes translucent interveinal spots impregnated with resinous gum, and 'whiptail disease and browning in cauliflower'.", "id": "q125"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "'Marsh disease in pea' and interveinal yellowing of young leaves (without tending towards whiteness, veins remaining green) is a deficiency symptom of which nutrient?", "options": ["Manganese", "Zinc", "Chlorine", "Iron", "Molybdenum"], "correct": 0, "explanation": "Manganese deficiency causes interveinal yellowing of young leaves (veins remain green, not white) and 'marsh disease in pea'.", "id": "q126"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which nutrient, when deficient, causes leaves and veins to become yellow tending towards whiteness, with marginal leaf burning, and causes 'Die back and Little leaf disease in citrus'?", "options": ["Boron", "Copper", "Iron", "Zinc", "Manganese"], "correct": 1, "explanation": "Copper deficiency causes yellowing tending towards whiteness with marginal leaf burning, and 'die back and little leaf disease in citrus'.", "id": "q127"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements about plant nutrient functions:\n1. Phosphorus is a key component of ATP and acts as the plant's 'energy currency'.\n2. Potassium's most essential function is stomata regulation and osmotic/ionic balance.\n3. Molybdenum is a component of nitrate reductase and nitrogenase, essential for nitrogen fixation in pulses.\n4. Boron is responsible for the characteristic taste of cauliflower.\nWhich of the statements given above are correct?", "options": ["2, 3 and 4", "1, 3 and 4", "1, 2, 3 and 4", "1, 2 and 3", "Only 3 and 4"], "correct": 2, "explanation": "All four statements accurately describe nutrient functions given in the text \u2014 phosphorus/ATP, potassium/stomata, molybdenum/nitrogenase, and boron/cauliflower taste.", "id": "q128"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which macronutrient functions as a component of chlorophyll and a cofactor for many enzymatic reactions, with its deficiency causing interveinal chlorosis on older leaves?", "options": ["Nitrogen", "Sulphur", "Calcium", "Magnesium", "Potassium"], "correct": 3, "explanation": "Magnesium is a component of chlorophyll and cofactor for enzymatic reactions; its deficiency causes interveinal chlorosis (leaves yellow between green veins).", "id": "q129"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "'Downward cupping of leaves in tobacco and tea' is a deficiency symptom associated with which nutrient?", "options": ["Chlorine", "Boron", "Phosphorus", "Nitrogen", "Sulphur"], "correct": 4, "explanation": "Sulphur deficiency causes yellowing of leaves (paler than interveinal portion) and 'downward cupping of leaves' in tobacco and tea.", "id": "q130"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Nickel deficiency is most important as a component of which plant enzyme, which metabolizes urea nitrogen into usable ammonia?", "options": ["Urease", "Nitrate reductase", "Nitrogenase", "Carbonic anhydrase", "Cytochrome oxidase"], "correct": 0, "explanation": "Nickel is a component of urease, the enzyme that metabolizes urea nitrogen into usable ammonia within the plant.", "id": "q131"}, {"topic": "Nutrient Functions & Deficiency Symptoms", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements on important physiological terms related to nutrient deficiency:\n1. Chlorosis is abnormal yellowing of leaves/plant parts, caused by deficiency of elements such as Mn, K, Zn, Fe, Mg, S and N.\n2. Mottled surface refers to a surface marked with coloured spots due to anthocyanin development, from deficiency of N, Mg, P, S.\n3. Necrosis refers to patches of dead tissue caused by deficiency of Mg, K, Zn, Ca and Mo.\nWhich of the statements given above are correct?", "options": ["Only 3", "1, 2 and 3", "1 and 2", "2 and 3", "Only 1"], "correct": 1, "explanation": "All three statements correctly define Chlorosis, Mottled surface, and Necrosis as given in the text.", "id": "q132"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements comparing Manures and Fertilizers:\n1. Manures are of plant or animal origin and organic in nature; fertilizers are chemically synthesized and inorganic.\n2. Manures supply nutrients slowly, while fertilizers may or may not be readily available.\n3. Manures improve the physical condition of soil, while fertilizers generally do not.\n4. Manures have a more concentrated nutrient content than fertilizers.\nWhich of the statements given above are correct?", "options": ["1, 2, 3 and 4", "1, 3 and 4", "1, 2 and 3", "2, 3 and 4", "Only 3 and 4"], "correct": 2, "explanation": "Statement 4 is incorrect: manures are LESS concentrated in nutrients compared to fertilizers, not more. Statements 1, 2 and 3 are correct.", "id": "q133"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "Green undecomposed plant material used as manure, obtained either by growing green manure crops in-situ (e.g., sunnhemp) or collecting green leaves ex-situ from wastelands/forests (e.g., neem), is called ________.", "options": ["Bulky organic manure only", "Vermicompost", "Biofertilizer", "Green manure", "Concentrated organic manure"], "correct": 3, "explanation": "Green manure is undecomposed green plant material, obtained via in-situ growing (e.g., sunnhemp) or ex-situ collection (e.g., neem).", "id": "q134"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which of the following is described as the accumulated excrement of birds and bats, highly effective as a manure due to its exceptionally high nitrogen, phosphate and potassium content?", "options": ["Bone meal", "Fish manure", "Oil cake", "Blood meal", "Guano"], "correct": 4, "explanation": "Guano is the accumulated excrement of birds and bats, highly effective due to its high N, P and K content.", "id": "q135"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements on oil cakes as manures:\n1. Oil cakes are the remaining solid portion after oil is extracted from oilseeds.\n2. Edible oil cakes, such as groundnut and coconut cake, can be safely fed to livestock.\n3. Non-edible oil cakes, such as castor and neem cake, are not fit for livestock feeding.\n4. Only edible oil cakes can be used as manure; non-edible cakes cannot be used as manure.\nWhich of the statements given above are correct?", "options": ["1, 2 and 3", "Only 3 and 4", "1, 2, 3 and 4", "2, 3 and 4", "1, 3 and 4"], "correct": 0, "explanation": "Statement 4 is incorrect: both edible and non-edible oil cakes can be used as manures \u2014 the edible/non-edible distinction only concerns livestock feeding suitability. Statements 1, 2 and 3 are correct.", "id": "q136"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Fertilizers that supply only one primary plant nutrient \u2014 nitrogen, phosphorus or potassium \u2014 such as Urea or potassium chloride, are called:", "options": ["Mixed fertilizers", "Straight fertilizers", "Complex fertilizers", "Complete fertilizers", "Ternary fertilizers"], "correct": 1, "explanation": "Straight fertilizers supply only one primary nutrient, e.g., Urea, ammonium sulphate, potassium chloride.", "id": "q137"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements on fertilizer classification by number of nutrients:\n1. Complex fertilizers contain two or three primary nutrients, of which two are in chemical combination, and are usually granular.\n2. Mixed fertilizers are physical mixtures of straight fertilizers, made mechanically or manually.\n3. Complete fertilizers contain all three major nutrients (N, P, K), e.g., IFFCO.\n4. High analysis fertilizers contain less than 25% of primary nutrients.\nWhich of the statements given above are correct?", "options": ["1, 3 and 4", "Only 3 and 4", "1, 2 and 3", "1, 2, 3 and 4", "2, 3 and 4"], "correct": 2, "explanation": "Statement 4 is incorrect \u2014 high analysis fertilizers contain MORE than 25% of primary nutrients (e.g., Urea 46%); it is LOW analysis fertilizers that contain less than 25% (e.g., SSP 16%). Statements 1, 2 and 3 are correct.", "id": "q138"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Moderate", "type": "figure", "passage": null, "question": "Urea, the only organic nitrogen fertilizer and the cheapest, contains what percentage of nitrogen, and Anhydrous ammonia, the most concentrated nitrogenous fertilizer, contains what percentage?", "options": ["26%; 34%", "16%; 81%", "20.6%; 46%", "46%; 81%", "33%; 46%"], "correct": 3, "explanation": "Urea contains 46.0% N (cheapest, only organic N fertilizer); Anhydrous ammonia contains 81.0% N (most concentrated).", "id": "q139"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which nitrogenous fertilizer is described as the oldest, best suited for top-dressing rice, contains 24.5% sulphur besides 20.6% nitrogen, and is also suitable for tea, groundnut and sugarcane?", "options": ["Sodium nitrate", "Urea", "Ammonium chloride", "Calcium ammonium nitrate", "Ammonium sulphate"], "correct": 4, "explanation": "Ammonium sulphate (20.6% N) is the oldest nitrogenous fertilizer, contains 24.5% sulphur, and is best for top-dressing rice, also suitable for tea, groundnut, sugarcane.", "id": "q140"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Hard", "type": "recall", "passage": null, "question": "Which nitrogenous fertilizer, containing 33-34% N, is described as a fire hazardous, explosive and highly hygroscopic fertilizer?", "options": ["Ammonium nitrate", "Urea", "Calcium ammonium nitrate", "Calcium cyanamide", "Anhydrous ammonia"], "correct": 0, "explanation": "Ammonium nitrate (33-34% N) is a fire-hazardous, explosive and highly hygroscopic fertilizer.", "id": "q141"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Neem coated urea increases nitrogen use efficiency mainly due to which property?", "options": ["Its acidic nature", "Slow release property", "Higher nitrogen percentage than plain urea", "Reduced hygroscopicity to zero", "Increased solubility in water"], "correct": 1, "explanation": "Neem coated urea's slow-release property increases nitrogen use efficiency compared to plain urea.", "id": "q142"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Hard", "type": "figure", "passage": null, "question": "DAP (Di-ammonium phosphate), a complex fertilizer, provides what approximate percentage of nitrogen and phosphorus (P2O5) respectively?", "options": ["11% N, 48% P2O5", "20% N, 40% P2O5", "18% N, 46% P2O5", "26% N, 34% P2O5", "16% N, 18% P2O5"], "correct": 2, "explanation": "DAP provides 18% N and 46% P2O5.", "id": "q143"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which potassic fertilizer is also known as 'salt petre' or 'nitre', containing 44% K2O, and is an excellent source of both potassium and nitrogen, mainly used for fruit trees, tobacco and vegetables?", "options": ["Murate of Potash (MOP)", "Superphosphate", "Sulphate of Potash", "Potassium nitrate", "Potassium chloride"], "correct": 3, "explanation": "Potassium nitrate (44% K2O), also called salt petre or nitre, is an excellent source of K and N, used for fruit trees, tobacco and vegetables.", "id": "q144"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Hard", "type": "recall", "passage": null, "question": "Which potassic fertilizer is made for acidic and heavy soils but is unsuitable for alkaline soils, providing 60% K2O?", "options": ["Bone meal", "Rock phosphate", "Sulphate of potash", "Potassium nitrate", "Murate of Potash (MOP)/KCl"], "correct": 4, "explanation": "Murate of Potash (MOP)/KCl provides 60% K2O and is made for acidic and heavy soils, not suitable for alkaline soils.", "id": "q145"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Hard", "type": "recall", "passage": null, "question": "Biosuper, a form of organic fertilizer mostly found in Australia, is a combination of rock phosphate, sulphur and which bacteria?", "options": ["Thiobacillus (sulphur-oxidizing bacteria)", "Azotobacter", "Rhizobium", "Azospirillum", "Bacillus megaterium"], "correct": 0, "explanation": "Biosuper combines rock phosphate, sulphur and sulphur-oxidizing bacteria (Thiobacillus), mostly found in Australia.", "id": "q146"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "The fertilizer grade 12-6-6 has what fertilizer ratio (N:P2O5:K2O)?", "options": ["4:2:1", "2:1:1", "1:1:1", "3:1:1", "1:2:2"], "correct": 1, "explanation": "The fertilizer ratio refers to the ratio of N, P2O5 and K2O percentages; grade 12-6-6 gives a ratio of 2:1:1.", "id": "q147"}, {"topic": "Manures & Fertilizers Classification", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Materials like dolomite and limestone added to fertilizer mixtures to counteract the acidity of nitrogenous fertilizers are termed:", "options": ["Chelating agents", "Conditioners", "Neutralizers of Residual Acidity", "Fillers", "Suppliers of Plant Nutrients"], "correct": 2, "explanation": "Neutralizers of Residual Acidity (e.g., dolomite, limestone) counteract acidity of nitrogenous fertilizers.", "id": "q148"}, {"topic": "Methods of Fertilizer Application", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Spreading fertilizers uniformly all over the field, suitable for crops with dense stand and for insoluble phosphatic fertilizers, is called:", "options": ["Placement", "Band placement", "Pellet application", "Broadcasting", "Fertigation"], "correct": 3, "explanation": "Broadcasting refers to spreading fertilizers uniformly over the field, suitable for dense-stand crops and insoluble phosphatics like rock phosphate.", "id": "q149"}, {"topic": "Methods of Fertilizer Application", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements on disadvantages of broadcasting fertilizers:\n1. Nutrients cannot be fully utilized by plant roots as they move laterally over long distances.\n2. Weed growth is stimulated all over the field.\n3. Nutrients are fixed in the soil as they contact a large soil mass.\n4. It reduces the loss of nitrogen by leaching more effectively than placement.\nWhich of the statements given above are correct?", "options": ["1, 2, 3 and 4", "2, 3 and 4", "Only 3 and 4", "1, 3 and 4", "1, 2 and 3"], "correct": 4, "explanation": "Statement 4 is incorrect: it is PLACEMENT (not broadcasting) that reduces nitrogen loss by leaching; this is listed as an advantage of placement, not broadcasting. Statements 1, 2 and 3 are disadvantages of broadcasting.", "id": "q150"}, {"topic": "Methods of Fertilizer Application", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Placing fertilizer at the bottom of the plough furrow in a continuous band during ploughing, suitable for soils with a heavy clay pan below the plough sole, is called:", "options": ["Plough sole placement", "Deep placement", "Side dressing", "Drilling", "Localized placement"], "correct": 0, "explanation": "Plough sole placement places fertilizer at the bottom of the furrow during ploughing, suitable for soils with a clay pan below the plough sole.", "id": "q151"}, {"topic": "Methods of Fertilizer Application", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Placement of ammoniacal nitrogenous fertilizer in the reduction zone of paddy soil, ensuring the ammoniacal nitrogen remains available and preventing runoff loss, is called:", "options": ["Pellet application", "Deep placement", "Plough sole placement", "Row placement", "Hill placement"], "correct": 1, "explanation": "Deep placement places ammoniacal nitrogenous fertilizers in the reduction zone, particularly in paddy fields, preventing nutrient loss via runoff.", "id": "q152"}, {"topic": "Methods of Fertilizer Application", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Applying fertilizer at sowing time via a seed-cum-fertilizer drill, placing seed and fertilizer in the same row but at different depths, is called:", "options": ["Broadcasting", "Side dressing", "Drilling", "Foliar application", "Hill placement"], "correct": 2, "explanation": "Drilling applies fertilizer via a seed-cum-fertilizer drill at sowing time, placing seed and fertilizer at different depths in the same row.", "id": "q153"}, {"topic": "Methods of Fertilizer Application", "difficulty": "Hard", "type": "figure", "passage": null, "question": "Pellet application places nitrogenous fertilizer pellets at what depth between rows of paddy crop, mixed with soil in what ratio?", "options": ["1-3 cm deep; 1:15 ratio", "5-10 cm deep; 1:20 ratio", "10-15 cm deep; 1:10 ratio", "2.5-5 cm deep; 1:10 ratio", "1-2 cm deep; 1:5 ratio"], "correct": 3, "explanation": "Pellet application places pellets 2.5 to 5 cm deep between paddy rows, with fertilizer mixed with soil in a 1:10 ratio.", "id": "q154"}, {"topic": "Methods of Fertilizer Application", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "Spraying fertilizer solutions containing one or more nutrients directly on the foliage of growing plants, particularly effective for minor nutrients like iron, copper, boron, zinc and manganese, is called ________.", "options": ["Band placement", "Deep placement", "Fertigation", "Starter solution", "Foliar application"], "correct": 4, "explanation": "Foliar application sprays fertilizer solutions on foliage, effective for minor nutrients like Fe, Cu, B, Zn, Mn.", "id": "q155"}, {"topic": "Methods of Fertilizer Application", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "The application of water-soluble fertilizers through irrigation water, generally used for nitrogenous fertilizers, is called:", "options": ["Fertigation", "Starter solution", "Aerial application", "Drilling", "Foliar application"], "correct": 0, "explanation": "Fertigation is the application of water-soluble fertilizers through irrigation water, typically nitrogenous fertilizers.", "id": "q156"}, {"topic": "Methods of Fertilizer Application", "difficulty": "Hard", "type": "figure", "passage": null, "question": "Anhydrous ammonia, when injected into soil, must be placed in narrow furrows at what depth and covered immediately to prevent loss?", "options": ["20-25 cm", "12-15 cm", "5-8 cm", "2-5 cm", "30-35 cm"], "correct": 1, "explanation": "Anhydrous ammonia must be placed in narrow furrows at a depth of 12-15 cm and covered immediately to prevent loss of ammonia.", "id": "q157"}, {"topic": "Methods of Fertilizer Application", "difficulty": "Moderate", "type": "figure", "passage": null, "question": "Starter solutions, applied to young plants at transplanting (particularly for vegetables), use N:P2O5:K2O in what ratios?", "options": ["1:1:2 and 2:2:1", "1:1:1 and 2:1:1", "1:2:1 and 1:1:2", "2:2:1 and 1:1:1", "3:1:1 and 1:1:3"], "correct": 2, "explanation": "Starter solutions use N:P2O5:K2O ratios of 1:2:1 and 1:1:2 for young plants, particularly vegetables, at transplanting.", "id": "q158"}, {"topic": "Methods of Fertilizer Application", "difficulty": "Moderate", "type": "scenario", "passage": null, "question": "A farmer wants to apply fertilizer in an area where ground application is impracticable \u2014 such as hilly terrain, forest land, or sugarcane fields \u2014 with fertilizer solutions applied by aircraft. Which method is this?", "options": ["Fertigation", "Broadcasting", "Foliar application", "Aerial application", "Injection into soil"], "correct": 3, "explanation": "Aerial application uses aircraft to apply fertilizer solutions in areas where ground application is impracticable, such as hilly or forested terrain.", "id": "q159"}, {"topic": "Biofertilizers", "difficulty": "Moderate", "type": "definitional", "passage": null, "question": "________ are preparations containing living or latent cells of efficient microorganism strains that help crop plants take up nutrients through interactions in the rhizosphere, applied via seed or soil.", "options": ["Conditioners", "Complex fertilizers", "Manures", "Straight fertilizers", "Biofertilizers"], "correct": 4, "explanation": "Biofertilizers are preparations of living/latent microorganism cells that help nutrient uptake through rhizosphere interactions.", "id": "q160"}, {"topic": "Biofertilizers", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements on nitrogen-fixing biofertilizers:\n1. Azotobacter and Clostridium are examples of free-living nitrogen fixers.\n2. Rhizobium and Frankia are examples of symbiotic nitrogen fixers.\n3. Azospirillum is an example of associative symbiotic nitrogen fixation.\n4. Bacillus megaterium is a nitrogen-fixing biofertilizer.\nWhich of the statements given above are correct?", "options": ["1, 2 and 3", "2, 3 and 4", "1, 3 and 4", "Only 3 and 4", "1, 2, 3 and 4"], "correct": 0, "explanation": "Statement 4 is incorrect: Bacillus megaterium var. phosphaticum is a Phosphate Solubilizing biofertilizer, not nitrogen-fixing. Statements 1, 2 and 3 correctly classify N-fixing biofertilizers.", "id": "q161"}, {"topic": "Biofertilizers", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which biofertilizer is described as 'the most efficient' in terms of quantity of nitrogen fixed, colonizing legume roots and fixing atmospheric nitrogen symbiotically, with its inoculant first made in the USA?", "options": ["Azotobacter", "Rhizobium", "Azolla", "Cyanobacteria", "Azospirillum"], "correct": 1, "explanation": "Rhizobium is the most efficient biofertilizer by quantity of nitrogen fixed, colonizing legume roots symbiotically; its inoculant was first made in the USA.", "id": "q162"}, {"topic": "Biofertilizers", "difficulty": "Hard", "type": "recall", "passage": null, "question": "Which biofertilizer produces abundant slime that helps in soil aggregation, with numbers in Indian soils rarely exceeding 10^5/g soil due to lack of organic matter?", "options": ["Azospirillum", "Azolla", "Azotobacter", "Cyanobacteria", "Rhizobium"], "correct": 2, "explanation": "Azotobacter produces abundant slime aiding soil aggregation; its numbers in Indian soils rarely exceed 10^5/g soil due to low organic matter and antagonistic microorganisms.", "id": "q163"}, {"topic": "Biofertilizers", "difficulty": "Moderate", "type": "figure", "passage": null, "question": "Azolla, a free-floating water fern used as a biofertilizer for wetland rice in association with the nitrogen-fixing blue-green alga Anabaena azollae, is known to contribute how much nitrogen per hectare per rice crop?", "options": ["70-90 kg N/ha", "100-120 kg N/ha", "20-30 kg N/ha", "40-60 kg N/ha", "10-20 kg N/ha"], "correct": 3, "explanation": "Azolla contributes 40-60 kg N/ha per rice crop, fixing nitrogen in association with Anabaena azollae.", "id": "q164"}, {"topic": "Biofertilizers", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which group of biofertilizers, including species of Pseudomonas, Bacillus, Penicillium and Aspergillus, secrete organic acids to lower pH and dissolve bound phosphates in soil?", "options": ["Nitrogen fixing biofertilizers", "Silicate solubilizing bacteria", "Plant Growth Promoting Rhizobacteria", "Arbuscular Mycorrhiza", "Phosphate solubilizing microorganisms (PSM)"], "correct": 4, "explanation": "Phosphate Solubilizing Microorganisms (PSM), such as Pseudomonas, Bacillus, Penicillium, Aspergillus, secrete organic acids to dissolve bound soil phosphates.", "id": "q165"}, {"topic": "Biofertilizers", "difficulty": "Hard", "type": "definitional", "passage": null, "question": "Intracellular obligate fungal endosymbionts that mediate transfer of phosphorus, and also zinc and sulphur, from soil to root cortex cells, are known as ________.", "options": ["AM (Arbuscular Mycorrhiza) fungi", "Rhizobium", "Silicate solubilizing bacteria", "PGPR", "Cyanobacteria"], "correct": 0, "explanation": "AM (Arbuscular Mycorrhiza) fungi are intracellular obligate fungal endosymbionts mediating transfer of P, Zn and S from soil to root cortex cells.", "id": "q166"}, {"topic": "Biofertilizers", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "The group of bacteria that colonize roots or rhizosphere soil and are beneficial to crops is collectively referred to by which abbreviation?", "options": ["SSB", "PGPR", "AM", "PSM", "N2F"], "correct": 1, "explanation": "Plant Growth Promoting Rhizobacteria (PGPR) colonize roots/rhizosphere soil and benefit crops, e.g., Pseudomonas fluorescens.", "id": "q167"}, {"topic": "Vermicompost", "difficulty": "Moderate", "type": "figure", "passage": null, "question": "Worm castings from vermicomposting contain approximately how much more available nitrogen and available potash, respectively, compared to good topsoil?", "options": ["2 times nitrogen, 4 times potash", "3 times nitrogen, 5 times potash", "5 times nitrogen, 7 times potash", "7 times nitrogen, 3 times potash", "10 times nitrogen, 10 times potash"], "correct": 2, "explanation": "Worm castings contain 5 times the available nitrogen, 7 times the available potash, and 1.5 times more calcium than good topsoil.", "id": "q168"}, {"topic": "Vermicompost", "difficulty": "Moderate", "type": "figure", "passage": null, "question": "Worm castings can hold close to how many times their own weight in water, and what is the recommended rate of vermicompost application?", "options": ["5 times; 5-10%", "12 times; 25-30%", "6 times; 20-25%", "9 times; 15-20%", "3 times; 10-15%"], "correct": 3, "explanation": "Worm castings can hold close to nine times their weight in water; the recommended application rate is 15-20%.", "id": "q169"}, {"topic": "Vermicompost", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements on the phases of Vermicomposting:\n1. Phase 1 involves collection of wastes, shredding, and mechanical separation of metal, glass and ceramics.\n2. Phase 2 pre-digests organic waste for twenty days with cattle dung slurry, and wet dung should not be used.\n3. Phase 3 involves preparing an earthworm bed, requiring a concrete base rather than loose soil.\n4. Phase 5 involves collection of earthworms via the trapping method using cow dung balls.\nWhich of the statements given above are correct?", "options": ["1, 2, 3 and 4", "2, 3 and 4", "1, 3 and 4", "Only 3 and 4", "1, 2 and 3"], "correct": 4, "explanation": "Statement 4 is incorrect: harvesting earthworms via the cow-dung-ball trapping method is described under section 32.10 (Harvesting earthworm), not Phase 5 (which is about storing the finished vermicompost). Statements 1, 2 and 3 correctly describe Phases 1-3.", "id": "q170"}, {"topic": "Vermicompost", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which earthworm species is preferred over the other two for vermicompost production, because it produces vermicompost faster and generates more young ones during the composting period?", "options": ["African earthworm (Eudrilus eugeniae)", "Tiger worm", "Composting worm (Perionyx excavatus)", "Common earthworm (Lumbricus terrestris)", "Red worm (Eisenia foetida)"], "correct": 0, "explanation": "The African earthworm (Eudrilus eugeniae) is preferred for producing vermicompost faster with more young ones during composting, compared to Red worm and composting worm.", "id": "q171"}, {"topic": "Vermicompost", "difficulty": "Hard", "type": "figure", "passage": null, "question": "For a vermicompost bed measuring 1 metre length, 1 metre breadth and 0.5 metre height, how much worm (by weight and approximate number) is required?", "options": ["0.5 kg (500 nos.)", "1 kg (1000 nos.)", "1.5 kg (1500 nos.)", "3 kg (3000 nos.)", "2 kg (2000 nos.)"], "correct": 1, "explanation": "For a 1m x 1m x 0.5m bed, 1 kg of worm (approximately 1000 numbers) is required.", "id": "q172"}, {"topic": "Vermicompost", "difficulty": "Moderate", "type": "figure", "passage": null, "question": "What moisture level should be maintained throughout the vermicomposting process, and what percentage of cattle dung should be mixed with predigested waste by weight or volume?", "options": ["70% moisture; 40% cattle dung", "50% moisture; 20% cattle dung", "60% moisture; 30% cattle dung", "60% moisture; 50% cattle dung", "40% moisture; 25% cattle dung"], "correct": 2, "explanation": "60% moisture should be maintained throughout, with predigested waste mixed with 30% cattle dung by weight or volume.", "id": "q173"}, {"topic": "Vermicompost", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements on the nutritive value of vermicompost:\n1. Organic carbon content ranges from 9.5% to 17.98%.\n2. Nitrogen content ranges from 0.5% to 1.50%.\n3. Nutrient content is always uniform regardless of the waste material used.\n4. Zinc content ranges from 5.70 to 11.50 mg/kg.\nWhich of the statements given above are correct?", "options": ["2, 3 and 4", "1, 3 and 4", "1, 2, 3 and 4", "1, 2 and 4", "Only 3 and 4"], "correct": 3, "explanation": "Statement 3 is incorrect: nutrient content in vermicompost VARIES depending on the waste material used \u2014 heterogeneous waste gives a wider nutrient range, homogeneous waste gives fewer nutrients. Statements 1, 2 and 4 are correct.", "id": "q174"}, {"topic": "Vermicompost", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Compost worms are subject to a disease known as 'sour crop', which is caused by:", "options": ["Bacterial infection from cattle manure", "Viral infection", "Overfeeding with fruit waste", "Fungal contamination of bedding", "Environmental conditions"], "correct": 4, "explanation": "Compost worms are subject to a disease known as 'sour crop', caused by environmental conditions (they are not otherwise subject to microorganism-caused diseases).", "id": "q175"}, {"topic": "Vermicompost", "difficulty": "Moderate", "type": "figure", "passage": null, "question": "Under ideal conditions, compost worms can consume in excess of their body weight each day, but the general rule-of-thumb feeding rate is what fraction of their body weight per day?", "options": ["1/2 of body weight", "Twice their body weight", "1/10 of body weight", "1/4 of body weight", "3/4 of body weight"], "correct": 0, "explanation": "The general rule-of-thumb for feeding compost worms is 1/2 of their body weight per day, though they can consume more under ideal conditions.", "id": "q176"}, {"topic": "Watershed Management", "difficulty": "Easy", "type": "definitional", "passage": null, "question": "________ is an area of land that feeds all the water running under it and draining off from a single outlet into a water body, its boundary determined by surrounding ridge tops.", "options": ["Aquifer", "Watershed", "Regolith basin", "Catchment reservoir", "Drainage delta"], "correct": 1, "explanation": "A watershed is an area of land draining to a single outlet into a water body, bounded by surrounding ridge tops.", "id": "q177"}, {"topic": "Watershed Management", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements on the classification of watersheds by size:\n1. A Macro watershed is greater than 50,000 hectares.\n2. A Sub-watershed ranges from 10,000 to 50,000 hectares.\n3. A Milli-watershed ranges from 1,000 to 10,000 hectares.\n4. A Micro watershed ranges from 100 to 1,000 hectares, and a Mini watershed from 1 to 100 hectares.\nWhich of the statements given above are correct?", "options": ["Only 3 and 4", "2, 3 and 4", "1, 2, 3 and 4", "1, 2 and 3", "1, 3 and 4"], "correct": 2, "explanation": "All four statements correctly describe the five watershed size classifications: Macro (>50,000 ha), Sub (10,000-50,000 ha), Milli (1,000-10,000 ha), Micro (100-1,000 ha), and Mini (1-100 ha).", "id": "q178"}, {"topic": "Watershed Management", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which of the following is the process by which water on the ground surface enters the soil, typically measured in millimetres or inches per hour?", "options": ["Recharge", "Surface runoff", "Percolation", "Infiltration", "Evapotranspiration"], "correct": 3, "explanation": "Infiltration is the process by which water on the ground surface enters the soil, measured in mm/hour or in/hour.", "id": "q179"}, {"topic": "Watershed Management", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements on objectives of watershed management:\n1. To control damaging runoff and degradation, conserving soil and water.\n2. To increase infiltration of rainwater and enhance groundwater recharge.\n3. To moderate flood peaks at downstream areas.\n4. To maximize surface runoff for quicker disposal of excess rainwater.\nWhich of the statements given above are correct?", "options": ["2, 3 and 4", "1, 2, 3 and 4", "Only 3 and 4", "1, 3 and 4", "1, 2 and 3"], "correct": 4, "explanation": "Statement 4 is incorrect: watershed management objectives aim to CONTROL damaging runoff, not maximize it \u2014 increasing infiltration and reducing harmful runoff is the goal. Statements 1, 2 and 3 are correct objectives.", "id": "q180"}, {"topic": "Watershed Management", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which of the following is classified under 'Watershed characters' as a factor affecting watershed management, as opposed to climatic characteristics or land use pattern?", "options": ["Size, shape, topography, soils and relief", "Precipitation amount and intensity", "Water resource capabilities", "Vegetative cover and density", "Social status of inhabitants"], "correct": 0, "explanation": "Watershed characters include size, shape, topography, soils and relief \u2014 distinct from climatic characteristics (precipitation) and land use pattern (vegetative cover).", "id": "q181"}, {"topic": "Rainwater Harvesting & Groundwater Recharge", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "Which structure is a small dam built across a river primarily to control the upstream water level, rather than to create storage as large dams do?", "options": ["Percolation pond", "Weir", "Check dam", "Recharge shaft", "Farm pond"], "correct": 1, "explanation": "A weir is a small dam built across a river to control the upstream water level, not to create storage like large dams.", "id": "q182"}, {"topic": "Rainwater Harvesting & Groundwater Recharge", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "A small dam constructed across a drainage ditch, swale or channel to lower flow velocity and reduce erosion, recommended for drainage areas of 2 acres or less, is called a:", "options": ["Percolation pond", "Recharge well", "Check dam", "Weir", "Recharge pit"], "correct": 2, "explanation": "A check dam lowers flow velocity in a drainage channel to reduce erosion, recommended for drainage areas of 2 acres or less.", "id": "q183"}, {"topic": "Rainwater Harvesting & Groundwater Recharge", "difficulty": "Hard", "type": "statement", "passage": null, "question": "Consider the following statements on groundwater recharge structures:\n1. Recharge pits are constructed 1 to 2 m wide and up to 3 m deep, backfilled with boulders, gravels and coarse sand.\n2. Recharge wells are generally 100 to 300 mm in diameter, used for recharging deeper aquifers.\n3. Recharge shafts are used for recharging shallow aquifers below clayey surfaces, and are 0.5 to 3 m in diameter and 10 to 15 m deep.\n4. Trenches are used when a permeable stratum is available at great depth, typically over 50 m.\nWhich of the statements given above are correct?", "options": ["2, 3 and 4", "1, 2, 3 and 4", "Only 3 and 4", "1, 2 and 3", "1, 3 and 4"], "correct": 3, "explanation": "Statement 4 is incorrect: trenches are used when a permeable stratum is available at SHALLOW depth, not great depth (typically 0.5-1 m wide, 1-1.5 m deep, 10-20 m long). Statements 1, 2 and 3 are correct.", "id": "q184"}, {"topic": "Rainwater Harvesting & Groundwater Recharge", "difficulty": "Moderate", "type": "figure", "passage": null, "question": "Lateral shafts with bore wells, used for recharging both upper and deeper aquifers, are constructed to what approximate width and length?", "options": ["0.5-1 m wide, 5-10 m long", "1-2 m wide, 5-15 m long", "3-5 m wide, 20-40 m long", "2-3 m wide, 30-50 m long", "1.5-2 m wide, 10-30 m long"], "correct": 4, "explanation": "Lateral shafts with bore wells are 1.5-2 m wide and 10-30 m long, backfilled with boulders, gravels and coarse sand.", "id": "q185"}, {"topic": "Rainwater Harvesting & Groundwater Recharge", "difficulty": "Hard", "type": "figure", "passage": null, "question": "Estimated additional groundwater recharge from a 100 sq. m. rooftop area (via artificial recharge) is approximately how many litres?", "options": ["55,000 litres", "75,000 litres", "15,000 litres", "100,000 litres", "35,000 litres"], "correct": 0, "explanation": "Estimated additional recharge from a 100 sq. m. rooftop area is approximately 55,000 litres.", "id": "q186"}, {"topic": "Rainwater Harvesting & Groundwater Recharge", "difficulty": "Moderate", "type": "statement", "passage": null, "question": "Consider the following statements on benefits of Artificial Recharge:\n1. It improves infiltration and reduces runoff.\n2. It improves groundwater levels, yields and quality.\n3. It is only effective in coastal regions and has no role inland.\nWhich of the statements given above are correct?", "options": ["Only 3", "1 and 2", "2 and 3", "1, 2 and 3", "Only 1"], "correct": 1, "explanation": "Statement 3 is incorrect and unsupported by the text \u2014 artificial recharge benefits (improved infiltration, groundwater levels/yields/quality) are general, not limited to coastal regions. Statements 1 and 2 are correct.", "id": "q187"}, {"topic": "Rainwater Harvesting & Groundwater Recharge", "difficulty": "Moderate", "type": "recall", "passage": null, "question": "The 'Spreading technique' of groundwater recharge, used when permeable strata start from the top, involves spreading water in streams/nalas using which structures?", "options": ["Recharge shafts exclusively", "Deep tube wells exclusively", "Check dams, nala bunds, cement plugs, gabion structures or percolation ponds", "Hand pumps only", "Recharge wells only"], "correct": 2, "explanation": "The spreading technique uses check dams, nala bunds, cement plugs, gabion structures, or a percolation pond to spread water when permeable strata start from the top.", "id": "q188"}]</script>
+<script>
+(function(){
+  "use strict";
+  var ALL_Q = JSON.parse(document.getElementById('quiz-data').textContent);
+  var LETTERS = ['A','B','C','D','E'];
+
+  // Build topic list preserving PDF (authoring) order of first appearance
+  var TOPICS = [];
+  ALL_Q.forEach(function(q){
+    if (TOPICS.indexOf(q.topic) === -1) TOPICS.push(q.topic);
+  });
+
+  var state = {
+    screen: 'home',
+    mode: null,          // 'full' | 'section' | 'sprint'
+    order: 'pdf',         // 'pdf' | 'shuffled'
+    sectionTopic: null,
+    queue: [],            // array of question objects for this session
+    idx: 0,
+    answers: {},           // qid -> {chosen: idx|null, skipped: bool, correct: bool}
+    locked: false
+  };
+
+  var app = document.getElementById('app');
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  // Renders text with literal \n as line breaks, escaping HTML first.
+  function renderMultiline(s){
+    return escapeHtml(s).replace(/\n/g, '<br>');
+  }
+
+  function render(){
+    if (state.screen === 'home') return renderHome();
+    if (state.screen === 'full-setup') return renderFullSetup();
+    if (state.screen === 'section-picker') return renderSectionPicker();
+    if (state.screen === 'quiz') return renderQuiz();
+    if (state.screen === 'end') return renderEnd();
+  }
+
+  function brandBar(){
+    return '<div class="brand">' +
+      '<div class="brand-title">Soil &amp; Water Conservation<small>NABARD Grade A — ARD Practice Series</small></div>' +
+      '<div class="brand-mark">edutap</div>' +
+      '</div>';
+  }
+
+  function renderHome(){
+    var sprintCount = ALL_Q.filter(function(q){ return q.type === 'statement' || q.type === 'scenario'; }).length;
+    app.innerHTML =
+      brandBar() +
+      '<div class="hero">' +
+        '<h1>Practice Quiz</h1>' +
+        '<p>' + ALL_Q.length + ' questions drawn directly from the chapter, styled on real ARD mock-test papers. Pick a mode to begin.</p>' +
+      '</div>' +
+      '<div class="mode-list">' +
+        modeCard('full', '📘', 'Full Practice Test', 'Every question in the chapter, in PDF order or shuffled.', ALL_Q.length + ' questions', '#c8a24a') +
+        modeCard('section', '🗂', 'Section-wise Revision', 'Drill one topic at a time — pick from ' + TOPICS.length + ' sections.', TOPICS.length + ' sections', '#7fa7c8') +
+        modeCard('sprint', '⚡', 'Statement &amp; Scenario Sprint', 'Only the numbered-statement and applied-scenario questions — the hardest format.', sprintCount + ' questions', '#c88f4a') +
+      '</div>';
+
+    document.querySelectorAll('.mode-card').forEach(function(el){
+      el.addEventListener('click', function(){
+        var mode = el.getAttribute('data-mode');
+        if (mode === 'full'){ state.screen = 'full-setup'; render(); }
+        else if (mode === 'section'){ state.screen = 'section-picker'; render(); }
+        else if (mode === 'sprint'){ startSession('sprint'); }
+      });
+    });
+  }
+
+  function modeCard(mode, icon, name, desc, count, color){
+    return '<button class="mode-card" data-mode="' + mode + '" style="--mode-color:' + color + '">' +
+      '<div class="mode-icon">' + icon + '</div>' +
+      '<div class="mode-copy"><div class="mode-name">' + name + '</div><div class="mode-desc">' + desc + '</div></div>' +
+      '<div class="mode-count">' + count + '</div>' +
+      '</button>';
+  }
+
+  function renderFullSetup(){
+    app.innerHTML =
+      brandBar() +
+      '<a class="back-link" id="backHome">&larr; Back to menu</a>' +
+      '<div class="hero"><h1>Full Practice Test</h1>' +
+      '<p>All ' + ALL_Q.length + ' questions from the chapter. Choose the order you want to attempt them in.</p></div>' +
+      '<div class="order-toggle">' +
+        '<button class="toggle-btn ' + (state.order === 'pdf' ? 'active' : '') + '" id="ordPdf">PDF Order</button>' +
+        '<button class="toggle-btn ' + (state.order === 'shuffled' ? 'active' : '') + '" id="ordShuf">Shuffled</button>' +
+      '</div>' +
+      '<button class="start-btn" id="startFull">Start Test</button>';
+
+    document.getElementById('backHome').addEventListener('click', function(){ state.screen='home'; render(); });
+    document.getElementById('ordPdf').addEventListener('click', function(){ state.order='pdf'; render(); });
+    document.getElementById('ordShuf').addEventListener('click', function(){ state.order='shuffled'; render(); });
+    document.getElementById('startFull').addEventListener('click', function(){ startSession('full'); });
+  }
+
+  function renderSectionPicker(){
+    var cards = TOPICS.map(function(t){
+      var count = ALL_Q.filter(function(q){ return q.topic === t; }).length;
+      return '<button class="topic-card" data-topic="' + escapeHtml(t) + '">' +
+        '<div class="topic-name">' + escapeHtml(t) + '</div>' +
+        '<div class="topic-count">' + count + ' questions</div>' +
+        '</button>';
+    }).join('');
+
+    app.innerHTML =
+      brandBar() +
+      '<a class="back-link" id="backHome">&larr; Back to menu</a>' +
+      '<div class="hero"><h1>Section-wise Revision</h1>' +
+      '<p>Pick a topic to drill just those questions.</p></div>' +
+      '<div class="topic-grid">' + cards + '</div>';
+
+    document.getElementById('backHome').addEventListener('click', function(){ state.screen='home'; render(); });
+    document.querySelectorAll('.topic-card').forEach(function(el){
+      el.addEventListener('click', function(){
+        state.sectionTopic = el.getAttribute('data-topic');
+        startSession('section');
+      });
+    });
+  }
+
+  function startSession(mode){
+    state.mode = mode;
+    var pool;
+    if (mode === 'full'){
+      pool = ALL_Q.slice();
+      if (state.order === 'shuffled') pool = shuffle(pool);
+    } else if (mode === 'section'){
+      pool = ALL_Q.filter(function(q){ return q.topic === state.sectionTopic; });
+    } else if (mode === 'sprint'){
+      pool = shuffle(ALL_Q.filter(function(q){ return q.type === 'statement' || q.type === 'scenario'; }));
+    }
+    state.queue = pool;
+    state.idx = 0;
+    state.answers = {};
+    state.locked = false;
+    state.screen = 'quiz';
+    render();
+  }
+
+  function currentQ(){ return state.queue[state.idx]; }
+
+  function renderQuiz(){
+    var total = state.queue.length;
+    if (total === 0){
+      app.innerHTML = brandBar() + '<a class="back-link" id="backHome">&larr; Back to menu</a><div class="empty-note">No questions in this set.</div>';
+      document.getElementById('backHome').addEventListener('click', function(){ state.screen='home'; render(); });
+      return;
+    }
+    var q = currentQ();
+    var answered = state.answers[q.id];
+    var score = Object.keys(state.answers).filter(function(k){ return state.answers[k].correct; }).length;
+    var pct = Math.round(((state.idx) / total) * 100);
+
+    var passageHtml = '';
+    if (q.type === 'statement' || q.type === 'scenario' || q.type === 'definitional'){
+      // The instruction / passage text is embedded in the question string for
+      // fill-in-blank / statement-block questions; render it as an instruction box
+      // when it's long or multi-line, matching real exam passage styling.
+      if (q.question.indexOf('\n') !== -1 || q.question.length > 140){
+        passageHtml = '<div class="instruction-box"><div class="instruction-label">Instruction</div>' + renderMultiline(q.question) + '</div>';
+      }
+    }
+    var questionLine = passageHtml ?
+      (q.type === 'statement' ? 'Which of the statements given above are correct?' :
+       q.type === 'scenario' ? 'Based on the passage above, choose the correct answer.' :
+       'Which of the following correctly fills the blank above?') :
+      escapeHtml(q.question);
+
+    var optsHtml = q.options.map(function(opt, i){
+      return '<div class="opt" data-idx="' + i + '">' +
+        '<div class="opt-letter">' + LETTERS[i] + '</div>' +
+        '<div class="opt-text">' + escapeHtml(opt) + '</div>' +
+        '</div>';
+    }).join('');
+
+    app.innerHTML =
+      '<div class="quiz-topbar">' +
+        '<div class="quiz-meta"><span>Question ' + (state.idx + 1) + ' of ' + total + '</span><span class="score">Score: ' + score + '</span></div>' +
+        '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
+      '</div>' +
+      '<div class="qcard">' +
+        '<div class="qtags"><span class="tag diff-' + q.difficulty + '">' + q.difficulty + '</span><span class="tag">' + escapeHtml(q.topic) + '</span></div>' +
+        passageHtml +
+        '<div class="qtext">' + (passageHtml ? questionLine : escapeHtml(q.question)) + '</div>' +
+        '<div class="options" id="optsWrap">' + optsHtml + '</div>' +
+        '<div class="explain" id="explainBox"></div>' +
+        '<div class="qactions">' +
+          '<button class="skip-btn" id="skipBtn">Skip</button>' +
+          '<button class="next-btn" id="nextBtn">' + (state.idx === total - 1 ? 'Finish' : 'Next') + '</button>' +
+        '</div>' +
+      '</div>';
+
+    if (answered){
+      lockOptions(q, answered.chosen);
+    } else {
+      document.querySelectorAll('.opt').forEach(function(el){
+        el.addEventListener('click', function(){
+          if (state.locked) return;
+          var idx = parseInt(el.getAttribute('data-idx'), 10);
+          submitAnswer(q, idx, false);
+        });
+      });
+    }
+
+    document.getElementById('skipBtn').addEventListener('click', function(){
+      if (state.answers[q.id]) return;
+      submitAnswer(q, null, true);
+    });
+    document.getElementById('nextBtn').addEventListener('click', goNext);
+
+    if (answered) {
+      document.getElementById('skipBtn').style.display = 'none';
+      document.getElementById('nextBtn').classList.add('show');
+    }
+  }
+
+  function submitAnswer(q, chosenIdx, skipped){
+    state.locked = true;
+    var correct = !skipped && chosenIdx === q.correct;
+    state.answers[q.id] = { chosen: chosenIdx, skipped: skipped, correct: correct };
+    lockOptions(q, chosenIdx);
+    document.getElementById('skipBtn').style.display = 'none';
+    document.getElementById('nextBtn').classList.add('show');
+    // update score display live
+    var score = Object.keys(state.answers).filter(function(k){ return state.answers[k].correct; }).length;
+    var scoreEl = document.querySelector('.quiz-meta .score');
+    if (scoreEl) scoreEl.textContent = 'Score: ' + score;
+  }
+
+  function lockOptions(q, chosenIdx){
+    state.locked = true;
+    document.querySelectorAll('.opt').forEach(function(el){
+      var idx = parseInt(el.getAttribute('data-idx'), 10);
+      el.classList.add('locked');
+      if (idx === q.correct) el.classList.add('correct');
+      else if (idx === chosenIdx) el.classList.add('incorrect');
+      else el.classList.add('dim');
+    });
+    var box = document.getElementById('explainBox');
+    var letter = LETTERS[q.correct];
+    box.innerHTML = '<b>Correct answer: ' + letter + '.</b> ' + escapeHtml(q.explanation);
+    box.classList.add('show');
+  }
+
+  function goNext(){
+    state.locked = false;
+    if (state.idx < state.queue.length - 1){
+      state.idx++;
+      render();
+      window.scrollTo({top:0, behavior:'instant'});
+    } else {
+      state.screen = 'end';
+      render();
+      window.scrollTo({top:0, behavior:'instant'});
+    }
+  }
+
+  function renderEnd(){
+    var total = state.queue.length;
+    var correctCount = 0, skippedCount = 0, wrongCount = 0;
+    var byDiff = { Easy: {c:0,t:0}, Moderate: {c:0,t:0}, Hard: {c:0,t:0} };
+    var missedItems = [];
+
+    state.queue.forEach(function(q){
+      var a = state.answers[q.id];
+      if (!a) return; // shouldn't happen
+      byDiff[q.difficulty].t++;
+      if (a.correct){ correctCount++; byDiff[q.difficulty].c++; }
+      else if (a.skipped){ skippedCount++; missedItems.push({q:q, a:a, status:'skipped'}); }
+      else { wrongCount++; missedItems.push({q:q, a:a, status:'missed'}); }
+    });
+
+    var pctScore = total ? Math.round((correctCount / total) * 100) : 0;
+
+    var breakdownHtml = ['Easy','Moderate','Hard'].map(function(d){
+      var b = byDiff[d];
+      var pct = b.t ? Math.round((b.c / b.t) * 100) : 0;
+      return '<div class="breakdown-item"><div class="breakdown-pct">' + (b.t ? pct + '%' : '—') + '</div>' +
+        '<div class="breakdown-label">' + d + (b.t ? ' (' + b.c + '/' + b.t + ')' : ' (0)') + '</div></div>';
+    }).join('');
+
+    var reviewHtml = '';
+    if (missedItems.length){
+      reviewHtml = '<div class="review-section"><h2>Review — Missed &amp; Skipped (' + missedItems.length + ')</h2>' +
+        missedItems.map(function(item){
+          var q = item.q, a = item.a;
+          var yourRow = a.skipped ? '' :
+            '<div class="review-row wrong">Your answer: ' + LETTERS[a.chosen] + '. ' + escapeHtml(q.options[a.chosen]) + '</div>';
+          return '<div class="review-item">' +
+            '<span class="review-status status-' + item.status + '">' + (item.status === 'skipped' ? 'SKIPPED' : 'MISSED') + '</span>' +
+            '<div class="review-q">' + escapeHtml(q.question.length > 220 ? q.question.slice(0,220) + '…' : q.question) + '</div>' +
+            yourRow +
+            '<div class="review-row right">Correct answer: ' + LETTERS[q.correct] + '. ' + escapeHtml(q.options[q.correct]) + '</div>' +
+            '<div class="review-explain">' + escapeHtml(q.explanation) + '</div>' +
+            '</div>';
+        }).join('');
+      reviewHtml += '</div>';
+    }
+
+    app.innerHTML =
+      brandBar() +
+      '<div class="result-hero">' +
+        '<div class="result-score">' + correctCount + '<span> / ' + total + '</span></div>' +
+        '<div class="result-sub">' + pctScore + '% correct · ' + wrongCount + ' missed · ' + skippedCount + ' skipped</div>' +
+      '</div>' +
+      '<div class="breakdown">' + breakdownHtml + '</div>' +
+      reviewHtml +
+      '<div class="end-actions">' +
+        '<button class="btn-retry" id="retryBtn">Retry Same Set</button>' +
+        '<button class="btn-menu" id="menuBtn">Back to Menu</button>' +
+      '</div>';
+
+    document.getElementById('retryBtn').addEventListener('click', function(){
+      state.idx = 0;
+      state.answers = {};
+      state.locked = false;
+      if (state.mode === 'full' && state.order === 'shuffled') state.queue = shuffle(ALL_Q.slice());
+      if (state.mode === 'sprint') state.queue = shuffle(state.queue.slice());
+      state.screen = 'quiz';
+      render();
+      window.scrollTo({top:0, behavior:'instant'});
+    });
+    document.getElementById('menuBtn').addEventListener('click', function(){
+      state.screen = 'home';
+      render();
+      window.scrollTo({top:0, behavior:'instant'});
+    });
+  }
+
+  render();
+})();
+
+</script>
+</body>
+</html>
