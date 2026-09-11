@@ -1,0 +1,4817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NABARD Grade A Practice Quiz — MoWCD Schemes</title>
+<style>
+  :root{
+    --navy: #16324f;
+    --navy-deep: #0d2136;
+    --gold: #b8860b;
+    --gold-light: #d9a441;
+    --bg: #f3f5f8;
+    --card: #ffffff;
+    --ink: #1c2733;
+    --muted: #5c6b7a;
+    --line: #dde3ea;
+    --green: #1b7a4a;
+    --green-bg: #e6f5ec;
+    --red: #b23b2e;
+    --red-bg: #fbeae7;
+    --amber: #a9720f;
+    --amber-bg: #fbf1de;
+    --radius: 10px;
+    --shadow: 0 1px 3px rgba(20,30,45,0.08), 0 6px 20px rgba(20,30,45,0.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height:100vh;
+    line-height:1.5;
+  }
+  .app{
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+  header.topbar{
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: #fff;
+    padding: 18px 22px;
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 12px;
+    flex-wrap:wrap;
+  }
+  header.topbar .brand{
+    display:flex; flex-direction:column; gap:2px;
+  }
+  header.topbar .brand .kicker{
+    font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color: var(--gold-light); font-weight:600;
+  }
+  header.topbar .brand h1{
+    margin:0; font-size:19px; font-weight:700; letter-spacing:0.2px;
+  }
+  header.topbar .brand .sub{
+    font-size:12.5px; color:#c7d3de;
+  }
+  .pill-btn{
+    background: rgba(255,255,255,0.1);
+    border:1px solid rgba(255,255,255,0.25);
+    color:#fff;
+    padding:7px 14px;
+    border-radius:999px;
+    font-size:13px;
+    cursor:pointer;
+    transition: background .15s ease;
+    white-space:nowrap;
+  }
+  .pill-btn:hover{ background: rgba(255,255,255,0.2); }
+
+  .card{
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 22px;
+    margin-bottom: 18px;
+    border: 1px solid var(--line);
+  }
+
+  /* ---------- HOME ---------- */
+  .home-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 680px){ .home-grid{ grid-template-columns: 1fr; } }
+  .mode-card{
+    cursor:pointer;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 20px;
+    background: var(--card);
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  }
+  .mode-card:hover{
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: var(--gold-light);
+  }
+  .mode-card .icon{
+    width:40px;height:40px;border-radius:10px;
+    background: var(--navy);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:19px; margin-bottom:12px;
+  }
+  .mode-card h3{ margin:0 0 6px; font-size:16.5px; color: var(--navy); }
+  .mode-card p{ margin:0; font-size:13.5px; color: var(--muted); }
+
+  .section-title{
+    font-size:13px; text-transform:uppercase; letter-spacing:1px; color: var(--muted); font-weight:700; margin: 26px 0 12px;
+  }
+
+  .stat-row{
+    display:flex; gap:14px; flex-wrap:wrap; margin-top:14px;
+  }
+  .stat-chip{
+    background: var(--bg);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:8px 14px;
+    font-size:12.5px;
+    color: var(--muted);
+  }
+  .stat-chip b{ color: var(--navy); font-size:14px; }
+
+  /* ---------- SETUP (order toggle) ---------- */
+  .toggle-row{
+    display:flex; gap:10px; margin: 14px 0 4px;
+  }
+  .toggle-opt{
+    flex:1;
+    text-align:center;
+    padding: 12px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--line);
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+    color: var(--muted);
+    background: var(--bg);
+  }
+  .toggle-opt.active{
+    border-color: var(--navy);
+    background: var(--navy);
+    color:#fff;
+  }
+  .big-btn{
+    display:inline-block;
+    background: var(--navy);
+    color:#fff;
+    border:none;
+    padding: 13px 26px;
+    border-radius: 8px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:16px;
+  }
+  .big-btn:hover{ background: var(--navy-deep); }
+  .ghost-btn{
+    display:inline-block;
+    background: transparent;
+    color: var(--navy);
+    border:1.5px solid var(--navy);
+    padding: 11px 22px;
+    border-radius: 8px;
+    font-size:14.5px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:16px;
+    margin-left:10px;
+  }
+  .ghost-btn:hover{ background: rgba(22,50,79,0.06); }
+
+  /* ---------- SECTION GRID ---------- */
+  .sec-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:10px;
+    margin-top: 8px;
+  }
+  @media (max-width: 620px){ .sec-grid{ grid-template-columns: 1fr; } }
+  .sec-tile{
+    border:1.5px solid var(--line);
+    border-radius:8px;
+    padding: 12px 14px;
+    cursor:pointer;
+    background: var(--bg);
+    transition: border-color .12s ease, background .12s ease;
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+  }
+  .sec-tile:hover{ border-color: var(--gold-light); background:#fff; }
+  .sec-tile .name{ font-size:13.5px; font-weight:600; color: var(--navy); }
+  .sec-tile .count{
+    font-size:11.5px;
+    background: var(--navy);
+    color:#fff;
+    padding:3px 9px;
+    border-radius: 999px;
+    white-space:nowrap;
+  }
+
+  /* ---------- QUIZ ---------- */
+  .quiz-topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:10px; flex-wrap:wrap;
+  }
+  .progress-wrap{
+    flex:1; min-width:180px;
+  }
+  .progress-track{
+    height:8px; background: var(--line); border-radius:999px; overflow:hidden;
+  }
+  .progress-fill{
+    height:100%; background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+    transition: width .25s ease;
+  }
+  .progress-label{ font-size:11.5px; color:var(--muted); margin-top:5px; }
+  .score-chip{
+    background: var(--navy); color:#fff; font-size:13px; font-weight:700;
+    padding:8px 14px; border-radius:8px; white-space:nowrap;
+  }
+  .meta-line{
+    display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap;
+  }
+  .tag{
+    font-size:11px; padding:4px 10px; border-radius:999px; font-weight:700; letter-spacing:.3px; text-transform:uppercase;
+  }
+  .tag.section{ background:#eef2f7; color: var(--navy); }
+  .tag.Easy{ background:#e6f5ec; color:var(--green); }
+  .tag.Moderate{ background:#fbf1de; color:var(--amber); }
+  .tag.Hard{ background:#fbeae7; color:var(--red); }
+
+  .qtext{
+    font-size:16.5px; font-weight:600; color: var(--ink); margin: 6px 0 18px; white-space:pre-line;
+  }
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .opt{
+    display:flex; align-items:flex-start; gap:12px;
+    border:1.5px solid var(--line);
+    border-radius:8px;
+    padding: 12px 14px;
+    cursor:pointer;
+    background:#fff;
+    font-size:14.5px;
+    transition: border-color .12s ease, background .12s ease;
+  }
+  .opt:hover{ border-color: var(--gold-light); background:#fffaf1; }
+  .opt .letter{
+    flex:0 0 auto;
+    width:26px;height:26px;border-radius:50%;
+    background: var(--bg); border:1.5px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12.5px; font-weight:700; color:var(--muted);
+  }
+  .opt.correct{
+    border-color: var(--green); background: var(--green-bg);
+  }
+  .opt.correct .letter{ background: var(--green); border-color: var(--green); color:#fff; }
+  .opt.wrong{
+    border-color: var(--red); background: var(--red-bg);
+  }
+  .opt.wrong .letter{ background: var(--red); border-color: var(--red); color:#fff; }
+  .opt.disabled{ cursor:default; }
+  .opt.disabled:hover{ background:#fff; border-color: var(--line); }
+  .opt.correct.disabled:hover{ background: var(--green-bg); border-color: var(--green); }
+  .opt.wrong.disabled:hover{ background: var(--red-bg); border-color: var(--red); }
+
+  .explain{
+    margin-top:16px;
+    padding: 12px 14px;
+    border-radius:8px;
+    font-size:13.5px;
+    display:none;
+    line-height:1.55;
+  }
+  .explain.show{ display:block; }
+  .explain.ok{ background: var(--green-bg); color:#1a5c39; border:1px solid #b9e2c9; }
+  .explain.bad{ background: var(--red-bg); color:#8f2e23; border:1px solid #f1c3bc; }
+  .explain.skip{ background: var(--amber-bg); color:#7a5308; border:1px solid #ecd9ab; }
+  .explain b{ display:block; margin-bottom:3px; }
+
+  .quiz-actions{
+    display:flex; justify-content:space-between; align-items:center; margin-top:20px; gap:10px; flex-wrap:wrap;
+  }
+  .skip-btn{
+    background:transparent; border:1.5px solid var(--line); color: var(--muted);
+    padding: 10px 18px; border-radius:8px; font-size:13.5px; cursor:pointer; font-weight:600;
+  }
+  .skip-btn:hover{ border-color:var(--red); color:var(--red); }
+  .next-btn{
+    background: var(--navy); color:#fff; border:none; padding: 11px 24px;
+    border-radius:8px; font-size:14.5px; font-weight:700; cursor:pointer;
+  }
+  .next-btn:hover{ background: var(--navy-deep); }
+  .exit-link{
+    font-size:12.5px; color: var(--muted); cursor:pointer; text-decoration:underline;
+  }
+
+  /* ---------- RESULTS ---------- */
+  .score-hero{
+    text-align:center; padding: 10px 0 6px;
+  }
+  .score-hero .big-num{
+    font-size:48px; font-weight:800; color: var(--navy); line-height:1;
+  }
+  .score-hero .big-num span{ font-size:22px; color:var(--muted); font-weight:600; }
+  .score-hero .pct{ font-size:15px; color: var(--muted); margin-top:6px; }
+
+  .breakdown{
+    display:grid; grid-template-columns: repeat(3,1fr); gap:12px; margin-top:22px;
+  }
+  @media (max-width:560px){ .breakdown{ grid-template-columns:1fr; } }
+  .bd-card{
+    border:1.5px solid var(--line); border-radius:8px; padding:14px; text-align:center;
+  }
+  .bd-card .lbl{ font-size:11.5px; text-transform:uppercase; letter-spacing:.5px; font-weight:700; color:var(--muted); margin-bottom:6px;}
+  .bd-card .val{ font-size:20px; font-weight:800; color:var(--navy); }
+  .bd-card .sub{ font-size:12px; color:var(--muted); margin-top:2px; }
+
+  .stat-strip{
+    display:flex; justify-content:space-between; gap:10px; margin-top:20px; flex-wrap:wrap;
+  }
+  .stat-strip .item{ flex:1; min-width:100px; text-align:center; border-right:1px solid var(--line); }
+  .stat-strip .item:last-child{ border-right:none; }
+  .stat-strip .item .n{ font-size:20px; font-weight:800; }
+  .stat-strip .item .l{ font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; margin-top:2px;}
+  .n.correct-c{ color: var(--green); }
+  .n.wrong-c{ color: var(--red); }
+  .n.skip-c{ color: var(--amber); }
+
+  .review-item{
+    border:1.5px solid var(--line); border-radius:8px; padding:14px 16px; margin-bottom:12px;
+  }
+  .review-item .rq{ font-weight:600; font-size:14.5px; margin-bottom:8px; white-space:pre-line;}
+  .review-item .ra-row{ font-size:13px; margin:3px 0; }
+  .review-item .ra-row.your-wrong{ color: var(--red); }
+  .review-item .ra-row.your-skip{ color: var(--amber); }
+  .review-item .ra-row.correct-ans{ color: var(--green); font-weight:600; }
+  .review-item .rexp{ font-size:12.5px; color:var(--muted); margin-top:6px; border-top:1px dashed var(--line); padding-top:6px;}
+  .badge-sec{ display:inline-block; font-size:10.5px; background:#eef2f7; color:var(--navy); padding:2px 8px; border-radius:999px; margin-bottom:6px; font-weight:700;}
+
+  .end-actions{
+    display:flex; gap:12px; margin-top:22px; flex-wrap:wrap;
+  }
+
+  .empty-note{ color:var(--muted); font-size:13.5px; text-align:center; padding: 30px 0;}
+
+  footer.foot{
+    text-align:center; font-size:11.5px; color:var(--muted); margin-top:26px;
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script id="quiz-data" type="application/json">
+[
+ {
+  "id": "q0001",
+  "section": "Overview & Verticals",
+  "difficulty": "Easy",
+  "question": "How many verticals has the Ministry of Women & Child Development organised its schemes into?",
+  "options": [
+   "Three",
+   "Five",
+   "Four",
+   "Two",
+   "Six"
+  ],
+  "correct": 0,
+  "exp": "The three verticals are Saksham Anganwadi & Poshan 2.0, Mission Shakti, and Mission Vatsalya."
+ },
+ {
+  "id": "q0002",
+  "section": "Overview & Verticals",
+  "difficulty": "Moderate",
+  "question": "What is the outlay of Mission Shakti over the 15th Finance Commission Cycle?",
+  "options": [
+   "Rs. 25,989 crores",
+   "Rs. 20,989 crores",
+   "Rs. 18,500 crores",
+   "Rs. 15,989 crores",
+   "Rs. 22,000 crores"
+  ],
+  "correct": 1,
+  "exp": "Mission Shakti has an outlay of Rs. 20,989 crores over the 15th Finance Commission Cycle."
+ },
+ {
+  "id": "q0003",
+  "section": "Overview & Verticals",
+  "difficulty": "Moderate",
+  "question": "Poshan 2.0 shall focus on Maternal Nutrition, Infant and Young Child Feeding Norms, Treatment of MAM/SAM and Wellness through which system of medicine?",
+  "options": [
+   "Homeopathy alone",
+   "Unani alone",
+   "AYUSH",
+   "Allopathy",
+   "Yoga alone"
+  ],
+  "correct": 2,
+  "exp": "Poshan 2.0 focuses on Wellness through AYUSH."
+ },
+ {
+  "id": "q0004",
+  "section": "Overview & Verticals",
+  "difficulty": "Easy",
+  "question": "Mission Saksham Anganwadi & Poshan 2.0 rests on which three pillars?",
+  "options": [
+   "Nutrition, Health and Education",
+   "Access, Equity and Quality",
+   "Funding, Monitoring and Awareness",
+   "Convergence, Governance and Capacity-building",
+   "Delivery, Innovation and Scale"
+  ],
+  "correct": 3,
+  "exp": "The scheme rests on the pillars of Convergence, Governance, and Capacity-building."
+ },
+ {
+  "id": "q0005",
+  "section": "Overview & Verticals",
+  "difficulty": "Moderate",
+  "question": "Poshan 2.0 contributes specifically to which two Sustainable Development Goals (SDGs)?",
+  "options": [
+   "SDG 4 and SDG 6",
+   "SDG 3 and SDG 5",
+   "SDG 1 and SDG 3",
+   "SDG 2 and SDG 5",
+   "SDG 2 (Zero Hunger) and SDG 4 (Quality Education)"
+  ],
+  "correct": 4,
+  "exp": "Poshan 2.0 contributes to SDG 2 on Zero Hunger and SDG 4 on Quality Education."
+ },
+ {
+  "id": "q0006",
+  "section": "Overview & Verticals",
+  "difficulty": "Easy",
+  "question": "Which vertical of MoWCD focuses on protection and welfare of children?",
+  "options": [
+   "Mission Vatsalya",
+   "Samarthya",
+   "Poshan Abhiyan",
+   "Mission Shakti",
+   "Saksham Anganwadi & Poshan 2.0"
+  ],
+  "correct": 0,
+  "exp": "Mission Vatsalya focuses on protection and welfare of children."
+ },
+ {
+  "id": "q0007",
+  "section": "Overview & Verticals",
+  "difficulty": "Hard",
+  "question": "Consider the following statements regarding the vision of Poshan 2.0:\nI. It addresses malnutrition among children up to the age of 6 years.\nII. It addresses malnutrition among adolescent girls aged 14-18 years.\nIII. It addresses malnutrition among pregnant and lactating women.\nIV. It addresses malnutrition among elderly women above 60 years.\nHow many of the above statements are correct?",
+  "options": [
+   "Only one",
+   "Only two",
+   "Only three",
+   "All four",
+   "None of the above are correct"
+  ],
+  "correct": 2,
+  "exp": "The vision covers children up to 6 years, adolescent girls (14-18), and pregnant/lactating women — not elderly women."
+ },
+ {
+  "id": "q0008",
+  "section": "Saksham Anganwadi & Poshan 2.0",
+  "difficulty": "Moderate",
+  "question": "The Poshan Tracker was rolled out by MoWCD through which agency?",
+  "options": [
+   "NIC",
+   "UIDAI",
+   "National e-Governance Division (NeGD)",
+   "NITI Aayog",
+   "Digital India Corporation"
+  ],
+  "correct": 2,
+  "exp": "The Poshan Tracker was rolled out on 1st March 2021 by MoWCD through NeGD."
+ },
+ {
+  "id": "q0009",
+  "section": "Saksham Anganwadi & Poshan 2.0",
+  "difficulty": "Moderate",
+  "question": "On what date was the Poshan Tracker rolled out?",
+  "options": [
+   "1st January 2022",
+   "1st April 2021",
+   "15th August 2020",
+   "1st March 2021",
+   "2nd October 2021"
+  ],
+  "correct": 3,
+  "exp": "The Poshan Tracker was rolled out on 1st March 2021."
+ },
+ {
+  "id": "q0010",
+  "section": "Saksham Anganwadi & Poshan 2.0",
+  "difficulty": "Hard",
+  "question": "Under the funding pattern for the Anganwadi Services Scheme, what is the Centre:State ratio for 'Salary' in States/UTs with Legislature?",
+  "options": [
+   "90:10",
+   "50:50",
+   "60:40",
+   "100:0",
+   "25:75"
+  ],
+  "correct": 4,
+  "exp": "For States/UTs with Legislature, the Salary component follows a 25:75 Centre:State ratio (allowed only for selected staff)."
+ },
+ {
+  "id": "q0011",
+  "section": "Saksham Anganwadi & Poshan 2.0",
+  "difficulty": "Hard",
+  "question": "What is the Centre:State funding ratio for 'Supplementary Nutrition' in States/UTs with Legislature?",
+  "options": [
+   "50:50",
+   "25:75",
+   "90:10",
+   "60:40",
+   "70:30"
+  ],
+  "correct": 0,
+  "exp": "Supplementary Nutrition funding ratio for States/UTs with Legislature is 50:50."
+ },
+ {
+  "id": "q0012",
+  "section": "Saksham Anganwadi & Poshan 2.0",
+  "difficulty": "Moderate",
+  "question": "What is the funding ratio (General category) for NE/Himalayan States (including J&K)?",
+  "options": [
+   "80:20",
+   "90:10",
+   "50:50",
+   "100:0",
+   "60:40"
+  ],
+  "correct": 1,
+  "exp": "NE/Himalayan States including J&K get funded at 90:10 (Centre:State) across General, Salary and Supplementary Nutrition categories."
+ },
+ {
+  "id": "q0013",
+  "section": "Saksham Anganwadi & Poshan 2.0",
+  "difficulty": "Easy",
+  "question": "What is the funding ratio for UTs without Legislature under the Anganwadi Services Scheme?",
+  "options": [
+   "75:25",
+   "90:10",
+   "100:0",
+   "60:40",
+   "50:50"
+  ],
+  "correct": 2,
+  "exp": "UTs without Legislature are funded 100:0 (fully by the Centre)."
+ },
+ {
+  "id": "q0014",
+  "section": "Saksham Anganwadi & Poshan 2.0",
+  "difficulty": "Moderate",
+  "question": "Which of the following is NOT one of the four important components of Saksham Anganwadi and Poshan 2.0?",
+  "options": [
+   "Anganwadi Infrastructure including Saksham Anganwadi",
+   "Early Childhood Care and Education",
+   "Nutrition Support through SNP",
+   "Mahila Police Volunteers",
+   "Poshan Abhiyaan"
+  ],
+  "correct": 3,
+  "exp": "Mahila Police Volunteers is a component under Mission Shakti/Sambal, not under Saksham Anganwadi & Poshan 2.0."
+ },
+ {
+  "id": "q0015",
+  "section": "Saksham Anganwadi & Poshan 2.0",
+  "difficulty": "Hard",
+  "question": "Who chairs the Empowered Programme Committee (EPC) at the Central Level under the institutional framework of Saksham Anganwadi?",
+  "options": [
+   "Secretary, Ministry of Health & Family Welfare",
+   "Chief Secretary of State",
+   "Cabinet Secretary",
+   "District Magistrate",
+   "Secretary, Ministry of Women and Child Development"
+  ],
+  "correct": 4,
+  "exp": "The EPC is chaired by the Secretary, MoWCD, and is responsible for planning, supervising and monitoring the Anganwadi Services Scheme."
+ },
+ {
+  "id": "q0016",
+  "section": "Saksham Anganwadi & Poshan 2.0",
+  "difficulty": "Moderate",
+  "question": "At the State level, the State Level Steering Committee that coordinates convergence of schemes is headed by whom?",
+  "options": [
+   "Chief Secretary",
+   "Chief Minister",
+   "Secretary, WCD",
+   "District Magistrate",
+   "Development Commissioner"
+  ],
+  "correct": 0,
+  "exp": "The State Level Steering Committee is headed by the Chief Secretary."
+ },
+ {
+  "id": "q0017",
+  "section": "Saksham Anganwadi & Poshan 2.0",
+  "difficulty": "Easy",
+  "question": "Who acts as the nodal point for monitoring nutritional status and quality standards at the district level?",
+  "options": [
+   "Chief Medical Officer",
+   "District Magistrate",
+   "Block Development Officer",
+   "Anganwadi Supervisor",
+   "District Programme Officer"
+  ],
+  "correct": 1,
+  "exp": "The District Magistrate is the nodal point at the district level under the institutional framework."
+ },
+ {
+  "id": "q0018",
+  "section": "Saksham Anganwadi & Poshan 2.0",
+  "difficulty": "Hard",
+  "question": "Consider the following statements about the roles and responsibilities of Anganwadi Workers:\nI. Recording child nutrition data in the Poshan Tracker app.\nII. Conducting non-formal preschool activities for children aged 3-6 years.\nIII. Issuing birth certificates independently without any assistance role.\nIV. Raising awareness among parents and pregnant mothers and maintaining records.\nHow many of the above statements are correct?",
+  "options": [
+   "Only one",
+   "Only two",
+   "Only three",
+   "All four",
+   "None of the above are correct"
+  ],
+  "correct": 2,
+  "exp": "AWWs assist in birth registration (not independently issue certificates), record nutrition data, conduct preschool activities, and raise awareness — so statement III as worded is incorrect."
+ },
+ {
+  "id": "q0019",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Easy",
+  "question": "How many services are included in the 'Package of Services' under the Anganwadi Services Scheme?",
+  "options": [
+   "Five",
+   "Eight",
+   "Four",
+   "Six",
+   "Seven"
+  ],
+  "correct": 3,
+  "exp": "The six services are: Supplementary nutrition, Pre-school non-formal education, Nutrition & health education, Immunization, Health check-up, and Referral services."
+ },
+ {
+  "id": "q0020",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "Which three of the six services under the Anganwadi Services Scheme are health-related and delivered through NHM & Public Health Infrastructure?",
+  "options": [
+   "Supplementary Nutrition, Immunization, and Referral services",
+   "Referral services, Pre-school education, and Supplementary nutrition",
+   "Nutrition education, Immunization, and Supplementary nutrition",
+   "Pre-school education, Health check-up, and Nutrition education",
+   "Immunization, Health check-up, and Referral services"
+  ],
+  "correct": 4,
+  "exp": "Immunization, health check-up and referral services are related to health and provided through NHM & Public Health Infrastructure."
+ },
+ {
+  "id": "q0021",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "During which period has the Anganwadi Services Scheme under Poshan 2.0 been approved for implementation?",
+  "options": [
+   "2021-22 to 2025-26 (15th Finance Commission period)",
+   "2019-20 to 2024-25",
+   "2017-18 to 2021-22",
+   "2020-21 to 2025-26",
+   "2022-23 to 2027-28"
+  ],
+  "correct": 0,
+  "exp": "The scheme has been approved for the 15th Finance Commission period, i.e., 2021-22 to 2025-26."
+ },
+ {
+  "id": "q0022",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Easy",
+  "question": "This Scheme (Anganwadi Services) is open to all eligible beneficiaries on demand irrespective of which criteria?",
+  "options": [
+   "Religion, education and occupation",
+   "Caste, religion and income",
+   "Nationality, caste and gender",
+   "Caste, income and marital status",
+   "Age, gender and location"
+  ],
+  "correct": 1,
+  "exp": "The scheme is open to all eligible beneficiaries on demand, irrespective of caste, religion and income criteria."
+ },
+ {
+  "id": "q0023",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "What is the minimum precondition for a beneficiary to avail services under the Anganwadi Services Scheme?",
+  "options": [
+   "Possession of a BPL card",
+   "Enrolment under Ayushman Bharat",
+   "Registration at the nearest Anganwadi Centre with Aadhaar identification",
+   "Income certificate from Tehsildar",
+   "Certificate from a registered medical practitioner"
+  ],
+  "correct": 2,
+  "exp": "The only pre-condition is registration at the nearest AWC with Aadhaar identification."
+ },
+ {
+  "id": "q0024",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Hard",
+  "question": "Under the Anganwadi Services Scheme, growth measurement (height and weight) for children 6 months to 6 years is to be conducted with what frequency?",
+  "options": [
+   "Every fortnight",
+   "Once a year",
+   "Every 3 months",
+   "Every month",
+   "Every 6 months"
+  ],
+  "correct": 3,
+  "exp": "Height and weight of children aged 6 months to 6 years are to be measured every month."
+ },
+ {
+  "id": "q0025",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "What is the minimum prescribed educational qualification for newly engaged Anganwadi Workers/Helpers (AWW/AWH)?",
+  "options": [
+   "10th Standard",
+   "Diploma in Early Childhood Education",
+   "8th Standard",
+   "Graduate",
+   "12th Standard"
+  ],
+  "correct": 4,
+  "exp": "The minimum prescribed qualification for newly engaged AWW/AWH is 12th Standard."
+ },
+ {
+  "id": "q0026",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "What is the prescribed age limit for engagement of Anganwadi Workers and Helpers?",
+  "options": [
+   "18-35 years",
+   "18-30 years",
+   "21-40 years",
+   "25-45 years",
+   "21-35 years"
+  ],
+  "correct": 0,
+  "exp": "The age limit for engagement of AWWs and AWHs is 18-35 years."
+ },
+ {
+  "id": "q0027",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Easy",
+  "question": "Up to what maximum age can an AWW/AWH be engaged, as per the norms?",
+  "options": [
+   "62 years",
+   "65 years",
+   "70 years",
+   "60 years",
+   "58 years"
+  ],
+  "correct": 1,
+  "exp": "In any case, AWW/AWH must not be engaged beyond the age of 65 years, though the exact retirement age is decided by the State/UT."
+ },
+ {
+  "id": "q0028",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "What percentage of Anganwadi Worker posts shall be filled by promotion of Anganwadi Helpers with 5 years of experience?",
+  "options": [
+   "33%",
+   "100%",
+   "50%",
+   "75%",
+   "25%"
+  ],
+  "correct": 2,
+  "exp": "50% of AWW posts are filled by promotion of AWHs with 5 years of experience; similarly 50% of Supervisor posts are filled by promotion of AWWs with 5 years of experience."
+ },
+ {
+  "id": "q0029",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Hard",
+  "question": "What is the monthly honorarium payable to a regular Anganwadi Worker (AWW)?",
+  "options": [
+   "Rs. 6,000 per month",
+   "Rs. 3,500 per month",
+   "Rs. 2,250 per month",
+   "Rs. 4,500 per month",
+   "Rs. 5,000 per month"
+  ],
+  "correct": 3,
+  "exp": "AWW honorarium is Rs. 4,500 p.m.; AWW (Mini-AWC) gets Rs. 3,500 p.m.; AWH gets Rs. 2,250 p.m."
+ },
+ {
+  "id": "q0030",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Hard",
+  "question": "What is the monthly honorarium payable to an Anganwadi Worker at a Mini-AWC?",
+  "options": [
+   "Rs. 4,500 per month",
+   "Rs. 2,250 per month",
+   "Rs. 3,000 per month",
+   "Rs. 5,500 per month",
+   "Rs. 3,500 per month"
+  ],
+  "correct": 4,
+  "exp": "AWW at a Mini-AWC is paid Rs. 3,500 per month."
+ },
+ {
+  "id": "q0031",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "What is the monthly honorarium payable to an Anganwadi Helper (AWH)?",
+  "options": [
+   "Rs. 2,250 per month",
+   "Rs. 1,500 per month",
+   "Rs. 3,500 per month",
+   "Rs. 4,500 per month",
+   "Rs. 2,750 per month"
+  ],
+  "correct": 0,
+  "exp": "AWH honorarium is Rs. 2,250 per month."
+ },
+ {
+  "id": "q0032",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Hard",
+  "question": "What is the cost-sharing ratio for payment of honorarium to AWWs/AWHs between Centre and States/UTs (with legislature)?",
+  "options": [
+   "90:10",
+   "60:40",
+   "70:30",
+   "100:0",
+   "50:50"
+  ],
+  "correct": 1,
+  "exp": "For States & UTs with legislature, the honorarium cost-sharing ratio is 60:40 (Centre:State)."
+ },
+ {
+  "id": "q0033",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "For how many minimum days in a calendar year must Supplementary Nutrition be served under the scheme?",
+  "options": [
+   "250 days",
+   "320 days",
+   "300 days",
+   "280 days",
+   "365 days"
+  ],
+  "correct": 2,
+  "exp": "Supplementary Nutrition shall be served for a minimum of 300 days in a calendar year, i.e., on average 25 days a month."
+ },
+ {
+  "id": "q0034",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "What is the prescribed calorie norm per beneficiary per day for children aged 6-72 months (normal, not severely malnourished)?",
+  "options": [
+   "600 K Cal",
+   "800 K Cal",
+   "700 K Cal",
+   "500 K Cal",
+   "450 K Cal"
+  ],
+  "correct": 3,
+  "exp": "Children (6-72 months) are entitled to 500 K Cal and 12-15g protein per day."
+ },
+ {
+  "id": "q0035",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Hard",
+  "question": "What is the prescribed calorie and protein norm per beneficiary per day for severely malnourished children (6-72 months)?",
+  "options": [
+   "900 K Cal and 25-30g protein",
+   "600 K Cal and 18-20g protein",
+   "500 K Cal and 12-15g protein",
+   "700 K Cal and 20g protein",
+   "800 K Cal and 20-25g protein"
+  ],
+  "correct": 4,
+  "exp": "Severely malnourished children (6-72 months) receive 800 K Cal and 20-25g protein per day — the highest norm in the table."
+ },
+ {
+  "id": "q0036",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "What is the nutritional norm (calories and protein) prescribed for pregnant women and nursing mothers per beneficiary per day?",
+  "options": [
+   "600 K Cal and 18-20g protein",
+   "550 K Cal and 15-18g protein",
+   "700 K Cal and 15g protein",
+   "800 K Cal and 20-25g protein",
+   "500 K Cal and 12-15g protein"
+  ],
+  "correct": 0,
+  "exp": "Pregnant women and Nursing mothers are entitled to 600 K Cal and 18-20g protein per day, the same as for adolescent girls (14-18 years)."
+ },
+ {
+  "id": "q0037",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Hard",
+  "question": "As per the Cost Norms table, what is the rate (in Rupees) per day per beneficiary for severely malnourished children (6-72 months)?",
+  "options": [
+   "Rs. 15.00",
+   "Rs. 12.00",
+   "Rs. 8.00",
+   "Rs. 10.50",
+   "Rs. 9.50"
+  ],
+  "correct": 1,
+  "exp": "The cost norm for severely malnourished children (6-72 months) is Rs. 12.00 per day per beneficiary — the highest among the categories."
+ },
+ {
+  "id": "q0038",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "As per the Cost Norms table, what is the rate per day per beneficiary for children (6-72 months, not severely malnourished)?",
+  "options": [
+   "Rs. 9.50",
+   "Rs. 7.00",
+   "Rs. 8.00",
+   "Rs. 12.00",
+   "Rs. 10.00"
+  ],
+  "correct": 2,
+  "exp": "The cost norm for children (6-72 months) is Rs. 8.00 per day per beneficiary."
+ },
+ {
+  "id": "q0039",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "What is the cost norm per day per beneficiary for pregnant women, nursing mothers, and adolescent girls (14-18 years) alike?",
+  "options": [
+   "Rs. 8.00",
+   "Rs. 10.00",
+   "Rs. 12.00",
+   "Rs. 9.50",
+   "Rs. 11.00"
+  ],
+  "correct": 3,
+  "exp": "Both pregnant women/nursing mothers and adolescent girls (14-18 years) have a cost norm of Rs. 9.50 per day per beneficiary."
+ },
+ {
+  "id": "q0040",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "How frequently is the Take Home Ration (THR) distributed to beneficiaries?",
+  "options": [
+   "Thrice a month",
+   "Once a month",
+   "Every fortnight without fail only on the 1st and 15th",
+   "Once a week",
+   "Twice a month"
+  ],
+  "correct": 4,
+  "exp": "The distribution of THR to beneficiaries shall be made twice a month."
+ },
+ {
+  "id": "q0041",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Easy",
+  "question": "Which age group of children is entitled to a Hot Cooked Meal (HCM) under the Anganwadi Services Scheme?",
+  "options": [
+   "3-6 years",
+   "0-3 years",
+   "6-72 months",
+   "14-18 years",
+   "6 months-3 years"
+  ],
+  "correct": 0,
+  "exp": "Children in the age group of 3-6 years are entitled to Hot Cooked Meal."
+ },
+ {
+  "id": "q0042",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "Quality testing of supplementary nutrition is conducted by laboratories owned or authorized by which body?",
+  "options": [
+   "Bureau of Indian Standards (BIS)",
+   "Food Safety and Standards Authority of India (FSSAI)",
+   "AYUSH Ministry",
+   "ICMR",
+   "National Institute of Nutrition"
+  ],
+  "correct": 1,
+  "exp": "Quality testing is conducted by FSSAI owned or authorized laboratories."
+ },
+ {
+  "id": "q0043",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "A 'Poshan Panchayat' is a women-led Gram Sabha committee comprising how many women members?",
+  "options": [
+   "7-11 women members",
+   "15-20 women members",
+   "10-15 women members",
+   "20-25 women members",
+   "5-7 women members"
+  ],
+  "correct": 2,
+  "exp": "Poshan Panchayats comprise 10-15 women members acting as a sub-committee of the Gram Panchayat."
+ },
+ {
+  "id": "q0044",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "From which financial year was it proposed to roll out Early Childhood Care and Education (ECCE) in all Anganwadi Centres?",
+  "options": [
+   "FY 2020-21",
+   "FY 2021-22",
+   "FY 2023-24",
+   "FY 2022-23",
+   "FY 2019-20"
+  ],
+  "correct": 3,
+  "exp": "It is proposed to roll out ECCE in all the AWCs beginning FY 2022-23."
+ },
+ {
+  "id": "q0045",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Hard",
+  "question": "Which of the following is NOT one of the funding sources listed for construction of Anganwadi Centres (AWCs)?",
+  "options": [
+   "BRGF (Backward Regions Grant Fund)",
+   "NREGA",
+   "MPLADs",
+   "RIDF (Rural Infrastructure Development Fund)",
+   "PM CARES Fund"
+  ],
+  "correct": 4,
+  "exp": "PM CARES Fund is not listed as a funding source for AWC construction; it is instead linked to support for children under the PM CARES for Children Scheme under Mission Vatsalya."
+ },
+ {
+  "id": "q0046",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "Under the convergence for AWC building construction with VB-G RAM G, what is the total cost per AWC?",
+  "options": [
+   "Rs. 12.00 lakh",
+   "Rs. 8.00 lakh",
+   "Rs. 20.00 lakh",
+   "Rs. 10.00 lakh",
+   "Rs. 15.00 lakh"
+  ],
+  "correct": 0,
+  "exp": "The cost per AWC under convergence with VB-G RAM G is Rs. 12.00 lakh (Rs. 8 lakh from MGNREGS + Rs. 2 lakh from 15th FC funds + Rs. 2 lakh from MWCD)."
+ },
+ {
+  "id": "q0047",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Hard",
+  "question": "Under the VB-G RAM G convergence funding for AWC buildings, how much comes specifically from MGNREGS?",
+  "options": [
+   "Rs. 2.00 lakh",
+   "Rs. 8.00 lakh",
+   "Rs. 6.00 lakh",
+   "Rs. 4.00 lakh",
+   "Rs. 10.00 lakh"
+  ],
+  "correct": 1,
+  "exp": "Of the total Rs. 12.00 lakh cost per AWC, Rs. 8.00 lakh comes from MGNREGS, with Rs. 2.00 lakh each from 15th FC funds and MWCD."
+ },
+ {
+  "id": "q0048",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "In hilly and difficult terrain, what is the size of the pre-engineered AWC structure proposed?",
+  "options": [
+   "300 sq. feet",
+   "350 sq. feet",
+   "450 sq. feet",
+   "600 sq. feet",
+   "500 sq. feet"
+  ],
+  "correct": 2,
+  "exp": "In hilly/difficult terrain, pre-engineered structures of 450 sq. feet with pre-fabricated puff and steel frames are used."
+ },
+ {
+  "id": "q0049",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Moderate",
+  "question": "Under 'Saksham Anganwadi', how many AWCs per year are targeted to be strengthened, upgraded and rejuvenated (out of a total of 2 lakh)?",
+  "options": [
+   "60,000 AWCs per year",
+   "50,000 AWCs per year",
+   "30,000 AWCs per year",
+   "40,000 AWCs per year",
+   "25,000 AWCs per year"
+  ],
+  "correct": 3,
+  "exp": "Under Saksham Anganwadi, 2 lakh AWCs at the rate of 40,000 AWCs per year shall be strengthened, upgraded and rejuvenated."
+ },
+ {
+  "id": "q0050",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Hard",
+  "question": "Over how many years has installation of Rain Water Harvesting Structures been approved in 2 lakh AWC buildings under Saksham Anganwadi?",
+  "options": [
+   "7 years",
+   "4 years",
+   "10 years",
+   "3 years",
+   "5 years"
+  ],
+  "correct": 4,
+  "exp": "Rain Water Harvesting Structures are to be installed in 2 lakh AWC buildings across the country over 5 years."
+ },
+ {
+  "id": "q0051",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Hard",
+  "question": "Which of the following statements about the Anganwadi Services Scheme package is NOT correct?",
+  "options": [
+   "Health check-up and referral services under the scheme are delivered exclusively by Anganwadi Workers without any role for ASHA or ANM.",
+   "ASHA and ANM undertake regular screening of beneficiaries for assessment of anemia and diabetes.",
+   "Immunization, health check-up, and referral services are delivered through NHM and Public Health Infrastructure.",
+   "Funds for Aadhaar enrolment kits have been placed with the States/UTs.",
+   "The package of services includes Supplementary nutrition and Pre-school non-formal education."
+  ],
+  "correct": 0,
+  "exp": "ASHA and ANM (not AWWs alone) provide health check-up, referral, and immunization services under NHM/Public Health Infrastructure convergence."
+ },
+ {
+  "id": "q0052",
+  "section": "Anganwadi Services Scheme",
+  "difficulty": "Hard",
+  "question": "Consider the following statements about Anganwadi Worker/Helper service conditions:\nI. Minimum qualification for newly engaged AWW/AWH is 12th Standard.\nII. The age limit for engagement is 18-35 years.\nIII. AWW/AWH can in no case be engaged beyond 65 years of age.\nIV. Retirement age is uniformly fixed at 60 years across all States/UTs.\nHow many of the above statements are correct?",
+  "options": [
+   "Only one",
+   "Only two",
+   "Only three",
+   "All four",
+   "None of the above are correct"
+  ],
+  "correct": 2,
+  "exp": "Retirement age is decided by the concerned State Government/UT Administration (not uniformly fixed at 60), subject to the outer limit of 65 years."
+ },
+ {
+  "id": "q0053",
+  "section": "Poshan Abhiyan",
+  "difficulty": "Moderate",
+  "question": "How many Community Based Events (CBEs) is each Anganwadi Centre expected to organize per month?",
+  "options": [
+   "Four times per month",
+   "Once per month",
+   "Twice per month",
+   "Thrice per month",
+   "Once per week"
+  ],
+  "correct": 2,
+  "exp": "Each Anganwadi Centre is to organize CBEs twice per month."
+ },
+ {
+  "id": "q0054",
+  "section": "Poshan Abhiyan",
+  "difficulty": "Moderate",
+  "question": "What amount is provided to support each Community Based Event (CBE)?",
+  "options": [
+   "Rs. 100 per event",
+   "Rs. 1,000 per event",
+   "Rs. 150 per event",
+   "Rs. 250 per event",
+   "Rs. 500 per event"
+  ],
+  "correct": 3,
+  "exp": "Each CBE is supported with an amount of Rs. 250 per event."
+ },
+ {
+  "id": "q0055",
+  "section": "Poshan Abhiyan",
+  "difficulty": "Easy",
+  "question": "Rashtriya Poshan Maah is celebrated annually in which month?",
+  "options": [
+   "March",
+   "January",
+   "August",
+   "October",
+   "September"
+  ],
+  "correct": 4,
+  "exp": "Poshan Maah/Poshan Pakhwada is celebrated annually in September as Rashtriya Poshan Maah."
+ },
+ {
+  "id": "q0056",
+  "section": "Poshan Abhiyan",
+  "difficulty": "Moderate",
+  "question": "What is the fund allocation for Poshan Maah per district per annum?",
+  "options": [
+   "Rs. 5.00 lakh",
+   "Rs. 10.00 lakh",
+   "Rs. 3.00 lakh",
+   "Rs. 7.50 lakh",
+   "Rs. 2.50 lakh"
+  ],
+  "correct": 0,
+  "exp": "The fund allocation for Poshan Maah is Rs. 5.00 lakh per district per annum."
+ },
+ {
+  "id": "q0057",
+  "section": "Poshan Abhiyan",
+  "difficulty": "Moderate",
+  "question": "What monthly incentive is provided to Anganwadi Workers (AWW) for expected regular tasks under the guidelines?",
+  "options": [
+   "Rs. 250 per month",
+   "Rs. 500 per month",
+   "Rs. 750 per month",
+   "Rs. 300 per month",
+   "Rs. 1,000 per month"
+  ],
+  "correct": 1,
+  "exp": "AWWs receive an incentive of Rs. 500 per month, while AWHs receive Rs. 250 per month, for expected regular tasks."
+ },
+ {
+  "id": "q0058",
+  "section": "Poshan Abhiyan",
+  "difficulty": "Moderate",
+  "question": "What monthly incentive is provided to Anganwadi Helpers (AWH) for expected regular tasks?",
+  "options": [
+   "Rs. 750 per month",
+   "Rs. 500 per month",
+   "Rs. 250 per month",
+   "Rs. 400 per month",
+   "Rs. 100 per month"
+  ],
+  "correct": 2,
+  "exp": "AWHs receive an incentive of Rs. 250 per month for regular tasks (AWWs receive Rs. 500 per month)."
+ },
+ {
+  "id": "q0059",
+  "section": "Poshan Abhiyan",
+  "difficulty": "Hard",
+  "question": "Under Saksham Anganwadi, what is the annual incentive corpus provisioned for 'Kuposhan Mukt Villages'?",
+  "options": [
+   "Rs. 8 crore per annum",
+   "Rs. 5 crore per annum",
+   "Rs. 15 crore per annum",
+   "Rs. 10 crore per annum",
+   "Rs. 20 crore per annum"
+  ],
+  "correct": 3,
+  "exp": "The 'Kuposhan Mukt Villages' incentive is Rs. 10 crore per annum, distributed to qualified villages/panchayats at Rs. 1 lakh each."
+ },
+ {
+  "id": "q0060",
+  "section": "Poshan Abhiyan",
+  "difficulty": "Moderate",
+  "question": "Under the 'Kuposhan Mukt Villages' incentive, how much is given to each qualified village/panchayat?",
+  "options": [
+   "Rs. 50,000 each",
+   "Rs. 1.5 lakh each",
+   "Rs. 2 lakh each",
+   "Rs. 75,000 each",
+   "Rs. 1 lakh each"
+  ],
+  "correct": 4,
+  "exp": "Each qualified village/panchayat receives Rs. 1 lakh under this incentive out of the Rs. 10 crore annual corpus."
+ },
+ {
+  "id": "q0061",
+  "section": "Poshan Abhiyan",
+  "difficulty": "Moderate",
+  "question": "How many awards for Anganwadi Workers (AWWs) are provisioned under the Awards scheme, and at what amount?",
+  "options": [
+   "100 awards @ Rs. 50,000 each",
+   "100 awards @ Rs. 40,000 each",
+   "150 awards @ Rs. 25,000 each",
+   "50 awards @ Rs. 40,000 each",
+   "75 awards @ Rs. 50,000 each"
+  ],
+  "correct": 0,
+  "exp": "There is provision for 100 awards for AWWs @ Rs. 50,000/- each and 50 awards for AWHs @ Rs. 40,000/- each."
+ },
+ {
+  "id": "q0062",
+  "section": "Poshan Abhiyan",
+  "difficulty": "Moderate",
+  "question": "How many awards for Anganwadi Helpers (AWHs) are provisioned, and at what amount each?",
+  "options": [
+   "100 awards @ Rs. 50,000 each",
+   "50 awards @ Rs. 40,000 each",
+   "50 awards @ Rs. 50,000 each",
+   "25 awards @ Rs. 40,000 each",
+   "50 awards @ Rs. 30,000 each"
+  ],
+  "correct": 1,
+  "exp": "50 awards for AWHs are provisioned at Rs. 40,000 each."
+ },
+ {
+  "id": "q0063",
+  "section": "Poshan Abhiyan",
+  "difficulty": "Hard",
+  "question": "Consider the following statements regarding Poshan Abhiyan:\nI. The Abhiyaan seeks to convert nutrition improvement into a Jan Andolan.\nII. Each AWC organizes CBEs twice per month, supported with Rs. 250 per event.\nIII. Poshan Maah is celebrated annually in September with Rs. 5.00 lakh allocated per district per annum.\nIV. Incentive for AWWs under regular tasks is Rs. 1,000 per month.\nHow many of the above statements are correct?",
+  "options": [
+   "Only one",
+   "Only two",
+   "Only three",
+   "All four",
+   "None of the above are correct"
+  ],
+  "correct": 2,
+  "exp": "The AWW incentive for regular tasks is Rs. 500 per month, not Rs. 1,000; the other three statements are accurate."
+ },
+ {
+  "id": "q0064",
+  "section": "Scheme for Adolescent Girls (SAG)",
+  "difficulty": "Moderate",
+  "question": "The Scheme for Adolescent Girls (SAG) primarily aims to address which intergenerational problem?",
+  "options": [
+   "Illiteracy",
+   "Anaemia among boys",
+   "Trafficking",
+   "Malnutrition",
+   "Child marriage"
+  ],
+  "correct": 3,
+  "exp": "SAG addresses the intergenerational problem of malnutrition, keeping in view the life cycle approach."
+ },
+ {
+  "id": "q0065",
+  "section": "Scheme for Adolescent Girls (SAG)",
+  "difficulty": "Moderate",
+  "question": "Which age group of adolescent girls is covered under the Scheme for Adolescent Girls (SAG) in Aspirational Districts?",
+  "options": [
+   "12-16 years",
+   "11-14 years",
+   "10-16 years",
+   "15-19 years",
+   "14-18 years"
+  ],
+  "correct": 4,
+  "exp": "SAG covers adolescent girls in the age group of 14-18 years in Aspirational Districts, including Assam and NE States."
+ },
+ {
+  "id": "q0066",
+  "section": "Scheme for Adolescent Girls (SAG)",
+  "difficulty": "Moderate",
+  "question": "What is the nutritional benefit (calories and protein) provided to adolescent girls under SAG?",
+  "options": [
+   "600 calories and 18-20 grams of protein",
+   "500 calories and 12-15 grams of protein",
+   "600 calories and 25 grams of protein",
+   "700 calories and 15 grams of protein",
+   "800 calories and 20-25 grams of protein"
+  ],
+  "correct": 0,
+  "exp": "Supplementary nutrition of 600 calories, 18-20g protein and micronutrients is provided as THR for 300 days a year."
+ },
+ {
+  "id": "q0067",
+  "section": "Scheme for Adolescent Girls (SAG)",
+  "difficulty": "Moderate",
+  "question": "For how many days in a year is the Take-Home Ration provided to adolescent girls under SAG?",
+  "options": [
+   "365 days",
+   "300 days",
+   "250 days",
+   "320 days",
+   "280 days"
+  ],
+  "correct": 1,
+  "exp": "THR is provided for 300 days in a year, at a cost of Rs. 9.50 per beneficiary per day."
+ },
+ {
+  "id": "q0068",
+  "section": "Scheme for Adolescent Girls (SAG)",
+  "difficulty": "Moderate",
+  "question": "What is the cost per beneficiary per day for supplementary nutrition under SAG?",
+  "options": [
+   "Rs. 10.00",
+   "Rs. 7.50",
+   "Rs. 9.50",
+   "Rs. 8.00",
+   "Rs. 12.00"
+  ],
+  "correct": 2,
+  "exp": "The cost of supplementary nutrition under SAG is Rs. 9.50 per beneficiary per day."
+ },
+ {
+  "id": "q0069",
+  "section": "Scheme for Adolescent Girls (SAG)",
+  "difficulty": "Moderate",
+  "question": "Under the Non-Nutrition Component of SAG, how frequently are activities conducted for out-of-school adolescent girls (11-14 years)?",
+  "options": [
+   "Once a month",
+   "4-5 times a week",
+   "Daily",
+   "2-3 times a week",
+   "Once a week"
+  ],
+  "correct": 3,
+  "exp": "For out-of-school adolescent girls (11-14 years), activities are conducted 2-3 times a week."
+ },
+ {
+  "id": "q0070",
+  "section": "Scheme for Adolescent Girls (SAG)",
+  "difficulty": "Hard",
+  "question": "Which of the following is NOT included in the 'Services' offered under the Scheme for Adolescent Girls?",
+  "options": [
+   "IFA (Iron and Folic Acid) supplementation.",
+   "Health check-ups and referral services.",
+   "Nutrition & Health Education.",
+   "Skilling and other related services.",
+   "Cash transfer of Rs. 5,000 directly to the adolescent girl's bank account."
+  ],
+  "correct": 4,
+  "exp": "SAG services include IFA supplementation, health check-ups/referral, nutrition & health education, and skilling — there is no direct cash transfer of Rs. 5,000 to adolescent girls under SAG (that figure pertains to PMMVY's first child benefit)."
+ },
+ {
+  "id": "q0071",
+  "section": "Mission Shakti - Overview",
+  "difficulty": "Moderate",
+  "question": "Prior to Mission Shakti, sub-schemes were implemented under which umbrella mission?",
+  "options": [
+   "Mission for Protection and Empowerment of Women (MPEW)",
+   "Nirbhaya Mission",
+   "National Mission for Women Empowerment",
+   "Beti Bachao Mission",
+   "Mission Poshan"
+  ],
+  "correct": 0,
+  "exp": "Prior to Mission Shakti, the Ministry implemented various sub-schemes under the Mission for Protection and Empowerment of Women (MPEW)."
+ },
+ {
+  "id": "q0072",
+  "section": "Mission Shakti - Overview",
+  "difficulty": "Hard",
+  "question": "Which of the following was NOT a sub-scheme under MPEW (prior to Mission Shakti)?",
+  "options": [
+   "Mahila Shakti Kendra (MSK)",
+   "PM CARES for Children Scheme",
+   "Ujjawala",
+   "SwadharGreh",
+   "Beti Bachao Beti Padhao (BBBP)"
+  ],
+  "correct": 1,
+  "exp": "PM CARES for Children is a component under Mission Vatsalya, not one of the sub-schemes under MPEW, which included BBBP, MSK, SwadharGreh, Ujjawala, WWH, OSC, WHL, MPV, and Gender Budgeting."
+ },
+ {
+  "id": "q0073",
+  "section": "Mission Shakti - Overview",
+  "difficulty": "Easy",
+  "question": "Mission Shakti has been implemented during which period?",
+  "options": [
+   "2020-21 to 2024-25",
+   "14th Finance Commission period, 2015-20",
+   "15th Finance Commission period, 2021-22 to 2025-26",
+   "2019-20 to 2025-26",
+   "2018-19 to 2023-24"
+  ],
+  "correct": 2,
+  "exp": "Mission Shakti is implemented during the 15th Finance Commission period from 2021-22 to 2025-26."
+ },
+ {
+  "id": "q0074",
+  "section": "Mission Shakti - Overview",
+  "difficulty": "Moderate",
+  "question": "Mission Shakti comprises how many sub-schemes, and what are they called?",
+  "options": [
+   "Three sub-schemes — Sambal, Samarthya and Vatsalya",
+   "Two sub-schemes — Poshan and Sambal",
+   "Two sub-schemes — Sambal and Shakti Sadan",
+   "Two sub-schemes — 'Sambal' and 'Samarthya'",
+   "Four sub-schemes"
+  ],
+  "correct": 3,
+  "exp": "Mission Shakti has two sub-schemes: 'Sambal' (for safety and security) and 'Samarthya' (for empowerment)."
+ },
+ {
+  "id": "q0075",
+  "section": "Mission Shakti - Overview",
+  "difficulty": "Moderate",
+  "question": "Which of the following is one of the stated objectives of Mission Shakti?",
+  "options": [
+   "Provide universal basic income to all women",
+   "Mandate creche in every private residence",
+   "Set up a separate women's court in every village",
+   "Reserve 50% seats in Parliament for women",
+   "Prevent gender-biased sex selection and ensure survival, protection, education and development of the girl child"
+  ],
+  "correct": 4,
+  "exp": "Preventing gender-biased sex selection and ensuring survival, protection, education, and development of the girl child is one of the 7 listed objectives of Mission Shakti."
+ },
+ {
+  "id": "q0076",
+  "section": "Mission Shakti - Overview",
+  "difficulty": "Hard",
+  "question": "Consider the following statements regarding the sub-schemes formerly under MPEW:\nI. Ujjawala dealt with rehabilitation and rescue of trafficking victims.\nII. Working Women Hostel (WWH) provided accommodation facilities for working women in urban areas.\nIII. Beti Bachao Beti Padhao addressed gender imbalance and girl child education.\nIV. National Creche Scheme was a sub-scheme under MPEW.\nHow many of the above statements are correct?",
+  "options": [
+   "Only one",
+   "Only two",
+   "Only three",
+   "All four",
+   "None of the above are correct"
+  ],
+  "correct": 2,
+  "exp": "The National Creche Scheme (PALNA) is combined under Samarthya but is not listed among the original MPEW sub-schemes named in the document; the other three statements are correct."
+ },
+ {
+  "id": "q0077",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Moderate",
+  "question": "Which of the following is the 'new component' introduced under Sambal (not an existing scheme)?",
+  "options": [
+   "Ujjawala",
+   "Nari Adalat",
+   "One Stop Centre",
+   "Beti Bachao Beti Padhao",
+   "Women Helpline"
+  ],
+  "correct": 1,
+  "exp": "OSC, WHL and BBBP are existing schemes under Sambal; Nari Adalat is the new component."
+ },
+ {
+  "id": "q0078",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Moderate",
+  "question": "Who heads/chairs the Programme Approval Board (PAB) under Mission Shakti?",
+  "options": [
+   "District Magistrate",
+   "Cabinet Secretary",
+   "Secretary, Women and Child Development",
+   "Minister of WCD",
+   "Chief Secretary of the State"
+  ],
+  "correct": 2,
+  "exp": "The PAB is constituted under MoWCD and headed by the Secretary of Women and Child Development."
+ },
+ {
+  "id": "q0079",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Hard",
+  "question": "Which of the following institutions is NOT listed as involved in training and capacity-building under Sambal?",
+  "options": [
+   "NALSA",
+   "NIPCCD",
+   "BPR&D",
+   "IIT Delhi",
+   "NIMHANS"
+  ],
+  "correct": 3,
+  "exp": "Training institutions listed include NIPCCD, State ATIs, BPR&D, NALSA and NIMHANS — IIT Delhi is not mentioned."
+ },
+ {
+  "id": "q0080",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Moderate",
+  "question": "What is the 'Hub for Empowerment of Women (HEW)' primarily responsible for?",
+  "options": [
+   "Disbursing PMMVY cash benefits",
+   "Running Anganwadi Centres",
+   "Conducting POCSO trials",
+   "Issuing Aadhaar cards to women",
+   "Monitoring scheme performance and gathering stakeholder feedback"
+  ],
+  "correct": 4,
+  "exp": "HEW monitors scheme performance and gathers stakeholder feedback under Mission Shakti."
+ },
+ {
+  "id": "q0081",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Moderate",
+  "question": "How many additional One Stop Centres (OSCs) are proposed under expansion, targeted at high-crime/large geographical/aspirational districts?",
+  "options": [
+   "300 more OSCs",
+   "150 more OSCs",
+   "100 more OSCs",
+   "500 more OSCs",
+   "250 more OSCs"
+  ],
+  "correct": 0,
+  "exp": "300 more OSCs are proposed in high-crime or large geographical areas and aspirational districts."
+ },
+ {
+  "id": "q0082",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Moderate",
+  "question": "At an OSC, temporary shelter is available for needy women and their children for up to how many days?",
+  "options": [
+   "15 days",
+   "5 days",
+   "10 days",
+   "7 days",
+   "3 days"
+  ],
+  "correct": 1,
+  "exp": "Temporary shelter at OSC is available for up to 5 days for needy women and their children (girls of all ages, boys up to 12 years)."
+ },
+ {
+  "id": "q0083",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Hard",
+  "question": "Under the boy-child accommodation policy at an OSC, up to what age can boys stay with their mothers?",
+  "options": [
+   "Up to 16 years",
+   "Up to 14 years",
+   "Up to 12 years",
+   "Up to 10 years",
+   "Up to 18 years"
+  ],
+  "correct": 2,
+  "exp": "At OSCs, girls of all ages and boys up to 12 years can stay with their mothers."
+ },
+ {
+  "id": "q0084",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Hard",
+  "question": "As per the new OSC setup norms, what is the minimum plot size prescribed for plain areas?",
+  "options": [
+   "250 Sq.m.",
+   "400 Sq.m.",
+   "150 Sq.m.",
+   "300 Sq.m.",
+   "500 Sq.m."
+  ],
+  "correct": 3,
+  "exp": "New OSCs require a minimum plot size of 300 Sq.m. with a built-up area of 150 Sq.m. for plain areas."
+ },
+ {
+  "id": "q0085",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Hard",
+  "question": "What is the estimated construction cost for a new OSC in Delhi and NCR?",
+  "options": [
+   "Rs. 40.00 lakh",
+   "Rs. 75.00 lakh",
+   "Rs. 50.00 lakh",
+   "Rs. 1 crore",
+   "Rs. 60.00 lakh (with 5% variable cost allowance)"
+  ],
+  "correct": 4,
+  "exp": "Construction cost for new OSCs is estimated at Rs. 60.00 lakh for Delhi and NCR, with a 5% variable cost allowance."
+ },
+ {
+  "id": "q0086",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Hard",
+  "question": "As per the document, how many One Stop Centres are functional, and in how many districts?",
+  "options": [
+   "19 OSCs functional in 19 districts",
+   "50 OSCs in 40 districts",
+   "300 OSCs in 250 districts",
+   "19 OSCs in 25 districts",
+   "100 OSCs in 75 districts"
+  ],
+  "correct": 0,
+  "exp": "The document states 19 One Stop Centres are functional in 19 districts."
+ },
+ {
+  "id": "q0087",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Moderate",
+  "question": "The Women Helpline is a 24-hour toll-free service connecting women to which system?",
+  "options": [
+   "National Crime Records Bureau",
+   "Emergency Response Support System (ERSS)",
+   "Mission Vatsalya Portal",
+   "POCSO e-Box",
+   "Child Helpline 1098"
+  ],
+  "correct": 1,
+  "exp": "The Women Helpline connects women to the Emergency Response Support System (ERSS) for police, fire, ambulance, and OSCs."
+ },
+ {
+  "id": "q0088",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Moderate",
+  "question": "In which year was Beti Bachao Beti Padhao (BBBP) launched?",
+  "options": [
+   "2016",
+   "2014",
+   "2015",
+   "2017",
+   "2013"
+  ],
+  "correct": 2,
+  "exp": "BBBP was launched in 2015."
+ },
+ {
+  "id": "q0089",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Hard",
+  "question": "Originally, BBBP involved which three ministries; which two ministries were added later?",
+  "options": [
+   "Originally MoWCD, Home Affairs, and Finance; later Rural Development and Panchayati Raj",
+   "Originally MoWCD, Finance, and Health; later Education and Skill Development",
+   "Originally MoWCD, Law, and Health; later Education and Culture",
+   "Originally MoWCD, Education, and Health & FW; later Skill Development & Entrepreneurship, and Minority Affairs were added",
+   "Originally MoWCD, Education, and Rural Development; later Health and Minority Affairs"
+  ],
+  "correct": 3,
+  "exp": "BBBP originally involved MoWCD, Ministry of Education, and Ministry of Health & Family Welfare; Ministry of Skill Development & Entrepreneurship and Ministry of Minority Affairs were added subsequently."
+ },
+ {
+  "id": "q0090",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Moderate",
+  "question": "BBBP was previously operational in how many districts before expanding to all districts?",
+  "options": [
+   "640 districts",
+   "250 districts",
+   "300 districts",
+   "500 districts",
+   "405 districts"
+  ],
+  "correct": 4,
+  "exp": "BBBP now covers all districts through multi-sectoral interventions; it was previously operational in 405 districts."
+ },
+ {
+  "id": "q0091",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Hard",
+  "question": "As per BBBP aims, by how many points annually is the Sex Ratio at Birth (SRB) targeted to improve?",
+  "options": [
+   "2 points annually",
+   "5 points annually",
+   "1 point annually",
+   "3 points annually",
+   "0.5 point annually"
+  ],
+  "correct": 0,
+  "exp": "One of the BBBP aims is to improve the Sex Ratio at Birth (SRB) by 2 points annually."
+ },
+ {
+  "id": "q0092",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Moderate",
+  "question": "BBBP aims to maintain or increase institutional deliveries to what percentage or above?",
+  "options": [
+   "90% or above",
+   "95% or above",
+   "80% or above",
+   "99% or above",
+   "85% or above"
+  ],
+  "correct": 1,
+  "exp": "BBBP aims to maintain or increase institutional deliveries to 95% or above."
+ },
+ {
+  "id": "q0093",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Moderate",
+  "question": "Who is designated as the nodal officer at the district level for BBBP implementation?",
+  "options": [
+   "Chief Medical Officer",
+   "Block Development Officer",
+   "District Probation/Programme Officer (DPO)",
+   "District Magistrate",
+   "District Social Welfare Officer"
+  ],
+  "correct": 2,
+  "exp": "The District Probation/Programme Officer (DPO) is the nodal officer for BBBP implementation at the district level."
+ },
+ {
+  "id": "q0094",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Hard",
+  "question": "Under BBBP, is there a provision for Direct Benefit Transfer (DBT) or creation of capital assets?",
+  "options": [
+   "DBT is allowed only in Aspirational Districts",
+   "Yes, capital assets can be created but not DBT",
+   "Only capital assets are allowed, not cash incentives",
+   "No, there is no provision for DBT or creation of capital assets under BBBP",
+   "Yes, DBT of Rs. 5,000 is provided"
+  ],
+  "correct": 3,
+  "exp": "The document explicitly states there is no provision for Direct Benefit Transfer (DBT) or creation of capital assets under BBBP."
+ },
+ {
+  "id": "q0095",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Hard",
+  "question": "Under BBBP funding, what annual allocation is given to districts with SRB less than or equal to 918?",
+  "options": [
+   "Rs. 30 Lakh/year",
+   "Rs. 50 Lakh/year",
+   "Rs. 25 Lakh/year",
+   "Rs. 20 Lakh/year",
+   "Rs. 40 Lakh/year"
+  ],
+  "correct": 4,
+  "exp": "Districts with SRB ≤ 918 receive Rs. 40 Lakh/year, the highest allocation tier under BBBP."
+ },
+ {
+  "id": "q0096",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Hard",
+  "question": "Under BBBP funding, what annual allocation is given to districts with SRB greater than 952?",
+  "options": [
+   "Rs. 20 Lakh/year",
+   "Rs. 25 Lakh/year",
+   "Rs. 40 Lakh/year",
+   "Rs. 30 Lakh/year",
+   "Rs. 10 Lakh/year"
+  ],
+  "correct": 0,
+  "exp": "Districts with SRB > 952 (better sex ratio) receive the lowest allocation of Rs. 20 Lakh/year."
+ },
+ {
+  "id": "q0097",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Moderate",
+  "question": "What is the primary purpose of the newly introduced 'Nari Adalat'?",
+  "options": [
+   "To replace Family Courts",
+   "To provide an alternate grievance redressal mechanism for petty cases faced by women at the Gram Panchayat level",
+   "To handle POCSO cases exclusively",
+   "To register FIRs against employers",
+   "To try heinous crimes against women in fast-track courts"
+  ],
+  "correct": 1,
+  "exp": "Nari Adalat provides an alternate grievance redressal mechanism for resolving petty cases like harassment, subversion, and curtailment of rights faced by women at the Gram Panchayat level."
+ },
+ {
+  "id": "q0098",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Moderate",
+  "question": "Nari Adalats are initially launched in selected States/UTs where Gram Panchayats are headed by whom, in Aspirational Districts?",
+  "options": [
+   "District Collectors",
+   "NGO representatives",
+   "Elected Women Representatives (EWRs)",
+   "Male Sarpanches",
+   "Block Development Officers"
+  ],
+  "correct": 2,
+  "exp": "Nari Adalats are initially launched where Elected Women Representatives (EWRs) head the Gram Panchayats in Aspirational Districts."
+ },
+ {
+  "id": "q0099",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Moderate",
+  "question": "In the second year of Nari Adalat implementation, formal women collectives are to be established with how many members?",
+  "options": [
+   "10 to 15 members",
+   "5 to 7 members",
+   "15 to 20 members",
+   "7 to 11 members",
+   "3 to 5 members"
+  ],
+  "correct": 3,
+  "exp": "In the second year, women are trained in women-related laws and schemes, and formal women collectives are established with 7 to 11 members."
+ },
+ {
+  "id": "q0100",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Moderate",
+  "question": "Is remuneration paid to members of Nari Adalat?",
+  "options": [
+   "Yes, Rs. 5,000 per month is paid",
+   "Only the presiding member is paid",
+   "Remuneration equal to AWH honorarium is paid",
+   "Yes, an honorarium of Rs. 2,000 per meeting is paid",
+   "No remuneration is paid; only out-of-pocket expenses are covered"
+  ],
+  "correct": 4,
+  "exp": "There is no remuneration for Nari Adalat members; only out-of-pocket expenses for meetings and badges/uniforms are covered by the Ministry."
+ },
+ {
+  "id": "q0101",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Hard",
+  "question": "Which of the following statements about Sambal is NOT correct?",
+  "options": [
+   "Sambal is entirely funded and implemented without any monitoring, audit, or capacity-building framework.",
+   "Nari Adalat is the new component introduced under Sambal.",
+   "The PAB under Mission Shakti approves financial proposals from States/UTs.",
+   "Sambal includes the existing schemes of OSC, WHL and BBBP.",
+   "Audits are conducted per Comptroller & Auditor General of India norms and social audits are also undertaken."
+  ],
+  "correct": 0,
+  "exp": "Sambal has a robust monitoring (HEW, Gender Index, geo-tagging) and audit framework (CAG norms plus social audit) — the statement claiming absence of any such framework is false."
+ },
+ {
+  "id": "q0102",
+  "section": "Sambal (Safety & Security)",
+  "difficulty": "Hard",
+  "question": "Consider the following statements about BBBP:\nI. It was launched in 2015.\nII. It aims to increase 1st Trimester ANC Registration by 1% annually.\nIII. It aims to reduce dropout rates among girls at secondary and higher secondary levels.\nIV. It provides a Direct Benefit Transfer of Rs. 5,000 to each registered girl child.\nHow many of the above statements are correct?",
+  "options": [
+   "Only one",
+   "Only two",
+   "Only three",
+   "All four",
+   "None of the above are correct"
+  ],
+  "correct": 2,
+  "exp": "BBBP explicitly has no DBT/capital asset creation provision; the other three statements accurately reflect the scheme."
+ },
+ {
+  "id": "q0103",
+  "section": "Samarthya (Empowerment)",
+  "difficulty": "Moderate",
+  "question": "Samarthya combines which of the following existing schemes?",
+  "options": [
+   "OSC, WHL, BBBP and Nari Adalat",
+   "Ujjawala, MSK, WWH and BBBP",
+   "SwadharGreh (now Shakti Sadan), Working Women Hostel, National Creche Scheme, and PMMVY",
+   "Anganwadi Services, PMMVY and OSC",
+   "SAG, PALNA, and Anganwadi Infrastructure"
+  ],
+  "correct": 2,
+  "exp": "Samarthya combines SwadharGreh (now Shakti Sadan), Working Women Hostel, National Creche Scheme, and PMMVY."
+ },
+ {
+  "id": "q0104",
+  "section": "Samarthya (Empowerment)",
+  "difficulty": "Hard",
+  "question": "What does the acronym 'SANKALP' stand for in the context of Samarthya's Hub for Empowerment of Women?",
+  "options": [
+   "Sustainable Action for New Knowledge and Learning Programme",
+   "Strategic Action for National Knowledge and Livelihood Programme",
+   "Support and National Key Action for Livelihood Programme",
+   "Supportive Action for Nurturing and Knowledge-Based Advancement, Last-Mile Delivery and Potential Realisation of Women",
+   "Special Action for Nutrition, Knowledge and Livelihood Programme"
+  ],
+  "correct": 3,
+  "exp": "SANKALP stands for Supportive Action for Nurturing and Knowledge-Based Advancement, Last-Mile Delivery and Potential Realisation of Women (HEW)."
+ },
+ {
+  "id": "q0105",
+  "section": "Samarthya (Empowerment)",
+  "difficulty": "Moderate",
+  "question": "At how many levels is SANKALP: HEW functional?",
+  "options": [
+   "Only National level",
+   "Village, Block and District levels",
+   "National and State levels only",
+   "Block, District and State levels",
+   "National, State and District levels"
+  ],
+  "correct": 4,
+  "exp": "SANKALP: HEW is functional at the National, State and District levels."
+ },
+ {
+  "id": "q0106",
+  "section": "Samarthya (Empowerment)",
+  "difficulty": "Hard",
+  "question": "How many specialists/manpower does the National Hub for Empowerment of Women (NHEW) consist of at the Central Level?",
+  "options": [
+   "26 specialists/manpower",
+   "30 specialists/manpower",
+   "8 specialists/manpower",
+   "15 specialists/manpower",
+   "20 specialists/manpower"
+  ],
+  "correct": 0,
+  "exp": "NHEW at the Central Level consists of 26 specialists/manpower."
+ },
+ {
+  "id": "q0107",
+  "section": "Samarthya (Empowerment)",
+  "difficulty": "Moderate",
+  "question": "What is the maximum team size for the State Hub for Empowerment of Women (SHEW)?",
+  "options": [
+   "Up to 26 persons",
+   "Up to 8 persons",
+   "Up to 12 persons",
+   "Up to 15 persons",
+   "Up to 5 persons"
+  ],
+  "correct": 1,
+  "exp": "SHEW has a team of up to 8 persons depending on population/geographical area of the State."
+ },
+ {
+  "id": "q0108",
+  "section": "Samarthya (Empowerment)",
+  "difficulty": "Moderate",
+  "question": "What is the maximum team size for the District Hub for Empowerment of Women (DHEW)?",
+  "options": [
+   "Up to 26 persons",
+   "Up to 15 persons",
+   "Up to 8 persons",
+   "Up to 10 persons",
+   "Up to 4 persons"
+  ],
+  "correct": 2,
+  "exp": "DHEW has a specialised team of up to 8 persons depending on population/geographical area of the district."
+ },
+ {
+  "id": "q0109",
+  "section": "Shakti Sadan",
+  "difficulty": "Moderate",
+  "question": "Existing SwadharGreh homes run by NGOs were to be integrated into the new Shakti Sadan scheme by what date?",
+  "options": [
+   "1-4-2025",
+   "31-3-2025",
+   "31-12-2024",
+   "31-3-2024",
+   "31-3-2023"
+  ],
+  "correct": 3,
+  "exp": "Existing homes run by NGOs were to be integrated into the new scheme by 31-3-2024."
+ },
+ {
+  "id": "q0110",
+  "section": "Shakti Sadan",
+  "difficulty": "Moderate",
+  "question": "Under Shakti Sadan, residents are assisted in opening bank accounts with what monthly deposit per resident?",
+  "options": [
+   "Rs. 750 per month per resident",
+   "Rs. 1,000 per month per resident",
+   "Rs. 250 per month per resident",
+   "Rs. 300 per month per resident",
+   "Rs. 500 per month per resident"
+  ],
+  "correct": 4,
+  "exp": "Residents are assisted in opening bank accounts with a deposit of Rs. 500 per month per resident."
+ },
+ {
+  "id": "q0111",
+  "section": "Shakti Sadan",
+  "difficulty": "Moderate",
+  "question": "Under which health scheme are residents of Shakti Sadan provided medical/social security benefits?",
+  "options": [
+   "Ayushman Bharat Yojana (or similar schemes)",
+   "Rashtriya Swasthya Bima Yojana",
+   "PMMVY",
+   "Central Government Health Scheme",
+   "Employees State Insurance Scheme"
+  ],
+  "correct": 0,
+  "exp": "Residents receive social security benefits including medical benefits under Ayushman Bharat Yojana or similar schemes."
+ },
+ {
+  "id": "q0112",
+  "section": "Shakti Sadan",
+  "difficulty": "Hard",
+  "question": "What is the maximum duration of long-term stay available for women and trafficking victims at Shakti Sadan (without special extension)?",
+  "options": [
+   "Up to one year",
+   "Up to three years",
+   "Up to five years",
+   "Up to two years",
+   "Up to six months"
+  ],
+  "correct": 1,
+  "exp": "Long-term stays of up to three years are available at Shakti Sadan; extension beyond three years requires District Magistrate approval."
+ },
+ {
+  "id": "q0113",
+  "section": "Shakti Sadan",
+  "difficulty": "Hard",
+  "question": "Extension of stay beyond three years at Shakti Sadan requires approval by whom?",
+  "options": [
+   "The Sessions Judge",
+   "The State Women's Commission",
+   "The District Magistrate",
+   "The Chief Secretary",
+   "The Secretary, MoWCD"
+  ],
+  "correct": 2,
+  "exp": "Extension beyond three years requires approval by the District Magistrate."
+ },
+ {
+  "id": "q0114",
+  "section": "Shakti Sadan",
+  "difficulty": "Moderate",
+  "question": "Older women (above what age) can stay at Shakti Sadan for up to five years before being moved to old age homes?",
+  "options": [
+   "Above 65 years",
+   "Above 60 years",
+   "Above 50 years",
+   "Above 55 years",
+   "Above 45 years"
+  ],
+  "correct": 3,
+  "exp": "Older women above 55 years can stay for up to five years, after which they are moved to old age homes."
+ },
+ {
+  "id": "q0115",
+  "section": "Shakti Sadan",
+  "difficulty": "Moderate",
+  "question": "At Shakti Sadan, up to what age can boys stay with their mothers before being moved to Children Homes under the JJ Act/ICPS?",
+  "options": [
+   "Up to 14 years",
+   "Up to 10 years",
+   "Up to 18 years",
+   "Up to 16 years",
+   "Up to 12 years"
+  ],
+  "correct": 4,
+  "exp": "Unmarried girls of any age and boys up to 12 years can stay with their mothers; boys over 12 are moved to Children Homes under the JJ Act/ICPS."
+ },
+ {
+  "id": "q0116",
+  "section": "Shakti Sadan",
+  "difficulty": "Hard",
+  "question": "The 'Home for Widows' under Anti-Human Trafficking Units (AHTUs) is designed to accommodate how many widows?",
+  "options": [
+   "1,000 widows",
+   "750 widows",
+   "2,000 widows",
+   "500 widows",
+   "1,500 widows"
+  ],
+  "correct": 0,
+  "exp": "The Home for Widows accommodates 1,000 widows, providing safe stay, health services, food, legal, and counselling services."
+ },
+ {
+  "id": "q0117",
+  "section": "Shakti Sadan",
+  "difficulty": "Moderate",
+  "question": "Which of the following is NOT one of the services listed under Anti-Human Trafficking Units (AHTUs)?",
+  "options": [
+   "Cross-Border Repatriation",
+   "Fast-Track Court establishment for trafficking cases",
+   "Restoration to Families",
+   "Half-Way Home",
+   "Home for Widows"
+  ],
+  "correct": 1,
+  "exp": "AHTU services listed are Half-Way Home, Restoration to Families, Cross-Border Repatriation, and Home for Widows — establishing Fast-Track Courts is not listed as an AHTU service in the document."
+ },
+ {
+  "id": "q0118",
+  "section": "Sakhi Niwas (Working Women Hostel)",
+  "difficulty": "Moderate",
+  "question": "In which year was the Working Women Hostel scheme originally introduced?",
+  "options": [
+   "1975-76",
+   "1990-91",
+   "1972-73",
+   "1985-86",
+   "1980-81"
+  ],
+  "correct": 2,
+  "exp": "The scheme was introduced in 1972-73 to provide hostel facilities for working women."
+ },
+ {
+  "id": "q0119",
+  "section": "Sakhi Niwas (Working Women Hostel)",
+  "difficulty": "Moderate",
+  "question": "In which year was the Working Women Hostel scheme revised, becoming part of Sakhi Niwas?",
+  "options": [
+   "2019",
+   "2013",
+   "2015",
+   "2017",
+   "2021"
+  ],
+  "correct": 3,
+  "exp": "The scheme was revised in 2017 and is now part of the Sakhi Niwas component."
+ },
+ {
+  "id": "q0120",
+  "section": "Sakhi Niwas (Working Women Hostel)",
+  "difficulty": "Hard",
+  "question": "Women undergoing job training are eligible for accommodation, but such women should not exceed what percentage of total hostel capacity?",
+  "options": [
+   "50% of total capacity",
+   "40% of total capacity",
+   "20% of total capacity",
+   "10% of total capacity",
+   "30% of total capacity"
+  ],
+  "correct": 4,
+  "exp": "Women undergoing job training are eligible, not exceeding 30% of total capacity."
+ },
+ {
+  "id": "q0121",
+  "section": "Sakhi Niwas (Working Women Hostel)",
+  "difficulty": "Moderate",
+  "question": "Under Sakhi Niwas, girls can be accommodated up to what age, and boys up to what age?",
+  "options": [
+   "Girls up to 18 years, boys up to 12 years",
+   "Girls up to 21 years, boys up to 12 years",
+   "Girls up to 21 years, boys up to 14 years",
+   "Girls up to 16 years, boys up to 10 years",
+   "Girls up to 18 years, boys up to 10 years"
+  ],
+  "correct": 0,
+  "exp": "Accommodation for children is available for girls up to 18 years and boys up to 12 years."
+ },
+ {
+  "id": "q0122",
+  "section": "Sakhi Niwas (Working Women Hostel)",
+  "difficulty": "Hard",
+  "question": "What is the gross monthly income ceiling for eligibility at a Working Women Hostel in metropolitan cities?",
+  "options": [
+   "Rs. 45,000 per month (gross)",
+   "Rs. 50,000 per month (gross)",
+   "Rs. 60,000 per month (gross)",
+   "Rs. 35,000 per month (gross)",
+   "Rs. 40,000 per month (gross)"
+  ],
+  "correct": 1,
+  "exp": "The income ceiling in metropolitan cities is Rs. 50,000 per month (gross); in other areas it is Rs. 35,000 per month (gross)."
+ },
+ {
+  "id": "q0123",
+  "section": "Sakhi Niwas (Working Women Hostel)",
+  "difficulty": "Moderate",
+  "question": "What is the income ceiling for Working Women Hostel eligibility in non-metropolitan areas?",
+  "options": [
+   "Rs. 25,000 per month (gross)",
+   "Rs. 40,000 per month (gross)",
+   "Rs. 35,000 per month (gross)",
+   "Rs. 50,000 per month (gross)",
+   "Rs. 30,000 per month (gross)"
+  ],
+  "correct": 2,
+  "exp": "In areas other than metropolitan cities, the income ceiling is Rs. 35,000 per month (gross)."
+ },
+ {
+  "id": "q0124",
+  "section": "Sakhi Niwas (Working Women Hostel)",
+  "difficulty": "Hard",
+  "question": "Under Sakhi Niwas, what percentage of total emoluments/gross salary is charged as rent for a single bedroom?",
+  "options": [
+   "12.5%",
+   "20%",
+   "7.5%",
+   "15%",
+   "10%"
+  ],
+  "correct": 3,
+  "exp": "Rent for single bedrooms is 15% of total emoluments/gross salary; double bedrooms 10%; dormitories 7.5%."
+ },
+ {
+  "id": "q0125",
+  "section": "Sakhi Niwas (Working Women Hostel)",
+  "difficulty": "Moderate",
+  "question": "What percentage is charged as rent for a dormitory bed under Sakhi Niwas?",
+  "options": [
+   "12.5%",
+   "10%",
+   "15%",
+   "5%",
+   "7.5%"
+  ],
+  "correct": 4,
+  "exp": "Dormitory rent is 7.5% of total emoluments/gross salary."
+ },
+ {
+  "id": "q0126",
+  "section": "Sakhi Niwas (Working Women Hostel)",
+  "difficulty": "Moderate",
+  "question": "Day care fees for children of resident working women should not exceed what percentage of the mother's emoluments (or actual expenditure, whichever is less)?",
+  "options": [
+   "5%",
+   "2.5%",
+   "7.5%",
+   "10%",
+   "3%"
+  ],
+  "correct": 0,
+  "exp": "Day care fees should not be more than 5% of the mother's emoluments or the actual expenditure, whichever is less."
+ },
+ {
+  "id": "q0127",
+  "section": "Sakhi Niwas (Working Women Hostel)",
+  "difficulty": "Moderate",
+  "question": "Who chairs the Hostel Management Committee (HMC) responsible for daily monitoring of Sakhi Niwas?",
+  "options": [
+   "Block Development Officer",
+   "District Programme Officer WCD/District Social Welfare Officer",
+   "Chief Executive Officer, Zila Parishad",
+   "Secretary, MoWCD",
+   "District Magistrate"
+  ],
+  "correct": 1,
+  "exp": "The HMC is chaired by the District Programme Officer WCD/District Social Welfare Officer."
+ },
+ {
+  "id": "q0128",
+  "section": "National Creche Scheme (PALNA)",
+  "difficulty": "Moderate",
+  "question": "The National Creche Scheme (PALNA) provides care to children of working mothers in which age group?",
+  "options": [
+   "6 months to 5 years",
+   "1 to 6 years",
+   "6 months to 6 years",
+   "0 to 6 years",
+   "3 to 6 years"
+  ],
+  "correct": 2,
+  "exp": "PALNA provides a safe place for children of working mothers aged 6 months to 6 years."
+ },
+ {
+  "id": "q0129",
+  "section": "National Creche Scheme (PALNA)",
+  "difficulty": "Moderate",
+  "question": "For how many hours per day does a PALNA creche facility operate?",
+  "options": [
+   "8 hours a day",
+   "5 hours a day",
+   "9 hours a day",
+   "7 1/2 hours a day",
+   "6 hours a day"
+  ],
+  "correct": 3,
+  "exp": "The creche facility operates for 7 1/2 hours a day."
+ },
+ {
+  "id": "q0130",
+  "section": "National Creche Scheme (PALNA)",
+  "difficulty": "Moderate",
+  "question": "Ideally, the number of children in a single PALNA creche facility should not exceed how many?",
+  "options": [
+   "20 children",
+   "30 children",
+   "50 children",
+   "15 children",
+   "25 children"
+  ],
+  "correct": 4,
+  "exp": "Ideally, the number of children in a crèche facility should not be more than 25."
+ },
+ {
+  "id": "q0131",
+  "section": "PMMVY",
+  "difficulty": "Moderate",
+  "question": "What is the primary objective of the cash incentive under PMMVY?",
+  "options": [
+   "To partially compensate for wage loss so women can rest before and after delivery of their first child",
+   "To fund the entire cost of hospital delivery",
+   "To subsidize private maternity insurance",
+   "To fund purchase of baby products",
+   "To provide unemployment benefit to new mothers"
+  ],
+  "correct": 0,
+  "exp": "PMMVY provides cash incentives to partially compensate for wage loss, allowing women to rest adequately before and after delivery of their first child."
+ },
+ {
+  "id": "q0132",
+  "section": "PMMVY",
+  "difficulty": "Moderate",
+  "question": "What is the minimum maternity benefit (cash incentive) provided under PMMVY, disbursed in two installments?",
+  "options": [
+   "At least Rs. 3,000",
+   "At least Rs. 5,000",
+   "At least Rs. 10,000",
+   "At least Rs. 6,000",
+   "At least Rs. 4,000"
+  ],
+  "correct": 1,
+  "exp": "The maternity benefit is at least Rs. 5,000, given in two installments."
+ },
+ {
+  "id": "q0133",
+  "section": "PMMVY",
+  "difficulty": "Moderate",
+  "question": "When integrated with Janani Suraksha Yojana (JSY), what is the average total benefit received by an eligible beneficiary?",
+  "options": [
+   "Rs. 5,000",
+   "Rs. 7,000",
+   "Rs. 6,000",
+   "Rs. 8,000",
+   "Rs. 5,500"
+  ],
+  "correct": 2,
+  "exp": "Eligible beneficiaries receive additional cash incentives under JSY after institutional delivery, taking the total average benefit to Rs. 6,000."
+ },
+ {
+  "id": "q0134",
+  "section": "PMMVY",
+  "difficulty": "Hard",
+  "question": "Under PMMVY eligibility, what is the maximum net family income (per annum) prescribed for disadvantaged sections?",
+  "options": [
+   "Less than Rs. 5 lakh per annum",
+   "Less than Rs. 12 lakh per annum",
+   "Less than Rs. 10 lakh per annum",
+   "Less than Rs. 8 lakh per annum",
+   "Less than Rs. 6 lakh per annum"
+  ],
+  "correct": 3,
+  "exp": "Women with a net family income of less than Rs. 8 lakh per annum are eligible under PMMVY."
+ },
+ {
+  "id": "q0135",
+  "section": "PMMVY",
+  "difficulty": "Moderate",
+  "question": "What minimum percentage of disability qualifies a woman as 'Divyang Jan' for PMMVY eligibility?",
+  "options": [
+   "25% or more",
+   "50% or more",
+   "60% or more",
+   "33% or more",
+   "40% or more"
+  ],
+  "correct": 4,
+  "exp": "Women with disabilities of 40% or more (Divyang Jan) are eligible under PMMVY."
+ },
+ {
+  "id": "q0136",
+  "section": "PMMVY",
+  "difficulty": "Hard",
+  "question": "Who among the following is explicitly NOT eligible for PMMVY benefits?",
+  "options": [
+   "Pregnant women in regular employment with the Central/State Government or a Public Sector Undertaking",
+   "Pregnant and lactating Anganwadi Workers/Helpers",
+   "Women holding MGNREGA job cards",
+   "Women farmers benefiting from Kisan Samman Nidhi",
+   "Women holding Below Poverty Line (BPL) ration cards"
+  ],
+  "correct": 0,
+  "exp": "All pregnant women/lactating mothers in regular employment with the Central/State Government or PSUs (or receiving similar statutory benefits) are NOT entitled to PMMVY benefits."
+ },
+ {
+  "id": "q0137",
+  "section": "PMMVY",
+  "difficulty": "Hard",
+  "question": "Under PMMVY, the benefit is available to a woman for how many living children, subject to conditions?",
+  "options": [
+   "All living children up to four",
+   "The first two living children, provided the second child is a girl",
+   "Only the first living child",
+   "The first three living children",
+   "Only if twins are born"
+  ],
+  "correct": 1,
+  "exp": "The benefit is available for the first two living children provided the second child is a girl."
+ },
+ {
+  "id": "q0138",
+  "section": "PMMVY",
+  "difficulty": "Moderate",
+  "question": "What is the maternity benefit amount for the first child under PMMVY, given in two instalments?",
+  "options": [
+   "Rs. 4,000",
+   "Rs. 3,000",
+   "Rs. 5,000",
+   "Rs. 6,000",
+   "Rs. 8,000"
+  ],
+  "correct": 2,
+  "exp": "For the first child, the amount is Rs. 5,000 in two instalments."
+ },
+ {
+  "id": "q0139",
+  "section": "PMMVY",
+  "difficulty": "Moderate",
+  "question": "What is the benefit amount for the second child (if a girl) under PMMVY, given in one instalment after birth?",
+  "options": [
+   "Rs. 3,000",
+   "Rs. 7,000",
+   "Rs. 5,000",
+   "Rs. 6,000",
+   "Rs. 4,000"
+  ],
+  "correct": 3,
+  "exp": "For the second child, subject to the child being a girl, the benefit of Rs. 6,000 is provided in one instalment after birth."
+ },
+ {
+  "id": "q0140",
+  "section": "PMMVY",
+  "difficulty": "Moderate",
+  "question": "What is required to avail PMMVY benefits for the second child (girl child)?",
+  "options": [
+   "Registration only after birth is sufficient",
+   "Only an Aadhaar card is needed",
+   "No registration is required",
+   "A caste certificate is mandatory",
+   "Registration during the pregnancy is mandatory"
+  ],
+  "correct": 4,
+  "exp": "For availing benefits for the second child, registration during the pregnancy is mandatory."
+ },
+ {
+  "id": "q0141",
+  "section": "PMMVY",
+  "difficulty": "Hard",
+  "question": "What is the amount and condition for the First Instalment under PMMVY?",
+  "options": [
+   "Rs. 3,000 on registration of pregnancy and at least one ANC check-up within 6 months from LMP date",
+   "Rs. 2,000 on child birth registration",
+   "Rs. 5,000 on registration alone",
+   "Rs. 3,000 only after delivery",
+   "Rs. 3,000 on completion of BCG vaccination"
+  ],
+  "correct": 0,
+  "exp": "The First Instalment of Rs. 3,000 is given on registration of pregnancy and at least one Ante-natal check-up within 6 months from the LMP date."
+ },
+ {
+  "id": "q0142",
+  "section": "PMMVY",
+  "difficulty": "Hard",
+  "question": "What is the amount and condition for the Second Instalment under PMMVY?",
+  "options": [
+   "Rs. 2,000 given immediately at delivery without conditions",
+   "Rs. 2,000, on registration of child birth and completion of first cycle of BCG, OPV, DPT and Hepatitis-B (or equivalent)",
+   "Rs. 1,000 on Aadhaar seeding",
+   "Rs. 2,000 on completion of one ANC check-up",
+   "Rs. 3,000 on registration of pregnancy"
+  ],
+  "correct": 1,
+  "exp": "The Second Instalment of Rs. 2,000 requires child birth registration and completion of the first cycle of BCG, OPV, DPT and Hepatitis-B (or equivalent/substitute)."
+ },
+ {
+  "id": "q0143",
+  "section": "PMMVY",
+  "difficulty": "Moderate",
+  "question": "Up to how many days after pregnancy can eligible beneficiaries apply for PMMVY?",
+  "options": [
+   "500 days",
+   "180 days",
+   "730 days",
+   "1,000 days",
+   "365 days"
+  ],
+  "correct": 2,
+  "exp": "Eligible beneficiaries can apply at any time up to 730 days after pregnancy."
+ },
+ {
+  "id": "q0144",
+  "section": "PMMVY",
+  "difficulty": "Hard",
+  "question": "Which document is considered for determining the date of pregnancy (LMP) under PMMVY?",
+  "options": [
+   "The Ayushman Bharat card",
+   "The Aadhaar card",
+   "The Voter ID card",
+   "The Mother and Child Protection (MCP) card",
+   "The Ration card"
+  ],
+  "correct": 3,
+  "exp": "The LMP registered in the Mother and Child Protection (MCP) card is considered as the date of pregnancy."
+ },
+ {
+  "id": "q0145",
+  "section": "PMMVY",
+  "difficulty": "Hard",
+  "question": "Which of the following statements about PMMVY convergence and eligibility is NOT correct?",
+  "options": [
+   "Implementation of PMMVY requires coordination with the Health Department and Panchayati Raj Institutions.",
+   "Women holding E-shram cards are eligible under PMMVY.",
+   "UIDAI is one of the departments/institutions PMMVY coordination requires.",
+   "Pregnant and lactating ASHAs are eligible for PMMVY benefits.",
+   "PMMVY benefits can be availed for an unlimited number of living children regardless of the child's gender."
+  ],
+  "correct": 4,
+  "exp": "PMMVY benefits are restricted to the first two living children, and the second child's benefit is conditional on that child being a girl — the claim of unlimited eligibility is false."
+ },
+ {
+  "id": "q0146",
+  "section": "PMMVY",
+  "difficulty": "Hard",
+  "question": "Consider the following statements on PMMVY:\nI. The scheme covers women belonging to Scheduled Castes and Scheduled Tribes.\nII. Women with PMJAY benefits under Ayushman Bharat are eligible.\nIII. The First Instalment amount is Rs. 3,000.\nIV. In case of twins/triplets in a second pregnancy, no incentive is available even if a child is a girl.\nHow many of the above statements are correct?",
+  "options": [
+   "Only one",
+   "Only two",
+   "Only three",
+   "All four",
+   "None of the above are correct"
+  ],
+  "correct": 2,
+  "exp": "The document explicitly provides for the second-girl-child incentive in cases of multiple births in the second pregnancy — so statement IV is incorrect."
+ },
+ {
+  "id": "q0147",
+  "section": "Mission Vatsalya - Overview",
+  "difficulty": "Easy",
+  "question": "What is the motto of Mission Vatsalya?",
+  "options": [
+   "'Nurture and Grow'",
+   "'Leave no child behind'",
+   "'Every child matters'",
+   "'Protecting our future'",
+   "'Child first, always'"
+  ],
+  "correct": 1,
+  "exp": "Mission Vatsalya's motto is to 'leave no child behind'."
+ },
+ {
+  "id": "q0148",
+  "section": "Mission Vatsalya - Overview",
+  "difficulty": "Moderate",
+  "question": "Prior to 2009-10, which three programmes addressed child protection before being merged?",
+  "options": [
+   "BBBP, Ujjawala and SwadharGreh",
+   "National Creche Scheme, PMMVY and SAG",
+   "Programme for Juvenile Justice, Integrated Programme for Street Children, and Scheme for Assistance to Homes for Children (Shishu Greh)",
+   "ICDS, ICPS and CPS",
+   "Mission Shakti, Mission Vatsalya and Poshan Abhiyan"
+  ],
+  "correct": 2,
+  "exp": "These three programmes were combined into the Integrated Child Protection Scheme (ICPS) post-2009."
+ },
+ {
+  "id": "q0149",
+  "section": "Mission Vatsalya - Overview",
+  "difficulty": "Moderate",
+  "question": "In which year was the Integrated Child Protection Scheme (ICPS) implemented as a centrally sponsored scheme?",
+  "options": [
+   "2007-2008",
+   "2005-2006",
+   "2012-2013",
+   "2009-2010",
+   "2015-2016"
+  ],
+  "correct": 3,
+  "exp": "ICPS combined the three earlier schemes and was implemented as a centrally sponsored scheme since 2009-2010."
+ },
+ {
+  "id": "q0150",
+  "section": "Mission Vatsalya - Overview",
+  "difficulty": "Moderate",
+  "question": "In which year was ICPS renamed to 'Child Protection Services (CPS) Scheme'?",
+  "options": [
+   "2009",
+   "2015",
+   "2019",
+   "2021",
+   "2017"
+  ],
+  "correct": 4,
+  "exp": "ICPS was renamed to Child Protection Services (CPS) Scheme in 2017."
+ },
+ {
+  "id": "q0151",
+  "section": "Mission Vatsalya - Overview",
+  "difficulty": "Easy",
+  "question": "From which year has the ICPS/CPS Scheme been subsumed under Mission Vatsalya?",
+  "options": [
+   "2021-22",
+   "2022-23",
+   "2020-21",
+   "2019-20",
+   "2017-18"
+  ],
+  "correct": 0,
+  "exp": "The ICPS Scheme has been subsumed under Mission Vatsalya from 2021-22 onwards."
+ },
+ {
+  "id": "q0152",
+  "section": "Mission Vatsalya - Overview",
+  "difficulty": "Hard",
+  "question": "Which of the following is NOT explicitly listed as one of the four things the 'mission' of Mission Vatsalya aims to do?",
+  "options": [
+   "Develop context-based solutions for holistic development of children",
+   "Directly employ all child protection staff as Central Government employees",
+   "Support and sustain children in difficult circumstances",
+   "Provide scope for encouraging innovative solutions",
+   "Cement convergent action"
+  ],
+  "correct": 1,
+  "exp": "The four stated aims are: support/sustain children in difficult circumstances, develop context-based solutions, encourage innovative solutions, and cement convergent action — not direct central employment of staff."
+ },
+ {
+  "id": "q0153",
+  "section": "Mission Vatsalya - Overview",
+  "difficulty": "Hard",
+  "question": "Consider the following statements about the objectives of Mission Vatsalya:\nI. Prioritisation of children keeping centrality of the child during all activities.\nII. Ensuring children's right to Survival, Development, Protection and Participation.\nIII. Discouraging private sector partnerships in child protection.\nIV. Encouraging participation of Panchayats and Municipal Local Bodies at village/ward level.\nHow many of the above statements are correct?",
+  "options": [
+   "Only one",
+   "Only two",
+   "Only three",
+   "All four",
+   "None of the above are correct"
+  ],
+  "correct": 2,
+  "exp": "Mission Vatsalya explicitly encourages private sector partnerships and interventions within the framework of law — statement III is the opposite of the actual objective."
+ },
+ {
+  "id": "q0154",
+  "section": "Mission Vatsalya - Institutional Framework",
+  "difficulty": "Moderate",
+  "question": "Under Mission Vatsalya's general fund-sharing pattern, what is the Centre:State ratio?",
+  "options": [
+   "70:30",
+   "50:50",
+   "90:10",
+   "60:40",
+   "100:0"
+  ],
+  "correct": 3,
+  "exp": "The general fund sharing pattern under Mission Vatsalya is Centre 60% and States/UTs with Legislature 40%."
+ },
+ {
+  "id": "q0155",
+  "section": "Mission Vatsalya - Institutional Framework",
+  "difficulty": "Moderate",
+  "question": "What is the special fund-sharing pattern under Mission Vatsalya for North-Eastern States, Hilly States, and J&K?",
+  "options": [
+   "Centre 60%, State 40%",
+   "Centre 100%, State 0%",
+   "Centre 75%, State 25%",
+   "Centre 80%, State 20%",
+   "Centre 90%, State 10%"
+  ],
+  "correct": 4,
+  "exp": "For NE States, Hilly States, and J&K, the fund-sharing pattern is Centre 90% and State 10%."
+ },
+ {
+  "id": "q0156",
+  "section": "Mission Vatsalya - Institutional Framework",
+  "difficulty": "Moderate",
+  "question": "For Union Territories without Legislature, what percentage of Mission Vatsalya funding does the Centre bear?",
+  "options": [
+   "100%",
+   "60%",
+   "75%",
+   "90%",
+   "50%"
+  ],
+  "correct": 0,
+  "exp": "For UTs without Legislature, the Centre bears 100% of the funding."
+ },
+ {
+  "id": "q0157",
+  "section": "Mission Vatsalya - Institutional Framework",
+  "difficulty": "Moderate",
+  "question": "Who chairs the Mission Vatsalya Project Approval Board (PAB)?",
+  "options": [
+   "Cabinet Secretary",
+   "Secretary, Ministry of Women and Child Development (MWCD)",
+   "District Magistrate",
+   "Chief Secretary of the State",
+   "Minister of Law and Justice"
+  ],
+  "correct": 1,
+  "exp": "The Mission Vatsalya PAB is chaired by the Secretary, MWCD, and scrutinizes/approves annual plans and financial proposals from States/UTs."
+ },
+ {
+  "id": "q0158",
+  "section": "Mission Vatsalya - Institutional Framework",
+  "difficulty": "Moderate",
+  "question": "Who heads the State Monitoring and Review Committee under Mission Vatsalya, and how often must it meet?",
+  "options": [
+   "Principal Secretary; annually",
+   "Cabinet Secretary; bi-annually",
+   "Chief Secretary of the State; at least bi-annually within a financial year",
+   "District Magistrate; quarterly",
+   "Secretary WCD; monthly"
+  ],
+  "correct": 2,
+  "exp": "The State Monitoring and Review Committee is headed by the Chief Secretary and meets at least bi-annually within a financial year."
+ },
+ {
+  "id": "q0159",
+  "section": "Mission Vatsalya - Institutional Framework",
+  "difficulty": "Moderate",
+  "question": "The State Adoption Resource Agency (SARA) supports which central body in promoting and regulating adoption?",
+  "options": [
+   "Ministry of Law and Justice",
+   "National Commission for Protection of Child Rights",
+   "National Institute of Public Cooperation and Child Development",
+   "Central Adoption Resource Authority (CARA)",
+   "State Child Welfare and Protection Committee"
+  ],
+  "correct": 3,
+  "exp": "SARA supports CARA in promoting in-country and regulating inter-country adoption."
+ },
+ {
+  "id": "q0160",
+  "section": "Mission Vatsalya - Institutional Framework",
+  "difficulty": "Moderate",
+  "question": "Who chairs the State Child Welfare and Protection Committee under Mission Vatsalya?",
+  "options": [
+   "District Magistrate",
+   "Chief Secretary",
+   "Director, NIPCCD",
+   "Secretary MWCD (Central)",
+   "Principal Secretary/Secretary WCD/DSJE"
+  ],
+  "correct": 4,
+  "exp": "The State Child Welfare and Protection Committee is chaired by the Principal Secretary/Secretary WCD/DSJE."
+ },
+ {
+  "id": "q0161",
+  "section": "Mission Vatsalya - Institutional Framework",
+  "difficulty": "Moderate",
+  "question": "At the district level, who oversees Mission Vatsalya implementation and chairs the District Child Welfare and Protection Committee?",
+  "options": [
+   "District Magistrate",
+   "District Child Protection Officer",
+   "Superintendent of Police",
+   "Chief Judicial Magistrate",
+   "District Programme Officer"
+  ],
+  "correct": 0,
+  "exp": "The District Magistrate oversees implementation in the district and chairs the District Child Welfare and Protection Committee, with quarterly review meetings."
+ },
+ {
+  "id": "q0162",
+  "section": "Mission Vatsalya - Institutional Framework",
+  "difficulty": "Moderate",
+  "question": "As per the Juvenile Justice Act 2015, which two bodies are mandatory to be established in each district under Mission Vatsalya?",
+  "options": [
+   "CARA and SAA",
+   "Juvenile Justice Board (JJB) and Child Welfare Committee (CWC)",
+   "SARA and SCPS",
+   "DCPU and SJPU only",
+   "NCPCR and NCW district units"
+  ],
+  "correct": 1,
+  "exp": "The JJB and CWC are both mandatory in each district as per the JJ Act, 2015, and Mission Vatsalya provides infrastructure/financial assistance for both."
+ },
+ {
+  "id": "q0163",
+  "section": "Mission Vatsalya - Institutional Framework",
+  "difficulty": "Moderate",
+  "question": "The Special Juvenile Police Unit (SJPU) is required to be established at what level, per the JJ Act 2015?",
+  "options": [
+   "Only in State capitals",
+   "At the Panchayat level",
+   "In every district and city",
+   "Only in metropolitan cities",
+   "At the National level only"
+  ],
+  "correct": 2,
+  "exp": "SJPU is required to be established in every district and city as per the Juvenile Justice Act, 2015."
+ },
+ {
+  "id": "q0164",
+  "section": "Mission Vatsalya - Institutional Framework",
+  "difficulty": "Hard",
+  "question": "Which of the following is NOT correctly matched with its role under Mission Vatsalya's institutional framework?",
+  "options": [
+   "DCPU — ensures service delivery and child protection under the District Magistrate's supervision.",
+   "SARA — supports CARA in promoting in-country and regulating inter-country adoption.",
+   "JJB — mandatory in each district and must have at least one woman member.",
+   "State Monitoring and Review Committee — headed by the District Magistrate and meets monthly.",
+   "SCPS — implementation, mapping and planning of Mission Vatsalya based on the JJ Act, 2015."
+  ],
+  "correct": 3,
+  "exp": "The State Monitoring and Review Committee is headed by the Chief Secretary of the State and meets at least bi-annually, not headed by the District Magistrate meeting monthly."
+ },
+ {
+  "id": "q0165",
+  "section": "Mission Vatsalya - Financial Support & Components",
+  "difficulty": "Moderate",
+  "question": "Financial support to the Child Welfare and Protection Committee comes from own revenue resources and what percentage of the untied grant earmarked for women/child activities with PRIs and ULBs?",
+  "options": [
+   "2%",
+   "10%",
+   "3%",
+   "15%",
+   "5%"
+  ],
+  "correct": 4,
+  "exp": "Funding sources include own revenue resources and 5% of the untied grant earmarked for women and child-related activities available with PRIs and urban local bodies."
+ },
+ {
+  "id": "q0166",
+  "section": "Mission Vatsalya - Financial Support & Components",
+  "difficulty": "Moderate",
+  "question": "What is the purpose of the Mission Vatsalya Portal?",
+  "options": [
+   "To provide a unified digital platform for MIS related to children in difficult circumstances (missing, orphaned, abandoned, surrendered)",
+   "To track Anganwadi Worker attendance",
+   "To issue Aadhaar cards to newborns",
+   "To process PMMVY cash transfers",
+   "To register marriages under the Hindu Marriage Act"
+  ],
+  "correct": 0,
+  "exp": "The Mission Vatsalya Portal provides a unified digital platform for various MIS related to children in difficult circumstances."
+ },
+ {
+  "id": "q0167",
+  "section": "Mission Vatsalya - Financial Support & Components",
+  "difficulty": "Moderate",
+  "question": "The Child Helpline under Mission Vatsalya is integrated with which system of the Ministry of Home Affairs?",
+  "options": [
+   "National Emergency Number Only for Police",
+   "Emergency Response Support System 112 (ERSS-112)",
+   "Digital Police Portal",
+   "National Cyber Crime Reporting Portal",
+   "CCTNS"
+  ],
+  "correct": 1,
+  "exp": "The 24x7 Child Helpline is integrated with the Emergency Response Support System 112 (ERSS-112) of the MHA."
+ },
+ {
+  "id": "q0168",
+  "section": "Mission Vatsalya - Financial Support & Components",
+  "difficulty": "Moderate",
+  "question": "Under the PM CARES for Children Scheme, what is the monthly financial support for non-institutional care (child with guardian)?",
+  "options": [
+   "Rs. 5,000 per month per child",
+   "Rs. 3,000 per month per child",
+   "Rs. 4,000 per month per child",
+   "Rs. 2,000 per month per child",
+   "Rs. 4,500 per month per child"
+  ],
+  "correct": 2,
+  "exp": "Non-institutional care support under PM CARES for Children is Rs. 4,000 per month per child."
+ },
+ {
+  "id": "q0169",
+  "section": "Mission Vatsalya - Financial Support & Components",
+  "difficulty": "Moderate",
+  "question": "Under the PM CARES for Children Scheme, what is the monthly maintenance grant given to Child Care Institutions for institutional care?",
+  "options": [
+   "Rs. 3,500 per month per child",
+   "Rs. 4,000 per month per child",
+   "Rs. 5,000 per month per child",
+   "Rs. 3,000 per month per child",
+   "Rs. 2,500 per month per child"
+  ],
+  "correct": 3,
+  "exp": "Institutional care maintenance grant under PM CARES for Children is Rs. 3,000 per month per child, given to CCIs."
+ },
+ {
+  "id": "q0170",
+  "section": "Institutional Services (CCIs)",
+  "difficulty": "Moderate",
+  "question": "Which of the following is NOT one of the four types of CCIs for Children in Need of Care and Protection (CNCP)?",
+  "options": [
+   "Children's Homes",
+   "Special Units for Children with Special Needs",
+   "Open Shelters",
+   "Specialized Adoption Agencies (SAA)",
+   "Places of Safety"
+  ],
+  "correct": 4,
+  "exp": "'Places of Safety' is a CCI meant for Children in Conflict with Law (CCL), not CNCP; CNCP institutions include Children's Homes, Special Units, Open Shelters, and SAA."
+ },
+ {
+  "id": "q0171",
+  "section": "Institutional Services (CCIs)",
+  "difficulty": "Hard",
+  "question": "Under Open Shelters, a unit for 25 children shall have what minimum carpet area?",
+  "options": [
+   "2000 sq. ft.",
+   "1500 sq. ft.",
+   "1000 sq. ft.",
+   "2500 sq. ft.",
+   "3000 sq. ft."
+  ],
+  "correct": 0,
+  "exp": "A unit for 25 children shall have a minimum carpet area of 2000 sq. ft. including a kitchen, two bathrooms and two toilets."
+ },
+ {
+  "id": "q0172",
+  "section": "Institutional Services (CCIs)",
+  "difficulty": "Moderate",
+  "question": "Specialized Adoption Agencies (SAA) are recognized to care for children below what age (orphaned, abandoned, surrendered)?",
+  "options": [
+   "Two years",
+   "Six years",
+   "Ten years",
+   "Three years",
+   "Eighteen years"
+  ],
+  "correct": 1,
+  "exp": "SAAs are recognized by state governments to care for children below six years, including orphans, abandoned, and surrendered children."
+ },
+ {
+  "id": "q0173",
+  "section": "Institutional Services (CCIs)",
+  "difficulty": "Moderate",
+  "question": "Which CCI is established for temporary reception, care, and rehabilitation of children alleged to be in conflict with the law?",
+  "options": [
+   "Special Homes",
+   "Vatsalya Sadan",
+   "Observation Homes",
+   "Open Shelters",
+   "Places of Safety"
+  ],
+  "correct": 2,
+  "exp": "Observation Homes are for temporary reception, care and rehabilitation of children alleged to be in conflict with the law."
+ },
+ {
+  "id": "q0174",
+  "section": "Institutional Services (CCIs)",
+  "difficulty": "Moderate",
+  "question": "Which CCI is established for long-term rehabilitation of children found to have committed offences, as ordered by the JJB?",
+  "options": [
+   "Open Shelters",
+   "Observation Homes",
+   "Places of Safety",
+   "Special Homes",
+   "Children's Homes"
+  ],
+  "correct": 3,
+  "exp": "Special Homes are established for long-term rehabilitation and protection of children found to have committed offences, as ordered by the JJB."
+ },
+ {
+  "id": "q0175",
+  "section": "Institutional Services (CCIs)",
+  "difficulty": "Moderate",
+  "question": "'Places of Safety' are established for children of which age group accused of/convicted for heinous offences?",
+  "options": [
+   "12 to 16 years",
+   "18 to 21 years",
+   "14 to 16 years",
+   "10 to 14 years",
+   "16 to 18 years"
+  ],
+  "correct": 4,
+  "exp": "Places of Safety are established for children aged 16 to 18 years accused of or convicted for committing heinous offences."
+ },
+ {
+  "id": "q0176",
+  "section": "Institutional Services (CCIs)",
+  "difficulty": "Moderate",
+  "question": "'Vatsalya Sadan' is best described as what kind of facility?",
+  "options": [
+   "An Integrated Home Complex comprising Children's Homes, Observation Homes, Special Homes, Places of Safety, JJB and CWC facilities in a single premises",
+   "A hostel exclusively for working mothers",
+   "A single dedicated home for widows",
+   "A shelter exclusively for trafficking victims",
+   "A digital MIS portal for child protection"
+  ],
+  "correct": 0,
+  "exp": "Vatsalya Sadan is an Integrated Home Complex bringing together multiple child-care facilities and JJB/CWC under one premises."
+ },
+ {
+  "id": "q0177",
+  "section": "Institutional Services (CCIs)",
+  "difficulty": "Moderate",
+  "question": "What is the standard/normal capacity of a Child Care Institution (CCI)?",
+  "options": [
+   "40 children",
+   "50 children",
+   "100 children",
+   "75 children",
+   "25 children"
+  ],
+  "correct": 1,
+  "exp": "CCIs normally accommodate 50 children as standard capacity."
+ },
+ {
+  "id": "q0178",
+  "section": "Institutional Services (CCIs)",
+  "difficulty": "Moderate",
+  "question": "For North Eastern States, Himalayan States, and hilly areas, what reduced CCI capacity is supported?",
+  "options": [
+   "30 children",
+   "15 children",
+   "25 children",
+   "20 children",
+   "40 children"
+  ],
+  "correct": 2,
+  "exp": "For NE States, Himalayan States, and hilly areas in other States, CCIs with a capacity of 25 children shall be supported."
+ },
+ {
+  "id": "q0179",
+  "section": "Non-Institutional Care (Mission Vatsalya)",
+  "difficulty": "Moderate",
+  "question": "Which mode of non-institutional care involves a biologically unrelated family undertaking responsibility for a child?",
+  "options": [
+   "After Care",
+   "Sponsorship",
+   "Adoption",
+   "Foster Care",
+   "Sponsorship and Foster Care Approval"
+  ],
+  "correct": 3,
+  "exp": "Foster Care involves an unrelated family undertaking the responsibility of care, protection and rehabilitation of the child."
+ },
+ {
+  "id": "q0180",
+  "section": "Non-Institutional Care (Mission Vatsalya)",
+  "difficulty": "Moderate",
+  "question": "Under 'After Care', from what age can financial support be given to a child leaving a CCI, and up to what age can it be extended?",
+  "options": [
+   "From 16 years up to 18 years, extendable to 21 years",
+   "From 18 years up to 25 years",
+   "From 16 years up to 21 years, extendable to 23 years",
+   "From 21 years up to 25 years",
+   "From 18 years up to 21 years, extendable up to 23 years"
+  ],
+  "correct": 4,
+  "exp": "After Care support may be given from 18 years up to 21 years, extendable up to 23 years of age to help the child become self-dependent."
+ },
+ {
+  "id": "q0181",
+  "section": "Non-Institutional Care (Mission Vatsalya)",
+  "difficulty": "Moderate",
+  "question": "What is the monthly grant per child provided for Sponsorship, Foster Care, or After Care to the state government?",
+  "options": [
+   "Rs. 4,000 per child",
+   "Rs. 3,000 per child",
+   "Rs. 2,500 per child",
+   "Rs. 5,000 per child",
+   "Rs. 4,500 per child"
+  ],
+  "correct": 0,
+  "exp": "A monthly grant of Rs. 4,000 per child is provided for Sponsorship, Foster Care, or After Care to the state government."
+ },
+ {
+  "id": "q0182",
+  "section": "Non-Institutional Care (Mission Vatsalya)",
+  "difficulty": "Moderate",
+  "question": "Each district is required to have which committee to review and sanction sponsorship and foster care funds?",
+  "options": [
+   "Juvenile Justice Board (JJB)",
+   "Sponsorship and Foster Care Approval Committee (SFCAC)",
+   "Child Welfare Committee (CWC)",
+   "District Child Protection Unit (DCPU)",
+   "District Child Welfare and Protection Committee"
+  ],
+  "correct": 1,
+  "exp": "Each district has an SFCAC to review and sanction sponsorship (for preventive settings) and foster care funds."
+ },
+ {
+  "id": "q0183",
+  "section": "Non-Institutional Care (Mission Vatsalya)",
+  "difficulty": "Moderate",
+  "question": "Which agency facilitates the adoption programme for children found legally free for adoption?",
+  "options": [
+   "State Adoption Resource Agency alone",
+   "NIPCCD",
+   "Specialized Adoption Agencies (SAA)",
+   "Child Welfare Committee alone",
+   "District Child Protection Unit"
+  ],
+  "correct": 2,
+  "exp": "SAAs facilitate the adoption programme, finding families for children found legally free for adoption."
+ },
+ {
+  "id": "q0184",
+  "section": "Capacity Building & Monitoring",
+  "difficulty": "Hard",
+  "question": "What does the SAMVAD Centre stand for, and with which institution is it run in partnership?",
+  "options": [
+   "Sponsorship and Adoption Monitoring for Vulnerable and Distressed children — with CARA",
+   "Support and Monitoring for Vulnerable Adolescent Development — with NIPCCD",
+   "Social Awareness for Mothers and Vulnerable Adolescent Daughters — with NCPCR",
+   "Support, Advocacy and Mental health Interventions for children in Vulnerable circumstances And Distress — in partnership with NIMHANS",
+   "Special Assistance for Mothers and Vulnerable Adolescent Development — with LBSNAA"
+  ],
+  "correct": 3,
+  "exp": "SAMVAD stands for Support, Advocacy and Mental health Interventions for children in Vulnerable circumstances And Distress, run in partnership with NIMHANS."
+ },
+ {
+  "id": "q0185",
+  "section": "Capacity Building & Monitoring",
+  "difficulty": "Moderate",
+  "question": "Who is responsible for grading Child Care Institutions (CCIs) at fixed intervals?",
+  "options": [
+   "NIPCCD directly",
+   "CARA",
+   "The District Magistrate alone, without state involvement",
+   "NCPCR",
+   "States (State Governments)"
+  ],
+  "correct": 4,
+  "exp": "States grade each CCI at fixed intervals based on infrastructure, service quality, child well-being and rehabilitation, with parameters designed in consultation with NIPCCD."
+ },
+ {
+  "id": "q0186",
+  "section": "Capacity Building & Monitoring",
+  "difficulty": "Moderate",
+  "question": "The National Child Resource Centre has been strengthened within which institution?",
+  "options": [
+   "NIPCCD",
+   "NIMHANS",
+   "LBSNAA",
+   "NCPCR",
+   "CARA"
+  ],
+  "correct": 0,
+  "exp": "The National Child Resource Centre is strengthened within NIPCCD to support Mission Vatsalya with technical inputs and academic research."
+ },
+ {
+  "id": "q0187",
+  "section": "Capacity Building & Monitoring",
+  "difficulty": "Moderate",
+  "question": "The National Child Survey and Child Index are developed in collaboration with which body?",
+  "options": [
+   "Ministry of Rural Development",
+   "MoSPI (Ministry of Statistics and Programme Implementation)",
+   "Registrar General of India",
+   "Ministry of Home Affairs",
+   "NITI Aayog"
+  ],
+  "correct": 1,
+  "exp": "The National Child Index and surveys to assess child welfare and development are developed in collaboration with MoSPI."
+ },
+ {
+  "id": "q0188",
+  "section": "Capacity Building & Monitoring",
+  "difficulty": "Hard",
+  "question": "Which of the following is NOT among the institutions listed for capacity building of stakeholders under Mission Vatsalya?",
+  "options": [
+   "LBSNAA",
+   "BPR&D and NALSA",
+   "Indian Institute of Public Administration (IIPA)",
+   "NIPCCD",
+   "NIMHANS"
+  ],
+  "correct": 2,
+  "exp": "The listed institutions are NIPCCD, NIMHANS, LBSNAA, BPR&D, and NALSA; IIPA is not mentioned."
+ },
+ {
+  "id": "q0189",
+  "section": "Capacity Building & Monitoring",
+  "difficulty": "Hard",
+  "question": "Consider the following statements about the convergence strategy under Mission Vatsalya:\nI. Under Mission Saksham, Anganwadi Services strength is harnessed for ground-level outreach and connect.\nII. Under Mission Shakti convergence, linkages are made with Shakti Sadan and Working Women Hostels for smooth transition of girls leaving CCIs after 18 years.\nIII. CARA facilitates adoption through awareness, advocacy, and support to SARAs.\nIV. Convergence with Mission Shakti excludes any advocacy for gender sensitization.\nHow many of the above statements are correct?",
+  "options": [
+   "Only one",
+   "Only two",
+   "Only three",
+   "All four",
+   "None of the above are correct"
+  ],
+  "correct": 2,
+  "exp": "The convergence table explicitly lists gender-sensitization advocacy under Mission Shakti — so statement IV is false; the first three are accurate."
+ },
+ {
+  "id": "q0190",
+  "section": "Gender Budgeting",
+  "difficulty": "Moderate",
+  "question": "In which year did the Government of India adopt Gender Budgeting?",
+  "options": [
+   "1998-99",
+   "2015-16",
+   "2010-11",
+   "2000-01",
+   "2005-06"
+  ],
+  "correct": 4,
+  "exp": "The Government of India adopted Gender Budgeting in 2005-06."
+ },
+ {
+  "id": "q0191",
+  "section": "Gender Budgeting",
+  "difficulty": "Moderate",
+  "question": "Gender Budgeting, Research, Publication, and Monitoring schemes have been included under which hub?",
+  "options": [
+   "Hub for Empowerment of Women (HEW)",
+   "NITI Aayog Gender Cell",
+   "Mission Vatsalya Portal",
+   "National Commission for Women",
+   "SANKALP Secretariat only"
+  ],
+  "correct": 0,
+  "exp": "These components have been included under the Hub for Empowerment of Women (HEW)."
+ },
+ {
+  "id": "q0192",
+  "section": "Gender Budgeting",
+  "difficulty": "Moderate",
+  "question": "Grants for Gender Budgeting workshops/training programmes are made available at how many levels?",
+  "options": [
+   "Four levels",
+   "Five levels",
+   "Two levels",
+   "Three levels",
+   "Six levels"
+  ],
+  "correct": 1,
+  "exp": "Grants are available at Panchayat, District, State, Regional, and National levels — five in total."
+ },
+ {
+  "id": "q0193",
+  "section": "Gender Budgeting",
+  "difficulty": "Moderate",
+  "question": "At the Central level, which Ministry is the nodal authority for implementation of Gender Budgeting?",
+  "options": [
+   "Ministry of Rural Development",
+   "Ministry of Finance",
+   "Ministry of Women and Child Development",
+   "Ministry of Statistics and Programme Implementation",
+   "NITI Aayog"
+  ],
+  "correct": 2,
+  "exp": "The Ministry of Women and Child Development is the Central-level nodal authority for Gender Budgeting."
+ },
+ {
+  "id": "q0194",
+  "section": "Gender Budgeting",
+  "difficulty": "Moderate",
+  "question": "Every State/UT/District hub under Gender Budgeting shall have at least how many gender specialists?",
+  "options": [
+   "No fixed minimum",
+   "At least five gender specialists",
+   "At least three gender specialists",
+   "At least one gender specialist",
+   "At least two gender specialists"
+  ],
+  "correct": 3,
+  "exp": "Every State/UT/District hub shall have at least one gender specialist responsible for implementation of Gender Budgeting."
+ },
+ {
+  "id": "q0195",
+  "section": "Maternity (Amendment) Act, 2017",
+  "difficulty": "Moderate",
+  "question": "The Maternity (Amendment) Act, 2017 amended which original Act?",
+  "options": [
+   "Factories Act, 1948",
+   "Industrial Disputes Act, 1947",
+   "Employees State Insurance Act, 1948",
+   "Equal Remuneration Act, 1976",
+   "Maternity Benefit Act, 1961"
+  ],
+  "correct": 4,
+  "exp": "The Maternity (Amendment) Act 2017 amended the Maternity Benefit Act of 1961."
+ },
+ {
+  "id": "q0196",
+  "section": "Maternity (Amendment) Act, 2017",
+  "difficulty": "Moderate",
+  "question": "The Maternity Benefit Act applies to organizations with how many or more employees?",
+  "options": [
+   "10 or more employees",
+   "20 or more employees",
+   "15 or more employees",
+   "5 or more employees",
+   "25 or more employees"
+  ],
+  "correct": 0,
+  "exp": "It applies to all organizations with 10 or more employees in factories, mines, plantations, shops, and establishments."
+ },
+ {
+  "id": "q0197",
+  "section": "Maternity (Amendment) Act, 2017",
+  "difficulty": "Hard",
+  "question": "Crèche facilities are mandatory for organizations with how many or more women employees, or how many total employees (whichever is less)?",
+  "options": [
+   "40 or more women employees, or ≥ 60 total employees",
+   "30 or more women employees, or ≥ 50 total employees",
+   "50 or more women employees, or ≥ 100 total employees",
+   "10 or more women employees, or ≥ 25 total employees",
+   "20 or more women employees, or ≥ 30 total employees"
+  ],
+  "correct": 1,
+  "exp": "Crèche facilities are mandatory for organizations with 30 or more women employees or ≥50 total employees, whichever is less."
+ },
+ {
+  "id": "q0198",
+  "section": "Maternity (Amendment) Act, 2017",
+  "difficulty": "Moderate",
+  "question": "To qualify for maternity benefit, a woman must have worked for at least how many days in the past 12 months?",
+  "options": [
+   "120 days",
+   "90 days",
+   "80 days",
+   "60 days",
+   "100 days"
+  ],
+  "correct": 2,
+  "exp": "Women must have worked for at least 80 days in the past 12 months to qualify."
+ },
+ {
+  "id": "q0199",
+  "section": "Maternity (Amendment) Act, 2017",
+  "difficulty": "Moderate",
+  "question": "Paid maternity leave under the amended Act was increased from 12 weeks to how many weeks?",
+  "options": [
+   "24 weeks",
+   "20 weeks",
+   "30 weeks",
+   "26 weeks",
+   "22 weeks"
+  ],
+  "correct": 3,
+  "exp": "Paid maternity leave was increased from 12 weeks to 26 weeks (except 12 weeks for third-and-later children)."
+ },
+ {
+  "id": "q0200",
+  "section": "Maternity (Amendment) Act, 2017",
+  "difficulty": "Hard",
+  "question": "What is the exception to the 26-week maternity leave provision under the Act?",
+  "options": [
+   "18 weeks applies for twins",
+   "26 weeks applies only to government employees",
+   "20 weeks applies for adoptive mothers",
+   "No exception exists",
+   "12 weeks leave applies for women expecting after their first two children"
+  ],
+  "correct": 4,
+  "exp": "The 26-week leave has an exception: 12 weeks leave for women expecting after their first two children."
+ },
+ {
+  "id": "q0201",
+  "section": "Maternity (Amendment) Act, 2017",
+  "difficulty": "Moderate",
+  "question": "A woman can start her maternity leave up to how many weeks before the expected delivery date?",
+  "options": [
+   "8 weeks",
+   "4 weeks",
+   "6 weeks",
+   "12 weeks",
+   "10 weeks"
+  ],
+  "correct": 0,
+  "exp": "Maternity leave can start up to 8 weeks before the expected delivery date, with the remaining 18 weeks taken post-childbirth."
+ },
+ {
+  "id": "q0202",
+  "section": "Maternity (Amendment) Act, 2017",
+  "difficulty": "Moderate",
+  "question": "Adoptive and commissioning mothers are entitled to how many weeks of maternity leave from the date of adoption?",
+  "options": [
+   "26 weeks",
+   "12 weeks",
+   "8 weeks",
+   "16 weeks",
+   "6 weeks"
+  ],
+  "correct": 1,
+  "exp": "Adoptive and commissioning mothers are entitled to 12 weeks of maternity leave from the date of adoption."
+ },
+ {
+  "id": "q0203",
+  "section": "Maternity (Amendment) Act, 2017",
+  "difficulty": "Moderate",
+  "question": "How many weeks of maternity benefit are provided post miscarriage or medical termination of pregnancy?",
+  "options": [
+   "4 weeks",
+   "8 weeks",
+   "6 weeks",
+   "2 weeks",
+   "12 weeks"
+  ],
+  "correct": 2,
+  "exp": "6 weeks maternity benefit is provided post miscarriage or medical termination of pregnancy, with medical documents."
+ },
+ {
+  "id": "q0204",
+  "section": "Maternity (Amendment) Act, 2017",
+  "difficulty": "Moderate",
+  "question": "How many weeks of maternity leave are provided post a Tubectomy operation?",
+  "options": [
+   "3 weeks",
+   "1 week",
+   "4 weeks",
+   "2 weeks",
+   "6 weeks"
+  ],
+  "correct": 3,
+  "exp": "2 weeks of maternity leave are provided post-Tubectomy operation, with medical documents."
+ },
+ {
+  "id": "q0205",
+  "section": "Maternity (Amendment) Act, 2017",
+  "difficulty": "Moderate",
+  "question": "If no crèche facility is available, how many rest periods (or visits) per day is a woman permitted?",
+  "options": [
+   "6 visits per day",
+   "2 visits per day, or one half-hour rest period",
+   "3 visits per day, or one hour rest period",
+   "4 visits per day, or one 2-hour rest period",
+   "4 visits per day, or two half-hour rest periods"
+  ],
+  "correct": 4,
+  "exp": "Women are permitted 4 visits per day, or two half-hour rest periods, if no crèche is available."
+ },
+ {
+  "id": "q0206",
+  "section": "Maternity (Amendment) Act, 2017",
+  "difficulty": "Moderate",
+  "question": "What is the penalty for employer non-compliance under the Maternity (Amendment) Act, 2017?",
+  "options": [
+   "Imprisonment up to 1 year and/or fine of Rs. 2,000 to Rs. 5,000",
+   "Fine of Rs. 50,000 only",
+   "Cancellation of business license only",
+   "Imprisonment up to 2 years and fine up to Rs. 10,000",
+   "Imprisonment up to 6 months only"
+  ],
+  "correct": 0,
+  "exp": "The penalty for non-compliance is imprisonment up to 1 year and/or a fine of Rs. 2,000 to Rs. 5,000."
+ },
+ {
+  "id": "q0207",
+  "section": "Maternity (Amendment) Act, 2017",
+  "difficulty": "Hard",
+  "question": "Which of the following statements about the Maternity (Amendment) Act, 2017 is NOT correct?",
+  "options": [
+   "A work-from-home provision exists post 26 weeks leave, subject to mutual agreement with the employer.",
+   "The Act applies to all organizations with 10 or more employees in factories, mines, plantations, shops, and establishments.",
+   "Paid maternity leave was increased from 12 weeks to 26 weeks.",
+   "Employers must inform women about maternity benefits at the time of appointment.",
+   "The Act applies only to organizations with 50 or more employees."
+  ],
+  "correct": 1,
+  "exp": "The applicability threshold is 10 or more employees, not 50 or more — this makes the last statement false."
+ },
+ {
+  "id": "q0208",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Moderate",
+  "question": "On what date was the Sexual Harassment of Women at Workplace (Prevention, Prohibition and Redressal) Act, 2013 enacted?",
+  "options": [
+   "8th March 2013",
+   "15th August 2013",
+   "9th December 2013",
+   "1st January 2014",
+   "26th November 2012"
+  ],
+  "correct": 2,
+  "exp": "The SH Act was enacted on 9th December 2013."
+ },
+ {
+  "id": "q0209",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Moderate",
+  "question": "The SH Act, 2013 built upon which earlier Supreme Court guidelines?",
+  "options": [
+   "Shreya Singhal guidelines",
+   "D.K. Basu guidelines, 1996",
+   "Lily Thomas guidelines",
+   "Vishakha guidelines, 1997",
+   "Puttaswamy guidelines, 2017"
+  ],
+  "correct": 3,
+  "exp": "The Vishakha guidelines issued by the Supreme Court in 1997 had earlier provided a safety framework, later formalized into the SH Act, 2013."
+ },
+ {
+  "id": "q0210",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Moderate",
+  "question": "On what date was the SHe-Box portal launched?",
+  "options": [
+   "26th January 2024",
+   "8th March 2024",
+   "15th August 2023",
+   "1st January 2024",
+   "29th August 2024"
+  ],
+  "correct": 4,
+  "exp": "The SHe-Box portal was launched on 29th August 2024."
+ },
+ {
+  "id": "q0211",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Moderate",
+  "question": "An Internal Committee (IC) is mandatory for workplaces with how many or more employees?",
+  "options": [
+   "10 or more employees",
+   "20 or more employees",
+   "5 or more employees",
+   "25 or more employees",
+   "15 or more employees"
+  ],
+  "correct": 0,
+  "exp": "The Internal Committee (IC) is mandatory for workplaces with 10 or more employees."
+ },
+ {
+  "id": "q0212",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Moderate",
+  "question": "Who sets up the Local Committee (LC) under the SH Act, and for which workplaces does it handle cases?",
+  "options": [
+   "Central Government sets it up; it handles PSU complaints only",
+   "District Officers set up the LC; it handles workplaces with fewer than 10 employees or complaints against the employer",
+   "NCW sets it up; it handles appeals only",
+   "Police sets it up; it handles criminal complaints only",
+   "State Government sets it up; it handles only government offices"
+  ],
+  "correct": 1,
+  "exp": "The Local Committee (LC) is set up by District Officers in every district, handling workplaces with fewer than 10 employees or complaints against the employer."
+ },
+ {
+  "id": "q0213",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Moderate",
+  "question": "As per Section 4 of the SH Act, the Internal Committee must have at least how many members?",
+  "options": [
+   "At least 6 members",
+   "At least 5 members",
+   "At least 4 members",
+   "At least 2 members",
+   "At least 3 members"
+  ],
+  "correct": 2,
+  "exp": "Section 4 mandates the IC have at least 4 members, with a Presiding Officer who is a senior woman employee."
+ },
+ {
+  "id": "q0214",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Moderate",
+  "question": "What minimum percentage of the Internal Committee members must be women?",
+  "options": [
+   "At least 40%",
+   "At least 33%",
+   "At least 75%",
+   "At least 50%",
+   "At least 25%"
+  ],
+  "correct": 3,
+  "exp": "The IC must have at least 50% women members."
+ },
+ {
+  "id": "q0215",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Moderate",
+  "question": "Under the SH Act, complaints must be filed within how many months of the incident, extendable by how many more months?",
+  "options": [
+   "Within 2 months, no extension",
+   "Within 3 months, extendable by 6 months",
+   "Within 1 month, extendable by 1 month",
+   "Within 6 months, extendable by 6 months",
+   "Within 3 months, extendable by another 3 months for valid reasons"
+  ],
+  "correct": 4,
+  "exp": "Complaints must be filed within 3 months, extendable by another 3 months for valid reasons."
+ },
+ {
+  "id": "q0216",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Moderate",
+  "question": "Within how many days must the inquiry into a sexual harassment complaint be completed?",
+  "options": [
+   "90 days",
+   "30 days",
+   "60 days",
+   "45 days",
+   "120 days"
+  ],
+  "correct": 0,
+  "exp": "The inquiry is to be completed within 90 days."
+ },
+ {
+  "id": "q0217",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Moderate",
+  "question": "After ICC recommendations, within how many days can either party appeal in court?",
+  "options": [
+   "30 days",
+   "90 days",
+   "120 days",
+   "45 days",
+   "60 days"
+  ],
+  "correct": 1,
+  "exp": "After ICC recommendations, either party (aggrieved woman or respondent) can appeal in court within 90 days."
+ },
+ {
+  "id": "q0218",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Moderate",
+  "question": "For women in the unorganised sector (including domestic workers), the LC forwards cases requiring police action under which legal framework?",
+  "options": [
+   "POCSO Act, 2012",
+   "Indian Penal Code, 1860",
+   "Bharatiya Nyaya Sanhita, 2023",
+   "Indian Evidence Act, 1872",
+   "Code of Criminal Procedure, 1973"
+  ],
+  "correct": 2,
+  "exp": "The LC forwards such cases to police for action under relevant provisions of the Bharatiya Nyaya Sanhita, 2023."
+ },
+ {
+  "id": "q0219",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Moderate",
+  "question": "What is the fine for a first violation of compliance requirements under the SH Act, 2013?",
+  "options": [
+   "Rs. 25,000",
+   "Rs. 10,000",
+   "Rs. 1,00,000",
+   "Rs. 50,000",
+   "Rs. 75,000"
+  ],
+  "correct": 3,
+  "exp": "The fine for a first violation is Rs. 50,000; repeat violations attract double fine plus possible licence cancellation/non-renewal."
+ },
+ {
+  "id": "q0220",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Moderate",
+  "question": "Which Ministry is the nodal ministry for the Sexual Harassment of Women at Workplace Act, issuing advisories to Central Ministries, States, UTs and private bodies?",
+  "options": [
+   "Ministry of Social Justice and Empowerment",
+   "Ministry of Home Affairs",
+   "Ministry of Law and Justice",
+   "Ministry of Labour and Employment",
+   "Ministry of Women and Child Development (MoWCD)"
+  ],
+  "correct": 4,
+  "exp": "MoWCD is the nodal ministry for the SH Act, playing a pivotal role in effective implementation."
+ },
+ {
+  "id": "q0221",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Hard",
+  "question": "Does the SHe-Box portal accept anonymous complaints?",
+  "options": [
+   "No, anonymous complaints are not accepted",
+   "Yes, anonymous complaints are fully accepted",
+   "Anonymous complaints are accepted but not investigated",
+   "Anonymous complaints are accepted only for domestic workers",
+   "Only anonymous complaints from government employees are accepted"
+  ],
+  "correct": 0,
+  "exp": "The SHe-Box emphasizes confidentiality but does NOT accept anonymous complaints."
+ },
+ {
+  "id": "q0222",
+  "section": "Sexual Harassment at Workplace (POSH) Act, 2013",
+  "difficulty": "Hard",
+  "question": "Consider the following statements about the SH Act, 2013:\nI. It applies to public and private, organised and unorganised sectors, including domestic workers.\nII. The SHe-Box portal was launched on 29th August 2024.\nIII. Once a complaint is submitted on SHe-Box, it is manually assigned to a committee by MoWCD officials.\nIV. Complaints must be filed within 3 months, extendable by another 3 months.\nHow many of the above statements are correct?",
+  "options": [
+   "Only one",
+   "Only two",
+   "Only three",
+   "All four",
+   "None of the above are correct"
+  ],
+  "correct": 2,
+  "exp": "The SHe-Box portal automatically forwards complaints to the relevant IC or LC — it is not a manual assignment process, making statement III incorrect."
+ },
+ {
+  "id": "q0223",
+  "section": "Juvenile Justice Act, 2015 & CARA",
+  "difficulty": "Moderate",
+  "question": "The Juvenile Justice Act, 2000 was amended in which year to address issues of juveniles in conflict with law?",
+  "options": [
+   "2021",
+   "2018",
+   "2015",
+   "2000",
+   "2012"
+  ],
+  "correct": 2,
+  "exp": "The JJ Act 2000 was amended in 2015."
+ },
+ {
+  "id": "q0224",
+  "section": "Juvenile Justice Act, 2015 & CARA",
+  "difficulty": "Moderate",
+  "question": "As per the JJ Act, 2015, a 'child' is defined as any person below what age?",
+  "options": [
+   "14 years",
+   "20 years",
+   "16 years",
+   "18 years",
+   "21 years"
+  ],
+  "correct": 3,
+  "exp": "The Act defines a child as any person below the age of 18 years."
+ },
+ {
+  "id": "q0225",
+  "section": "Juvenile Justice Act, 2015 & CARA",
+  "difficulty": "Moderate",
+  "question": "What determines whether a person is treated as a child or an adult in legal proceedings under the JJ Act?",
+  "options": [
+   "The age at the time of FIR registration",
+   "The age at the time of arrest",
+   "The age at the time of trial",
+   "The age at the time of sentencing",
+   "The age of the child on the date of the offence"
+  ],
+  "correct": 4,
+  "exp": "The age of the child on the date of the offence determines whether they are treated as a child or as an adult."
+ },
+ {
+  "id": "q0226",
+  "section": "Juvenile Justice Act, 2015 & CARA",
+  "difficulty": "Moderate",
+  "question": "Children aged 16-18 years can be tried as adults for offences attracting what minimum punishment (heinous offences)?",
+  "options": [
+   "A minimum punishment of 7 years",
+   "Any punishment, regardless of severity",
+   "A minimum punishment of 3 years",
+   "A minimum punishment of 5 years",
+   "A minimum punishment of 10 years"
+  ],
+  "correct": 0,
+  "exp": "Children aged 16-18 alleged to have committed heinous offences (minimum punishment of 7 years) can be tried as adults, though this is discretionary, not mandatory."
+ },
+ {
+  "id": "q0227",
+  "section": "Juvenile Justice Act, 2015 & CARA",
+  "difficulty": "Moderate",
+  "question": "Is it mandatory for ALL children aged 16-18 years accused of heinous offences to be tried as adults?",
+  "options": [
+   "Yes, it is always mandatory",
+   "No, it is not mandatory; discretion is exercised based on the nature of the offence",
+   "Yes, if the offence occurred in a metropolitan city",
+   "Yes, but only for boys",
+   "No, they can never be tried as adults"
+  ],
+  "correct": 1,
+  "exp": "It is not mandatory for all children in this age group to be tried as adults; discretion is exercised."
+ },
+ {
+  "id": "q0228",
+  "section": "Juvenile Justice Act, 2015 & CARA",
+  "difficulty": "Moderate",
+  "question": "Both the Juvenile Justice Board (JJB) and Child Welfare Committee (CWC) are required to have at least how many woman members?",
+  "options": [
+   "No requirement for women members",
+   "At least three women members each",
+   "At least one woman member each",
+   "At least 50% women members",
+   "At least two women members each"
+  ],
+  "correct": 2,
+  "exp": "Both JJBs and CWCs are required to have at least one woman member each to ensure gender-sensitive handling of cases."
+ },
+ {
+  "id": "q0229",
+  "section": "Juvenile Justice Act, 2015 & CARA",
+  "difficulty": "Moderate",
+  "question": "CARA is a statutory body functioning under which Ministry?",
+  "options": [
+   "Ministry of External Affairs",
+   "Ministry of Law and Justice",
+   "Ministry of Social Justice and Empowerment",
+   "Ministry of Women and Child Development",
+   "Ministry of Home Affairs"
+  ],
+  "correct": 3,
+  "exp": "CARA is a statutory body under the Ministry of Women and Child Development."
+ },
+ {
+  "id": "q0230",
+  "section": "Juvenile Justice Act, 2015 & CARA",
+  "difficulty": "Hard",
+  "question": "Apart from adoption of orphan, abandoned and surrendered children, which other types of adoption does CARA facilitate?",
+  "options": [
+   "Corporate-sponsored adoption",
+   "International Adoption of Indian citizens abroad only",
+   "Adoption through private agreements only",
+   "Adoption by NRIs exclusively",
+   "Relative Adoption, Adoption by Step Parents, and Foster Adoption"
+  ],
+  "correct": 4,
+  "exp": "CARA also facilitates Relative Adoption, Adoption by Step Parents and Foster Adoption."
+ },
+ {
+  "id": "q0231",
+  "section": "Juvenile Justice Act, 2015 & CARA",
+  "difficulty": "Hard",
+  "question": "CARA acts as the Central Authority for which international convention regulating inter-country adoption?",
+  "options": [
+   "The Hague Convention",
+   "The UN Convention on Rights of the Child",
+   "The Vienna Convention",
+   "The Beijing Convention",
+   "The Geneva Convention"
+  ],
+  "correct": 0,
+  "exp": "CARA acts as the Central Authority for the Hague Convention, regulating adoptions to prevent illegal activities."
+ },
+ {
+  "id": "q0232",
+  "section": "Juvenile Justice Act, 2015 & CARA",
+  "difficulty": "Moderate",
+  "question": "Which digital platform does CARA use to manage adoption processes, from home study reports to child referrals?",
+  "options": [
+   "Mission Vatsalya Portal",
+   "CARINGS",
+   "POCSO e-Box",
+   "Aadhaar Seva Kendra portal",
+   "e-Shishu Portal"
+  ],
+  "correct": 1,
+  "exp": "CARA utilizes the CARINGS platform to manage the adoption process, from home study reports to child referrals."
+ },
+ {
+  "id": "q0233",
+  "section": "Juvenile Justice Act, 2015 & CARA",
+  "difficulty": "Hard",
+  "question": "Which of the following governs CARA's regulation of adoption, as listed in the document?",
+  "options": [
+   "Only the Hindu Adoption and Maintenance Act, 1956",
+   "Hindu Succession Act 1956 and Dowry Prohibition Act 1961",
+   "Juvenile Justice Act 2015 (amended 2021), Adoption Regulations 2022, and Model Foster Care Guidelines 2024",
+   "Only the Guardians and Wards Act, 1890",
+   "POCSO Act 2012 and PWDVA 2005"
+  ],
+  "correct": 2,
+  "exp": "CARA's adoption regulation is governed by the JJ Act 2015 (amended 2021), Adoption Regulations 2022, and Model Foster Care Guidelines 2024."
+ },
+ {
+  "id": "q0234",
+  "section": "POCSO Act, 2012",
+  "difficulty": "Moderate",
+  "question": "The POCSO Act, 2012 defines a child as any person below what age?",
+  "options": [
+   "12 years",
+   "21 years",
+   "16 years",
+   "18 years",
+   "14 years"
+  ],
+  "correct": 3,
+  "exp": "The POCSO Act defines a child as any person below eighteen years of age."
+ },
+ {
+  "id": "q0235",
+  "section": "POCSO Act, 2012",
+  "difficulty": "Moderate",
+  "question": "Under POCSO, investigation must be completed within how many months from the date of registration of the FIR?",
+  "options": [
+   "Three months",
+   "Four months",
+   "Six months",
+   "One month",
+   "Two months"
+  ],
+  "correct": 4,
+  "exp": "Investigation must be completed within two months from the date of registration of the FIR."
+ },
+ {
+  "id": "q0236",
+  "section": "POCSO Act, 2012",
+  "difficulty": "Moderate",
+  "question": "Under POCSO, trial must be completed within how many months?",
+  "options": [
+   "Six months",
+   "Three months",
+   "Nine months",
+   "One year",
+   "Two months"
+  ],
+  "correct": 0,
+  "exp": "The trial must be completed within six months under the POCSO Act."
+ },
+ {
+  "id": "q0237",
+  "section": "POCSO Act, 2012",
+  "difficulty": "Moderate",
+  "question": "What is the minimum punishment for aggravated penetrative sexual assault under POCSO?",
+  "options": [
+   "Rigorous imprisonment not less than 7 years",
+   "Rigorous imprisonment not less than ten years, extendable to life imprisonment, and fine",
+   "Simple imprisonment up to 3 years",
+   "A fine only, no imprisonment",
+   "Rigorous imprisonment not less than 5 years"
+  ],
+  "correct": 1,
+  "exp": "Aggravated penetrative sexual assault attracts rigorous imprisonment not less than ten years, extendable to life imprisonment, and a fine."
+ },
+ {
+  "id": "q0238",
+  "section": "POCSO Act, 2012",
+  "difficulty": "Moderate",
+  "question": "Under POCSO, is reporting an offence of child sexual abuse by any aware person mandatory?",
+  "options": [
+   "Only doctors are required to report",
+   "Only teachers are required to report",
+   "Yes, mandatory reporting is required; failure can lead to imprisonment or fine",
+   "Only family members are required to report",
+   "No, reporting is entirely voluntary"
+  ],
+  "correct": 2,
+  "exp": "POCSO makes it mandatory for any person aware of an offence to report it; failure to do so can result in imprisonment or fine."
+ },
+ {
+  "id": "q0239",
+  "section": "POCSO Act, 2012",
+  "difficulty": "Moderate",
+  "question": "Under POCSO, is the consent of a person below 18 years relevant in determining whether a sexual act is punishable?",
+  "options": [
+   "Consent is relevant only for non-penetrative acts",
+   "Yes, if the person is above 16 the consent is valid",
+   "Consent is relevant only in cases involving a person in a position of trust",
+   "No, the consent of a person under eighteen years of age is irrelevant",
+   "Yes, consent is valid if in a relationship"
+  ],
+  "correct": 3,
+  "exp": "POCSO states that the consent of a person under eighteen years is irrelevant, making any sexual act with a minor punishable."
+ },
+ {
+  "id": "q0240",
+  "section": "POCSO Act, 2012",
+  "difficulty": "Moderate",
+  "question": "In which year was the POCSO e-Box initiative launched, and by which body?",
+  "options": [
+   "2018, by CARA",
+   "2014, by NIPCCD",
+   "2012, by MoWCD",
+   "2020, by NCW",
+   "2016, by the National Commission for Protection of Child Rights (NCPCR)"
+  ],
+  "correct": 4,
+  "exp": "The POCSO e-Box was launched in 2016 by NCPCR as an online complaint box for reporting child sexual abuse."
+ },
+ {
+  "id": "q0241",
+  "section": "POCSO Act, 2012",
+  "difficulty": "Hard",
+  "question": "Does the POCSO e-Box preserve the anonymity of complainants?",
+  "options": [
+   "Yes, it helps preserve anonymity, encouraging more victims to come forward",
+   "Anonymity is preserved only in metropolitan areas",
+   "Anonymity is never a feature of the e-Box",
+   "Anonymity is preserved only for adult complainants",
+   "No, complainant identity is always disclosed to the accused"
+  ],
+  "correct": 0,
+  "exp": "The POCSO e-Box helps preserve the anonymity of complainants, encouraging more victims to report abuse."
+ },
+ {
+  "id": "q0242",
+  "section": "POCSO Act, 2012",
+  "difficulty": "Hard",
+  "question": "Which of the following statements about the POCSO Act, 2012 is NOT correct?",
+  "options": [
+   "It defines a child as any person below eighteen years of age.",
+   "Under the Act, investigation must be completed within six months and trial within two months from FIR registration.",
+   "The Act provides punishment for trafficking children for sexual purposes.",
+   "The Act prescribes punishment for false complaints or providing untrue information.",
+   "Aggravated sexual assault includes abuse committed by a person in a position of trust or authority, such as a family member, police officer, teacher, or doctor."
+  ],
+  "correct": 1,
+  "exp": "It is the reverse: investigation must be completed within two months and trial within six months — not the other way around."
+ },
+ {
+  "id": "q0243",
+  "section": "Child Marriage, Domestic Violence & Dowry Acts",
+  "difficulty": "Moderate",
+  "question": "The Prohibition of Child Marriage Act, 2006 replaced which earlier Act?",
+  "options": [
+   "The Hindu Marriage Act, 1955",
+   "The Special Marriage Act, 1954",
+   "The Child Marriage Restraint Act, 1929",
+   "The Indian Majority Act, 1875",
+   "The Guardians and Wards Act, 1890"
+  ],
+  "correct": 2,
+  "exp": "PCMA 2006 replaced the Child Marriage Restraint Act, 1929, established during British rule."
+ },
+ {
+  "id": "q0244",
+  "section": "Child Marriage, Domestic Violence & Dowry Acts",
+  "difficulty": "Moderate",
+  "question": "As per the Prohibition of Child Marriage Act, 2006, how is a 'child' defined?",
+  "options": [
+   "A male below 18 years and a female below 16 years",
+   "A male below 18 years and a female below 18 years",
+   "A male below 21 years and a female below 21 years",
+   "A male below 21 years and a female below 18 years",
+   "Any person below 21 years, regardless of gender"
+  ],
+  "correct": 3,
+  "exp": "The Act defines a child as a male below 21 years and a female below 18 years."
+ },
+ {
+  "id": "q0245",
+  "section": "Child Marriage, Domestic Violence & Dowry Acts",
+  "difficulty": "Moderate",
+  "question": "Under the Prohibition of Child Marriage Act, 2006, what is the penalty for a male adult contracting a child marriage with a female below 18 years?",
+  "options": [
+   "Rigorous imprisonment up to 5 years",
+   "Fine of Rs. 50,000 only, no imprisonment",
+   "Simple imprisonment up to 6 months",
+   "Rigorous imprisonment up to 1 year and fine of Rs. 2 lakh",
+   "Rigorous imprisonment up to two years and/or a fine of Rs. 1 lakh"
+  ],
+  "correct": 4,
+  "exp": "The penalty is rigorous imprisonment for up to two years and/or a fine of Rs. 1 lakh; parents/guardians promoting such marriages face the same penalty."
+ },
+ {
+  "id": "q0246",
+  "section": "Child Marriage, Domestic Violence & Dowry Acts",
+  "difficulty": "Moderate",
+  "question": "Under the Protection of Women from Domestic Violence Act (PWDVA), 2005, who is primarily protected?",
+  "options": [
+   "Wives or female live-in partners",
+   "Only married women with children",
+   "Only women employed in the organised sector",
+   "Widows exclusively",
+   "Only minor girls"
+  ],
+  "correct": 0,
+  "exp": "PWDVA primarily protects wives or female live-in partners from domestic violence."
+ },
+ {
+  "id": "q0247",
+  "section": "Child Marriage, Domestic Violence & Dowry Acts",
+  "difficulty": "Moderate",
+  "question": "Under PWDVA, 2005, complaints can be filed with which of the following?",
+  "options": [
+   "Only a service provider NGO",
+   "A police officer, protection officer, service provider (NGO), or Magistrate",
+   "Only a Magistrate",
+   "Only the National Commission for Women",
+   "Only a police officer"
+  ],
+  "correct": 1,
+  "exp": "Complaints under PWDVA can be filed with a police officer, protection officer, service provider (NGO), or Magistrate."
+ },
+ {
+  "id": "q0248",
+  "section": "Child Marriage, Domestic Violence & Dowry Acts",
+  "difficulty": "Moderate",
+  "question": "Under PWDVA, courts can issue protection orders preventing the abuser from harassing the woman even where?",
+  "options": [
+   "Only in the presence of police",
+   "Only in a different city",
+   "At her workplace",
+   "Only within the marital home",
+   "Anywhere except her workplace"
+  ],
+  "correct": 2,
+  "exp": "Courts can issue protection orders preventing the abuser from harassing the woman, even at her workplace."
+ },
+ {
+  "id": "q0249",
+  "section": "Child Marriage, Domestic Violence & Dowry Acts",
+  "difficulty": "Moderate",
+  "question": "Under the Dowry Prohibition Act, 1961, what is the minimum imprisonment and fine for giving or taking dowry?",
+  "options": [
+   "Minimum imprisonment of 6 months and fine of Rs. 25,000",
+   "Minimum imprisonment of 3 years and fine of Rs. 20,000",
+   "Minimum imprisonment of 1 year and fine of Rs. 5,000",
+   "Minimum imprisonment of 5 years and fine of minimum Rs. 15,000 or the value of dowry, whichever is higher",
+   "Minimum imprisonment of 2 years and fine of Rs. 10,000"
+  ],
+  "correct": 3,
+  "exp": "The penalty for giving or taking dowry is a minimum of 5 years imprisonment and a fine of at least Rs. 15,000 or the value of the dowry, whichever is higher."
+ },
+ {
+  "id": "q0250",
+  "section": "Child Marriage, Domestic Violence & Dowry Acts",
+  "difficulty": "Moderate",
+  "question": "Under the Dowry Prohibition Act, 1961, what is the penalty for demanding dowry?",
+  "options": [
+   "Fine only, up to Rs. 50,000",
+   "Imprisonment of minimum 1 year and no fine",
+   "Imprisonment of minimum 3 years and fine up to Rs. 5,000",
+   "Imprisonment of minimum 5 years and fine of Rs. 15,000",
+   "Imprisonment of minimum 6 months extending up to 2 years, and fine up to Rs. 10,000"
+  ],
+  "correct": 4,
+  "exp": "Demanding dowry attracts imprisonment of minimum 6 months extending up to 2 years, and a fine up to Rs. 10,000."
+ },
+ {
+  "id": "q0251",
+  "section": "Child Marriage, Domestic Violence & Dowry Acts",
+  "difficulty": "Moderate",
+  "question": "Dowry-related offences such as dowry death or cruelty due to dowry demands are punishable under which law?",
+  "options": [
+   "The Indian Penal Code, 1860",
+   "The Bharatiya Nyaya Sanhita, 2023 exclusively",
+   "PWDVA, 2005 exclusively",
+   "The Dowry Prohibition Act, 1961 exclusively",
+   "The Hindu Marriage Act, 1955"
+  ],
+  "correct": 0,
+  "exp": "Serious dowry-related offences such as dowry death or cruelty are punishable under the Indian Penal Code, 1860, which deals with general criminal law."
+ },
+ {
+  "id": "q0252",
+  "section": "Hindu Succession (Amendment) Act, 2005",
+  "difficulty": "Moderate",
+  "question": "The Hindu Succession (Amendment) Act, 2005 grants daughters what kind of right in coparcenary property?",
+  "options": [
+   "Rights only with father's explicit written consent",
+   "Equal rights by birth, same as sons",
+   "Rights only in self-acquired property",
+   "Rights only after marriage of the daughter",
+   "Rights only if she remains unmarried"
+  ],
+  "correct": 1,
+  "exp": "The amendment grants daughters equal rights by birth in coparcenary property, with the same rights and liabilities as sons."
+ },
+ {
+  "id": "q0253",
+  "section": "Hindu Succession (Amendment) Act, 2005",
+  "difficulty": "Moderate",
+  "question": "Ancestral property, as referred to under the Act, includes property inherited up to how many generations of male lineage?",
+  "options": [
+   "Six generations",
+   "Five generations",
+   "Four generations",
+   "Two generations",
+   "Three generations"
+  ],
+  "correct": 2,
+  "exp": "Ancestral property includes property inherited up to four generations of male lineage."
+ },
+ {
+  "id": "q0254",
+  "section": "Hindu Succession (Amendment) Act, 2005",
+  "difficulty": "Moderate",
+  "question": "Does the marital status of a daughter affect her coparcenary rights under the 2005 amendment?",
+  "options": [
+   "Yes, only unmarried daughters retain rights",
+   "Rights are halved upon marriage",
+   "Rights are transferred to her husband upon marriage",
+   "No, marital status is irrelevant to her coparcenary rights",
+   "Yes, only married daughters retain rights"
+  ],
+  "correct": 3,
+  "exp": "The marital status of the daughter does not affect her rights as a coparcener; whether married or unmarried, she retains her rights."
+ },
+ {
+  "id": "q0255",
+  "section": "Hindu Succession (Amendment) Act, 2005",
+  "difficulty": "Moderate",
+  "question": "Does the 2005 Hindu Succession Amendment Act apply retroactively?",
+  "options": [
+   "It applies retroactively only in urban areas",
+   "No, it applies only prospectively from 2005 onward",
+   "It applies retroactively only if the father is alive",
+   "It applies retroactively only to Scheduled Castes",
+   "Yes, it applies retroactively — daughters born before the amendment also have equal rights"
+  ],
+  "correct": 4,
+  "exp": "The amendment applies retroactively; even if the father died before 2005, daughters are entitled to their share."
+ },
+ {
+  "id": "q0256",
+  "section": "Hindu Succession (Amendment) Act, 2005",
+  "difficulty": "Moderate",
+  "question": "Regarding self-acquired property, what right does a father retain under the Hindu Succession (Amendment) Act, 2005?",
+  "options": [
+   "The father retains the right to gift or will self-acquired property to anyone, without obligation to provide a share to daughters",
+   "Daughters have automatic equal rights in self-acquired property just like ancestral property",
+   "The father cannot will self-acquired property to sons only",
+   "Self-acquired property is treated identically to ancestral property under the Act",
+   "Daughters can claim a mandatory 50% share in self-acquired property"
+  ],
+  "correct": 0,
+  "exp": "In self-acquired property, daughters do not have automatic rights as in ancestral property; the father can gift/will it to anyone he chooses."
+ },
+ {
+  "id": "q0257",
+  "section": "Hindu Succession (Amendment) Act, 2005",
+  "difficulty": "Moderate",
+  "question": "Under what circumstance does a married daughter retain the right to reside in her parental home?",
+  "options": [
+   "Only if she is unemployed",
+   "If she is deserted, divorced, or widowed",
+   "Only if her husband consents",
+   "Only if she has no children",
+   "Only if she is below 25 years of age"
+  ],
+  "correct": 1,
+  "exp": "A married daughter has the right to reside in her parental home if she is deserted, divorced, or widowed."
+ },
+ {
+  "id": "q0258",
+  "section": "Hindu Succession (Amendment) Act, 2005",
+  "difficulty": "Moderate",
+  "question": "Post-amendment, can a daughter be appointed as 'karta' (manager) of a Hindu Undivided Family (HUF)?",
+  "options": [
+   "No, only sons can be karta",
+   "Only in Dayabhaga-following states",
+   "Yes, daughters are considered coparceners and can be appointed as karta",
+   "Only with unanimous consent of male members",
+   "Only if she is unmarried"
+  ],
+  "correct": 2,
+  "exp": "Post-amendment, daughters are considered coparceners in their father's HUF and can also be appointed as 'karta' of the HUF property."
+ },
+ {
+  "id": "q0259",
+  "section": "Hindu Succession (Amendment) Act, 2005",
+  "difficulty": "Hard",
+  "question": "Under which Hindu inheritance practice do sons automatically acquire a share in ancestral property by birth?",
+  "options": [
+   "Dayabhaga",
+   "Neither; this is a post-2005 concept only",
+   "Manusmriti-based practice",
+   "Mitakshara",
+   "Both equally"
+  ],
+  "correct": 3,
+  "exp": "Under Mitakshara (widespread across most of India), sons automatically acquire a share in ancestral property by birth; under Dayabhaga, inheritance rights are deferred until the father's death."
+ },
+ {
+  "id": "q0260",
+  "section": "Hindu Succession (Amendment) Act, 2005",
+  "difficulty": "Moderate",
+  "question": "The Dayabhaga school of Hindu inheritance is primarily followed in which region?",
+  "options": [
+   "Uttar Pradesh and Bihar",
+   "Rajasthan and Gujarat",
+   "Punjab and Haryana",
+   "Tamil Nadu and Kerala",
+   "Bengal and parts of Assam"
+  ],
+  "correct": 4,
+  "exp": "Dayabhaga is primarily followed in Bengal and parts of Assam, while Mitakshara is the norm in most other parts of India."
+ },
+ {
+  "id": "q0261",
+  "section": "Hindu Succession (Amendment) Act, 2005",
+  "difficulty": "Moderate",
+  "question": "Are Mitakshara and Dayabhaga systems distinguished by caste or by geography?",
+  "options": [
+   "By geography",
+   "By caste",
+   "By religion",
+   "By income level",
+   "By the age of the individual"
+  ],
+  "correct": 0,
+  "exp": "These two systems are not distinguished by caste but by geography — Mitakshara in most parts, Dayabhaga predominating in eastern India."
+ },
+ {
+  "id": "q0262",
+  "section": "Autonomous Organizations under MoWCD",
+  "difficulty": "Moderate",
+  "question": "In which year was NIPCCD (National Institute of Public Cooperation and Child Development) set up?",
+  "options": [
+   "1953",
+   "1966",
+   "1975",
+   "1992",
+   "1986"
+  ],
+  "correct": 1,
+  "exp": "NIPCCD was set up in 1966 and provides training to functionaries under ICDS and ICPS."
+ },
+ {
+  "id": "q0263",
+  "section": "Autonomous Organizations under MoWCD",
+  "difficulty": "Moderate",
+  "question": "NIPCCD provides training to functionaries under which two schemes, as per the document?",
+  "options": [
+   "Anganwadi Services and Sakhi Niwas only",
+   "PMMVY and BBBP",
+   "ICDS (Integrated Child Development Services) and ICPS (Integrated Child Protection Scheme)",
+   "SAG and PALNA",
+   "Mission Shakti and Mission Vatsalya only"
+  ],
+  "correct": 2,
+  "exp": "NIPCCD provides training to functionaries under ICDS and ICPS."
+ },
+ {
+  "id": "q0264",
+  "section": "Autonomous Organizations under MoWCD",
+  "difficulty": "Moderate",
+  "question": "In which year was the National Commission for Women (NCW) set up?",
+  "options": [
+   "1995",
+   "1990",
+   "2000",
+   "1992",
+   "1985"
+  ],
+  "correct": 3,
+  "exp": "NCW was set up in 1992."
+ },
+ {
+  "id": "q0265",
+  "section": "Autonomous Organizations under MoWCD",
+  "difficulty": "Moderate",
+  "question": "Which of the following is NOT a stated role of the National Commission for Women (NCW)?",
+  "options": [
+   "Recommend remedial legislative measures",
+   "Advise the Government on policy matters affecting women",
+   "Facilitate grievance redressal",
+   "Review constitutional and legal safeguards for women",
+   "Directly adjudicate and pass binding criminal sentences in sexual harassment cases"
+  ],
+  "correct": 4,
+  "exp": "NCW reviews safeguards, recommends legislative measures, facilitates grievance redressal, and advises government — it does not have criminal sentencing/adjudication powers."
+ },
+ {
+  "id": "q0266",
+  "section": "Autonomous Organizations under MoWCD",
+  "difficulty": "Moderate",
+  "question": "In which month and year was the National Commission for Protection of Child Rights (NCPCR) set up?",
+  "options": [
+   "March 2007",
+   "January 2005",
+   "March 2012",
+   "August 2000",
+   "June 2009"
+  ],
+  "correct": 0,
+  "exp": "NCPCR was set up in March 2007."
+ },
+ {
+  "id": "q0267",
+  "section": "Autonomous Organizations under MoWCD",
+  "difficulty": "Moderate",
+  "question": "NCPCR's role is to ensure laws, policies, programmes and administrative mechanisms are in consonance with Child Rights, covering which age group?",
+  "options": [
+   "3-18 age group",
+   "0-18 age group",
+   "0-14 age group",
+   "0-21 age group",
+   "6-18 age group"
+  ],
+  "correct": 1,
+  "exp": "NCPCR ensures consonance with Child Rights per the Constitution and the UN Convention on the Rights of the Child, covering the 0-18 age group."
+ },
+ {
+  "id": "q0268",
+  "section": "Autonomous Organizations under MoWCD",
+  "difficulty": "Moderate",
+  "question": "CARA is described as the nodal body for adoption of Indian children, mandated to monitor and regulate which two categories of adoption?",
+  "options": [
+   "Only inter-country adoptions",
+   "Only step-parent adoptions",
+   "In-country and inter-country adoptions",
+   "Only foster adoptions",
+   "Only relative adoptions"
+  ],
+  "correct": 2,
+  "exp": "CARA monitors and regulates both in-country and inter-country adoptions."
+ },
+ {
+  "id": "q0269",
+  "section": "Autonomous Organizations under MoWCD",
+  "difficulty": "Moderate",
+  "question": "In which year was the Central Social Welfare Board (CSWB) set up?",
+  "options": [
+   "1966",
+   "1961",
+   "1975",
+   "1953",
+   "1992"
+  ],
+  "correct": 3,
+  "exp": "CSWB was set up in 1953 to promote social welfare activities and implement welfare programmes for women and children through voluntary organizations."
+ },
+ {
+  "id": "q0270",
+  "section": "Autonomous Organizations under MoWCD",
+  "difficulty": "Moderate",
+  "question": "In which year was the Rashtriya Mahila Kosh (RMK) set up?",
+  "options": [
+   "1990",
+   "2000",
+   "1985",
+   "1996",
+   "1993"
+  ],
+  "correct": 4,
+  "exp": "RMK was set up in 1993 for the socio-economic development of women."
+ },
+ {
+  "id": "q0271",
+  "section": "Autonomous Organizations under MoWCD",
+  "difficulty": "Hard",
+  "question": "RMK provides loans to NGOs and Microfinance Institutions (MFIs), termed as what, which on-lend to Self-Help Groups (SHGs)?",
+  "options": [
+   "Intermediary Organisations (IMO)",
+   "Lending Support Agencies (LSA)",
+   "Self-Help Facilitation Agencies (SFA)",
+   "Credit Delivery Units (CDU)",
+   "Women Finance Corporations (WFC)"
+  ],
+  "correct": 0,
+  "exp": "RMK terms NGOs and MFIs as Intermediary Organisations (IMO), which on-lend to SHGs."
+ },
+ {
+  "id": "q0272",
+  "section": "Autonomous Organizations under MoWCD",
+  "difficulty": "Hard",
+  "question": "Which of the following statements about autonomous organizations under MoWCD is NOT correct?",
+  "options": [
+   "CSWB was set up in 1953 to promote social welfare activities through voluntary organizations.",
+   "CARA was set up in 1966 alongside NIPCCD as a twin body for child protection training.",
+   "RMK was set up in 1993 for socio-economic development of women.",
+   "NCPCR was set up in March 2007 to ensure consonance with Child Rights.",
+   "NIPCCD was set up in 1966 and trains functionaries under ICDS and ICPS."
+  ],
+  "correct": 1,
+  "exp": "CARA's specific year of establishment is not stated as 1966 in the document; NIPCCD (not CARA) was set up in 1966, and CARA is described distinctly as the nodal adoption body."
+ }
+]
+</script>
+
+<script>
+// ============================================================
+// NABARD Grade A Practice Quiz — MoWCD Schemes
+// Self-contained vanilla JS quiz engine
+// ============================================================
+(function(){
+  "use strict";
+
+  var ALL_Q = JSON.parse(document.getElementById('quiz-data').textContent);
+  var LETTERS = ["A","B","C","D","E"];
+
+  // ---------- Derived data ----------
+  var SECTIONS = [];
+  (function buildSections(){
+    var seen = {};
+    ALL_Q.forEach(function(q){
+      if(!seen[q.section]){ seen[q.section] = 0; SECTIONS.push(q.section); }
+      seen[q.section]++;
+    });
+    SECTIONS._counts = seen;
+  })();
+
+  function sectionCount(name){
+    var c = 0;
+    for(var i=0;i<ALL_Q.length;i++){ if(ALL_Q[i].section === name) c++; }
+    return c;
+  }
+
+  // ---------- App State ----------
+  var state = {
+    screen: 'home',           // home | setup | sectiongrid | quiz | results
+    mode: null,                // 'full' | 'section'
+    order: 'pdf',               // 'pdf' | 'shuffled'
+    activeSection: null,
+    queue: [],                  // array of question objects for current run
+    idx: 0,
+    answers: {},                 // qid -> {status:'correct'|'wrong'|'skipped', chosen:index|null}
+    lastRunConfig: null          // to support Retry Same Set
+  };
+
+  var root = document.getElementById('app');
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){
+      var j = Math.floor(Math.random()*(i+1));
+      var t=a[i]; a[i]=a[j]; a[j]=t;
+    }
+    return a;
+  }
+
+  // ---------- Render dispatcher ----------
+  function render(){
+    if(state.screen === 'home') return renderHome();
+    if(state.screen === 'fullsetup') return renderFullSetup();
+    if(state.screen === 'sectiongrid') return renderSectionGrid();
+    if(state.screen === 'quiz') return renderQuiz();
+    if(state.screen === 'results') return renderResults();
+  }
+
+  function header(subtitle){
+    return (
+      '<header class="topbar">' +
+        '<div class="brand">' +
+          '<div class="kicker">NABARD Grade A &middot; Practice Series</div>' +
+          '<h1>Ministry of Women &amp; Child Development — Schemes Quiz</h1>' +
+          '<div class="sub">' + subtitle + '</div>' +
+        '</div>' +
+        (state.screen !== 'home' ? '<button class="pill-btn" onclick="QuizApp.goHome()">&larr; Menu</button>' : '') +
+      '</header>'
+    );
+  }
+
+  // ---------- HOME ----------
+  function renderHome(){
+    var totalQ = ALL_Q.length;
+    var html = header(totalQ + ' questions &middot; based on the MoWCD Schemes compendium (CGB Mentors)');
+
+    html += '<div class="card">';
+    html += '<div class="home-grid">';
+    html += '<div class="mode-card" onclick="QuizApp.toFullSetup()">' +
+              '<div class="icon">&#9776;</div>' +
+              '<h3>Full Practice Test</h3>' +
+              '<p>Attempt all ' + totalQ + ' questions in one sitting. Choose PDF order or shuffled order before you start.</p>' +
+            '</div>';
+    html += '<div class="mode-card" onclick="QuizApp.toSectionGrid()">' +
+              '<div class="icon">&#9638;</div>' +
+              '<h3>Section-wise Revision</h3>' +
+              '<p>Pick one scheme or Act at a time and drill just that topic — great for targeted revision.</p>' +
+            '</div>';
+    html += '</div>';
+
+    html += '<div class="stat-row">' +
+      '<div class="stat-chip"><b>' + totalQ + '</b> total questions</div>' +
+      '<div class="stat-chip"><b>' + SECTIONS.length + '</b> topics covered</div>' +
+      '<div class="stat-chip"><b>5</b> options per question (A&ndash;E)</div>' +
+      '</div>';
+    html += '</div>';
+
+    root.innerHTML = html;
+  }
+
+  // ---------- FULL TEST SETUP ----------
+  function renderFullSetup(){
+    var html = header('Full Practice Test setup');
+    html += '<div class="card">';
+    html += '<h3 style="margin-top:0;color:var(--navy);">Choose question order</h3>';
+    html += '<div class="toggle-row">' +
+      '<div class="toggle-opt ' + (state.order==='pdf'?'active':'') + '" onclick="QuizApp.setOrder(\'pdf\')">PDF Order<br><span style="font-weight:400;font-size:11.5px;">Follows document section order</span></div>' +
+      '<div class="toggle-opt ' + (state.order==='shuffled'?'active':'') + '" onclick="QuizApp.setOrder(\'shuffled\')">Shuffled<br><span style="font-weight:400;font-size:11.5px;">Random order each attempt</span></div>' +
+      '</div>';
+    html += '<button class="big-btn" onclick="QuizApp.startFull()">Start Full Test (' + ALL_Q.length + ' Qs)</button>';
+    html += '<button class="ghost-btn" onclick="QuizApp.goHome()">Cancel</button>';
+    html += '</div>';
+    root.innerHTML = html;
+  }
+
+  // ---------- SECTION GRID ----------
+  function renderSectionGrid(){
+    var html = header('Section-wise revision &mdash; pick a topic');
+    html += '<div class="card">';
+    html += '<div class="sec-grid">';
+    SECTIONS.forEach(function(sec){
+      html += '<div class="sec-tile" onclick="QuizApp.startSection(' + JSON.stringify(sec).replace(/"/g,'&quot;') + ')">' +
+                '<span class="name">' + escapeHtml(sec) + '</span>' +
+                '<span class="count">' + sectionCount(sec) + ' Qs</span>' +
+              '</div>';
+    });
+    html += '</div></div>';
+    root.innerHTML = html;
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ---------- QUIZ RUN ----------
+  function beginRun(queue, config){
+    state.queue = queue;
+    state.idx = 0;
+    state.answers = {};
+    state.screen = 'quiz';
+    state.lastRunConfig = config;
+    render();
+  }
+
+  function renderQuiz(){
+    var total = state.queue.length;
+    if(total === 0){
+      root.innerHTML = header('') + '<div class="card"><p class="empty-note">No questions found for this selection.</p><button class="big-btn" onclick="QuizApp.goHome()">Back to Menu</button></div>';
+      return;
+    }
+    var q = state.queue[state.idx];
+    var answered = state.answers[q.id];
+    var answeredCount = Object.keys(state.answers).length;
+    var correctCount = 0;
+    Object.keys(state.answers).forEach(function(k){ if(state.answers[k].status==='correct') correctCount++; });
+
+    var pct = Math.round(((state.idx) / total) * 100);
+
+    var html = header(escapeHtml(state.mode==='full' ? 'Full Practice Test' : ('Section: ' + q.section)));
+
+    html += '<div class="quiz-topbar">';
+    html += '<div class="progress-wrap"><div class="progress-track"><div class="progress-fill" style="width:' + pct + '%;"></div></div>' +
+            '<div class="progress-label">Question ' + (state.idx+1) + ' of ' + total + '</div></div>';
+    html += '<div class="score-chip">Score: ' + correctCount + ' / ' + answeredCount + '</div>';
+    html += '</div>';
+
+    html += '<div class="card">';
+    html += '<div class="meta-line"><span class="tag section">' + escapeHtml(q.section) + '</span><span class="tag ' + q.difficulty + '">' + q.difficulty + '</span></div>';
+    html += '<div class="qtext">' + escapeHtml(q.question) + '</div>';
+
+    html += '<div class="options">';
+    q.options.forEach(function(opt, i){
+      var cls = 'opt';
+      var disabled = !!answered;
+      if(answered){
+        cls += ' disabled';
+        if(i === q.correct) cls += ' correct';
+        else if(answered.chosen === i) cls += ' wrong';
+      }
+      html += '<div class="' + cls + '" ' + (disabled ? '' : 'onclick="QuizApp.selectOption(' + i + ')"') + '>' +
+                '<span class="letter">' + LETTERS[i] + '</span>' +
+                '<span>' + escapeHtml(opt) + '</span>' +
+              '</div>';
+    });
+    html += '</div>';
+
+    if(answered){
+      var expCls = answered.status === 'correct' ? 'ok' : (answered.status === 'skipped' ? 'skip' : 'bad');
+      var label = answered.status === 'correct' ? 'Correct!' : (answered.status === 'skipped' ? 'Skipped' : 'Not quite.');
+      html += '<div class="explain show ' + expCls + '"><b>' + label + '</b>' + escapeHtml(q.exp) + '</div>';
+    }
+
+    html += '<div class="quiz-actions">';
+    if(!answered){
+      html += '<button class="skip-btn" onclick="QuizApp.skipQuestion()">Skip &rarr;</button>';
+      html += '<span></span>';
+    } else {
+      html += '<span class="exit-link" onclick="QuizApp.goHome()">Exit to menu</span>';
+      html += '<button class="next-btn" onclick="QuizApp.nextQuestion()">' + (state.idx === total-1 ? 'Finish' : 'Next Question') + ' &rarr;</button>';
+    }
+    html += '</div>';
+
+    html += '</div>';
+    root.innerHTML = html;
+  }
+
+  // ---------- RESULTS ----------
+  function renderResults(){
+    var total = state.queue.length;
+    var correct=0, wrong=0, skipped=0;
+    var byDiff = { Easy:{c:0,t:0}, Moderate:{c:0,t:0}, Hard:{c:0,t:0} };
+
+    state.queue.forEach(function(q){
+      byDiff[q.difficulty].t++;
+      var a = state.answers[q.id];
+      if(!a){ return; } // shouldn't happen, all should be answered/skipped
+      if(a.status === 'correct'){ correct++; byDiff[q.difficulty].c++; }
+      else if(a.status === 'wrong'){ wrong++; }
+      else if(a.status === 'skipped'){ skipped++; }
+    });
+
+    var scorePct = total>0 ? Math.round((correct/total)*100) : 0;
+
+    var html = header('Results summary');
+    html += '<div class="card">';
+    html += '<div class="score-hero">';
+    html += '<div class="big-num">' + correct + '<span> / ' + total + '</span></div>';
+    html += '<div class="pct">' + scorePct + '% accuracy overall</div>';
+    html += '</div>';
+
+    html += '<div class="stat-strip">' +
+      '<div class="item"><div class="n correct-c">' + correct + '</div><div class="l">Correct</div></div>' +
+      '<div class="item"><div class="n wrong-c">' + wrong + '</div><div class="l">Wrong</div></div>' +
+      '<div class="item"><div class="n skip-c">' + skipped + '</div><div class="l">Skipped</div></div>' +
+      '</div>';
+
+    html += '<div class="section-title">Accuracy by difficulty</div>';
+    html += '<div class="breakdown">';
+    ['Easy','Moderate','Hard'].forEach(function(d){
+      var b = byDiff[d];
+      var p = b.t>0 ? Math.round((b.c/b.t)*100) : 0;
+      html += '<div class="bd-card"><div class="lbl">' + d + '</div><div class="val">' + p + '%</div><div class="sub">' + b.c + ' / ' + b.t + ' correct</div></div>';
+    });
+    html += '</div>';
+
+    html += '<div class="end-actions">' +
+      '<button class="big-btn" onclick="QuizApp.retrySame()">Retry Same Set</button>' +
+      '<button class="ghost-btn" onclick="QuizApp.goHome()">Back to Menu</button>' +
+      '</div>';
+    html += '</div>';
+
+    // Review list: missed + skipped
+    var reviewItems = [];
+    state.queue.forEach(function(q){
+      var a = state.answers[q.id];
+      if(a && (a.status === 'wrong' || a.status === 'skipped')){
+        reviewItems.push({q:q, a:a});
+      }
+    });
+
+    html += '<div class="card">';
+    html += '<div class="section-title">Review &mdash; missed &amp; skipped (' + reviewItems.length + ')</div>';
+    if(reviewItems.length === 0){
+      html += '<p class="empty-note">Nothing missed or skipped — clean sweep!</p>';
+    } else {
+      reviewItems.forEach(function(item){
+        var q = item.q, a = item.a;
+        html += '<div class="review-item">';
+        html += '<span class="badge-sec">' + escapeHtml(q.section) + ' &middot; ' + q.difficulty + '</span>';
+        html += '<div class="rq">' + escapeHtml(q.question) + '</div>';
+        if(a.status === 'wrong'){
+          html += '<div class="ra-row your-wrong">Your answer: ' + LETTERS[a.chosen] + '. ' + escapeHtml(q.options[a.chosen]) + '</div>';
+        } else {
+          html += '<div class="ra-row your-skip">You skipped this question</div>';
+        }
+        html += '<div class="ra-row correct-ans">Correct answer: ' + LETTERS[q.correct] + '. ' + escapeHtml(q.options[q.correct]) + '</div>';
+        html += '<div class="rexp">' + escapeHtml(q.exp) + '</div>';
+        html += '</div>';
+      });
+    }
+    html += '</div>';
+
+    html += '<footer class="foot">Offline practice tool &middot; content sourced from the attached MoWCD schemes compendium</footer>';
+
+    root.innerHTML = html;
+  }
+
+  // ============================================================
+  // Public API (bound to window.QuizApp, called from inline handlers)
+  // ============================================================
+  var QuizApp = {
+    goHome: function(){
+      state.screen = 'home';
+      render();
+    },
+    toFullSetup: function(){
+      state.screen = 'fullsetup';
+      render();
+    },
+    setOrder: function(o){
+      state.order = o;
+      render();
+    },
+    startFull: function(){
+      var q = state.order === 'shuffled' ? shuffle(ALL_Q) : ALL_Q.slice();
+      state.mode = 'full';
+      state.activeSection = null;
+      beginRun(q, {type:'full', order: state.order});
+    },
+    toSectionGrid: function(){
+      state.screen = 'sectiongrid';
+      render();
+    },
+    startSection: function(sec){
+      var q = ALL_Q.filter(function(x){ return x.section === sec; });
+      state.mode = 'section';
+      state.activeSection = sec;
+      beginRun(q, {type:'section', section: sec});
+    },
+    selectOption: function(i){
+      var q = state.queue[state.idx];
+      if(state.answers[q.id]) return; // already answered
+      var status = (i === q.correct) ? 'correct' : 'wrong';
+      state.answers[q.id] = { status: status, chosen: i };
+      render();
+    },
+    skipQuestion: function(){
+      var q = state.queue[state.idx];
+      if(state.answers[q.id]) return;
+      state.answers[q.id] = { status: 'skipped', chosen: null };
+      render();
+    },
+    nextQuestion: function(){
+      if(state.idx < state.queue.length - 1){
+        state.idx++;
+        render();
+      } else {
+        state.screen = 'results';
+        render();
+      }
+    },
+    retrySame: function(){
+      var cfg = state.lastRunConfig;
+      if(!cfg) { QuizApp.goHome(); return; }
+      var q;
+      if(cfg.type === 'full'){
+        q = cfg.order === 'shuffled' ? shuffle(ALL_Q) : ALL_Q.slice();
+      } else {
+        q = ALL_Q.filter(function(x){ return x.section === cfg.section; });
+      }
+      beginRun(q, cfg);
+    }
+  };
+
+  window.QuizApp = QuizApp;
+
+  // ---------- init ----------
+  render();
+
+})();
+
+</script>
+</body>
+</html>

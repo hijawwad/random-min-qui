@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ministry of MSME — NABARD Grade A Practice Quiz</title>
+<style>
+  :root {
+    --navy: #12233f;
+    --navy-deep: #0a1626;
+    --gold: #b8862c;
+    --gold-light: #d9a94f;
+    --paper: #f6f3ec;
+    --card: #ffffff;
+    --ink: #1c2430;
+    --muted: #5b6472;
+    --line: #dcd4c2;
+    --correct: #1f7a4d;
+    --correct-bg: #e6f4ec;
+    --wrong: #a3312a;
+    --wrong-bg: #fbe9e7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    color: var(--ink);
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 18px 16px 60px; }
+
+  .masthead {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: #f1ead9;
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::after {
+    content: "";
+    position: absolute; right: -40px; top: -40px;
+    width: 160px; height: 160px;
+    border: 2px solid rgba(216,169,79,0.25);
+    border-radius: 50%;
+  }
+  .eyebrow {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: var(--gold-light);
+    margin: 0 0 6px;
+  }
+  .masthead h1 {
+    margin: 0 0 4px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .masthead p {
+    margin: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: #cdd6e3;
+  }
+
+  .statbar {
+    display: flex;
+    gap: 10px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    flex: 1;
+    min-width: 90px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .stat .num { font-size: 20px; font-weight: 700; color: var(--navy); font-family: Georgia, serif; }
+  .stat .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 2px; }
+
+  .progress-track {
+    height: 6px;
+    background: var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 22px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    width: 0%;
+    transition: width 0.35s ease;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 22px 22px 18px;
+    box-shadow: 0 2px 10px rgba(18,35,63,0.06);
+  }
+  .qmeta {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .qtext {
+    font-size: 18px;
+    line-height: 1.45;
+    margin: 0 0 18px;
+    color: var(--ink);
+  }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    text-align: left;
+    background: #fbfaf6;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14.5px;
+    line-height: 1.4;
+    cursor: pointer;
+    color: var(--ink);
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  }
+  .opt:hover:not(.disabled) { border-color: var(--gold-light); background: #fff; }
+  .opt:active:not(.disabled) { transform: scale(0.995); }
+  .opt-letter {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: #f1ead9;
+    font-family: Georgia, serif;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .opt.correct { background: var(--correct-bg); border-color: var(--correct); }
+  .opt.correct .opt-letter { background: var(--correct); color: #fff; }
+  .opt.wrong { background: var(--wrong-bg); border-color: var(--wrong); }
+  .opt.wrong .opt-letter { background: var(--wrong); color: #fff; }
+  .opt.disabled { cursor: default; }
+  .opt.dim { opacity: 0.55; }
+
+  .feedback {
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.5;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: var(--correct-bg); color: #12502f; border: 1px solid var(--correct); }
+  .feedback.wrong-fb { background: var(--wrong-bg); color: #6f1e19; border: 1px solid var(--wrong); }
+  .feedback strong { display: block; margin-bottom: 3px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .navrow {
+    margin-top: 18px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .nextbtn {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: var(--navy);
+    color: #f1ead9;
+    border: none;
+    padding: 11px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    display: none;
+  }
+  .nextbtn.show { display: inline-block; }
+  .nextbtn:hover { background: var(--navy-deep); }
+
+  /* Results screen */
+  .results { display: none; }
+  .results.show { display: block; }
+  .quizscreen.hide { display: none; }
+
+  .score-hero {
+    background: linear-gradient(135deg, var(--navy), var(--navy-deep));
+    color: #f1ead9;
+    border-radius: 12px;
+    padding: 32px 24px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .score-hero .big { font-size: 48px; font-weight: 700; font-family: Georgia, serif; color: var(--gold-light); }
+  .score-hero .sub { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 13px; color: #cdd6e3; margin-top: 6px; }
+  .score-hero .pct { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 15px; margin-top: 10px; color: #f1ead9; }
+
+  .section-title {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 22px 0 10px;
+    border-bottom: 2px solid var(--gold-light);
+    padding-bottom: 6px;
+  }
+  .review-item {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--wrong);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .review-item .rq { font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--ink); font-family: Georgia, serif; }
+  .review-item .ryour { font-size: 13px; color: var(--wrong); margin-bottom: 4px; }
+  .review-item .rcorrect { font-size: 13px; color: var(--correct); margin-bottom: 6px; }
+  .review-item .rexp { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+  .restartbtn {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: var(--gold);
+    color: #1c1200;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: block;
+    margin: 24px auto 0;
+  }
+  .restartbtn:hover { background: var(--gold-light); }
+
+  .allcorrect {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    text-align: center;
+    color: var(--correct);
+    font-size: 14px;
+    padding: 20px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <p class="eyebrow">NABARD Grade A &middot; Phase I Practice Set</p>
+    <h1>Ministry of MSME — Schemes &amp; Policy</h1>
+    <p>130 questions &middot; PMEGP, CGTMSE, SFURTI, ASPIRE, MSME Champions, RAMP, SRI Fund, PM Vishwakarma</p>
+  </div>
+
+  <div id="quizscreen" class="quizscreen">
+    <div class="statbar">
+      <div class="stat"><div class="num" id="statQnum">1/130</div><div class="lbl">Question</div></div>
+      <div class="stat"><div class="num" id="statScore">0</div><div class="lbl">Score</div></div>
+      <div class="stat"><div class="num" id="statAcc">—</div><div class="lbl">Accuracy</div></div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+    <div class="card">
+      <div class="qmeta" id="qmeta">QUESTION 1</div>
+      <p class="qtext" id="qtext"></p>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="navrow"><button class="nextbtn" id="nextBtn">Next Question →</button></div>
+    </div>
+  </div>
+
+  <div id="results" class="results">
+    <div class="score-hero">
+      <div class="big" id="finalScore">0/130</div>
+      <div class="sub">FINAL SCORE</div>
+      <div class="pct" id="finalPct"></div>
+    </div>
+    <div id="reviewWrap"></div>
+    <button class="restartbtn" id="restartBtn">Restart Quiz</button>
+  </div>
+
+</div>
+
+<script>
+const QUIZ_DATA = [{"id":1,"question":"As per the document, MoMSME's contribution to India's GDP in the 2026 landscape is approximately:","options":["31%","25%","38%","45%","20%"],"correct":0,"explanation":"MoMSME contributes nearly 31% to India's GDP and 45% to total exports."},{"id":2,"question":"In the current 2026 economic landscape, MoMSME is referred to as the:","options":["\"Backbone of Atmanirbhar Bharat\"","\"Engine of Viksit Bharat\"","\"Pillar of New India\"","\"Growth Engine of Bharat 2047\"","\"Foundation of Digital India\""],"correct":1,"explanation":"The Ministry is positioned as the 'Engine of Viksit Bharat.'"},{"id":3,"question":"The revised MSME definition is effective from which date?","options":["April 1, 2024","July 1, 2020","April 1, 2025","March 21, 2025","January 1, 2026"],"correct":2,"explanation":"Revised vide Notification S.O. 1364(E) dated March 21, 2025, effective April 1, 2025."},{"id":4,"question":"Under the revised (2025) MSME definition, what is the investment in Plant & Machinery limit for a Micro enterprise?","options":["₹1 Crore","₹5 Crore","₹10 Crore","₹2.5 Crore","₹25 Crore"],"correct":3,"explanation":"Micro: Investment ₹2.5 Crore, Turnover ₹10 Crore."},{"id":5,"question":"Under the revised (2025) MSME definition, what is the annual turnover limit for a Medium enterprise?","options":["₹250 Crore","₹100 Crore","₹125 Crore","₹400 Crore","₹500 Crore"],"correct":4,"explanation":"Medium: Investment ₹125 Crore, Turnover ₹500 Crore."},{"id":6,"question":"Under the OLD (July 1, 2020) MSME definition, the investment/turnover limits for a Small enterprise were:","options":["₹10 Crore / ₹50 Crore","₹25 Crore / ₹100 Crore","₹1 Crore / ₹5 Crore","₹50 Crore / ₹250 Crore","₹5 Crore / ₹25 Crore"],"correct":0,"explanation":"Old limits: Small ₹10Cr/₹50Cr."},{"id":7,"question":"Compared to the old (2020) MSME definition, the revised (2025) definition enhanced investment and turnover limits by what factors respectively?","options":["2x and 2.5x","2.5x and 2x","3x and 2x","2x and 1.5x","1.5x and 2x"],"correct":1,"explanation":"Investment limits enhanced 2.5x; turnover limits enhanced 2x."},{"id":8,"question":"Which of the following is EXCLUDED while calculating total turnover for MSME classification purposes?","options":["Domestic turnover","GST paid amount","Export turnover","Manufacturing turnover","Service turnover"],"correct":2,"explanation":"Export turnover is excluded from the calculation of total turnover for MSME classification."},{"id":9,"question":"Which of the following statements about the revised MSME definition (2025) is NOT correct?","options":["The distinction between Manufacturing and Service sectors has been removed","The definition was revised via Notification S.O. 1364(E)","Export turnover is excluded from turnover calculation","The distinction between Manufacturing and Service sectors has been retained","Investment limits were enhanced 2.5 times"],"correct":3,"explanation":"Actually, the distinction between Manufacturing and Service sectors has been REMOVED, making this statement incorrect."},{"id":10,"question":"Udyam Registration, as described in the document, is best characterized as:","options":["A paid annual renewal-based registration","A state-level registration requiring physical verification","A one-time registration valid for 5 years only","A registration mandatory only for manufacturing units","A permanent, digital-only, free-of-cost registration based on Aadhaar"],"correct":4,"explanation":"Udyam Registration is permanent, digital-only, free-of-cost, and Aadhaar-based, integrated with IT and GST systems."},{"id":11,"question":"The Udyam Assist Platform (UAP) was launched primarily to:","options":["Bring Informal Micro Enterprises (IMEs) into the formal fold","Provide GST registration to large enterprises","Replace the Udyam Registration portal entirely","Track export performance of MSMEs","Register only medium enterprises"],"correct":0,"explanation":"UAP allows those without GST registration to be classified as MSMEs to access Priority Sector Lending (PSL)."},{"id":12,"question":"Which statutory body is the National Nodal Agency implementing PMEGP?","options":["NSIC","KVIC (Khadi and Village Industries Commission)","Coir Board","SIDBI","SFC"],"correct":1,"explanation":"KVIC is the statutory body implementing PMEGP."},{"id":13,"question":"NSIC (National Small Industries Corporation) primarily focuses on:","options":["Coir industry regulation","Currency issuance for MSMEs","Marketing, technology, and credit support","Implementing PMEGP as the sole nodal agency","Foreign trade agreements"],"correct":2,"explanation":"NSIC focuses on marketing, technology, and credit support."},{"id":14,"question":"Although SIDBI is described as the primary financial institution for MSMEs, it functions under which Ministry?","options":["Ministry of MSME","Ministry of Commerce and Industry","Ministry of Corporate Affairs","Ministry of Finance","Ministry of Rural Development"],"correct":3,"explanation":"SIDBI, though under the Ministry of Finance, is the primary financial institution for MSMEs."},{"id":15,"question":"Under Section 43B(h), a company can claim a tax deduction for payment made to an MSME only if:","options":["The MSME is registered under Udyam Assist Platform","The payment is made within 90 days","The company has a turnover below ₹250 Crore","The MSME belongs to a Special Category","The payment is actually made within the 45/15-day window"],"correct":4,"explanation":"Under 43B(h), tax deduction is allowed only if payment is made within the 45/15 day window."},{"id":16,"question":"As per RBI mandate, companies with what turnover threshold must register on TReDS?","options":["₹250 Crore+","₹100 Crore+","₹500 Crore+","₹50 Crore+","₹1,000 Crore+"],"correct":0,"explanation":"RBI mandate: All companies with turnover of ₹250 Crore+ must register on TReDS."},{"id":17,"question":"Under the Public Procurement Policy, Central Ministries/PSUs must procure a minimum of what percentage of annual purchases from MSMEs?","options":["20%","25%","30%","15%","10%"],"correct":1,"explanation":"25% Mandate for procurement from MSMEs, with sub-targets of 4% SC/ST-owned and 3% Women-owned."},{"id":18,"question":"Within the 25% public procurement mandate, what is the sub-target reserved specifically for Women-owned MSMEs?","options":["4%","5%","3%","2%","7.5%"],"correct":2,"explanation":"Sub-targets: 4% from SC/ST owned MSMEs and 3% from Women-owned MSMEs."},{"id":19,"question":"The ZED Scheme referred to in the regulatory policy section stands for:","options":["Zero Emission Development","Zonal Enterprise Development","Zero Delay Enterprise","Zero Defect Zero Effect","Zero Debt Enterprise"],"correct":3,"explanation":"ZED = Zero Defect Zero Effect, financial assistance for quality and environmental certification."},{"id":20,"question":"Banks are mandated to achieve what sub-target for Micro Enterprises under Priority Sector Lending (PSL)?","options":["10%","5%","6%","12%","7.5%"],"correct":4,"explanation":"Banks are mandated to achieve a 7.5% sub-target for Micro Enterprises under PSL."},{"id":21,"question":"PMEGP was launched as a Central Sector Scheme in which year?","options":["2008-09","2005-06","2000-01","2014-15","2010-11"],"correct":0,"explanation":"PMEGP was launched in 2008-09 as a Central Sector Scheme."},{"id":22,"question":"PMEGP was created by merging which two earlier schemes?","options":["Rural Employment Generation Programme (REGP) and SFURTI","Prime Minister's Rojgar Yojana (PMRY) and Rural Employment Generation Programme (REGP)","National Rural Employment Guarantee and PMRY","Khadi Gramodyog Yojana and PMRY","REGP and ASPIRE"],"correct":1,"explanation":"PMEGP merged PMRY and REGP."},{"id":23,"question":"Under PMEGP, for setting up a new micro enterprise in the General category, what is the beneficiary's own contribution?","options":["5%","15%","10%","20%","25%"],"correct":2,"explanation":"General category beneficiary contribution is 10%; Special category is 5%."},{"id":24,"question":"Under PMEGP, for a General category applicant in an URBAN area, the subsidy is:","options":["25%","35%","10%","15%","20%"],"correct":3,"explanation":"General category: Subsidy Urban 15%, Rural 25%."},{"id":25,"question":"Under PMEGP, for a Special category applicant in a RURAL area, the subsidy is:","options":["25%","15%","45%","30%","35%"],"correct":4,"explanation":"Special category: Subsidy Rural 35%, Urban 25%."},{"id":26,"question":"Under PMEGP, the bank loan (term loan) component for a General category beneficiary is:","options":["90%","95%","85%","80%","75%"],"correct":0,"explanation":"Bank Loan: 90% for General, 95% for Special Category."},{"id":27,"question":"Under PMEGP, working capital support can go up to what percentage of project cost in the manufacturing sector?","options":["60%","40%","50%","30%","25%"],"correct":1,"explanation":"Working Capital: up to 40% in manufacturing and up to 60% in service sector."},{"id":28,"question":"Under PMEGP 2.0 (Upgradation/Expansion of existing units), the maximum project cost for a manufacturing unit is:","options":["₹50 Lakh","₹25 Lakh","₹1 Crore","₹2 Crore","₹75 Lakh"],"correct":2,"explanation":"PMEGP 2.0: Manufacturing up to ₹1 Crore, Business/Service up to ₹25 Lakh."},{"id":29,"question":"Under PMEGP 2.0, the uniform subsidy rate for all categories is 15%, except for NER and Hill States, where it is:","options":["25%","18%","30%","20%","22%"],"correct":3,"explanation":"Subsidy Rate: Uniform 15% for all categories (20% for NER and Hill States)."},{"id":30,"question":"Under PMEGP 2.0, the maximum subsidy for a manufacturing unit in a NER/Hill State is capped at:","options":["₹15 Lakh","₹25 Lakh","₹10 Lakh","₹5 Lakh","₹20 Lakh"],"correct":4,"explanation":"Maximum Subsidy: Manufacturing — ₹15 Lakh (₹20 Lakh for NER/Hill States)."},{"id":31,"question":"Which of the following is the minimum age requirement to be eligible under PMEGP?","options":["Above 18 years","Above 21 years","Above 25 years","Above 16 years","No minimum age"],"correct":0,"explanation":"Age: Above 18 years."},{"id":32,"question":"Under PMEGP, VIII standard pass is mandatory for manufacturing projects costing above:","options":["₹5 Lakh","₹10 Lakh","₹20 Lakh","₹2 Lakh","₹15 Lakh"],"correct":1,"explanation":"VIII standard pass required for projects costing above ₹10 Lakh (Manufacturing) and ₹5 Lakh (Business/Service)."},{"id":33,"question":"Regarding family eligibility under PMEGP, which statement is correct?","options":["Up to two members per family can avail benefits","Only the head of the family is eligible regardless of spouse","Only one person per family (including spouse) is eligible","Family eligibility rules do not apply to Special Category applicants","Any number of family members may apply separately"],"correct":2,"explanation":"Only one person per family (including spouse) is eligible under PMEGP."},{"id":34,"question":"Under PMEGP's Entrepreneurship Development Programme (EDP), what is the duration for projects above ₹5 Lakh?","options":["5 days","15 days","7 days","10 days","3 days"],"correct":3,"explanation":"EDP Duration: 5 days for projects up to ₹5 Lakh; 10 days for projects above ₹5 Lakh."},{"id":35,"question":"Under PMEGP, mandatory EDP is NOT required for projects up to:","options":["₹5 Lakh","₹1 Lakh","₹10 Lakh","₹50,000","₹2 Lakh"],"correct":4,"explanation":"No mandatory EDP for projects up to ₹2 Lakh."},{"id":36,"question":"Under PMEGP, loans up to what amount are collateral-free (covered under CGTMSE)?","options":["₹10 Lakh","₹5 Lakh","₹25 Lakh","₹1 Crore","₹50 Lakh"],"correct":0,"explanation":"Loans up to ₹10 Lakh are collateral-free (covered under CGTMSE)."},{"id":37,"question":"Under PMEGP, the subsidy amount is kept in a Term Deposit with a lock-in period of:","options":["5 years","3 years","2 years","1 year","4 years"],"correct":1,"explanation":"Lock-in Period: Subsidy kept in Term Deposit for 3 years, adjusted after successful operation verification."},{"id":38,"question":"CGTMSE was set up by the Government of India along with which institution?","options":["NABARD","RBI","SIDBI","NSIC","KVIC"],"correct":2,"explanation":"CGTMSE was set up by Government of India and SIDBI."},{"id":39,"question":"What is the launch date of CGTMSE?","options":["1 April 2000","15 August 2000","2 October 2000","30 August 2000","26 January 2000"],"correct":3,"explanation":"CGTMSE was launched on 30 August 2000."},{"id":40,"question":"Under CGTMSE, what is the maximum loan amount eligible for a credit guarantee?","options":["₹5 Crore","₹2 Crore","₹50 Lakh","₹20 Crore","₹10 Crore"],"correct":4,"explanation":"Maximum Loan Amount under CGTMSE: ₹10 Crore."},{"id":41,"question":"For Micro Enterprises, what is the maximum guarantee coverage for loans up to ₹5 Lakh under CGTMSE?","options":["85%","75%","90%","80%","70%"],"correct":0,"explanation":"Micro Enterprises: Up to ₹5 Lakh — 85% coverage."},{"id":42,"question":"Under CGTMSE, what is the guarantee coverage for Women Entrepreneurs / MSEs promoted by Agniveers, across all loan slabs?","options":["85%","90%","80%","95%","75%"],"correct":1,"explanation":"Women Entrepreneurs / Agniveer-promoted MSEs: 90% across all loan slabs."},{"id":43,"question":"Under CGTMSE, for MSEs in NER, J&K, and Ladakh, the guarantee coverage for loans above ₹50 Lakh up to ₹10 Crore is:","options":["80%","85%","75%","70%","90%"],"correct":2,"explanation":"NER/J&K/Ladakh: 80% (up to ₹5L), 80% (₹5L-50L), 75% (₹50L-10Cr)."},{"id":44,"question":"Which of the following is NOT correct regarding CGTMSE guarantee coverage under 'All Other Categories'?","options":["Coverage is 75% flat across all loan slabs","This category includes borrowers not covered under special categories","SC/ST entrepreneurs receive higher coverage than this category","Coverage is 85% flat across all loan slabs","Micro Enterprises can receive higher coverage than this category for small loans"],"correct":3,"explanation":"'All Other Categories' get a flat 75% coverage, not 85% — making the first option incorrect."},{"id":45,"question":"MSEs located in Identified Credit Deficient Districts (ICDD) receive an additional guarantee coverage of how much, effective from December 15, 2023?","options":["10%","3%","7%","2%","5%"],"correct":4,"explanation":"MSEs in ICDD get an additional 5% guarantee coverage over the applicable rate."},{"id":46,"question":"Under CGTMSE's Annual Guarantee Fee (AGF) discount structure, an MSE falling into all three eligible categories (social, geographic, ZED) can get a maximum discount of:","options":["30%","20%","25%","15%","40%"],"correct":0,"explanation":"Each category gives a 10% discount; falling in all three gives a maximum discount of 30%."},{"id":47,"question":"Under CGTMSE, the Annual Guarantee Fee (AGF) must be paid by MLIs within how many days from first disbursement?","options":["15 days","30 days","45 days","60 days","90 days"],"correct":1,"explanation":"AGF Payable by MLIs within 30 days from first disbursement."},{"id":48,"question":"Under CGTMSE's claim settlement process, what percentage of the guaranteed amount is paid as the first installment?","options":["50%","60%","75%","80%","100%"],"correct":2,"explanation":"First Installment: 75% of guaranteed amount. Final Installment: remaining 25%."},{"id":49,"question":"Under CGTMSE, the lock-in period before claim settlement is usually 18 months, but for smaller loans it is reduced to:","options":["6 months","12 months","3 months","9 months","15 months"],"correct":3,"explanation":"Lock-in Period: Usually 18 months (or 9 months for smaller loans)."},{"id":50,"question":"Under CGTMSE, for Working Capital loans, the guarantee tenure is:","options":["3 years (non-renewable)","10 years fixed","Same as the agreed term loan tenure","1 year renewable annually","5 years (renewable in blocks of 5 years)"],"correct":4,"explanation":"Working Capital guarantee tenure: 5 years, renewable in blocks of 5 years."},{"id":51,"question":"Which activity is explicitly stated as INELIGIBLE for CGTMSE coverage?","options":["Agriculture and Self-Help Groups","Trading activities via RRBs","Educational/Training Institutions","Manufacturing activities of Micro Enterprises","Service activities of Small Enterprises"],"correct":0,"explanation":"Agriculture and Self-Help Groups are covered under separate schemes and are ineligible under CGTMSE."},{"id":52,"question":"Newly registered MLIs under CGTMSE are placed at a higher risk premium for at least:","options":["6 months","1 year","2 years","3 years","5 years"],"correct":1,"explanation":"Newly Registered MLIs: Placed at higher risk premium for at least 1 year."},{"id":53,"question":"Which agencies are named as Nodal Agencies for SFURTI implementation?","options":["NSIC and SIDBI","NABARD and RBI","KVIC and Coir Board","MSDE and DFS","CGTMSE and NVCFL"],"correct":2,"explanation":"Nodal Agencies: KVIC, Coir Board, and other specialized agencies."},{"id":54,"question":"SFURTI was originally launched in which year and later revamped as a Central Sector Scheme in which year?","options":["Launched 2008-09; Revamped 2014","Launched 2000-01; Revamped 2010","Launched 2014-15; Revamped 2020","Launched 2005-06; Revamped 2014","Launched 2005-06; Revamped 2020"],"correct":3,"explanation":"Launch Year: 2005-06 (original); Revamped in 2014 as Central Sector Scheme."},{"id":55,"question":"Under SFURTI, a 'Heritage Cluster' involves up to how many artisans and a maximum GoI support of how much?","options":["More than 500 artisans; ₹5.00 Crore","Up to 250 artisans; ₹1.50 Crore","Up to 500 artisans; ₹5.00 Crore","Up to 100 artisans; ₹2.50 Crore","Up to 500 artisans; ₹2.50 Crore"],"correct":4,"explanation":"Heritage Clusters: Up to 500 artisans, Maximum Budget ₹2.50 Crore."},{"id":56,"question":"Under SFURTI, what is the minimum number of artisans required to propose a cluster in NER/hilly areas?","options":["50","100","25","75","150"],"correct":0,"explanation":"Clusters with fewer artisans can be proposed, but not less than 100 (50 for NER & hilly areas)."},{"id":57,"question":"What is the overall maximum GoI funding permissible per project under SFURTI?","options":["₹2.5 crore","₹5 crore","₹10 crore","₹7.5 crore","₹3 crore"],"correct":1,"explanation":"Overall maximum per project: ₹5 crore."},{"id":58,"question":"Under SFURTI, what is the typical project duration?","options":["6–12 months","18–24 months","12–18 months","24–36 months","9–15 months"],"correct":2,"explanation":"Project Duration: 12–18 months."},{"id":59,"question":"Under SFURTI, 'Soft Interventions' (awareness, counselling, skill development, etc.) are funded at what rate, and subject to what cap?","options":["90% GoI funded, capped at ₹50 lakh","100% GoI funded with no upper cap","50% GoI funded, capped at ₹10 lakh","100% GoI funded, capped at 10% of Hard Intervention amount or ₹25 lakh, whichever is less","95% GoI funded, capped at ₹25 lakh"],"correct":3,"explanation":"Soft Interventions are 100% GoI funded, max limit 10% of Hard Intervention amount OR ₹25 lakh, whichever is less."},{"id":60,"question":"Under SFURTI, what percentage of 'Hard Interventions' is GoI funded in North Eastern Region, J&K, and hilly states?","options":["90%","100%","85%","80%","95%"],"correct":4,"explanation":"95% GoI funded for NER, J&K, and hilly states (IA share is only 5% in those cases)."},{"id":61,"question":"Under SFURTI, the Implementing Agency (IA) must contribute what percentage in cash as its own contribution for Hard Interventions (outside NER/J&K/hilly states)?","options":["10%","5%","15%","20%","25%"],"correct":0,"explanation":"IA must contribute 10% in cash as own contribution for Hard Interventions."},{"id":62,"question":"Under SFURTI, 'Thematic Interventions' such as brand building and e-Commerce initiatives are funded at what rate of total budget allocation?","options":["10%","5%","15%","2%","20%"],"correct":1,"explanation":"Thematic interventions are funded at 5% of total budget allocation at the national/sector level."},{"id":63,"question":"ASPIRE has been approved for continuation from FY 2021-22 to FY 2025-26 with a total financial outlay of:","options":["₹310 crore","₹150 crore","₹194.87 crore","₹200 crore","₹250 crore"],"correct":2,"explanation":"ASPIRE continuation outlay: ₹194.87 crore for FY 2021-22 to FY 2025-26."},{"id":64,"question":"The core objective of ASPIRE is to create employment opportunities by establishing a network of:","options":["Technology Business Incubators (TBIs) only","Common Facility Centres (CFCs)","Rural Development Institutes","Livelihood Business Incubators (LBIs)","District Industries Centres (DICs)"],"correct":3,"explanation":"ASPIRE establishes LBIs to impart skill development and incubation to rural youth, women, and unemployed persons."},{"id":65,"question":"Under ASPIRE, an LBI set up by a State Government or MoMSME agency receives a one-time grant for Plant & Machinery of:","options":["75% of cost or up to ₹75 lakh, whichever is less","50% of cost or up to ₹50 lakh, whichever is less","100% of cost with no upper cap","90% of cost or up to ₹90 lakh, whichever is less","100% of cost or up to ₹100 lakh, whichever is less"],"correct":4,"explanation":"Government/State/MoMSME-set-up LBIs: 100% of cost or ₹100 lakh, whichever is less."},{"id":66,"question":"Under ASPIRE, an LBI established by a PRIVATE applicant receives a one-time grant for Plant & Machinery of:","options":["75% of cost or up to ₹75 lakh, whichever is less","100% of cost or up to ₹100 lakh, whichever is less","50% of cost or up to ₹50 lakh, whichever is less","60% of cost or up to ₹60 lakh, whichever is less","80% of cost or up to ₹80 lakh, whichever is less"],"correct":0,"explanation":"Private LBIs: 75% of cost or ₹75 lakh, whichever is less."},{"id":67,"question":"Under ASPIRE, LBIs are expected to train/incubate a minimum of how many youth annually?","options":["100 to 200","300 to 500","500 to 1000","50 to 100","200 to 300"],"correct":1,"explanation":"Target: Train/incubate a minimum of 300 to 500 youth annually."},{"id":68,"question":"Under ASPIRE, what is the target number of LBI centres to be set up between 2021-22 and 2025-26?","options":["100","150","125","200","75"],"correct":2,"explanation":"Target: Setting up of 125 such centres between 2021-22 to 2025-26."},{"id":69,"question":"Regarding Technology Business Incubators (TBI) under ASPIRE, which statement is correct?","options":["TBIs were entirely scrapped with no legacy support","TBIs remain the primary component of ASPIRE","TBIs are now funded exclusively through SIDBI's Fund of Funds","New TBIs have been discontinued due to convergence, but TBIs approved till 31.03.2021 continue to receive financial assistance","New TBI applications are still being accepted as of the latest guidelines"],"correct":3,"explanation":"TBI component discontinued due to convergence with Incubation scheme; TBIs approved till 31.03.2021 continue to get assistance."},{"id":70,"question":"The ASPIRE Fund of Funds under SIDBI had an initial corpus of ₹60 crore, which was augmented by ₹250 crore, making the total corpus:","options":["₹300 crore","₹350 crore","₹250 crore","₹360 crore","₹310 crore"],"correct":4,"explanation":"Initial corpus ₹60 crore + augmentation ₹250 crore = total corpus ₹310 crore."},{"id":71,"question":"Which of the following is NOT listed as a component of the ASPIRE scheme?","options":["MSE Green Investment and Financing for Transformation","Technology Database and Network","Business Accelerator Programme","Startup Promotion Framework","Livelihood Business Incubators"],"correct":0,"explanation":"MSE-GIFT is a sub-scheme under RAMP, not a component of ASPIRE."},{"id":72,"question":"Under ASPIRE's Startup Promotion Framework, a Fund of Funds is created in partnership with:","options":["NABARD","SIDBI","NSIC","RBI","CGTMSE"],"correct":1,"explanation":"A Fund of Funds with SIDBI provides funding support to early-stage enterprises and startups in the agro-rural sector."},{"id":73,"question":"The MSME Champions Scheme was formulated by merging all 6 components of which erstwhile scheme?","options":["Prime Minister's Rojgar Yojana","SFURTI Cluster Development Scheme","Credit Linked Capital Subsidy and Technology Upgradation Scheme (CLCS-TUS)","ASPIRE Incubation Scheme","Rural Employment Generation Programme"],"correct":2,"explanation":"MSME Champions merges all 6 components of the erstwhile CLCS-TUS via the Standing Finance Committee (SFC)."},{"id":74,"question":"The MSME Champions Scheme operates through three main pillars: MSME Sustainable (ZED), MSME Competitive (LEAN), and:","options":["MSME Global (Export Promotion)","MSME Secure (Cybersecurity)","MSME Green (Sustainability Fund)","MSME Innovative (Incubation, IPR, Design, and Digital MSME)","MSME Digital (E-commerce Only)"],"correct":3,"explanation":"The three pillars are MSME Sustainable (ZED), MSME Competitive (LEAN), and MSME Innovative."},{"id":75,"question":"Under the ZED certification structure, what is the cost of Silver (Level 2) certification?","options":["₹10,000","₹90,000","₹25,000","₹50,000","₹40,000"],"correct":4,"explanation":"Cost of Certification: Bronze ₹10,000, Silver ₹40,000, Gold ₹90,000."},{"id":76,"question":"Under the MSME Sustainable (ZED) component, what is the subsidy percentage available to Micro Enterprises?","options":["80%","60%","50%","70%","90%"],"correct":0,"explanation":"Subsidy Structure: Micro 80%, Small 60%, Medium 50%."},{"id":77,"question":"Under ZED, what additional subsidy is available to MSMEs owned by Women/SC/ST Entrepreneurs or located in NER/Himalayan/LWE/Island territories?","options":["+5%","+10%","+15%","+20%","+8%"],"correct":1,"explanation":"+10% for MSMEs owned by Women/SC/ST or located in NER/Himalayan/LWE/Island/Aspirational Districts."},{"id":78,"question":"Under ZED, what additional subsidy is available for MSMEs that are part of SFURTI or MSE-CDP clusters?","options":["+10%","+3%","+5%","+15%","+2%"],"correct":2,"explanation":"+5% for MSMEs that are part of SFURTI or MSE-CDP."},{"id":79,"question":"Under ZED, the 'Joining Reward' amount is ₹10,000, which also results in which additional benefit?","options":["Silver certification becomes free if availed","Gold certification fee is waived entirely","An extra 5% subsidy on Lean tools","Bronze certification becomes free if availed","Automatic Udyam re-registration"],"correct":3,"explanation":"Joining Reward: ₹10,000 (Bronze certification will be free if availed)."},{"id":80,"question":"Under the MSME Competitive (LEAN) component, the scheme engages which type of consultants to assist MSMEs?","options":["Zero Defect Auditors (ZDA)","Credit Guarantee Assessors (CGA)","Digital Transformation Consultants (DTC)","Incubation Mentors (IM)","Lean Manufacturing Consultants (LMC)"],"correct":4,"explanation":"The scheme engages Lean Manufacturing Consultants (LMC) to assist selected MSMEs in chosen clusters."},{"id":81,"question":"Under LEAN, what is the financial assistance for adopting Lean tools at the 'Intermediate' level?","options":["₹1,20,000","Free","₹2,40,000","₹60,000","₹1,00,000"],"correct":0,"explanation":"Financial assistance: Basic Free, Intermediate ₹1,20,000, Advance ₹2,40,000."},{"id":82,"question":"Under LEAN, Intermediate and Advanced levels require the formation of a Group of Enterprises (GoE) consisting of how many MSMEs?","options":["2–5 MSMEs","4–10 MSMEs","10–15 MSMEs","5–20 MSMEs","1–3 MSMEs"],"correct":1,"explanation":"Intermediate and Advanced Levels require formation of a GoE of 4–10 MSMEs."},{"id":83,"question":"Under LEAN, what percentage of the total implementation cost is provided as subsidy?","options":["75%","100%","90%","80%","60%"],"correct":2,"explanation":"Subsidy on Implementation Cost: 90% of the total implementation cost."},{"id":84,"question":"The MSME Innovative Scheme is an amalgamation of which three erstwhile schemes?","options":["ZED, LEAN, and Digital MSME Schemes","PMEGP, CGTMSE, and SFURTI","ASPIRE, RAMP, and SRI Fund","Incubation, Design, and IPR Schemes","TReDS, PSL, and ZED Schemes"],"correct":3,"explanation":"MSME Innovative Scheme amalgamates the erstwhile Incubation, Design, and IPR Schemes."},{"id":85,"question":"Under the Incubation component of MSME Innovative Scheme, financial assistance to Host Institutes for idea development is capped at:","options":["₹1 crore per idea","₹5 lakh per idea","₹25 lakh per idea","₹40 lakh per idea","₹15 lakh per idea"],"correct":4,"explanation":"Financial assistance up to ₹15 lakh per idea to Host Institutes (HI) for idea development and nurturing."},{"id":86,"question":"Under the Design component of MSME Innovative Scheme, GoI contributes 75% of total project cost up to a maximum of how much for a regular Design Project?","options":["₹40 lakh","₹2.5 lakh","₹1 crore","₹15 lakh","₹25 lakh"],"correct":0,"explanation":"Design Project: GoI contributes 75%, up to a maximum of ₹40 lakh (Student Project: max ₹2.5 lakh)."},{"id":87,"question":"Under the IPR component, what is the maximum reimbursement available for registering a Foreign Patent?","options":["₹1.00 lakh","₹5.00 lakh","₹2.00 lakh","₹0.15 lakh","₹10.00 lakh"],"correct":1,"explanation":"Foreign Patent reimbursement: ₹5.00 lakh; Domestic Patent: ₹1.00 lakh."},{"id":88,"question":"Under the IPR component, what is the maximum reimbursement available for Trademark registration?","options":["₹0.15 lakh","₹1.00 lakh","₹0.10 lakh","₹2.00 lakh","₹0.50 lakh"],"correct":2,"explanation":"Trademark reimbursement: ₹0.10 lakh (₹10,000)."},{"id":89,"question":"Which of the following is NOT an eligible entity to register as a Host Institute (HI) under the Incubation component?","options":["Technical Colleges and Universities","R&D Institutes","NGOs","Individual private entrepreneurs without institutional affiliation","MSME-DIs/Technology Centres"],"correct":3,"explanation":"HI registration is for institutions like Technical Colleges, Universities, R&D Institutes, NGOs, MSME-DIs/Technology Centres, or Govt organisations — not individual entrepreneurs."},{"id":90,"question":"Under IPR, the grant of up to ₹1 crore to Intellectual Property Facilitation Centres (IPFC) is disbursed as:","options":["A single lump-sum payment","Quarterly fixed installments","Annual installments over 5 years","Only upon patent grant","Milestone-based installments"],"correct":4,"explanation":"Grant of up to ₹1 crore to IPFCs is provided in milestone-based installments."},{"id":91,"question":"The objective of the Digital MSME component is to make MSMEs digitally empowered by encouraging adoption of:","options":["Information Communication Technology (ICT) tools","Blockchain-based ledgers only","AI-only manufacturing systems","Cloud storage exclusively for exports","Cryptocurrency payment systems"],"correct":0,"explanation":"Digital MSME aims to make MSMEs adopt ICT tools/applications; target group is Existing Entrepreneurs."},{"id":92,"question":"Eligibility for ZED Certification under MSME Champions requires MSMEs to be registered on which portal?","options":["CHAMPIONS Portal","Udyam Registration Portal","TReDS Portal","GeM Portal","ONDC Portal"],"correct":1,"explanation":"Eligibility for ZED: All MSMEs registered on the Udyam Registration Portal."},{"id":93,"question":"The RAMP Scheme is best described as:","options":["A state-sector cluster scheme","A UN-funded rural credit scheme","A World Bank-supported Central Sector Scheme","An ADB co-financed guarantee scheme","A purely domestic outlay scheme with no external funding"],"correct":2,"explanation":"RAMP is a World Bank-supported Central Sector Scheme."},{"id":94,"question":"RAMP was announced in the Union Budget 2022-23 and formally launched on 30 June 2022 by:","options":["Finance Minister Nirmala Sitharaman","MSME Minister","President of India","Prime Minister Narendra Modi","Secretary, DFS"],"correct":3,"explanation":"Launched 30 June 2022 by Prime Minister Narendra Modi (announced by FM Sitharaman, approved by Union Cabinet)."},{"id":95,"question":"What is the total outlay of the RAMP Scheme, and its duration?","options":["₹13,000 crore, for 2022-23 to 2027-28","₹3,750 crore, for 2021-22 to 2025-26","₹194.87 crore, for 2022-23 to 2026-27","₹10,000 crore, for 2022-23 to 2026-27","₹6,062.45 crore, for 2022-23 to 2026-27"],"correct":4,"explanation":"Total Outlay: ₹6,062.45 crore (USD 808 million), Duration: 2022-23 to 2026-27."},{"id":96,"question":"Within RAMP's total outlay, the World Bank Loan component amounts to:","options":["₹3,750 crore (USD 500 million)","₹6,062.45 crore (USD 808 million)","₹2,312.45 crore (USD 308 million)","₹5,000 crore (USD 650 million)","₹1,000 crore (USD 150 million)"],"correct":0,"explanation":"World Bank Loan: ₹3,750 crore (USD 500 million); GoI counterpart funding: USD 308 million."},{"id":97,"question":"RAMP was formulated based on the recommendations of which committees/councils?","options":["Rangarajan Committee, Raghuram Rajan Committee, and NITI Aayog","U.K. Sinha Committee, KV Kamath Committee, and EAC-PM","Y.V. Reddy Committee and RBI Internal Working Group","Bimal Jalan Committee and SEBI Task Force","Kelkar Committee and Finance Commission"],"correct":1,"explanation":"RAMP formulated based on U.K. Sinha Committee, KV Kamath Committee, and EAC-PM recommendations."},{"id":98,"question":"Which of the following is NOT listed among RAMP's five key interventions?","options":["Strengthening coordination and institutions at National and State levels","Building and integrating technology platforms","Providing direct equity investment to individual MSMEs","Strengthening the receivables financing market","Reducing incidence of delayed payments to MSEs"],"correct":2,"explanation":"Direct equity investment to individual MSMEs is not a RAMP intervention — that function is closer to the SRI Fund's role."},{"id":99,"question":"RAMP disburses funds based on the World Bank's:","options":["Development Policy Loan (DPL) instrument","Investment Project Financing (IPF) instrument","Technical Assistance (TA) grant mechanism","Programme for Results (PforR) instrument","Sector-Wide Approach (SWAp) instrument"],"correct":3,"explanation":"RAMP follows the World Bank's Programme for Results (PforR) instrument, disbursing based on DLIs."},{"id":100,"question":"Which of the following is NOT one of RAMP's Disbursement Linked Indicators (DLIs)?","options":["Implementing the National MSME Reform Agenda","Enhancing effectiveness of MSME Champions Scheme","Strengthening Receivables Financing Market for MSMEs","Reducing the incidence of delayed payments","Doubling MSME exports within two years"],"correct":4,"explanation":"'Doubling MSME exports' is not one of the 6 listed DLIs under RAMP."},{"id":101,"question":"All States/UTs are invited under RAMP to prepare which type of plan, funded based on appraisals?","options":["Strategic Investment Plans (SIPs)","State Credit Plans (SCPs)","District Industrial Plans (DIPs)","Annual Action Plans (AAPs)","MSME Growth Charters (MGCs)"],"correct":0,"explanation":"States/UTs prepare Strategic Investment Plans (SIPs), funded based on appraisals."},{"id":102,"question":"The MSE-GIFT sub-scheme under RAMP provides an interest subvention of 2% p.a. up to a term loan of:","options":["₹1 crore","₹2 crore","₹5 crore","₹50 lakh","₹3 crore"],"correct":1,"explanation":"MSE-GIFT: Interest subvention of 2% p.a. up to term loan of ₹2 crore."},{"id":103,"question":"What is the total outlay of the MSE-GIFT sub-scheme, and its duration?","options":["₹472.5 crore, 2023-24 to 2026-27","₹277.35 crore, 3 years","₹478 crore, 2023-24 to 2025-26","₹500 crore, 2022-23 to 2026-27","₹350 crore, 2023-24 to 2025-26"],"correct":2,"explanation":"MSE-GIFT Outlay: ₹478 crore (2023-24 to 2025-26)."},{"id":104,"question":"The MSE-SPICE sub-scheme under RAMP primarily promotes:","options":["Green hydrogen adoption in manufacturing","Online dispute resolution for delayed payments","Digital onboarding on ONDC","Circular economy principles (recycling, reuse, responsible consumption)","Foreign patent filing for MSMEs"],"correct":3,"explanation":"MSE-SPICE promotes circular economy principles with an outlay of ₹472.5 crore (2023-24 to 2026-27)."},{"id":105,"question":"The ODR Portal sub-scheme under RAMP is described as a first-of-its-kind scheme that synergises legal support with:","options":["Blockchain smart contracts","Manual arbitration panels only","International trade tribunals","State-level Lok Adalats exclusively","Modern IT tools and Artificial Intelligence"],"correct":4,"explanation":"The ODR Portal synergises legal support with modern IT tools and AI to address delayed payments."},{"id":106,"question":"The MSME TEAM sub-scheme, launched in 2023 with an outlay of ₹277.35 crore, propagates e-commerce among MSMEs through:","options":["ONDC (Open Network for Digital Commerce)","Amazon Global Selling","GeM Portal exclusively","Flipkart Seller Hub","Meesho Partner Network"],"correct":0,"explanation":"MSME TEAM propagates e-commerce through ONDC, implemented by NSIC with ONDC as technical partner."},{"id":107,"question":"Which institution is the Implementing Agency for both MSE-GIFT and MSE-SPICE sub-schemes under RAMP?","options":["NSIC","SIDBI","NABARD","CGTMSE Trust","KVIC"],"correct":1,"explanation":"Implementing Agency for MSE-GIFT & MSE-SPICE: SIDBI."},{"id":108,"question":"RAMP's strategic focus areas include MSME Institutional Strengthening, Firm Competitiveness, and:","options":["Nationalisation of State Khadi Boards","Merger of CGTMSE with SIDBI","Convergence of State-level schemes through Strategic Investment Plans (SIPs)","Consolidation of all MSME portals into one app","Direct cash transfer to all Udyam-registered units"],"correct":2,"explanation":"Strategic Focus Areas: MSME Institutional Strengthening, Convergence of State-level schemes via SIPs, and Firm Competitiveness."},{"id":109,"question":"The Self-Reliant India (SRI) Fund was set up in which year as a Fund of Funds?","options":["2018","2022","2019","2020","2021"],"correct":3,"explanation":"SRI Fund: Set up in 2020 as a Fund of Funds (FoF) to provide growth capital to promising MSMEs."},{"id":110,"question":"The SRI Fund's Mother Fund has a corpus of ₹10,000 crore, leveraged to create a total fund size of:","options":["₹40,000 crore","₹25,000 crore","₹60,000 crore","₹1,00,000 crore","₹50,000 crore"],"correct":4,"explanation":"Mother Fund ₹10,000 crore leveraged to total fund size of ₹50,000 crore (₹10,000 Cr GoI + ₹40,000 Cr Daughter Funds)."},{"id":111,"question":"The SRI Fund's Mother Fund is classified as which type of Alternative Investment Fund (AIF) registered with SEBI?","options":["Category II AIF","Category I AIF","Category III AIF","Category IV AIF","It is not registered as an AIF"],"correct":0,"explanation":"Mother Fund Classification: Category II Alternative Investment Fund (AIF) registered with SEBI."},{"id":112,"question":"Under the SRI Fund's funding ratio, what percentage contribution comes from the Mother Fund versus the amount mobilized by Daughter Funds?","options":["50% Mother Fund + 50% Daughter Funds","20% Mother Fund + 80% Daughter Funds","10% Mother Fund + 90% Daughter Funds","30% Mother Fund + 70% Daughter Funds","40% Mother Fund + 60% Daughter Funds"],"correct":1,"explanation":"Funding Ratio: 20% contribution from Mother Fund + 80% mobilized by Daughter Funds."},{"id":113,"question":"Under the SRI Fund, what is the minimum fund allocation to a Daughter Fund?","options":["₹50 crore (in multiples of ₹10 crore thereafter)","₹10 crore (in multiples of ₹2 crore thereafter)","₹25 crore (in multiples of ₹5 crore thereafter)","₹100 crore (fixed)","₹5 crore (in multiples of ₹1 crore thereafter)"],"correct":2,"explanation":"Minimum Fund Allocation: ₹25 crore to Daughter Funds, in multiples of ₹5 crore thereafter."},{"id":114,"question":"Under the SRI Fund, the maximum exposure per Daughter Fund is capped at ₹2,000 crore, which represents what percentage of the Mother Fund's initial corpus?","options":["10%","25%","15%","20%","30%"],"correct":3,"explanation":"Maximum Exposure per Daughter Fund: ₹2,000 crore (capped at 20% of Mother Fund's initial corpus of ₹10,000 crore)."},{"id":115,"question":"The SRI Fund has an investment lifecycle of 15 years, with an investment period of:","options":["10 years","15 years (same as lifecycle)","8 years","12 years","13 years"],"correct":4,"explanation":"Investment Lifecycle: 15-year life span with a 13-year investment period."},{"id":116,"question":"Under the SRI Fund, Fund Managers/AMCs must have at least 5 years of growth funding experience and must have managed investments of a minimum:","options":["₹500 crore","₹100 crore","₹1,000 crore","₹250 crore","₹2,000 crore"],"correct":0,"explanation":"Fund Manager Requirements: at least 5 years growth funding experience, managed investments of minimum ₹500 crore."},{"id":117,"question":"Which entity acts as the Anchor Investor (SPV) for the SRI Fund?","options":["SBICAP Ventures Ltd (SVL)","NSIC Venture Capital Fund Limited (NVCFL)","SIDBI Venture Capital Ltd","KVIC Investment Trust","NABARD Ventures"],"correct":1,"explanation":"Anchor Investor: NSIC Venture Capital Fund Limited (NVCFL), a subsidiary of NSIC."},{"id":118,"question":"Who has been appointed as the Investment Manager of the SRI Fund by NVCFL?","options":["NSIC Venture Capital Fund Limited","SIDBI Asset Management","SBICAP Ventures Ltd (SVL)","HDFC Capital Advisors","ICICI Venture Fund Management"],"correct":2,"explanation":"Investment Manager: SBICAP Ventures Ltd (SVL), appointed by NVCFL."},{"id":119,"question":"PM Vishwakarma Scheme was launched on:","options":["15 August 2023","26 January 2023","2 October 2023","17 September 2023","1 April 2023"],"correct":3,"explanation":"Launch Date: 17 September 2023."},{"id":120,"question":"PM Vishwakarma is jointly implemented by MoMSME (Nodal), MSDE, and which other department?","options":["Department of Rural Development","Department for Promotion of Industry and Internal Trade (DPIIT)","Department of Expenditure","Department of Skill Certification","Department of Financial Services (DFS), Ministry of Finance"],"correct":4,"explanation":"Implementing Ministries: MoMSME (Nodal), MSDE, and DFS, Ministry of Finance."},{"id":121,"question":"The total outlay of PM Vishwakarma Scheme, fully funded by the Government of India, is:","options":["₹13,000 crore","₹6,062.45 crore","₹10,000 crore","₹15,000 crore","₹8,500 crore"],"correct":0,"explanation":"Outlay: ₹13,000 crore, fully funded by Government of India."},{"id":122,"question":"PM Vishwakarma Scheme's initial duration extends up to which financial year?","options":["FY 2025-26","FY 2027-28","FY 2026-27","FY 2028-29","FY 2029-30"],"correct":1,"explanation":"Duration: Initially for five years (up to FY 2027-28)."},{"id":123,"question":"How many traditional trades are covered under the PM Vishwakarma Scheme?","options":["15","20","18","12","25"],"correct":2,"explanation":"The scheme covers artisans and craftspeople engaged in 18 traditional trades."},{"id":124,"question":"Under PM Vishwakarma, registration and benefits are restricted to how many members per family?","options":["Two family members","Three family members","Unlimited, one per generation","One family member","One per trade practiced"],"correct":3,"explanation":"Family = husband, wife, and unmarried children; registration/benefits restricted to one family member."},{"id":125,"question":"Which category of individuals is explicitly declared INELIGIBLE for PM Vishwakarma, along with their family members?","options":["Individuals above 60 years of age","Individuals residing in urban areas","Individuals who have completed Advanced Skill Training under any scheme","Individuals who own more than one toolkit","Individuals in government service"],"correct":4,"explanation":"Individuals in government service and their family members are ineligible."},{"id":126,"question":"An applicant is ineligible for PM Vishwakarma if they have availed loans under similar credit-based schemes in the past how many years?","options":["5 years","3 years","2 years","10 years","1 year"],"correct":0,"explanation":"Applicant must not have availed loans under similar schemes (e.g., PMEGP, PM SVANidhi, Mudra) in the past 5 years."},{"id":127,"question":"The PM Vishwakarma ID Card issued to artisans is a unique ID card of how many digits?","options":["10-digit","12-digit","16-digit","8-digit","14-digit"],"correct":1,"explanation":"It is a 12-digit unique ID card, along with a PM Vishwakarma Certificate."},{"id":128,"question":"Under PM Vishwakarma's Basic Training, the duration is 40 hours spread over how many days?","options":["3–5 days","10 days","5–7 days","2–3 days","7–10 days"],"correct":2,"explanation":"Basic Training Duration: 40 hours over 5–7 days."},{"id":129,"question":"Under PM Vishwakarma's Basic Training, what daily stipend is credited via DBT after completion and certification by MSDE?","options":["₹300 per day","₹1,000 per day","₹250 per day","₹500 per day","₹750 per day"],"correct":3,"explanation":"Stipend: ₹500 per day, credited via DBT after completion and certification by MSDE."},{"id":130,"question":"Under PM Vishwakarma's Advanced Skill Training, the duration is:","options":["5–7 days / 40 hours","30 days / 240 hours","10 days / 80 hours","20 days / 160 hours","15 days / 120 hours or more"],"correct":4,"explanation":"Advanced Skill Training: 15 days / 120 hours or more."}];
+const letters = ["A","B","C","D","E"];
+
+let current = 0;
+let score = 0;
+let answered = [];   // {qId, chosen, correct, isCorrect}
+let locked = false;
+
+const qmeta = document.getElementById('qmeta');
+const qtext = document.getElementById('qtext');
+const optionsEl = document.getElementById('options');
+const feedbackEl = document.getElementById('feedback');
+const nextBtn = document.getElementById('nextBtn');
+const statQnum = document.getElementById('statQnum');
+const statScore = document.getElementById('statScore');
+const statAcc = document.getElementById('statAcc');
+const progressFill = document.getElementById('progressFill');
+
+function renderQuestion() {
+  locked = false;
+  const q = QUIZ_DATA[current];
+  qmeta.textContent = "QUESTION " + (current+1) + " OF " + QUIZ_DATA.length;
+  qtext.textContent = q.question;
+  optionsEl.innerHTML = "";
+  feedbackEl.className = "feedback";
+  feedbackEl.innerHTML = "";
+  nextBtn.className = "nextbtn";
+
+  q.options.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    div.className = "opt";
+    div.innerHTML = '<div class="opt-letter">' + letters[idx] + '</div><div>' + opt + '</div>';
+    div.addEventListener('click', () => selectOption(idx));
+    optionsEl.appendChild(div);
+  });
+
+  statQnum.textContent = (current+1) + "/" + QUIZ_DATA.length;
+  progressFill.style.width = ((current) / QUIZ_DATA.length * 100) + "%";
+  updateStats();
+}
+
+function updateStats() {
+  statScore.textContent = score;
+  const attempted = answered.length;
+  statAcc.textContent = attempted > 0 ? Math.round(score/attempted*100) + "%" : "—";
+}
+
+function selectOption(idx) {
+  if (locked) return;
+  locked = true;
+  const q = QUIZ_DATA[current];
+  const isCorrect = idx === q.correct;
+  if (isCorrect) score++;
+
+  answered.push({
+    id: q.id,
+    question: q.question,
+    options: q.options,
+    chosen: idx,
+    correct: q.correct,
+    isCorrect: isCorrect,
+    explanation: q.explanation
+  });
+
+  const optDivs = optionsEl.querySelectorAll('.opt');
+  optDivs.forEach((div, i) => {
+    div.classList.add('disabled');
+    if (i === q.correct) div.classList.add('correct');
+    if (i === idx && !isCorrect) div.classList.add('wrong');
+    if (i !== q.correct && i !== idx) div.classList.add('dim');
+  });
+
+  feedbackEl.className = "feedback show " + (isCorrect ? "correct-fb" : "wrong-fb");
+  feedbackEl.innerHTML = "<strong>" + (isCorrect ? "Correct" : "Incorrect") + "</strong>" + q.explanation;
+
+  nextBtn.className = "nextbtn show";
+  updateStats();
+}
+
+nextBtn.addEventListener('click', () => {
+  current++;
+  if (current >= QUIZ_DATA.length) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+});
+
+function showResults() {
+  document.getElementById('quizscreen').classList.add('hide');
+  const results = document.getElementById('results');
+  results.classList.add('show');
+
+  document.getElementById('finalScore').textContent = score + "/" + QUIZ_DATA.length;
+  const pct = Math.round(score/QUIZ_DATA.length*100);
+  document.getElementById('finalPct').textContent = pct + "% accuracy";
+
+  const missed = answered.filter(a => !a.isCorrect);
+  const reviewWrap = document.getElementById('reviewWrap');
+  reviewWrap.innerHTML = "";
+
+  if (missed.length === 0) {
+    reviewWrap.innerHTML = '<div class="section-title">Review</div><div class="allcorrect">Perfect score — every question answered correctly.</div>';
+  } else {
+    const title = document.createElement('div');
+    title.className = "section-title";
+    title.textContent = "Review — " + missed.length + " Missed Question" + (missed.length > 1 ? "s" : "");
+    reviewWrap.appendChild(title);
+
+    missed.forEach(m => {
+      const div = document.createElement('div');
+      div.className = "review-item";
+      div.innerHTML =
+        '<div class="rq">Q' + m.id + '. ' + m.question + '</div>' +
+        '<div class="ryour">Your answer: ' + letters[m.chosen] + ') ' + m.options[m.chosen] + '</div>' +
+        '<div class="rcorrect">Correct answer: ' + letters[m.correct] + ') ' + m.options[m.correct] + '</div>' +
+        '<div class="rexp">' + m.explanation + '</div>';
+      reviewWrap.appendChild(div);
+    });
+  }
+}
+
+document.getElementById('restartBtn').addEventListener('click', () => {
+  current = 0; score = 0; answered = [];
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('quizscreen').classList.remove('hide');
+  renderQuestion();
+});
+
+renderQuestion();
+</script>
+</body>
+</html>

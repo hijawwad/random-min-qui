@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoRD Scheme Compendium — NABARD Grade A Practice Quiz</title>
+<style>
+  :root{
+    --navy:#12263a;
+    --navy-deep:#0b1a29;
+    --slate:#3d5266;
+    --paper:#f6f4ee;
+    --paper-card:#ffffff;
+    --line:#dcd6c8;
+    --gold:#a9762f;
+    --gold-soft:#f1e6d2;
+    --good:#1f7a4d;
+    --good-bg:#e6f4ec;
+    --bad:#a4322a;
+    --bad-bg:#fbeae8;
+    --skip:#8a6d3b;
+    --skip-bg:#fdf3e0;
+    --shadow: 0 4px 18px rgba(18,38,58,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family: "Georgia","Iowan Old Style", serif;
+    background:var(--paper);
+    color:var(--navy-deep);
+    min-height:100vh;
+  }
+  .util-font{ font-family: "Helvetica Neue", Arial, sans-serif; }
+  #app{max-width:920px;margin:0 auto;padding:22px 18px 60px;}
+
+  header.topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 0 18px;border-bottom:2px solid var(--navy);
+    margin-bottom:22px;
+  }
+  header.topbar .brand{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    letter-spacing:.14em;text-transform:uppercase;font-size:12.5px;color:var(--gold);
+    font-weight:700;
+  }
+  header.topbar h1{
+    font-size:22px;margin:2px 0 0;color:var(--navy-deep);font-weight:700;
+  }
+  header.topbar .meta{
+    font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--slate);text-align:right;
+  }
+
+  .card{
+    background:var(--paper-card);
+    border:1px solid var(--line);
+    border-radius:6px;
+    box-shadow:var(--shadow);
+    padding:26px 28px;
+  }
+
+  /* HOME */
+  .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px;}
+  @media(max-width:640px){.mode-grid{grid-template-columns:1fr;}}
+  .mode-card{
+    border:1px solid var(--line);background:var(--paper-card);
+    border-radius:6px;padding:22px;cursor:pointer;transition:.15s;
+    box-shadow:var(--shadow);
+  }
+  .mode-card:hover{border-color:var(--gold);transform:translateY(-2px);}
+  .mode-card h3{margin:0 0 8px;font-size:18px;color:var(--navy-deep);}
+  .mode-card p{margin:0;font-family:"Helvetica Neue",Arial,sans-serif;font-size:13.5px;color:var(--slate);line-height:1.5;}
+  .mode-card .tag{
+    display:inline-block;margin-top:12px;font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:700;
+  }
+
+  .intro-note{
+    font-family:"Helvetica Neue",Arial,sans-serif;color:var(--slate);font-size:13.5px;line-height:1.6;
+    background:var(--gold-soft);border-left:3px solid var(--gold);padding:14px 16px;border-radius:4px;margin-top:20px;
+  }
+
+  /* SECTION GRID */
+  .section-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px;}
+  @media(max-width:640px){.section-grid{grid-template-columns:1fr;}}
+  .section-tile{
+    border:1px solid var(--line);border-radius:6px;padding:16px 18px;cursor:pointer;background:#fff;
+    transition:.15s;
+  }
+  .section-tile:hover{border-color:var(--gold);background:var(--gold-soft);}
+  .section-tile .name{font-weight:700;font-size:15px;color:var(--navy-deep);}
+  .section-tile .count{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--gold);margin-top:4px;}
+
+  .btn{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    display:inline-block;padding:10px 20px;border-radius:4px;border:1.5px solid var(--navy);
+    background:var(--navy);color:#fff;font-size:13.5px;font-weight:700;letter-spacing:.02em;
+    cursor:pointer;text-align:center;
+  }
+  .btn:hover{background:var(--navy-deep);}
+  .btn.secondary{background:#fff;color:var(--navy);border-color:var(--navy);}
+  .btn.secondary:hover{background:var(--paper);}
+  .btn.gold{background:var(--gold);border-color:var(--gold);}
+  .btn.gold:hover{background:#8f6226;}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+
+  .toggle-row{display:flex;gap:10px;align-items:center;margin:14px 0 4px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--slate);}
+  .toggle{
+    display:inline-flex;border:1px solid var(--navy);border-radius:20px;overflow:hidden;
+  }
+  .toggle button{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    border:none;background:#fff;color:var(--navy);padding:6px 16px;font-size:12.5px;cursor:pointer;font-weight:600;
+  }
+  .toggle button.active{background:var(--navy);color:#fff;}
+
+  /* QUIZ HEADER */
+  .quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-family:"Helvetica Neue",Arial,sans-serif;}
+  .quiz-top .progress-label{font-size:12.5px;color:var(--slate);}
+  .quiz-top .score-label{font-size:12.5px;color:var(--navy);font-weight:700;}
+  .progress-bar-bg{width:100%;height:7px;background:var(--line);border-radius:5px;overflow:hidden;margin-bottom:20px;}
+  .progress-bar-fill{height:100%;background:var(--gold);transition:width .25s;}
+
+  .q-meta{
+    font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--gold);font-weight:700;margin-bottom:10px;display:flex;gap:10px;
+  }
+  .q-meta .diff{
+    padding:2px 8px;border-radius:10px;background:var(--gold-soft);color:var(--gold);
+  }
+  .q-text{font-size:17.5px;line-height:1.55;color:var(--navy-deep);margin-bottom:18px;white-space:pre-line;}
+
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{
+    display:flex;gap:12px;align-items:flex-start;
+    border:1.5px solid var(--line);border-radius:6px;padding:12px 14px;cursor:pointer;
+    font-family:"Helvetica Neue",Arial,sans-serif;font-size:14.5px;line-height:1.4;color:var(--navy-deep);
+    background:#fff;transition:.12s;
+  }
+  .opt:hover{border-color:var(--navy);}
+  .opt .letter{
+    font-weight:700;color:var(--gold);min-width:18px;
+  }
+  .opt.correct{background:var(--good-bg);border-color:var(--good);}
+  .opt.correct .letter{color:var(--good);}
+  .opt.wrong{background:var(--bad-bg);border-color:var(--bad);}
+  .opt.wrong .letter{color:var(--bad);}
+  .opt.disabled{cursor:default;}
+  .opt.dim{opacity:.55;}
+
+  .explain-box{
+    margin-top:16px;padding:14px 16px;border-radius:6px;font-family:"Helvetica Neue",Arial,sans-serif;
+    font-size:13.5px;line-height:1.55;display:none;
+  }
+  .explain-box.show{display:block;}
+  .explain-box.good{background:var(--good-bg);color:#15532f;border-left:3px solid var(--good);}
+  .explain-box.bad{background:var(--bad-bg);color:#6e211c;border-left:3px solid var(--bad);}
+  .explain-box.skip{background:var(--skip-bg);color:#6b501f;border-left:3px solid var(--skip);}
+
+  .quiz-actions{display:flex;justify-content:space-between;margin-top:22px;}
+  .quiz-actions .left, .quiz-actions .right{display:flex;gap:10px;}
+
+  /* RESULTS */
+  .score-hero{
+    text-align:center;padding:24px 0 8px;
+  }
+  .score-hero .big{font-size:52px;font-weight:700;color:var(--navy-deep);}
+  .score-hero .sub{font-family:"Helvetica Neue",Arial,sans-serif;color:var(--slate);font-size:14px;margin-top:4px;}
+
+  .diff-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0;}
+  .diff-box{border:1px solid var(--line);border-radius:6px;padding:14px;text-align:center;font-family:"Helvetica Neue",Arial,sans-serif;}
+  .diff-box .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--slate);}
+  .diff-box .val{font-size:22px;font-weight:700;color:var(--navy-deep);margin-top:4px;}
+
+  .review-item{
+    border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin-bottom:10px;
+  }
+  .review-item .rq{font-size:14.5px;margin-bottom:8px;color:var(--navy-deep);}
+  .review-item .ra{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;line-height:1.5;}
+  .review-item .ra .correct-line{color:var(--good);font-weight:700;}
+  .review-item .ra .wrong-line{color:var(--bad);font-weight:700;}
+  .review-item .ra .skip-line{color:var(--skip);font-weight:700;}
+  .review-item .expl{margin-top:6px;color:var(--slate);font-family:"Helvetica Neue",Arial,sans-serif;font-size:12.5px;}
+  .review-tag{
+    font-family:"Helvetica Neue",Arial,sans-serif;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--gold);font-weight:700;
+  }
+
+  h2.section-h{font-size:18px;margin:26px 0 10px;color:var(--navy-deep);border-bottom:1px solid var(--line);padding-bottom:6px;}
+
+  .hidden{display:none !important;}
+  .backlink{
+    font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--slate);cursor:pointer;
+    display:inline-block;margin-bottom:14px;
+  }
+  .backlink:hover{color:var(--navy);}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div>
+      <div class="brand">CGB Mentors · MoRD Compendium</div>
+      <h1>NABARD Grade A Practice Quiz</h1>
+    </div>
+    <div class="meta">257 questions · 5-option format<br>Offline, self-contained</div>
+  </header>
+
+  <div id="screen-home"></div>
+  <div id="screen-sections" class="hidden"></div>
+  <div id="screen-quiz" class="hidden"></div>
+  <div id="screen-results" class="hidden"></div>
+</div>
+
+<script>
+/* =========================================================
+   QUESTION BANK
+   Each entry: [section, difficulty(E/M/H), type(s/t/m), question, [5 options], correctIndex(0-4), explanation]
+   ========================================================= */
+const QUESTIONS = [
+["evolution","M","s","In which year was the Intensive Agricultural District Programme (IADP) launched?",["1960-61","1965-66","1970-71","1973-74","1978-79"],0,"IADP (1960-61) increased agricultural production in 7 districts through a 'package programme.'"],
+["evolution","E","s","The Green Revolution, which revolutionized agriculture with improved seeds and technology, is dated to which period?",["1960-61","1964-65","1970-71","1973-74","1976-77"],1,"The Green Revolution is dated 1964-65."],
+["evolution","M","s","The Rural Works Programme (RWP), aimed at reducing drought impact and providing employment, was later renamed as which programme?",["IRDP","NREP","DPAP","JRY","SGSY"],2,"RWP (1970-71) was later renamed DPAP, focused on minimizing drought effects."],
+["evolution","M","s","The Hill Area Development Programme (HADP), which focused on horticulture, animal husbandry and industry in hill areas, was launched in which year?",["1970-71","1974-75","1976-77","1973-74","1977-78"],3,"HADP was launched in 1973-74."],
+["evolution","H","s","The Command Area Development Programme (CADP), launched in December 1974, was renamed CADWMP in which year and integrated with which scheme since 2016?",["2000; NREGA","2002; SGSY","2006; NRLM","2010; PMGSY","2004; AIBP of PMKSY"],4,"CADP was renamed CADWMP in 2004 and integrated with AIBP of PMKSY since 2016."],
+["evolution","M","s","The Minimum Needs Programme (MNP), part of the Fifth Five Year Plan (1975-76), included which of the following components?",["Education, healthcare, water supply, electrification, roads, nutrition, sanitation","Only irrigation and roads","Only health and education","Wage employment only","Rural credit only"],0,"MNP covered education, healthcare, water supply, electrification, roads, nutrition and sanitation."],
+["evolution","H","s","Under the Minimum Needs Programme, the Rural Sanitation Programme was initiated in which year?",["1975-76","1987-88","1995-96","2000-01","2004-05"],1,"The Rural Sanitation Programme was initiated in 1987-88 under MNP."],
+["evolution","M","s","The Integrated Tribal Development Programme (ITDP) targeted blocks with what minimum tribal population percentage?",["30%","40%",">50%","60%","70%"],2,"ITDP targeted blocks with more than 50% tribal population."],
+["evolution","H","s","The Food for Work Programme (FFWP), launched in 1977 to generate rural employment using surplus food grains, was merged with NREGA in which month/year?",["August 2005","January 2006","April 2007","February 2006","March 2008"],3,"FFWP (renamed National FFWP in 2004) was merged with NREGA in February 2006."],
+["evolution","H","s","The Desert Development Programme (DDP), launched in 1977, has been implemented using a watershed approach since which date?",["January 1, 1990","April 1, 1985","April 1, 2000","January 1, 1995","April 1, 1995"],4,"DDP has used a watershed approach since April 1, 1995."],
+["evolution","M","s","The Integrated Watershed Management Program (IWMP), formed by merging various watershed initiatives, was formed in which year?",["2000","2002","2004","2006","2008"],0,"IWMP was formed in 2000."],
+["evolution","M","s","Which agencies executed the Integrated Rural Development Programme (IRDP), launched in 1978?",["State Rural Livelihood Missions","District Rural Development Agencies (DRDAs)","Block Development Offices","Gram Panchayats","NABARD Regional Offices"],1,"IRDP was executed by District Rural Development Agencies (DRDAs)."],
+["evolution","E","s","IRDP and its allied programmes were eventually merged into which scheme?",["NRLM","PMAY-G","SGSY","MGNREGA","DDU-GKY"],2,"IRDP and allied programmes merged into SGSY."],
+["evolution","H","s","TRYSEM (Training of Rural Youth for Self-Employment), launched on 15 August 1979, mandated what minimum percentage of trainees from SC/ST and women respectively?",["20% SC/ST, 25% women","40% SC/ST, 30% women","25% SC/ST, 40% women","30% SC/ST, 33% women","50% SC/ST, 33% women"],3,"TRYSEM mandated at least 30% SC/ST and 33% women trainees."],
+["evolution","M","s","TRYSEM provided training to rural youth of which age group from BPL families?",["15-30 years","16-32 years","21-40 years","14-28 years","18-35 years"],4,"TRYSEM targeted rural youth aged 18-35 from poor families."],
+["evolution","M","s","The National Rural Employment Programme (NREP), launched in 1980 and managed by DRDA, provided which in-kind benefit per man-day?",["1 kg of food grains","2 kg of food grains","Cash wages only","5 kg of food grains","500 grams of food grains"],0,"NREP provided 1 kg of food grains per man-day."],
+["evolution","M","s","In 1989, NREP was merged with which programme to form the Jawahar Rozgar Yojana (JRY)?",["IRDP","RLEGP","DWCRA","TRYSEM","MWS"],1,"NREP and RLEGP were merged in 1989 to form JRY."],
+["evolution","H","s","DWCRA (Development of Women and Children in Rural Areas), started in 1982, was piloted in how many districts before nationwide expansion?",["25","35","50","75","100"],2,"DWCRA was piloted in 50 districts, then expanded nationwide."],
+["evolution","H","s","The Rural Landless Employment Guarantee Program (RLEGP), launched in August 1983, guaranteed employment to at least one person per landless labourer household for up to how many days a year?",["50 days","60 days","80 days","100 days","125 days"],3,"RLEGP guaranteed up to 100 days of employment per landless labourer household."],
+["evolution","H","s","Indira Awaas Yojana (IAY) was delinked from JRY and made an independent scheme with effect from which date?",["April 1, 1993","January 1, 1999","April 1, 1996","January 1, 1989","January 1, 1996"],4,"IAY became an independent scheme from January 1, 1996."],
+["evolution","H","s","Under IAY, what was the financial assistance for house construction in plain areas versus hilly regions respectively?",["₹70,000 (plain); ₹75,000 (hilly)","₹75,000 (plain); ₹70,000 (hilly)","₹1,20,000 (plain); ₹1,30,000 (hilly)","₹60,000 (plain); ₹65,000 (hilly)","₹50,000 (plain); ₹55,000 (hilly)"],0,"IAY provided ₹70,000 in plain areas and ₹75,000 in hilly regions."],
+["evolution","M","s","Under IAY, funding allocation nationally was fixed at 60% for SC/STs and what percentage for minorities?",["10%","15%","20%","25%","5%"],1,"IAY's national funding allocation was 60% for SC/STs, 15% for minorities."],
+["evolution","E","s","IAY was restructured and renamed Pradhan Mantri Awaas Yojana-Gramin (PMAY-G) with effect from which date?",["November 20, 2016","January 1, 2016","April 1, 2016","October 2, 2014","December 25, 2015"],2,"IAY was renamed PMAY-G with effect from April 1, 2016."],
+["evolution","H","s","Under the Million Wells Scheme (MWS), 1988-89, open wells for irrigation were provided free of cost to which beneficiary group?",["BPL farmers generally","Women SHG members","Marginal farmers","SC/ST beneficiaries","Landless agricultural labourers only"],3,"MWS provided free open wells for irrigation to SC/ST beneficiaries."],
+["evolution","M","s","Under the Jawahar Rozgar Yojana (JRY), 1989, what percentage of employment was reserved for women?",["20%","25%","40%","50%","30%"],4,"JRY reserved 30% of employment for women."],
+["evolution","H","s","Under JRY, what were the funding allocations for IAY and MWS respectively?",["6% for IAY, 20% for MWS","10% for IAY, 15% for MWS","20% for IAY, 6% for MWS","15% for IAY, 25% for MWS","5% for IAY, 30% for MWS"],0,"Under JRY, 6% was allocated for IAY and 20% for MWS."],
+["evolution","M","s","JRY was revamped and renamed as which scheme in 1999?",["Sampoorna Gramin Rozgar Yojana","Jawahar Gram Samridhi Yojana","Swarnajayanti Gram Swarozgar Yojana","National Food for Work Programme","Employment Assurance Scheme"],1,"JRY was renamed Jawahar Gram Samridhi Yojana in 1999."],
+["evolution","H","s","The Employment Assurance Scheme (EAS), launched on 2 October 1993, mandated a wage-material ratio of how much for its labour-intensive projects?",["70:30","50:50","60:40","80:20","40:60"],2,"EAS mandated a wage-material ratio of 60:40."],
+["evolution","H","s","EAS provided up to how many days of assured manual employment at statutory minimum wages, limited to how many beneficiaries per family?",["80 days, 1 beneficiary","120 days, 3 beneficiaries","90 days, 2 beneficiaries","100 days, 2 beneficiaries","100 days, 1 beneficiary"],3,"EAS provided up to 100 days of employment, limited to two beneficiaries per family."],
+["evolution","M","s","The National Social Assistance Programme (NSAP), launched on 15 August 1995, advances the principles of which Articles of the Constitution?",["Articles 38 and 39","Articles 45 and 46","Articles 21 and 25","Articles 14 and 19","Articles 41 and 42"],4,"NSAP advances the principles in Articles 41 and 42."],
+["evolution","M","s","Under NSAP's IGNOAPS component, beneficiaries aged 60+ receive a monthly pension in what range?",["₹200-500","₹300-600","₹500-1000","₹1000-2000","₹100-300"],0,"IGNOAPS provides ₹200-500 monthly to beneficiaries aged 60+."],
+["evolution","E","s","Under NSAP, the National Family Benefit Scheme (NFBS) provides what amount to bereaved households?",["₹10,000","₹20,000","₹15,000","₹25,000","₹30,000"],1,"NFBS provides ₹20,000 to bereaved households."],
+["evolution","H","s","The IGNWPS and IGNDPS components under NSAP, introduced in 2009, cover which beneficiaries respectively?",["Orphans; disabled children","Elderly women; elderly men","Widows aged ≥40; Disabled aged ≥18","Widows aged ≥60; Disabled aged ≥60","Single mothers; war veterans"],2,"IGNWPS covers widows aged ≥40 (₹300-500); IGNDPS covers disabled aged ≥18 (₹300-500)."],
+["evolution","M","s","The Annapurna scheme, launched in 2000 under NSAP, offers how much food grain monthly to eligible seniors?",["5 kg","15 kg","20 kg","10 kg","25 kg"],3,"Annapurna offers 10 kg monthly food grains to seniors."],
+["evolution","M","s","The Rural Employment Generation Programme (REGP), launched by KVIC on 1st April 1995, aimed to create how many jobs in the KVI sector?",["10 lakh","15 lakh","25 lakh","5 lakh","20 lakh"],4,"REGP aimed to create 20 lakh jobs in the KVI sector."],
+["evolution","H","s","The Swarn Jayanti Shahari Rozgar Yojana (SJSRY), launched 1 December 1997 by MoHUA, consolidated which earlier schemes?",["NRY, UBSP, PMIUPEP","IRDP, TRYSEM, DWCRA","JRY, EAS","SGSY, SGRY","NREP, RLEGP"],0,"SJSRY consolidated NRY, UBSP, and PMIUPEP."],
+["evolution","M","s","Under SJSRY, the USEP (Urban Self-Employment Promotion) component offered loans up to ₹2 lakh with what subsidy?",["20% subsidy","25% subsidy","30% subsidy","35% subsidy","15% subsidy"],1,"USEP offered loans up to ₹2 lakh with a 25% subsidy."],
+["evolution","H","s","Which SJSRY component focused on Urban Women SHG Promotion, offering a subsidy or 35% of project cost with a revolving fund?",["UWEP","STEP-UP","UWSP","UCDN","USEP"],2,"UWSP (Urban Women SHG Promotion) offered a subsidy or 35% of project cost with a revolving fund."],
+["evolution","H","s","The Swarnajayanti Gram Swarozgar Yojana (SGSY), launched on 1 April 1999, mandated reservation percentages for SC/ST, women, and disabled beneficiaries as:",["40% SC/ST, 50% women, 5% disabled","60% SC/ST, 30% women, 5% disabled","45% SC/ST, 45% women, 3% disabled","50% SC/ST, 40% women, 3% disabled","55% SC/ST, 35% women, 2% disabled"],3,"SGSY mandated 50% SC/ST, 40% women, 3% disabled."],
+["evolution","H","s","Under SGSY, banks provided a revolving fund of ₹25,000 with DRDAs contributing how much, with interest charged only above what threshold?",["₹5,000; above ₹5,000","₹15,000; above ₹15,000","₹20,000; above ₹15,000","₹5,000; above ₹20,000","₹10,000; above ₹10,000"],4,"DRDAs contributed ₹10,000, with interest charged only on the amount exceeding ₹10,000."],
+["evolution","M","s","Under SGSY, the subsidy was capped at what percentage of project cost, subject to a ceiling of ₹7,500?",["30%","40%","50%","20%","35%"],0,"SGSY subsidy was 30% of project cost, capped at ₹7,500."],
+["evolution","E","s","SGSY was replaced by NRLM with effect from which date?",["April 1, 2011","April 1, 2013","April 1, 2015","January 1, 2013","October 2, 2014"],1,"SGSY was replaced by NRLM from April 1, 2013."],
+["evolution","M","s","The Sampoorna Gramin Rozgar Yojana (SGRY), announced on 15 August 2001, merged which two schemes?",["IRDP and TRYSEM","JRY and NREP","JGSY and EAS","SGSY and DWCRA","NFFWP and MGNREGA"],2,"SGRY merged JGSY and EAS."],
+["evolution","H","s","Under SGRY, wage payment required a minimum percentage in cash along with how much food grain per man-day?",["20% cash; 3 kg grain","30% cash; 10 kg grain","15% cash; 2 kg grain","25% cash; 5 kg grain","50% cash; 5 kg grain"],3,"SGRY required at least 25% cash and 5 kg of food grains per man-day."],
+["evolution","M","s","The Hariyali guidelines, applicable to new watershed projects under IWDP, DPAP, and DDP from April 1, 2003, primarily aimed to:",["Provide urban housing subsidies","Establish rural employment exchanges","Fund skill training centres","Create micro-finance institutions","Harvest rainwater and mitigate drought effects"],4,"Hariyali guidelines aimed to harvest rainwater, generate employment and mitigate drought effects."],
+["evolution","H","s","The National Food for Work Programme (NFFWP), launched 14 November 2004, was implemented in how many backward districts and was funded how?",["150 districts, 100% centrally sponsored","100 districts, 60:40 sharing","200 districts, 90:10 sharing","250 districts, 75:25 sharing","150 districts, 50:50 sharing"],0,"NFFWP was launched in 150 backward districts, 100% centrally sponsored."],
+["pmgsy","E","s","Pradhan Mantri Gram Sadak Yojana (PMGSY) was launched on which date?",["15 August 1999","25 December 2000","2 October 2000","1 April 2000","26 January 2001"],1,"PMGSY was launched on 25.12.2000."],
+["pmgsy","H","s","As per PMGSY definitions, an all-weather road's cross-drainage structure interruption must not exceed how many hours at a time and how many times a year?",["12 hours, 4 times","48 hours, 8 times","24 hours, 6 times","36 hours, 10 times","24 hours, 12 times"],2,"Interruption must not exceed 24 hours at a time, not more than 6 times a year."],
+["pmgsy","H","s","Under PMGSY definitions, an 'unconnected habitation' is one located at what minimum distance from an all-weather road, and what distance in hilly areas?",["1 km; 2 km","250m; 1km","1000m; 2km","500 metres; 1.5 km (path distance) in hills","750m; 1.5km"],3,"Unconnected habitations are at least 500m (or 1.5 km path distance in hills) away."],
+["pmgsy","M","s","Which of the following correctly defines a 'Through Route' under PMGSY's Core Network?",["A road connecting a single habitation to a Market Centre","A road built only in Left Wing Extremism areas","A road exclusively for Union Territories","A dead-end road terminating at a habitation","A route collecting traffic from several link roads/habitations leading to a market centre or higher category road"],4,"Through Routes collect traffic from several link roads/habitations and lead to a market centre or higher category road."],
+["pmgsy","M","s","Under PMGSY Phase-I, what population thresholds made habitations eligible for connectivity in plains, hilly/tribal areas, and LWE areas respectively?",["500; 250; 100","1000; 500; 250","500; 500; 100","250; 100; 50","1000; 250; 100"],0,"Eligibility thresholds were 500 (plains), 250 (hilly/tribal), 100 (LWE areas)."],
+["pmgsy","M","s","Under PMGSY, the standard Centre:State funding ratio, the ratio for NER/Himalayan states, and funding for UTs are respectively:",["70:30, 80:20, 100%","60:40, 90:10, 100%","50:50, 90:10, 90%","60:40, 80:20, 90%","75:25, 95:5, 100%"],1,"Standard ratio is 60:40, 90:10 for NER/Himalayan states, 100% for UTs."],
+["pmgsy","H","s","Under PMGSY special funding provisions, how much was earmarked per litre from the diesel cess for the scheme?",["50 paise","1 rupee","75 paise","25 paise","1.5 rupees"],2,"75 paise per litre was earmarked from the diesel cess."],
+["pmgsy","M","s","Under PMGSY, administrative costs are capped at what percentage of the total project cost?",["5%","1%","3%","2.25%","1.75%"],3,"Administrative costs are limited to 2.25% of total project cost."],
+["pmgsy","H","s","PMGSY Phase-II (2013-2019) targeted the upgradation of how many km of Through Routes and Major Rural Links?",["25,000 km","1,25,000 km","62,500 km","75,000 km","50,000 km"],4,"Phase-II targeted upgradation of 50,000 km of Through Routes and MRLs."],
+["pmgsy","H","s","Under PMGSY Phase-II, special provision for LWE-affected regions extended connectivity to habitations with what population range?",["100-249","50-99","250-499","500-999","1-99"],0,"LWE regions under Phase-II covered habitations with population 100-249."],
+["pmgsy","M","s","PMGSY Phase-III (2019-2025) had a total estimated cost of Rs. 80,250 crore, of which the Central share was:",["Rs. 40,125 crore","Rs. 53,800 crore","Rs. 60,000 crore","Rs. 48,150 crore","Rs. 70,125 crore"],1,"Phase-III's Central share was Rs. 53,800 crore out of Rs. 80,250 crore total."],
+["pmgsy","M","s","PMGSY Phase-III targeted upgradation of how many km of roads?",["80,250 km","62,500 km","1,25,000 km","50,000 km","1,00,000 km"],2,"Phase-III's target was 1,25,000 km."],
+["pmgsy","H","s","Under PMGSY Phase-III, states/UTs could join the scheme only after 100% sanction of PMGSY-I and II works and award of what percentage of length?",["100%","75%","80%","90%","95%"],3,"States/UTs could join Phase-III after 100% sanction of I & II and award of 90% length."],
+["pmgsy","M","s","PMGSY Phase-III roads primarily aim to connect habitations to Gramin Agricultural Markets (GrAMs), higher secondary schools, and:",["Railway stations","District headquarters","Panchayat Bhawans","Post offices","Hospitals"],4,"Phase-III connects habitations to GrAMs, higher secondary schools, and hospitals."],
+["pmgsy","H","s","Under PMGSY, the manual for road specifications is prepared by which body, while specifications are provided by MoRD?",["Indian Road Congress (IRC)","CRRI","NRIDA","NHAI","CPWD"],0,"The manual is prepared by the Indian Road Congress (IRC)."],
+["pmgsy","M","s","Which agency provides Operational and Management support under PMGSY?",["IRC","NRIDA (National Rural Infrastructure Development Agency)","NABARD","SRRDA","CRRI"],1,"NRIDA provides Operational and Management support."],
+["pmgsy","H","s","Under PMGSY, the online platform used to monitor road maintenance for five years post-completion (Defect Liability Period) is called:",["OMMAS","GRRIS","eMARG","Meri Sadak","Sukhad Yatra"],2,"eMARG monitors maintenance under the Defect Liability Period for five years."],
+["pmgsy","M","s","Which mobile app under PMGSY is meant for user feedback, and which app is for lodging road condition complaints?",["Sukhad Yatra; Meri Sadak","GRRIS; OMMAS","eMARG; GRRIS","Meri Sadak; Sukhad Yatra","OMMAS; eMARG"],3,"'Meri Sadak' is for user feedback; 'Sukhad Yatra' is for road condition info/complaints."],
+["pmgsy","M","s","PMGSY-IV, launched for FY 2024-25 to 2028-29, has a total outlay of Rs. 70,125 crore comprising a Central share of:",["Rs. 40,000 crore","Rs. 35,000 crore","Rs. 60,000 crore","Rs. 21,037.50 crore","Rs. 49,087.50 crore"],4,"PMGSY-IV Central share is Rs. 49,087.50 crore (State share Rs. 21,037.50 crore)."],
+["pmgsy","H","s","Under PMGSY-IV, how many unconnected habitations are targeted for coverage?",["25,000","50,000","1,25,000","62,500","75,000"],0,"PMGSY-IV targets 25,000 unconnected habitations."],
+["pmgsy","M","s","Under PMGSY-IV, how many km of all-weather roads are to be constructed for unconnected habitations?",["1,25,000 km","62,500 km","80,250 km","50,000 km","25,000 km"],1,"PMGSY-IV plans 62,500 km of all-weather roads."],
+["pmgsy","H","s","Under PMGSY-IV, population eligibility for NE/Hill States/UTs and special category areas (Tribal Schedule V, Aspirational Districts, Desert areas) is set at:",["500+","100+","250+","1000+","50+"],2,"These special categories require 250+ population under PMGSY-IV."],
+["pmgsy","M","s","PMGSY-IV plans to incorporate international benchmarks and best practices such as Cold Mix Technology, Waste Plastic, and:",["Only bituminous concrete","Reinforced steel bridges only","Prefabricated steel roads","Full Depth Reclamation and use of Fly Ash/Steel Slag","Only cement concrete roads"],3,"PMGSY-IV includes Full Depth Reclamation and use of Fly Ash, Steel Slag, etc."],
+["pmgsy","M","s","PMGSY-IV road alignment planning is undertaken through which portal, which also assists in DPR preparation?",["AwaasSoft","OMMAS","GRRIS","eMARG","PM Gati Shakti portal"],4,"PMGSY-IV alignment planning uses the PM Gati Shakti portal."],
+["pmgsy","H","s","Which THREE special programmes does PMGSY Phase IV converge with for last-mile connectivity to tribal and SC communities?",["DA-JGUA, PM-AJAY, PM-JANMAN","MGNREGA, PMAY-G, NRLM","SAGY, Rurban Mission, Mission Antyodaya","DDU-GKY, SVEP, MKSP","AGEY, SARAS, NRETP"],0,"PMGSY-IV converges with DA-JGUA, PM-AJAY, and PM-JANMAN."],
+["pmgsy","M","s","Under PMGSY, roads are covered under a 5-year maintenance contract along with construction, as per which document?",["DPR guidelines","Standard Bidding Document (SBD)","Core Network Plan","District Rural Roads Plan","GRRIS manual"],1,"Roads are covered under a 5-year maintenance contract per the Standard Bidding Document (SBD)."],
+["pmgsy","M","s","The design life of PMGSY roads is ten years, requiring states to undertake how many further years of maintenance?",["2 years","3 years","5 years","10 years","1 year"],2,"Since design life is 10 years, states must undertake 5 more years of maintenance."],
+["pmgsy","H","s","As of December 2025, PMGSY had sanctioned a total of how many km of rural roads, and completed how many km (reflecting nearly 95% progress)?",["7,00,000 km sanctioned; 6,50,000 km completed","9,00,000 km sanctioned; 8,50,000 km completed","6,50,000 km sanctioned; 6,00,000 km completed","8,25,114 km sanctioned; 7,87,520 km completed","5,00,000 km sanctioned; 4,75,000 km completed"],3,"PMGSY sanctioned 8,25,114 km, completed 7,87,520 km (~95%) as of December 2025."],
+["pmgsy","H","t","Which of the following statements about PMGSY is NOT correct?",["PMGSY was launched on 25.12.2000.","The standard funding ratio between Centre and State is 60:40.","PMGSY-III targets upgradation of 1,25,000 km of roads.","Administrative costs are capped at 2.25% of total project cost.","The unit for PMGSY is the revenue village, not the habitation."],4,"The unit for PMGSY is the habitation, NOT the revenue village or Panchayat."],
+["pmgsy","H","m","Consider the following statements regarding PMGSY:\nI. The habitation, not the revenue village, is the basic unit for the programme.\nII. PMGSY-II created a separate vertical called RCPLWEA for LWE-affected areas.\nIII. Under PMGSY-IV, 9 states have LWE-affected districts covered under the 100+ population criterion.\nIV. eMARG monitors road maintenance for a period of ten years from completion.\nHow many of the above statements are correct?",["Only three","Only two","Only one","All four","None of the above are correct"],0,"I, II, III are correct. IV is false — eMARG monitors for five years (the Defect Liability Period), not ten."],
+["mgnrega","E","s","MGNREGA was launched on which date?",["15 August 2005","2 February 2006","25 December 2005","1 April 2007","2 October 2009"],1,"MGNREGA was launched on 02.02.2006."],
+["mgnrega","M","s","MGNREGA's first phase, initiated on 2 February 2006, covered how many districts?",["100","150","200","250","113"],2,"The first phase covered 200 districts."],
+["mgnrega","E","s","MGNREGA guarantees at least how many days of guaranteed wage employment per financial year to a rural household under the original Act?",["80 days","125 days","150 days","100 days","60 days"],3,"MGNREGA guarantees at least 100 days of guaranteed wage employment."],
+["mgnrega","H","s","As per the document, MGNREGA is currently implemented in how many districts with substantial rural population?",["640","700","685","750","741"],4,"MGNREGA is currently implemented in 741 districts."],
+["mgnrega","M","s","Which ICT innovation under MGNREGA increases transparency in estimating work costs using rural rates for employment?",["SECURE","Project UNNATI","e-Saksham","Janmanrega","GeoMGNREGA"],0,"SECURE (Software for Estimate Calculation Using Rural Rates for Employment) increases cost-estimate transparency."],
+["mgnrega","M","s","Which MGNREGA ICT tool is a mobile app for asset search and feedback, developed by MoRD?",["SECURE","Janmanrega","e-Saksham","GeoMGNREGA","Project UNNATI"],1,"Janmanrega is a mobile app for asset search and feedback."],
+["mgnrega","M","s","Which MGNREGA innovation focuses on geotagging assets for unified tracking?",["SECURE","Janmanrega","GeoMGNREGA","e-Saksham","Project UNNATI"],2,"GeoMGNREGA geotags MGNREGA assets for unified tracking."],
+["mgnrega","M","s","Which institute, along with SIRDs, trains social audit resource persons under MGNREGA?",["NABARD","NRIDA","CAPART","NIRD&PR","IRC"],3,"NIRD&PR, along with SIRDs, trains social audit resource persons."],
+["mgnrega","H","t","Which of the following about MGNREGA is NOT correct?",["MGNREGA was launched on 2 February 2006.","The Act was fully extended to remaining districts from April 1, 2008.","NIRD&PR trains social audit resource persons along with SIRDs.","e-Saksham trains technical personnel using GIS tools.","MGNREGA guarantees 125 days of wage employment per household under the original 2005 Act."],4,"The original 2005 Act guarantees 100 days, not 125 — 125 days is under the VB-GRAM G Act, 2025."],
+["vbgramg","M","s","As per Section 10 of the Viksit Bharat-Guarantee for Rozgar and Ajeevika Mission Gramin (VB-G RAM G) Act, 2025, the wage rate notified shall not be less than the prevailing wage rate notified under which section of MGNREGA, 2005?",["Section 6","Section 4","Section 10","Section 3","Section 15"],0,"The wage rate must not be less than that notified under Section 6 of MGNREGA, 2005."],
+["vbgramg","H","s","Under Sub-section (3) of Section 4 of the VB-G RAM G Act, daily wages must be disbursed on a weekly basis or not later than:",["One month","A fortnight after the work was done","10 days","3 weeks","Immediately"],1,"Wages must be disbursed weekly or not later than a fortnight after the work was done."],
+["vbgramg","H","s","As per Para 6 of Schedule II of the VB-G RAM G Act, wage seekers are entitled to compensation for delay if wages are not paid within how many days from closure of the muster roll?",["7 days","10 days","15 days","21 days","30 days"],2,"Compensation is payable if wages aren't paid within fifteen days of muster roll closure."],
+["vbgramg","M","s","The VB-G RAM G Act increases the administrative expenditure ceiling from what to what?",["5% to 8%","4% to 7%","8% to 10%","6% to 9%","6% to 12%"],3,"The Act raises the administrative expenditure ceiling from 6% to 9%."],
+["vbgramg","E","s","Under the VB-G RAM G Act, the Strengthened Employment Guarantee component guarantees how many days of wage employment?",["100 days","150 days","90 days","110 days","125 days"],4,"The Act guarantees 125 days of wage employment per household."],
+["vbgramg","M","s","Which of the following are the Three Key Components of the Viksit Bharat-G RAM G Bill?",["Strengthened Employment Guarantee; Anchoring Rural Asset Creation; Accountability through Planning, Technology and Institutions","Universal Financial Inclusion; Skill Building; Market Linkages","Housing; Roads; Sanitation","Wage Guarantee; Capital Subsidy; Bank Linkage","Social Audit; Digital Payment; Convergence"],0,"The three key components are: Strengthened Employment Guarantee, Anchoring Rural Asset Creation, and Accountability through Planning, Technology and Institutions."],
+["vbgramg","H","s","Under the VB-G RAM G Act, workers are entitled to 125 guaranteed days of employment within the remaining days after an aggregated no-work period of how many days to ensure agricultural labour availability?",["30 days","60 days","90 days","45 days","15 days"],1,"There is an aggregated 60-day no-work period during peak sowing/harvesting season."],
+["vbgramg","M","s","Employment creation under VB-G RAM G is integrated with infrastructure development through how many priority verticals?",["Two","Three","Four","Five","Six"],2,"Employment creation is integrated through four priority verticals."],
+["vbgramg","H","t","Which of the following is NOT one of the four priority verticals for asset creation under VB-G RAM G?",["Water security through water-related works","Core-rural infrastructure","Livelihood-related infrastructure","Digital literacy infrastructure","Special works to mitigate extreme weather events"],3,"'Digital literacy infrastructure' is not one of the four verticals — the four are water security, core-rural infrastructure, livelihood infrastructure, and extreme weather mitigation."],
+["vbgramg","E","s","Under the paradigm shift from MGNREGA to VB-GRAM G Act 2025, the scale of guarantee increased from 100 days per household to:",["110 days","120 days","105 days","115 days","125 days per household"],4,"The scale of guarantee increased to 125 days per household."],
+["vbgramg","M","s","Under the new VB-GRAM G financial architecture, the scheme shifted from a central sector scheme to a:",["Centrally sponsored framework","Fully state-funded scheme","Externally aided project","Public-Private Partnership model","NABARD-financed scheme"],0,"The shift is from a central sector scheme to a centrally sponsored framework."],
+["vbgramg","H","s","The total estimated annual requirement of funds under VB-GRAM G (wage, material, administrative components including State share) is:",["Rs. 1,25,000 crore","Rs. 1,51,282 crore","Rs. 95,692.31 crore","Rs. 2,00,000 crore","Rs. 80,250 crore"],1,"The total estimated annual requirement is Rs. 1,51,282 crore including State share."],
+["vbgramg","H","s","Of the total estimated annual fund requirement under VB-GRAM G, the estimated Central share is:",["Rs. 1,51,282 crore","Rs. 1,00,000 crore","Rs. 95,692.31 crore","Rs. 60,000 crore","Rs. 55,590 crore"],2,"The estimated Central share is Rs. 95,692.31 crore."],
+["vbgramg","M","s","Under VB-GRAM G, the funding structure provides 100 per cent central funding for:",["North Eastern states","Himalayan states","All States equally","Union Territories without legislatures","LWE-affected districts"],3,"100% central funding is provided for Union Territories without legislatures."],
+["vbgramg","H","s","Under VB-GRAM G, where work is not provided, a daily unemployment allowance becomes payable after how many days, with liability resting on which authority?",["30 days; Centre","7 days; Gram Panchayat","10 days; District Programme Coordinator","20 days; Centre","15 days; States"],4,"Unemployment allowance becomes payable after 15 days, with liability resting on the States."],
+["vbgramg","M","s","Under VB-GRAM G's implementing framework, which institution leads planning and execution, mandated to implement at least half of the works in terms of cost?",["Panchayati Raj Institutions (Gram Panchayats)","District Programme Coordinators","State Steering Committees","Gram Sabhas","Central Gramin Rozgar Guarantee Council"],0,"Panchayati Raj Institutions lead planning/execution, implementing at least 50% of works by cost."],
+["vbgramg","M","s","Under VB-GRAM G, social audits are mandated to be conducted at least how frequently?",["Once a year","Once every six months","Once a quarter","Once every two years","Once every three months"],1,"Social audits are mandated at least once every six months."],
+["vbgramg","H","m","Consider the following statements about the Viksit Bharat-Guarantee for Rozgar and Ajeevika Mission Gramin (VB-G RAM G) Act, 2025:\nI. It guarantees 125 days of wage employment per household per financial year.\nII. The administrative expenditure ceiling was reduced from 9% to 6%.\nIII. The standard Centre:State cost-sharing ratio is 60:40, with 90:10 for NE and Himalayan states.\nIV. Panchayats have no role in supervision of works under the Act.\nHow many of the above statements are correct?",["All four","Only three","Only two","Only one","None of the above are correct"],2,"I and III are correct. II is false — the ceiling was increased from 6% to 9%, not reduced. IV is false — Panchayats have an enhanced supervisory role."],
+["sagy","M","s","Saansad Adarsh Gram Yojana (SAGY) was launched by PM Narendra Modi on 11th October 2014, a date marking the birth anniversary of:",["Mahatma Gandhi","Deendayal Upadhyay","Sardar Patel","Lok Nayak Jai Prakash Narayan","B.R. Ambedkar"],3,"SAGY was launched on the birth anniversary of Lok Nayak Jai Prakash Narayan."],
+["sagy","H","s","Under SAGY, the goal was to develop three Adarsh Grams by March 2019, with one to be achieved by 2016, and thereafter how many Adarsh Grams are to be developed per year till 2024?",["Three per year","Two per year","Four per year","One per year","Five (one per year)"],4,"Thereafter, five such Adarsh Grams (one per year) are to be selected and developed by 2024."],
+["sagy","M","s","SAGY's basic unit for GP Development Initiative requires what population criteria in plains versus hilly/tribal areas?",["3000-5000 (plains); 1000-3000 (hilly/tribal)","5000-8000 (plains); 2000-4000 (hilly/tribal)","2000-4000 (plains); 500-1500 (hilly/tribal)","4000-6000 (plains); 1500-3000 (hilly/tribal)","3000-6000 (plains); 2000-4000 (hilly/tribal)"],0,"The population criteria are 3000-5000 in plains and 1000-3000 in hilly/tribal areas."],
+["sagy","M","s","Under SAGY, how many Gram Panchayats is a Lok Sabha MP required to identify for immediate development, and how many for later?",["2 immediate, 1 later","1 immediate, 2 later","3 immediate, 2 later","1 immediate, 1 later","2 immediate, 2 later"],1,"A Lok Sabha MP identifies 1 GP for immediate development and 2 for later."],
+["sagy","M","s","Under SAGY, from where must a Rajya Sabha MP select a Gram Panchayat for development?",["Only from their home district","Any GP in the country","A rural area in their state","Only from urban constituencies","Only from LWE-affected areas"],2,"A Rajya Sabha MP selects a GP from a rural area in their state."],
+["sagy","M","s","SAGY funding is characterized by which of the following?",["Dedicated new central funds allocated exclusively for SAGY","World Bank loan assistance","100% funding from MPLADS alone","No new funds allocated; raised via IAY, PMGSY, MGNREGS, MPLADS, FC Grants, GP revenue, CSR, etc.","Funded entirely by State Governments"],3,"SAGY has no dedicated new funds; resources are raised via convergence of existing schemes."],
+["sagy","H","t","Which of the following is NOT among the stated objectives of SAGY?",["To trigger processes leading to holistic development of identified Gram Panchayats","Improved basic amenities and higher productivity","Wider social mobilization and enriched social capital","Access to rights and entitlements","Guaranteed 100 days of wage employment per household"],4,"Guaranteed wage employment is an MGNREGA feature, not a stated SAGY objective."],
+["pmayg","M","s","Pradhan Mantri Awas Yojana-Gramin (PMAY-G) was launched on 20.11.2016 from which city?",["Agra","Lucknow","Varanasi","New Delhi","Bhopal"],0,"PMAY-G was launched from Agra on 20.11.2016."],
+["pmayg","M","s","PMAY-G covers rural areas throughout India except:",["Jammu & Kashmir and Ladakh","Delhi and Chandigarh","Goa and Sikkim","Andaman & Nicobar and Lakshadweep","Only metropolitan cities"],1,"PMAY-G covers rural India except Delhi and Chandigarh."],
+["pmayg","M","s","PMAY-G beneficiaries were originally identified through which data source?",["NFSA database","PMJDY records","SECC 2011","Census 2011 population lists","Aadhaar database"],2,"Beneficiaries were identified through SECC 2011."],
+["pmayg","M","s","Under PMAY-G, funding follows a general ratio and a special ratio for NE/Himalayan states of:",["70:30; 95:5","50:50; 80:20","75:25; 85:15","60:40; 90:10","65:35; 90:10"],3,"The funding ratio is 60:40 (general) and 90:10 (NE/Himalayan)."],
+["pmayg","H","s","Under PMAY-G, administrative expenses are capped at what percentage of programme funds?",["1%","5%","3%","1.5%","2%"],4,"Administrative expenses are capped at 2% of programme funds."],
+["pmayg","M","s","PMAY-G's Phase I target was to build how many crore pucca houses by March 31, 2019?",["1 crore","1.5 crore","2 crore","0.5 crore","1.95 crore"],0,"Phase I targeted 1 crore pucca houses by March 31, 2019."],
+["pmayg","M","s","PMAY-G's Phase II targeted how many additional houses, to be completed up to 2022?",["1 crore","1.95 crore","2.95 crore","0.95 crore","3 crore"],1,"Phase II targeted 1.95 crore houses up to 2022."],
+["pmayg","M","s","Under PMAY-G, what is the minimum house size mandated, along with a hygienic cooking space?",["20 sq m","30 sq m","25 sq m","35 sq m","15 sq m"],2,"Minimum house size mandated is 25 sq. m with hygienic cooking space."],
+["pmayg","H","s","Under PMAY-G, beneficiaries are entitled to how many days of unskilled labour under MGNREGS?",["60/70 days","100/110 days","80/85 days","90/95 days","50/55 days"],3,"Beneficiaries are entitled to 90/95 days of unskilled labour under MGNREGS."],
+["pmayg","M","s","Under PMAY-G, additional assistance for toilet construction under SBM-G and MGNREGA amounts to:",["₹10,000","₹15,000","₹20,000","₹8,000","₹12,000"],4,"Additional ₹12,000 is provided for toilet construction."],
+["pmayg","M","s","Under PMAY-G, unit assistance to beneficiaries is ₹1.20 lakh in plain areas and how much in NE Region/Hill States?",["₹1.30 lakh","₹1.25 lakh","₹1.50 lakh","₹1.40 lakh","₹1.35 lakh"],0,"Assistance is ₹1.30 lakh in NE Region/Hill States."],
+["pmayg","M","s","PMAY-G allocation earmarks 60% for SC/ST, 15% for minorities, and what percentage for Persons with Disabilities (PwD)?",["2%","5%","10%","3%","8%"],1,"5% is earmarked for PwD."],
+["pmayg","M","s","PMAY-G mandates an optional loan facility up to what amount for beneficiaries?",["₹50,000","₹1,00,000","₹70,000","₹60,000","₹80,000"],2,"An optional loan facility up to ₹70,000 is available."],
+["pmayg","H","s","The Cabinet approved continuation of PMAY-G from FY 2024-25 to 2028-29 with total outlay of Rs. 3,06,137 crore, of which the Central Share is:",["Rs. 1,00,281 crore","Rs. 1,50,000 crore","Rs. 1,80,000 crore","Rs. 2,05,856 crore","Rs. 2,17,257 crore"],3,"The Central Share for FY2024-25 to 2028-29 is Rs. 2,05,856 crore."],
+["pmayg","H","s","Under the extension of PMAY-G, the State Matching Share for FY 2024-25 to 2028-29 is:",["Rs. 73,475 crore","Rs. 2,05,856 crore","Rs. 1,25,106 crore","Rs. 3,06,137 crore","Rs. 1,00,281 crore"],4,"The State Matching Share is Rs. 1,00,281 crore."],
+["pmayg","H","s","Under PMAY-G extension, administrative funds are set at 2% of programme funds, bifurcated as:",["1.70% to States/UTs, 0.30% retained at Centre","1% to States/UTs, 1% retained at Centre","1.50% to States/UTs, 0.50% retained at Centre","0.30% to States/UTs, 1.70% retained at Centre","2% entirely to States/UTs"],0,"1.70% is released to States/UTs and 0.30% retained at Central level."],
+["pmayg","M","s","The overall ceiling for PMAY-G houses under the FY 2024-25 to 2028-29 extension, covering the Awaas+ list and SECC PWL, is:",["2.95 crore pucca houses","2 crore pucca houses","3 crore pucca houses","1.95 crore pucca houses","1 crore pucca houses"],1,"The overall ceiling is 2 crore pucca houses from April 2024 to March 2029."],
+["pmayg","M","s","Construction of houses for the additional 2 crore households under PMAY-G's next phase is expected to benefit approximately how many individuals?",["5 crore","8 crore","10 crore","12 crore","6 crore"],2,"The additional 2 crore households are expected to benefit nearly 10 crore individuals."],
+["pmayg","H","s","As on 31.03.2024, how many houses remained incomplete from the previous PMAY-G phase, to be completed to reach the cumulative target of 2.95 crore houses?",["25 lakh","50 lakh","20 lakh","35 lakh","45 lakh"],3,"35 lakh houses were incomplete as on 31.03.2024."],
+["pmayg","M","s","Which mobile application, used with AwaasSoft, supports the end-to-end e-Governance model for PMAY-G?",["Meri Sadak","Sukhad Yatra","Kushal Panjee","Janmanrega","AwaasApp"],4,"AwaasApp, along with AwaasSoft, supports PMAY-G's e-Governance model."],
+["pmayg","H","t","Which of the following statements about PMAY-G is NOT correct?",["Continuation of PMAY-G beyond March 2026 requires no further evaluation.","PMAY-G unit assistance remains ₹1.20 lakh in plain areas.","NIRD&PR along with SIRDs are training partners for social audit resource persons under PMAY-G.","Priority for PMAY-G is given to houseless households with 0,1,2 kutcha wall and kutcha roof.","Geo-tagging and time-stamped photographs are linked with financial assistance under PMAY-G."],0,"Continuation beyond March 2026 IS contingent on NITI Aayog evaluation and EFC re-appraisal."],
+["pmayg","H","m","Consider the following statements about PMAY-G:\nI. PMAY-G was launched on 20.11.2016 from Agra.\nII. The scheme covers all States and UTs without exception.\nIII. DISHA Committee meetings, led by Members of Parliament, form part of multi-level monitoring.\nIV. Beneficiaries are entitled to 90/95 days of unskilled labour under MGNREGS.\nHow many of the above statements are correct?",["All four","Only three","Only two","Only one","None of the above are correct"],1,"I, III, IV are correct. II is false — PMAY-G excludes Delhi and Chandigarh."],
+["daynrlm","M","s","DAY-NRLM (Deendayal Antyodaya Yojana-National Rural Livelihood Mission) was launched in which year?",["2009","2013","2011","2014","2016"],2,"DAY-NRLM was launched in 2011."],
+["daynrlm","M","s","DAY-NRLM aims to mobilize how many crore rural poor households into SHGs?",["5 crore","8 crore","12 crore","10 crore","15 crore"],3,"DAY-NRLM aims to mobilize 10 crore rural poor households into SHGs."],
+["daynrlm","M","s","DAY-NRLM's funding pattern under general category, NE states+Sikkim, and UTs respectively is:",["70:30; 95:5; 100%","50:50; 80:20; 100%","75:25; 85:15; 100%","65:35; 90:10; 90%","60:40; 90:10; 100%"],4,"Funding pattern is 60:40 (general), 90:10 (NE+Sikkim), 100% (UTs)."],
+["daynrlm","H","s","DAY-NRLM aims to achieve full mobilization of all rural poor households by which year, and provide livelihood support to how many million rural SHG women?",["2023-24; 25 million","2025-26; 30 million","2022-23; 20 million","2020-21; 15 million","2024-25; 35 million"],0,"Full mobilization by 2023-24; livelihood support to 25 million rural SHG women."],
+["daynrlm","M","s","Under DAY-NRLM, women SHGs must comprise more than what percentage of BPL or rural poor members as per the Participatory Identification Process (PIP)?",["50%","70%","60%","80%","90%"],1,"Women SHGs must comprise more than 70% BPL/rural poor members."],
+["daynrlm","M","s","Under DAY-NRLM, what percentage of total SHG membership may be from the population marginally above the poverty line, subject to group approval?",["20%","25%","30%","40%","10%"],2,"Up to 30% of SHG membership may be marginally above the poverty line."],
+["daynrlm","M","s","DAY-NRLM's mission focuses on four core components: social mobilization, financial inclusion, sustainable livelihoods, and:",["Digital literacy","Skill certification","Housing support","Social inclusion and access to entitlements","Road connectivity"],3,"The fourth core component is social inclusion and access to entitlements through convergence."],
+["daynrlm","H","s","As per PIB data dated 06 Feb 2026, DAY-NRLM has mobilised how many crore rural poor households into how many lakh SHGs?",["8.05 crore households; 70.90 lakh SHGs","12.05 crore households; 100.90 lakh SHGs","9.05 crore households; 80.90 lakh SHGs","11.05 crore households; 95.90 lakh SHGs","10.05 crore households; 90.90 lakh SHGs"],4,"DAY-NRLM mobilised 10.05 crore households into 90.90 lakh SHGs."],
+["daynrlm","H","s","As of the PIB update, how many Bank Sakhis have been deployed, helping women SHGs access bank credit worth how much since the scheme's inception in 2013-14?",["50,548 Bank Sakhis; ₹12.18 lakh crore","40,000 Bank Sakhis; ₹10 lakh crore","60,000 Bank Sakhis; ₹15 lakh crore","45,000 Bank Sakhis; ₹8 lakh crore","55,000 Bank Sakhis; ₹20 lakh crore"],0,"50,548 Bank Sakhis have helped SHGs access bank credit worth ₹12.18 lakh crore."],
+["daynrlm","M","s","Till December 2025, the SVEP umbrella under DAY-NRLM has supported how many enterprises?",["3.5 lakh","5.88 lakh","7 lakh","2 lakh","10 lakh"],1,"SVEP has supported 5.88 lakh enterprises till December 2025."],
+["daynrlm","M","s","Under DAY-NRLM, beneficiary identification uses which methodology instead of the Below Poverty Line criterion?",["SECC data alone","Census 2011 data","Participatory Identification of Poor (PIP)","NFSA ration card list","PMJDY account holders list"],2,"DAY-NRLM uses PIP, not BPL, for beneficiary selection."],
+["daynrlm","H","s","Under DAY-NRLM, what percentage of beneficiaries are targeted to be SC/STs, minorities, and persons with disability respectively?",["40% SC/ST, 10% minorities, 5% PwD","60% SC/ST, 20% minorities, 2% PwD","45% SC/ST, 20% minorities, 5% PwD","50% SC/ST, 15% minorities, 3% PwD","55% SC/ST, 10% minorities, 4% PwD"],3,"Coverage targets are 50% SC/ST, 15% minorities, 3% PwD."],
+["daynrlm","M","s","Under DAY-NRLM, women SHGs typically consist of how many members, with a minimum for special SHGs (difficult areas, disabled persons, remote tribal areas)?",["5-15 members; minimum 2","15-25 members; minimum 10","20-30 members; minimum 15","8-12 members; minimum 3","10-20 members; minimum 5"],4,"Women SHGs consist of 10-20 members; special SHGs may have a minimum of 5."],
+["daynrlm","M","s","Under DAY-NRLM, the Revolving Fund (RF) support provided as corpus to SHGs ranges between:",["₹20,000-₹30,000 per SHG","₹10,000-₹20,000 per SHG","₹30,000-₹50,000 per SHG","₹15,000-₹25,000 per SHG","₹5,000-₹15,000 per SHG"],0,"RF support ranges between ₹20,000-₹30,000 per SHG."],
+["daynrlm","H","s","SHGs must be in existence for a minimum period of how long to be eligible for Revolving Fund support, following the 'Panchasutras' norms?",["1 month","3/6 months","12 months","2 months","9 months"],1,"SHGs must exist for a minimum 3/6 months and follow Panchasutras norms."],
+["daynrlm","H","t","Which of the following is NOT one of the five 'Panchasutras' norms for good SHGs under DAY-NRLM?",["Regular meetings","Regular savings","External audit by chartered accountants","Regular internal lending and recoveries","Maintenance of proper books of accounts"],2,"'External audit by chartered accountants' is not a Panchasutra; the five are meetings, savings, internal lending, recoveries, and books of accounts."],
+["daynrlm","M","s","Under DAY-NRLM, is capital subsidy sanctioned to SHGs?",["Yes, up to 30% of project cost","Yes, capped at ₹7,500","Yes, but only for SC/ST SHGs","No capital subsidy is sanctioned to any SHG","Yes, up to ₹25,000 per SHG"],3,"No capital subsidy would be sanctioned to any SHG under DAY-NRLM."],
+["daynrlm","M","s","The Community Investment Support Fund (CIF) under DAY-NRLM is routed to SHGs through which institution?",["District Rural Development Agency","NABARD directly","Block Development Office","State Rural Livelihood Mission directly","Village/cluster level federations"],4,"CIF is routed to the SHGs through village/cluster level federations."],
+["daynrlm","M","s","For SHGs to avail loans under DAY-NRLM, they must be in active existence for at least how long as per their books of accounts?",["6 months","3 months","12 months","9 months","1 year plus grading"],0,"SHGs must be active for at least 6 months per their books of accounts."],
+["daynrlm","H","s","Under DAY-NRLM, banks are advised to sanction a minimum Cash Credit Limit loan of how much to each eligible SHG for a period of 3 years?",["₹3 lakh","₹6 lakh","₹10 lakh","₹5 lakh","₹1 lakh"],1,"Banks sanction a minimum CCL of ₹6 lakh for a period of 3 years."],
+["daynrlm","H","s","Under DAY-NRLM's CCL drawing power formula, the DP for the first year is calculated as 6 times the existing corpus or a minimum of:",["₹1 lakh","₹2 lakh","₹1.5 lakh","₹3 lakh","₹0.5 lakh"],2,"DP for the first year is 6x corpus or minimum ₹1.5 lakh, whichever higher."],
+["daynrlm","H","s","Under DAY-NRLM's CCL drawing power formula, DP for the second year is 8 times the corpus at review/enhancement or a minimum of:",["₹1.5 lakh","₹6 lakh","₹2 lakh","₹3 lakh","₹4 lakh"],3,"DP for the second year is 8x corpus or minimum ₹3 lakh."],
+["daynrlm","H","s","Under DAY-NRLM Term Loan doses, the first dose is 6 times existing corpus or a minimum of ₹1.5 lakh; what is the second dose minimum?",["₹2 lakh","₹4.5 lakh","₹1.5 lakh","₹5 lakh","₹3 lakh"],4,"The second dose is 8x corpus or minimum ₹3 lakh, whichever is higher."],
+["daynrlm","H","s","Under DAY-NRLM, banks may extend loans up to how much to individual members of mature, well-performing SHGs (more than 2 years old) running viable economic enterprises?",["₹10 lakh","₹5 lakh","₹15 lakh","₹8 lakh","₹20 lakh"],0,"Banks may extend loans up to ₹10 lakh to select individual women SHG members."],
+["daynrlm","M","s","Under DAY-NRLM, one woman in every SHG may be provided a loan up to ₹1 lakh under which scheme, if otherwise eligible?",["CGTMSE","MUDRA Scheme","CGFMU","PMJDY overdraft","Stand-Up India"],1,"One woman per SHG may get up to ₹1 lakh under the MUDRA Scheme."],
+["daynrlm","M","s","Under DAY-NRLM, banks are advised to provide a minimum overdraft (OD) facility of how much to every woman SHG member with a PMJDY account?",["₹2,000","₹10,000","₹5,000","₹1,000","₹15,000"],2,"Banks must provide a minimum OD facility of ₹5000 to eligible PMJDY account holders."],
+["daynrlm","H","s","Under the Women Enterprise Acceleration Fund, credit guarantee fee reimbursement to lending institutions is available for loans up to ₹5 lakh for a maximum period of:",["2 years","10 years","3 years","5 years","7 years"],3,"Reimbursement is available for loans up to ₹5 lakh for a maximum period of 5 years."],
+["daynrlm","H","s","Under the Women Enterprise Acceleration Fund, women entrepreneurs making prompt repayment are provided what percentage interest subvention?",["1%","4%","5%","1.5%","2%"],4,"Prompt repayment earns a 2% interest subvention."],
+["daynrlm","H","s","Under the Women Enterprise Acceleration Fund, interest subvention is provided on loan outstanding up to what ceiling per borrower, for a maximum duration of how many years?",["₹1.5 lakh; 3 years","₹2 lakh; 5 years","₹1 lakh; 2 years","₹3 lakh; 4 years","₹5 lakh; 3 years"],0,"Subvention is capped at ₹1.5 lakh outstanding, for up to 3 years."],
+["daynrlm","H","s","Under DAY-NRLM loan usage norms, what minimum percentage of loans above ₹6 lakh should be used primarily for income-generating productive purposes?",["50%","85%","75%","60%","90%"],1,"At least 85% of loans above ₹6 lakh should be for productive purposes."],
+["daynrlm","M","s","Under DAY-NRLM, what minimum percentage of loans above ₹1 lakh should be used for income-generating productive purposes?",["75%","85%","50%","60%","40%"],2,"At least 50% of loans above ₹1 lakh should be used for income-generating purposes."],
+["daynrlm","H","s","Under DAY-NRLM Term Loan repayment schedules, the first dose is repaid in 24-36 months; what is the repayment period for the fourth dose onwards?",["36-48 months","48-60 months","24-36 months","60-84 months","12-24 months"],3,"The fourth dose onwards may be repaid over 60-84 months based on cash flow."],
+["daynrlm","M","s","Under DAY-NRLM, for loans to SHGs up to ₹10 lakh, banks require:",["10% margin money","Collateral security","A minimum deposit lien","A guarantor from the Gram Panchayat","No collateral and no margin"],4,"No collateral and no margin will be obtained for loans up to ₹10 lakh."],
+["daynrlm","M","s","Under DAY-NRLM, for loans to SHGs above ₹10 lakh and up to ₹20 lakh, a margin not exceeding what percentage of the amount exceeding ₹10 lakh may be obtained?",["10%","15%","5%","20%","25%"],0,"A margin not exceeding 10% of the amount above ₹10 lakh may be obtained."],
+["daynrlm","M","s","The RSETI (Rural Self Employment Training Institutes) concept is built on the model pioneered through a partnership between SDME Trust and which bank?",["State Bank of India","Canara Bank","Punjab National Bank","Bank of Baroda","Union Bank of India"],1,"RSETI is modeled on RUDSETI, a partnership between SDME Trust and Canara Bank."],
+["daynrlm","H","s","For the interest subvention scheme on credit to Women SHGs for FY 2025-26, loans up to ₹3 lakh are extended at a concessional interest rate of:",["4%","9%","7%","6%","10%"],2,"Loans up to ₹3 lakh are extended at 7% per annum."],
+["daynrlm","H","s","Under the FY 2025-26 interest subvention scheme, for outstanding credit balance up to ₹3 lakh, banks are subvented at a uniform rate of:",["2%","7%","6%","4.5%","3.5%"],3,"Banks are subvented at 4.5% per annum for balances up to ₹3 lakh."],
+["daynrlm","H","s","For loans above ₹3 lakh and up to ₹5 lakh under the FY2025-26 interest subvention scheme, banks are subvented at a uniform rate of:",["4.5%","3%","6%","4%","5%"],4,"Banks are subvented at 5% per annum for balances above ₹3 lakh up to ₹5 lakh."],
+["daynrlm","M","s","For the year 2025-26, which bank has been nominated as the Nodal Bank by MoRD for the interest subvention scheme for women SHGs?",["Indian Bank","State Bank of India","Bank of Baroda","Canara Bank","Punjab National Bank"],0,"Indian Bank was nominated as the Nodal Bank for 2025-26."],
+["daynrlm","M","s","The Ministry of Rural Development's initiative to enable rural SHG women to earn at least Rs.1 lakh per annum is called:",["Mission Antyodaya","Lakhpati SHG women initiative","Kushal Panjee","SVEP","AGEY"],1,"The 'Lakhpati SHG women' initiative aims to help SHG women earn at least Rs. 1 lakh per annum."],
+["daynrlm","M","s","Under DAY-NRLM supervision, which committee is required to meet once a month for coordination at the district level?",["Block Level Bankers Committee","State Level Bankers' Committee","District Coordination Committee (DCC)","National Steering Committee","Central Gramin Rozgar Guarantee Council"],2,"The District Coordination Committee (DCC) meets monthly."],
+["daynrlm","H","s","Under DAY-NRLM, the Block Level Bankers Committee (BLBC) is required to meet at what frequency?",["Monthly","Fortnightly","Weekly","Quarterly","Annually"],3,"BLBC meets regularly at quarterly intervals."],
+["daynrlm","M","s","DAY-NRLM promotes farm livelihoods through three components/sub-schemes: MKSP, DDU-GKY, and:",["AGEY","NRETP","RHISS","PMAY-G","SVEP"],4,"The three sub-schemes are MKSP, DDU-GKY, and SVEP."],
+["daynrlm","H","t","Which of the following statements about DAY-NRLM is NOT correct?",["Capital subsidy is sanctioned to SHGs at 30% of project cost.","DAY-NRLM was launched in 2011.","The funding ratio is 60:40 for general states.","NRLM replaced SGSY from April 1, 2013.","SHGs must practice 'Panchasutras' to be eligible for bank loans."],0,"No capital subsidy is sanctioned to any SHG under DAY-NRLM — this statement is false."],
+["daynrlm","H","m","Consider the following statements on DAY-NRLM's credit facilities:\nI. One woman in every SHG may get a loan up to ₹1 lakh under the MUDRA scheme.\nII. Banks must provide a minimum OD facility of ₹5,000 to women SHG members with PMJDY accounts.\nIII. Loans to SHGs up to ₹10 lakh require 10% margin money.\nIV. The Women Enterprise Acceleration Fund provides interest subvention capped at ₹1.5 lakh outstanding per borrower.\nHow many of the above statements are correct?",["All four","Only three","Only two","Only one","None of the above are correct"],1,"I, II, IV are correct. III is false — loans up to ₹10 lakh require NO collateral and NO margin."],
+["daynrlm","H","m","Consider the following statements about DAY-NRLM's SHG lending framework:\nI. SHGs must be at least 6 months old (per books of accounts) to avail loans.\nII. Defunct SHGs can never become eligible for credit again.\nIII. Grading norms for SHG loan eligibility are fixed by NABARD.\nIV. Multiple doses of credit assistance are emphasized to enable SHGs to access higher credit over time.\nHow many of the above statements are correct?",["All four","Only one","Only three","Only two","None of the above are correct"],2,"I, III, IV are correct. II is false — defunct SHGs ARE eligible for credit if revived and active for a minimum of three months."],
+["mksp","H","s","Mahila Kisan Sashaktikaran Pariyojana (MKSP) was launched in which year?",["2013","2015","2009","2011","2016"],3,"MKSP was launched in 2011."],
+["mksp","M","s","MKSP is implemented by DAY-NRLM in partnership with State Rural Livelihood Mission and:",["NABARD only","RSETI only","Ministry of Agriculture only","CAPART only","Community Based Organisations (CBOs)/NGOs"],4,"MKSP is implemented in partnership with SRLM/CBOs/NGOs."],
+["mksp","H","t","Which of the following is NOT an objective of MKSP?",["Providing unemployment allowance after 15 days of no work","Forming women farmers' groups at village level","Training local Community Resource Persons (CRPs)","Establishing higher-level producer organizations for value addition","Providing support for training, credit, technology, and marketing"],0,"Unemployment allowance is a VB-GRAM G feature, not an MKSP objective."],
+["ddugky","M","s","DDU-GKY (Deen Dayal Upadhyay-Grameen Kaushalya Yojana) was launched/rebranded on which date?",["1 April 2015","25.09.2014","15 August 2014","2 October 2014","20.11.2016"],1,"DDU-GKY was rebranded on 25.09.2014, Antyodaya Diwas."],
+["ddugky","M","s","DDU-GKY targets rural poor youth in the age group of 15-35 years, with upper age limit relaxed to 45 years for which categories?",["Only SC/ST","Only Women","SC/ST/Women/PVTG/PwD","Only minorities","Only PwD"],2,"The upper age limit is relaxed to 45 years for SC/ST/Women/PVTG/PwD."],
+["ddugky","M","s","DDU-GKY mandates coverage percentages of SC/ST 50%, Minority 15%, Women 33%, and PwDs:",["5%","2%","1%","3%","10%"],3,"Mandatory coverage for PwDs is 3%."],
+["ddugky","M","s","Which technical support agencies are key institutions involved in DDU-GKY's rural development and consultancy services?",["CAPART and NHB","CGTMSE and NCGTC","IRC and CRRI","SIRDs and DRDAs","NABCONS and NIRD"],4,"NABCONS and NIRD are the technical support agencies."],
+["ddugky","H","s","DDU-GKY originally emerged from which scheme's 'Special Projects' in 2004?",["SGSY","IRDP","JRY","MGNREGA","NREP"],0,"DDU-GKY emerged from SGSY's 'Special Projects' in 2004."],
+["ddugky","M","s","DDU-GKY guarantees placement for over what percentage of trained candidates, at a minimum remuneration of Rs. 6000/- per month or minimum wages, whichever is higher?",["60%","70%","80%","50%","90%"],1,"Placement is guaranteed for over 70% of trained candidates."],
+["ddugky","H","s","For overseas placements under DDU-GKY, the minimum remuneration per candidate per month is:",["$300","$1000","$500","$800","$200"],2,"Overseas placements guarantee minimum remuneration of $500 per month."],
+["ddugky","H","s","DDU-GKY's trade-specific skill training durations range from 576 hours to how many hours?",["1500 hours","1000 hours","1800 hours","2304 hours","3000 hours"],3,"Trade-specific training ranges from 576 to 2304 hours."],
+["ddugky","M","s","Under DDU-GKY, third-party assessment and certification is mandated through NCVT or:",["NIRD","NABCONS","IRC","CAPART","SSCs (Sector Skill Councils)"],4,"Third-party certification is mandated via NCVT or SSCs."],
+["ddugky","H","s","As per DDU-GKY's minimum remuneration table, a candidate completing a 6-month (1152 hr) course is entitled to a minimum remuneration per month within India of:",["8,000","6,000","12,000","15,000","10,000"],0,"A 6-month (1152 hr) course entitles the candidate to minimum Rs. 8,000/month."],
+["ddugky","M","s","Under DDU-GKY, what is the grant-in-aid provided per candidate for boarding & lodging for one year?",["Rs. 5,000","Rs. 11,250","Rs. 15,000","Rs. 8,000","Rs. 20,000"],1,"Grant-in-aid for boarding & lodging is Rs. 11,250 per candidate per year."],
+["ddugky","H","s","Under DDU-GKY, the one-time travel cost reimbursed is up to what amount, and monthly stipend during internship is:",["Rs. 3000; Rs. 5000","Rs. 10,000; Rs. 1000","Rs. 5000; Rs. 3000 per month","Rs. 2000; Rs. 4000","Rs. 7500; Rs. 2500"],2,"Travel cost reimbursed up to Rs. 5000; stipend is Rs. 3000/month during internship."],
+["ddugky","M","s","Under DDU-GKY, captive placement in a job after internship must offer a minimum salary of:",["Rs. 6,000 per month","Rs. 8,000 per month","Rs. 12,000 per month","Rs. 10,000 per month","Rs. 15,000 per month"],3,"Captive placement must offer a minimum salary of Rs. 10,000 per month."],
+["ddugky","M","s","DDU-GKY covers over how many sectors and how many job roles?",["50 sectors, 200 job roles","100 sectors, 300 job roles","60 sectors, 350 job roles","150 sectors, 500 job roles","82 sectors, 450 job roles"],4,"DDU-GKY covers over 82 sectors and 450 job roles."],
+["ddugky","M","s","Which DDU-GKY scheme, 100% funded by the Central Government, targets Jammu & Kashmir youth?",["Himayat","Roshni","Kushal Panjee","Antyodaya","AGEY"],0,"Himayat targets J&K youth, 100% centrally funded."],
+["ddugky","H","s","The Roshni initiative under DDU-GKY targets rural youth in how many Left Wing Extremist districts?",["20 districts","27 districts","35 districts","15 districts","50 districts"],1,"Roshni targets rural youth in 27 LWE districts."],
+["ddugky","H","s","As per achievements till June 2025, how many candidates were trained and placed under DDU-GKY respectively?",["10 lakh trained, 8 lakh placed","20 lakh trained, 15 lakh placed","17.5 lakh trained, 11.48 lakh+ placed","25 lakh trained, 18 lakh placed","15 lakh trained, 10 lakh placed"],2,"DDU-GKY trained 17.5 lakh and placed 11.48 lakh+ till June 2025."],
+["ddugky","H","s","As per achievements till June 2025, RSETI training and placement figures were:",["40 lakh trained, 30 lakh placed","60 lakh trained, 45 lakh placed","50 lakh trained, 35 lakh placed","56.69 lakh+ trained, 40.99 lakh+ placed","70 lakh trained, 50 lakh placed"],3,"RSETI trained 56.69 lakh+ and placed 40.99 lakh+ till June 2025."],
+["ddugky","M","s","In June 2025, an MoU was signed between the Ministry of Rural Development and which ministry?",["Ministry of Labour and Employment","Ministry of Education","Ministry of MSME","Ministry of Commerce and Industry","Ministry of Skill Development & Entrepreneurship"],4,"MoRD signed an MoU with the Ministry of Skill Development & Entrepreneurship."],
+["ddugky","H","t","Which of the following about DDU-GKY is NOT correct?",["DDU-GKY guarantees placement for over 90% of trained candidates.","DDU-GKY requires both Generic Training and Trade-specific skill training.","Himayat is 100% centrally funded for J&K youth.","DDU-GKY was rebranded on Antyodaya Diwas, 25 September 2014.","DDU-GKY mandates third-party assessment via NCVT or SSCs."],0,"The actual guarantee is over 70% placement, not 90%."],
+["svep","M","s","SVEP (Startup Village Entrepreneurship Programme) was launched in which year?",["2014-15","2015-16","2017-18","2011-12","2019-20"],1,"SVEP was launched in 2015-16."],
+["svep","M","s","Under SVEP, skill-building support to entrepreneurs is delivered through which cadre?",["Bank Sakhis","RSETI trainers","CRP-EP (Community Resource Persons for Enterprise Promotion)","Block Resource Officers","District Mission Managers"],2,"Skill building is delivered through CRP-EP."],
+["svep","M","s","SVEP's funding mechanism includes a dedicated fund providing accessible seed finance called the:",["Community Investment Support Fund","Women Enterprise Acceleration Fund","Revolving Fund","Community Enterprise Fund (CEF)","Critical Gap Fund"],3,"The Community Enterprise Fund (CEF) provides accessible seed finance."],
+["svep","M","s","Under SVEP, which local institution serves as a repository of information and provides bank linkage support for village entrepreneurs?",["District Rural Development Agency","State Rural Livelihood Mission","Gram Panchayat","Cluster Development Unit","Block Resource Centre (BRC)"],4,"The Block Resource Centre (BRC) provides information repository and bank linkage."],
+["rurban","M","s","The Shyama Prasad Mukherjee Rurban Mission (National Rurban Mission) was launched in which year?",["2016","2014","2017","2015","2018"],0,"SPMRM was launched in 2016."],
+["rurban","M","s","SPMRM's slogan translates to 'the soul of the village, with amenities of the city' — and its aim is to create how many rural growth clusters in 5 years?",["200","300","400","250","150"],1,"SPMRM aims to create 300 rural growth clusters in 5 years."],
+["rurban","M","s","SPMRM is inspired by which pilot programme that has been in place since 2004?",["SAGY","Mission Antyodaya","PURA (Provision of Urban Amenities in Rural Areas)","DDU-GKY","NRLP"],2,"SPMRM is inspired by PURA, a pilot programme since 2004."],
+["rurban","M","s","Under SPMRM, Rurban clusters in plain or coastal areas require a contiguous village population of:",["5,000-15,000","10,000-20,000","50,000-75,000","25,000-50,000","15,000-30,000"],3,"Plain/coastal Rurban clusters require a population of 25,000-50,000."],
+["rurban","M","s","Under SPMRM, Rurban clusters in desert, hilly, or tribal areas require a population of:",["25,000-50,000","10,000-25,000","1,000-5,000","20,000-30,000","5,000-15,000"],4,"Desert/hilly/tribal clusters require a population of 5,000-15,000."],
+["rurban","M","s","Under SPMRM funding, Critical Gap Funding (CGF) follows a Centre:State ratio of 60:40 for plains and what ratio for hilly/NE areas?",["90:10","80:20","70:30","95:5","85:15"],0,"The ratio is 90:10 for hilly/NE areas."],
+["rurban","M","s","Under SPMRM, Critical Gap Funding is capped at 30% of project cost or how much per cluster in plain areas?",["Rs. 15 crore","Rs. 30 crore","Rs. 50 crore","Rs. 25 crore","Rs. 20 crore"],1,"CGF is capped at Rs. 30 crore per cluster for plain areas."],
+["rurban","M","s","Under SPMRM, the CGF cap for desert/hilly/tribal clusters is:",["Rs. 30 crore","Rs. 20 crore","Rs. 15 crore","Rs. 10 crore","Rs. 25 crore"],2,"CGF is capped at Rs. 15 crore for desert/hilly/tribal clusters."],
+["rurban","H","s","Under SPMRM funding, existing schemes are expected to cover what percentage of total funding, with CGF filling the remaining gap?",["50%","60%","80%","70%","90%"],3,"Existing schemes cover 70% of funding; CGF fills the rest."],
+["rurban","M","s","The National Rurban Mission Directorate is led by which official at the Ministry of Rural Development?",["Secretary","Additional Secretary","Director","Under Secretary","Joint Secretary"],4,"The Directorate is led by the Joint Secretary, MoRD."],
+["rurban","M","s","Under SPMRM's fund release pattern, the Ministry releases how much per approved Rurban cluster for ICAP preparation?",["Rs. 35 lakh","Rs. 50 lakh","Rs. 25 lakh","Rs. 1 crore","Rs. 20 lakh"],0,"Rs. 35 lakh is released per approved cluster for ICAP preparation."],
+["rurban","M","s","Under SPMRM, the first instalment of CGF (30%) is released after:",["Submission of Utilization Certificate","ICAP approval by the Ministry","DPR approval by SLEC","Completion of all project components","Site verification by SNA"],1,"The first instalment (30%) is released after ICAP approval by the Ministry."],
+["rurban","H","s","Under SPMRM, the third instalment of CGF (40%) is released after submission of the Utilization Certificate as per GFR rules and:",["DPR approval by SLEC","ICAP approval by Ministry","Ministry field visit","State Cabinet approval","NITI Aayog evaluation"],2,"The third instalment requires submission of Utilization Certificate and a Ministry field visit."],
+["rurban","M","s","Under SPMRM's Rurban cluster selection for Non-Tribal Clusters, clusters are formed by selecting contiguous villages within what radius of identified growth centres?",["2-5 km","15-20 km","10-15 km","5-10 km","1-3 km"],3,"Clusters are formed within a 5-10 km radius of growth centres."],
+["rurban","H","s","Under SPMRM's selection parameters (Ministry-level) for Non-Tribal clusters, how much weightage is given to the first four parameters (decadal growth in rural population, non-farm work participation, economic clusters, tourism/religious significance)?",["60%","100%","50%","90%","80%"],4,"80% weightage is given to the first four parameters."],
+["rurban","M","s","For SPMRM Tribal Clusters, the Ministry selects leading sub-districts within the top how many tribal districts based on Scheduled Tribes population?",["100","150","50","200","75"],0,"The Ministry selects sub-districts within the top 100 tribal districts."],
+["rurban","H","s","Which Rurban cluster in Mizoram became the first cluster to complete all planned projects under SPMRM, completing how many projects?",["Champhai cluster; 35 projects","Aibawk cluster; 48 projects","Lunglei cluster; 60 projects","Serchhip cluster; 40 projects","Kolasib cluster; 30 projects"],1,"The Aibawk cluster in Aizawl, Mizoram completed all 48 planned projects."],
+["rurban","H","s","As per progress data (Feb 2023), out of 300 allocated Rurban clusters, how many had been approved with a total approved investment of Rs. 27,716.19 crore?",["250","280","298","290","300"],2,"298 out of 300 clusters had been approved."],
+["rurban","H","s","As per SPMRM progress data (Feb 20, 2023), out of 75,999 total projected works, how many works had been completed?",["20,000","50,000","30,000","39,554","60,000"],3,"39,554 works had been completed as on Feb 20, 2023."],
+["rurban","H","t","Which of the following about the Shyama Prasad Mukherjee Rurban Mission is NOT correct?",["SPMRM was launched in 2016.","Non-tribal cluster selection gives 80% weightage to four key Ministry-determined parameters.","The National Mission Directorate is led by a Joint Secretary of MoRD.","CGF for plain-area clusters is capped at Rs. 30 crore per cluster.","SPMRM Rurban clusters must always have a population between 1,00,000 and 2,00,000."],4,"Actual population ranges are 25,000-50,000 (plains) or 5,000-15,000 (hilly/desert/tribal), not 1,00,000-2,00,000."],
+["rurban","H","m","Consider the following statements about the Shyama Prasad Mukherjee Rurban Mission:\nI. SPMRM aims to create 300 rural growth clusters in 5 years.\nII. The scheme is inspired by the PURA pilot programme running since 2004.\nIII. CGF instalments are released in two tranches of 50% each.\nIV. Aibawk cluster in Mizoram became the first cluster to complete all 48 planned projects.\nHow many of the above statements are correct?",["Only three","All four","Only two","Only one","None of the above are correct"],0,"I, II, IV are correct. III is false — CGF is released in three instalments of 30%, 30%, and 40%."],
+["antyodaya","M","s","Mission Antyodaya was launched in which year?",["2016","2017","2018","2015","2019"],1,"Mission Antyodaya was launched in 2017."],
+["antyodaya","H","s","Mission Antyodaya aims to make a real difference to the lives of how many households in how many rural clusters/GPs within 1,000 days?",["50 lakh households; 2,500 clusters","2 crore households; 10,000 clusters","1 crore households; 5,000 clusters or 50,000 GPs","75 lakh households; 3,000 clusters","1.5 crore households; 7,500 clusters"],2,"Mission Antyodaya targets 1 crore households in 5,000 clusters or 50,000 GPs within 1,000 days."],
+["antyodaya","M","s","Mission Antyodaya envisions a Poverty Free India by which year?",["2024","2030","2025","2022","2020"],3,"Mission Antyodaya envisions a Poverty Free India by 2022."],
+["antyodaya","H","s","Under Mission Antyodaya, the Gram Panchayat is ranked based on objective criteria covering how many subjects?",["15 subjects","50 subjects","20 subjects","35 subjects","29 subjects"],4,"GP ranking is based on objective criteria covering 29 subjects."],
+["antyodaya","H","t","Which of the following is NOT a key outcome envisaged under Mission Antyodaya?",["Mandatory unemployment allowance after 15 days of no work","Strong infrastructure base for selected GPs/clusters","Enhanced economic opportunities through diversified livelihoods","Strengthened democratic processes through PRI capacity building","Effective social capital promoting participatory planning"],0,"Unemployment allowance is a VB-GRAM G feature, not a Mission Antyodaya outcome."],
+["misc","M","s","The National Rural Livelihoods Project (NRLP), designed as a sub-set of NRLM, is funded through a loan from which institution?",["World Bank IBRD","IDA (International Development Association)","ADB","NABARD","JICA"],1,"NRLP is funded through a loan from IDA."],
+["misc","M","s","NRLP is implemented in how many high poverty states, accounting for approximately what percentage of rural poor in the country?",["10 states; 80%","15 states; 95%","13 states; ~90%","8 states; 70%","20 states; 85%"],2,"NRLP is implemented in 13 high poverty states, covering ~90% of rural poor."],
+["misc","M","s","DISHA (District Development Coordination and Monitoring Committee) supersedes which earlier committee?",["State Level Bankers Committee","Block Level Bankers Committee","National Steering Committee","District Vigilance & Monitoring Committee","Empowered Committee"],3,"DISHA supersedes the District Vigilance & Monitoring Committee."],
+["misc","M","s","Under DISHA, who acts as the Member Secretary responsible for timely follow-up on recommendations?",["Block Development Officer","CEO Zilla Parishad","District Rural Development Agency Director","State Nodal Officer","District Collector"],4,"The District Collector acts as Member Secretary for DISHA."],
+["misc","H","s","The DISHA Dashboard unifies data from how many flagship schemes across how many ministries?",["41 schemes across 20 ministries","25 schemes across 15 ministries","50 schemes across 25 ministries","35 schemes across 18 ministries","30 schemes across 10 ministries"],0,"The DISHA Dashboard unifies data from 41 flagship schemes across 20 ministries."],
+["misc","M","s","Kushal Panjee aims to upgrade skills of rural youth in which age group?",["15-30 years","18-35 years","16-40 years","21-45 years","14-25 years"],1,"Kushal Panjee targets rural youth aged 18-35."],
+["misc","M","s","Which institutes/partners can access Kushal Panjee to connect with mobilized rural youth?",["Only DDU-GKY Partners","Only RSETI","RSETI and DDU-GKY Partners","Only Block Officials","Only Common Service Centres"],2,"RSETI and DDU-GKY Partners can access Kushal Panjee."],
+["misc","H","s","The PURA (Provision of Urban Amenities in Rural Areas) scheme was approved by the Government 'in-principle' in which month/year, and piloted in how many clusters?",["March 2005; five clusters","January 2006; ten clusters","April 2003; eight clusters","January 2004; seven clusters","August 2004; six clusters"],3,"PURA was approved in-principle in January 2004 and piloted in seven clusters."],
+["misc","M","s","The pilot phase of PURA (2004-05 to 2006-07) was evaluated by which institution?",["NABARD","CAPART","IRC","NRIDA","National Institute of Rural Development (NIRD)"],4,"The pilot phase of PURA was evaluated by NIRD."],
+["misc","M","s","The scheme to strengthen District Rural Development Agency (DRDA) was launched in 1999; the Government discontinued the DRDA Administration scheme with effect from:",["01.04.2022","01.04.2020","01.01.2021","01.04.2019","01.04.2023"],0,"The DRDA Administration scheme was discontinued with effect from 01.04.2022."],
+["misc","M","s","Aajeevika Grameen Express Yojana (AGEY) was launched in which year, aiming to support SHG members to operate public transport in rural areas?",["2015","2017","2019","2016","2018"],1,"AGEY was launched in 2017."],
+["misc","M","s","Under AGEY, the maximum amount that can be supported per vehicle is Rs. 6.50 lakh, with an additional amount for insurance and maintenance of:",["Rs. 1 lakh","Rs. 3 lakh","Rs. 2 lakh","Rs. 50,000","Rs. 1.5 lakh"],2,"An additional Rs. 2 lakh is provided for insurance and maintenance."],
+["misc","M","s","AGEY was implemented for a period of 3 years, covering:",["2015-18","2016-19","2018-21","2017-20","2019-22"],3,"AGEY was implemented for the period 2017-20."],
+["misc","H","s","Under AGEY, how many blocks nationwide were covered, with each block receiving up to how many vehicles?",["200 blocks; 4 vehicles","300 blocks; 8 vehicles","150 blocks; 5 vehicles","100 blocks; 10 vehicles","250 blocks; up to six vehicles"],4,"AGEY covers 250 blocks, each receiving up to six vehicles."],
+["misc","M","s","Under AGEY's Option II for vehicle ownership, the CBO provides:",["An interest-free loan from its CIF corpus to the SHG member for vehicle purchase","A 50% subsidy on vehicle purchase","A grant equal to full vehicle cost","A leased vehicle owned by the CBO","A bank guarantee for vehicle loan"],0,"Under Option II, the CBO provides an interest-free loan from CIF corpus for vehicle purchase."],
+["misc","M","s","SARAS Aajeevika Mela is organised by which body, described as the marketing arm of the Ministry of Rural Development?",["NABARD","CAPART (Council for Advancement of People's Action and Rural Technology)","NIRD&PR","SFAC","NRIDA"],1,"SARAS Aajeevika Mela is organised by CAPART."],
+["misc","H","s","NRETP (National Rural Economic Transformation Project), launched in 2019, has a total project outlay of USD 500 million, split as:",["USD 400m World Bank loan + USD 100m Government of India","USD 300m World Bank loan + USD 200m Government of India","USD 250m World Bank loan + USD 250m Government of India","USD 500m entirely World Bank loan","USD 100m World Bank loan + USD 400m Government of India"],2,"NRETP's outlay is split as USD 250m World Bank loan + USD 250m Government of India counterpart."],
+["misc","M","s","NRETP was declared effective on April 24, 2019, and was scheduled to close on:",["March 31, 2024","December 31, 2022","June 30, 2025","June 30, 2023","April 24, 2024"],3,"NRETP was scheduled to close on June 30, 2023."],
+["misc","M","s","NRETP is funded through a loan from which institution?",["IDA","ADB","JICA","KfW","World Bank (IBRD)"],4,"NRETP is funded via a World Bank (IBRD) loan."],
+["misc","M","s","Rural Housing Interest Subsidy Scheme (RHISS) was launched in which year, aimed at rural households not covered under PMAY-G?",["2017","2015","2019","2016","2020"],0,"RHISS was launched in 2017."],
+["misc","M","s","Under RHISS, the maximum loan amount eligible for interest subsidy is up to Rs. 2 lakh for a period of how many years or the full loan duration, whichever is less?",["15 years","20 years","25 years","10 years","30 years"],1,"The maximum tenure eligible is 20 years or the full loan duration, whichever is less."],
+["misc","M","s","Under RHISS, the interest subsidy rate per annum is:",["2.00%","5.00%","3.00%","4.00%","1.50%"],2,"RHISS provides a 3.00% per annum interest subsidy."],
+["misc","H","s","Under RHISS, the discount rate used for NPV calculation of the interest subsidy is:",["7.00%","10.00%","8.00%","9.00%","6.00%"],3,"The discount rate for NPV calculation is 9.00%."],
+["misc","M","s","Which institution acts as the Central Nodal Agency (CNA) for subsidy distribution under RHISS?",["NABARD","SBI","CAPART","SIDBI","NHB (National Housing Bank)"],4,"NHB acts as the Central Nodal Agency for RHISS subsidy distribution."],
+["misc","M","s","RHISS coverage excludes statutory towns as per Census 2011 and towns subsequently notified for coverage under:",["PMAY (Urban)","Smart Cities Mission","AMRUT","Rurban Mission","JNNURM"],0,"RHISS excludes towns covered under PMAY (Urban)."],
+["misc","H","t","Which of the following about RHISS is NOT correct?",["RHISS is monitored by SLBC along with the state government.","The maximum loan amount eligible for RHISS interest subsidy is Rs. 5 lakh.","RHISS construction/modification data is recorded on AwaasSoft via AwaasApp.","NHB is the Central Nodal Agency for RHISS subsidy distribution.","RHISS interest subsidy rate is 3% per annum."],1,"The actual maximum eligible loan amount for interest subsidy is Rs. 2 lakh, not Rs. 5 lakh."]
+];
+
+const SECTION_NAMES = {
+  evolution: "Evolution of Development Programmes",
+  pmgsy: "PMGSY",
+  mgnrega: "MGNREGA",
+  vbgramg: "VB-GRAM G Act, 2025",
+  sagy: "SAGY",
+  pmayg: "PMAY-G",
+  daynrlm: "DAY-NRLM",
+  mksp: "MKSP",
+  ddugky: "DDU-GKY",
+  svep: "SVEP",
+  rurban: "Rurban Mission (SPMRM)",
+  antyodaya: "Mission Antyodaya",
+  misc: "NRLP · DISHA · PURA · DRDA · AGEY · SARAS · NRETP · RHISS"
+};
+const SECTION_ORDER = ["evolution","pmgsy","mgnrega","vbgramg","sagy","pmayg","daynrlm","mksp","ddugky","svep","rurban","antyodaya","misc"];
+
+/* attach stable ids matching original PDF order index */
+QUESTIONS.forEach((q,i)=>{ q.__id = i; });
+
+/* =========================================================
+   APP STATE / LOGIC
+   ========================================================= */
+let state = {
+  mode:null,          // 'full' or 'section'
+  order:'pdf',         // 'pdf' or 'shuffled'
+  sectionKey:null,
+  set:[],              // array of question objects (with __id) for current run
+  idx:0,
+  answers:{},          // __id -> {chosen: idx|null, correct: bool|null, skipped: bool}
+  score:0
+};
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function el(html){
+  const d = document.createElement('div');
+  d.innerHTML = html.trim();
+  return d.firstChild;
+}
+
+function show(screenId){
+  ["screen-home","screen-sections","screen-quiz","screen-results"].forEach(id=>{
+    document.getElementById(id).classList.toggle('hidden', id!==screenId);
+  });
+}
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  const c = document.getElementById('screen-home');
+  c.innerHTML = `
+    <div class="card">
+      <div class="mode-grid">
+        <div class="mode-card" id="mode-full">
+          <h3>Full Practice Test</h3>
+          <p>Attempt all 257 questions in one sitting. Choose PDF order (follows the document's section sequence) or Shuffled order for a fresh randomized attempt.</p>
+          <span class="tag">Start full test →</span>
+        </div>
+        <div class="mode-card" id="mode-section">
+          <h3>Section-wise Revision</h3>
+          <p>Pick a single scheme or topic and drill only those questions — ideal for targeted revision before the exam.</p>
+          <span class="tag">Choose a section →</span>
+        </div>
+      </div>
+      <div class="intro-note">Source: Ministry of Rural Development scheme compendium (CGB Mentors). Questions follow NABARD Grade A's 5-option format, including trap ("NOT correct") and multi-statement questions.</div>
+    </div>
+  `;
+  document.getElementById('mode-full').onclick = ()=> renderFullSetup();
+  document.getElementById('mode-section').onclick = ()=> renderSections();
+  show('screen-home');
+}
+
+/* ---------- FULL TEST SETUP ---------- */
+function renderFullSetup(){
+  const c = document.getElementById('screen-home');
+  c.innerHTML = `
+    <div class="card">
+      <span class="backlink" id="back-home">← Back to menu</span>
+      <h3 style="margin-top:0;">Full Practice Test</h3>
+      <p class="util-font" style="color:var(--slate);font-size:13.5px;">All 257 questions. Choose the order you'd like to attempt them in.</p>
+      <div class="toggle-row">
+        <span>Order:</span>
+        <div class="toggle">
+          <button id="order-pdf" class="active">PDF Order</button>
+          <button id="order-shuffled">Shuffled</button>
+        </div>
+      </div>
+      <div style="margin-top:22px;">
+        <button class="btn gold" id="start-full">Begin Test →</button>
+      </div>
+    </div>
+  `;
+  let order = 'pdf';
+  document.getElementById('back-home').onclick = renderHome;
+  document.getElementById('order-pdf').onclick = (e)=>{ order='pdf'; toggleBtns(e.target); };
+  document.getElementById('order-shuffled').onclick = (e)=>{ order='shuffled'; toggleBtns(e.target); };
+  function toggleBtns(activeBtn){
+    document.getElementById('order-pdf').classList.toggle('active', activeBtn.id==='order-pdf');
+    document.getElementById('order-shuffled').classList.toggle('active', activeBtn.id==='order-shuffled');
+  }
+  document.getElementById('start-full').onclick = ()=>{
+    state.mode='full'; state.order=order; state.sectionKey=null;
+    startQuiz(order==='pdf' ? QUESTIONS.slice() : shuffle(QUESTIONS));
+  };
+  show('screen-home');
+}
+
+/* ---------- SECTION GRID ---------- */
+function renderSections(){
+  const counts = {};
+  QUESTIONS.forEach(q=>{ counts[q[0]] = (counts[q[0]]||0)+1; });
+  const c = document.getElementById('screen-sections');
+  c.innerHTML = `
+    <div class="card">
+      <span class="backlink" id="back-home2">← Back to menu</span>
+      <h3 style="margin-top:0;">Section-wise Revision</h3>
+      <p class="util-font" style="color:var(--slate);font-size:13.5px;">Tap a topic to drill only its questions (in document order).</p>
+      <div class="section-grid" id="grid"></div>
+    </div>
+  `;
+  const grid = c.querySelector('#grid');
+  SECTION_ORDER.forEach(key=>{
+    const tile = el(`<div class="section-tile">
+        <div class="name">${SECTION_NAMES[key]}</div>
+        <div class="count">${counts[key]||0} questions</div>
+      </div>`);
+    tile.onclick = ()=>{
+      state.mode='section'; state.sectionKey=key;
+      const set = QUESTIONS.filter(q=>q[0]===key);
+      startQuiz(set);
+    };
+    grid.appendChild(tile);
+  });
+  document.getElementById('back-home2').onclick = renderHome;
+  show('screen-sections');
+}
+
+/* ---------- QUIZ ---------- */
+function startQuiz(set){
+  state.set = set;
+  state.idx = 0;
+  state.answers = {};
+  state.score = 0;
+  renderQuestion();
+}
+
+function currentAnswerState(q){
+  return state.answers[q.__id] || {chosen:null, correct:null, skipped:false};
+}
+
+function renderQuestion(){
+  const q = state.set[state.idx];
+  const total = state.set.length;
+  const answered = Object.keys(state.answers).length;
+  const pct = Math.round((state.idx/total)*100);
+  const diffLabel = {E:"Easy",M:"Moderate",H:"Hard"}[q[1]];
+  const typeLabel = {s:"Single Fact", t:"Which is NOT correct", m:"Multi-Statement"}[q[2]];
+
+  const c = document.getElementById('screen-quiz');
+  c.innerHTML = `
+    <div class="card">
+      <div class="quiz-top">
+        <span class="progress-label">Question ${state.idx+1} of ${total} ${state.mode==='section' ? '· '+SECTION_NAMES[state.sectionKey] : ''}</span>
+        <span class="score-label">Score: ${state.score}</span>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${pct}%;"></div></div>
+      <div class="q-meta"><span class="diff">${diffLabel}</span><span>${SECTION_NAMES[q[0]]} · ${typeLabel}</span></div>
+      <div class="q-text">${q[3]}</div>
+      <div class="options" id="options"></div>
+      <div class="explain-box" id="explain"></div>
+      <div class="quiz-actions">
+        <div class="left">
+          <button class="btn secondary" id="skip-btn">Skip →</button>
+        </div>
+        <div class="right">
+          <button class="btn" id="next-btn" style="display:none;">Next →</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  const optWrap = c.querySelector('#options');
+  const letters = ['A','B','C','D','E'];
+  const st = currentAnswerState(q);
+  q[4].forEach((optText,i)=>{
+    const div = el(`<div class="opt" data-i="${i}"><span class="letter">${letters[i]}.</span><span>${optText}</span></div>`);
+    optWrap.appendChild(div);
+  });
+
+  function lockOptions(chosenIdx, skipped){
+    const opts = optWrap.querySelectorAll('.opt');
+    opts.forEach((o,i)=>{
+      o.classList.add('disabled');
+      if(i===q[5]) o.classList.add('correct');
+      if(chosenIdx!==null && i===chosenIdx && chosenIdx!==q[5]) o.classList.add('wrong');
+      if(chosenIdx!==null && i!==chosenIdx && i!==q[5]) o.classList.add('dim');
+    });
+    const box = c.querySelector('#explain');
+    box.classList.add('show');
+    if(skipped){
+      box.classList.add('skip');
+      box.innerHTML = `<strong>Skipped.</strong> Correct answer: ${letters[q[5]]}. ${q[6]}`;
+    } else if(chosenIdx===q[5]){
+      box.classList.add('good');
+      box.innerHTML = `<strong>Correct.</strong> ${q[6]}`;
+    } else {
+      box.classList.add('bad');
+      box.innerHTML = `<strong>Incorrect.</strong> Correct answer: ${letters[q[5]]}. ${q[6]}`;
+    }
+    c.querySelector('#skip-btn').style.display='none';
+    c.querySelector('#next-btn').style.display='inline-block';
+  }
+
+  // if already answered (e.g. navigated back — not used currently, but safe)
+  if(st.chosen!==null || st.skipped){
+    lockOptions(st.chosen, st.skipped);
+  } else {
+    optWrap.querySelectorAll('.opt').forEach(o=>{
+      o.onclick = ()=>{
+        const i = parseInt(o.dataset.i);
+        const correct = (i===q[5]);
+        state.answers[q.__id] = {chosen:i, correct:correct, skipped:false};
+        if(correct) state.score++;
+        lockOptions(i,false);
+      };
+    });
+  }
+
+  c.querySelector('#skip-btn').onclick = ()=>{
+    state.answers[q.__id] = {chosen:null, correct:false, skipped:true};
+    lockOptions(null, true);
+  };
+
+  c.querySelector('#next-btn').onclick = ()=>{
+    if(state.idx < state.set.length-1){
+      state.idx++;
+      renderQuestion();
+    } else {
+      renderResults();
+    }
+  };
+
+  show('screen-quiz');
+}
+
+/* ---------- RESULTS ---------- */
+function renderResults(){
+  const total = state.set.length;
+  let correctCount=0, wrongCount=0, skipCount=0;
+  const diffStats = {E:{c:0,t:0},M:{c:0,t:0},H:{c:0,t:0}};
+  const missed = [];
+
+  state.set.forEach(q=>{
+    const st = state.answers[q.__id] || {chosen:null, correct:false, skipped:true};
+    diffStats[q[1]].t++;
+    if(st.skipped){ skipCount++; missed.push({q,st}); }
+    else if(st.correct){ correctCount++; diffStats[q[1]].c++; }
+    else { wrongCount++; missed.push({q,st}); }
+  });
+
+  const pct = total? Math.round((correctCount/total)*100) : 0;
+
+  const c = document.getElementById('screen-results');
+  let html = `
+    <div class="card">
+      <div class="score-hero">
+        <div class="big">${correctCount} / ${total}</div>
+        <div class="sub">${pct}% correct &nbsp;·&nbsp; ${wrongCount} incorrect &nbsp;·&nbsp; ${skipCount} skipped</div>
+      </div>
+      <div class="diff-breakdown">
+        ${['E','M','H'].map(d=>{
+          const lbl = {E:'Easy',M:'Moderate',H:'Hard'}[d];
+          const s = diffStats[d];
+          const p = s.t ? Math.round((s.c/s.t)*100) : 0;
+          return `<div class="diff-box"><div class="lbl">${lbl}</div><div class="val">${s.c}/${s.t}</div><div class="lbl">${p}%</div></div>`;
+        }).join('')}
+      </div>
+      <div style="display:flex;gap:12px;margin:20px 0 8px;">
+        <button class="btn gold" id="retry-btn">Retry Same Set</button>
+        <button class="btn secondary" id="menu-btn">Back to Menu</button>
+      </div>
+    </div>
+  `;
+
+  if(missed.length){
+    html += `<h2 class="section-h">Review — Missed &amp; Skipped (${missed.length})</h2>`;
+    const letters = ['A','B','C','D','E'];
+    missed.forEach(({q,st})=>{
+      const correctText = letters[q[5]]+'. '+q[4][q[5]];
+      let statusLine;
+      if(st.skipped){
+        statusLine = `<span class="skip-line">Skipped.</span> Correct answer: ${correctText}`;
+      } else {
+        const wrongText = letters[st.chosen]+'. '+q[4][st.chosen];
+        statusLine = `<span class="wrong-line">Your answer: ${wrongText}</span><br><span class="correct-line">Correct answer: ${correctText}</span>`;
+      }
+      html += `<div class="review-item">
+        <div class="review-tag">${SECTION_NAMES[q[0]]}</div>
+        <div class="rq">${q[3]}</div>
+        <div class="ra">${statusLine}</div>
+        <div class="expl">${q[6]}</div>
+      </div>`;
+    });
+  } else {
+    html += `<div class="intro-note" style="margin-top:20px;">Perfect run — every question answered correctly. No review items.</div>`;
+  }
+
+  c.innerHTML = html;
+  c.querySelector('#retry-btn').onclick = ()=>{
+    startQuiz(state.mode==='full' && state.order==='shuffled' ? shuffle(QUESTIONS) : state.set.slice());
+  };
+  c.querySelector('#menu-btn').onclick = renderHome;
+  show('screen-results');
+}
+
+renderHome();
+</script>
+</body>
+</html>

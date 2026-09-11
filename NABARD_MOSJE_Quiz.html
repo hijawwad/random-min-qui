@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NABARD Grade A Practice Quiz — MoSJE Schemes</title>
+<style>
+  :root{
+    --navy:#122447;
+    --navy-deep:#0b1830;
+    --cream:#f7f3ea;
+    --paper:#fffdf8;
+    --saffron:#d98e2b;
+    --saffron-deep:#b56f16;
+    --green:#1f7a4d;
+    --green-bg:#e5f3ea;
+    --red:#b0392b;
+    --red-bg:#faeae7;
+    --ink:#1c2431;
+    --muted:#5c6472;
+    --line:#e2dccb;
+    --radius:10px;
+    --serif: Georgia, 'Times New Roman', 'Noto Serif', serif;
+    --sans: 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family: var(--sans);
+    background: var(--cream);
+    color: var(--ink);
+    min-height:100vh;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:20px 16px 60px;}
+  .masthead{
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#f4efe2;
+    border-radius: var(--radius);
+    padding:22px 24px;
+    margin-bottom:18px;
+    position:relative;
+    overflow:hidden;
+    border:1px solid #0a1730;
+  }
+  .masthead::after{
+    content:"";
+    position:absolute; right:-40px; top:-40px; width:160px;height:160px;
+    background: radial-gradient(circle, rgba(217,142,43,0.35), transparent 70%);
+  }
+  .eyebrow{
+    font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--saffron);
+    font-weight:700; margin-bottom:6px;
+  }
+  .masthead h1{
+    font-family: var(--serif);
+    font-size: 26px;
+    margin:0 0 4px 0;
+    font-weight:700;
+    letter-spacing:.01em;
+  }
+  .masthead p{margin:0; color:#c9d0dd; font-size:13.5px;}
+
+  .card{
+    background: var(--paper);
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    padding:20px;
+    margin-bottom:16px;
+    box-shadow: 0 1px 2px rgba(18,36,71,0.04);
+  }
+
+  /* ---- Menu screen ---- */
+  .menu-actions{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;}
+  .btn-primary{
+    background: var(--navy);
+    color:#fff;
+    border:none;
+    padding:13px 20px;
+    border-radius:8px;
+    font-size:14.5px;
+    font-weight:600;
+    cursor:pointer;
+    font-family: var(--sans);
+  }
+  .btn-primary:hover{background:var(--navy-deep);}
+  .btn-secondary{
+    background:#fff;
+    color:var(--navy);
+    border:1.5px solid var(--navy);
+    padding:12px 18px;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    font-family: var(--sans);
+  }
+  .btn-secondary:hover{background:#eef1f6;}
+  .section-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
+    gap:10px;
+  }
+  .sec-btn{
+    text-align:left;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:12px 14px;
+    cursor:pointer;
+    font-family: var(--sans);
+    transition: border-color .15s, transform .1s;
+  }
+  .sec-btn:hover{border-color: var(--saffron); transform: translateY(-1px);}
+  .sec-btn .sname{font-weight:700; font-size:13.5px; color:var(--navy); display:block; margin-bottom:2px;}
+  .sec-btn .scount{font-size:12px; color:var(--muted);}
+  .section-label{font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); font-weight:700; margin: 4px 0 10px;}
+
+  /* ---- Quiz screen ---- */
+  .quiz-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;}
+  .quiz-meta{font-size:12.5px; color:var(--muted); font-weight:600;}
+  .score-pill{
+    background: var(--navy); color:#fff; font-weight:700; font-size:12.5px;
+    padding:5px 12px; border-radius:999px;
+  }
+  .progress-track{
+    height:6px; background:#ece5d2; border-radius:4px; overflow:hidden; margin-bottom:16px;
+  }
+  .progress-fill{height:100%; background: linear-gradient(90deg, var(--saffron), var(--saffron-deep)); transition: width .25s ease;}
+
+  .q-tag{
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    color: var(--saffron-deep); background: #fbeed8; padding:3px 9px; border-radius:5px; margin-bottom:10px;
+  }
+  .q-text{
+    font-family: var(--serif);
+    font-size:18px;
+    line-height:1.5;
+    color: var(--ink);
+    margin: 0 0 16px 0;
+  }
+  .options{display:flex; flex-direction:column; gap:9px;}
+  .opt{
+    display:flex; align-items:flex-start; gap:10px;
+    text-align:left;
+    background:#fff;
+    border:1.5px solid var(--line);
+    border-radius:8px;
+    padding:11px 14px;
+    cursor:pointer;
+    font-family: var(--sans);
+    font-size:14.5px;
+    line-height:1.45;
+    color: var(--ink);
+    transition: border-color .12s, background .12s;
+  }
+  .opt:hover:not(.locked){border-color: var(--navy); background:#f4f6fa;}
+  .opt .lab{
+    flex:0 0 auto; font-weight:700; color:var(--navy);
+    width:20px; height:20px; border-radius:50%; border:1.5px solid var(--navy);
+    display:flex; align-items:center; justify-content:center; font-size:11.5px;
+  }
+  .opt.correct{background: var(--green-bg); border-color: var(--green);}
+  .opt.correct .lab{background:var(--green); color:#fff; border-color:var(--green);}
+  .opt.wrong{background: var(--red-bg); border-color: var(--red);}
+  .opt.wrong .lab{background:var(--red); color:#fff; border-color:var(--red);}
+  .opt.dim{opacity:.55;}
+  .opt.locked{cursor:default;}
+
+  .feedback-row{display:flex; justify-content:space-between; align-items:center; margin-top:16px;}
+  .fb-text{font-size:13.5px; font-weight:700;}
+  .fb-correct{color:var(--green);}
+  .fb-wrong{color:var(--red);}
+
+  .nav-row{display:flex; justify-content:space-between; margin-top:6px; gap:10px;}
+
+  /* ---- Results ---- */
+  .score-hero{
+    text-align:center; padding:10px 0 6px;
+  }
+  .score-big{font-family: var(--serif); font-size:46px; font-weight:700; color:var(--navy);}
+  .score-sub{color:var(--muted); font-size:13.5px; margin-top:2px;}
+  .breakdown{margin-top:14px;}
+  .bd-row{display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px dashed var(--line); font-size:13px;}
+  .bd-name{flex:0 0 210px; font-weight:600; color:var(--ink);}
+  .bd-bar-track{flex:1; height:8px; background:#ece5d2; border-radius:4px; overflow:hidden;}
+  .bd-bar-fill{height:100%; background: var(--green);}
+  .bd-frac{flex:0 0 56px; text-align:right; color:var(--muted); font-weight:600;}
+
+  .review-item{border:1px solid var(--line); border-radius:8px; padding:12px 14px; margin-bottom:10px; background:#fff;}
+  .review-q{font-weight:700; font-size:13.5px; margin-bottom:6px;}
+  .review-line{font-size:13px; margin:2px 0;}
+  .review-tag{font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-weight:700;}
+  .ans-wrong{color:var(--red); font-weight:700;}
+  .ans-correct{color:var(--green); font-weight:700;}
+
+  .hidden{display:none !important;}
+  .footer-note{text-align:center; color:var(--muted); font-size:11.5px; margin-top:20px;}
+
+  @media (max-width:520px){
+    .masthead h1{font-size:21px;}
+    .q-text{font-size:16.5px;}
+    .bd-name{flex-basis:130px; font-size:12px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="eyebrow">NABARD Grade A &middot; Phase I Practice Set</div>
+    <h1>Ministry of Social Justice &amp; Empowerment</h1>
+    <p>Scheme-wise objective quiz — AVYAY, SHRESHTA, SHREYAS, PM-YASASVI, NAMASTE, SMILE, PM-DAKSH, SEED, PM-AJAY, NAPDDR &amp; Finance Corporations</p>
+  </div>
+
+  <!-- MENU SCREEN -->
+  <div id="menuScreen">
+    <div class="card">
+      <div class="section-label">Choose how to practice</div>
+      <div class="menu-actions">
+        <button class="btn-primary" id="startAllBtn">Start Full Quiz</button>
+      </div>
+      <div class="section-label" style="margin-top:6px;">Or jump to a specific scheme</div>
+      <div class="section-grid" id="sectionGrid"></div>
+    </div>
+    <p class="footer-note">Click any card above to practice that section only, or start the full quiz to go through every question in order.</p>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quizScreen" class="hidden">
+    <div class="quiz-top">
+      <div class="quiz-meta" id="quizMeta">Question 1 of 220</div>
+      <div class="score-pill" id="scorePill">Score: 0 / 0</div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="card">
+      <span class="q-tag" id="qTag">SECTION</span>
+      <p class="q-text" id="qText"></p>
+      <div class="options" id="optionsBox"></div>
+      <div class="feedback-row hidden" id="feedbackRow">
+        <span class="fb-text" id="fbText"></span>
+        <button class="btn-primary" id="nextBtn">Next Question →</button>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-secondary" id="quitBtn">← Back to Menu</button>
+    </div>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div id="resultsScreen" class="hidden">
+    <div class="card score-hero">
+      <div class="section-label" id="resultLabel">RESULTS</div>
+      <div class="score-big" id="resultScore">0 / 0</div>
+      <div class="score-sub" id="resultPct">0% correct</div>
+    </div>
+    <div class="card" id="breakdownCard">
+      <div class="section-label">Section-wise performance</div>
+      <div class="breakdown" id="breakdown"></div>
+    </div>
+    <div class="card">
+      <div class="menu-actions">
+        <button class="btn-primary" id="retryMissedBtn">Retry Missed Only</button>
+        <button class="btn-secondary" id="restartSameBtn">Restart This Set</button>
+        <button class="btn-secondary" id="backMenuBtn">Back to Menu</button>
+      </div>
+    </div>
+    <div class="card" id="reviewCard">
+      <div class="section-label" id="reviewLabel">Review — Questions Missed</div>
+      <div id="reviewList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const DATA = {"sections": [["bg", "Background of MoSJE"], ["avyay", "AVYAY (Senior Citizens)"], ["shreshta", "SHRESHTA"], ["shreyas_obc", "SHREYAS (OBC & Others)"], ["shreyas_sc", "SHREYAS (SC)"], ["yasasvi", "PM-YASASVI"], ["namaste", "NAMASTE"], ["smile", "SMILE"], ["pmdaksh", "PM-DAKSH"], ["seed", "SEED"], ["pmajay", "PM-AJAY"], ["napddr", "NAPDDR"], ["nskfdc", "NSKFDC"], ["nsfdc", "NSFDC"], ["cegs", "Credit Enhancement Guarantee Scheme (SCs)"]], "questions": [{"section": "bg", "q": "Which Article of the Constitution deals with the Abolition of Untouchability, forming part of MoSJE's constitutional mandate?", "opts": ["17", "41", "46", "21", "15"], "correct": 0, "id": 0}, {"section": "bg", "q": "Article 41 of the Constitution mandates the Right to work, education and public assistance in certain cases. Which situation is explicitly mentioned under Article 41 in this context?", "opts": ["Unemployment and disability", "Old age and sickness", "Maternity and childhood", "Famine and displacement", "Illiteracy and poverty"], "correct": 1, "id": 1}, {"section": "bg", "q": "Article 46 of the Indian Constitution mandates promotion of educational and economic interests of which groups?", "opts": ["OBCs and minorities only", "Only SCs", "SCs, STs and other weaker sections", "Senior citizens and PwD", "Transgender persons only"], "correct": 2, "id": 2}, {"section": "bg", "q": "Which of the following is NOT explicitly listed among the major target groups of MoSJE in the document?", "opts": ["Scheduled Castes", "Persons with Disabilities", "Victims of Substance Abuse", "Scheduled Tribes", "Economically Backward Classes"], "correct": 3, "id": 3}, {"section": "bg", "q": "The Ministry of Social Justice and Empowerment is described as the nodal agency responsible for:", "opts": ["Rural development and panchayati raj", "Minority affairs and religious welfare", "Women and child development", "Tribal welfare and forest rights", "Welfare, social justice and empowerment of disadvantaged and marginalized sections"], "correct": 4, "id": 4}, {"section": "bg", "q": "Which Article empowers the state to provide public assistance in cases of old age and sickness, cited under MoSJE's legal mandate?", "opts": ["Article 41", "Article 46", "Article 17", "Article 21", "Article 39"], "correct": 0, "id": 5}, {"section": "avyay", "q": "AVYAY (Atal Vayo Abhyuday Yojana) was formerly known as:", "opts": ["National Programme for Elderly Care", "National Action Plan for Senior Citizens (NAPSrC)", "Senior Citizens Welfare Mission", "Rashtriya Vayo Yojana", "Integrated Elderly Welfare Scheme"], "correct": 1, "id": 6}, {"section": "avyay", "q": "AVYAY is implemented as a:", "opts": ["Centrally Sponsored Scheme", "State Sector Scheme", "Umbrella Central Sector Scheme", "Public-Private Partnership Scheme", "Externally Aided Project"], "correct": 2, "id": 7}, {"section": "avyay", "q": "AVYAY was launched on:", "opts": ["January 26, 2021", "October 2, 2021", "August 15, 2021", "April 1, 2021", "April 1, 2022"], "correct": 3, "id": 8}, {"section": "avyay", "q": "Total outlay of AVYAY for the period FY 2021-22 to 2025-26 is:", "opts": ["₹365 crore", "₹200 crore", "₹1,850 crore", "₹73.71 crore", "₹600 crore"], "correct": 4, "id": 9}, {"section": "avyay", "q": "AVYAY is funded through Gross Budgetary Support and which other fund?", "opts": ["Senior Citizens' Welfare Fund (SCWF)", "PFMS Fund", "National Social Assistance Fund", "Corpus Fund for Elderly", "District Disability Fund"], "correct": 0, "id": 10}, {"section": "avyay", "q": "AVYAY implements which Sections of the Maintenance and Welfare of Parents and Senior Citizens (MWPSC) Act, 2007?", "opts": ["Sections 12 and 13", "Sections 19 and 20", "Sections 5 and 9", "Sections 3 and 4", "Sections 25 and 26"], "correct": 1, "id": 11}, {"section": "avyay", "q": "As mandated under the MWPSC Act provisions implemented via AVYAY, how many old age homes must exist per district?", "opts": ["Two", "Zero (optional)", "At least one", "Three", "Depends on population only"], "correct": 2, "id": 12}, {"section": "avyay", "q": "Which agency, along with the Senior Citizens' Division (DoSJE), is an implementing agency of AVYAY?", "opts": ["NSKFDC", "NSFDC", "NBCFDC", "National Institute of Social Defence (NISD)", "IFCI Ltd"], "correct": 3, "id": 13}, {"section": "avyay", "q": "Under the Integrated Programme for Senior Citizens (IPSrC), an 'indigent senior' is defined as BPL or having income below:", "opts": ["₹10,000/month", "₹8 lakh/annum", "₹2.5 lakh/annum", "₹20,000/month", "₹15,000/month"], "correct": 4, "id": 14}, {"section": "avyay", "q": "Under IPSrC, Senior Citizen Homes (SrCH) offer maintenance support for facilities accommodating how many beneficiaries?", "opts": ["25 or 50", "20 or 40", "30 or 60", "15 or 30", "50 or 100"], "correct": 0, "id": 15}, {"section": "avyay", "q": "Continuous Care Homes (CCH) under AVYAY are meant for seniors with disabilities like Alzheimer's/Dementia, with a minimum of how many seniors?", "opts": ["10", "20", "25", "50", "5"], "correct": 1, "id": 16}, {"section": "avyay", "q": "How many Regional Resource and Training Centres (RRTCs) exist under AVYAY?", "opts": ["23", "4,800", "17", "181", "266"], "correct": 2, "id": 17}, {"section": "avyay", "q": "Mobile Medicare Units (MMU) under AVYAY must serve a minimum beneficiaries/month and trips/month respectively of:", "opts": ["200 beneficiaries; 5 trips", "500 beneficiaries; 15 trips", "300 beneficiaries; 8 trips", "400 beneficiaries; 10 trips", "1000 beneficiaries; 20 trips"], "correct": 3, "id": 18}, {"section": "avyay", "q": "Rashtriya Vayoshri Yojana (RVY) is funded through:", "opts": ["50% central, 50% state", "PFMS grants only", "NABARD refinance", "90% central, 10% state", "100% central funding from Senior Citizens' Welfare Fund (SCWF)"], "correct": 4, "id": 19}, {"section": "avyay", "q": "Under RVY, the maximum assistance for 'Generic Items' (walking sticks, hearing aids, spectacles etc.) per beneficiary is:", "opts": ["₹15,000", "₹20,000", "₹10,000", "₹25,000", "₹5,000"], "correct": 0, "id": 20}, {"section": "avyay", "q": "Under RVY, 'Special Items' such as wheelchairs with commode and rollators are capped at what amount per beneficiary?", "opts": ["₹15,000", "₹20,000", "₹10,000", "₹30,000", "₹45,000"], "correct": 1, "id": 21}, {"section": "avyay", "q": "RVY is implemented through which organization?", "opts": ["NSKFDC", "IFCI Ltd", "Artificial Limbs Manufacturing Corporation of India (ALIMCO)", "NBCFDC", "National Testing Agency"], "correct": 2, "id": 22}, {"section": "avyay", "q": "The SACRED Portal under AVYAY stands for:", "opts": ["Senior Aid and Care for Rehabilitation of Elderly and Disabled", "Support and Community Response for Elderly Dignity", "Senior Assistance Committee for Rural Elderly Development", "Senior Able Citizens for Re-Employment in Dignity", "Social Action Committee for Rural Elderly Development"], "correct": 3, "id": 23}, {"section": "avyay", "q": "Under the SAGE Portal (Promoting Silver Economy) component of AVYAY, government equity support is provided to startups up to what amount or equity share?", "opts": ["₹50 lakh or 26% equity", "₹2 crore or 51% equity", "₹5 crore or 33% equity", "₹10 lakh or 10% equity", "₹1 crore or 49% equity"], "correct": 4, "id": 24}, {"section": "avyay", "q": "The CSR fund mobilization target under AVYAY's SAGE component is:", "opts": ["₹5,000 crore over 5 years", "₹1,000 crore over 5 years", "₹365 crore over 5 years", "₹200 crore over 5 years", "₹600 crore over 5 years"], "correct": 0, "id": 25}, {"section": "avyay", "q": "The National Helpline for senior citizens (Elderline) operates under toll-free number:", "opts": ["14420", "14567", "1098", "181", "15100"], "correct": 1, "id": 26}, {"section": "avyay", "q": "Under the Poshan Abhiyan for Elderly (part of AVYAY), nutritious meal support is provided at what rate?", "opts": ["₹50/day", "₹100/day", "₹20/day", "₹150/day", "₹10/day"], "correct": 2, "id": 27}, {"section": "avyay", "q": "As per Standard Norms for Senior Citizen Homes under AVYAY, minimum bedroom living space per resident is:", "opts": ["5 sq.m", "10 sq.m", "12 sq.m", "7.5 sq.m", "15 sq.m"], "correct": 3, "id": 28}, {"section": "avyay", "q": "Which of the following is NOT correct regarding Standard Norms for Senior Citizen Homes under AVYAY?", "opts": ["Total carpet area of 12 sq.m per resident", "Nutrition norm of 1,700 calories/50g protein daily", "Minimum 2 monthly outings", "Barrier-free access with ramps and lifts", "Minimum 4 monthly outings to religious/cultural sites"], "correct": 4, "id": 29}, {"section": "shreshta", "q": "SHRESHTA scheme targets meritorious students belonging to which community?", "opts": ["Scheduled Castes (SC)", "Other Backward Classes (OBC)", "De-notified Tribes", "Economically Backward Classes", "Transgender persons"], "correct": 0, "id": 30}, {"section": "shreshta", "q": "SHRESHTA aims for how many total fresh admissions annually (adjustable between Classes 9 and 11)?", "opts": ["1,500", "3,000", "4,500", "21,500", "13,500"], "correct": 1, "id": 31}, {"section": "shreshta", "q": "Under Mode 1 of SHRESHTA, schools must be in existence for at least how many years, with what minimum pass rate?", "opts": ["3 years; 70% pass rate", "10 years; 80% pass rate", "5 years; >75% pass rate", "5 years; 60% pass rate", "7 years; >90% pass rate"], "correct": 2, "id": 32}, {"section": "shreshta", "q": "The National Entrance Test for SHRESHTA (NETS) is conducted by:", "opts": ["UGC", "University Grants Commission", "IFCI Ltd", "National Testing Agency (NTA)", "NSFDC"], "correct": 3, "id": 33}, {"section": "shreshta", "q": "Under SHRESHTA Mode 1, the seat allocation for Class 9 and Class 11 respectively is:", "opts": ["2,000 and 1,000", "1,000 and 2,000", "1,500 and 1,000", "2,000 and 1,500", "1,500 and 1,500"], "correct": 4, "id": 34}, {"section": "shreshta", "q": "Under SHRESHTA Mode 1, scholarships are disbursed to schools through which portal?", "opts": ["e-Anudaan", "SEED Portal", "NAMASTE Portal", "SACRED Portal", "PFMS Portal"], "correct": 0, "id": 35}, {"section": "shreshta", "q": "As per SHRESHTA Mode 1 reimbursement ceilings, the amount for Class 12 is:", "opts": ["₹1,25,000", "₹1,35,000", "₹1,10,000", "₹1,00,000", "₹1,50,000"], "correct": 1, "id": 36}, {"section": "shreshta", "q": "As per SHRESHTA Mode 1 reimbursement ceilings, the amount for Class 9 is:", "opts": ["₹1,10,000", "₹90,000", "₹1,00,000", "₹1,25,000", "₹1,35,000"], "correct": 2, "id": 37}, {"section": "shreshta", "q": "Under Mode 2 of SHRESHTA (NGO-Operated Schools), all supported primary schools must upgrade to at least secondary level (Class 10) by:", "opts": ["2025", "2030", "2026", "2027", "2028"], "correct": 3, "id": 38}, {"section": "shreshta", "q": "Under Mode 2 of SHRESHTA, the per-student annual grant for a Secondary Residential School is:", "opts": ["₹44,000", "₹32,000", "₹1,00,000", "₹86,000", "₹55,000"], "correct": 4, "id": 39}, {"section": "shreshta", "q": "Under Mode 2 of SHRESHTA, the per-student annual grant for a Primary Hostel is:", "opts": ["₹32,000", "₹44,000", "₹55,000", "₹22,000", "₹40,000"], "correct": 0, "id": 40}, {"section": "shreshta", "q": "Under the attendance-linked grant mechanism of SHRESHTA Mode 2, what percentage of Grant-in-Aid is released for attendance between 50%-<75%?", "opts": ["100%", "75%", "50%", "25%", "0%"], "correct": 1, "id": 41}, {"section": "shreshta", "q": "Under SHRESHTA Mode 2, if SC beneficiary attendance during PMU inspection is between 25%-<50%, the Grant-in-Aid released is:", "opts": ["75%", "0%", "50%", "100%", "25%"], "correct": 2, "id": 42}, {"section": "shreshta", "q": "Approximately how many slots does Mode 2 of SHRESHTA currently support annually for SC students?", "opts": ["3,000", "21,500", "4,500", "13,500", "1,850"], "correct": 3, "id": 43}, {"section": "shreshta", "q": "Under SHRESHTA eligibility, the parental annual income must not exceed:", "opts": ["₹8 lakh", "₹5 lakh", "₹3 lakh", "₹2 lakh", "₹2.5 lakh"], "correct": 4, "id": 44}, {"section": "shreshta", "q": "Under SHRESHTA, the eligible age range (as on March 31 of admission year) for admission to Class 9 is:", "opts": ["12-16 years", "14-18 years", "10-14 years", "13-17 years", "15-19 years"], "correct": 0, "id": 45}, {"section": "shreyas_obc", "q": "SHREYAS (OBC & Others) scheme merges which two Central Sector sub-schemes?", "opts": ["NFSC and NOS", "National Fellowship for OBC Students (NFOBC) and Dr. Ambedkar Interest Subsidy Scheme", "PM-DAKSH and SEED", "Top Class Education and Free Coaching", "IPSrC and RVY"], "correct": 1, "id": 46}, {"section": "shreyas_obc", "q": "Under NFOBC, how many Junior Research Fellowships (JRF) are awarded annually?", "opts": ["2,000", "500", "1,000", "1,250", "1,500"], "correct": 2, "id": 47}, {"section": "shreyas_obc", "q": "Under NFOBC, how many of the total JRF slots are reserved for Science streams via CSIR-UGC NET?", "opts": ["750", "500", "1,000", "250", "100"], "correct": 3, "id": 48}, {"section": "shreyas_obc", "q": "NFOBC eligibility requires OBC (non-creamy layer) candidates with income not exceeding:", "opts": ["₹2.5 lakh", "₹3 lakh", "₹5 lakh", "₹6 lakh", "₹8 lakh"], "correct": 4, "id": 49}, {"section": "shreyas_obc", "q": "What percentage of NFOBC slots are reserved for PwD candidates?", "opts": ["5%", "3%", "10%", "30%", "50%"], "correct": 0, "id": 50}, {"section": "shreyas_obc", "q": "The maximum duration of the NFOBC fellowship (JRF+SRF combined) is:", "opts": ["3 years", "5 years", "4 years", "2 years", "6 years"], "correct": 1, "id": 51}, {"section": "shreyas_obc", "q": "Under NFOBC, the monthly fellowship amount during the initial 2 years (JRF) is:", "opts": ["₹37,000", "₹35,000", "₹31,000", "₹42,000", "₹28,000"], "correct": 2, "id": 52}, {"section": "shreyas_obc", "q": "NFOBC is implemented through which agency?", "opts": ["NBCFDC", "Canara Bank", "NSFDC", "University Grants Commission (UGC)", "IFCI Ltd"], "correct": 3, "id": 53}, {"section": "shreyas_obc", "q": "Under the Dr. Ambedkar Interest Subsidy Scheme (Sub-Scheme 2 of SHREYAS OBC & Others), which bank is designated as the nodal bank?", "opts": ["State Bank of India", "Punjab National Bank", "Bank of Baroda", "Union Bank of India", "Canara Bank"], "correct": 4, "id": 54}, {"section": "shreyas_obc", "q": "The Dr. Ambedkar Interest Subsidy Scheme for overseas studies is monitored by which corporation?", "opts": ["National Backward Classes Finance & Development Corporation (NBCFDC)", "NSFDC", "NSKFDC", "IFCI Ltd", "DWBDNC"], "correct": 0, "id": 55}, {"section": "shreyas_obc", "q": "Under the Dr. Ambedkar Interest Subsidy Scheme, the income limit for EBC candidates is:", "opts": ["₹2.5 lakh", "₹5 lakh", "₹8 lakh", "₹3 lakh", "₹6 lakh"], "correct": 1, "id": 56}, {"section": "shreyas_obc", "q": "The interest subsidy under the Dr. Ambedkar scheme is applicable for loans up to a maximum of:", "opts": ["₹10 lakh", "₹15 lakh", "₹20 lakh", "₹25 lakh", "₹5 crore"], "correct": 2, "id": 57}, {"section": "shreyas_obc", "q": "What percentage of total financial assistance under the Dr. Ambedkar Interest Subsidy Scheme is earmarked for female candidates?", "opts": ["30%", "33%", "40%", "50%", "25%"], "correct": 3, "id": 58}, {"section": "shreyas_obc", "q": "Which of the following is NOT a correct statement about the Dr. Ambedkar Central Sector Interest Subsidy Scheme?", "opts": ["The loan must be availed from a scheduled bank under the IBA Education Loan Scheme", "Government bears 100% interest during the moratorium period", "It applies only to Masters, M.Phil and Ph.D. level courses abroad", "OBC income limit is based on the current Creamy Layer criteria", "The scheme covers loans up to a maximum of ₹50 lakh"], "correct": 4, "id": 59}, {"section": "shreyas_sc", "q": "SHREYAS (SC) scheme has a total proposed outlay of approximately:", "opts": ["₹1,850 crore", "₹600 crore", "₹365 crore", "₹200 crore", "₹73.71 crore"], "correct": 0, "id": 60}, {"section": "shreyas_sc", "q": "Under the Top Class Education for SC Students sub-scheme, total slots are capped at how many for the five-year period?", "opts": ["13,500", "21,500", "4,500", "3,000", "2,000"], "correct": 1, "id": 61}, {"section": "shreyas_sc", "q": "For 2025-26, the number of slots available under Top Class Education for SC Students is:", "opts": ["3,000", "21,500", "4,500", "1,000", "13,500"], "correct": 2, "id": 62}, {"section": "shreyas_sc", "q": "Under Top Class Education for SC students, the tuition fee reimbursement ceiling for private sector institutions is:", "opts": ["₹1 lakh p.a.", "₹1.5 lakh p.a.", "₹2.5 lakh p.a.", "₹2.00 lakh p.a.", "₹3 lakh p.a."], "correct": 3, "id": 63}, {"section": "shreyas_sc", "q": "Under Top Class Education for SC students, the Academic Allowance in the first year is:", "opts": ["₹41,000", "₹1,00,000", "₹55,000", "₹75,000", "₹86,000"], "correct": 4, "id": 64}, {"section": "shreyas_sc", "q": "Under Top Class Education for SC students, the one-time equipment assistance for a computer/laptop is up to:", "opts": ["₹45,000", "₹30,000", "₹50,000", "₹25,000", "₹20,000"], "correct": 0, "id": 65}, {"section": "shreyas_sc", "q": "Under Top Class Education for SC students, the family income ceiling is:", "opts": ["₹5 lakh", "₹8.00 lakh", "₹2.5 lakh", "₹10 lakh", "₹3 lakh"], "correct": 1, "id": 66}, {"section": "shreyas_sc", "q": "Under National Fellowship for SC Students (NFSC), how many new slots per year are provided, with what split?", "opts": ["1,000 total (750 humanities, 250 science)", "3,000 total (1,500/1,500)", "2,000 total (500 science, 1,500 humanities/social sciences)", "1,500 total (1,000/500)", "2,500 total (1,000/1,500)"], "correct": 2, "id": 67}, {"section": "shreyas_sc", "q": "Under NFSC, what percentage of slots is reserved for PwD candidates?", "opts": ["5%", "30%", "50%", "3%", "10%"], "correct": 3, "id": 68}, {"section": "shreyas_sc", "q": "NFSC rates were revised with effect from:", "opts": ["01.04.2021", "01.01.2022", "01.01.2024", "01.04.2023", "01.01.2023"], "correct": 4, "id": 69}, {"section": "shreyas_sc", "q": "Under the revised NFSC rates, the monthly fellowship amount during SRF (remaining tenure) for all streams is:", "opts": ["₹42,000", "₹37,000", "₹35,000", "₹31,000", "₹45,000"], "correct": 0, "id": 70}, {"section": "shreyas_sc", "q": "Under the National Overseas Scholarship (NOS) for SCs, how many total slots are provided annually, and how distributed?", "opts": ["100 total (all for SC)", "125 total (115 SC, 6 DNT, 4 others)", "150 total (140 SC, 10 others)", "125 total (100 SC, 25 others)", "200 total (180 SC, 20 others)"], "correct": 1, "id": 71}, {"section": "shreyas_sc", "q": "Under NOS for SCs, applicants must have secured admission to universities ranked within:", "opts": ["Top 100 QS Ranking", "Top 1000 QS Ranking", "Top 500 QS Ranking", "Top 200 QS Ranking", "No ranking requirement"], "correct": 2, "id": 72}, {"section": "shreyas_sc", "q": "Under NOS for SCs, the maximum age limit and minimum marks required are:", "opts": ["Below 30 years; 50% marks", "Below 40 years; 55% marks", "Below 28 years; 65% marks", "Below 35 years; 60% marks", "Below 32 years; 70% marks"], "correct": 3, "id": 73}, {"section": "shreyas_sc", "q": "Under the Free Coaching Scheme for SCs and OBCs, total slots per annum and the SC:OBC ratio are:", "opts": ["2,000 slots; 50:50", "5,000 slots; 60:40", "4,500 slots; 80:20", "1,250 slots; 70:30", "3,500 slots; 70:30"], "correct": 4, "id": 74}, {"section": "shreyas_sc", "q": "Which of the following is NOT one of the four sub-schemes under SHREYAS (SC)?", "opts": ["National Fellowship for OBC Students", "Top Class Education for SC Students", "National Fellowship for SC Students (NFSC)", "National Overseas Scholarship (NOS) for SCs", "Free Coaching Scheme for SCs and OBCs"], "correct": 0, "id": 75}, {"section": "yasasvi", "q": "PM-YASASVI targets students belonging to which three categories?", "opts": ["SC, ST and EWS", "OBC, EBC and DNT (De-notified, Nomadic & Semi-Nomadic Tribes)", "SC, OBC and Transgender", "EWS, PwD and Senior Citizens", "DNT, ST and Minorities"], "correct": 1, "id": 76}, {"section": "yasasvi", "q": "Under PM-YASASVI, the annual income of parents/guardians must not exceed:", "opts": ["₹8 lakh", "₹5 lakh", "₹2.50 lakh", "₹3 lakh", "₹1 lakh"], "correct": 2, "id": 77}, {"section": "yasasvi", "q": "Under PM-YASASVI's family limit rule for pre-matric scholarships, how many boys per family are eligible (with girls unlimited)?", "opts": ["One", "Three", "Unlimited", "Two", "Zero"], "correct": 3, "id": 78}, {"section": "yasasvi", "q": "Which of the following is one of the 'Five Pillars' of PM-YASASVI?", "opts": ["Garima Greh", "SACRED Portal", "IPSrC", "NAMASTE Portal", "Construction of Hostels"], "correct": 4, "id": 79}, {"section": "yasasvi", "q": "Under the Pre-Matric Scholarship pillar of PM-YASASVI, the focus is on students of which classes?", "opts": ["Class 9 and 10", "Class 6 to 8", "Class 11 and 12", "Class 1 to 5", "Class 9 to 12"], "correct": 0, "id": 80}, {"section": "yasasvi", "q": "Under Top Class School Education (PM-YASASVI), the financial ceiling for Class 9-10 students is:", "opts": ["₹1,25,000 p.a.", "₹75,000 p.a.", "₹1,00,000 p.a.", "₹50,000 p.a.", "₹86,000 p.a."], "correct": 1, "id": 81}, {"section": "yasasvi", "q": "Under Top Class School Education (PM-YASASVI), the financial ceiling for Class 11-12 students is:", "opts": ["₹75,000 p.a.", "₹1,00,000 p.a.", "₹1,25,000 p.a.", "₹1,35,000 p.a.", "₹2,00,000 p.a."], "correct": 2, "id": 82}, {"section": "yasasvi", "q": "Under Top Class College Education (PM-YASASVI), the monthly living expenses provided are:", "opts": ["₹5,000", "₹1,000", "₹2,000", "₹3,000", "₹4,000"], "correct": 3, "id": 83}, {"section": "yasasvi", "q": "Under Top Class College Education (PM-YASASVI), the one-time grant for a computer/laptop is up to:", "opts": ["₹30,000", "₹20,000", "₹35,000", "₹50,000", "₹45,000"], "correct": 4, "id": 84}, {"section": "yasasvi", "q": "In previous cycles, the YASASVI Entrance Test (YET) for Top Class components was conducted by:", "opts": ["National Testing Agency (NTA)", "UGC", "IFCI Ltd", "CSIR", "State Public Service Commissions"], "correct": 0, "id": 85}, {"section": "yasasvi", "q": "Scholarship amounts under PM-YASASVI are disbursed through which mechanism?", "opts": ["e-Anudaan Portal", "Direct Benefit Transfer (DBT) via Public Financial Management System (PFMS)", "NAMASTE Portal", "SEED Portal", "Cheque disbursement by State Nodal Departments"], "correct": 1, "id": 86}, {"section": "yasasvi", "q": "Which of the following is NOT correct regarding PM-YASASVI's Post-Matric Scholarship pillar?", "opts": ["It covers studies beyond Class 10", "It includes Graduate, Post-Graduate and Ph.D. courses", "It provides funding exclusively for study abroad", "Maintenance allowance is reimbursed to the student", "Non-refundable fees are reimbursed"], "correct": 2, "id": 87}, {"section": "namaste", "q": "NAMASTE is a joint initiative of MoSJE and which other ministry?", "opts": ["Ministry of Rural Development", "Ministry of Health and Family Welfare", "Ministry of Skill Development", "Ministry of Housing and Urban Affairs (MoHUA)", "Ministry of Labour and Employment"], "correct": 3, "id": 88}, {"section": "namaste", "q": "NAMASTE replaces which erstwhile scheme?", "opts": ["NAPDDR", "SHREYAS", "PM-AJAY", "SMILE", "Self-Employment Scheme for Rehabilitation of Manual Scavengers (SRMS)"], "correct": 4, "id": 89}, {"section": "namaste", "q": "NAMASTE is operational from FY 2023-24 until:", "opts": ["March 31, 2026", "March 31, 2025", "March 31, 2028", "December 31, 2026", "March 31, 2030"], "correct": 0, "id": 90}, {"section": "namaste", "q": "NAMASTE aims to transform Sewer and Septic Tank Workers (SSWs) into:", "opts": ["'Swachh Mitras'", "'Sanipreneurs'", "'Safai Champions'", "'NAMASTE Fellows'", "'Green Warriors'"], "correct": 1, "id": 91}, {"section": "namaste", "q": "The guiding philosophy of NAMASTE regarding worker deaths is termed:", "opts": ["Total Safety Mission", "Health First Approach", "'Zero Fatality' philosophy", "Sanitation Security Doctrine", "Worker Protection Charter"], "correct": 2, "id": 92}, {"section": "namaste", "q": "For FY 2025-26, NAMASTE's total allocated budget is:", "opts": ["₹65.69 crore", "₹8.02 crore", "₹37.00 crore", "₹73.71 crore", "₹365 crore"], "correct": 3, "id": 93}, {"section": "namaste", "q": "Of the FY 2025-26 NAMASTE budget, the amount allocated to the SSW Component is:", "opts": ["₹8.02 crore", "₹37.00 crore", "₹48.70 lakh", "₹73.71 crore", "₹65.69 crore"], "correct": 4, "id": 94}, {"section": "namaste", "q": "Under NAMASTE's 'Whole-of-Government' approach, which programme provides ₹5 lakh health insurance to SSW families?", "opts": ["Pradhan Mantri Jan Arogya Yojana (Ayushman Bharat)", "Swachh Bharat Mission 2.0", "PMKVY 4.0", "DAY-NULM", "PM-AJAY"], "correct": 0, "id": 95}, {"section": "namaste", "q": "Which programme under NAMASTE's convergence approach delivers a 40-hour 'Short Term Training' (STT)?", "opts": ["Swachh Bharat Mission 2.0", "Pradhan Mantri Kaushal Vikas Yojana 4.0", "DAY-NULM", "PM-JAY", "PM-DAKSH"], "correct": 1, "id": 96}, {"section": "namaste", "q": "Which national body acts as the nodal implementing agency for NAMASTE at the national level?", "opts": ["NSFDC", "NBCFDC", "National Safai Karamcharis Finance & Development Corporation (NSKFDC)", "IFCI Ltd", "DWBDNC"], "correct": 2, "id": 97}, {"section": "namaste", "q": "Under NAMASTE's institutional machinery, who serves as the Responsible Sanitation Authority (RSA) at the district level?", "opts": ["State NAMASTE Coordinator", "Municipal Commissioner", "Nodal Officer of ULB", "District Magistrate (DM)", "State NAMASTE Director"], "correct": 3, "id": 98}, {"section": "namaste", "q": "Roughly how many Urban Local Bodies (ULBs) are covered under NAMASTE, each nominating a Nodal Officer?", "opts": ["181", "4,500", "3,000", "2,000", "4,800+"], "correct": 4, "id": 99}, {"section": "namaste", "q": "Under NAMASTE, once a Sewer and Septic Tank Worker (SSW) is verified via the NAMASTE Portal, they receive a:", "opts": ["NAMASTE ID card", "DNT Certificate", "Transgender Identity Card", "BPL Card", "Aadhaar-seeded bank passbook"], "correct": 0, "id": 100}, {"section": "namaste", "q": "Under the NAMASTE capital subsidy for individuals with a project cost up to ₹5 lakh, the rate of subsidy is:", "opts": ["25% of project cost", "50% of project cost", "₹2.5 lakh + 25% of remaining cost", "100% of project cost", "75% of project cost"], "correct": 1, "id": 101}, {"section": "namaste", "q": "For individual NAMASTE projects with cost between ₹5 lakh and ₹15 lakh, the subsidy structure is:", "opts": ["50% of project cost flat", "25% of project cost flat", "₹2.5 lakh + 25% of the remaining project cost", "₹5 lakh flat subsidy", "100% up to ₹15 lakh"], "correct": 2, "id": 102}, {"section": "namaste", "q": "Under NAMASTE Group Projects, the maximum project cost permissible is:", "opts": ["₹15 lakh", "₹5 lakh", "₹10 lakh", "₹50 lakh", "₹1 crore"], "correct": 3, "id": 103}, {"section": "namaste", "q": "For NAMASTE Group Projects, the maximum subsidy per beneficiary is capped at:", "opts": ["₹2.5 lakh", "₹5 lakh", "₹10 lakh", "₹2 lakh", "₹3.75 lakh"], "correct": 4, "id": 104}, {"section": "namaste", "q": "Under NAMASTE, the maximum repayment period (including up to 6 months moratorium) for projects above ₹5 lakh is:", "opts": ["7 years", "5 years", "10 years", "3 years", "12 years"], "correct": 0, "id": 105}, {"section": "namaste", "q": "Empanelled handholding agencies under NAMASTE receive what percentage of the project cost for facilitating loans?", "opts": ["5%", "1%", "2%", "10%", "0.5%"], "correct": 1, "id": 106}, {"section": "namaste", "q": "Under NAMASTE's Upfront Capital Subsidy for Mechanised Cleaning, the subsidy rate and cap are:", "opts": ["50% of project cost, max ₹5 lakh/unit", "10% of project cost, max ₹20 lakh/unit", "25% of project cost, max ₹10 lakh/unit", "100% of project cost, no cap", "25% of project cost, max ₹5 lakh/unit"], "correct": 2, "id": 107}, {"section": "namaste", "q": "Under NAMASTE occupational safety measures, the value of PPE safety kits provided to surface workers is:", "opts": ["₹2,000", "₹1,000", "₹10,000", "₹4,000", "₹5,000"], "correct": 3, "id": 108}, {"section": "namaste", "q": "Under NAMASTE, Emergency Response Sanitation Units (ERSUs) receive up to how much for safety devices?", "opts": ["₹5 lakh", "₹10 lakh", "₹50,000", "₹1 lakh", "₹2 lakh"], "correct": 4, "id": 109}, {"section": "namaste", "q": "The helpline number that ULBs must ensure is functional under NAMASTE for citizens to request mechanized cleaning services is:", "opts": ["14420", "14567", "1098", "15100", "1930"], "correct": 0, "id": 110}, {"section": "namaste", "q": "Which of the following is NOT a correct statement about NAMASTE's training stipend for workers completing skill development programs?", "opts": ["It is provided upon completion of skill development programs", "It is capped at ₹10,000", "The scheme integrates with PMKVY 4.0 for STT", "It is part of occupational safety and capacity building", "Workers receive it in addition to safety kits"], "correct": 1, "id": 111}, {"section": "smile", "q": "SMILE scheme was launched in:", "opts": ["April 2021", "January 2021", "February 2022", "August 2020", "March 2023"], "correct": 2, "id": 112}, {"section": "smile", "q": "SMILE has a total outlay of ₹365 crore for the period:", "opts": ["2018-2025", "2020-21 to 2024-25", "2023-24 to 2025-26", "2021-22 to 2025-26", "2019-20 to 2023-24"], "correct": 3, "id": 113}, {"section": "smile", "q": "SMILE includes two sub-schemes: Comprehensive Rehabilitation for Welfare of Transgender Persons and:", "opts": ["Comprehensive Rehabilitation of Manual Scavengers", "Comprehensive Rehabilitation of Senior Citizens", "Comprehensive Rehabilitation of Drug Addicts", "Comprehensive Rehabilitation of Denotified Tribes", "Comprehensive Rehabilitation of Persons Engaged in the Act of Begging"], "correct": 4, "id": 114}, {"section": "smile", "q": "SMILE aligns with constitutional rights to equality, dignity and non-discrimination under which Articles?", "opts": ["14, 21, and 15-16", "17, 41 and 46", "19, 21 and 25", "14, 19 and 21", "15, 16 and 17"], "correct": 0, "id": 115}, {"section": "smile", "q": "Under SMILE, a Transgender Certificate and Identity Card is issued via the National Portal within:", "opts": ["15 days", "30 days", "45 days", "60 days", "7 days"], "correct": 1, "id": 116}, {"section": "smile", "q": "The health insurance scheme for transgender persons under SMILE, known as Ayushman Bharat TG Plus, provides annual cover of:", "opts": ["₹2 lakh", "₹3 lakh", "₹5 lakh", "₹10 lakh", "₹1 lakh"], "correct": 2, "id": 117}, {"section": "smile", "q": "Under SMILE's Education and Scholarships component for transgender students, the annual fixed slots are:", "opts": ["3,000", "2,000", "5,000", "4,500", "1,250"], "correct": 3, "id": 118}, {"section": "smile", "q": "Under SMILE, the Pre-Matric (IX-X) scholarship amount for transgender students is:", "opts": ["₹20,000 per year", "₹1,00,000 per year", "₹10,000 per year", "₹15,000 per year", "₹13,800 per year"], "correct": 4, "id": 119}, {"section": "smile", "q": "As of February 2026, how many Garima Grehs (shelters for transgender persons under SMILE) are supported, and across how many States/UTs?", "opts": ["23 Garima Grehs across 17 States/UTs", "50 Garima Grehs across 28 States/UTs", "10 Garima Grehs across 10 States/UTs", "35 Garima Grehs across 20 States/UTs", "15 Garima Grehs across 12 States/UTs"], "correct": 0, "id": 120}, {"section": "smile", "q": "The eligible age group for residents of Garima Greh shelters under SMILE is:", "opts": ["15-55 years", "18-60 years", "21-65 years", "12-50 years", "18-45 years"], "correct": 1, "id": 121}, {"section": "smile", "q": "Garima Grehs under SMILE have a residency capacity per shelter of:", "opts": ["10-25 residents", "100-150 residents", "25-50 residents", "50-100 residents", "5-15 residents"], "correct": 2, "id": 122}, {"section": "smile", "q": "The annual budget per Garima Greh shelter under SMILE is:", "opts": ["₹48.70 lakh", "₹27.00 lakh", "₹20 lakh", "₹36.46 lakh", "₹40,000"], "correct": 3, "id": 123}, {"section": "smile", "q": "Under SMILE, skill development for transgender persons is delivered through:", "opts": ["NAMASTE", "SEED", "PM-AJAY", "NBCFDC training modules", "PM-DAKSH"], "correct": 4, "id": 124}, {"section": "smile", "q": "Under SMILE's PM-DAKSH component for transgender persons, the monthly stipend for residential training is:", "opts": ["₹1,500", "₹1,000", "₹2,000", "₹500", "₹3,000"], "correct": 0, "id": 125}, {"section": "smile", "q": "Under SMILE's PM-DAKSH component, the minimum attendance requirement is:", "opts": ["70%", "80%", "60%", "90%", "75%"], "correct": 1, "id": 126}, {"section": "smile", "q": "Under SMILE, the total target for skill development beneficiaries (via PM-DAKSH) over 5 years is:", "opts": ["8,000", "13,500", "21,000", "4,500", "1,250"], "correct": 2, "id": 127}, {"section": "smile", "q": "The Comprehensive Rehabilitation of Persons Engaged in the Act of Begging sub-scheme under SMILE aims for what stated national goal?", "opts": ["Sampoorna Basera Yojana", "Nasha Mukt Bharat", "Antyodaya Bharat", "Bhiksha Vritti Mukt Bharat (Begging-free India)", "Swachh Bharat Abhiyan"], "correct": 3, "id": 128}, {"section": "smile", "q": "Under the begging rehabilitation sub-scheme of SMILE, Rescue/Shelter Homes must have a minimum capacity of:", "opts": ["25 persons", "100 persons", "20 persons", "10 persons", "50 persons"], "correct": 4, "id": 129}, {"section": "smile", "q": "For FY 2025-26, the begging rehabilitation sub-scheme of SMILE is operational in how many selected cities?", "opts": ["181", "4,800", "23", "266", "100"], "correct": 0, "id": 130}, {"section": "smile", "q": "For FY 2025-26, the financial outlay and beneficiary target for SMILE's begging rehabilitation component are:", "opts": ["₹73.71 crore; 20,000 individuals", "₹37.00 crore; 8,000 individuals", "₹200 crore; 5,000 individuals", "₹365 crore; 10,000 individuals", "₹48.70 lakh; 500 individuals"], "correct": 1, "id": 131}, {"section": "smile", "q": "Under SMILE's admissible cost norms for a 50-bed shelter, the total annual cost is:", "opts": ["₹36.46 lakh", "₹27.00 lakh", "₹48,70,000", "₹20 lakh", "₹73.71 crore"], "correct": 2, "id": 132}, {"section": "smile", "q": "Under SMILE's shelter cost norms, the daily food and nutrition allocation per person is:", "opts": ["₹100", "₹50", "₹200", "₹150", "₹20"], "correct": 3, "id": 133}, {"section": "smile", "q": "Which of the following is NOT correct regarding SMILE's Garima Greh shelters?", "opts": ["They are managed by NGOs/CBOs, preferably transgender-led", "Selection of managing agencies occurs via e-Anudaan Portal", "Residents may stay up to 1 year (extendable)", "Individuals engaged in sex work or begging are not eligible", "Residents must be exclusively above 25 years of age"], "correct": 4, "id": 134}, {"section": "pmdaksh", "q": "PM-DAKSH Yojana was launched in which year as a Central Sector Scheme?", "opts": ["2020-21", "2021-22", "2018-19", "2022-23", "2019-20"], "correct": 0, "id": 135}, {"section": "pmdaksh", "q": "PM-DAKSH is executed for OBCs, EWSs and DNTs by which apex corporation?", "opts": ["NSFDC", "National Backward Classes Finance and Development Corporation (NBCFDC)", "NSKFDC", "IFCI Ltd", "DWBDNC"], "correct": 1, "id": 136}, {"section": "pmdaksh", "q": "PM-DAKSH is executed for Safai Karamcharis/Safai Mitras (including waste pickers) by:", "opts": ["NBCFDC", "NSFDC", "National Safai Karamcharis Finance and Development Corporation (NSKFDC)", "IFCI Ltd", "UGC"], "correct": 2, "id": 137}, {"section": "pmdaksh", "q": "Under PM-DAKSH's Recognition of Prior Learning (RPL) category for Safai Mitras and waste pickers, the wage loss compensation per person is:", "opts": ["₹1,000", "₹1,500", "₹2,000", "₹500", "₹3,000"], "correct": 3, "id": 138}, {"section": "pmdaksh", "q": "Under PM-DAKSH's Short-Term Training (STT), the non-residential monthly stipend for SCs and Safai Mitras is:", "opts": ["₹1,000", "₹2,000", "₹500", "₹3,000", "₹1,500"], "correct": 4, "id": 139}, {"section": "pmdaksh", "q": "Under PM-DAKSH's STT, the non-residential monthly stipend for OBCs/EWSs/DNTs/TG is:", "opts": ["₹1,000", "₹1,500", "₹500", "₹2,000", "₹2,500"], "correct": 0, "id": 140}, {"section": "pmdaksh", "q": "Under PM-DAKSH, the eligible age group for candidates (general) is:", "opts": ["15-40 years", "18-45 years", "21-50 years", "16-35 years", "18-35 years"], "correct": 1, "id": 141}, {"section": "pmdaksh", "q": "Under PM-DAKSH, the income limit for OBCs/EWSs (with valid BPL/AAY cards acceptable up to a higher limit) is:", "opts": ["Below ₹5 lakh", "Below ₹2 lakh", "Below ₹3 lakh per annum", "Below ₹8 lakh", "No income limit"], "correct": 2, "id": 142}, {"section": "pmdaksh", "q": "Which category under PM-DAKSH has NO income limit specified?", "opts": ["OBCs and EWSs", "Transgender community only", "EDP category only", "SCs/DNTs/Safai Mitras (including waste pickers)", "None; all categories have income limits"], "correct": 3, "id": 143}, {"section": "pmdaksh", "q": "Under PM-DAKSH, attendance is tracked through:", "opts": ["Manual registers only", "NAMASTE Portal", "SEED Portal", "e-Anudaan Portal", "Aadhaar Enabled Biometric Attendance System (AEBAS)"], "correct": 4, "id": 144}, {"section": "pmdaksh", "q": "Under PM-DAKSH, the minimum attendance percentage required for assessment eligibility and stipend is:", "opts": ["70%", "80%", "60%", "75%", "90%"], "correct": 0, "id": 145}, {"section": "pmdaksh", "q": "As per the revised disbursement schedule for PM-DAKSH's STT (January 2025 Corrigendum), what percentage is released as Tranche 1 on training commencement?", "opts": ["40%", "30%", "50%", "20%", "25%"], "correct": 1, "id": 146}, {"section": "pmdaksh", "q": "Under PM-DAKSH's revised STT disbursement schedule, Tranche 3 (released on assessment completion and result upload) constitutes:", "opts": ["30%", "20%", "40%", "50%", "60%"], "correct": 2, "id": 147}, {"section": "pmdaksh", "q": "Under PM-DAKSH, administrative expenses account for what percentage of the budget, and how is it split?", "opts": ["10% total (5% agencies, 5% DoSJE)", "3% total (2% agencies, 1% DoSJE)", "2% total (1% agencies, 1% DoSJE)", "5% total (4% Implementing Agencies, 1% DoSJE)", "8% total (6% agencies, 2% DoSJE)"], "correct": 3, "id": 148}, {"section": "pmdaksh", "q": "Which of the following is NOT a target group covered under PM-DAKSH?", "opts": ["Scheduled Castes", "De-notified, Nomadic and Semi-Nomadic Tribes", "Transgender community", "Economically Weaker Sections", "Senior Citizens"], "correct": 4, "id": 149}, {"section": "seed", "q": "SEED scheme was officially inaugurated in:", "opts": ["February 2022", "April 2021", "January 2023", "August 2020", "March 2022"], "correct": 0, "id": 150}, {"section": "seed", "q": "SEED has an approximate outlay of how much over five years?", "opts": ["₹365 crore", "₹200 crore", "₹1,850 crore", "₹600 crore", "₹73.71 crore"], "correct": 1, "id": 151}, {"section": "seed", "q": "SEED targets which communities?", "opts": ["SC and ST", "Safai Karamcharis and Manual Scavengers", "Denotified, Nomadic, and Semi-Nomadic Tribes (DNTs/NTs/SNTs)", "OBC and EBC only", "Transgender persons"], "correct": 2, "id": 152}, {"section": "seed", "q": "DNTs were originally 'notified' as born criminals under which colonial-era law?", "opts": ["Indian Penal Code, 1860", "Government of India Act, 1935", "Vagrancy Act, 1869", "Criminal Tribes Act, 1871", "Police Act, 1861"], "correct": 3, "id": 153}, {"section": "seed", "q": "DNTs were officially 'denotified' in the year:", "opts": ["1947", "1961", "1935", "1975", "1952"], "correct": 4, "id": 154}, {"section": "seed", "q": "SEED was formulated based on the recommendations of the National Commission for Denotified, Nomadic and Semi-Nomadic Tribes (NCDNT), also known as the:", "opts": ["Idate Commission", "Mandal Commission", "Renke Commission", "Balakrishnan Commission", "Sachar Commission"], "correct": 0, "id": 155}, {"section": "seed", "q": "The Idate Commission was headed by:", "opts": ["B.R. Ambedkar", "Bhiku Ramji Idate", "Justice Renke", "G.M. Lodha", "K. Kalyanasundaram"], "correct": 1, "id": 156}, {"section": "seed", "q": "The Development and Welfare Board for Denotified, Nomadic, and Semi-Nomadic Communities (DWBDNC) was established under MoSJE in:", "opts": ["2022", "2021", "2019", "2018", "2020"], "correct": 2, "id": 157}, {"section": "seed", "q": "Under SEED's Educational Empowerment (Free Coaching) pillar, the annual target of students since FY2021-22 is:", "opts": ["3,500", "4,500", "2,000", "1,250", "1,500"], "correct": 3, "id": 158}, {"section": "seed", "q": "Under SEED's Free Coaching pillar, the special monthly allowance for Persons with Disabilities (PwD) is:", "opts": ["₹1,000", "₹1,500", "₹500", "₹3,000", "₹2,000"], "correct": 4, "id": 159}, {"section": "seed", "q": "Under SEED, the monthly stipend range for students under the Free Coaching component is:", "opts": ["₹1,500-₹3,000", "₹1,000-₹2,000", "₹2,000-₹4,000", "₹500-₹1,500", "₹2,500-₹5,000"], "correct": 0, "id": 160}, {"section": "seed", "q": "Under SEED's Health Insurance pillar, coverage is provided through Ayushman Bharat PM-JAY with an annual family cover of:", "opts": ["₹3 lakh", "₹5 lakh", "₹2 lakh", "₹10 lakh", "₹1 lakh"], "correct": 1, "id": 161}, {"section": "seed", "q": "Under SEED's Livelihood Initiatives (Cluster Development) pillar, the scheme is implemented through NRLM and which finance corporation?", "opts": ["NSFDC", "NSKFDC", "National Backward Classes Finance & Development Corporation (NBCFDC)", "IFCI Ltd", "DWBDNC"], "correct": 2, "id": 162}, {"section": "seed", "q": "Under SEED's Livelihood Initiatives, the typical Revolving Fund amount provided to Self-Help Groups is:", "opts": ["₹10,000", "₹50,000", "₹15,000", "₹25,000", "₹1 lakh"], "correct": 3, "id": 163}, {"section": "seed", "q": "Under SEED's Housing Support pillar, financial assistance per unit in plains and hilly/difficult areas respectively is:", "opts": ["₹1 lakh; ₹1.2 lakh", "₹1.3 lakh; ₹1.2 lakh", "₹2 lakh; ₹2.5 lakh", "₹90,000; ₹1 lakh", "₹1.20 lakh; ₹1.30 lakh"], "correct": 4, "id": 164}, {"section": "seed", "q": "Under SEED eligibility criteria, the annual family income from all sources must not exceed:", "opts": ["₹2.50 lakh", "₹8 lakh", "₹5 lakh", "₹3 lakh", "₹1.5 lakh"], "correct": 0, "id": 165}, {"section": "seed", "q": "Under SEED, a DNT Certificate required for eligibility must be issued by:", "opts": ["Gram Panchayat", "Tehsildar/SDM", "District Collector only", "State Backward Classes Commission", "DWBDNC directly"], "correct": 1, "id": 166}, {"section": "seed", "q": "Which of the following is NOT correct about SEED's implementation framework?", "opts": ["The nodal agency is DWBDNC under MoSJE", "Candidates must register on the SEED Portal to generate a unique ID", "Livelihood partners include NBCFDC, NSFDC, and NSKFDC only for TG persons", "The SEED Portal enables completely online application and real-time monitoring", "DNTs not included in SC or ST lists are the target category"], "correct": 2, "id": 167}, {"section": "pmajay", "q": "PM-AJAY was launched in:", "opts": ["FY 2020-21", "FY 2022-23", "FY 2019-20", "FY 2021-22", "FY 2023-24"], "correct": 3, "id": 168}, {"section": "pmajay", "q": "PM-AJAY is classified as a:", "opts": ["Central Sector Scheme", "Umbrella Central Sector Scheme", "Externally Aided Project", "State Sector Scheme", "Centrally Sponsored Umbrella Scheme"], "correct": 4, "id": 169}, {"section": "pmajay", "q": "Which of the following was NOT one of the legacy schemes subsumed under PM-AJAY?", "opts": ["Rashtriya Vayoshri Yojana", "Special Central Assistance to Scheduled Castes Sub Plan (SCA to SCSP)", "Pradhan Mantri Adarsh Gram Yojana (PMAGY)", "Babu Jagjivan Ram Chhatrawas Yojana (BJRCY)", "None of the above; all were subsumed"], "correct": 0, "id": 170}, {"section": "pmajay", "q": "Under PM-AJAY's Adarsh Gram Component, villages are targeted with what minimum SC population percentage and population size (general criteria)?", "opts": ["≥30% SC population, population ≥300", "≥40% SC population, total population 500 or more", "≥50% SC population, population ≥1,000", "≥25% SC population, population ≥200", "≥60% SC population, population ≥750"], "correct": 1, "id": 171}, {"section": "pmajay", "q": "Under PM-AJAY's Adarsh Gram Component, villages must be 'saturated' across how many Monitorable Indicators spanning how many domains?", "opts": ["30 indicators, 5 domains", "60 indicators, 12 domains", "50 indicators, 10 domains", "40 indicators, 8 domains", "25 indicators, 6 domains"], "correct": 2, "id": 172}, {"section": "pmajay", "q": "Under the Adarsh Gram Component of PM-AJAY, the gap-filling grant per village for infrastructure is:", "opts": ["₹10 lakh", "₹50 lakh", "₹15 lakh", "₹20 lakh", "₹25 lakh"], "correct": 3, "id": 173}, {"section": "pmajay", "q": "The Adarsh Gram Component accounts for what percentage of total PM-AJAY scheme funds?", "opts": ["40%", "30%", "20%", "60%", "50%"], "correct": 4, "id": 174}, {"section": "pmajay", "q": "Under PM-AJAY's Grants-in-Aid (Socio-Economic Projects) component, financial assistance is provided up to:", "opts": ["₹50,000 or 50% of project cost, whichever is less", "₹1 lakh or 25% of project cost", "₹20 lakh flat", "₹2 lakh or 75% of project cost", "₹10,000 flat subsidy"], "correct": 0, "id": 175}, {"section": "pmajay", "q": "What percentage of PM-AJAY scheme funds is allocated to the Grants-in-Aid component, and what percentage of that is reserved specifically for skill development?", "opts": ["50% allocation; 5% for skill development", "40% allocation; 10% for skill development", "30% allocation; 15% for skill development", "60% allocation; 20% for skill development", "20% allocation; 5% for skill development"], "correct": 1, "id": 176}, {"section": "pmajay", "q": "Under PM-AJAY's Hostel Component, the central funding pattern for Girls' Hostels is:", "opts": ["90% Central funding", "75% Central funding", "100% Central funding", "50% Central funding", "60% Central funding"], "correct": 2, "id": 177}, {"section": "pmajay", "q": "Under PM-AJAY's Hostel Component, the funding pattern for Boys' Hostels in Central institutions/UTs is:", "opts": ["100%", "50%", "75%", "90%", "60%"], "correct": 3, "id": 178}, {"section": "pmajay", "q": "Under PM-AJAY's Hostel Component, priority is now given to institutions ranked under which framework?", "opts": ["QS World Rankings", "UGC Autonomous Status", "NAAC Accreditation", "AICTE Approval Ranking", "National Institutional Ranking Framework (NIRF)"], "correct": 4, "id": 179}, {"section": "pmajay", "q": "The Hostel Component of PM-AJAY receives what percentage allocation of total scheme funds?", "opts": ["10%", "20%", "5%", "15%", "25%"], "correct": 0, "id": 180}, {"section": "napddr", "q": "The National Action Plan for Drug Demand Reduction (NAPDDR) was originally designed to span the period:", "opts": ["2015-2020", "2018-2025", "2020-2025", "2016-2021", "2019-2024"], "correct": 1, "id": 181}, {"section": "napddr", "q": "NAPDDR aligns with which Sustainable Development Goal (SDG) target?", "opts": ["SDG 4.1", "SDG 1.2", "SDG 3.5", "SDG 8.5", "SDG 10.2"], "correct": 2, "id": 182}, {"section": "napddr", "q": "Under NAPDDR's 3-pronged approach, 'Supply Curb' is managed by the Narcotics Control Bureau and:", "opts": ["MoSJE", "Ministry of Health", "NSKFDC", "Home Ministry", "State Excise Departments"], "correct": 3, "id": 183}, {"section": "napddr", "q": "Under NAPDDR, 'Treatment' is managed by:", "opts": ["MoSJE and NCB", "Home Ministry", "AIIMS exclusively", "NSKFDC and NBCFDC", "The Health Department and Government Hospitals"], "correct": 4, "id": 184}, {"section": "napddr", "q": "Which institutional component under NAPDDR provides composite services including inpatient treatment, detoxification, and counseling?", "opts": ["Integrated Rehabilitation Centres for Addicts (IRCAs)", "Outreach and Drop-In Centres (ODICs)", "Addiction Treatment Facilities (ATFs)", "District De-Addiction Centres (DDACs)", "Community Based Peer-Led Intervention centres"], "correct": 0, "id": 185}, {"section": "napddr", "q": "Addiction Treatment Facilities (ATFs) under NAPDDR are implemented through which institution in government hospitals and medical colleges?", "opts": ["NIMHANS", "AIIMS, New Delhi", "PGIMER Chandigarh", "NSKFDC", "ICMR"], "correct": 1, "id": 186}, {"section": "napddr", "q": "Which is described as the 'newest evolution' in NAPDDR, functioning as one-stop centers at the district level?", "opts": ["IRCAs", "ODICs", "District De-Addiction Centres (DDACs)", "ATFs", "NMBA units"], "correct": 2, "id": 187}, {"section": "napddr", "q": "Under NAPDDR, the Community Based Peer-Led Intervention (CPLI) component trains youth as:", "opts": ["Sanipreneurs", "Social auditors", "Village Health Champions", "Peer Educators", "NAMASTE volunteers"], "correct": 3, "id": 188}, {"section": "napddr", "q": "The Nasha Mukt Bharat Abhiyaan (NMBA), the 'Mass Movement' arm of NAPDDR, was launched on:", "opts": ["October 2, 2020", "January 26, 2021", "April 1, 2021", "August 15, 2021", "August 15, 2020"], "correct": 4, "id": 189}, {"section": "napddr", "q": "NMBA was initially started in how many vulnerable districts before expanding to all districts?", "opts": ["272", "181", "100", "500", "750"], "correct": 0, "id": 190}, {"section": "napddr", "q": "Which Article of the Constitution, under the Directive Principles of State Policy, mandates the State to work toward prohibition of intoxicating drinks and drugs injurious to health?", "opts": ["Article 46", "Article 47", "Article 41", "Article 21", "Article 39"], "correct": 1, "id": 191}, {"section": "napddr", "q": "Which legislation remains the primary legal tool for supply control and criminalizing illicit drug trafficking, distinct from NAPDDR's demand-focused approach?", "opts": ["Prevention of Money Laundering Act", "Indian Penal Code, 1860", "Narcotic Drugs and Psychotropic Substances (NDPS) Act, 1985", "Prohibition Act, 1949", "Customs Act, 1962"], "correct": 2, "id": 192}, {"section": "nskfdc", "q": "NSKFDC was established on:", "opts": ["February 8, 1989", "April 1, 2021", "August 15, 2020", "January 24, 1997", "February 2022"], "correct": 3, "id": 193}, {"section": "nskfdc", "q": "NSKFDC is incorporated as a:", "opts": ["Public Limited Company", "Statutory Corporation", "Trust under Indian Trusts Act", "Cooperative Society", "Section 8 (Not-for-Profit) company under the Companies Act, 2013"], "correct": 4, "id": 194}, {"section": "nskfdc", "q": "NSKFDC's core mission is to act as an 'Apex Corporation' coordinating upliftment of Safai Karamcharis, Manual Scavengers, Waste Pickers and their:", "opts": ["Dependents", "Employers", "Local NGOs", "State Governments", "Trade Unions"], "correct": 0, "id": 195}, {"section": "nskfdc", "q": "Regarding NSKFDC's target group and income limit, which statement is correct?", "opts": ["A fixed income limit of ₹3 lakh applies to all beneficiaries", "No income limit is fixed, though priority is given to those below 'Double the Poverty Line'", "Only BPL card holders are eligible", "Income limit is ₹8 lakh per annum", "Income limit varies from ₹2.5 lakh to ₹5 lakh"], "correct": 1, "id": 196}, {"section": "nskfdc", "q": "Under NSKFDC's Skill Development Training Programme (SDTP), the training is:", "opts": ["50% grant-funded", "75% grant-funded, 25% loan", "100% grant-funded with a monthly stipend of approximately ₹1,500", "Fully self-funded by candidates", "100% grant-funded with no stipend"], "correct": 2, "id": 197}, {"section": "nskfdc", "q": "NSKFDC's awareness camps in bastis educate sanitation workers on their legal rights under which Act?", "opts": ["NDPS Act, 1985", "MWPSC Act, 2007", "Criminal Tribes Act, 1871", "Manual Scavengers (MS) Act, 2013", "Companies Act, 2013"], "correct": 3, "id": 198}, {"section": "nskfdc", "q": "NSKFDC links Safai Karamcharis and Manual Scavengers with which health insurance scheme to cover occupational health hazards?", "opts": ["Ayushman Bharat TG Plus", "ESIC", "CGHS", "State health schemes only", "Ayushman Bharat (PM-JAY)"], "correct": 4, "id": 199}, {"section": "nskfdc", "q": "NSKFDC operates under the administrative control of which Ministry?", "opts": ["Ministry of Social Justice and Empowerment (MoSJE)", "Ministry of Housing and Urban Affairs", "Ministry of Labour and Employment", "Ministry of Skill Development", "Ministry of Rural Development"], "correct": 0, "id": 200}, {"section": "nsfdc", "q": "NSFDC was established on:", "opts": ["January 24, 1997", "February 8, 1989", "April 1, 2021", "February 2022", "August 15, 2020"], "correct": 1, "id": 201}, {"section": "nsfdc", "q": "NSFDC is categorized as a Central Public Sector Enterprise (CPSE) under which schedule?", "opts": ["Schedule A", "Schedule B", "Schedule C", "Schedule D", "Miniratna Schedule"], "correct": 2, "id": 202}, {"section": "nsfdc", "q": "NSFDC's mandate is to provide concessional financial assistance and facilitate skill development exclusively for:", "opts": ["OBC community", "DNT/NT/SNT community", "Transgender community", "Scheduled Caste (SC) community", "Safai Karamcharis"], "correct": 3, "id": 203}, {"section": "nsfdc", "q": "Effective from January 2026, the revised annual family income eligibility limit for NSFDC assistance was increased from ₹3 lakh to:", "opts": ["₹8 lakh", "₹4 lakh", "₹6 lakh", "₹10 lakh", "₹5 lakh"], "correct": 4, "id": 204}, {"section": "nsfdc", "q": "Which of the following is correct regarding NSFDC's revised eligibility (effective January 2026)?", "opts": ["The revised ₹5 lakh income limit applies uniformly to both rural and urban areas", "The revised limit applies only to rural areas", "The revised limit applies only to urban areas", "The income limit was reduced from ₹5 lakh to ₹3 lakh", "No revision has taken place since NSFDC's establishment"], "correct": 0, "id": 205}, {"section": "nsfdc", "q": "NSFDC operates as a Section 8 (Not-for-Profit) company under the administrative control of:", "opts": ["Ministry of Finance", "Ministry of Social Justice and Empowerment (MoSJE)", "NITI Aayog", "Ministry of Corporate Affairs", "Ministry of Rural Development"], "correct": 1, "id": 206}, {"section": "cegs", "q": "The Credit Enhancement Guarantee Scheme for the Scheduled Castes (SCs) was launched in:", "opts": ["2018-19", "2020-21", "2014-15", "2016-17", "2021-22"], "correct": 2, "id": 207}, {"section": "cegs", "q": "CEGS is managed by:", "opts": ["NSFDC", "NSKFDC", "NBCFDC", "IFCI Ltd. (Industrial Finance Corporation of India)", "SIDBI"], "correct": 3, "id": 208}, {"section": "cegs", "q": "Under CEGS eligibility, what minimum shareholding by SC entrepreneurs (held for the past 6 months) is required?", "opts": ["26%", "33%", "100%", "74%", "51%"], "correct": 4, "id": 209}, {"section": "cegs", "q": "Under CEGS, preference is given to Women SC Entrepreneurs and those who have completed training under:", "opts": ["PM-DAKSH", "SEED", "NAMASTE", "SHREYAS", "PM-AJAY"], "correct": 0, "id": 210}, {"section": "cegs", "q": "Under CEGS, the minimum and maximum loan amounts eligible for guarantee cover are:", "opts": ["₹10 lakh and ₹2 crore", "₹15 lakh and ₹5 crore", "₹5 lakh and ₹1 crore", "₹20 lakh and ₹10 crore", "₹25 lakh and ₹3 crore"], "correct": 1, "id": 211}, {"section": "cegs", "q": "Under CEGS, for loans between ₹15 lakh and ₹1 crore, the guarantee cover provided is:", "opts": ["70%", "80%", "100%", "90%", "60%"], "correct": 2, "id": 212}, {"section": "cegs", "q": "Under CEGS, for loans between ₹1 crore and ₹2 crore, the guarantee cover is:", "opts": ["100%", "90%", "70%", "80%", "60%"], "correct": 3, "id": 213}, {"section": "cegs", "q": "Under CEGS, for loans above ₹2 crore up to ₹5 crore, the guarantee cover is:", "opts": ["100%", "90%", "80%", "60%", "70%"], "correct": 4, "id": 214}, {"section": "cegs", "q": "Under CEGS, the lock-in period from the last disbursement (before which no claims are entertained) is:", "opts": ["12 months", "6 months", "24 months", "18 months", "3 months"], "correct": 0, "id": 215}, {"section": "cegs", "q": "Under CEGS, the maximum tenure of the guarantee is:", "opts": ["5 years or repayment period, whichever earlier", "7 years or repayment period, whichever earlier", "10 years flat", "3 years or repayment period, whichever earlier", "No maximum tenure specified"], "correct": 1, "id": 216}, {"section": "cegs", "q": "Under CEGS, the one-time Guarantee Fee payable to IFCI is generally:", "opts": ["2% to 3% of sanctioned loan", "0.25% to 0.50%", "0.75% to 1.00% of the sanctioned loan amount", "5% of sanctioned loan", "1.5% to 2.5%"], "correct": 2, "id": 217}, {"section": "cegs", "q": "Under CEGS, the recurring Annual Service Fee charged on the outstanding loan balance to keep the guarantee active is approximately:", "opts": ["1.00%", "0.25%", "2.00%", "0.50%", "0.75%"], "correct": 3, "id": 218}, {"section": "cegs", "q": "Which of the following institutions are designated as Lending Institutions (MLIs) under CEGS?", "opts": ["Only Public Sector Banks", "Only RRBs", "Only NBFCs", "Cooperative Banks and Payment Banks", "All Scheduled Commercial Banks, RRBs, and select NBFCs"], "correct": 4, "id": 219}]};
+const SECTIONS = DATA.sections; // [[key,name],...]
+const ALL_Q = DATA.questions;
+const LETTERS = ["A","B","C","D","E"];
+const secNameMap = Object.fromEntries(SECTIONS);
+
+let currentSet = [];      // questions in play (array of question objects)
+let currentIndex = 0;
+let score = 0;
+let answers = [];         // {qid, chosen, correct, isCorrect}
+let missedIds = [];
+let activeLabel = "Full Quiz";
+
+const menuScreen = document.getElementById('menuScreen');
+const quizScreen = document.getElementById('quizScreen');
+const resultsScreen = document.getElementById('resultsScreen');
+
+function shuffleCopy(arr){ return arr.slice(); } // keep original order (exam style, not shuffled)
+
+function buildSectionGrid(){
+  const grid = document.getElementById('sectionGrid');
+  grid.innerHTML = '';
+  SECTIONS.forEach(([key, name]) => {
+    const count = ALL_Q.filter(q => q.section === key).length;
+    const btn = document.createElement('button');
+    btn.className = 'sec-btn';
+    btn.innerHTML = `<span class="sname">${name}</span><span class="scount">${count} questions</span>`;
+    btn.onclick = () => startQuiz(key, name);
+    grid.appendChild(btn);
+  });
+}
+
+function startQuiz(sectionKey, label){
+  currentSet = sectionKey ? ALL_Q.filter(q => q.section === sectionKey) : ALL_Q.slice();
+  activeLabel = label || 'Full Quiz';
+  currentIndex = 0;
+  score = 0;
+  answers = [];
+  menuScreen.classList.add('hidden');
+  resultsScreen.classList.add('hidden');
+  quizScreen.classList.remove('hidden');
+  renderQuestion();
+}
+
+function startQuizFromList(qList, label){
+  currentSet = qList;
+  activeLabel = label;
+  currentIndex = 0;
+  score = 0;
+  answers = [];
+  menuScreen.classList.add('hidden');
+  resultsScreen.classList.add('hidden');
+  quizScreen.classList.remove('hidden');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q = currentSet[currentIndex];
+  document.getElementById('quizMeta').textContent = `${activeLabel} — Question ${currentIndex+1} of ${currentSet.length}`;
+  document.getElementById('scorePill').textContent = `Score: ${score} / ${answers.length}`;
+  document.getElementById('progressFill').style.width = (currentIndex / currentSet.length * 100) + '%';
+  document.getElementById('qTag').textContent = secNameMap[q.section] || q.section;
+  document.getElementById('qText').textContent = q.q;
+
+  const box = document.getElementById('optionsBox');
+  box.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const el = document.createElement('button');
+    el.className = 'opt';
+    el.innerHTML = `<span class="lab">${LETTERS[i]}</span><span>${opt}</span>`;
+    el.onclick = () => selectAnswer(i);
+    box.appendChild(el);
+  });
+  document.getElementById('feedbackRow').classList.add('hidden');
+}
+
+function selectAnswer(chosenIdx){
+  const q = currentSet[currentIndex];
+  const opts = document.querySelectorAll('#optionsBox .opt');
+  const isCorrect = chosenIdx === q.correct;
+  opts.forEach((el, i) => {
+    el.classList.add('locked');
+    el.onclick = null;
+    if (i === q.correct) el.classList.add('correct');
+    else if (i === chosenIdx) el.classList.add('wrong');
+    else el.classList.add('dim');
+  });
+
+  if (isCorrect) score++;
+  answers.push({id:q.id, section:q.section, chosen:chosenIdx, correct:q.correct, isCorrect});
+
+  document.getElementById('scorePill').textContent = `Score: ${score} / ${answers.length}`;
+  const fbRow = document.getElementById('feedbackRow');
+  fbRow.classList.remove('hidden');
+  const fbText = document.getElementById('fbText');
+  if (isCorrect){
+    fbText.textContent = "✓ Correct!";
+    fbText.className = "fb-text fb-correct";
+  } else {
+    fbText.textContent = `✗ Incorrect — correct answer is ${LETTERS[q.correct]}`;
+    fbText.className = "fb-text fb-wrong";
+  }
+
+  document.getElementById('nextBtn').textContent = (currentIndex === currentSet.length - 1) ? "See Results →" : "Next Question →";
+}
+
+document.getElementById('nextBtn').onclick = () => {
+  if (currentIndex < currentSet.length - 1){
+    currentIndex++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
+};
+
+document.getElementById('quitBtn').onclick = () => {
+  quizScreen.classList.add('hidden');
+  menuScreen.classList.remove('hidden');
+};
+
+function showResults(){
+  quizScreen.classList.add('hidden');
+  resultsScreen.classList.remove('hidden');
+
+  document.getElementById('resultLabel').textContent = `RESULTS — ${activeLabel}`;
+  document.getElementById('resultScore').textContent = `${score} / ${currentSet.length}`;
+  const pct = currentSet.length ? Math.round(score/currentSet.length*100) : 0;
+  document.getElementById('resultPct').textContent = `${pct}% correct`;
+
+  // breakdown by section (only relevant if full quiz or multi-section set)
+  const bdBox = document.getElementById('breakdown');
+  bdBox.innerHTML = '';
+  const secStats = {};
+  answers.forEach(a => {
+    if (!secStats[a.section]) secStats[a.section] = {correct:0,total:0};
+    secStats[a.section].total++;
+    if (a.isCorrect) secStats[a.section].correct++;
+  });
+  const secKeysPresent = SECTIONS.filter(([k]) => secStats[k]);
+  if (secKeysPresent.length <= 1){
+    document.getElementById('breakdownCard').classList.add('hidden');
+  } else {
+    document.getElementById('breakdownCard').classList.remove('hidden');
+    secKeysPresent.forEach(([k,name]) => {
+      const st = secStats[k];
+      const p = Math.round(st.correct/st.total*100);
+      const row = document.createElement('div');
+      row.className = 'bd-row';
+      row.innerHTML = `<span class="bd-name">${name}</span><span class="bd-bar-track"><span class="bd-bar-fill" style="width:${p}%"></span></span><span class="bd-frac">${st.correct}/${st.total}</span>`;
+      bdBox.appendChild(row);
+    });
+  }
+
+  // missed review
+  missedIds = answers.filter(a => !a.isCorrect).map(a => a.id);
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML = '';
+  const reviewLabel = document.getElementById('reviewLabel');
+  const retryBtn = document.getElementById('retryMissedBtn');
+
+  if (missedIds.length === 0){
+    reviewLabel.textContent = "Review — Perfect Score!";
+    reviewList.innerHTML = '<p style="color:var(--muted); font-size:13.5px;">No missed questions. Excellent work.</p>';
+    retryBtn.style.display = 'none';
+  } else {
+    reviewLabel.textContent = `Review — ${missedIds.length} Question(s) Missed`;
+    retryBtn.style.display = 'inline-block';
+    answers.filter(a => !a.isCorrect).forEach(a => {
+      const q = ALL_Q.find(x => x.id === a.id);
+      const div = document.createElement('div');
+      div.className = 'review-item';
+      div.innerHTML = `
+        <div class="review-tag">${secNameMap[q.section]}</div>
+        <div class="review-q">${q.q}</div>
+        <div class="review-line">Your answer: <span class="ans-wrong">${LETTERS[a.chosen]}) ${q.opts[a.chosen]}</span></div>
+        <div class="review-line">Correct answer: <span class="ans-correct">${LETTERS[a.correct]}) ${q.opts[a.correct]}</span></div>
+      `;
+      reviewList.appendChild(div);
+    });
+  }
+}
+
+document.getElementById('retryMissedBtn').onclick = () => {
+  const qs = missedIds.map(id => ALL_Q.find(x => x.id === id));
+  startQuizFromList(qs, "Missed Questions Retry");
+};
+document.getElementById('restartSameBtn').onclick = () => {
+  startQuizFromList(currentSet, activeLabel);
+};
+document.getElementById('backMenuBtn').onclick = () => {
+  resultsScreen.classList.add('hidden');
+  menuScreen.classList.remove('hidden');
+};
+
+document.getElementById('startAllBtn').onclick = () => startQuiz(null, 'Full Quiz');
+
+buildSectionGrid();
+</script>
+</body>
+</html>

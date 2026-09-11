@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NABARD Grade A — Ministry of Finance Schemes Quiz</title>
+<style>
+:root{
+  --navy:#1b2a4a; --navy2:#233a63; --gold:#b7862c; --gold2:#d9a441;
+  --bg:#f4f5f7; --card:#ffffff; --ink:#1e2430; --muted:#657085;
+  --green:#1e7e42; --greenBg:#e6f6ec; --red:#b23a3a; --redBg:#fdeaea;
+  --border:#e2e5eb; --radius:12px;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);}
+.wrap{max-width:900px;margin:0 auto;padding:18px 16px 60px;}
+header.top{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:22px 18px;border-radius:var(--radius);margin-bottom:18px;box-shadow:0 4px 14px rgba(27,42,74,.18);}
+header.top h1{margin:0 0 4px;font-size:1.35rem;letter-spacing:.2px;}
+header.top p{margin:0;color:#cfd7ea;font-size:.88rem;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(20,20,40,.04);}
+h2{font-size:1.05rem;margin:0 0 12px;color:var(--navy);}
+h3{font-size:.95rem;color:var(--navy2);margin:18px 0 8px;}
+.btnrow{display:flex;gap:12px;flex-wrap:wrap;}
+button{font-family:inherit;cursor:pointer;}
+.bigbtn{flex:1 1 220px;background:var(--card);border:2px solid var(--navy);color:var(--navy);border-radius:var(--radius);padding:18px 14px;font-size:1rem;font-weight:600;text-align:left;transition:.15s;}
+.bigbtn:hover{background:var(--navy);color:#fff;}
+.bigbtn small{display:block;font-weight:400;color:var(--muted);margin-top:4px;font-size:.8rem;}
+.bigbtn:hover small{color:#cfd7ea;}
+.pillrow{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.pill{border:1px solid var(--border);background:#fff;color:var(--navy2);padding:7px 14px;border-radius:20px;font-size:.82rem;font-weight:600;}
+.pill.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;}
+.topic{border:1px solid var(--border);border-radius:10px;padding:14px;background:#fbfbfd;cursor:pointer;transition:.15s;}
+.topic:hover{border-color:var(--gold);background:#fff8ec;transform:translateY(-1px);}
+.topic .tname{font-weight:700;color:var(--navy);font-size:.92rem;}
+.topic .tcount{color:var(--muted);font-size:.8rem;margin-top:4px;}
+.progbar{height:8px;background:#e6e8ee;border-radius:6px;overflow:hidden;margin:6px 0 4px;}
+.progfill{height:100%;background:linear-gradient(90deg,var(--gold2),var(--gold));transition:width .25s;}
+.statrow{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin-bottom:10px;}
+.qmeta{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.tag{font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:12px;letter-spacing:.3px;text-transform:uppercase;}
+.tag.sec{background:#eef1fb;color:var(--navy2);}
+.tag.Easy{background:#e6f6ec;color:var(--green);}
+.tag.Moderate{background:#fff4e0;color:#93650f;}
+.tag.Hard{background:#fdeaea;color:var(--red);}
+.qtext{font-size:1.02rem;line-height:1.5;margin:8px 0 16px;font-weight:600;color:var(--ink);white-space:pre-line;}
+.opt{display:block;width:100%;text-align:left;padding:12px 14px;margin-bottom:9px;border:1.5px solid var(--border);border-radius:9px;background:#fff;font-size:.92rem;line-height:1.4;transition:.12s;}
+.opt:hover:not(:disabled){border-color:var(--navy);background:#f7f9fd;}
+.opt .lab{display:inline-block;width:22px;font-weight:700;color:var(--navy2);}
+.opt.correct{background:var(--greenBg);border-color:var(--green);color:#144a26;}
+.opt.wrong{background:var(--redBg);border-color:var(--red);color:#7a1f1f;}
+.opt:disabled{cursor:default;}
+.explain{margin-top:8px;padding:12px 14px;border-radius:9px;background:#f4f6fb;border-left:4px solid var(--navy);font-size:.87rem;color:#39425a;display:none;}
+.explain.show{display:block;}
+.footerRow{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px;flex-wrap:wrap;}
+.linkbtn{background:none;border:none;color:var(--muted);text-decoration:underline;font-size:.85rem;padding:6px 4px;}
+.navbtn{background:var(--navy);color:#fff;border:none;padding:11px 22px;border-radius:8px;font-weight:600;font-size:.92rem;}
+.navbtn:hover{background:var(--navy2);}
+.navbtn.secondary{background:#fff;color:var(--navy);border:1.5px solid var(--navy);}
+.navbtn.secondary:hover{background:#eef1fb;}
+.navbtn:disabled{opacity:.45;cursor:not-allowed;}
+.skipbtn{background:none;border:1.5px solid var(--muted);color:var(--muted);padding:9px 16px;border-radius:8px;font-size:.85rem;font-weight:600;}
+.skipbtn:hover{border-color:var(--red);color:var(--red);}
+.scoreBig{font-size:2.6rem;font-weight:800;color:var(--navy);text-align:center;margin:6px 0 2px;}
+.scoreSub{text-align:center;color:var(--muted);font-size:.92rem;margin-bottom:18px;}
+.diffgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.diffbox{border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;background:#fbfbfd;}
+.diffbox .n{font-size:1.3rem;font-weight:700;color:var(--navy);}
+.diffbox .lbl{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;}
+.reviewItem{border:1px solid var(--border);border-radius:9px;padding:12px 14px;margin-bottom:10px;background:#fbfbfd;}
+.reviewItem .rq{font-weight:600;font-size:.9rem;margin-bottom:6px;}
+.reviewItem .ra{font-size:.85rem;margin:2px 0;}
+.reviewItem .ok{color:var(--green);}
+.reviewItem .bad{color:var(--red);}
+.reviewItem .skipTag{display:inline-block;background:#fdf1de;color:#8a5a10;font-size:.7rem;padding:2px 8px;border-radius:10px;font-weight:700;margin-left:6px;}
+.hidden{display:none !important;}
+.topbarNav{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.smallmuted{color:var(--muted);font-size:.82rem;}
+@media(max-width:520px){.diffgrid{grid-template-columns:1fr 1fr 1fr;font-size:.85rem;} .scoreBig{font-size:2.1rem;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>NABARD Grade A — Practice Quiz</h1>
+    <p>Ministry of Finance: Government Schemes (PMJDY · APY · PMSBY · PMJJBY · MUDRA · Stand-Up India · NPS Vatsalya · SSA · Mahila Samman · NPS · UPS · Savings Schemes)</p>
+  </header>
+
+  <!-- HOME -->
+  <div id="screen-home" class="card">
+    <h2>Choose a mode</h2>
+    <div class="btnrow">
+      <button class="bigbtn" onclick="goFullSetup()">📝 Full Practice Test<small>All questions in one run · choose PDF order or shuffled</small></button>
+      <button class="bigbtn" onclick="goSectionMenu()">📚 Section-wise Revision<small>Drill one scheme/topic at a time</small></button>
+    </div>
+    <p class="smallmuted" style="margin-top:16px;">Question bank size: <b id="totalQCount"></b> questions across <b id="totalSCount"></b> topics.</p>
+  </div>
+
+  <!-- FULL TEST SETUP -->
+  <div id="screen-fullsetup" class="card hidden">
+    <h2>Full Practice Test — Order</h2>
+    <div class="pillrow">
+      <button class="pill active" id="pill-order-pdf" onclick="setOrder('pdf')">PDF Order (default)</button>
+      <button class="pill" id="pill-order-shuffle" onclick="setOrder('shuffle')">Shuffled</button>
+    </div>
+    <p class="smallmuted">This will run all <b id="fullCount"></b> questions.</p>
+    <div class="footerRow">
+      <button class="linkbtn" onclick="showScreen('home')">← Back to menu</button>
+      <button class="navbtn" onclick="startFullTest()">Start Test</button>
+    </div>
+  </div>
+
+  <!-- SECTION MENU -->
+  <div id="screen-sectionmenu" class="card hidden">
+    <h2>Pick a topic to drill</h2>
+    <div class="grid" id="sectionGrid"></div>
+    <div class="footerRow">
+      <button class="linkbtn" onclick="showScreen('home')">← Back to menu</button>
+      <div></div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="screen-quiz" class="card hidden">
+    <div class="topbarNav">
+      <span class="smallmuted" id="quizModeLabel"></span>
+      <span class="smallmuted" id="scoreLive">Score: 0</span>
+    </div>
+    <div class="progbar"><div class="progfill" id="progFill" style="width:0%"></div></div>
+    <div class="statrow"><span id="progText">Question 1 of 1</span><span id="skipCountText"></span></div>
+
+    <div class="qmeta">
+      <span class="tag sec" id="qSectionTag"></span>
+      <span class="tag" id="qDiffTag"></span>
+    </div>
+    <div class="qtext" id="qText"></div>
+    <div id="optsWrap"></div>
+    <div class="explain" id="explainBox"></div>
+
+    <div class="footerRow">
+      <button class="skipbtn" id="skipBtn" onclick="skipQuestion()">Skip →</button>
+      <button class="navbtn" id="nextBtn" onclick="nextQuestion()" disabled>Next Question</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="screen-results" class="card hidden">
+    <h2 style="text-align:center;">Result Summary</h2>
+    <div class="scoreBig" id="resultScore"></div>
+    <div class="scoreSub" id="resultSub"></div>
+
+    <h3>Accuracy by Difficulty</h3>
+    <div class="diffgrid">
+      <div class="diffbox"><div class="n" id="diffEasy">0/0</div><div class="lbl">Easy</div></div>
+      <div class="diffbox"><div class="n" id="diffModerate">0/0</div><div class="lbl">Moderate</div></div>
+      <div class="diffbox"><div class="n" id="diffHard">0/0</div><div class="lbl">Hard</div></div>
+    </div>
+
+    <h3>Review: Missed &amp; Skipped Questions</h3>
+    <div id="reviewList"></div>
+
+    <div class="footerRow">
+      <button class="navbtn secondary" onclick="showScreen('home')">Back to Menu</button>
+      <button class="navbtn" onclick="retrySameSet()">Retry Same Set</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* =========================================================
+   QUESTION BANK  (s=section, d=difficulty, q=question,
+   o=options[5] A-E, a=answerIndex(0-4), e=explanation)
+   ========================================================= */
+const QUESTIONS = [
+/* ---------------- PMJDY ---------------- */
+{s:"PMJDY",d:"Easy",q:"When was the Pradhan Mantri Jan Dhan Yojana (PMJDY) launched?",o:["28 August 2014","15 August 2014","9 May 2015","8 April 2015","5 April 2016"],a:0,e:"PMJDY was launched on 28 August 2014 (it was announced on 15 August 2014)."},
+{s:"PMJDY",d:"Moderate",q:"PMJDY was announced by the Prime Minister on which date, ahead of its formal launch?",o:["1 June 2014","15 August 2014","26 January 2015","2 October 2014","28 August 2014"],a:1,e:"PMJDY was announced on 15 August 2014 and launched on 28 August 2014."},
+{s:"PMJDY",d:"Easy",q:"Which of the following is NOT one of the three basic tenets of PMJDY?",o:["Banking the unbanked","Securing the unsecured","Insuring the uninsured","Funding the unfunded","None — all three are genuine tenets"],a:2,e:"The three tenets are Banking the unbanked, Securing the unsecured, and Funding the unfunded."},
+{s:"PMJDY",d:"Moderate",q:"Under the 'Securing the unsecured' pillar of PMJDY, what free accident insurance coverage is provided along with the indigenous debit card?",o:["Rs 1 lakh","Rs 50,000","Rs 5 lakh","Rs 2 lakh","Rs 10 lakh"],a:3,e:"Indigenous Debit cards carry free accident insurance coverage of Rs 2 lakh."},
+{s:"PMJDY",d:"Hard",q:"Under the small (no-KYC) account facility of PMJDY, which limit is correctly stated?",o:["Balance cannot exceed Rs 1,00,000","Withdrawals cannot exceed Rs 50,000/month","Credits cannot exceed Rs 50,000/FY","Withdrawals cannot exceed Rs 1 lakh/month","Total credits in a financial year cannot exceed Rs 1 Lakh"],a:4,e:"Small account: credits ≤ Rs1 lakh/FY, withdrawals/transfers ≤ Rs10,000/month, balance ≤ Rs50,000."},
+{s:"PMJDY",d:"Moderate",q:"Which of the following is NOT a valid Officially Valid Document (OVD) accepted for a PMJDY account in the absence of Aadhaar, as per the document?",o:["Ration Card","Voter ID Card","Driving License","PAN Card","Passport"],a:0,e:"Listed OVDs are Voter ID, Driving License, PAN Card, Passport and MGNREGA Card; Ration Card is not listed."},
+{s:"PMJDY",d:"Hard",q:"Consider the following statements about the 6 pillars of PMJDY:\nI. Basic savings bank accounts come with an overdraft facility of Rs 10,000 to every eligible adult.\nII. A Credit Guarantee Fund was created to provide banks a guarantee against defaults.\nIII. Life cover of Rs 30,000 was provided on accounts opened between 15 Aug 2014 and 31 January 2015.\nIV. Accident cover was capped at Rs 5,00,000 for accounts opened after 28.08.2018.\nHow many of the above statements are correct?",o:["Only one","Only three","Only two","All four","None of the above are correct"],a:1,e:"I, II and III are correct. IV is wrong — the accident cover was raised to Rs 2 lakh (not Rs 5 lakh) after 28.08.2018."},
+{s:"PMJDY",d:"Easy",q:"Which app was launched to help citizens locate banking touchpoints like branches, ATMs and Bank Mitras?",o:["UdyamiMitra","Mudra Mitra","Jan Dhan Darshak App","Jan Samarth Portal","KYNA"],a:2,e:"The Jan Dhan Darshak App was launched for this purpose."},
+{s:"PMJDY",d:"Moderate",q:"As per the Jan Dhan Darshak App initiative, villages lacking banking facilities within what radius are identified for allocation to banks by SLBCs?",o:["10 km","2 km","3 km","5 km","8 km"],a:3,e:"The app identifies villages lacking banking facilities within a 5-kilometre radius."},
+{s:"PMJDY",d:"Hard",q:"Approximately how many banking touchpoints had been mapped on the GIS-based Jan Dhan Darshak App, as per the document?",o:["5 lakh","10 lakh","3 lakh","1 lakh","Over 8 lakh"],a:4,e:"Over 8 lakh banking touchpoints have been mapped on the GIS App."},
+{s:"PMJDY",d:"Moderate",q:"The accidental insurance cover for new RuPay card holders was raised from Rs 1 lakh to Rs 2 lakh for PMJDY accounts opened after which date?",o:["28.08.2018","1 January 2016","9 May 2015","31 January 2015","5 April 2016"],a:0,e:"For new PMJDY accounts opened after 28.08.2018, cover rose from Rs 1 lakh to Rs 2 lakh."},
+{s:"PMJDY",d:"Easy",q:"Which of the following schemes is NOT mentioned as one for which PMJDY accounts became eligible following the 2018 modifications?",o:["PMJJBY","Sukanya Samriddhi Yojana","PMSBY","APY","MUDRA"],a:1,e:"PMJDY accounts became eligible for DBT, PMJJBY, PMSBY, APY and MUDRA — SSY is not listed."},
+{s:"PMJDY",d:"Moderate",q:"What is the minimum age for an individual to be eligible to open a PMJDY account?",o:["18 years","15 years","Above 10 years","5 years","No minimum age specified"],a:2,e:"Any individual above the age of 10 years is eligible."},
+{s:"PMJDY",d:"Hard",q:"As per PMJDY's overdraft facility provisions, what is the revised age limit for availing the OD facility?",o:["18-60 years","21-65 years","18-70 years","18-65 years","21-60 years"],a:3,e:"Age limit for availing OD facility was revised from 18-60 years to 18-65 years."},
+{s:"PMJDY",d:"Moderate",q:"Under PMJDY, there will be no conditions attached for availing overdraft up to what amount?",o:["Rs 10,000","Rs 500","Rs 1,000","Rs 5,000","Rs 2,000"],a:4,e:"No conditions are attached for OD up to Rs 2,000."},
+{s:"PMJDY",d:"Moderate",q:"During Phase I of PMJDY (Aug 15, 2014 to Aug 14, 2015), the RuPay Debit card issued came bundled with insurance cover of how much?",o:["Rs 1 lakh","Rs 2 lakh","Rs 50,000","Rs 30,000","Rs 5 lakh"],a:0,e:"Phase I introduced a RuPay Debit card with Rs 1 lakh insurance."},
+{s:"PMJDY",d:"Hard",q:"Consider the following statements about PMJDY Phase II (Aug 15, 2015 to Aug 15, 2018):\nI. Overdraft facility up to Rs 5,000 was introduced.\nII. A Credit Guarantee Fund was created for overdraft defaults.\nIII. Promotion of pension schemes like Swavalamban took place.\nIV. The accidental insurance cover was raised to Rs 2 lakh as a listed Phase II feature.\nHow many of the above statements are correct?",o:["Only one","Only three","All four","Only two","None of the above are correct"],a:1,e:"I, II and III are correctly listed under Phase II. IV (raised to Rs 2 lakh) is a post-2018 modification, not a listed Phase II item."},
+{s:"PMJDY",d:"Easy",q:"Which of the following entities is eligible to become a Bank Mitra (Business Correspondent) under PMJDY, as listed in the document?",o:["Serving bank employees only","Only NBFCs that take deposits","Individual owners of kirana/medical/fair price shops","Foreign diplomats","Unregistered proprietorships only"],a:2,e:"Individual owners of kirana/medical/fair price shops are explicitly listed as eligible Bank Mitras."},
+{s:"PMJDY",d:"Moderate",q:"Which of the following is one of the six pillars of PMJDY?",o:["Direct Benefit Transfer expansion","Micro Credit Scheme through MFIs","Interest subvention for Sishu loans","Financial Literacy Program","Credit Guarantee Fund for Micro Units"],a:3,e:"The Financial Literacy Program is one of PMJDY's six pillars."},
+{s:"PMJDY",d:"Hard",q:"A Personal Accidental Insurance claim under PMJDY's provisions is payable upon a successful transaction performed within how many days prior to the accident date?",o:["30 days","60 days","180 days","45 days","90 days"],a:4,e:"The claim requires a successful transaction within 90 days prior to the accident date."},
+
+/* ---------------- APY ---------------- */
+{s:"APY",d:"Easy",q:"Where was the Atal Pension Yojana (APY) launched?",o:["Kolkata","Delhi","Mumbai","Chennai","Bengaluru"],a:0,e:"APY was launched on 9 May 2015 at Kolkata."},
+{s:"APY",d:"Easy",q:"What is the eligible age band for joining the Atal Pension Yojana?",o:["21-55 years","18-40 years","25-45 years","18-60 years","16-35 years"],a:1,e:"APY is open to citizens aged 18 to 40 years."},
+{s:"APY",d:"Moderate",q:"Under APY, what was the extent of Central Government co-contribution for eligible subscribers who joined between 1 June 2015 and 31 December 2015?",o:["100% of contribution","25% of contribution or Rs 500, whichever is lower","50% of the total contribution or Rs 1000 per annum, whichever is lower","Fixed Rs 2000 per annum","No co-contribution provided"],a:2,e:"The Central Government co-contributed 50% of total contribution or Rs 1000 p.a., whichever is lower, for 5 years (FY2015-16 to 2019-20)."},
+{s:"APY",d:"Hard",q:"From which date is an income-tax payer NOT eligible to open a new APY account?",o:["1 April 2015","1 January 2020","9 May 2015","1 October 2022","31 March 2023"],a:3,e:"From 1st October 2022, any income-tax payer is not eligible to open a new APY account."},
+{s:"APY",d:"Moderate",q:"Which of the following is NOT one of the guaranteed minimum monthly pension amounts under APY?",o:["Rs 1000","Rs 3000","Rs 4000","Rs 2000","Rs 6000"],a:4,e:"The guaranteed slabs are Rs 1000/2000/3000/4000/5000 — Rs 6000 is not a slab."},
+{s:"APY",d:"Easy",q:"Which authority regulates the Atal Pension Yojana?",o:["PFRDA","IRDAI","RBI","SEBI","NABARD"],a:0,e:"APY is regulated by PFRDA."},
+{s:"APY",d:"Hard",q:"Under APY, what penalty is levied per month of default for a monthly contribution slab of Rs 501 to Rs 1000?",o:["Rs 1","Rs 5","Rs 2","Rs 10","Rs 20"],a:1,e:"Penalty is Rs 5 per month for contribution between Rs 501-1000 pm."},
+{s:"APY",d:"Moderate",q:"For a monthly contribution up to Rs 100, what is the penalty for default per month under APY?",o:["Rs 5","Rs 2","Rs 1","Rs 10","No penalty"],a:2,e:"Rs 1 pm penalty applies for contribution up to Rs 100 pm."},
+{s:"APY",d:"Easy",q:"For monthly contribution beyond Rs 1001, the penalty for default per month under APY is:",o:["Rs 5","Rs 2","Rs 1","Rs 10","Rs 15"],a:3,e:"Rs 10 pm penalty applies for contribution beyond Rs 1001 pm."},
+{s:"APY",d:"Moderate",q:"Under APY, after the death of a subscriber, who receives the same pension amount until their own demise?",o:["Nominee only","Legal heir chosen by court","Eldest child","The State Government","The spouse"],a:4,e:"The spouse receives the same pension amount until their own demise (survivor benefit)."},
+{s:"APY",d:"Hard",q:"Under APY, after both the subscriber and spouse have passed away, the nominee receives:",o:["The accumulated pension wealth up to the subscriber's age of 60","Only the government co-contribution","Nothing — the account lapses","Double the pension amount as lump sum","A fixed sum of Rs 5 lakh"],a:0,e:"The nominee receives the accumulated pension wealth up to the subscriber's age of 60."},
+{s:"APY",d:"Moderate",q:"Which of the following statements about voluntary exit from APY before age 60 is NOT correct?",o:["Subscriber receives refund of own contributions","Government co-contribution and interest earned on it is also refunded","Refund includes net actual interest earned after deducting account maintenance charges","Government co-contribution is not refunded","Interest earned on government co-contribution is not refunded"],a:1,e:"On voluntary exit before 60, the government co-contribution and interest earned on it are NOT refunded."},
+{s:"APY",d:"Easy",q:"Up to which financial year has the Union Cabinet approved the continuation of Atal Pension Yojana?",o:["FY 2027-28","FY 2025-26","FY 2030-31","FY 2035-36","FY 2028-29"],a:2,e:"APY continuation was approved up to FY 2030-31 with funding support."},
+{s:"APY",d:"Hard",q:"As per the APY indicative return table, for an entry age of 40 years targeting a monthly pension of Rs 5000, what is the required monthly contribution and vesting period?",o:["Rs 1454 monthly contribution, vesting period 42 years","Rs 291 monthly contribution, vesting period 31 years","Rs 529 monthly contribution, vesting period 20 years","Rs 1454 monthly contribution, vesting period 20 years","Rs 873 monthly contribution, vesting period 20 years"],a:3,e:"At entry age 40 (vesting period 20 years), the Rs 5000 pension slab requires Rs 1454 monthly contribution."},
+{s:"APY",d:"Hard",q:"As per the APY table, for entry age 18 years (vesting period 42 years), what monthly contribution corresponds to a target monthly pension of Rs 1000?",o:["Rs 106","Rs 291","Rs 210","Rs 84","Rs 42"],a:4,e:"At entry age 18, Rs 42 monthly contribution targets the Rs 1000 pension slab."},
+{s:"APY",d:"Moderate",q:"Which facility allows an eligible individual to enrol under APY with details fetched via Aadhaar and submitted through e-sign?",o:["Online APY registration","APY Lead Generation","Chatbot KYNA","Migration facility for NPS Lite Swavalamban subscribers","UdyamiMitra portal"],a:0,e:"Online APY registration (e-APY) fetches details via Aadhaar with e-sign submission."},
+{s:"APY",d:"Moderate",q:"What is the name of the chatbot facility developed for APY subscribers to get instant resolution to their queries?",o:["Mudra Mitra","KYNA","Jan Samarth","UdyamiMitra","Jan Dhan Darshak"],a:1,e:"KYNA is the chatbot facility for APY subscribers."},
+{s:"APY",d:"Easy",q:"Subscribers of which pre-existing scheme were automatically migrated to APY?",o:["AABY","PMSBY","Swavalamban Scheme","PMJJBY","NPS Corporate model"],a:2,e:"Existing Swavalamban subscribers were automatically migrated to APY."},
+{s:"APY",d:"Hard",q:"Consider the following statements about APY:\nI. The scheme requires the subscriber to have a Savings/Post Office Savings Bank account.\nII. State governments can offer additional voluntary co-contributions to APY subscribers.\nIII. An existing NPS subscriber cannot subscribe to APY.\nIV. Tax benefits under APY are aligned with those under the NPS scheme, especially for those who joined before 1st October 2022.\nHow many of the above statements are correct?",o:["Only one","None of the above are correct","All four","Only three","Only two"],a:3,e:"I, II and IV are correct. III is wrong — an existing NPS subscriber CAN subscribe to APY if eligibility conditions are met."},
+{s:"APY",d:"Moderate",q:"Which of the following is NOT listed as an enrolment agency for APY?",o:["All banks including nationalised, private, RRBs","Post Office","Business Correspondents","Points of Presence appointed by PFRDA","Private insurance brokers not registered as BCs/aggregators"],a:4,e:"Enrolment agencies include banks, Post Office, PoPs/Aggregators, and BCs/MFIs as enablers — unregistered private brokers are not listed."},
+
+/* ---------------- PMSBY ---------------- */
+{s:"PMSBY",d:"Easy",q:"What is the age eligibility band for Pradhan Mantri Suraksha Bima Yojana (PMSBY)?",o:["18 to 70 years","18 to 60 years","21 to 65 years","18 to 50 years","25 to 70 years"],a:0,e:"PMSBY covers savings bank account holders aged 18 to 70 years."},
+{s:"PMSBY",d:"Easy",q:"What is the coverage period (policy year) for PMSBY?",o:["1 April to 31 March","1 June to 31 May","1 January to 31 December","1 July to 30 June","1 October to 30 September"],a:1,e:"PMSBY's coverage period runs from 1st June to 31st May annually."},
+{s:"PMSBY",d:"Moderate",q:"Under PMSBY, what is the sum insured for accidental death?",o:["Rs 1 Lakh","Rs 5 Lakh","Rs 2 Lakh","Rs 4 Lakh","Rs 50,000"],a:2,e:"Accidental death is covered for Rs 2 Lakh under PMSBY."},
+{s:"PMSBY",d:"Hard",q:"Under PMSBY, what sum is insured for total and irrecoverable loss of sight of one eye or loss of use of one hand or foot?",o:["Rs 2 Lakh","Rs 50,000","Rs 3 Lakh","Rs 1 Lakh","No coverage provided"],a:3,e:"This partial disability is covered for Rs 1 Lakh."},
+{s:"PMSBY",d:"Easy",q:"What is the annual premium payable per member under PMSBY (post-revision, effective 1 June 2022)?",o:["Rs 12","Rs 436","Rs 330","Rs 100","Rs 20"],a:4,e:"The revised PMSBY premium is Rs 20 per annum per member."},
+{s:"PMSBY",d:"Moderate",q:"Effective from which date were the premium rates for PMSBY and PMJJBY revised for the first time in 9 years?",o:["1 June 2022","1 April 2020","1 June 2015","1 October 2022","31 March 2023"],a:0,e:"The revision took effect from 1 June 2022."},
+{s:"PMSBY",d:"Hard",q:"Under the appropriation of PMSBY premium, what is the commission payable to intermediaries by the insurer for new enrolments?",o:["Rs 2 per member","Rs 1 per member","Rs 5 per member","Rs 0.50 per member","No commission is payable"],a:1,e:"Commission of Rs 1/- per member is payable for new enrolments."},
+{s:"PMSBY",d:"Moderate",q:"Under PMSBY, what is the administrative expense payable to participating banks per annum per member?",o:["Rs 2","Rs 5","Rs 1","Rs 0.50","Rs 3"],a:2,e:"Administrative expense is Rs 1/- per annum per member for participating banks."},
+{s:"PMSBY",d:"Easy",q:"At what age (nearest birthday) does PMSBY cover terminate for a subscriber?",o:["55 years","60 years","65 years","70 years","75 years"],a:3,e:"PMSBY cover terminates at age 70 (nearest birthday)."},
+{s:"PMSBY",d:"Moderate",q:"Which of the following about PMSBY is NOT correct?",o:["It is implemented through Public Sector General Insurance Companies and other General Insurance companies","Premiums are auto-debited before 1st June each year","If enrolled through multiple accounts, insurance applies to only one account","Participating banks preferably deduct premium in May","The scheme is a five-year non-renewable insurance scheme"],a:4,e:"PMSBY is actually a one-year renewable accident insurance scheme, not a five-year non-renewable one."},
+{s:"PMSBY",d:"Hard",q:"An NRI with an eligible bank account at an Indian bank branch purchases a PMSBY cover. In the event of a claim, in what currency will the claim benefit be paid?",o:["Indian currency only","USD only","Currency of NRI's country of residence","Either INR or USD at claimant's choice","Euro only"],a:0,e:"Claim benefits to NRIs are paid only in Indian currency."},
+{s:"PMSBY",d:"Moderate",q:"What primary document is used as KYC for PMSBY enrolment?",o:["PAN Card","Aadhaar","Passport","Voter ID","Driving License"],a:1,e:"Aadhaar is used as the primary KYC for PMSBY."},
+{s:"PMSBY",d:"Hard",q:"Consider the following statements about PMSBY:\nI. The scheme covers accidental death and disability.\nII. The premium for PMSBY was earlier Rs 12 per annum before the 2022 revision.\nIII. Insurance can be reinstated upon full premium payment if cover ceased due to technical or administrative reasons.\nIV. Banks remit premiums to the insurance company only once every three years.\nHow many of the above statements are correct?",o:["Only one","None of the above are correct","Only three","All four","Only two"],a:2,e:"I, II and III are correct. IV is wrong — banks remit premiums annually, preferably in May."},
+{s:"PMSBY",d:"Moderate",q:"Which entities can engage an insurance company for implementing PMSBY?",o:["Only nationalised banks","Only RRBs","Only NBFCs","Participating banks/Post offices","Only State governments"],a:3,e:"Participating banks/Post offices can engage any insurance company for implementation."},
+{s:"PMSBY",d:"Easy",q:"What was the PMSBY premium before the 2022 revision?",o:["Rs 20","Rs 436","Rs 330","Rs 100","Rs 12"],a:4,e:"PMSBY premium was Rs 12 per annum before being revised to Rs 20."},
+
+/* ---------------- PMJJBY ---------------- */
+{s:"PMJJBY",d:"Easy",q:"What is the age eligibility band for Pradhan Mantri Jeevan Jyoti Bima Yojana (PMJJBY)?",o:["18 to 50 years","18 to 70 years","21 to 60 years","25 to 55 years","18 to 45 years"],a:0,e:"PMJJBY covers savings bank account holders aged 18 to 50 years."},
+{s:"PMJJBY",d:"Easy",q:"What is the life insurance cover amount provided under PMJJBY?",o:["Rs 1 Lakh","Rs 2 Lakh","Rs 5 Lakh","Rs 50,000","Rs 3 Lakh"],a:1,e:"PMJJBY provides a life cover of Rs 2 Lakh on death due to any reason."},
+{s:"PMJJBY",d:"Moderate",q:"What is the revised annual premium for PMJJBY effective 1 June 2022?",o:["Rs 330","Rs 200","Rs 436","Rs 20","Rs 500"],a:2,e:"PMJJBY premium was revised to Rs 436 per annum (from Rs 330)."},
+{s:"PMJJBY",d:"Hard",q:"Under the Aam Aadmi Bima Yojana (AABY), what was the premium and cover, and what percentage was subsidized from the Social Security Fund?",o:["Premium Rs 100 for cover Rs 30,000, 25% subsidized","Premium Rs 436 for cover Rs 2 lakh, 50% subsidized","Premium Rs 330 for cover Rs 1 lakh, 100% subsidized","Premium Rs 200 per annum for cover Rs 30,000, 50% subsidized from the Social Security Fund","Premium Rs 20 for cover Rs 2 lakh, no subsidy"],a:3,e:"AABY: premium Rs200 p.a. for cover Rs30,000, with 50% subsidized from the Social Security Fund."},
+{s:"PMJJBY",d:"Moderate",q:"On convergence with PMJJBY/PMSBY in 2017, the AABY beneficiaries aged 18-50 were enrolled under a combined premium of how much?",o:["Rs 200","Rs 330","Rs 20","Rs 100","Rs 456 (Rs 436 + Rs 20)"],a:4,e:"The converged PMJJBY/PMSBY group pays a total premium of Rs 456 (436+20)."},
+{s:"PMJJBY",d:"Hard",q:"The second AABY beneficiary group (51 to 59 years) was named as beneficiaries under which converged scheme, since they exceed the PMJJBY age limit?",o:["Converged Aam Aadmi Bima Yojana (CAABY)","Converged PMJJBY/PMSBY","Pradhan Mantri Vaya Vandana Yojana","National Pension Scheme Lite","Universal Bima Yojana"],a:0,e:"The 51-59 age group is named CAABY (Converged Aam Aadmi Bima Yojana)."},
+{s:"PMJJBY",d:"Easy",q:"At what age does PMJJBY insurance cover cease for a subscriber (exiting the scheme)?",o:["70 years","55 years","60 years","50 years","65 years"],a:1,e:"PMJJBY cover ceases upon attaining age 55 years."},
+{s:"PMJJBY",d:"Moderate",q:"What is the 'lien period' under PMJJBY, during which death (other than due to accident) is not covered?",o:["90 days","15 days","30 days","60 days","No lien period applies"],a:2,e:"A 30-day lien period applies from the date of enrolment."},
+{s:"PMJJBY",d:"Hard",q:"For delayed enrolment in PMJJBY during September, October or November, what pro-rata premium is payable?",o:["Rs 436","Rs 114","Rs 456","Rs 342","Rs 228"],a:3,e:"Sept/Oct/Nov delayed enrolment attracts a pro-rata premium of Rs 342."},
+{s:"PMJJBY",d:"Hard",q:"For delayed enrolment in PMJJBY during March, April or May, what pro-rata premium is payable?",o:["Rs 436","Rs 342","Rs 228","Rs 456","Rs 114"],a:4,e:"March/April/May delayed enrolment attracts a pro-rata premium of Rs 114."},
+{s:"PMJJBY",d:"Moderate",q:"If PMJJBY cover is duplicated across multiple accounts with LIC/other insurers, to what amount is the coverage restricted?",o:["Rs 2 lakh","Rs 4 lakh","Rs 1 lakh","No restriction, both are paid","Rs 50,000"],a:0,e:"Duplicate coverage is restricted to Rs 2 lakh; premiums for duplicate insurance are forfeited."},
+{s:"PMJJBY",d:"Hard",q:"Consider the following statements about PMJJBY:\nI. The scheme is administered through LIC and other life insurance companies.\nII. Re-joining after exiting is possible by submitting a declaration of good health.\nIII. Premiums are remitted to insurance companies by 30th June annually for regular enrolments.\nIV. Of a full annual premium of Rs 436, Rs 30 is allocated as commission to Business Correspondents/agents for new enrolments.\nHow many of the above statements are correct?",o:["Only two","All four","Only one","Only three","None of the above are correct"],a:1,e:"All four statements are correct as per the document's PMJJBY details."},
+{s:"PMJJBY",d:"Easy",q:"Where was PMJJBY launched?",o:["Mumbai","Delhi","Kolkata","Chennai","Hyderabad"],a:2,e:"PMJJBY was launched on 9 May 2015 at Kolkata."},
+{s:"PMJJBY",d:"Moderate",q:"Under PMJJBY premium appropriation, out of the full annual premium of Rs 436 collected, how much goes to LIC/the Insurance Company as insurance premium?",o:["Rs 342","Rs 411","Rs 400","Rs 395","Rs 385"],a:3,e:"Of the Rs 436 full premium, Rs 395 goes to the insurance company."},
+{s:"PMJJBY",d:"Moderate",q:"AABY was originally introduced in which year, targeting rural landless agricultural labourers aged 18-59?",o:["2015","2000","2010","2005","2007"],a:4,e:"AABY was introduced in October 2007."},
+
+/* ---------------- MUDRA ---------------- */
+{s:"MUDRA",d:"Easy",q:"When was Pradhan Mantri MUDRA Yojana (PMMY) launched?",o:["8 April 2015","9 May 2015","5 April 2016","22 January 2015","28 August 2014"],a:0,e:"PMMY was launched on 8 April 2015."},
+{s:"MUDRA",d:"Moderate",q:"Under PMMY, what is the maximum loan amount under the 'Tarun Plus' category (for entrepreneurs who availed and repaid prior 'Tarun' loans), introduced in Budget 2024-25?",o:["Rs 10 lakh","Rs 20 lakh","Rs 5 lakh","Rs 50 lakh","Rs 15 lakh"],a:1,e:"Tarun Plus covers loans up to Rs 20 lakh."},
+{s:"MUDRA",d:"Easy",q:"Which MUDRA loan category covers loans up to Rs 50,000?",o:["Kishor","Tarun","Shishu","Tarun Plus","None of the above"],a:2,e:"Shishu covers loans up to Rs 50,000."},
+{s:"MUDRA",d:"Moderate",q:"Which MUDRA loan category covers loans above Rs 5 lakh and up to Rs 10 lakh?",o:["Shishu","Kishor","Tarun Plus","Tarun","None of the above"],a:3,e:"Tarun covers loans above Rs 5 lakh up to Rs 10 lakh."},
+{s:"MUDRA",d:"Moderate",q:"Which MUDRA loan category, introduced in Budget 2024-25, covers loans above Rs 10 lakh and up to Rs 20 lakh?",o:["Shishu","Kishor","Tarun","Micro Plus","Tarun Plus"],a:4,e:"Tarun Plus (Budget 2024-25) covers loans above Rs 10 lakh up to Rs 20 lakh."},
+{s:"MUDRA",d:"Hard",q:"Up to what loan amount is collateral NOT required by the Bank/NBFC under PMMY?",o:["Rs 20 lakh","Rs 10 lakh","Rs 5 lakh","Rs 50 lakh","Rs 1 crore"],a:0,e:"Collateral is not required for loans up to Rs 20 lakh."},
+{s:"MUDRA",d:"Easy",q:"MUDRA (Micro Units Development & Refinance Agency Ltd) was initially formed as a wholly-owned subsidiary of which institution?",o:["RBI","SIDBI","NABARD","NHB","EXIM Bank"],a:1,e:"MUDRA was initially a wholly-owned subsidiary of SIDBI."},
+{s:"MUDRA",d:"Hard",q:"What is the present authorized capital of MUDRA?",o:["Rs 3000 crores","Rs 20,000 crores","Rs 5000 crores","Rs 1000 crores","Rs 10,000 crores"],a:2,e:"MUDRA's authorized capital is Rs 5000 crores."},
+{s:"MUDRA",d:"Hard",q:"What is the paid-up capital of MUDRA, fully subscribed by SIDBI, as per the document?",o:["Rs 3000 crores","Rs 5000 crores","Rs 1000 crores","Rs 1675.92 crores","Rs 2500 crores"],a:3,e:"MUDRA's paid-up capital is Rs 1675.92 crores, fully subscribed by SIDBI."},
+{s:"MUDRA",d:"Moderate",q:"MUDRA was registered as a Non-Banking Finance Institution with RBI in which month/year?",o:["March 2015","April 2016","June 2015","January 2015","April 2015"],a:4,e:"MUDRA registered as an NBFC with RBI in April 2015 (company registration was March 2015)."},
+{s:"MUDRA",d:"Moderate",q:"What is the initial corpus of the Credit Guarantee Fund for Micro Units (CGFMU) created for MUDRA loans?",o:["Rs 3000 crores","Rs 5000 crores","Rs 1000 crores","Rs 1675.92 crores","Rs 500 crores"],a:0,e:"CGFMU was created with an initial corpus of Rs 3000 crores."},
+{s:"MUDRA",d:"Moderate",q:"Which entity was appointed as the implementing agency for CGFMU?",o:["SIDBI","National Credit Guarantee Trustee Company (NCGTC)","PFRDA","NABARD","RBI"],a:1,e:"NCGTC, which manages various credit guarantee funds, is the implementing agency for CGFMU."},
+{s:"MUDRA",d:"Easy",q:"Which online portal allows entrepreneurs to apply for a Mudra Loan and connect with multiple lenders?",o:["Jan Dhan Darshak","Stand Up Mitra","UdyamiMitra","Jan Samarth (exclusively)","Mudra Mitra"],a:2,e:"UdyamiMitra (www.udyamimitra.in) enables online Mudra loan applications."},
+{s:"MUDRA",d:"Moderate",q:"What is the 'MUDRA Card'?",o:["A credit rating certificate","A loan sanction letter","A mobile app for MUDRA information","A Debit card on the RuPay platform offering flexible credit for working capital needs","A physical passbook"],a:3,e:"MUDRA Card is a RuPay-platform debit card for flexible working-capital credit."},
+{s:"MUDRA",d:"Moderate",q:"What interest subvention is provided under the Interest Subvention Scheme for Mudra Shishu Loans, and for how long?",o:["1% for 6 months","3% for 24 months","5% for 12 months","1.5% for 18 months","2% for 12 months"],a:4,e:"A 2% interest subvention is provided for 12 months on Mudra Shishu Loans."},
+{s:"MUDRA",d:"Hard",q:"The Micro Credit Scheme under MUDRA, delivered mainly through Micro Finance Institutions (MFIs), provides credit up to:",o:["Rs 1 lakh","Rs 5 lakh","Rs 50,000","Rs 2 lakh","Rs 10 lakh"],a:0,e:"Micro Credit Scheme delivers credit up to Rs 1 lakh through MFIs."},
+{s:"MUDRA",d:"Easy",q:"On what date was the Jan Samarth Portal launched by the Prime Minister?",o:["5 April 2016","6 June 2022","8 April 2015","1 April 2025","9 May 2015"],a:1,e:"Jan Samarth Portal was launched on 6 June 2022."},
+{s:"MUDRA",d:"Moderate",q:"As on date (per the document), how many credit-linked Central Government Schemes are available on the Jan Samarth Portal?",o:["10","25","15","8","20"],a:2,e:"15 credit-linked Central Government Schemes are available on the Jan Samarth Portal."},
+{s:"MUDRA",d:"Hard",q:"Consider the following statements about MUDRA loans:\nI. Loans under PMMY are given by Commercial Banks, RRBs, Small Finance Banks, MFIs and NBFCs.\nII. Monitoring is done at the state level through SLBC and at the national level by MUDRA/Department of Financial Services.\nIII. Rate of interest under MUDRA is fixed uniformly by RBI for all lenders.\nIV. Activities covered include agriculture-allied businesses such as apiary, poultry farm, and dairy farm.\nHow many of the above statements are correct?",o:["Only one","All four","Only two","Only three","None of the above are correct"],a:3,e:"I, II and IV are correct. III is wrong — the rate of interest is deregulated, with banks advised to charge reasonable rates."},
+{s:"MUDRA",d:"Easy",q:"MUDRA's vision and mission statements emphasize creating an inclusive, sustainable, value-based entrepreneurial culture for whose benefit?",o:["Large corporates","Foreign investors","Government employees","Public sector banks","The 'bottom of the pyramid' / micro entrepreneurs"],a:4,e:"MUDRA's vision/mission targets the 'bottom of the pyramid' universe of micro entrepreneurs."},
+
+/* ---------------- STAND-UP INDIA ---------------- */
+{s:"StandUpIndia",d:"Easy",q:"When was the Stand-Up India Scheme launched?",o:["5 April 2016","8 April 2015","9 May 2015","1 April 2025","22 January 2015"],a:0,e:"Stand-Up India was launched on 5 April 2016."},
+{s:"StandUpIndia",d:"Easy",q:"Under Stand-Up India, what is the loan range that each bank branch is expected to extend to at least one SC/ST and one woman entrepreneur?",o:["Rs 5 lakh to Rs 50 lakh","Rs 10 lakh to Rs 1 crore","Rs 1 lakh to Rs 10 lakh","Rs 50 lakh to Rs 2 crore","Rs 20 lakh to Rs 1.5 crore"],a:1,e:"Loans between Rs 10 lakh and Rs 1 crore are to be extended by each branch."},
+{s:"StandUpIndia",d:"Moderate",q:"Under Stand-Up India, loans finance up to what percentage of the project cost?",o:["100%","90%","85%","75%","60%"],a:2,e:"Stand-Up India finances up to 85% of the project cost."},
+{s:"StandUpIndia",d:"Hard",q:"Under Stand-Up India, the interest rate on the loan should not exceed which formula?",o:["Repo Rate + 2%","MCLR + 1%","Base Rate only","Base Rate (MCLR) + 3% + tenor premium","Base Rate (MCLR) + 5%"],a:3,e:"Interest rate is not to exceed Base Rate (MCLR) + 3% + tenor premium."},
+{s:"StandUpIndia",d:"Moderate",q:"What is the maximum repayment period and moratorium under Stand-Up India loans?",o:["5 years repayment, 12-month moratorium","10 years repayment, 24-month moratorium","3 years repayment, 6-month moratorium","7 years repayment, 12-month moratorium","Up to 7 years repayment with an 18-month moratorium"],a:4,e:"Repayment is up to 7 years with an 18-month moratorium."},
+{s:"StandUpIndia",d:"Hard",q:"For working capital above Rs 10 lakh under Stand-Up India, what facility is provided (as opposed to below Rs 10 lakh)?",o:["Cash Credit Limit","Overdraft with RuPay Debit card","Term loan only","No working capital facility above Rs 10 lakh","Gold loan facility"],a:0,e:"Above Rs 10 lakh, a Cash Credit Limit is provided; up to Rs 10 lakh it's OD with RuPay Debit Card."},
+{s:"StandUpIndia",d:"Moderate",q:"Under Stand-Up India, non-individual enterprises must have what minimum ownership by SC/ST and/or women entrepreneurs?",o:["26%","51%","100%","33%","75%"],a:1,e:"Non-individual enterprises require 51% ownership by SC/ST and/or women entrepreneurs."},
+{s:"StandUpIndia",d:"Moderate",q:"Which of the following changes made to Stand-Up India in FY 2021-22 is NOT correct?",o:["Borrower's margin money contribution was reduced from up to 25% to up to 15% of project cost","A minimum margin money contribution of 10% is still required","Crop loans were newly included as eligible allied agriculture activities","Pisciculture, beekeeping, and poultry were included under allied agriculture activities","Land improvement activities like canals, irrigation and wells were excluded from coverage"],a:2,e:"Crop loans are explicitly EXCLUDED from the allied agriculture extension, not included."},
+{s:"StandUpIndia",d:"Easy",q:"Which committee reviews Stand-Up India cases quarterly, chaired by the Collector with the LDM as convener?",o:["SLBC","NABARD Board","PFRDA Committee","District Level Credit Committee (DLCC)","National Credit Guarantee Committee"],a:3,e:"DLCC, chaired by the Collector with LDM as Convener, reviews cases quarterly."},
+{s:"StandUpIndia",d:"Moderate",q:"Which fund was established by the Government of India to extend collateral-free coverage under Stand-Up India?",o:["CGFMU","Social Security Fund","Benchmark Corpus Fund","Credit Guarantee Fund for Micro Units","Credit Guarantee Fund for Stand-Up India (CGFSI)"],a:4,e:"CGFSI extends collateral-free coverage under Stand-Up India."},
+{s:"StandUpIndia",d:"Hard",q:"Which two institutions are designated as Stand-Up Connect Centres (SUCC) under Stand-Up India?",o:["SIDBI and NABARD","RBI and SEBI","NCGTC and PFRDA","LIC and GIC","SIDBI and RBI"],a:0,e:"SIDBI and NABARD are designated as SUCCs."},
+{s:"StandUpIndia",d:"Hard",q:"Under Stand-Up India's loan processing timeframe, applications between Rs 5 lakh and Rs 25 lakh must be processed within how long?",o:["2 weeks","3 weeks","6 weeks","4 weeks","1 week"],a:1,e:"5-25 lakh applications must be processed within 3 weeks."},
+{s:"StandUpIndia",d:"Moderate",q:"Under Stand-Up India's loan processing timeframe, applications above Rs 25 lakh must be processed within how long?",o:["2 weeks","3 weeks","6 weeks","4 weeks","8 weeks"],a:2,e:"Applications above Rs 25 lakh must be processed within 6 weeks."},
+{s:"StandUpIndia",d:"Moderate",q:"Bank-level grievance redressal under Stand-Up India must be completed within how many days?",o:["7 days","30 days","10 days","15 days","21 days"],a:3,e:"Bank-level grievance redressal must be completed within 15 days."},
+{s:"StandUpIndia",d:"Easy",q:"What is the web portal for Stand-Up India that hosts information on hand-holding support for borrowers?",o:["udyamimitra.in","jansamarth.in","standup.gov.in","pmmy.gov.in","standupmitra.in"],a:4,e:"The Stand-Up India Portal is www.standupmitra.in."},
+{s:"StandUpIndia",d:"Moderate",q:"Which of the following is an exclusive responsibility of SIDBI under Stand-Up India (as opposed to NABARD)?",o:["To operate and maintain the Stand-Up India web portal","Training of Trainers, LDMs, Bank officers","Organizing quarterly stakeholder events","Assisting SLBC and DLCC in reviews","Coordinating with LDM for easing bottlenecks"],a:0,e:"Operating and maintaining the web portal is SIDBI's exclusive responsibility."},
+{s:"StandUpIndia",d:"Hard",q:"Consider the following statements about Stand-Up India:\nI. Loans are meant only for greenfield projects.\nII. Applicants must be at least 18 years of age.\nIII. The scheme is available only through the Stand-Up India portal, not through bank branches directly.\nIV. There should be no default with any bank/financial institution for eligibility.\nHow many of the above statements are correct?",o:["All four","Only three","Only two","Only one","None of the above are correct"],a:1,e:"I, II and IV are correct. III is wrong — the scheme is accessible via branches, the portal, OR the LDM."},
+{s:"StandUpIndia",d:"Moderate",q:"NABARD's exclusive responsibility under Stand-Up India includes organizing events for experience-sharing among stakeholders with what minimum frequency?",o:["Once a year","Once a month","At least once each quarter","Once every six months","No fixed frequency specified"],a:2,e:"NABARD must organize such events at least once each quarter."},
+
+/* ---------------- NPS VATSALYA ---------------- */
+{s:"NPSVatsalya",d:"Easy",q:"In which Union Budget was the 'NPS Vatsalya' Scheme announced?",o:["FY 2022-23","FY 2023-24","FY 2025-26","FY 2024-25","FY 2021-22"],a:3,e:"NPS Vatsalya was announced in the Union Budget of FY 2024-25."},
+{s:"NPSVatsalya",d:"Moderate",q:"NPS Vatsalya is covered under the National Pension System pursuant to which sections of the PFRDA Act, 2013?",o:["Section 10 and Section 15","Section 5 and Section 8","Section 25 and Section 30","Section 3 and Section 7","Section 12(1)(a) and Section 20"],a:4,e:"NPS Vatsalya is covered under Section 12(1)(a) and Section 20 of the PFRDA Act, 2013."},
+{s:"NPSVatsalya",d:"Moderate",q:"What is the minimum contribution required to open an NPS Vatsalya account?",o:["Rs 250","Rs 500","Rs 1000","Rs 100","Rs 2000"],a:0,e:"Minimum contribution to open an NPS Vatsalya account is Rs 250."},
+{s:"NPSVatsalya",d:"Easy",q:"What is the minimum annual contribution required to keep an NPS Vatsalya account active?",o:["Rs 500","Rs 250","Rs 1000","Rs 100","No minimum annual contribution"],a:1,e:"Minimum annual contribution is Rs 250."},
+{s:"NPSVatsalya",d:"Hard",q:"Under NPS Vatsalya, if the total accumulated corpus is less than Rs 8 lakh at the time of exit options between age 18-21, what happens?",o:["At least 20% must be used to buy annuity","Only 50% can be withdrawn","Full withdrawal is allowed","Account is compulsorily transferred to NPS Tier-II","Nothing, account continues indefinitely"],a:2,e:"If corpus < Rs 8 lakh, full withdrawal is allowed."},
+{s:"NPSVatsalya",d:"Hard",q:"Under NPS Vatsalya, if the total accumulated corpus is Rs 8 lakh or more at exit (age 18-21), what withdrawal rule applies?",o:["100% can be withdrawn as lump sum","At least 50% must go to annuity","Only 25% can be withdrawn as lump sum","Up to 80% can be withdrawn as lump sum and at least 20% must go towards annuity","The account must mandatorily continue till age 60"],a:3,e:"For corpus ≥ Rs 8 lakh, up to 80% can be lump sum with at least 20% as annuity."},
+{s:"NPSVatsalya",d:"Moderate",q:"Under NPS Vatsalya, what is the maximum number of partial withdrawals allowed between the ages of 0-18 years?",o:["Unlimited","Four","One","Three","Two"],a:4,e:"A maximum of two withdrawals is allowed between 0-18 years of age."},
+{s:"NPSVatsalya",d:"Moderate",q:"Under NPS Vatsalya partial withdrawal rules, what is the minimum lock-in period from the date of opening of the account?",o:["Minimum 3 years","Minimum 5 years","No lock-in period","Minimum 1 year","Minimum 10 years"],a:0,e:"A minimum lock-in of 3 years from account opening applies."},
+{s:"NPSVatsalya",d:"Hard",q:"Under NPS Vatsalya, what maximum percentage of contributions (excluding returns) can be withdrawn per instance of partial withdrawal?",o:["50%","25%","10%","60%","75%"],a:1,e:"Maximum up to 25% of contributions (excluding returns) can be withdrawn."},
+{s:"NPSVatsalya",d:"Moderate",q:"Under NPS Vatsalya, if no exit option is exercised by the subscriber till age 21, what happens to the account?",o:["It is automatically closed and refunded","It converts to a Post Office Savings Account","The account auto-shifts to a higher-equity scheme under MSF, thereafter governed by PFRDA Exit/Withdrawal Regulations, 2015","It is transferred to a Sukanya Samriddhi Account","It continues unchanged with no auto-shift"],a:2,e:"The account auto-shifts to a higher-equity MSF scheme, governed thereafter by the 2015 PFRDA Regulations."},
+{s:"NPSVatsalya",d:"Easy",q:"Under NPS Vatsalya, who operates the minor's pension account until the minor attains majority?",o:["The minor themselves","PFRDA directly","The bank branch manager","The guardian","The CRA"],a:3,e:"The guardian operates the account for the exclusive benefit of the minor until age 18."},
+{s:"NPSVatsalya",d:"Moderate",q:"Is bank account detail of the minor mandatory at the time of opening an NPS Vatsalya account for an Indian resident?",o:["Yes, always mandatory at opening","Not applicable, NPS Vatsalya doesn't require bank details ever","Only for non-resident minors","Mandatory only for accounts above Rs 1 lakh","Not mandatory at opening, but mandatory at partial withdrawal or exit at 18 years"],a:4,e:"Bank account details are not mandatory at opening for Indian residents but are mandatory at partial withdrawal or exit at 18."},
+{s:"NPSVatsalya",d:"Hard",q:"Consider the following statements about NPS Vatsalya:\nI. It is a contributory pension scheme exclusively for minors.\nII. All minors who are Citizens of India are eligible to participate on a voluntary basis.\nIII. There is a cap on the maximum contribution permissible in a year.\nIV. A unique PRAN in the name of the minor subscriber is issued by the concerned CRA.\nHow many of the above statements are correct?",o:["Only three","All four","Only two","Only one","None of the above are correct"],a:0,e:"I, II and IV are correct. III is wrong — there is no limit on maximum contribution."},
+{s:"NPSVatsalya",d:"Moderate",q:"On the death of the subscriber/guardian under NPS Vatsalya, what happens to the entire corpus?",o:["It is forfeited to the government","It is transferred to the guardian/nominee/legal heir, with an option to transfer to the NPS account of the guardian/nominee/legal heir","It is compulsorily converted to an annuity","It reverts to the Consolidated Fund of India","It must be donated to a charitable trust"],a:1,e:"The corpus transfers to the guardian/nominee/legal heir, with an option to move it to their own NPS account."},
+{s:"NPSVatsalya",d:"Easy",q:"NPS Vatsalya draws its account structure primarily from the features of which NPS account type?",o:["Tier-II Account","Corporate Model Account","NPS Tier-I Account","UPS Individual Corpus Account","PPF Account"],a:2,e:"NPS Vatsalya suitably draws from NPS Tier-1 Account features."},
+
+/* ---------------- SSA (Sukanya Samriddhi) ---------------- */
+{s:"SSA",d:"Easy",q:"When was the Sukanya Samriddhi Account (SSA) Scheme launched?",o:["8 April 2015","5 April 2016","9 May 2015","22nd January 2015","31.03.2023"],a:3,e:"SSA was launched on 22 January 2015."},
+{s:"SSA",d:"Moderate",q:"Up to what age of the girl child can a Sukanya Samriddhi Account be opened by the guardian?",o:["Up to 5 years","Up to 18 years","Up to 15 years","Up to 12 years","From birth until she turns 10"],a:4,e:"The account can be opened from birth of the girl until she turns 10."},
+{s:"SSA",d:"Hard",q:"What is the maximum number of Sukanya Samriddhi Accounts allowed per family under normal circumstances?",o:["Two accounts, for up to two girl children","One account regardless of number of girls","Three accounts","Unlimited accounts","Four accounts"],a:0,e:"A maximum of two accounts (one per girl child) is normally permitted per family."},
+{s:"SSA",d:"Hard",q:"Under SSA, a third account can exceptionally be opened if:",o:["The family has income below the poverty line","A girl child is born before the birth of twin or triplet girls (or triplets are born first)","The family lives in a rural area","The father is a government employee","A girl child is born after the birth of twin or triplet girls"],a:1,e:"A third account is allowed if a girl is born before twins/triplets, or if triplets are born first — NOT if the girl is born after twins/triplets."},
+{s:"SSA",d:"Moderate",q:"What is the minimum initial deposit required to open a Sukanya Samriddhi Account?",o:["Rs 500","Rs 1000","Rs 250","Rs 100","Rs 2000"],a:2,e:"The initial deposit is Rs 250."},
+{s:"SSA",d:"Moderate",q:"What is the maximum amount that can be deposited in a Sukanya Samriddhi Account in a financial year?",o:["Rs 1,00,000","Rs 3,00,000","Rs 2,00,000","Rs 1,50,000","No limit"],a:3,e:"Total deposits cannot exceed Rs 1,50,000 per financial year."},
+{s:"SSA",d:"Hard",q:"Under SSA, withdrawal for education purposes is allowed up to what maximum percentage of the balance at the end of the FY preceding the year of application?",o:["Maximum 100%","Maximum 25%","Maximum 75%","Maximum 30%","Maximum 50%"],a:4,e:"Maximum 50% of the preceding FY-end balance can be withdrawn for education."},
+{s:"SSA",d:"Moderate",q:"Under SSA, withdrawal for education is permitted only after the account holder attains what condition, whichever is earlier?",o:["Age of eighteen years or has passed tenth standard","Age of twenty-one years","Marriage","Age of sixteen years","Completion of graduation"],a:0,e:"Withdrawal is allowed after the account holder attains 18 years or passes 10th standard, whichever is earlier."},
+{s:"SSA",d:"Easy",q:"Deposits into a Sukanya Samriddhi Account can be made for a maximum period of how many years from the date of opening?",o:["21 years","15 years","10 years","18 years","25 years"],a:1,e:"Deposits can be made for a maximum of 15 years from the date of opening."},
+{s:"SSA",d:"Hard",q:"If the minimum annual deposit of Rs 250 is not made in a Sukanya Samriddhi Account in a financial year, the account is treated as defaulted. What is required to revive it before completion of 15 years?",o:["Rs 250 only, no penalty","The account cannot be revived once defaulted","Minimum Rs 250 plus Rs 50 default fee for each defaulted year","Rs 500 flat penalty regardless of years defaulted","Rs 100 penalty per month of default"],a:2,e:"Revival requires minimum Rs 250 + Rs 50 default fee for each defaulted year."},
+{s:"SSA",d:"Easy",q:"When does an SSA account mature, as per the document?",o:["Exactly at 15 years from opening, no exceptions","At age 21 of the girl only","At marriage of the girl only, regardless of years","21 years from date of opening OR upon marriage of the girl child, whichever comes first","At age 25 of the girl child"],a:3,e:"Maturity occurs after 21 years from opening or upon marriage, whichever is earlier."},
+{s:"SSA",d:"Moderate",q:"Which of the following about the Sukanya Samriddhi Account is NOT correct?",o:["The account offers a higher interest rate compared to regular savings accounts","Deposits qualify for tax benefit under Section 80C","The girl child herself can operate the account after attaining age 10","The account is transferable anywhere in India","Accounts can only be opened via a Post Office and not through Commercial Banks"],a:4,e:"Accounts can also be opened at notified branches of Commercial Banks, not just Post Offices."},
+{s:"SSA",d:"Hard",q:"Consider the following statements about SSA:\nI. Interest is compounded yearly and credited as notified by the government.\nII. Premature closure is allowed immediately upon death of the account holder, with balance paid to the guardian.\nIII. The Central Government may allow premature closure in extreme compassionate cases such as life-threatening illness.\nIV. The Sampoorna Sukanya Gram Campaign was launched in June 2019 and designates at least five villages per campaign as 'Sampoorna Sukanya Village'.\nHow many of the above statements are correct?",o:["All four","Only two","Only three","Only one","None of the above are correct"],a:0,e:"All four statements are correct as per the document."},
+{s:"SSA",d:"Moderate",q:"The Sukanya Samriddhi Account Scheme was launched by Prime Minister Narendra Modi as part of which campaign?",o:["Digital India","Beti Bachao Beti Padhao","Skill India","Make in India","Swachh Bharat Abhiyan"],a:1,e:"SSA was launched as part of the Beti Bachao Beti Padhao campaign."},
+{s:"SSA",d:"Easy",q:"Subsequent deposits into an SSA account (after the initial deposit) must be made in multiples of:",o:["Rs 100","Rs 10","Rs 50","Rs 500","Rs 25"],a:2,e:"Subsequent deposits must be made in multiples of Rs 50."},
+
+/* ---------------- MAHILA SAMMAN ---------------- */
+{s:"MahilaSamman",d:"Easy",q:"When was the Mahila Samman Savings Certificate launched?",o:["9 May 2015","22 January 2015","5 April 2016","31.03.2023","1 April 2025"],a:3,e:"The Mahila Samman Savings Certificate was launched on 31.03.2023."},
+{s:"MahilaSamman",d:"Easy",q:"The Mahila Samman Savings Certificate was available for opening only up to which date, being a one-time scheme?",o:["31.03.2028","31.03.2024","31.03.2026","31.12.2025","31.03.2025"],a:4,e:"This one-time scheme was available for opening only up to 31.03.2025."},
+{s:"MahilaSamman",d:"Moderate",q:"What is the minimum deposit amount to open a Mahila Samman Savings Certificate account?",o:["Rs 1000","Rs 500","Rs 250","Rs 2000","Rs 100"],a:0,e:"Minimum deposit to open is Rs 1000, in multiples of Rs 100."},
+{s:"MahilaSamman",d:"Moderate",q:"What is the maximum deposit limit per individual under the Mahila Samman Savings Certificate scheme?",o:["Rs 1,50,000","Rs 2,00,000","Rs 5,00,000","Rs 1,00,000","Rs 3,00,000"],a:1,e:"Maximum limit is Rs 2,00,000 per individual, with a 3-month gap required between accounts."},
+{s:"MahilaSamman",d:"Hard",q:"What interest rate is offered under the Mahila Samman Savings Certificate, compounded quarterly?",o:["8.2% p.a.","6.5% p.a.","7.5% p.a.","7.1% p.a.","9% p.a."],a:2,e:"The scheme offers 7.5% p.a., compounded quarterly."},
+{s:"MahilaSamman",d:"Moderate",q:"What is the maturity period of the Mahila Samman Savings Certificate from the date of deposit?",o:["5 years","1 year","3 years","Two years","15 years"],a:3,e:"Maturity is two years from the date of deposit."},
+{s:"MahilaSamman",d:"Hard",q:"Under the Mahila Samman Savings Certificate, partial withdrawal of up to what percentage of the eligible balance is allowed after one year from opening?",o:["25%","60%","100%","50%","40%"],a:4,e:"Partial withdrawal of up to 40% of eligible balance is allowed after one year."},
+{s:"MahilaSamman",d:"Hard",q:"If a Mahila Samman Savings Certificate account is prematurely closed after 6 months, what reduced interest rate applies?",o:["5.5%","4%","7.5%","6.5%","3%"],a:0,e:"Premature closure after 6 months results in a reduced interest rate of 5.5%."},
+{s:"MahilaSamman",d:"Easy",q:"Who can open a Mahila Samman Savings Certificate account?",o:["Only married women","A woman for herself, or a guardian on behalf of a minor girl child","Any adult, regardless of gender","Only senior citizen women","Only women employed in the organized sector"],a:1,e:"It's a single-holder account opened by a woman for herself or by a guardian for a minor girl."},
+{s:"MahilaSamman",d:"Moderate",q:"Is a subsequent/additional deposit allowed in a Mahila Samman Savings Certificate account after the initial deposit?",o:["Yes, unlimited additional deposits allowed","Yes, but only once a year","No, no subsequent deposit is allowed","Yes, up to Rs 50,000 additional per year","Yes, but only via cheque"],a:2,e:"No subsequent deposit is allowed after the initial deposit under this scheme."},
+
+/* ---------------- NPS ---------------- */
+{s:"NPS",d:"Easy",q:"Which authority regulates and administers the National Pension System (NPS)?",o:["IRDAI","SEBI","RBI","PFRDA","NABARD"],a:3,e:"NPS is regulated and administered by PFRDA under the PFRDA Act, 2013."},
+{s:"NPS",d:"Moderate",q:"NPS is mandatorily applicable to which category of Central Government employees, with one exception?",o:["Only IAS officers","All Central Government employees without exception","Only Group A officers","Employees joining before 1 January 2004","Employees joining on or after 1 January 2004, except those in the armed forces"],a:4,e:"All Central Govt employees joining on/after 1 January 2004 are covered, except the armed forces."},
+{s:"NPS",d:"Moderate",q:"Under the NPS 'All Citizens Model', what is the eligible age range for opening an account?",o:["18 to 85 years","18 to 70 years","21 to 60 years","18 to 60 years","16 to 65 years"],a:0,e:"Eligible age is 18 to 85 years as on date of application."},
+{s:"NPS",d:"Hard",q:"Which of the following is NOT eligible to subscribe to NPS under the All Citizens Model, as stated in the document?",o:["A resident citizen of India","Hindu Undivided Families (HUFs)","A non-resident Indian citizen","An Overseas Citizen of India (OCI)","A citizen aged between 18 and 85 years complying with KYC norms"],a:1,e:"HUFs and Persons of Indian Origin (PIOs) are NOT eligible to subscribe to NPS."},
+{s:"NPS",d:"Moderate",q:"What is the minimum contribution required to open a Tier-I NPS account?",o:["Rs 250","Rs 1000","Rs 500","Rs 100","No minimum required"],a:2,e:"Minimum contribution to open Tier-I is Rs 500."},
+{s:"NPS",d:"Moderate",q:"What is the minimum annual contribution required to keep a Tier-I NPS account active?",o:["Rs 500","Rs 250","Rs 2000","Rs 1000","No minimum annual contribution"],a:3,e:"Minimum contribution per year for Tier-I is Rs 1000."},
+{s:"NPS",d:"Easy",q:"What is the minimum contribution required to open a Tier-II NPS account?",o:["Rs 1000","Rs 500","Rs 100","Rs 1500","Rs 250"],a:4,e:"Minimum contribution to open Tier-II is Rs 250."},
+{s:"NPS",d:"Hard",q:"Which of the following about NPS Tier-I and Tier-II accounts is NOT correct?",o:["Tier-II can be opened independently without an active Tier-I account","Withdrawals from Tier-I are governed by Exit and Withdrawal rules and regulations","Tier-II allows unrestricted withdrawals","AMC charges are applicable to Tier-I but no separate AMC charges apply to Tier-II","Tier-I is the permanent retirement account"],a:0,e:"Tier-II requires an active Tier-I account and cannot be opened independently."},
+{s:"NPS",d:"Moderate",q:"What is a PRAN under NPS?",o:["A tax deduction certificate","Permanent Retirement Account Number, a 12-digit unique lifetime ID for each subscriber","A type of pension fund manager","A withdrawal request form","A grievance ticket number"],a:1,e:"PRAN is the 12-digit unique, lifetime-valid Permanent Retirement Account Number."},
+{s:"NPS",d:"Hard",q:"Under NPS Active Choice, what is the maximum allocation permitted in Asset Class E (Equity)?",o:["100%","50%","Up to 75%","25%","Up to 60%"],a:2,e:"Maximum allocation in Asset Class E under Active Choice is up to 75%."},
+{s:"NPS",d:"Hard",q:"Under NPS Active Choice, what is the maximum allocation permitted in Asset Class A (Alternative Investment Funds)?",o:["25%","50%","10%","Up to 5%","No allocation is permitted in Asset Class A"],a:3,e:"Asset Class A allocation cannot exceed 5%."},
+{s:"NPS",d:"Moderate",q:"Investment in Asset Class A (Alternative Investment Funds) under NPS Active Choice is available only for which type of account?",o:["Tier-II account only","Corporate model accounts only","NPS Vatsalya accounts","Both Tier-I and Tier-II equally","NPS Tier-I account only"],a:4,e:"Asset Class A investment is available only for NPS Tier-I accounts."},
+{s:"NPS",d:"Hard",q:"Under the NPS Auto Choice (Life-cycle fund), what best describes the 'Life Cycle 75 - High' option?",o:["High-risk option with equity exposure starting at 75% and tapering to 15% by age 55 (15E/55Y)","5E/55Y — a Low risk option","35E/55Y — an Aggressive option","10E/55Y — a Moderate option","25E/55Y — a balanced option"],a:0,e:"Life Cycle 75 - High corresponds to the notation 15E/55Y, meaning high initial equity (75%) tapering to 15% by age 55."},
+{s:"NPS",d:"Moderate",q:"Under NPS Auto Choice, which option corresponds to 'Life Cycle 25 - Low', with equity tapering to 5% at age 55?",o:["Aggressive","Life Cycle 25 - Low (5E/55Y)","Life Cycle 50 - Moderate","Life Cycle 75 - High","Life Cycle Default"],a:1,e:"Life Cycle 25 - Low corresponds to notation 5E/55Y."},
+{s:"NPS",d:"Moderate",q:"Under Section 80CCD(1) of the Income Tax Act, what is the tax deduction limit for employee self-contribution to NPS, expressed as a percentage of salary (Basic+DA)?",o:["20%","Up to 15%","Up to 10%","5%","25%"],a:2,e:"Employee self-contribution deduction is up to 10% of salary (Basic+DA) within the Rs1.5 lakh 80CCE ceiling."},
+{s:"NPS",d:"Moderate",q:"Under Section 80CCD(1B), what additional tax deduction (over and above the Rs 1.50 lakh ceiling under 80CCE) is available for NPS self-contribution?",o:["Rs 1,00,000","Rs 25,000","Rs 75,000","Rs 50,000","No additional deduction available"],a:3,e:"An additional Rs 50,000 deduction is available under Section 80CCD(1B)."},
+{s:"NPS",d:"Hard",q:"Under Section 80CCD(2), what percentage of salary (Basic+DA) is the tax deduction limit for employer's contribution to NPS when the employer is the Central Government?",o:["10%","20%","8.5%","18%","14%"],a:4,e:"For Central Government employer contributions, the deduction limit is 14% of salary (10% for other employers)."},
+{s:"NPS",d:"Hard",q:"For self-employed individuals contributing to NPS, what percentage of gross income is eligible for tax deduction under Section 80CCD(1), within the Rs 1.5 lakh overall ceiling?",o:["Up to 20% of gross income","Up to 10% of gross income","Up to 15% of gross income","Up to 25% of gross income","Up to 30% of gross income"],a:0,e:"Self-employed individuals get deduction up to 20% of gross income under 80CCD(1)."},
+{s:"NPS",d:"Moderate",q:"Under Section 10(12B), tax exemption is available on partial withdrawal from an NPS account up to what percentage of the self-contribution?",o:["50%","25%","10%","100%","75%"],a:1,e:"Tax exemption applies to partial withdrawal up to 25% of self-contribution under Section 10(12B)."},
+{s:"NPS",d:"Moderate",q:"Under Section 10(12A), tax exemption is available on lump sum withdrawal of what percentage of accumulated pension wealth upon attaining age 60 or superannuation?",o:["40%","25%","60%","80%","100%"],a:2,e:"Lump sum withdrawal exemption applies to 60% of accumulated pension wealth."},
+{s:"NPS",d:"Hard",q:"For NPS subscribers in the government sector who joined between 18-60 years, what is the Normal Exit rule if the Accumulated Pension Wealth (APW) is greater than Rs 12 Lakh?",o:["Entire APW must be withdrawn as lump sum","At least 20% must be used for annuity","At least 60% must be used for annuity","At least 40% of the APW must be mandatorily utilized for purchase of Annuity","No annuity purchase is required"],a:3,e:"If APW > Rs 12 Lakh, at least 40% must mandatorily go towards annuity purchase."},
+{s:"NPS",d:"Hard",q:"For NPS subscribers who joined after age 60 (Normal Exit category), if APW exceeds Rs 12 Lakh, what minimum percentage must be mandatorily used for annuity purchase?",o:["40%","60%","10%","80%","At least 20%"],a:4,e:"For this category, at least 20% of APW must go towards annuity if APW exceeds Rs 12 lakh."},
+{s:"NPS",d:"Hard",q:"Under NPS Premature Exit rules (government sector, joined 18-60 years), what is the limit for lump-sum withdrawal of the entire Accumulated Pension Wealth, on the date of initiation of the premature exit request?",o:["Rs 5 Lakh","Rs 12 Lakh","Rs 8 Lakh","Rs 2 Lakh","Rs 10 Lakh"],a:0,e:"The premature exit lump-sum limit is Rs 5 Lakh."},
+{s:"NPS",d:"Hard",q:"Under NPS Premature Exit rules, if APW exceeds Rs 5 lakh, what minimum percentage must be mandatorily utilized for annuity purchase?",o:["40%","At least 80%","20%","60%","100%"],a:1,e:"If APW > Rs 5 lakh in premature exit, at least 80% must go to annuity."},
+{s:"NPS",d:"Moderate",q:"Are the provisions of Premature Exit applicable to NPS subscribers who joined at age 60 years or above?",o:["Yes, fully applicable","Only partially applicable","No, provisions of Premature Exit are not applicable to this category","Applicable only after 5 years of subscription","Applicable only with special PFRDA permission"],a:2,e:"Premature Exit provisions do not apply to subscribers who joined at/after age 60."},
+{s:"NPS",d:"Hard",q:"Under NPS, in the event of death of the subscriber before age 60/superannuation (government sector), what is the lump-sum withdrawal limit for the entire corpus, based on the APW value on the date of death?",o:["Rs 5 Lakh","Rs 12 Lakh","Rs 6 Lakh","Rs 8 Lakh","Rs 10 Lakh"],a:3,e:"The lump-sum death-benefit limit is Rs 8 Lakh on the date of death."},
+{s:"NPS",d:"Hard",q:"In the event of death of an NPS subscriber (government sector) with APW greater than Rs 12 lakh, at least what percentage of the APW must be utilized for purchase of Default Annuity by eligible family members (spouse, mother, father in order)?",o:["40%","60%","20%","50%","At least 80%"],a:4,e:"At least 80% of APW must go towards Default Annuity purchase by eligible family members when APW > Rs 12 lakh."},
+{s:"NPS",d:"Moderate",q:"What is the minimum period a subscriber must have been in NPS before becoming eligible for partial withdrawal?",o:["At least 3 years from the date of joining NPS","At least 1 year","At least 5 years","At least 10 years","No minimum period required"],a:0,e:"Partial withdrawal eligibility requires at least 3 years of NPS membership."},
+{s:"NPS",d:"Hard",q:"For an NPS subscriber before age 60/superannuation, what is the maximum number of partial withdrawals allowed from each Individual Pension Account, and the minimum gap required between them?",o:["2 times, gap of 2 years","Maximum 4 times, with a minimum gap of 4 years between successive withdrawals","6 times, gap of 1 year","Unlimited times, gap of 5 years","3 times, gap of 3 years"],a:1,e:"Up to 4 partial withdrawals are allowed, each separated by a minimum 4-year gap."},
+{s:"NPS",d:"Moderate",q:"Which of the following is NOT listed among the circumstances permitting partial withdrawal from an NPS account?",o:["Higher education of the subscriber's children","Medical treatment/hospitalization of the subscriber, spouse, children or parents","Purchase of a second residential house for investment purposes","One-time purchase or construction of a residential house/flat in the subscriber's own or joint name with spouse (if not already owning one)","Settlement of a financial obligation availed from a regulated financial institution against a lien on the pension account"],a:2,e:"Purchase of a SECOND house for investment is not covered — the scheme covers a first-time residential house purchase only."},
+{s:"NPS",d:"Easy",q:"What is the Trustee Bank charge under NPS, as per the charges table in the document?",o:["0.05% per annum","NIL","0.09% per annum","1% flat fee","0.25% per annum"],a:1,e:"Trustee Bank charges are NIL under NPS."},
+{s:"NPS",d:"Hard",q:"As per the revised Investment Management Fee (IMF) structure effective 1 April 2021, what is the maximum IMF for AUM slabs above Rs 1,50,000 crore managed by a Pension Fund?",o:["0.09%","0.06%","0.05%","0.03%","0.07%"],a:3,e:"For AUM above Rs 1,50,000 crore, the maximum IMF is 0.03%."},
+{s:"NPS",d:"Moderate",q:"Under NPS grievance redressal, within how many days must a grievance be disposed of by the entity against which it is raised, per PFRDA Regulations 2015?",o:["15 days","45 days","30 days","60 days","90 days"],a:2,e:"Grievances must be disposed of within 30 days from the date of receipt."},
+{s:"NPS",d:"Hard",q:"In the NPS Grievance Redressal Matrix, what is the Turn-Around-Time (TAT) at Level 2 (NPS Trust) from the date of escalation?",o:["30 days","7 days","21 days","45 days","15 days"],a:2,e:"Level 2 (NPS Trust) has a TAT of 21 days from date of escalation."},
+{s:"NPS",d:"Moderate",q:"Which level of the NPS Grievance Redressal Matrix comes immediately after the Ombudsman (appointed by PFRDA) if the subscriber remains unsatisfied?",o:["Securities Appellate Tribunal directly","Designated Member of PFRDA","NPS Trust again","Level 1 Intermediary/Nodal Office","Central Grievance Management System"],a:1,e:"After the Ombudsman (Level 3), the next level is the Designated Member of PFRDA (Level 4)."},
+{s:"NPS",d:"Hard",q:"What is the final/highest level in the NPS Grievance Redressal Matrix if a subscriber remains unsatisfied even after approaching the Designated Member of PFRDA?",o:["State High Court","Consumer Forum","Reserve Bank Ombudsman","Securities Appellate Tribunal (SAT)","Supreme Court directly"],a:3,e:"The Securities Appellate Tribunal (SAT) is the final level in the matrix."},
+
+/* ---------------- UPS ---------------- */
+{s:"UPS",d:"Easy",q:"From which date is the Unified Pension Scheme (UPS) effective as an option under NPS for Central Government employees?",o:["1 April 2024","1 January 2025","1 April 2026","1st April 2025","9 May 2015"],a:3,e:"UPS became effective from 1st April 2025."},
+{s:"UPS",d:"Moderate",q:"Under UPS, what is the assured pension equivalent to, for an employee completing a minimum 25 years of qualifying service?",o:["100% of last drawn basic pay","60% of average basic pay over last 24 months","40% of average basic pay over last 12 months","70% of average basic pay over last 6 months","50% of the average basic pay drawn over the last 12 months prior to superannuation"],a:4,e:"Assured pension equals 50% of average basic pay over the last 12 months prior to superannuation, after min. 25 years service."},
+{s:"UPS",d:"Moderate",q:"What is the minimum guaranteed monthly pension payout under UPS after a minimum of 10 years of service?",o:["Rs 10,000 per month","Rs 5,000 per month","Rs 15,000 per month","Rs 20,000 per month","Rs 25,000 per month"],a:0,e:"A minimum pension of Rs 10,000 per month is guaranteed after 10 years of service."},
+{s:"UPS",d:"Hard",q:"Under UPS, the employee's contribution and the matching Central Government contribution are each what percentage of (basic pay + Dearness Allowance)?",o:["8.5% each","10% each","14% each","12% each","5% each"],a:1,e:"Both employee and matching government contribution are 10% each of (Basic Pay + DA)."},
+{s:"UPS",d:"Hard",q:"In addition to the 10%+10% individual corpus contributions, the Central Government provides an additional estimated contribution of what percentage of (basic pay + DA) to a pool corpus on an aggregate basis under UPS?",o:["14%","10%","8.5%","5%","20%"],a:2,e:"An additional estimated 8.5% contribution goes to the pool corpus on an aggregate basis."},
+{s:"UPS",d:"Moderate",q:"Under UPS, the lump-sum payment at superannuation (in addition to gratuity) is calculated as what fraction of monthly emoluments for every completed six months of service?",o:["1/5th","1/4th","1/20th","1/10th [10%]","1/2"],a:3,e:"The lump-sum equals 1/10th (10%) of monthly emoluments (pay+DA) per completed six months of service."},
+{s:"UPS",d:"Hard",q:"As per the UPS example in the document, if the last drawn salary is Rs 50,000, the lump sum for 40 completed half-years of service would be:",o:["Rs 50,000","Rs 5,00,000","Rs 1,00,000","Rs 4,00,000","Rs 2,00,000"],a:4,e:"10% of Rs 50,000 = Rs 5,000; Rs 5,000 × 40 half-years = Rs 2,00,000."},
+{s:"UPS",d:"Moderate",q:"Under UPS, what is the minimum qualifying service required for an employee to be eligible for a proportionate (rather than full) assured payout?",o:["Between 10 and 25 years of service","Between 5 and 15 years","Between 15 and 20 years","Exactly 20 years","Between 20 and 30 years"],a:0,e:"Proportionate payout applies between 10 and 25 years of qualifying service."},
+{s:"UPS",d:"Hard",q:"Under UPS, on final withdrawal, a subscriber may withdraw up to what percentage of the Individual Corpus (IC) or Benchmark Corpus (BC), whichever is lower?",o:["80%","Up to 60%","40%","100%","25%"],a:1,e:"Final withdrawal is capped at up to 60% of IC or BC, whichever is lower."},
+{s:"UPS",d:"Moderate",q:"What does 'Benchmark Corpus (BC)' refer to under UPS?",o:["The maximum permissible corpus an employee can accumulate","A penalty corpus for defaulters","The minimum required fund needed to give the subscriber the full assured pension under UPS","The employer's total pension liability","A reserve fund maintained by PFRDA"],a:2,e:"BC is the minimum required fund needed to give full assured pension under UPS."},
+{s:"UPS",d:"Hard",q:"Under UPS, in case of death of the payout holder after superannuation, what percentage of the payout admissible to the holder (immediately before demise) is assured as family pension to the legally wedded spouse?",o:["100%","40%","80%","@60% of the payout admissible to the payout holder","50%"],a:3,e:"Family pension is assured at 60% of the payout admissible to the holder immediately before death."},
+{s:"UPS",d:"Moderate",q:"Dearness relief under UPS is based on which index, similar to serving employees?",o:["Wholesale Price Index (WPI)","Consumer Price Index for Rural Labourers","GDP deflator","Producer Price Index","All India Consumer Price Index for Industrial Workers (AICPI-W)"],a:4,e:"Dearness relief under UPS is based on AICPI-W, same as for serving employees."},
+{s:"UPS",d:"Moderate",q:"Under UPS, partial withdrawals are permitted up to what percentage of self-contribution (excluding returns)?",o:["Up to 25%","Up to 50%","Up to 10%","Up to 60%","Up to 100%"],a:0,e:"Partial withdrawal under UPS is capped at up to 25% of self-contribution excluding returns."},
+{s:"UPS",d:"Moderate",q:"Under UPS, how many times are partial withdrawals allowed (including NPS withdrawals)?",o:["Unlimited times","3 times","5 times","2 times","4 times"],a:1,e:"Partial withdrawals under UPS are allowed 3 times (including NPS withdrawals)."},
+{s:"UPS",d:"Easy",q:"Which form is used by existing NPS subscribers who wish to opt for UPS?",o:["Form A1","Form C1","Form A2","Form B1","Form UPS-1"],a:2,e:"Form A2 is used by existing NPS subscribers opting for UPS (Form A1 is for new recruits)."},
+{s:"UPS",d:"Hard",q:"Under UPS eligibility, what is the minimum qualifying service required for a retired NPS subscriber (who retired on or before 31.03.2025) to be eligible for UPS, along with retirement under which rule?",o:["5 years service, retirement under VRS","15 years service, retirement under FR 56(j)","20 years service, superannuation only","Minimum 10 years qualifying service, retirement under FR 56(j) (not as a penalty)","No minimum service required"],a:3,e:"Retired subscribers need min 10 years qualifying service and retirement under FR 56(j) (not as penalty)."},
+{s:"UPS",d:"Hard",q:"Consider the following statements comparing NPS and UPS:\nI. Under NPS, government contribution is 14%, whereas under UPS it is 10% plus an additional 8.5% pool corpus contribution.\nII. UPS guarantees a minimum pension of Rs 10,000/month, while NPS does not guarantee any minimum pension.\nIII. Dearness relief is available under NPS but not under UPS.\nIV. Final withdrawal under both NPS and UPS is capped at up to 60%.\nHow many of the above statements are correct?",o:["Only one","All four","None of the above are correct","Only two","Only three"],a:4,e:"I, II and IV are correct. III is wrong — per the comparison table, Dearness Relief is available under UPS, NOT under NPS."},
+{s:"UPS",d:"Moderate",q:"Under UPS investment options, what is the 'Default Pattern' auto-assigned if a subscriber makes no choice?",o:["Investment as per the predefined asset allocation pattern managed by three Pension Funds","100% Equity","100% Corporate Debt","Life Cycle 75 - High","Life Cycle 50 - Moderate"],a:0,e:"Default Scheme investment follows a predefined asset allocation pattern managed by three Pension Funds."},
+{s:"UPS",d:"Hard",q:"Under UPS's Life Cycle 25 - Low investment option, what is the equity exposure until age 35, and to what does it taper by age 55?",o:["50% tapering to 10%","25% tapering to 5% at 55+","15% tapering to 5%","35% tapering to 15%","10% tapering to 0%"],a:1,e:"Life Cycle 25 - Low: 25% equity exposure until age 35, tapering to 5% at 55+."},
+{s:"UPS",d:"Moderate",q:"Under UPS, how frequently can an employee change their Pension Fund Manager and Investment Pattern respectively?",o:["Twice a year for Pension Fund, once a year for Investment Pattern","Once a year for both","Pension Fund: once per Financial Year; Investment Pattern: twice per Financial Year","Unlimited changes anytime","Neither can be changed once selected"],a:2,e:"Pension Fund Manager can be changed once per FY; Investment Pattern can be changed twice per FY."},
+
+/* ---------------- SAVINGS SCHEMES ---------------- */
+{s:"SavingsSchemes",d:"Easy",q:"What is the minimum deposit required to open a Kisan Vikas Patra (KVP) account?",o:["Rs 500","Rs 100","Rs 5000","Rs 1000","Rs 250"],a:3,e:"KVP minimum deposit is Rs 1000, and thereafter in multiples of Rs 100."},
+{s:"SavingsSchemes",d:"Moderate",q:"As per the document, w.e.f. 01.07.2024, what interest rate applies to Kisan Vikas Patra, compounded annually?",o:["7.1%","8.2%","6.5%","7.7%","7.5%"],a:4,e:"KVP interest rate w.e.f. 01.07.2024 is 7.5% compounded annually."},
+{s:"SavingsSchemes",d:"Moderate",q:"A Kisan Vikas Patra can be encashed after how many years from the date of investment?",o:["2 and half years","5 years","1 year","3 years","7 years"],a:0,e:"KVP can be encashed after 2.5 years from the date of investment."},
+{s:"SavingsSchemes",d:"Easy",q:"What is a distinguishing feature of the Kisan Vikas Patra scheme mentioned in the document, relating to the invested amount?",o:["Interest is tax-free","Money doubles on maturity","No interest is paid","It offers life insurance cover","It is available only to farmers"],a:1,e:"KVP is known for the feature that money doubles on maturity."},
+{s:"SavingsSchemes",d:"Moderate",q:"What is the minimum deposit required to open a Post Office Savings Account?",o:["Rs 100","Rs 1000","Rs 500","Rs 250","Rs 50"],a:2,e:"Minimum deposit for a Post Office Savings Account is Rs 500."},
+{s:"SavingsSchemes",d:"Hard",q:"Interest earned on a Post Office Savings Account up to what amount qualifies for deduction from income under Section 80TTA of the Income Tax Act?",o:["Rs 50,000","Rs 40,000","Rs 25,000","Rs 10,000","Rs 1,50,000"],a:3,e:"Interest up to Rs 10,000 qualifies for deduction under Section 80TTA."},
+{s:"SavingsSchemes",d:"Easy",q:"At what age can a minor independently open a Post Office Savings Account?",o:["18 years","12 years","16 years","5 years","10 years"],a:4,e:"A minor who has attained the age of 10 years may open the account independently."},
+{s:"SavingsSchemes",d:"Moderate",q:"What is the minimum monthly deposit for a National Savings Recurring Deposit (RD) Account?",o:["Rs 100","Rs 500","Rs 50","Rs 250","Rs 10"],a:0,e:"Minimum RD deposit is Rs 100 per month, in multiples of Rs 10."},
+{s:"SavingsSchemes",d:"Moderate",q:"A National Savings Recurring Deposit Account matures in how many years?",o:["3 years","5 years","10 years","15 years","7 years"],a:1,e:"RD account matures in 5 years."},
+{s:"SavingsSchemes",d:"Hard",q:"Under the National Savings RD Account, withdrawal to the extent of what percentage of the existing balance is permissible after one year of opening?",o:["25%","100%","50%","75%","10%"],a:2,e:"Withdrawal up to 50% of existing balance is permissible after one year."},
+{s:"SavingsSchemes",d:"Moderate",q:"An RD account can be prematurely closed after how many years, with simple interest at the POSA rate?",o:["1 year","5 years","2 years","3 years","4 years"],a:3,e:"RD account can be closed prematurely after 3 years, with simple interest at the POSA rate."},
+{s:"SavingsSchemes",d:"Easy",q:"How many categories of National Savings Time Deposit Account are available?",o:["Two","Six","Three","Five","Four (1 year, 2 year, 3 year & 5 year)"],a:4,e:"Four categories of Time Deposit Account are available: 1yr, 2yr, 3yr, 5yr."},
+{s:"SavingsSchemes",d:"Moderate",q:"Deposits in which tenure of the National Savings Time Deposit Account qualify for deduction under Section 80-C of the Income Tax Act?",o:["5 year Time Deposit","1 year Time Deposit","2 year Time Deposit","3 year Time Deposit","All tenures equally qualify"],a:0,e:"The 5-year Time Deposit qualifies for Section 80-C deduction."},
+{s:"SavingsSchemes",d:"Moderate",q:"A National Savings Time Deposit Account can be closed after how many months at the earliest?",o:["3 months","6 months","12 months","1 month","9 months"],a:1,e:"The account can be closed after six months."},
+{s:"SavingsSchemes",d:"Moderate",q:"What is the maturity period of the National Savings Certificate (NSC)-VIII Issue?",o:["10 years","15 years","5 years","3 years","2 years"],a:2,e:"NSC-VIII Issue matures in 5 years."},
+{s:"SavingsSchemes",d:"Easy",q:"What facility is available for NSC-VIII Issue holders by pledging with banks?",o:["Overdraft facility","Insurance cover","Tax rebate certificate","Loan facility","Annuity purchase"],a:3,e:"NSC holders can avail loan facility by pledging the certificate with banks."},
+{s:"SavingsSchemes",d:"Moderate",q:"What are the minimum and maximum deposit limits for the Senior Citizens' Savings Scheme (SCSS)?",o:["Min Rs 500, Max Rs 15 lakh","Min Rs 5000, Max Rs 10 lakh","Min Rs 500, Max Rs 10 lakh","Min Rs 100, Max Rs 5 lakh","Min Rs 1000 (and multiples thereof), Max Rs 30 lakh"],a:4,e:"SCSS: min deposit Rs 1000 (multiples thereof), max deposit Rs 30 lakh."},
+{s:"SavingsSchemes",d:"Hard",q:"Under the Senior Citizens' Savings Scheme, at what minimum age can retired Defence Services personnel (excluding civilian defence employees) open an account, subject to other conditions?",o:["Fifty years","60 years","45 years","65 years","55 years"],a:0,e:"Retired Defence Services personnel may open an SCSS account at age 50, subject to conditions."},
+{s:"SavingsSchemes",d:"Moderate",q:"An SCSS account can be closed after expiry of how many years from the date of opening, with an option to extend for a further period?",o:["10 years, extendable by 5 years","5 years, extendable for a further period of 3 years","3 years, extendable by 2 years","15 years, no extension","7 years, extendable by 3 years"],a:1,e:"SCSS closes after 5 years, extendable for a further 3 years."},
+{s:"SavingsSchemes",d:"Hard",q:"Under the Public Provident Fund (PPF) Account, what is the maximum deposit permissible in a financial year?",o:["Rs 1,00,000","Rs 3,00,000","Rs 1,50,000","Rs 2,00,000","Rs 50,000"],a:2,e:"Maximum PPF deposit is Rs 1,50,000 per financial year."},
+{s:"SavingsSchemes",d:"Moderate",q:"A Public Provident Fund (PPF) account matures on completion of how many financial years from the end of the year in which the account was opened?",o:["Ten","Twenty","Twelve","Fifteen complete financial years","Twenty-five"],a:3,e:"PPF matures on completion of fifteen complete financial years."},
+{s:"SavingsSchemes",d:"Moderate",q:"In a PPF account, the loan facility is available from which financial year up to which financial year?",o:["1st to 3rd financial year","5th to 10th financial year","2nd to 5th financial year","4th to 8th financial year","3rd financial year up to 6th financial year"],a:4,e:"Loan facility is available from the 3rd financial year up to the 6th financial year."},
+{s:"SavingsSchemes",d:"Hard",q:"Consider the following statements about the Public Provident Fund (PPF):\nI. The minimum deposit is Rs 500 per financial year.\nII. Withdrawal is permissible every year from the 7th financial year.\nIII. The amount in a PPF account is subject to attachment under any court order or decree.\nIV. Interest earned in a PPF account is free from Income Tax under Section 10.\nHow many of the above statements are correct?",o:["Only three","All four","Only two","Only one","None of the above are correct"],a:0,e:"I, II and IV are correct. III is wrong — PPF is NOT subject to attachment under any court order or decree."},
+
+/* ---------------- MISC PYQ-BASED FACTS ---------------- */
+{s:"PYQFacts",d:"Moderate",q:"As per the PYQ answer key in the document regarding Stand-Up India (loan amount, repayment tenor, and interest rate formula statements), which single statement was confirmed correct?",o:["All three statements together","Only the statement on loan amount being facilitated between Rs 10 lakh and Rs 1 crore","Only the statement on the interest rate formula","Only the statement on repayment tenor and moratorium","None of the statements were correct"],a:1,e:"Per the PYQ answer key, only the loan-range statement ('Only a') was marked correct for that particular question."},
+{s:"PYQFacts",d:"Hard",q:"According to the document's PYQ section, at what minimum age can a person invest in the Pradhan Mantri Vaya Vandana Yojana (PMVVY)?",o:["55 years","65 years","A person at 61 years of age can invest in the scheme","70 years","50 years"],a:2,e:"The PYQ references a person at 61 years age investing in PMVVY."},
+{s:"PYQFacts",d:"Hard",q:"As per the PYQ section, what is the maximum investment amount referenced for the Pradhan Mantri Vaya Vandana Yojana?",o:["Rs 15 lakh","Rs 5 lakh","Rs 10 lakh","Rs 7 lakh","Rs 3 lakh"],a:3,e:"The PYQ references a person willing to invest Rs 7 lakh under PMVVY."},
+{s:"PYQFacts",d:"Moderate",q:"As per the PYQ section, pension under the Pradhan Mantri Vaya Vandana Yojana (PMVVY) can be paid on which basis?",o:["Only annually","Only monthly","Only quarterly","Only half-yearly","Monthly/quarterly/half-yearly/yearly basis"],a:4,e:"Per the PYQ, PMVVY pension can be paid monthly/quarterly/half yearly/yearly."},
+{s:"PYQFacts",d:"Moderate",q:"As per the PYQ section on Sovereign Gold Bonds (SGB), what discount does RBI offer (per gram, less than the nominal value) to investors applying online and paying digitally?",o:["Rs 50 per gram","Rs 100 per gram","Rs 25 per gram","Rs 10 per gram","No discount is offered"],a:0,e:"RBI offers a discount of Rs 50 per gram to online applicants paying digitally."},
+{s:"PYQFacts",d:"Hard",q:"As per the PYQ section, at what fixed rate per annum are SGB investors compensated (payable semi-annually) on the nominal value?",o:["2% per annum","2.50 per cent per annum","3.5% per annum","1.5% per annum","4% per annum"],a:1,e:"SGB investors are compensated at a fixed rate of 2.50% per annum, payable semi-annually."},
+{s:"PYQFacts",d:"Moderate",q:"As per the eligibility criteria referenced in the PYQ section, who is eligible for the PM Kisan Maan Dhan Yojana?",o:["All farmers with landholding up to 5 hectares, age 18-65","All medium-sized farmers with landholding up to 2 hectares, age 18-40","All Small and Marginal Farmers having cultivable landholding up to 2 hectares, falling in the age group of 18 to 40 years","All marginal farmers only, with no age limit","All small farmers with landholding up to 5 hectares, no age limit"],a:2,e:"Eligible: All Small and Marginal Farmers with landholding up to 2 hectares, aged 18-40 years."},
+{s:"PYQFacts",d:"Hard",q:"As per the PYQ answer key regarding a Stand-Up India true-statement question, which single option was ultimately correct?",o:["Both (a) and (b)","Both (b) and (c)","Both (a) and (c)","Only (a) — loans facilitated between Rs 10 lakh and Rs 1 crore","Only (b)"],a:3,e:"Per the PYQ answer key, only option (a) — the loan-range statement — was correct in that particular question."}
+];
+
+/* Build section metadata */
+const SECTION_LABELS = {
+  PMJDY:"PMJDY (Jan Dhan Yojana)", APY:"Atal Pension Yojana", PMSBY:"PM Suraksha Bima Yojana",
+  PMJJBY:"PM Jeevan Jyoti Bima Yojana", MUDRA:"Pradhan Mantri Mudra Yojana", StandUpIndia:"Stand-Up India Scheme",
+  NPSVatsalya:"NPS Vatsalya", SSA:"Sukanya Samriddhi Account", MahilaSamman:"Mahila Samman Savings Certificate",
+  NPS:"National Pension System (NPS)", UPS:"Unified Pension Scheme (UPS)", SavingsSchemes:"Small Savings Schemes",
+  PYQFacts:"Misc. PYQ-Based Facts (SGB / PMVVY / PM-KMY)"
+};
+const SECTION_ORDER = ["PMJDY","APY","PMSBY","PMJJBY","MUDRA","StandUpIndia","NPSVatsalya","SSA","MahilaSamman","NPS","UPS","SavingsSchemes","PYQFacts"];
+
+/* =========================================================
+   APP STATE / ENGINE
+   ========================================================= */
+let currentSet = [];       // active question objects for this run
+let currentIndex = 0;
+let score = 0;
+let answeredCount = 0;
+let skipCount = 0;
+let results = [];          // {q, status:'correct'|'wrong'|'skipped', chosen, correctIdx}
+let lastMode = null;       // 'full' or 'section'
+let lastSectionKey = null;
+let lastOrder = 'pdf';
+let answerLocked = false;
+
+document.getElementById('totalQCount').textContent = QUESTIONS.length;
+document.getElementById('totalSCount').textContent = SECTION_ORDER.length;
+document.getElementById('fullCount').textContent = QUESTIONS.length;
+
+function showScreen(name){
+  ['home','fullsetup','sectionmenu','quiz','results'].forEach(s=>{
+    document.getElementById('screen-'+s).classList.toggle('hidden', s!==name);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---- Home / navigation ---- */
+function goFullSetup(){ showScreen('fullsetup'); }
+let orderChoice = 'pdf';
+function setOrder(o){
+  orderChoice = o;
+  document.getElementById('pill-order-pdf').classList.toggle('active', o==='pdf');
+  document.getElementById('pill-order-shuffle').classList.toggle('active', o==='shuffle');
+}
+function shuffleArr(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function startFullTest(){
+  lastMode = 'full'; lastSectionKey = null; lastOrder = orderChoice;
+  const base = QUESTIONS.slice();
+  currentSet = orderChoice === 'shuffle' ? shuffleArr(base) : base;
+  beginQuiz();
+}
+
+function goSectionMenu(){
+  const grid = document.getElementById('sectionGrid');
+  grid.innerHTML = '';
+  SECTION_ORDER.forEach(key=>{
+    const count = QUESTIONS.filter(q=>q.s===key).length;
+    const div = document.createElement('div');
+    div.className = 'topic';
+    div.onclick = ()=>startSection(key);
+    div.innerHTML = `<div class="tname">${SECTION_LABELS[key]}</div><div class="tcount">${count} questions</div>`;
+    grid.appendChild(div);
+  });
+  showScreen('sectionmenu');
+}
+function startSection(key){
+  lastMode = 'section'; lastSectionKey = key; lastOrder = 'pdf';
+  currentSet = QUESTIONS.filter(q=>q.s===key);
+  beginQuiz();
+}
+
+function retrySameSet(){
+  if(lastMode==='full'){
+    const base = QUESTIONS.slice();
+    currentSet = lastOrder === 'shuffle' ? shuffleArr(base) : base;
+  } else {
+    currentSet = QUESTIONS.filter(q=>q.s===lastSectionKey);
+  }
+  beginQuiz();
+}
+
+/* ---- Quiz engine ---- */
+function beginQuiz(){
+  currentIndex = 0; score = 0; answeredCount = 0; skipCount = 0; results = [];
+  document.getElementById('quizModeLabel').textContent =
+    lastMode==='full' ? ('Full Practice Test · ' + (lastOrder==='shuffle'?'Shuffled':'PDF Order')) : ('Section Revision · ' + SECTION_LABELS[lastSectionKey]);
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function updateProgress(){
+  const total = currentSet.length;
+  const pct = Math.round((currentIndex/total)*100);
+  document.getElementById('progFill').style.width = pct+'%';
+  document.getElementById('progText').textContent = `Question ${Math.min(currentIndex+1,total)} of ${total}`;
+  document.getElementById('scoreLive').textContent = `Score: ${score} / ${answeredCount}`;
+  document.getElementById('skipCountText').textContent = skipCount>0 ? `Skipped: ${skipCount}` : '';
+}
+
+function renderQuestion(){
+  answerLocked = false;
+  const item = currentSet[currentIndex];
+  updateProgress();
+  document.getElementById('qSectionTag').textContent = SECTION_LABELS[item.s] || item.s;
+  const dTag = document.getElementById('qDiffTag');
+  dTag.textContent = item.d;
+  dTag.className = 'tag ' + item.d;
+  document.getElementById('qText').textContent = item.q;
+
+  const wrap = document.getElementById('optsWrap');
+  wrap.innerHTML = '';
+  const letters = ['A','B','C','D','E'];
+  item.o.forEach((optText, idx)=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.innerHTML = `<span class="lab">${letters[idx]}.</span> ${optText}`;
+    btn.onclick = ()=>selectAnswer(idx);
+    wrap.appendChild(btn);
+  });
+
+  document.getElementById('explainBox').classList.remove('show');
+  document.getElementById('explainBox').textContent = '';
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById('skipBtn').classList.remove('hidden');
+}
+
+function selectAnswer(idx){
+  if(answerLocked) return;
+  answerLocked = true;
+  const item = currentSet[currentIndex];
+  const opts = document.querySelectorAll('#optsWrap .opt');
+  opts.forEach((btn,i)=>{
+    btn.disabled = true;
+    if(i===item.a) btn.classList.add('correct');
+    if(i===idx && idx!==item.a) btn.classList.add('wrong');
+  });
+  const correct = idx === item.a;
+  if(correct) score++;
+  answeredCount++;
+  results.push({q:item, status: correct ? 'correct' : 'wrong', chosen: idx});
+
+  const exBox = document.getElementById('explainBox');
+  exBox.textContent = (correct ? '✔ Correct. ' : '✘ Incorrect. ') + item.e;
+  exBox.classList.add('show');
+
+  document.getElementById('skipBtn').classList.add('hidden');
+  document.getElementById('nextBtn').disabled = false;
+  updateProgress();
+}
+
+function skipQuestion(){
+  if(answerLocked) return;
+  answerLocked = true;
+  const item = currentSet[currentIndex];
+  const opts = document.querySelectorAll('#optsWrap .opt');
+  opts.forEach((btn,i)=>{
+    btn.disabled = true;
+    if(i===item.a) btn.classList.add('correct');
+  });
+  skipCount++;
+  results.push({q:item, status:'skipped', chosen:null});
+  const exBox = document.getElementById('explainBox');
+  exBox.textContent = '⏭ Skipped. Correct answer: ' + item.e;
+  exBox.classList.add('show');
+  document.getElementById('skipBtn').classList.add('hidden');
+  document.getElementById('nextBtn').disabled = false;
+  updateProgress();
+}
+
+function nextQuestion(){
+  currentIndex++;
+  if(currentIndex >= currentSet.length){
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResults(){
+  const total = currentSet.length;
+  document.getElementById('resultScore').textContent = `${score} / ${total}`;
+  const pct = total>0 ? Math.round((score/total)*100) : 0;
+  document.getElementById('resultSub').textContent = `${pct}% accuracy · ${skipCount} skipped out of ${total} questions`;
+
+  const diffs = {Easy:{c:0,t:0}, Moderate:{c:0,t:0}, Hard:{c:0,t:0}};
+  results.forEach(r=>{
+    diffs[r.q.d].t++;
+    if(r.status==='correct') diffs[r.q.d].c++;
+  });
+  document.getElementById('diffEasy').textContent = `${diffs.Easy.c}/${diffs.Easy.t}`;
+  document.getElementById('diffModerate').textContent = `${diffs.Moderate.c}/${diffs.Moderate.t}`;
+  document.getElementById('diffHard').textContent = `${diffs.Hard.c}/${diffs.Hard.t}`;
+
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML = '';
+  const missed = results.filter(r=>r.status!=='correct');
+  if(missed.length===0){
+    reviewList.innerHTML = '<p class="smallmuted">🎉 No missed or skipped questions — perfect run!</p>';
+  } else {
+    const letters = ['A','B','C','D','E'];
+    missed.forEach(r=>{
+      const div = document.createElement('div');
+      div.className = 'reviewItem';
+      const correctTxt = `${letters[r.q.a]}. ${r.q.o[r.q.a]}`;
+      let chosenLine = '';
+      if(r.status==='wrong'){
+        chosenLine = `<div class="ra bad">Your answer: ${letters[r.chosen]}. ${r.q.o[r.chosen]}</div>`;
+      }
+      div.innerHTML = `
+        <div class="rq">${r.q.q.replace(/\n/g,'<br>')} ${r.status==='skipped' ? '<span class="skipTag">SKIPPED</span>' : ''}</div>
+        ${chosenLine}
+        <div class="ra ok">Correct answer: ${correctTxt}</div>
+        <div class="smallmuted" style="margin-top:4px;">${r.q.e}</div>
+      `;
+      reviewList.appendChild(div);
+    });
+  }
+  showScreen('results');
+}
+</script>
+</body>
+</html>

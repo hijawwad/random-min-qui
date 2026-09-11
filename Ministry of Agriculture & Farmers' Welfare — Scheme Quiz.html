@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NABARD Grade A Practice Quiz — Ministry of Agriculture Schemes</title>
+<style>
+  :root{
+    --bg:#0f1720;
+    --panel:#16202b;
+    --panel2:#1c2733;
+    --accent:#d4a017;
+    --accent2:#2e7d5b;
+    --text:#e8edf2;
+    --muted:#8fa0af;
+    --correct:#2e7d5b;
+    --correct-bg:#173d2c;
+    --wrong:#b3432c;
+    --wrong-bg:#3d1f18;
+    --border:#2a3b48;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Georgia',ui-serif,Cambria,serif;
+    background:var(--bg);
+    color:var(--text);
+    padding:0;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:22px 16px 60px;}
+  .masthead{
+    text-align:center;
+    padding:18px 10px 22px;
+    border-bottom:2px solid var(--accent);
+    margin-bottom:20px;
+  }
+  .masthead .badge{
+    display:inline-block;
+    font-family:ui-monospace,Menlo,monospace;
+    font-size:11px;
+    letter-spacing:0.12em;
+    color:var(--accent);
+    border:1px solid var(--accent);
+    border-radius:20px;
+    padding:3px 12px;
+    margin-bottom:10px;
+    text-transform:uppercase;
+  }
+  .masthead h1{
+    font-size:22px;
+    margin:4px 0 6px;
+    font-weight:700;
+    letter-spacing:0.01em;
+  }
+  .masthead p{
+    color:var(--muted);
+    font-size:13px;
+    margin:0;
+    font-family:ui-sans-serif,system-ui,sans-serif;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:22px 20px;
+    margin-bottom:16px;
+  }
+  .start-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin:18px 0;
+  }
+  .stat{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:8px;
+    text-align:center;
+    padding:14px 6px;
+    font-family:ui-sans-serif,system-ui,sans-serif;
+  }
+  .stat .num{font-size:22px;font-weight:700;color:var(--accent);}
+  .stat .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+  .btn{
+    font-family:ui-sans-serif,system-ui,sans-serif;
+    display:inline-block;
+    background:var(--accent);
+    color:#221a05;
+    border:none;
+    padding:13px 26px;
+    border-radius:8px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    letter-spacing:.02em;
+    transition:transform .1s ease, filter .15s ease;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn:active{transform:scale(.98);}
+  .btn.secondary{
+    background:transparent;
+    color:var(--text);
+    border:1px solid var(--border);
+  }
+  .btn.full{width:100%;}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+  .center{text-align:center;}
+  .progress-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-family:ui-sans-serif,system-ui,sans-serif;
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:8px;
+  }
+  .progress-bar{
+    height:6px;
+    background:var(--panel2);
+    border-radius:4px;
+    overflow:hidden;
+    margin-bottom:18px;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--accent);
+    transition:width .25s ease;
+  }
+  .score-pill{
+    font-family:ui-monospace,Menlo,monospace;
+    font-size:12px;
+    background:var(--panel2);
+    border:1px solid var(--border);
+    padding:3px 10px;
+    border-radius:20px;
+    color:var(--accent2);
+  }
+  .tag{
+    display:inline-block;
+    font-family:ui-sans-serif,system-ui,sans-serif;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--muted);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:2px 9px;
+    margin-right:6px;
+  }
+  .tag.diffE{color:#7fb87f;border-color:#3a5a3a;}
+  .tag.diffM{color:#d4b05a;border-color:#5a4d2a;}
+  .tag.diffH{color:#d4705a;border-color:#5a352a;}
+  .qtext{
+    font-size:17px;
+    line-height:1.5;
+    margin:14px 0 18px;
+  }
+  .options{display:flex;flex-direction:column;gap:10px;}
+  .opt{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    text-align:left;
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:13px 14px;
+    cursor:pointer;
+    font-size:14.5px;
+    line-height:1.4;
+    color:var(--text);
+    font-family:ui-sans-serif,system-ui,sans-serif;
+    transition:background .12s ease,border-color .12s ease;
+  }
+  .opt:hover:not(.locked){border-color:var(--accent);}
+  .opt .letter{
+    flex:0 0 auto;
+    width:24px;height:24px;
+    border-radius:50%;
+    background:var(--panel);
+    border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    font-family:ui-monospace,Menlo,monospace;
+    font-size:12px;
+    font-weight:700;
+  }
+  .opt.correct{background:var(--correct-bg);border-color:var(--correct);}
+  .opt.correct .letter{background:var(--correct);border-color:var(--correct);color:#fff;}
+  .opt.wrong{background:var(--wrong-bg);border-color:var(--wrong);}
+  .opt.wrong .letter{background:var(--wrong);border-color:var(--wrong);color:#fff;}
+  .opt.locked{cursor:default;}
+  .opt.dim{opacity:.55;}
+  .feedback{
+    margin-top:16px;
+    padding:12px 14px;
+    border-radius:8px;
+    font-family:ui-sans-serif,system-ui,sans-serif;
+    font-size:13.5px;
+    line-height:1.5;
+  }
+  .feedback.ok{background:var(--correct-bg);border:1px solid var(--correct);color:#bfe8cf;}
+  .feedback.no{background:var(--wrong-bg);border:1px solid var(--wrong);color:#f0c4b8;}
+  .nextrow{display:flex;justify-content:flex-end;margin-top:16px;}
+  .resultsHead{text-align:center;padding:10px 0 6px;}
+  .resultsHead .bigscore{
+    font-size:48px;
+    font-weight:800;
+    color:var(--accent);
+    margin:6px 0;
+  }
+  .resultsHead .pct{
+    font-family:ui-sans-serif,system-ui,sans-serif;
+    color:var(--muted);
+    font-size:14px;
+  }
+  .breakdown{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0;
+    font-family:ui-sans-serif,system-ui,sans-serif;
+  }
+  .review-item{
+    border:1px solid var(--border);
+    background:var(--panel2);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:12px;
+  }
+  .review-item .rq{font-size:14.5px;margin-bottom:8px;line-height:1.45;}
+  .review-item .ra{font-family:ui-sans-serif,system-ui,sans-serif;font-size:13px;margin:3px 0;}
+  .review-item .ra.your{color:#f0a48a;}
+  .review-item .ra.right{color:#8fd6a8;}
+  .scheme-label{font-family:ui-sans-serif,system-ui,sans-serif;font-size:10.5px;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
+  .order-toggle{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin:6px 0 20px;
+  }
+  .toggle-opt{
+    font-family:ui-sans-serif,system-ui,sans-serif;
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:12px 10px;
+    cursor:pointer;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .toggle-opt:hover{border-color:var(--accent);}
+  .toggle-opt.active{
+    border-color:var(--accent);
+    background:#2a2110;
+  }
+  .toggle-opt .toggle-title{
+    color:var(--text);
+    font-weight:700;
+    font-size:13.5px;
+  }
+  .toggle-opt.active .toggle-title{color:var(--accent);}
+  .toggle-opt .toggle-sub{
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.3;
+  }
+  .mode-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:6px;
+  }
+  .mode-card{
+    font-family:ui-sans-serif,system-ui,sans-serif;
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:18px 14px;
+    cursor:pointer;
+    text-align:left;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    transition:border-color .12s ease, background .12s ease, transform .1s ease;
+  }
+  .mode-card:hover{border-color:var(--accent);transform:translateY(-1px);}
+  .mode-card .mode-title{color:var(--accent);font-weight:700;font-size:15px;}
+  .mode-card .mode-sub{color:var(--muted);font-size:12px;line-height:1.4;}
+  .screenTitle{
+    font-family:ui-sans-serif,system-ui,sans-serif;
+    font-size:16px;
+    margin:4px 0 16px;
+    color:var(--text);
+  }
+  .backbtn{
+    font-family:ui-sans-serif,system-ui,sans-serif;
+    font-size:12px;
+    padding:7px 14px;
+    margin-bottom:14px;
+  }
+  .section-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .section-btn{
+    font-family:ui-sans-serif,system-ui,sans-serif;
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:12px 12px;
+    cursor:pointer;
+    text-align:left;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+    transition:border-color .12s ease;
+  }
+  .section-btn:hover{border-color:var(--accent);}
+  .section-btn .sname{font-size:13px;color:var(--text);line-height:1.3;}
+  .section-btn .scount{
+    flex:0 0 auto;
+    font-family:ui-monospace,Menlo,monospace;
+    font-size:11px;
+    color:var(--accent);
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:2px 8px;
+  }
+  .quiz-topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+  }
+  .exit-link{
+    font-family:ui-sans-serif,system-ui,sans-serif;
+    font-size:12px;
+    color:var(--muted);
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-decoration:underline;
+    padding:0;
+  }
+  .exit-link:hover{color:var(--accent);}
+  .footer-note{
+    text-align:center;color:var(--muted);font-size:11.5px;margin-top:24px;
+    font-family:ui-sans-serif,system-ui,sans-serif;
+  }
+  .hidden{display:none !important;}
+  .btnrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px;}
+  ::selection{background:var(--accent);color:#221a05;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="badge">NABARD Grade A · Practice Series</div>
+    <h1>Ministry of Agriculture &amp; Farmers' Welfare — Scheme Quiz</h1>
+    <p>PM-KISAN · PMFBY · PMKSY · FPO · AIF · Digital Agriculture Mission · NMEO-OP · PM-AASHA · NFSM &amp; more</p>
+  </div>
+
+  <!-- HOME / MODE SELECT SCREEN -->
+  <div id="homeScreen" class="card">
+    <p style="font-family:ui-sans-serif,system-ui,sans-serif;color:var(--muted);font-size:13.5px;line-height:1.6;">
+      This paper is built directly from the source document, covering every scheme section — with heavy weightage on
+      PIB-relevant Scheme facts (corpus, funding ratios, subsidy caps, launch dates, implementing agencies) as tested
+      in the actual NABARD Grade A exam. Each question carries 5 options (A–E). Some are direct one-liners; others are
+      "which of the following is NOT correct" trap questions.
+    </p>
+    <div class="start-stats" id="startStats"></div>
+    <div class="mode-grid">
+      <button class="mode-card" id="modeFullBtn">
+        <span class="mode-title">Full Practice Test</span>
+        <span class="mode-sub">All questions, one sitting — simulates the real exam</span>
+      </button>
+      <button class="mode-card" id="modeSectionBtn">
+        <span class="mode-title">Section-wise Revision</span>
+        <span class="mode-sub">Pick one scheme at a time and drill just that topic</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- FULL QUIZ SETUP SCREEN -->
+  <div id="startScreen" class="card hidden">
+    <button class="btn secondary backbtn" id="backFromFullBtn">← Back</button>
+    <h2 class="screenTitle">Full Practice Test</h2>
+    <div class="order-toggle" id="orderToggle">
+      <button class="toggle-opt active" id="orderPdfBtn" data-mode="pdf">
+        <span class="toggle-title">PDF Order</span>
+        <span class="toggle-sub">Follows the document, scheme by scheme</span>
+      </button>
+      <button class="toggle-opt" id="orderShuffleBtn" data-mode="shuffle">
+        <span class="toggle-title">Shuffled</span>
+        <span class="toggle-sub">Random order, new mix every attempt</span>
+      </button>
+    </div>
+    <div class="center">
+      <button class="btn full" id="startBtn">Start the Quiz</button>
+    </div>
+  </div>
+
+  <!-- SECTION PICKER SCREEN -->
+  <div id="sectionScreen" class="card hidden">
+    <button class="btn secondary backbtn" id="backFromSectionBtn">← Back</button>
+    <h2 class="screenTitle">Choose a Section to Revise</h2>
+    <p style="font-family:ui-sans-serif,system-ui,sans-serif;color:var(--muted);font-size:12.5px;margin:0 0 14px;">Tap a scheme below to start a focused quiz on just that topic, in document order.</p>
+    <div class="section-grid" id="sectionGrid"></div>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quizScreen" class="hidden">
+    <div class="quiz-topbar">
+      <button class="exit-link" id="exitQuizBtn">← Exit to menu</button>
+      <span class="tag" id="sectionModeTag" style="display:none;">Section Practice</span>
+    </div>
+    <div class="progress-row">
+      <span id="qCounter"></span>
+      <span class="score-pill" id="scorePill">Score: 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="card">
+      <div>
+        <span class="tag" id="schemeTag"></span>
+        <span class="tag" id="diffTag"></span>
+      </div>
+      <div class="qtext" id="qText"></div>
+      <div class="options" id="optionsWrap"></div>
+      <div id="feedbackWrap"></div>
+      <div class="nextrow">
+        <button class="btn hidden" id="nextBtn">Next Question →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div id="resultsScreen" class="hidden">
+    <div class="card resultsHead">
+      <div style="font-family:ui-sans-serif,system-ui,sans-serif;color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.08em;">Final Score</div>
+      <div class="bigscore" id="finalScore">0 / 0</div>
+      <div class="pct" id="finalPct"></div>
+      <div class="breakdown" id="diffBreakdown"></div>
+      <div class="btnrow">
+        <button class="btn" id="reviewBtn">Review Missed Questions</button>
+        <button class="btn secondary" id="restartBtn">Retry Same Set</button>
+        <button class="btn secondary" id="menuBtn">Back to Menu</button>
+      </div>
+    </div>
+    <div id="reviewSection" class="hidden"></div>
+  </div>
+
+  <div class="footer-note" id="footerNote">answers rotated evenly across A–E · sourced from the Ministry of Agriculture scheme compendium</div>
+</div>
+
+<script>
+/* ===== QUESTION DATA ===== */
+// Question bank: {s: scheme tag, q: question, a: correct answer text, d: [4 distractors], diff: 'E'|'M'|'H'}
+const QUESTIONS = [
+
+// ===== 1. PM-KISAN =====
+{s:"PM-KISAN", diff:"E", q:"PM-KISAN was formally launched on February 24th, 2019, but was made effective retrospectively from which date?", a:"December 1st, 2018", d:["January 1st, 2019","April 1st, 2019","October 2nd, 2018","June 1st, 2019"]},
+{s:"PM-KISAN", diff:"E", q:"What type of scheme is PM-KISAN classified as?", a:"Central Sector Scheme", d:["Centrally Sponsored Scheme","State Sector Scheme","Public-Private Partnership Scheme","Central Sector Scheme with 50% state funding"]},
+{s:"PM-KISAN", diff:"M", q:"Under PM-KISAN, the annual financial assistance of Rs. 6000 is transferred to farmers in how many installments?", a:"Three equal installments of Rs. 2000 each", d:["Two equal installments of Rs. 3000 each","Four quarterly installments of Rs. 1500 each","One lump sum installment of Rs. 6000","Six installments of Rs. 1000 each"]},
+{s:"PM-KISAN", diff:"H", q:"Which of the following statements about PM-KISAN exclusions is NOT correct?", a:"Multi-Tasking Staff/Class IV/Group D government employees are excluded from benefits", d:["All Institutional Land holders are excluded","Former and present holders of constitutional posts are excluded","All persons who paid Income Tax in the last assessment year are excluded","Superannuated pensioners with monthly pension of Rs. 10,000 or more are excluded (except Class IV staff)"]},
+{s:"PM-KISAN", diff:"M", q:"What was the eligibility cut-off date fixed for PM-KISAN, which has remained unchanged for 5 years except for land transfer due to succession?", a:"February 1st, 2019", d:["December 1st, 2018","March 31st, 2019","January 1st, 2019","June 1st, 2019"]},
+{s:"PM-KISAN", diff:"M", q:"Approximately how many total beneficiaries were estimated for PM-KISAN, based on the Agriculture Census 2015-16?", a:"14 crore", d:["10 crore", "12 crore","16 crore","8 crore"]},
+{s:"PM-KISAN", diff:"H", q:"As per PM-KISAN verification measures, what percentage of beneficiaries must undergo mandatory physical verification?", a:"5%", d:["10%","2%","15%","1%"]},
+{s:"PM-KISAN", diff:"M", q:"What is the toll-free IVRS-based helpline number through which farmers can check their PM-KISAN beneficiary status 24x7?", a:"155261", d:["1800-180-1551","181","155320","1800-11-4000"]},
+{s:"PM-KISAN", diff:"H", q:"The Project Monitoring Unit (PMU) established for effective monitoring of PM-KISAN is named as which of the following?", a:"National Farmers Welfare Program Implementation Society", d:["National PM-KISAN Monitoring Authority","Kisan Kalyan Nigam","Farmers Welfare Implementation Board","PM-KISAN Grievance Redressal Society"]},
+
+// ===== 2. PM Kisan Maan Dhan Yojana =====
+{s:"PM-KMY", diff:"E", q:"Pradhan Mantri Kisan Maan Dhan Yojana provides an assured monthly pension of how much to small and marginal farmers upon reaching 60 years of age?", a:"Rs. 3000", d:["Rs. 2000","Rs. 5000","Rs. 1500","Rs. 2500"]},
+{s:"PM-KMY", diff:"M", q:"From which city was the PM Kisan Maan Dhan Yojana launched on September 12th, 2019?", a:"Ranchi, Jharkhand", d:["Patna, Bihar","Lucknow, Uttar Pradesh","Bhopal, Madhya Pradesh","Raipur, Chhattisgarh"]},
+{s:"PM-KMY", diff:"E", q:"Which institution acts as the Pension Fund Manager under PM Kisan Maan Dhan Yojana?", a:"Life Insurance Corporation of India (LIC)", d:["NABARD","EPFO","PFRDA","SBI Life Insurance"]},
+{s:"PM-KMY", diff:"M", q:"What is the entry age range for enrolment under the PM Kisan Maan Dhan Yojana?", a:"18-40 years", d:["21-45 years","18-45 years","25-50 years","18-35 years"]},
+{s:"PM-KMY", diff:"H", q:"At the median entry age of 29 years, what is the monthly contribution a beneficiary is required to pay under PM-KMY?", a:"Rs. 100", d:["Rs. 55","Rs. 200","Rs. 150","Rs. 75"]},
+{s:"PM-KMY", diff:"H", q:"If a subscriber passes away while receiving pension under PM-KMY, what percentage of the subscriber's pension does the spouse receive as Family Pension?", a:"50% (i.e., Rs. 1500 per month)", d:["100% (i.e., Rs. 3000 per month)","25% (i.e., Rs. 750 per month)","75% (i.e., Rs. 2250 per month)","30% (i.e., Rs. 900 per month)"]},
+{s:"PM-KMY", diff:"H", q:"What amount is paid per beneficiary to Common Service Centres (CSCs) by the Department of Agriculture, Cooperation & Farmers' Welfare under PM-KMY?", a:"Rs. 30", d:["Rs. 50","Rs. 100","Rs. 20","Rs. 15"]},
+
+// ===== 3. e-NAM =====
+{s:"e-NAM", diff:"E", q:"In which year was e-NAM (National Agriculture Market) launched?", a:"2016", d:["2014","2018","2015","2019"]},
+{s:"e-NAM", diff:"E", q:"Which agency serves as the Nodal Agency for e-NAM?", a:"Small Farmers Agri Consortium (SFAC)", d:["NABARD","Agricultural and Processed Food Products Export Development Authority (APEDA)","National Cooperative Development Corporation (NCDC)","Directorate of Marketing & Inspection (DMI)"]},
+{s:"e-NAM", diff:"M", q:"What was the initial budget allocation provided for the e-NAM scheme?", a:"Rs. 200 crore", d:["Rs. 500 crore","Rs. 100 crore","Rs. 1000 crore","Rs. 75 crore"]},
+{s:"e-NAM", diff:"H", q:"Under e-NAM's infrastructure grant, what is the additional amount provided per mandi for facilities like sorting, grading, cleaning and packaging (over and above the initial hardware grant)?", a:"Rs. 40.00 lakhs", d:["Rs. 30.00 lakhs","Rs. 5.00 lakhs","Rs. 50.00 lakhs","Rs. 25.00 lakhs"]},
+{s:"e-NAM", diff:"M", q:"The Government aims to connect how many Gramin Agricultural Markets (GrAMs) with the e-NAM platform?", a:"Over 22,000", d:["Over 10,000","Over 585","Over 15,000","Over 30,000"]},
+{s:"e-NAM", diff:"H", q:"In which year was UPI facility added to the eNAM mobile app through BHIM support?", a:"2017", d:["2016","2019","2018","2020"]},
+{s:"e-NAM", diff:"M", q:"In how many languages is the eNAM mobile app available?", a:"12", d:["8","22","10","15"]},
+{s:"e-NAM", diff:"H", q:"Which of the following is NOT a pre-requisite for a state to implement e-NAM?", a:"A minimum of 500 registered APMCs in the state", d:["State APMC Act must provide for e-auction/electronic trading","One single trading license valid across the state/UT","Single point levy of market fee across the State/UT","Provision for a unified electronic trading platform"]},
+
+// ===== 4. Agriculture Infrastructure Fund (AIF) =====
+{s:"AIF", diff:"E", q:"What is the total size of the Agriculture Infrastructure Financing Facility (AIF)?", a:"Rs. 1 lakh crore", d:["Rs. 50,000 crore","Rs. 2 lakh crore","Rs. 75,000 crore","Rs. 1.5 lakh crore"]},
+{s:"AIF", diff:"M", q:"Under AIF, what is the rate of interest subvention provided, capped at Rs. 2 crore per project per location?", a:"3% per annum", d:["2% per annum","4% per annum","5% per annum","2.5% per annum"]},
+{s:"AIF", diff:"M", q:"What is the maximum lending rate cap applicable under the AIF interest subvention scheme?", a:"9%", d:["7%","10%","8%","6.5%"]},
+{s:"AIF", diff:"H", q:"What is the maximum duration for which interest subvention is provided under AIF?", a:"7 years", d:["5 years","10 years","6 years","3 years"]},
+{s:"AIF", diff:"H", q:"Under AIF, what is the maximum number of projects a private sector entity such as an individual farmer or agri-entrepreneur can avail loans for (subject to certain exemptions)?", a:"25 projects", d:["10 projects","50 projects","15 projects","100 projects"]},
+{s:"AIF", diff:"M", q:"What is the moratorium period range for repayment prescribed under AIF?", a:"Minimum 6 months, Maximum 2 years", d:["Minimum 1 year, Maximum 3 years","Minimum 3 months, Maximum 1 year","Minimum 1 year, Maximum 5 years","Minimum 6 months, Maximum 1 year"]},
+{s:"AIF", diff:"H", q:"What percentage of total grants-in-aid under AIF is earmarked to be utilized for SC/ST entrepreneurs (16% SC and 8% ST)?", a:"24%", d:["20%","30%","15%","33%"]},
+{s:"AIF", diff:"M", q:"What is the minimum mandatory promoter's contribution required as a percentage of project cost under AIF?", a:"10%", d:["15%","5%","20%","25%"]},
+{s:"AIF", diff:"H", q:"By when was disbursement under AIF originally required to be completed (from the base year 2020-21)?", a:"Within 6 years", d:["Within 4 years","Within 10 years","Within 8 years","Within 5 years"]},
+{s:"AIF", diff:"M", q:"Which of the following is NOT among the multiple lending institutions eligible to extend loans under AIF?", a:"Foreign Portfolio Investors (FPIs)", d:["Regional Rural Banks (RRBs)","Small Finance Banks","Non-Banking Financial Companies (NBFCs)","National Cooperative Development Corporation (NCDC)"]},
+
+// ===== 5. FPO 10,000 Scheme =====
+{s:"FPO-10000", diff:"E", q:"In which year was the scheme for 'Formation and Promotion of 10,000 FPOs' launched?", a:"2020", d:["2018","2019","2021","2022"]},
+{s:"FPO-10000", diff:"M", q:"What is the total budgetary outlay for the Formation and Promotion of 10,000 FPOs scheme?", a:"Rs. 6865 crore", d:["Rs. 5000 crore","Rs. 8000 crore","Rs. 4500 crore","Rs. 6000 crore"]},
+{s:"FPO-10000", diff:"H", q:"The scheme for 10,000 FPOs runs for 5 years from 2019-20 to 2023-24, but financial support to FPOs is extended till which year?", a:"2027-28", d:["2025-26","2026-27","2024-25","2028-29"]},
+{s:"FPO-10000", diff:"M", q:"What is the minimum number of farmer-members required for FPO eligibility in plain areas, as against North-Eastern/Hilly areas?", a:"300 in plains, 100 in NE/Hilly areas", d:["500 in plains, 200 in NE/Hilly areas","250 in plains, 100 in NE/Hilly areas","300 in plains, 150 in NE/Hilly areas","400 in plains, 100 in NE/Hilly areas"]},
+{s:"FPO-10000", diff:"H", q:"Which three agencies are jointly responsible for forming and promoting FPOs under this scheme?", a:"SFAC, NCDC, and NABARD", d:["SFAC, NABARD, and APEDA","NABARD, NCDC, and DMI","SFAC, NCDC, and RBI","NABARD, APEDA, and NCDC"]},
+{s:"FPO-10000", diff:"H", q:"What is the maximum Formation and Incubation cost of a CBBO provided per FPO over five years?", a:"Rs. 25 lakh", d:["Rs. 18 lakh","Rs. 15 lakh","Rs. 30 lakh","Rs. 20 lakh"]},
+{s:"FPO-10000", diff:"M", q:"What is the maximum FPO Management Cost provided per FPO over a period of three years?", a:"Rs. 18.00 lakh", d:["Rs. 25.00 lakh","Rs. 15.00 lakh","Rs. 20.00 lakh","Rs. 12.00 lakh"]},
+{s:"FPO-10000", diff:"H", q:"Under the Equity Grant component, what is the maximum matching equity grant per farmer member subject to an overall cap per FPO?", a:"Rs. 2,000 per farmer member, subject to a maximum of Rs. 15.00 lakh per FPO", d:["Rs. 1,000 per farmer member, subject to a maximum of Rs. 10.00 lakh per FPO","Rs. 5,000 per farmer member, subject to a maximum of Rs. 20.00 lakh per FPO","Rs. 2,500 per farmer member, subject to a maximum of Rs. 12.00 lakh per FPO","Rs. 3,000 per farmer member, subject to a maximum of Rs. 18.00 lakh per FPO"]},
+{s:"FPO-10000", diff:"H", q:"Under the Credit Guarantee Fund for FPOs, out of the dedicated Rs. 1,500 crore fund, how much will be managed by NABARD?", a:"Up to Rs. 1,000 crore", d:["Up to Rs. 500 crore","Up to Rs. 750 crore","Up to Rs. 1,200 crore","Up to Rs. 1,500 crore"]},
+{s:"FPO-10000", diff:"H", q:"For a project loan up to Rs. 1 crore per FPO, what is the Credit Guarantee coverage percentage and ceiling?", a:"85% coverage, ceiling of Rs. 85 lakh", d:["75% coverage, ceiling of Rs. 75 lakh","90% coverage, ceiling of Rs. 90 lakh","85% coverage, ceiling of Rs. 150 lakh","80% coverage, ceiling of Rs. 80 lakh"]},
+{s:"FPO-10000", diff:"M", q:"As per FPO eligibility criteria for the Equity Grant, what is the maximum shareholding permitted for any one member of the FPO?", a:"10% of total equity", d:["25% of total equity","5% of total equity","15% of total equity","20% of total equity"]},
+{s:"FPO-10000", diff:"E", q:"Under the 10,000 FPO scheme, what is the coverage target in terms of blocks?", a:"At least two FPOs in each of 5,000 blocks out of about 7,000 blocks", d:["One FPO in each of 7,000 blocks","Three FPOs in each of 5,000 blocks","Two FPOs in each of 10,000 blocks","One FPO in each of 5,000 blocks"]},
+
+// ===== 6. Soil Health Card Scheme =====
+{s:"SHC", diff:"E", q:"What is the official tagline of the Soil Health Card Scheme?", a:"\"Swasth Dharaa, Khet Haraa\" (Healthy Earth, Green Farm)", d:["\"Mera Khet, Mera Swasth\"","\"Swachh Bharat, Swasth Khet\"","\"Dharti Ki Sehat, Kisan Ki Behtari\"","\"Har Khet Ko Swasth\""]},
+{s:"SHC", diff:"M", q:"The Soil Health Card Scheme was launched in February 2015 from which location?", a:"Suratgarh, Rajasthan", d:["Jaipur, Rajasthan","Nagpur, Maharashtra","Bhopal, Madhya Pradesh","Ludhiana, Punjab"]},
+{s:"SHC", diff:"H", q:"From which financial year has the Soil Health Card Scheme been merged with Rashtriya Krishi Vikas Yojana as a sub-component?", a:"2022-23", d:["2020-21","2021-22","2023-24","2019-20"]},
+{s:"SHC", diff:"M", q:"How many parameters does a Soil Health Card assess with respect to soil status?", a:"12 parameters", d:["10 parameters","8 parameters","15 parameters","14 parameters"]},
+{s:"SHC", diff:"E", q:"At what frequency is a Soil Health Card issued to farmers?", a:"Every 3 years", d:["Every year","Every 5 years","Every 2 years","Every 4 years"]},
+{s:"SHC", diff:"H", q:"Under the Soil Health Card scheme, what is the soil sampling grid size followed in irrigated areas as against rain-fed areas?", a:"2.5 ha in irrigated areas, 10 ha in rain-fed areas", d:["5 ha in irrigated areas, 15 ha in rain-fed areas","1 ha in irrigated areas, 5 ha in rain-fed areas","2.5 ha in irrigated areas, 5 ha in rain-fed areas","10 ha in irrigated areas, 2.5 ha in rain-fed areas"]},
+{s:"SHC", diff:"H", q:"What amount is provided to State Governments per soil sample under the Soil Health Card Scheme, covering collection, testing and card distribution?", a:"Rs. 190", d:["Rs. 300","Rs. 150","Rs. 250","Rs. 100"]},
+{s:"SHC", diff:"H", q:"As per the National Productivity Council study (2017) referenced for the Soil Health Card Scheme, application of fertilizer based on SHC recommendations resulted in what percentage of savings?", a:"8-10% savings", d:["15-20% savings","5-6% savings","20-25% savings","2-3% savings"]},
+{s:"SHC", diff:"H", q:"Regarding Village Level Soil Testing Labs (VLSTLs), which of the following is NOT correct?", a:"The entrepreneur eligible to set up a VLSTL must be aged between 30 and 45 years", d:["The target is to set up 7500 labs during 2023-26","The entrepreneur must be at least 10th pass with knowledge of computers","One-time financial assistance of Rs. 1.50 lakh is provided","The eligible entrepreneur must be aged between 18 and 27 years"]},
+
+// ===== 7. PKVY =====
+{s:"PKVY", diff:"M", q:"Paramparagat Krishi Vikas Yojana (PKVY) is a sub-component of which scheme under NMSA?", a:"Soil Health Management (SHM)", d:["Rainfed Area Development (RAD)","On Farm Water Management (OFWM)","Sub-Mission on Agroforestry (SMAF)","CCSAMMN"]},
+{s:"PKVY", diff:"H", q:"What is the Centre:State funding ratio for PKVY in plain states as against hilly states?", a:"60:40 in plain states, 90:10 in hilly states", d:["70:30 in plain states, 90:10 in hilly states","60:40 in plain states, 80:20 in hilly states","50:50 in plain states, 90:10 in hilly states","75:25 in plain states, 95:5 in hilly states"]},
+{s:"PKVY", diff:"H", q:"Under PKVY, a 'Cluster' is formed by combining how many PKVY/PGS groups covering what area?", a:"25-50 groups covering 500-1000 ha", d:["10-20 groups covering 200-500 ha","30-60 groups covering 1000-2000 ha","20-40 groups covering 500-800 ha","15-30 groups covering 300-600 ha"]},
+{s:"PKVY", diff:"M", q:"As per PKVY, a 'PKVY/PGS group' is defined as a group of farmers having a minimum of how many farmers over what total area?", a:"Minimum 20 farmers over a total area of 20 ha", d:["Minimum 25 farmers over a total area of 25 ha","Minimum 15 farmers over a total area of 15 ha","Minimum 20 farmers over a total area of 50 ha","Minimum 30 farmers over a total area of 20 ha"]},
+{s:"PKVY", diff:"H", q:"Under PKVY, what is the total financial assistance provided per hectare over 3 years in organic clusters?", a:"Rs. 31,500/ha", d:["Rs. 25,000/ha","Rs. 20,000/ha","Rs. 35,000/ha","Rs. 15,000/ha"]},
+{s:"PKVY", diff:"H", q:"Of the Rs. 31,500/ha assistance under PKVY, how much is provided directly to farmers through DBT for organic inputs?", a:"Rs. 15,000/ha", d:["Rs. 9,000/ha","Rs. 4,500/ha","Rs. 3,000/ha","Rs. 12,000/ha"]},
+{s:"PKVY", diff:"M", q:"Under PKVY, what is the maximum area per farmer eligible for benefit within a group/cluster?", a:"2 hectares", d:["1 hectare","5 hectares","3 hectares","4 hectares"]},
+
+// ===== 8. BPKP =====
+{s:"BPKP", diff:"M", q:"Bhartiya Prakritik Krishi Padhati (BPKP) is a sub-mission under which scheme?", a:"Paramparagat Krishi Vikas Yojana (PKVY)", d:["National Mission for Sustainable Agriculture (NMSA)","Soil Health Card Scheme","National Mission on Natural Farming (NMNF)","RKVY"]},
+{s:"BPKP", diff:"H", q:"Under BPKP, what is the financial assistance provided per hectare for 3 years?", a:"Rs. 12,200/ha", d:["Rs. 15,000/ha","Rs. 31,500/ha","Rs. 9,000/ha","Rs. 10,000/ha"]},
+{s:"BPKP", diff:"H", q:"What is the total outlay of BPKP for the six-year period from 2019-20 to 2024-25?", a:"Rs. 4645.69 crore", d:["Rs. 2481 crore","Rs. 5000 crore","Rs. 3500 crore","Rs. 6000 crore"]},
+{s:"BPKP", diff:"M", q:"Under BPKP components, what is the Direct Benefit Transfer (DBT) incentive amount provided to farmers?", a:"Rs. 2,000/ha", d:["Rs. 4,500/ha","Rs. 3,000/ha","Rs. 12,200/ha","Rs. 2,700/ha"]},
+
+// ===== 9. PM Dhan Dhaanya Krishi Yojana =====
+{s:"PMDDKY", diff:"E", q:"On what date was the PM Dhan Dhaanya Krishi Yojana approved?", a:"July 16, 2025", d:["June 1, 2025","August 15, 2025","July 1, 2025","September 16, 2025"]},
+{s:"PMDDKY", diff:"M", q:"PM Dhan Dhaanya Krishi Yojana targets how many low-performing agri-districts with what annual outlay for 6 years?", a:"100 districts, annual outlay of Rs. 24,000 crore", d:["112 districts, annual outlay of Rs. 20,000 crore","100 districts, annual outlay of Rs. 20,000 crore","150 districts, annual outlay of Rs. 24,000 crore","100 districts, annual outlay of Rs. 30,000 crore"]},
+{s:"PMDDKY", diff:"H", q:"PM Dhan Dhaanya Krishi Yojana ensures saturation-based convergence of how many schemes from how many ministries?", a:"36 schemes from 11 ministries", d:["25 schemes from 8 ministries","40 schemes from 12 ministries","30 schemes from 10 ministries","36 schemes from 9 ministries"]},
+{s:"PMDDKY", diff:"M", q:"PM Dhan Dhaanya Krishi Yojana is projected to directly benefit how many farmers?", a:"1.7 crore farmers", d:["2 crore farmers","1 crore farmers","1.5 crore farmers","2.5 crore farmers"]},
+{s:"PMDDKY", diff:"H", q:"The progress of each Dhan-Dhaanya district is tracked using how many Key Performance Indicators (KPIs) on a central monitoring dashboard?", a:"117 KPIs", d:["100 KPIs","150 KPIs","75 KPIs","125 KPIs"]},
+{s:"PMDDKY", diff:"M", q:"Under PM Dhan Dhaanya Krishi Yojana, the District Dhan-Dhaanya Krishi Yojana (DDKY) Samiti is chaired by whom?", a:"District Collector or Gram Panchayat", d:["Chief Secretary of the State","Union Agriculture Minister","State Agriculture Minister","Block Development Officer"]},
+
+// ===== 10. PMFBY =====
+{s:"PMFBY", diff:"E", q:"Pradhan Mantri Fasal Bima Yojana (PMFBY) was launched starting from which crop season?", a:"Kharif 2016", d:["Rabi 2016","Kharif 2015","Kharif 2014","Rabi 2015"]},
+{s:"PMFBY", diff:"M", q:"Under PMFBY, what is the maximum premium rate payable by farmers for Kharif food grain and oilseed crops?", a:"2.0% of Sum Insured or Actuarial rate, whichever is less", d:["1.5% of Sum Insured or Actuarial rate, whichever is less","5% of Sum Insured or Actuarial rate, whichever is less","2.5% of Sum Insured or Actuarial rate, whichever is less","3% of Sum Insured or Actuarial rate, whichever is less"]},
+{s:"PMFBY", diff:"M", q:"Under PMFBY, what is the maximum premium rate payable by farmers for annual commercial/annual horticultural crops?", a:"5% of Sum Insured or Actuarial rate, whichever is less", d:["1.5% of Sum Insured or Actuarial rate, whichever is less","2% of Sum Insured or Actuarial rate, whichever is less","10% of Sum Insured or Actuarial rate, whichever is less","3% of Sum Insured or Actuarial rate, whichever is less"]},
+{s:"PMFBY", diff:"H", q:"What is the Centre:State sharing ratio for the normal premium subsidy under PMFBY in Himalayan & North Eastern states, as opposed to other states?", a:"90:10 for Himalayan/NER states, 50:50 for other States/UTs", d:["75:25 for Himalayan/NER states, 50:50 for other States/UTs","90:10 for Himalayan/NER states, 60:40 for other States/UTs","80:20 for Himalayan/NER states, 50:50 for other States/UTs","90:10 for Himalayan/NER states, 40:60 for other States/UTs"]},
+{s:"PMFBY", diff:"H", q:"The full GoI share of premium subsidy under PMFBY applies only up to an Actuarial Premium Rate (APR) of what percentage for irrigated and rainfed areas respectively?", a:"25% for irrigated areas, 30% for rainfed areas", d:["30% for irrigated areas, 25% for rainfed areas","20% for irrigated areas, 25% for rainfed areas","25% for irrigated areas, 35% for rainfed areas","30% for irrigated areas, 40% for rainfed areas"]},
+{s:"PMFBY", diff:"H", q:"What percentage of the total PMFBY/RWBCIS budget must be mandatorily earmarked by States/UTs for administrative expenses?", a:"Up to 3%", d:["Up to 5%","Up to 2%","Up to 10%","Up to 1%"]},
+{s:"PMFBY", diff:"H", q:"Under PMFBY, Government protection to Insurance Companies is triggered when the premium-to-claims ratio exceeds which threshold at the National Level?", a:"1:3.5, or claims exceed 35% of Sum Insured, whichever is higher", d:["1:2.5, or claims exceed 25% of Sum Insured, whichever is higher","1:4, or claims exceed 40% of Sum Insured, whichever is higher","1:3, or claims exceed 30% of Sum Insured, whichever is higher","1:5, or claims exceed 50% of Sum Insured, whichever is higher"]},
+{s:"PMFBY", diff:"H", q:"Under YES-TECH, what minimum weightage is assigned to technology-based yield estimation in the final yield calculation?", a:"Minimum 30%", d:["Minimum 50%","Minimum 20%","Minimum 40%","Minimum 25%"]},
+{s:"PMFBY", diff:"M", q:"Which state became the first in India to adopt 100% technology-based yield estimation under YES-TECH?", a:"Madhya Pradesh", d:["Maharashtra","Uttar Pradesh","Karnataka","Andhra Pradesh"]},
+{s:"PMFBY", diff:"H", q:"Under the WINDS portal, what is the cost-sharing ratio between Central and State Governments for data rental costs?", a:"90:10", d:["60:40","75:25","50:50","80:20"]},
+{s:"PMFBY", diff:"M", q:"Under PMFBY's Mid-Season Adversity add-on cover, what percentage of the likely claims is paid as immediate on-account relief to farmers?", a:"25% of the likely claims", d:["50% of the likely claims","10% of the likely claims","33% of the likely claims","20% of the likely claims"]},
+{s:"PMFBY", diff:"E", q:"Which of the following is NOT a mandatory basic cover risk under PMFBY?", a:"Loss due to war and nuclear risks", d:["Drought and dry spells","Flood and inundation","Landslides","Hailstorm and cyclone"]},
+
+// ===== 10.1 RWBCIS =====
+{s:"RWBCIS", diff:"M", q:"On which date was the Restructured Weather Based Crop Insurance Scheme (RWBCIS) inaugurated?", a:"18th February 2016", d:["1st April 2016","1st June 2016","15th March 2016","24th February 2016"]},
+{s:"RWBCIS", diff:"M", q:"Which of the following is NOT among the weather perils covered under RWBCIS?", a:"Soil salinity levels", d:["Rainfall (deficit, excess, unseasonal)","Relative Humidity","Temperature (high and low)","Wind Speed"]},
+{s:"RWBCIS", diff:"E", q:"The Period of Risk under RWBCIS ideally extends from which stage to which stage of the crop?", a:"Sowing period to maturity of the crop", d:["Pre-sowing to post-harvest","Germination to flowering","Sowing to transplantation","Flowering to harvesting"]},
+
+// ===== 11. PMKSY =====
+{s:"PMKSY", diff:"M", q:"PMKSY was conceived by amalgamating which of the following ongoing schemes?", a:"AIBP, Integrated Watershed Management Programme (IWMP), and On Farm Water Management (OFWM)", d:["AIBP, Har Khet Ko Pani, and Per Drop More Crop","IWMP, NMSA, and RKVY","AIBP, MGNREGS, and OFWM","IWMP, OFWM, and Micro Irrigation Fund"]},
+{s:"PMKSY", diff:"H", q:"Under the Long Term Irrigation Fund (LTIF) announced in Union Budget 2016-17, what was the initial corpus for fast-tracking 99 identified irrigation projects?", a:"Rs. 20,000 crore", d:["Rs. 40,000 crore","Rs. 10,000 crore","Rs. 15,000 crore","Rs. 25,000 crore"]},
+{s:"PMKSY", diff:"H", q:"Under AIBP funding, what is the Centre:State funding ratio for general areas as compared to NER/Himalayan/UT areas?", a:"25:75 for general areas, 90:10 for NER/Himalayan/UTs", d:["60:40 for general areas, 90:10 for NER/Himalayan/UTs","50:50 for general areas, 90:10 for NER/Himalayan/UTs","25:75 for general areas, 75:25 for NER/Himalayan/UTs","40:60 for general areas, 90:10 for NER/Himalayan/UTs"]},
+{s:"PMKSY", diff:"H", q:"The Micro Irrigation Fund (MIF) was operationalized in NABARD in 2019-20 with what initial corpus?", a:"Rs. 5,000 crore", d:["Rs. 10,000 crore","Rs. 2,500 crore","Rs. 7,500 crore","Rs. 3,000 crore"]},
+{s:"PMKSY", diff:"H", q:"What is the total overall outlay approved for the extension of PMKSY for the period 2021-26?", a:"Rs. 93,068.56 crore", d:["Rs. 75,000 crore","Rs. 1,00,000 crore","Rs. 85,000 crore","Rs. 93,068.56 lakh"]},
+{s:"PMKSY", diff:"H", q:"WDC-PMKSY 2.0 (Watershed Development Component), approved on 15 December 2021, covers the period 2021-22 to 2025-26 with what target area and central allocation?", a:"49.5 lakh hectares, Rs. 8,134 crore", d:["40 lakh hectares, Rs. 6,000 crore","55 lakh hectares, Rs. 10,000 crore","49.5 lakh hectares, Rs. 6,500 crore","45 lakh hectares, Rs. 8,134 crore"]},
+{s:"PMKSY", diff:"M", q:"Under Har Khet Ko Pani (HKKP), what minimum percentage of the command area must be covered under micro/precision irrigation?", a:"At least 10%", d:["At least 25%","At least 15%","At least 5%","At least 20%"]},
+{s:"PMKSY", diff:"H", q:"Which component was moved out from PM-KSY into Rashtriya Krishi Vikas Yojana (RKVY)?", a:"Per Drop More Crop", d:["Watershed Development","Accelerated Irrigation Benefit Programme","Har Khet Ko Pani","Ground Water Development"]},
+
+// ===== 12. NMNF =====
+{s:"NMNF", diff:"M", q:"What is the total outlay of the National Mission on Natural Farming (NMNF), split between GoI and State share?", a:"Rs. 2481.00 crore (GoI share Rs. 1584.00 crore, States share Rs. 897.00 crore)", d:["Rs. 4645.69 crore (GoI share Rs. 3000 crore, States share Rs. 1645.69 crore)","Rs. 2000 crore (GoI share Rs. 1200 crore, States share Rs. 800 crore)","Rs. 2481.00 crore (GoI share Rs. 1897.00 crore, States share Rs. 584.00 crore)","Rs. 3000 crore (GoI share Rs. 2000 crore, States share Rs. 1000 crore)"]},
+{s:"NMNF", diff:"H", q:"NMNF will be implemented in 15,000 clusters to reach how many farmers over what area?", a:"1 crore farmers, initiating NF in 7.5 Lakh Ha area", d:["50 lakh farmers, initiating NF in 5 Lakh Ha area","1 crore farmers, initiating NF in 10 Lakh Ha area","75 lakh farmers, initiating NF in 7.5 Lakh Ha area","1.5 crore farmers, initiating NF in 7.5 Lakh Ha area"]},
+{s:"NMNF", diff:"H", q:"Under NMNF, an NF cluster within a Gram Panchayat comprises a cumulative contiguous area of how much, involving approximately how many farmers?", a:"50 Ha, approximately 125 farmers", d:["100 Ha, approximately 200 farmers","20 Ha, approximately 50 farmers","50 Ha, approximately 100 farmers","75 Ha, approximately 150 farmers"]},
+{s:"NMNF", diff:"M", q:"Under NMNF, each farmer is eligible for support to a maximum landholding of how much for learning purposes?", a:"One acre", d:["Two acres","Half acre","Two hectares","One hectare"]},
+{s:"NMNF", diff:"H", q:"How many Krishi Sakhis (Community Resource Persons) are planned to be trained under NMNF, with a team of how many mobilizing a cluster?", a:"30,000 Krishi Sakhis; a team of 2 mobilizes approximately 125 farmers", d:["25,000 Krishi Sakhis; a team of 3 mobilizes approximately 100 farmers","30,000 Krishi Sakhis; a team of 5 mobilizes approximately 200 farmers","15,000 Krishi Sakhis; a team of 2 mobilizes approximately 125 farmers","30,000 Krishi Sakhis; a team of 4 mobilizes approximately 150 farmers"]},
+{s:"NMNF", diff:"M", q:"How many Bio-Input Resource Centres (BRCs) are proposed to be established under NMNF for production and supply of Natural Farming inputs?", a:"10,000", d:["5,000","15,000","7,500","12,000"]},
+{s:"NMNF", diff:"H", q:"As per NMNF's criteria for Local Natural Farming Institutions (LNFI), the farm must be functional for NF for more than how many years with a minimum land area of how much?", a:"More than 3 years, minimum 2 acres", d:["More than 5 years, minimum 1 acre","More than 2 years, minimum 3 acres","More than 3 years, minimum 1 acre","More than 4 years, minimum 2 acres"]},
+
+// ===== 13. Digital Agriculture Mission =====
+{s:"DAM", diff:"M", q:"What is the total outlay of the Digital Agriculture Mission, and what is the central share, over the 5-year period FY 2021-22 to FY 2025-26?", a:"Total outlay Rs. 2,817 crore, central share Rs. 1,940 crore", d:["Total outlay Rs. 2,000 crore, central share Rs. 1,500 crore","Total outlay Rs. 2,817 crore, central share Rs. 2,000 crore","Total outlay Rs. 3,000 crore, central share Rs. 1,940 crore","Total outlay Rs. 2,481 crore, central share Rs. 1,584 crore"]},
+{s:"DAM", diff:"H", q:"Under the Centrally Sponsored Component of Digital Agriculture Mission, what is the Centre:State funding pattern for North-Eastern and Himalayan States?", a:"90% Central share and 10% State share", d:["100% Central share","60% Central share and 40% State share","75% Central share and 25% State share","80% Central share and 20% State share"]},
+{s:"DAM", diff:"H", q:"What percentage of the total project cost is earmarked for administrative expenses under the Digital Agriculture Mission?", a:"2.5%", d:["5%","3%","1%","10%"]},
+{s:"DAM", diff:"M", q:"On what date was the Krishi Decision Support System (Krishi-DSS) launched?", a:"16th August 2024", d:["15th August 2024","1st October 2024","26th January 2024","1st January 2025"]},
+{s:"DAM", diff:"M", q:"Agristack consists of three foundational registries. Which of the following is NOT one of them?", a:"National Fertilizer Consumption Registry", d:["Farmers' Registry","Geo-referenced village maps","Crop Sown Registry (through Digital Crop Survey)","(All three others listed are genuine Agristack registries)"]},
+{s:"DAM", diff:"H", q:"Under the Nationwide Soil Resource Mapping project, what is the total area proposed to be covered for soil profiling at the 1:10,000 scale?", a:"142 million ha", d:["100 million ha","150 million ha","120 million ha","165 million ha"]},
+{s:"DAM", diff:"H", q:"How many soil survey parties does the Soil and Land Use Survey of India (SLUSI) have, giving it the capacity to survey and map about 10 million ha annually?", a:"52", d:["35","65","45","60"]},
+
+// ===== 14. Agri SURE Fund =====
+{s:"AgriSURE", diff:"M", q:"What is the total corpus of the AgriSURE Fund, and how is it contributed?", a:"Rs. 750 crore, with Rs. 250 crore each from GoI and NABARD, and Rs. 250 crore mobilised from other institutions", d:["Rs. 500 crore, equally from GoI and NABARD","Rs. 1000 crore, with Rs. 500 crore each from GoI and NABARD","Rs. 750 crore, entirely contributed by NABARD","Rs. 750 crore, contributed equally by GoI, NABARD and SEBI"]},
+{s:"AgriSURE", diff:"H", q:"AgriSURE Fund is registered as which category of Alternative Investment Fund with SEBI, and who is its Investment Manager?", a:"Category-II AIF; NABVENTURES Ltd. is the Investment Manager", d:["Category-I AIF; NABARD Financial Services is the Investment Manager","Category-III AIF; NABVENTURES Ltd. is the Investment Manager","Category-II AIF; NABKISAN Finance Ltd. is the Investment Manager","Category-I AIF; NABVENTURES Ltd. is the Investment Manager"]},
+{s:"AgriSURE", diff:"M", q:"What is the duration of the AgriSURE Fund, and by how many years can it be extended?", a:"10 years, extendable by 2 years", d:["15 years, extendable by 5 years","10 years, extendable by 5 years","8 years, extendable by 2 years","10 years, not extendable"]},
+{s:"AgriSURE", diff:"H", q:"The AgriSURE Fund envisages supporting about how many start-ups by the end of the Fund's life, with a variable ticket size of up to how much?", a:"About 85 start-ups, ticket size up to Rs. 25 crore", d:["About 100 start-ups, ticket size up to Rs. 20 crore","About 50 start-ups, ticket size up to Rs. 30 crore","About 85 start-ups, ticket size up to Rs. 15 crore","About 75 start-ups, ticket size up to Rs. 25 crore"]},
+{s:"AgriSURE", diff:"H", q:"What are the respective corpus amounts of the AgriSURE-FoF Scheme and the AgriSURE-Direct Scheme?", a:"Rs. 450 crore for FoF Scheme, Rs. 300 crore for Direct Scheme", d:["Rs. 300 crore for FoF Scheme, Rs. 450 crore for Direct Scheme","Rs. 500 crore for FoF Scheme, Rs. 250 crore for Direct Scheme","Rs. 400 crore for FoF Scheme, Rs. 350 crore for Direct Scheme","Rs. 350 crore for FoF Scheme, Rs. 400 crore for Direct Scheme"]},
+
+// ===== 15. NMSA =====
+{s:"NMSA", diff:"M", q:"In which year was the National Mission for Sustainable Agriculture (NMSA) launched, and from which year has it been implemented as a sub-mission under Green Revolution Krishonnati Yojana?", a:"Launched in 2014-15, sub-mission since 2018-19", d:["Launched in 2015-16, sub-mission since 2019-20","Launched in 2014-15, sub-mission since 2017-18","Launched in 2016-17, sub-mission since 2018-19","Launched in 2013-14, sub-mission since 2018-19"]},
+{s:"NMSA", diff:"M", q:"Which of the following is NOT one of the four major components of NMSA?", a:"Sub-Mission on Agroforestry (SMAF)", d:["Rainfed Area Development (RAD)","On Farm Water Management (OFWM)","Soil Health Management (SHM)","Climate Change and Sustainable Agriculture: Monitoring, Modeling, and Networking (CCSAMMN)"]},
+{s:"NMSA", diff:"H", q:"NMSA is included as one of the missions under which national framework addressing climate change?", a:"National Action Plan on Climate Change (NAPCC)", d:["National Adaptation Fund for Climate Change (NAFCC)","National Disaster Management Plan","National Green Tribunal Framework","National Climate Resilience Programme"]},
+{s:"NMSA", diff:"H", q:"Under Rainfed Area Development (RAD), what is the financial assistance limit provided per farm family for farm families with landholding up to 2 hectares?", a:"Up to Rs. 1 lakh per farm family", d:["Up to Rs. 50,000 per farm family","Up to Rs. 2 lakh per farm family","Up to Rs. 75,000 per farm family","Up to Rs. 1.5 lakh per farm family"]},
+{s:"NMSA", diff:"H", q:"In which year was the Soil and Land Use Survey of India (SLUSI) established?", a:"1958", d:["1965","1975","1970","1980"]},
+{s:"NMSA", diff:"M", q:"In which year was the National Rainfed Area Authority (NRAA) established?", a:"2006", d:["2010","2004","2008","2014"]},
+
+// ===== 16. MIDH =====
+{s:"MIDH", diff:"E", q:"In which year was the Mission for Integrated Development of Horticulture (MIDH) initiated?", a:"2014", d:["2010","2016","2012","2018"]},
+{s:"MIDH", diff:"M", q:"What is the funding pattern for MIDH between Centre and State for general areas as against NER and Himalayan regions?", a:"60:40 for general areas, 90:10 for NER and Himalayan regions", d:["70:30 for general areas, 90:10 for NER and Himalayan regions","60:40 for general areas, 80:20 for NER and Himalayan regions","50:50 for general areas, 90:10 for NER and Himalayan regions","75:25 for general areas, 95:5 for NER and Himalayan regions"]},
+{s:"MIDH", diff:"H", q:"Under MIDH's allocation for marginalized groups, what percentage of Plan Allocation is reserved for women beneficiaries/farmers?", a:"30%", d:["16.6%","8.6%","25%","20%"]},
+{s:"MIDH", diff:"M", q:"In which year was the National Horticulture Board (NHB) founded, and where is its headquarters located?", a:"Founded in 1984, headquartered in Gurugram", d:["Founded in 1981, headquartered in New Delhi","Founded in 1984, headquartered in New Delhi","Founded in 1990, headquartered in Gurugram","Founded in 1979, headquartered in Gurugram"]},
+{s:"MIDH", diff:"H", q:"The Coconut Development Board (CDB) was formed in January 1981 under which Act?", a:"Coconut Development Board Act 1979", d:["Coconut Development Board Act 1981","Agricultural Produce (Grading and Marking) Act 1937","MIDH Act 1979","Coconut Development Act 1984"]},
+{s:"MIDH", diff:"H", q:"Under MIDH's Open Field Cultivation subsidy, what is the credit-linked back-ended subsidy percentage and cap for general areas?", a:"40% of total project cost, up to Rs. 30.00 lakh per project", d:["50% of total project cost, up to Rs. 37.50 lakh per project","35% of total project cost, up to Rs. 25.00 lakh per project","40% of total project cost, up to Rs. 56.00 lakh per project","45% of total project cost, up to Rs. 40.00 lakh per project"]},
+{s:"MIDH", diff:"M", q:"The Clean Plant Program under MIDH is funded with support from which international institution, and implemented through which agency?", a:"Asian Development Bank (ADB) funding, implemented through NHB", d:["World Bank funding, implemented through NABARD","ADB funding, implemented through NABARD","World Bank funding, implemented through NHB","IFAD funding, implemented through NHB"]},
+
+// ===== 17. NBHM =====
+{s:"NBHM", diff:"M", q:"National Beekeeping & Honey Mission (NBHM) was announced in 2020 as part of which government initiative?", a:"AtmaNirbhar Bharat scheme", d:["Digital India Mission","Startup India Initiative","Make in India Campaign","Skill India Mission"]},
+{s:"NBHM", diff:"E", q:"Which agency serves as the National Level Nodal Agency for NBHM?", a:"National Bee Board (NBB)", d:["National Horticulture Board (NHB)","NABARD","APEDA","ICAR"]},
+{s:"NBHM", diff:"H", q:"What was the total allocation approved for NBHM for the initial three-year period from 2020-21 to 2022-23?", a:"Rs. 500 crore", d:["Rs. 370 crore","Rs. 750 crore","Rs. 400 crore","Rs. 600 crore"]},
+{s:"NBHM", diff:"H", q:"Where are the two world-class honey testing labs established under NBHM located?", a:"NDDB, Anand (Gujarat) and IIHR, Bengaluru (Karnataka)", d:["NDDB, Anand (Gujarat) and NBB, New Delhi","IIHR, Bengaluru (Karnataka) and CIH, Nagaland","NDDB, Anand (Gujarat) and NHB, Gurugram","IIHR, Bengaluru and ICAR, New Delhi"]},
+{s:"NBHM", diff:"H", q:"Honey production in India grew from 35,000 MTs (2005-06) to 1,20,000 MTs (2018-19), representing what percentage growth?", a:"242.86%", d:["200%", "150%","300%","265.76%"]},
+{s:"NBHM", diff:"M", q:"The Madhu Kranti Portal, introduced under NBHM, facilitates online registration to ensure traceability of what?", a:"Honey and other beehive products", d:["Beekeeping equipment manufacturers","FPO registrations","Soil health cards","Crop insurance claims"]},
+
+// ===== 18. NMEO-OP =====
+{s:"NMEO-OP", diff:"M", q:"The National Mission on Edible Oils & Oil Palm (NMEO-OP) aims to enhance edible oil availability from which period?", a:"November 1st, 2021 to 2025-26", d:["April 1st, 2021 to 2026-27","November 1st, 2020 to 2024-25","January 1st, 2022 to 2025-26","November 1st, 2021 to 2028-29"]},
+{s:"NMEO-OP", diff:"H", q:"Under NMEO-OP, the target is to increase oil palm area to how many lakh hectares by 2025-26 from 3.5 lakh ha in 2019-20?", a:"10 lakh hectares", d:["8 lakh hectares","12 lakh hectares","15 lakh hectares","6.5 lakh hectares"]},
+{s:"NMEO-OP", diff:"H", q:"Under NMEO-OP, Crude Palm Oil production is targeted to increase from 0.27 lakh tonnes (2019-20) to how much by 2025-26?", a:"11.20 lakh tonnes", d:["8.5 lakh tonnes", "15 lakh tonnes","28 lakh tonnes","10 lakh tonnes"]},
+{s:"NMEO-OP", diff:"H", q:"What is the total approved cost of NMEO-OP, and its Centre:State funding split?", a:"Rs. 11,040 crore total (Central share Rs. 8,844 crore, State share Rs. 2,196 crore)", d:["Rs. 10,000 crore total (Central share Rs. 8,000 crore, State share Rs. 2,000 crore)","Rs. 11,040 crore total (Central share Rs. 7,000 crore, State share Rs. 4,040 crore)","Rs. 9,500 crore total (Central share Rs. 7,500 crore, State share Rs. 2,000 crore)","Rs. 11,040 crore total (Central share Rs. 9,000 crore, State share Rs. 2,040 crore)"]},
+{s:"NMEO-OP", diff:"H", q:"Which three states together contribute approximately 98% of India's total oil palm production?", a:"Andhra Pradesh, Telangana, and Kerala", d:["Andhra Pradesh, Karnataka, and Tamil Nadu","Telangana, Odisha, and Kerala","Andhra Pradesh, Telangana, and Odisha","Kerala, Karnataka, and Tamil Nadu"]},
+{s:"NMEO-OP", diff:"H", q:"Under NMEO-OP, a sunset clause for the Viability Price mechanism has been set for which date?", a:"1st November 2037", d:["1st November 2030","31st March 2035","1st November 2040","31st March 2030"]},
+
+// ===== 19. Project CHAMAN =====
+{s:"CHAMAN", diff:"M", q:"In which month and year was Project CHAMAN launched under MIDH?", a:"September 2014", d:["January 2015","September 2016","March 2014","July 2015"]},
+{s:"CHAMAN", diff:"M", q:"How many crops are assessed under Project CHAMAN?", a:"Seven crops: Potato, Onion, Tomato, Chilli, Mango, Banana, and Citrus", d:["Five crops: Potato, Onion, Tomato, Mango, and Banana","Seven crops including Grapes and Pomegranate instead of Mango and Citrus","Ten crops including Coconut and Spices","Six crops excluding Citrus"]},
+{s:"CHAMAN", diff:"H", q:"CHAMAN Phase-I covered area assessment and production forecasting in how many states and districts?", a:"12 states, 185 districts", d:["15 states, 263 districts","10 states, 150 districts","12 states, 263 districts","8 states, 100 districts"]},
+{s:"CHAMAN", diff:"H", q:"CHAMAN Phase-II operationalized area assessment and production forecasting of 7 horticultural crops in how many districts of how many states?", a:"263 districts of 15 states", d:["185 districts of 12 states","300 districts of 18 states","200 districts of 15 states","263 districts of 12 states"]},
+
+// ===== 20. FASAL =====
+{s:"FASAL", diff:"M", q:"The FASAL project, launched in 2005, was started in partnership with which two organizations?", a:"India Meteorological Department (IMD) and ISRO", d:["ICAR and ISRO","IMD and ICAR","ISRO and NABARD","IMD and MNCFC"]},
+{s:"FASAL", diff:"M", q:"Which centre plays a crucial role in Crop Production Forecasting under the FASAL programme?", a:"Mahalanobis National Crop Forecast Centre (MNCFC)", d:["National Remote Sensing Centre (NRSC)","Space Applications Centre (SAC)","National Crop Insurance Portal","Indian Agricultural Statistics Research Institute (IASRI)"]},
+{s:"FASAL", diff:"H", q:"Which of the following crops is NOT among those regularly covered under the FASAL programme's crop maps and acreage statistics?", a:"Coffee", d:["Wheat","Mustard","Soybean","Sugarcane"]},
+
+// ===== 21. Agriculture Census (ISACES) =====
+{s:"Agri-Census", diff:"M", q:"The Agriculture Census in India has been conducted since 1970-71 as part of the World Census of Agriculture, coordinated by which UN organization?", a:"Food and Agriculture Organization (FAO)", d:["World Bank","UNDP","UNCTAD","International Fund for Agricultural Development (IFAD)"]},
+{s:"Agri-Census", diff:"H", q:"The Agriculture Census in India is conducted at what interval, while the World Census of Agriculture is conducted at what interval?", a:"India's census every 5 years; World Census decennially (every 10 years)", d:["India's census every 10 years; World Census every 5 years","Both conducted every 5 years","India's census every 3 years; World Census every 10 years","Both conducted decennially"]},
+{s:"Agri-Census", diff:"M", q:"The 11th Agriculture Census, with reference year 2021-22, began in which month and year?", a:"July 2022", d:["January 2022","July 2021","March 2023","July 2023"]},
+
+// ===== 22. ISAM (Agri Marketing) =====
+{s:"ISAM", diff:"H", q:"Under the Agri Marketing Infrastructure (AMI) subsidy pattern for storage infrastructure projects, what is the subsidy rate and maximum cap for North Eastern States, Sikkim, and Hilly areas?", a:"33.33% subsidy, maximum Rs. 133.20 lakh", d:["25% subsidy, maximum Rs. 100 lakh","33.33% subsidy, maximum Rs. 100 lakh","40% subsidy, maximum Rs. 150 lakh","33.33% subsidy, maximum Rs. 75 lakh"]},
+{s:"ISAM", diff:"M", q:"Under AMI, what is the subsidy pattern for storage infrastructure projects for 'Other' category beneficiaries?", a:"25% subsidy, maximum Rs. 75 lakh", d:["33.33% subsidy, maximum Rs. 100 lakh","20% subsidy, maximum Rs. 50 lakh","25% subsidy, maximum Rs. 100 lakh","30% subsidy, maximum Rs. 90 lakh"]},
+{s:"ISAM", diff:"H", q:"The Venture Capital Assistance (VCA) Scheme, implemented by SFAC, offers assistance to agripreneurs of what amount?", a:"26% of promoter's capital or Rs. 50.00 lakhs, whichever is lower", d:["30% of promoter's capital or Rs. 25.00 lakhs, whichever is lower","20% of promoter's capital or Rs. 40.00 lakhs, whichever is lower","26% of promoter's capital or Rs. 100.00 lakhs, whichever is lower","15% of promoter's capital or Rs. 50.00 lakhs, whichever is lower"]},
+{s:"ISAM", diff:"M", q:"Under which Act is agricultural produce certified for AGMARK standards?", a:"Agricultural Produce (Grading and Marking) Act, 1937", d:["Food Safety and Standards Act, 2006","Essential Commodities Act, 1955","Agricultural Produce (Grading and Marking) Act, 1947","APMC Act, 1937"]},
+{s:"ISAM", diff:"E", q:"What is the e-Governance portal developed under the Marketing Research & Information Network (MRIN) scheme called?", a:"Agmarknet portal", d:["e-NAM portal","AMI portal","Kisan Suvidha portal","National Agricultural Market Atlas"]},
+{s:"ISAM", diff:"M", q:"The Continuation of the AMI Sub-scheme of ISAM has a financial outlay of Rs. 148.00 crore per year, totaling how much for the period 2023-24 to 2025-26?", a:"Rs. 444.00 crore", d:["Rs. 500.00 crore","Rs. 400.00 crore","Rs. 296.00 crore","Rs. 300.00 crore"]},
+
+// ===== 23. NMAET =====
+{s:"NMAET", diff:"M", q:"National Mission on Agricultural Extension & Technology (NMAET) was introduced as a Centrally Sponsored Scheme in which year?", a:"2014", d:["2010","2005","2016","2012"]},
+{s:"NMAET", diff:"H", q:"The ATMA (Agricultural Technology Management Agency) scheme, implemented since 2005, is currently under implementation in how many districts across how many States and UTs?", a:"739 districts of 28 States & 5 UTs", d:["650 districts of 25 States & 3 UTs","739 districts of 25 States & 8 UTs","800 districts of 28 States & 5 UTs","739 districts of 30 States & 4 UTs"]},
+{s:"NMAET", diff:"H", q:"Under ATMA Cafeteria 2018 guidelines, what minimum percentage of resources on programmes and activities must be utilized for women farmers and women extension functionaries?", a:"At least 30%", d:["At least 10%","At least 20%","At least 50%","At least 15%"]},
+{s:"NMAET", diff:"H", q:"Which two legal Acts provide the regulatory framework for the Sub-Mission on Plant Protection & Plant Quarantine (SMPPQ)?", a:"The Destructive Insect and Pests Act, 1914 and the Insecticides Act, 1968", d:["The Insecticides Act, 1968 and the Plant Quarantine Order, 2003","The Destructive Insect and Pests Act, 1914 and the Environment Protection Act, 1986","The Seeds Act, 1966 and the Insecticides Act, 1968","The Plant Quarantine Order, 2003 and the Biological Diversity Act, 2002"]},
+{s:"NMAET", diff:"H", q:"Since the inception of the ATMA scheme in 2005-06 up to 31 December 2023, how much has been released to States/UTs?", a:"Rs. 7469.68 crore", d:["Rs. 5000 crore","Rs. 6500 crore","Rs. 8000 crore","Rs. 7000 crore"]},
+
+// ===== 24. PM-AASHA =====
+{s:"PM-AASHA", diff:"M", q:"What is the total financial outgo approved for PM-AASHA during the 15th Finance Commission Cycle up to 2025-26?", a:"Rs. 35,000 crore", d:["Rs. 45,000 crore","Rs. 25,000 crore","Rs. 50,000 crore","Rs. 30,000 crore"]},
+{s:"PM-AASHA", diff:"M", q:"Which of the following is NOT a component of PM-AASHA?", a:"Rashtriya Krishi Vikas Yojana (RKVY)", d:["Price Support Scheme (PSS)","Price Stabilization Fund (PSF)","Price Deficit Payment Scheme (PDPS)","Market Intervention Scheme (MIS)"]},
+{s:"PM-AASHA", diff:"H", q:"Under PM-AASHA, procurement of notified pulses, oilseeds & copra at MSP is capped at what percentage of national production from the 2024-25 season (with an exception for Tur, Urad & Masur)?", a:"25% of national production", d:["30% of national production","20% of national production","35% of national production","40% of national production"]},
+{s:"PM-AASHA", diff:"H", q:"What is the enhanced government guarantee amount for procurement of notified pulses, oilseeds & copra at MSP under PM-AASHA?", a:"Rs. 45,000 crore", d:["Rs. 35,000 crore","Rs. 50,000 crore","Rs. 40,000 crore","Rs. 55,000 crore"]},
+{s:"PM-AASHA", diff:"H", q:"Under the Price Deficit Payment Scheme (PDPS), coverage of notified oilseeds has been enhanced from 25% to what percentage of state production?", a:"40%", d:["35%","30%","50%","45%"]},
+{s:"PM-AASHA", diff:"H", q:"Under PM-AASHA's Market Intervention Scheme (MIS), the coverage for perishable horticulture crops was increased from 20% to what percentage of production?", a:"25%", d:["30%","35%","22%","40%"]},
+
+// ===== 25. NFSM =====
+{s:"NFSM", diff:"E", q:"In which year was the National Food Security Mission (NFSM) launched as a Centrally Sponsored Scheme?", a:"2007", d:["2005","2010","2014","2009"]},
+{s:"NFSM", diff:"M", q:"What is the Centre:State funding ratio for NFSM in general states, as against North Eastern and 2 Himalayan states from 2015-16?", a:"60:40 for general states, 90:10 for NER and Himalayan states", d:["70:30 for general states, 90:10 for NER and Himalayan states","60:40 for general states, 80:20 for NER and Himalayan states","50:50 for general states, 90:10 for NER and Himalayan states","75:25 for general states, 95:5 for NER and Himalayan states"]},
+{s:"NFSM", diff:"H", q:"Under NFSM's allocation for specific groups, what percentage of funds is earmarked for small and marginal farmers?", a:"33%", d:["30%","25%","40%","16%"]},
+{s:"NFSM", diff:"H", q:"NFSM has been renamed as the 'National Food Security and Nutrition Mission (NFSNM)' with how many overall components?", a:"Seven components", d:["Five components","Six components","Eight components","Four components"]},
+{s:"NFSM", diff:"M", q:"Under NFSM, an individual farmer or seed grower is entitled to avail assistance for various mission components limited to how many hectares in a season?", a:"5 hectares", d:["2 hectares","10 hectares","3 hectares","7 hectares"]},
+{s:"NFSM", diff:"H", q:"Under NFSM's seed assistance norms, what is the assistance provided for Rice hybrid seeds?", a:"Rs. 100/kg or 50% of the cost, whichever is less", d:["Rs. 50/kg or 50% of the cost, whichever is less","Rs. 100/kg or 60% of the cost, whichever is less","Rs. 20/kg or 50% of the cost, whichever is less","Rs. 150/kg or 50% of the cost, whichever is less"]},
+{s:"NFSM", diff:"H", q:"Under NFSM's marketing support component, what is the one-time support amount provided for establishing Mini Dal Mills?", a:"Rs. 10.00 lakh or 30% of total cost, whichever is lower", d:["Rs. 5.00 lakh or 30% of total cost, whichever is lower","Rs. 15.00 lakh or 40% of total cost, whichever is lower","Rs. 10.00 lakh or 50% of total cost, whichever is lower","Rs. 20.00 lakh or 30% of total cost, whichever is lower"]},
+
+// ===== 26. NFSM-OS&OP =====
+{s:"NFSM-OSOP", diff:"M", q:"NFSM (Oilseeds & Oil Palm) was merged with NFSM since which year, comprising which three sub-missions?", a:"2018-19; NFSM-Oilseeds, NFSM-Oil Palm, and NFSM-Tree Borne Oilseeds (TBOs)", d:["2016-17; NFSM-Oilseeds, NFSM-Pulses, and NFSM-Oil Palm","2018-19; NFSM-Oilseeds, NFSM-Pulses, and NFSM-TBOs","2020-21; NFSM-Oilseeds, NFSM-Oil Palm, and NFSM-TBOs","2018-19; NFSM-Oil Palm, NFSM-TBOs, and NFSM-Rice"]},
+{s:"NFSM-OSOP", diff:"H", q:"Under NFSM-Oil Palm, the scheme was implemented in how many states during 2020-21?", a:"12 states", d:["8 states","15 states","10 states","6 states"]},
+
+// ===== 27. NeGP-A =====
+{s:"NeGP-A", diff:"E", q:"What is the website of the Farmers' Portal under NeGP-A?", a:"www.farmer.gov.in", d:["www.agricoop.gov.in","www.pmkisan.gov.in","www.krishi.gov.in","www.farmers.nic.in"]},
+{s:"NeGP-A", diff:"M", q:"Through the mkisan portal, experts send agriculture-related information to farmers in how many local languages?", a:"12 languages", d:["22 languages","8 languages","15 languages","10 languages"]},
+{s:"NeGP-A", diff:"M", q:"What does 'IDEA' stand for in the context of the India Digital Ecosystem on Agriculture vision under NeGP-A?", a:"India Digital Ecosystem on Agriculture", d:["Integrated Digital Extension for Agriculture","Indian Digital Empowerment for Agriculture","India Data Exchange for Agriculture","Integrated Data Ecosystem for Agriculture"]},
+
+// ===== 28. Agri-Clinic and Agri-Business Centres =====
+{s:"AC&ABC", diff:"M", q:"The Agri-Clinic and Agri-Business Centres (AC&ABC) scheme has been implemented since which year?", a:"April 2002", d:["April 2005","January 2000","April 2004","January 2002"]},
+{s:"AC&ABC", diff:"H", q:"Under AC&ABC, NABARD acts as the subsidy channelizing agency, while which institution acts as the implementing agency?", a:"National Institute of Agricultural Extension Management (MANAGE)", d:["Indian Council of Agricultural Research (ICAR)","Small Farmers Agribusiness Consortium (SFAC)","National Institute of Rural Development (NIRD)","Agricultural Finance Corporation (AFC)"]},
+{s:"AC&ABC", diff:"H", q:"Under AC&ABC, what is the credit-linked back-ended subsidy percentage of Total Financial Outlay, and the enhanced rate for SC/ST, Women and NE/Hill State candidates?", a:"36% general, increased to 44% for SC/ST, Women and NE/Hill States", d:["25% general, increased to 33% for SC/ST, Women and NE/Hill States","36% general, increased to 50% for SC/ST, Women and NE/Hill States","40% general, increased to 44% for SC/ST, Women and NE/Hill States","30% general, increased to 40% for SC/ST, Women and NE/Hill States"]},
+{s:"AC&ABC", diff:"M", q:"What is the enhanced project cost ceiling under AC&ABC for individual projects (with a higher limit for highly successful ones)?", a:"Rs. 20 lakhs (Rs. 25 lakhs for highly successful ones)", d:["Rs. 15 lakhs (Rs. 20 lakhs for highly successful ones)","Rs. 25 lakhs (Rs. 30 lakhs for highly successful ones)","Rs. 10 lakhs (Rs. 15 lakhs for highly successful ones)","Rs. 20 lakhs (Rs. 30 lakhs for highly successful ones)"]},
+
+// ===== 29. NICRA =====
+{s:"NICRA", diff:"M", q:"In which month and year was the National Initiative on Climate Resilient Agriculture (NICRA) launched?", a:"February 2011", d:["April 2011","February 2014","January 2010","February 2012"]},
+{s:"NICRA", diff:"E", q:"Which agency is the implementing agency for NICRA?", a:"Indian Council of Agricultural Research (ICAR)", d:["NABARD","MANAGE","National Rainfed Area Authority (NRAA)","Ministry of Earth Sciences"]},
+{s:"NICRA", diff:"H", q:"Under NICRA, technology demonstration to cope with current climate variability is undertaken in how many vulnerable districts?", a:"100 vulnerable districts", d:["50 vulnerable districts","150 vulnerable districts","75 vulnerable districts","200 vulnerable districts"]},
+
+// ===== 30. KVKs =====
+{s:"KVK", diff:"E", q:"Where and when was the first Krishi Vigyan Kendra (KVK) established?", a:"1974, at Puducherry under Tamil Nadu Agricultural University, Coimbatore", d:["1976, at Ludhiana under Punjab Agricultural University","1974, at Coimbatore under ICAR","1975, at New Delhi under IARI","1970, at Puducherry under ICAR"]},
+{s:"KVK", diff:"H", q:"As per the latest count of 731 KVKs, how many are functioning under Central/State Agricultural Universities (CAU/SAU)?", a:"506", d:["400","350","550","450"]},
+{s:"KVK", diff:"M", q:"Which state has the highest number of Krishi Vigyan Kendras (KVKs)?", a:"Uttar Pradesh (89 KVKs)", d:["Madhya Pradesh","Maharashtra","Rajasthan","Bihar"]},
+{s:"KVK", diff:"E", q:"KVKs are funded and implemented by which agency?", a:"100% centrally financed, implemented by ICAR", d:["Jointly funded by Centre and State, implemented by ICAR","100% centrally financed, implemented by NABARD","Funded by NABARD, implemented by State Agricultural Universities","Jointly funded, implemented by MANAGE"]},
+
+// ===== 31. Agri Udaan =====
+{s:"Agri-Udaan", diff:"M", q:"Agri UDAAN 7.0 was officially launched in which city on 22 August 2024?", a:"Hyderabad", d:["Mumbai","New Delhi","Bengaluru","Pune"]},
+{s:"Agri-Udaan", diff:"H", q:"Agri UDAAN is operated by a-IDEA, the Technology Business Incubator under which institute, and is supported by which financial institution?", a:"ICAR-NAARM; supported by NABARD", d:["ICAR-IARI; supported by SIDBI","ICAR-NAARM; supported by SIDBI","ICAR-CIFE; supported by NABARD","ICAR-IARI; supported by NABARD"]},
+{s:"Agri-Udaan", diff:"H", q:"Previous cohorts of Agri UDAAN collectively raised how much in investments?", a:"Over Rs. 120.5 crore", d:["Over Rs. 75 crore","Over Rs. 200 crore","Over Rs. 100 crore","Over Rs. 150 crore"]},
+
+// ===== 32. Mera Gaon Mera Gaurav =====
+{s:"MGMG", diff:"M", q:"In which year was the 'Mera Gaon Mera Gaurav' scheme launched?", a:"2015", d:["2014","2016","2017","2018"]},
+{s:"MGMG", diff:"H", q:"Under Mera Gaon Mera Gaurav, groups of how many scientists adopt how many villages within a radius of 50-100 km from their institute?", a:"Groups of 4 scientists adopt 5 villages", d:["Groups of 5 scientists adopt 4 villages","Groups of 3 scientists adopt 5 villages","Groups of 4 scientists adopt 3 villages","Groups of 2 scientists adopt 5 villages"]},
+
+// ===== 33. ARYA =====
+{s:"ARYA", diff:"M", q:"In which year was the ARYA (Attracting and Retaining Youth in Agriculture) Scheme launched, and through which institution is it implemented?", a:"2015, implemented through Krishi Vigyan Kendra (KVK) in one district from each State", d:["2016, implemented through ICAR in two districts from each State","2015, implemented through State Agricultural Universities","2014, implemented through MANAGE","2017, implemented through NABARD"]},
+
+// ===== 34. E-Rakam / E-Krishi Samvaad =====
+{s:"eRakam", diff:"M", q:"On what date was the E-Rakam Portal launched?", a:"August 1st, 2018", d:["January 1st, 2018","August 1st, 2017","April 1st, 2019","October 2nd, 2018"]},
+{s:"eRakam", diff:"H", q:"The E-Rakam Portal was developed by which agency, a PSU under the Steel Ministry?", a:"MSTC", d:["SAIL","NMDC","MOIL","RINL"]},
+{s:"eRakam", diff:"M", q:"E-Krishi Samvaad, launched in 2017 to provide direct solutions to agricultural challenges, is implemented by which agency?", a:"Indian Council of Agricultural Research (ICAR)", d:["NABARD","MANAGE","SFAC","APEDA"]},
+
+// ===== 35. NPOP =====
+{s:"NPOP", diff:"M", q:"The National Programme for Organic Production (NPOP) was launched in 2001 under which Ministry?", a:"Ministry of Commerce & Industry (MoCI)", d:["Ministry of Agriculture & Farmers Welfare","Ministry of Food Processing Industries","Ministry of Rural Development","Ministry of Environment, Forest & Climate Change"]},
+{s:"NPOP", diff:"H", q:"NPOP is implemented through APEDA, which was established by an Act of Parliament in which year, replacing which earlier body?", a:"December 1985, replacing PFEPC (Processed Food Export Promotion Council)", d:["December 1990, replacing PFEPC","December 1985, replacing NAFED","January 1988, replacing PFEPC","December 1985, replacing FCI"]},
+
+// ===== 36. Kisan Call Center =====
+{s:"KCC-Center", diff:"M", q:"On what date was the Kisan Call Centre (KCC) launched?", a:"January 21, 2004", d:["January 1, 2004","April 1, 2002","October 2, 2004","January 21, 2005"]},
+{s:"KCC-Center", diff:"E", q:"What is the toll-free number of the Kisan Call Centre, and during what hours does it operate?", a:"1800-180-1551, from 6 am to 10 pm on all days", d:["1800-180-1551, 24x7","155261, from 6 am to 10 pm","1551, from 8 am to 8 pm","1800-11-4000, from 6 am to 10 pm"]},
+
+// ===== 37. Namo Drone Didi =====
+{s:"NamoDroneDidi", diff:"M", q:"Namo Drone Didi aims to provide drones to how many Women SHGs during the period 2024-25 to 2025-26?", a:"15,000 selected Women SHGs", d:["10,000 selected Women SHGs","20,000 selected Women SHGs","12,000 selected Women SHGs","25,000 selected Women SHGs"]},
+{s:"NamoDroneDidi", diff:"H", q:"Under Namo Drone Didi, what percentage of the drone and accessory cost is covered as financial support to Women SHGs, subject to a maximum amount?", a:"80% of the cost, up to Rs. 8 lakhs", d:["70% of the cost, up to Rs. 6 lakhs","90% of the cost, up to Rs. 10 lakhs","80% of the cost, up to Rs. 10 lakhs","75% of the cost, up to Rs. 8 lakhs"]},
+{s:"NamoDroneDidi", diff:"H", q:"For the remaining 20% of the drone cost not covered by the grant, SHGs can seek loans from AIF with what rate of interest subvention?", a:"3% interest subvention", d:["2% interest subvention","5% interest subvention","4% interest subvention","1% interest subvention"]},
+{s:"NamoDroneDidi", diff:"M", q:"Under Namo Drone Didi, the additional income expected to be generated for each SHG is at least how much per year?", a:"Rs. 1 lakh per year", d:["Rs. 50,000 per year","Rs. 2 lakh per year","Rs. 1.5 lakh per year","Rs. 75,000 per year"]},
+{s:"NamoDroneDidi", diff:"H", q:"Under Namo Drone Didi's training component, the qualified SHG member receives training for how many total days, comprising mandatory drone pilot training and agriculture-specific application training?", a:"15 days (5-day mandatory drone pilot training + 10 days agriculture application training)", d:["10 days (3-day pilot training + 7 days agriculture training)","20 days (7-day pilot training + 13 days agriculture training)","15 days (10-day pilot training + 5 days agriculture training)","7 days (5-day pilot training + 2 days agriculture training)"]},
+
+// ===== AMIF =====
+{s:"AMIF", diff:"M", q:"What is the total corpus allocated for the Agri-Market Infrastructure Fund (AMIF), and which agency implements it?", a:"Rs. 2,000 crores, implemented by NABARD", d:["Rs. 1,500 crores, implemented by NABARD","Rs. 2,000 crores, implemented by NCDC","Rs. 2,500 crores, implemented by SFAC","Rs. 2,000 crores, implemented by NHB"]},
+{s:"AMIF", diff:"H", q:"Under AMIF, subsidized loans are provided for improving marketing infrastructure in how many APMCs and Grameen Agricultural Markets?", a:"585 APMCs and 22,000 Grameen Agricultural Markets", d:["500 APMCs and 20,000 Grameen Agricultural Markets","585 APMCs and 20,000 Grameen Agricultural Markets","650 APMCs and 22,000 Grameen Agricultural Markets","585 APMCs and 25,000 Grameen Agricultural Markets"]},
+
+// ===== GrAMs =====
+{s:"GrAMs", diff:"M", q:"The concept of Gramin Agricultural Markets (GrAMs) was introduced under which Union Budget as part of the Agri Market Development Fund?", a:"Budget 2017-18", d:["Budget 2016-17","Budget 2018-19","Budget 2015-16","Budget 2019-20"]},
+{s:"GrAMs", diff:"H", q:"Under the GrAMs initiative, the plan is to develop and upgrade how many rural haats and APMCs into GrAMs?", a:"22,000", d:["15,000","585","30,000","18,000"]},
+
+// ===== SMAM =====
+{s:"SMAM", diff:"M", q:"Sub-Mission on Agricultural Mechanization (SMAM), launched in 2014-15, aims to raise farm power availability from 2.02 kW/ha (2016-17) to what target by 2030?", a:"4.0 kW/ha", d:["3.5 kW/ha","5.0 kW/ha","2.5 kW/ha","4.5 kW/ha"]},
+{s:"SMAM", diff:"H", q:"Under SMAM's financial assistance for agriculture machinery and equipment, what is the assistance percentage for SC, ST, Small & Marginal farmers, Women and NE States beneficiaries, as against others?", a:"50% for SC/ST/Small & Marginal/Women/NE beneficiaries, 40% for others", d:["60% for SC/ST/Small & Marginal/Women/NE beneficiaries, 50% for others","40% for SC/ST/Small & Marginal/Women/NE beneficiaries, 30% for others","50% for SC/ST/Small & Marginal/Women/NE beneficiaries, 30% for others","45% for SC/ST/Small & Marginal/Women/NE beneficiaries, 35% for others"]},
+{s:"SMAM", diff:"H", q:"Under SMAM, financial assistance for promoting mechanization through farm machinery banks is provided at what rate, subject to a maximum, for a group of minimum 8 farmers?", a:"80% of project cost, up to Rs. 10 lakhs", d:["70% of project cost, up to Rs. 8 lakhs","90% of project cost, up to Rs. 12 lakhs","80% of project cost, up to Rs. 15 lakhs","75% of project cost, up to Rs. 10 lakhs"]},
+{s:"SMAM", diff:"H", q:"For North Eastern States, the financial assistance rate for establishment of Farm Machinery Banks (FMBs) has been increased to what percentage of project cost (for projects up to Rs. 10 lakhs)?", a:"95%", d:["90%","85%","100%","80%"]},
+
+// ===== SLUSI / NCOF / NRAA institutional =====
+{s:"Institutions", diff:"H", q:"The National Centre of Organic Farming (NCOF), established in 2004, implements which programme along with its Regional Centres located at Bengaluru, Bhubaneshwar, Imphal, Jabalpur, Nagpur and Panchkula?", a:"National Project on Organic Farming (NPOF)", d:["National Programme for Organic Production (NPOP)","Paramparagat Krishi Vikas Yojana (PKVY)","Bhartiya Prakritik Krishi Padhati (BPKP)","National Mission on Natural Farming (NMNF)"]},
+{s:"Institutions", diff:"H", q:"The National Bamboo Mission (NBM), originally launched in 2006-07, was restructured and re-launched in April 2018, and was subsequently merged with which mission in 2022-23?", a:"Mission for Integrated Development of Horticulture (MIDH)", d:["National Mission for Sustainable Agriculture (NMSA)","National Mission on Natural Farming (NMNF)","National Food Security Mission (NFSM)","Rashtriya Krishi Vikas Yojana (RKVY)"]},
+{s:"Institutions", diff:"M", q:"Under National Bamboo Mission's nursery classification, what is the minimum sapling production requirement per hectare per year for a 'Hi-Tech Nursery'?", a:"50,000 saplings/seedlings", d:["25,000 saplings/seedlings","16,000 saplings/seedlings","40,000 saplings/seedlings","60,000 saplings/seedlings"]},
+
+// ===== ADDITIONAL BATCH =====
+
+// PM-KISAN extra
+{s:"PM-KISAN", diff:"M", q:"Which Ministry is responsible for the implementation of PM-KISAN?", a:"Ministry of Agriculture and Farmers Welfare", d:["Ministry of Rural Development","Ministry of Finance","Ministry of Panchayati Raj","Ministry of Consumer Affairs, Food and Public Distribution"]},
+{s:"PM-KISAN", diff:"H", q:"Under PM-KISAN's automatic validation process, what percentage of beneficiaries are covered for automated cross-verification of records?", a:"10%", d:["5%","15%","20%","2%"]},
+
+// PM-KMY extra
+{s:"PM-KMY", diff:"M", q:"Which category of farmers is the primary target beneficiary group under Pradhan Mantri Kisan Maandhan Yojana?", a:"Small and Marginal Farmers (SMFs) with cultivable landholding up to 2 hectares", d:["All registered FPO members","Landless agricultural labourers","Farmers with landholding up to 5 hectares","Only PM-KISAN beneficiaries with land above 2 hectares"]},
+{s:"PM-KMY", diff:"H", q:"Under PM-KMY, what is the monthly contribution required from a farmer who enrolls at the maximum entry age of 40 years?", a:"Rs. 200", d:["Rs. 100","Rs. 150","Rs. 55","Rs. 250"]},
+
+// e-NAM extra
+{s:"e-NAM", diff:"M", q:"e-NAM is a pan-India electronic trading portal that networks which existing physical structures to create a unified national market?", a:"Existing Agricultural Produce Market Committee (APMC) mandis", d:["Gramin Agricultural Markets (GrAMs) only","Rural haats only","Warehouses under the Warehousing Development and Regulatory Authority","Cold storage facilities under NHB"]},
+{s:"e-NAM", diff:"H", q:"Which of the following is NOT true regarding e-NAM's core features?", a:"It mandates uniform commission rates across all States and UTs", d:["It provides a single window service for all APMC-related information and services","It enables online payment settlement directly into farmers' accounts","It removes information asymmetry between buyers and sellers","It facilitates real-time price discovery based on actual demand and supply"]},
+
+// AIF extra
+{s:"AIF", diff:"M", q:"Which of the following is a primary objective of the Agriculture Infrastructure Fund (AIF)?", a:"Mobilize medium-long term debt financing for investment in viable post-harvest management infrastructure and community farming assets", d:["Provide short-term crop loans to farmers at zero interest","Finance the purchase of agricultural land by tenant farmers","Fund the construction of rural roads and highways","Provide working capital loans to fertilizer companies"]},
+{s:"AIF", diff:"H", q:"Under AIF, Farmer Producer Organizations (FPOs) can avail credit guarantee coverage under which scheme, in addition to interest subvention benefits?", a:"Credit Guarantee Fund Trust for Micro and Small Enterprises (CGTMSE), for loans up to Rs. 2 crore", d:["Credit Guarantee Fund for Education Loans","Deposit Insurance and Credit Guarantee Corporation (DICGC)","Pradhan Mantri Mudra Yojana Credit Guarantee Fund","Export Credit Guarantee Corporation (ECGC)"]},
+
+// FPO extra
+{s:"FPO-10000", diff:"H", q:"Which ministry is the nodal ministry for the Central Sector Scheme for Formation and Promotion of 10,000 FPOs?", a:"Ministry of Agriculture and Farmers Welfare", d:["Ministry of Rural Development","Ministry of Cooperation","Ministry of Food Processing Industries","Ministry of Commerce and Industry"]},
+{s:"FPO-10000", diff:"H", q:"For a loan amount between Rs. 1 crore and Rs. 2 crore per FPO, what is the applicable Credit Guarantee coverage percentage and ceiling under the FPO scheme?", a:"75% coverage, ceiling of Rs. 150 lakh", d:["85% coverage, ceiling of Rs. 85 lakh","70% coverage, ceiling of Rs. 140 lakh","80% coverage, ceiling of Rs. 160 lakh","75% coverage, ceiling of Rs. 100 lakh"]},
+
+// SHC extra
+{s:"SHC", diff:"H", q:"Which of the following is NOT among the 12 parameters tested and reported in a Soil Health Card?", a:"Soil moisture content", d:["Organic Carbon (OC)","Electrical Conductivity (EC)","Available Sulphur (S)","Available Zinc (Zn)"]},
+{s:"SHC", diff:"M", q:"As per the National Productivity Council (2017) study cited for the Soil Health Card Scheme, what was the estimated increase in crop yield due to SHC-based recommendations?", a:"5-6%", d:["10-12%","2-3%","15-20%","8-10%"]},
+
+// PKVY/BPKP extra
+{s:"PKVY", diff:"H", q:"Which organization functions as the Secretariat for the Participatory Guarantee System (PGS-India) programme, integral to PKVY's certification process?", a:"National Centre of Organic Farming (NCOF)", d:["National Programme for Organic Production (NPOP)","Agricultural and Processed Food Products Export Development Authority (APEDA)","Indian Council of Agricultural Research (ICAR)","Small Farmers Agri-Business Consortium (SFAC)"]},
+{s:"PKVY", diff:"M", q:"As per the source document, PKVY and its sub-schemes are implemented in all States except which region?", a:"8 North Eastern States (which are covered under MOVCDNER instead)", d:["Union Territories only","Hilly states of Himachal Pradesh and Uttarakhand","Southern coastal states","Desert states of Rajasthan and Gujarat"]},
+
+// PMDDKY extra
+{s:"PMDDKY", diff:"M", q:"What is the guiding motto/tagline associated with the PM Dhan Dhaanya Krishi Yojana?", a:"\"Transforming Agri-Districts Through Convergence\"", d:["\"Har Khet Ko Pani, Har Kisan Ko Dhan\"","\"Atmanirbhar Krishi, Samriddh Bharat\"","\"Swasth Dharaa, Khet Haraa\"","\"Kisan Kalyan, Rashtra Nirman\""]},
+
+// PMFBY extra
+{s:"PMFBY", diff:"M", q:"Under PMFBY, what is the maximum premium rate payable by farmers for Rabi food grain and oilseed crops?", a:"1.5% of Sum Insured or Actuarial rate, whichever is less", d:["2% of Sum Insured or Actuarial rate, whichever is less","1% of Sum Insured or Actuarial rate, whichever is less","2.5% of Sum Insured or Actuarial rate, whichever is less","5% of Sum Insured or Actuarial rate, whichever is less"]},
+{s:"PMFBY", diff:"H", q:"Under PMFBY, loanee farmers wishing to opt out of the scheme must submit a signed declaration to their bank how many days before the cut-off date?", a:"At least 7 days before the cut-off date", d:["At least 15 days before the cut-off date","At least 30 days before the cut-off date","At least 3 days before the cut-off date","At least 1 month before the cut-off date"]},
+{s:"PMFBY", diff:"M", q:"What are the standard enrolment cut-off dates for Kharif and Rabi crops respectively under PMFBY?", a:"15th July for Kharif, 15th December for Rabi", d:["31st July for Kharif, 31st December for Rabi","1st July for Kharif, 1st January for Rabi","15th June for Kharif, 15th November for Rabi","31st August for Kharif, 15th January for Rabi"]},
+
+// RWBCIS extra
+{s:"RWBCIS", diff:"H", q:"Under RWBCIS, which two categories of add-on/index-plus products can be offered to farmers already covered under the base scheme?", a:"Hailstorm and Cloudburst", d:["Flood and Landslide","Pest attack and Fire","Drought and Frost","Cyclone and Lightning"]},
+{s:"RWBCIS", diff:"M", q:"Under RWBCIS, non-loanee farmers have the option to choose between which two insurance schemes?", a:"RWBCIS and PMFBY", d:["RWBCIS and NAIS","PMFBY and MNAIS","RWBCIS and WBCIS (old)","PMFBY and Ayushman Sahakar"]},
+
+// PMKSY extra
+{s:"PMKSY", diff:"M", q:"Under PMKSY, which Ministry is primarily responsible for undertaking rain water conservation activities such as farm ponds, water harvesting structures, and contour bunding?", a:"Ministry of Rural Development", d:["Ministry of Jal Shakti","Ministry of Agriculture and Farmers Welfare","Ministry of Environment, Forest and Climate Change","Ministry of Panchayati Raj"]},
+{s:"PMKSY", diff:"H", q:"Under AIBP funding for national projects, what is the applicable Centre:State funding ratio?", a:"60:40", d:["50:50","25:75","90:10","75:25"]},
+
+// NMNF extra
+{s:"NMNF", diff:"H", q:"What is the eligibility criterion for a Field-level Master Trainer (FMT) under NMNF?", a:"Minimum 3 years of experience practicing Natural Farming", d:["Minimum 5 years of experience practicing Natural Farming","A formal degree in agricultural sciences","Certification from PGS-India only","Minimum 1 acre of land under natural farming for 1 year"]},
+
+// DAM extra
+{s:"DAM", diff:"H", q:"Which of the following is NOT one of the core building blocks under the Digital Agriculture Mission?", a:"National Fertilizer Subsidy Portal", d:["Agristack","Krishi Decision Support System (Krishi-DSS)","Soil Profile Map","Digital General Crop Estimation Survey (DGCES)"]},
+
+// Agri SURE extra
+{s:"AgriSURE", diff:"M", q:"AgriSURE Fund primarily aims to provide risk capital to which type of enterprises?", a:"Agri-startups and rural enterprises across the agriculture and allied value chain", d:["Only FPOs registered under the 10,000 FPO scheme","Large corporate agribusiness houses","Public Sector Undertakings in the agriculture sector","State-level Agricultural Marketing Boards"]},
+
+// NMSA extra
+{s:"NMSA", diff:"H", q:"Under NMSA's Rainfed Area Development (RAD) component, what is the minimum cluster size specified for project implementation?", a:"100 hectares or more", d:["50 hectares or more","200 hectares or more","25 hectares or more","500 hectares or more"]},
+
+// MIDH extra
+{s:"MIDH", diff:"H", q:"Under MIDH's Protected Cultivation subsidy component, what is the credit-linked back-ended subsidy percentage and cap?", a:"50% of project cost, up to Rs. 56.00 lakh", d:["40% of project cost, up to Rs. 30.00 lakh","60% of project cost, up to Rs. 50.00 lakh","50% of project cost, up to Rs. 37.50 lakh","45% of project cost, up to Rs. 40.00 lakh"]},
+{s:"MIDH", diff:"H", q:"The Central Institute of Horticulture (CIH), established in 2006-07 under MIDH, is located at which place?", a:"Medziphema, Nagaland", d:["Gurugram, Haryana","Kochi, Kerala","Bengaluru, Karnataka","Imphal, Manipur"]},
+
+// NBHM extra
+{s:"NBHM", diff:"H", q:"On what date was the NABL-accredited honey testing lab set up under NDDB, Anand, inaugurated?", a:"24th July 2020", d:["1st August 2020","15th August 2020","12th July 2020","1st October 2020"]},
+{s:"NBHM", diff:"M", q:"Following the initial three-year period, NBHM was continued with a balance allocation for 2023-24 to 2025-26 of how much?", a:"Rs. 370 crore", d:["Rs. 500 crore","Rs. 250 crore","Rs. 400 crore","Rs. 300 crore"]},
+
+// NMEO-OP extra
+{s:"NMEO-OP", diff:"H", q:"Under NMEO-OP, by what year is Crude Palm Oil production targeted to reach 28 lakh tonnes?", a:"2028-29", d:["2025-26","2030-31","2027-28","2032-33"]},
+
+// CHAMAN extra
+{s:"CHAMAN", diff:"M", q:"Under Project CHAMAN, which technology-driven agency provides satellite/remote sensing support for area assessment and production forecasting?", a:"Indian Space Research Organisation (ISRO)", d:["Indian Meteorological Department (IMD)","National Remote Sensing Centre (NRSC) independently","Bhaskaracharya National Institute for Space Applications","Survey of India"]},
+
+// FASAL extra
+{s:"FASAL", diff:"M", q:"What does the acronym FASAL stand for?", a:"Forecasting Agricultural output using Space, Agrometeorology and Land based observations", d:["Forecast and Assessment System for Agricultural Land","Food and Agriculture Statistical Analysis using Land data","Framework for Assessment of Seasonal Agricultural Loss","Forecasting Agri-Statistics through Aerial and Land Surveys"]},
+
+// Agri Census extra
+{s:"Agri-Census", diff:"M", q:"What was the reference year of India's 10th Agriculture Census?", a:"2015-16", d:["2010-11","2020-21","2018-19","2021-22"]},
+
+// ISAM extra
+{s:"ISAM", diff:"H", q:"Under AMI, what is the subsidy rate and cap for non-storage type infrastructure projects for North Eastern States, Sikkim and Hilly areas?", a:"33.33% subsidy, maximum Rs. 30.00 lakh", d:["25% subsidy, maximum Rs. 25.00 lakh","33.33% subsidy, maximum Rs. 50.00 lakh","40% subsidy, maximum Rs. 40.00 lakh","30% subsidy, maximum Rs. 35.00 lakh"]},
+{s:"ISAM", diff:"M", q:"Which autonomous organization under the Department of Agriculture & Farmers Welfare focuses on training, research and consultancy in agricultural marketing?", a:"Central Council for Sustainable Agricultural Marketing - National Institute of Agricultural Marketing (CCS NIAM)", d:["Small Farmers Agri-Business Consortium (SFAC)","National Institute of Agricultural Extension Management (MANAGE)","National Academy of Agricultural Research Management (NAARM)","National Institute of Rural Development (NIRD)"]},
+
+// NMAET extra
+{s:"NMAET", diff:"M", q:"NMAET operates under which broader umbrella scheme, alongside its various sub-missions like SMAM, SMPPQ, and SMSP?", a:"Green Revolution – Krishonnati Yojana", d:["Rashtriya Krishi Vikas Yojana (RKVY)","National Mission for Sustainable Agriculture (NMSA)","Digital Agriculture Mission","PM-AASHA"]},
+
+// PM-AASHA extra
+{s:"PM-AASHA", diff:"H", q:"Under PM-AASHA, what is the compensation cap set under the Price Deficit Payment Scheme (PDPS), as a percentage of MSP?", a:"15% of MSP", d:["25% of MSP","10% of MSP","20% of MSP","30% of MSP"]},
+
+// NFSM extra
+{s:"NFSM", diff:"H", q:"Under NFSM's allocation for marginalized groups, what percentage of funds is earmarked for Scheduled Caste (SC) farmers, as against Scheduled Tribe (ST) farmers?", a:"16% for SC farmers, 8% for ST farmers", d:["20% for SC farmers, 10% for ST farmers","15% for SC farmers, 7.5% for ST farmers","10% for SC farmers, 5% for ST farmers","16.6% for SC farmers, 8.6% for ST farmers"]},
+
+// AC&ABC extra
+{s:"AC&ABC", diff:"M", q:"Under the Agri-Clinic and Agri-Business Centres (AC&ABC) scheme, what is the duration of the training course provided to candidates before they set up their enterprise?", a:"45 days", d:["30 days", "60 days","90 days","15 days"]},
+
+// KVK extra
+{s:"KVK", diff:"M", q:"Which of the following is NOT among the core responsibilities of a Krishi Vigyan Kendra (KVK)?", a:"Direct disbursement of agricultural credit and crop loans to farmers", d:["On-Farm Testing of new technologies","Front-line Demonstration of new technologies on farmer fields","Capacity Building through farmer training programmes","Advisory Services including weather and market price information"]},
+
+// Agri Udaan extra
+{s:"Agri-Udaan", diff:"H", q:"At which venue in Hyderabad was Agri UDAAN 7.0 officially launched on 22 August 2024?", a:"Novotel HICC", d:["HITEX Exhibition Centre","Taj Krishna","ICRISAT Campus","Hyderabad International Convention Centre (standalone)"]},
+
+// eRakam extra
+{s:"eRakam", diff:"M", q:"Which organization provided supporting collaboration to MSTC in developing the E-Rakam Portal?", a:"Central Railside Warehouse Company", d:["Food Corporation of India","Central Warehousing Corporation","National Cooperative Development Corporation","Container Corporation of India"]},
+
+// NPOP extra
+{s:"NPOP", diff:"H", q:"Under NPOP, what is the primary role of APEDA with respect to Certification Bodies?", a:"Accrediting certification programmes of Certification Bodies seeking accreditation for organic products", d:["Directly certifying individual organic farmers","Setting Minimum Support Prices for organic produce","Issuing PGS-India green certification","Providing subsidy for organic input procurement"]},
+
+// KCC extra
+{s:"KCC-Center", diff:"H", q:"Under the Kisan Call Centre, when a Farm Tele Advisor (FTA) is unable to answer a farmer's query, it is escalated to which level?", a:"Call Conferencing Experts, in a call conferencing mode", d:["State Agriculture Department officials directly","The nearest Krishi Vigyan Kendra (KVK) via SMS","Regional Manager of the Kisan Call Centre","District Collector's office"]},
+
+// Namo Drone Didi extra
+{s:"NamoDroneDidi", diff:"H", q:"Namo Drone Didi is a collaborative effort between which three central departments, along with Lead Fertilizer Companies (LFCs)?", a:"Department of Agriculture & Farmers Welfare, Department of Rural Development, and Department of Fertilizers", d:["Department of Agriculture, Department of Rural Development, and Department of Skill Development","Department of Agriculture, Department of Fertilizers, and Ministry of Civil Aviation","Department of Rural Development, Department of Fertilizers, and Ministry of Women & Child Development","Department of Agriculture, NABARD, and Ministry of Civil Aviation"]},
+{s:"NamoDroneDidi", diff:"M", q:"Under Namo Drone Didi, the second member of an SHG family with inclination towards repairs and mechanical work is trained for what role?", a:"Drone assistant", d:["Backup drone pilot","Fertilizer procurement agent","SHG accounts manager","Drone insurance surveyor"]},
+{s:"NamoDroneDidi", diff:"M", q:"Under Namo Drone Didi, the selection of SHGs is based on the identification of clusters within which rural livelihood mission's ambit?", a:"DAY-NRLM (Deendayal Antyodaya Yojana - National Rural Livelihoods Mission)", d:["MGNREGA","PM Awas Yojana - Gramin","Pradhan Mantri Gram Sadak Yojana","National Rural Employment Guarantee Scheme"]},
+
+// AMIF/GrAMs extra
+{s:"AMIF", diff:"H", q:"Under GrAMs, which government employment guarantee scheme's funds are utilized to strengthen the physical infrastructure of rural haats?", a:"MGNREGA (Mahatma Gandhi National Rural Employment Guarantee Act)", d:["PM Gram Sadak Yojana","Rurban Mission","National Rural Livelihood Mission","Deen Dayal Upadhyaya Grameen Kaushalya Yojana"]},
+
+// SMAM extra
+{s:"SMAM", diff:"H", q:"Under SMAM's financial assistance for post-harvest equipment/machinery, what is the subsidy rate for general category beneficiaries, as against SC/ST/Small & Marginal/Women/NE beneficiaries?", a:"50% for general beneficiaries, 60% for SC/ST/Small & Marginal/Women/NE beneficiaries", d:["40% for general beneficiaries, 50% for SC/ST/Small & Marginal/Women/NE beneficiaries","50% for general beneficiaries, 50% for SC/ST/Small & Marginal/Women/NE beneficiaries","60% for general beneficiaries, 70% for SC/ST/Small & Marginal/Women/NE beneficiaries","45% for general beneficiaries, 55% for SC/ST/Small & Marginal/Women/NE beneficiaries"]},
+
+// Institutions extra
+{s:"Institutions", diff:"H", q:"Hortinet, an integrated traceability system for export of Grapes, Pomegranate and Vegetables to the European Union, is developed by which agency?", a:"APEDA (Agricultural and Processed Food Products Export Development Authority)", d:["National Horticulture Board (NHB)","Coconut Development Board (CDB)","Spices Board of India","Directorate of Marketing and Inspection (DMI)"]},
+{s:"Institutions", diff:"M", q:"'Farmer First' is an initiative launched by which organization to move beyond the traditional focus on production and productivity toward addressing smallholder agriculture challenges?", a:"Indian Council of Agricultural Research (ICAR)", d:["NABARD","Ministry of Rural Development","Small Farmers Agri-Business Consortium (SFAC)","National Institute of Agricultural Extension Management (MANAGE)"]},
+
+];
+
+/* ===== END QUESTION DATA ===== */
+
+// Friendly display names for scheme codes (falls back to the code itself if not listed)
+const SCHEME_LABELS = {
+  "PM-KISAN":"PM-KISAN",
+  "PM-KMY":"PM Kisan Maandhan Yojana",
+  "e-NAM":"e-NAM",
+  "AIF":"Agriculture Infrastructure Fund",
+  "FPO-10000":"Formation of 10,000 FPOs",
+  "SHC":"Soil Health Card Scheme",
+  "PKVY":"Paramparagat Krishi Vikas Yojana",
+  "BPKP":"Bhartiya Prakritik Krishi Padhati",
+  "PMDDKY":"PM Dhan Dhaanya Krishi Yojana",
+  "PMFBY":"PM Fasal Bima Yojana",
+  "RWBCIS":"Weather Based Crop Insurance (RWBCIS)",
+  "PMKSY":"PM Krishi Sinchayee Yojana",
+  "NMNF":"National Mission on Natural Farming",
+  "DAM":"Digital Agriculture Mission",
+  "AgriSURE":"Agri SURE Fund",
+  "NMSA":"National Mission for Sustainable Agri.",
+  "MIDH":"Mission for Integrated Dev. of Horticulture",
+  "NBHM":"National Beekeeping & Honey Mission",
+  "NMEO-OP":"National Mission on Edible Oils–Oil Palm",
+  "CHAMAN":"Project CHAMAN",
+  "FASAL":"FASAL Programme",
+  "Agri-Census":"Agriculture Census",
+  "ISAM":"Agri Marketing Infra (ISAM/AMI)",
+  "NMAET":"National Mission on Agri Extension & Tech",
+  "PM-AASHA":"PM-AASHA",
+  "NFSM":"National Food Security Mission",
+  "NFSM-OSOP":"NFSM – Oilseeds & Oil Palm",
+  "NeGP-A":"NeGP-A (Farmers/mKisan Portal)",
+  "AC&ABC":"Agri-Clinic & Agri-Business Centres",
+  "NICRA":"NICRA (Climate Resilient Agriculture)",
+  "KVK":"Krishi Vigyan Kendras",
+  "Agri-Udaan":"Agri Udaan",
+  "MGMG":"Mera Gaon Mera Gaurav",
+  "ARYA":"ARYA Scheme",
+  "eRakam":"E-Rakam Portal / E-Krishi Samvaad",
+  "NPOP":"National Programme for Organic Production",
+  "KCC-Center":"Kisan Call Centre",
+  "NamoDroneDidi":"Namo Drone Didi",
+  "AMIF":"Agri-Market Infrastructure Fund",
+  "GrAMs":"Gramin Agriculture Markets",
+  "SMAM":"Sub-Mission on Agri Mechanization",
+  "Institutions":"Other Institutions & Programmes"
+};
+
+// Build the 5-option quiz set with a deterministic even rotation of the correct answer across A-E
+// idxOffset lets section-wise quizzes keep a rotation independent of position in the full bank
+function buildQuizSet(bank, idxOffset){
+  idxOffset = idxOffset || 0;
+  return bank.map((item, idx) => {
+    const correctPos = (idx + idxOffset) % 5; // 0=A,1=B,2=C,3=D,4=E
+    const opts = new Array(5);
+    let dPointer = 0;
+    for(let i=0;i<5;i++){
+      if(i === correctPos){ opts[i] = item.a; }
+      else { opts[i] = item.d[dPointer++]; }
+    }
+    return {
+      scheme: item.s,
+      diff: item.diff,
+      q: item.q,
+      options: opts,
+      correctIndex: correctPos
+    };
+  });
+}
+
+// Fisher-Yates shuffle for question order (options stay in rotated fixed position, only question order shuffles)
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+const LETTERS = ['A','B','C','D','E'];
+let quizSet = [];
+let currentIndex = 0;
+let score = 0;
+let answered = []; // {q, userIndex, correctIndex, correct}
+let locked = false;
+let lastMode = 'full'; // 'full' or 'section' — remembers where results/restart should return to
+let lastSectionCode = null;
+
+// Screens
+const homeScreen = document.getElementById('homeScreen');
+const startScreen = document.getElementById('startScreen');
+const sectionScreen = document.getElementById('sectionScreen');
+const quizScreen = document.getElementById('quizScreen');
+const resultsScreen = document.getElementById('resultsScreen');
+
+// Home screen elements
+const startStats = document.getElementById('startStats');
+const modeFullBtn = document.getElementById('modeFullBtn');
+const modeSectionBtn = document.getElementById('modeSectionBtn');
+
+// Full quiz setup elements
+const startBtn = document.getElementById('startBtn');
+const backFromFullBtn = document.getElementById('backFromFullBtn');
+const orderPdfBtn = document.getElementById('orderPdfBtn');
+const orderShuffleBtn = document.getElementById('orderShuffleBtn');
+let orderMode = 'pdf'; // 'pdf' or 'shuffle'
+
+orderPdfBtn.addEventListener('click', () => {
+  orderMode = 'pdf';
+  orderPdfBtn.classList.add('active');
+  orderShuffleBtn.classList.remove('active');
+});
+orderShuffleBtn.addEventListener('click', () => {
+  orderMode = 'shuffle';
+  orderShuffleBtn.classList.add('active');
+  orderPdfBtn.classList.remove('active');
+});
+
+// Section picker elements
+const sectionGrid = document.getElementById('sectionGrid');
+const backFromSectionBtn = document.getElementById('backFromSectionBtn');
+
+// Quiz screen elements
+const exitQuizBtn = document.getElementById('exitQuizBtn');
+const sectionModeTag = document.getElementById('sectionModeTag');
+const qCounter = document.getElementById('qCounter');
+const scorePill = document.getElementById('scorePill');
+const progressFill = document.getElementById('progressFill');
+const schemeTag = document.getElementById('schemeTag');
+const diffTag = document.getElementById('diffTag');
+const qText = document.getElementById('qText');
+const optionsWrap = document.getElementById('optionsWrap');
+const feedbackWrap = document.getElementById('feedbackWrap');
+const nextBtn = document.getElementById('nextBtn');
+
+// Results screen elements
+const finalScore = document.getElementById('finalScore');
+const finalPct = document.getElementById('finalPct');
+const diffBreakdown = document.getElementById('diffBreakdown');
+const reviewBtn = document.getElementById('reviewBtn');
+const restartBtn = document.getElementById('restartBtn');
+const menuBtn = document.getElementById('menuBtn');
+const reviewSection = document.getElementById('reviewSection');
+const footerNote = document.getElementById('footerNote');
+
+function hideAllScreens(){
+  homeScreen.classList.add('hidden');
+  startScreen.classList.add('hidden');
+  sectionScreen.classList.add('hidden');
+  quizScreen.classList.add('hidden');
+  resultsScreen.classList.add('hidden');
+}
+
+function goHome(){
+  hideAllScreens();
+  homeScreen.classList.remove('hidden');
+}
+
+function initStartStats(){
+  const total = QUESTIONS.length;
+  const counts = {E:0,M:0,H:0};
+  QUESTIONS.forEach(q=>counts[q.diff]++);
+  startStats.innerHTML = `
+    <div class="stat"><div class="num">${total}</div><div class="lbl">Total Qs</div></div>
+    <div class="stat"><div class="num">${counts.H}</div><div class="lbl">Hard</div></div>
+    <div class="stat"><div class="num">${counts.M + counts.E}</div><div class="lbl">Med / Easy</div></div>
+  `;
+  footerNote.textContent = `${total} questions · answers rotated evenly across A–E · sourced from the Ministry of Agriculture scheme compendium`;
+}
+initStartStats();
+
+// Ordered list of unique scheme codes, in first-appearance (PDF) order
+function getSchemeOrder(){
+  const seen = [];
+  const set = new Set();
+  QUESTIONS.forEach(q => {
+    if(!set.has(q.s)){ set.add(q.s); seen.push(q.s); }
+  });
+  return seen;
+}
+
+function buildSectionGrid(){
+  const order = getSchemeOrder();
+  const counts = {};
+  QUESTIONS.forEach(q => counts[q.s] = (counts[q.s]||0) + 1);
+  sectionGrid.innerHTML = '';
+  order.forEach(code => {
+    const btn = document.createElement('button');
+    btn.className = 'section-btn';
+    btn.innerHTML = `<span class="sname">${SCHEME_LABELS[code] || code}</span><span class="scount">${counts[code]}</span>`;
+    btn.addEventListener('click', () => startSectionQuiz(code));
+    sectionGrid.appendChild(btn);
+  });
+}
+buildSectionGrid();
+
+modeFullBtn.addEventListener('click', () => {
+  hideAllScreens();
+  startScreen.classList.remove('hidden');
+});
+modeSectionBtn.addEventListener('click', () => {
+  hideAllScreens();
+  sectionScreen.classList.remove('hidden');
+});
+backFromFullBtn.addEventListener('click', goHome);
+backFromSectionBtn.addEventListener('click', goHome);
+exitQuizBtn.addEventListener('click', () => {
+  if(!confirm('Exit this quiz and return to the menu? Your current progress will be lost.')) return;
+  goHome();
+});
+
+function startQuiz(){
+  const built = buildQuizSet(QUESTIONS, 0);
+  quizSet = orderMode === 'shuffle' ? shuffle(built) : built;
+  currentIndex = 0;
+  score = 0;
+  answered = [];
+  lastMode = 'full';
+  lastSectionCode = null;
+  hideAllScreens();
+  quizScreen.classList.remove('hidden');
+  sectionModeTag.style.display = 'none';
+  renderQuestion();
+}
+
+function startSectionQuiz(code){
+  const bank = QUESTIONS.filter(q => q.s === code);
+  quizSet = buildQuizSet(bank, 0);
+  currentIndex = 0;
+  score = 0;
+  answered = [];
+  lastMode = 'section';
+  lastSectionCode = code;
+  hideAllScreens();
+  quizScreen.classList.remove('hidden');
+  sectionModeTag.style.display = 'inline-block';
+  sectionModeTag.textContent = SCHEME_LABELS[code] || code;
+  renderQuestion();
+}
+
+function renderQuestion(){
+  locked = false;
+  const item = quizSet[currentIndex];
+  qCounter.textContent = `Question ${currentIndex+1} of ${quizSet.length}`;
+  scorePill.textContent = `Score: ${score}`;
+  progressFill.style.width = ((currentIndex)/quizSet.length*100) + '%';
+  schemeTag.textContent = SCHEME_LABELS[item.scheme] || item.scheme;
+  const diffLabel = item.diff === 'E' ? 'Easy' : item.diff === 'M' ? 'Moderate' : 'Hard';
+  diffTag.textContent = diffLabel;
+  diffTag.className = 'tag diff' + item.diff;
+  qText.textContent = item.q;
+  feedbackWrap.innerHTML = '';
+  nextBtn.classList.add('hidden');
+
+  optionsWrap.innerHTML = '';
+  item.options.forEach((optText, i) => {
+    const div = document.createElement('div');
+    div.className = 'opt';
+    div.innerHTML = `<span class="letter">${LETTERS[i]}</span><span>${optText}</span>`;
+    div.addEventListener('click', () => selectOption(i));
+    optionsWrap.appendChild(div);
+  });
+}
+
+function selectOption(i){
+  if(locked) return;
+  locked = true;
+  const item = quizSet[currentIndex];
+  const correct = i === item.correctIndex;
+  if(correct) score++;
+
+  answered.push({
+    scheme: item.scheme,
+    q: item.q,
+    options: item.options,
+    userIndex: i,
+    correctIndex: item.correctIndex,
+    correct: correct
+  });
+
+  const optDivs = optionsWrap.querySelectorAll('.opt');
+  optDivs.forEach((div, idx) => {
+    div.classList.add('locked');
+    if(idx === item.correctIndex) div.classList.add('correct');
+    else if(idx === i) div.classList.add('wrong');
+    else div.classList.add('dim');
+  });
+
+  feedbackWrap.innerHTML = `<div class="feedback ${correct ? 'ok' : 'no'}">
+    ${correct ? '✓ Correct!' : '✗ Incorrect.'} The right answer is <strong>${LETTERS[item.correctIndex]}. ${item.options[item.correctIndex]}</strong>
+  </div>`;
+
+  scorePill.textContent = `Score: ${score}`;
+  nextBtn.classList.remove('hidden');
+}
+
+nextBtn.addEventListener('click', () => {
+  if(currentIndex < quizSet.length - 1){
+    currentIndex++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
+});
+
+function showResults(){
+  hideAllScreens();
+  resultsScreen.classList.remove('hidden');
+  reviewSection.classList.add('hidden');
+  reviewSection.innerHTML = '';
+
+  const total = quizSet.length;
+  finalScore.textContent = `${score} / ${total}`;
+  const pct = Math.round((score/total)*100);
+  finalPct.textContent = `${pct}% accuracy` + (lastMode === 'section' ? ` · ${SCHEME_LABELS[lastSectionCode] || lastSectionCode}` : '');
+
+  const diffStats = {E:{c:0,t:0}, M:{c:0,t:0}, H:{c:0,t:0}};
+  answered.forEach((a,idx) => {
+    const d = quizSet[idx].diff;
+    diffStats[d].t++;
+    if(a.correct) diffStats[d].c++;
+  });
+  diffBreakdown.innerHTML = `
+    <div class="stat"><div class="num">${diffStats.E.c}/${diffStats.E.t}</div><div class="lbl">Easy</div></div>
+    <div class="stat"><div class="num">${diffStats.M.c}/${diffStats.M.t}</div><div class="lbl">Moderate</div></div>
+    <div class="stat"><div class="num">${diffStats.H.c}/${diffStats.H.t}</div><div class="lbl">Hard</div></div>
+  `;
+
+  const missed = answered.filter(a => !a.correct);
+  reviewBtn.textContent = missed.length ? `Review ${missed.length} Missed Question${missed.length>1?'s':''}` : 'No Mistakes — Nothing to Review!';
+  reviewBtn.disabled = missed.length === 0;
+}
+
+reviewBtn.addEventListener('click', () => {
+  const missed = answered.filter(a => !a.correct);
+  if(!missed.length) return;
+  reviewSection.classList.remove('hidden');
+  reviewSection.innerHTML = missed.map(m => `
+    <div class="review-item">
+      <div class="scheme-label">${SCHEME_LABELS[m.scheme] || m.scheme}</div>
+      <div class="rq">${m.q}</div>
+      <div class="ra your">Your answer: ${LETTERS[m.userIndex]}. ${m.options[m.userIndex]}</div>
+      <div class="ra right">Correct answer: ${LETTERS[m.correctIndex]}. ${m.options[m.correctIndex]}</div>
+    </div>
+  `).join('');
+  reviewBtn.scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+restartBtn.addEventListener('click', () => {
+  if(lastMode === 'section' && lastSectionCode){
+    startSectionQuiz(lastSectionCode);
+  } else {
+    startQuiz();
+  }
+});
+
+menuBtn.addEventListener('click', goHome);
+
+startBtn.addEventListener('click', startQuiz);
+</script>
+</body>
+</html>

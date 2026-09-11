@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MWCD Practice Quiz — NABARD Grade A Style</title>
+<style>
+  :root {
+    --navy: #16233f;
+    --navy2: #1f3157;
+    --gold: #b8862b;
+    --gold-light: #e8c877;
+    --cream: #f6f3ec;
+    --paper: #fffdf8;
+    --ink: #1c1c1c;
+    --muted: #6b6558;
+    --correct: #1e7d4d;
+    --correct-bg: #e5f3ea;
+    --wrong: #a3282c;
+    --wrong-bg: #fbe9e8;
+    --line: #ddd6c4;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 18px 16px 60px;
+  }
+  .masthead {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+    color: var(--cream);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::after {
+    content: "";
+    position: absolute;
+    right: -30px; top: -30px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: rgba(184,134,43,0.18);
+  }
+  .masthead .eyebrow {
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 4px;
+  }
+  .masthead h1 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .masthead .sub {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: #cdd3e0;
+  }
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 14px 0 6px;
+    font-family: Arial, sans-serif;
+  }
+  .progress-track {
+    flex: 1;
+    height: 8px;
+    background: var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+  .stat-badge {
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    color: var(--navy2);
+    white-space: nowrap;
+    font-weight: 700;
+  }
+  .score-badge {
+    background: var(--navy);
+    color: var(--gold-light);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 10px rgba(20,20,10,0.05);
+  }
+  .qnum {
+    font-family: 'Courier New', monospace;
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .qtext {
+    font-size: 16px;
+    line-height: 1.55;
+    white-space: pre-line;
+    margin-bottom: 18px;
+  }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt {
+    font-family: Arial, sans-serif;
+    text-align: left;
+    border: 1.5px solid var(--line);
+    background: var(--paper);
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-size: 14.5px;
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .opt:hover:not(.locked) {
+    border-color: var(--gold);
+    background: #fbf6ea;
+  }
+  .opt .letter {
+    font-weight: 700;
+    color: var(--navy2);
+    min-width: 18px;
+  }
+  .opt.correct {
+    border-color: var(--correct);
+    background: var(--correct-bg);
+  }
+  .opt.correct .letter { color: var(--correct); }
+  .opt.wrong {
+    border-color: var(--wrong);
+    background: var(--wrong-bg);
+  }
+  .opt.wrong .letter { color: var(--wrong); }
+  .opt.dim { opacity: 0.55; }
+  .feedback {
+    margin-top: 14px;
+    font-family: Arial, sans-serif;
+    font-size: 13.5px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    line-height: 1.5;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: var(--correct-bg); color: #164a30; border: 1px solid #bfe0cc; }
+  .feedback.wrong-fb { background: var(--wrong-bg); color: #6b1418; border: 1px solid #eec2c1; }
+  .nav-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 18px;
+  }
+  button.next-btn {
+    font-family: Arial, sans-serif;
+    background: var(--navy);
+    color: var(--cream);
+    border: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  button.next-btn.show { opacity: 1; pointer-events: auto; }
+  button.next-btn:hover { background: var(--navy2); }
+
+  .summary-card { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 26px; text-align: center; font-family: Arial, sans-serif; }
+  .summary-card h2 { font-family: Georgia, serif; color: var(--navy); margin-top: 0; }
+  .big-score { font-size: 46px; font-weight: 800; color: var(--navy); margin: 6px 0; }
+  .big-score span { font-size: 20px; color: var(--muted); }
+  .verdict { font-size: 14px; color: var(--muted); margin-bottom: 18px; }
+  .restart-btn {
+    background: var(--gold);
+    color: #2a1e02;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .review-list { text-align: left; margin-top: 24px; }
+  .review-item {
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--wrong);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    background: #fffaf5;
+  }
+  .review-item .rq { font-weight: 700; font-size: 13.5px; margin-bottom: 6px; white-space: pre-line; }
+  .review-item .ra { font-size: 13px; margin: 3px 0; }
+  .review-item .ra.you { color: var(--wrong); }
+  .review-item .ra.correct-ans { color: var(--correct); }
+  .review-item .rex { font-size: 12.5px; color: var(--muted); margin-top: 6px; font-style: italic; }
+  .perfect-note { font-size: 13.5px; color: var(--correct); margin-top: 20px; }
+  .hidden { display: none !important; }
+  .jump-hint { font-family: Arial, sans-serif; font-size: 11.5px; color: var(--muted); text-align: center; margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="eyebrow">MWCD // Mission Shakti · Mission Vatsalya · Poshan 2.0</div>
+    <h1>NABARD Grade A — Practice Paper</h1>
+    <div class="sub">Ministry of Women &amp; Child Development — Static Awareness Module</div>
+  </div>
+
+  <div id="quiz-area">
+    <div class="progress-row">
+      <span class="stat-badge" id="qcounter">Question 1 / 117</span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <span class="score-badge" id="scoreBadge">Score: 0</span>
+    </div>
+
+    <div class="card">
+      <div class="qnum" id="qnumLabel">Q.1</div>
+      <div class="qtext" id="qtext"></div>
+      <div class="options" id="optionsArea"></div>
+      <div class="feedback" id="feedbackBox"></div>
+      <div class="nav-row">
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+      </div>
+    </div>
+    <div class="jump-hint">Select an option to see instant feedback. NABARD Grade A style · 117 questions</div>
+  </div>
+
+  <div id="summary-area" class="hidden">
+    <div class="summary-card">
+      <h2>Paper Complete</h2>
+      <div class="big-score"><span id="finalScore">0</span><span> / 117</span></div>
+      <div class="verdict" id="verdictText"></div>
+      <button class="restart-btn" onclick="restartQuiz()">Restart Quiz</button>
+      <div id="reviewSection" class="review-list"></div>
+      <div id="perfectNote" class="perfect-note hidden">🎉 Perfect score — every statement, figure and date nailed. That's Grade A form.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [{"q": "Who is the Union Minister heading the Ministry of Women and Child Development, as per the document?", "options": ["Smt. Annpurna Devi", "Smt. Smriti Irani", "Smt. Maneka Gandhi", "Smt. Nirmala Sitharaman", "None of the above"], "answer": 0, "exp": "Smt. Annpurna Devi continues as Cabinet Minister from Koderma, Jharkhand."}, {"q": "Consider the following statements regarding the 'Three-Mission Architecture' (the 'New Normal') of MWCD:\n1. Mission Shakti deals with Women's Safety, Security and Empowerment.\n2. Mission Vatsalya deals with Child Protection and Welfare.\n3. Saksham Anganwadi & Poshan 2.0 deals with Nutrition.\n4. This architecture has been in effect since 2018-19.\nWhich of the above statements are correct?", "options": ["1 and 2 only", "1, 2 and 3 only", "1, 2, 3 and 4", "2 and 3 only", "None of the above"], "answer": 1, "exp": "The three-mission consolidation has been in place since 2021-22, not 2018-19; statement 4 is incorrect."}, {"q": "Consider the following pairs of bodies and their classification:\n1. National Commission for Women — Statutory\n2. Central Social Welfare Board — Statutory\n3. Central Adoption Resource Authority — Statutory\n4. National Institute of Public Cooperation and Child Development — Autonomous\nWhich of the above pairs are correctly matched?", "options": ["1 only", "1 and 3 only", "1, 3 and 4 only", "All four", "None of the above"], "answer": 2, "exp": "The Central Social Welfare Board is an Autonomous body, not Statutory, so pair 2 is wrong."}, {"q": "Consider the following statements about the National Commission for Protection of Child Rights:\n1. It monitors implementation of the Right to Education (RTE) Act.\n2. It monitors implementation of the POCSO Act.\n3. It monitors implementation of the Juvenile Justice (JJ) Act.\n4. It monitors implementation of the PCPNDT Act.\nWhich of the above statements are correct?", "options": ["1 only", "1 and 2 only", "2 and 3 only", "1, 2 and 3 only", "All four"], "answer": 3, "exp": "The document lists RTE, POCSO and JJ Act as monitored by this body; PCPNDT is linked to BBBP, not this commission."}, {"q": "What is the primary function of the Central Adoption Resource Authority (CARA)?", "options": ["Reviewing constitutional/legal safeguards for women", "Regulating anganwadi infrastructure", "Training and research in public cooperation", "Monitoring POCSO-related cases", "Facilitating inter-country and intra-country adoption"], "answer": 4, "exp": "CARA is the statutory/nodal body for adoption (inter-country and intra-country)."}, {"q": "Since which year has the MWCD consolidated its dozens of schemes into three umbrella missions?", "options": ["2021-22", "2018-19", "2015-16", "2023-24", "2019-20"], "answer": 0, "exp": "The consolidation into the 'New Normal' three-mission architecture began in 2021-22."}, {"q": "Consider the following statements about the National Institute of Public Cooperation and Child Development:\n1. It is classified as a Statutory body.\n2. It conducts training and research in public cooperation and child development.\nWhich of the above is/are correct?", "options": ["1 only", "2 only", "Both 1 and 2", "Neither 1 nor 2", "Cannot be determined from the document"], "answer": 1, "exp": "It is classified as an Autonomous body (not Statutory) that conducts training and research."}, {"q": "The Central Social Welfare Board is classified as which type of body, and what does it primarily promote?", "options": ["Statutory; legal safeguards for women", "Autonomous; adoption processes", "Autonomous; voluntary social work", "Statutory; child rights monitoring", "None of the above"], "answer": 2, "exp": "It is an Autonomous body that promotes voluntary social work."}, {"q": "What is the implementation period of Mission Shakti, aligned with the Finance Commission cycle?", "options": ["14th FC period, 2015-16 to 2019-20", "15th FC period, 2019-20 to 2024-25", "16th FC period, 2026-27 to 2030-31", "15th FC period, 2021-22 to 2025-26", "None of the above"], "answer": 3, "exp": "Mission Shakti runs during the 15th Finance Commission period, 2021-22 to 2025-26."}, {"q": "Consider the following statements:\n1. Sambal focuses on the safety and security of women.\n2. Samarthya focuses on the socio-economic empowerment of women.\n3. Both Sambal and Samarthya are funded entirely (100%) by the Central Government.\nWhich of the above statements are correct?", "options": ["1 only", "2 only", "All three", "None of the above", "1 and 2 only"], "answer": 4, "exp": "Sambal is largely 100% centrally funded, but Samarthya follows a 60:40 (or 90:10) sharing pattern, so statement 3 is false."}, {"q": "Sambal, the safety and security pillar of Mission Shakti, is funded under which pattern?", "options": ["Centrally Sponsored Scheme with 100% Central funding for most components", "60:40 Centre-State sharing", "50:50 Centre-State sharing", "Fully State-funded", "90:10 for all states without exception"], "answer": 0, "exp": "Sambal is a Centrally Sponsored Scheme with 100% Central funding for most components."}, {"q": "What is the standard funding pattern for Samarthya components in general (non-NE/Himalayan) states?", "options": ["100% Central", "60:40 (Centre:State)", "75:25 (Centre:State)", "50:50 (Centre:State)", "90:10 (Centre:State)"], "answer": 1, "exp": "Samarthya funding is shared 60:40 between Centre and State for most states (90:10 for NE/Himalayan states)."}, {"q": "Consider the following components:\n1. One Stop Centre (OSC)\n2. Women Helpline (WHL)\n3. Sakhi Niwas\n4. Nari Adalat\nWhich of the above are part of the Sambal pillar of Mission Shakti?", "options": ["1 and 2 only", "1, 2 and 3 only", "1, 2 and 4 only", "All four", "None of the above"], "answer": 2, "exp": "Sakhi Niwas belongs to the Samarthya pillar, not Sambal; OSC, WHL and Nari Adalat are Sambal components."}, {"q": "Consider the following components:\n1. Shakti Sadan\n2. Palna\n3. Beti Bachao Beti Padhao\n4. Pradhan Mantri Matru Vandana Yojana\nWhich of the above are part of the Samarthya pillar of Mission Shakti?", "options": ["1 and 2 only", "3 and 4 only", "All four", "1, 2 and 4 only", "None of the above"], "answer": 3, "exp": "BBBP is a Sambal component; Shakti Sadan, Palna and PMMVY belong to Samarthya."}, {"q": "SANKALP: Hub for Empowerment of Women (HEW) replaced which earlier scheme?", "options": ["Swadhar Greh", "Ujjawala", "Working Women Hostel", "Rajiv Gandhi National Creche Scheme", "Mahila Shakti Kendra (MSK)"], "answer": 4, "exp": "HEW replaced the erstwhile Mahila Shakti Kendra (MSK) scheme."}, {"q": "When was the One Stop Centre (OSC) scheme launched, and when was it integrated into Mission Shakti?", "options": ["1 April 2015; integrated in 2021", "1 January 2015; integrated in 2018", "22 January 2015; integrated in 2021", "1 April 2017; integrated in 2022", "None of the above"], "answer": 0, "exp": "OSC was launched on April 1, 2015 and integrated into Mission Shakti in 2021."}, {"q": "Consider the following statements about services mandated at every One Stop Centre:\n1. Emergency response and medical assistance.\n2. Facilitating the filing of an FIR/DIR.\n3. Psychosocial counseling.\n4. Direct Benefit Transfer of maternity cash incentives.\nWhich of the above are correct?", "options": ["1 and 2 only", "1, 2 and 3 only", "1, 2, 3 and 4", "3 and 4 only", "None of the above"], "answer": 1, "exp": "DBT for maternity benefits is a PMMVY function, not an OSC service; the first three are OSC's core services."}, {"q": "What is the maximum duration for which shelter is provided to a woman and her children at a One Stop Centre?", "options": ["3 days", "7 days", "5 days", "15 days", "30 days"], "answer": 2, "exp": "OSCs provide temporary shelter for a maximum of 5 days."}, {"q": "At a One Stop Centre, up to what age can boys accompanying their mothers stay, while girls of all ages may stay?", "options": ["10 years", "14 years", "16 years", "12 years", "18 years"], "answer": 3, "exp": "Boys up to 12 years old can stay with their mothers at the OSC; girls of all ages can stay."}, {"q": "As per the location strategy for One Stop Centres, they are ideally located within what distance of a hospital, if not on its campus?", "options": ["1 km", "5 km", "10 km", "500 metres", "2 km"], "answer": 4, "exp": "OSCs are ideally located within a hospital campus or within a 2 km radius of one."}, {"q": "Consider the following statements on the funding of One Stop Centres:\n1. OSCs were initially funded through the Nirbhaya Fund.\n2. Under Mission Shakti, OSC is a Centrally Sponsored Scheme with 100% Central funding.\n3. Funds are transferred directly to the District Collector/District Magistrate.\nWhich of the above statements are correct?", "options": ["1, 2 and 3", "1 only", "1 and 2 only", "2 and 3 only", "None of the above"], "answer": 0, "exp": "All three statements accurately describe OSC funding and fund flow."}, {"q": "Which of the following types of violence are explicitly covered under the OSC scheme?\n1. Sexual assault and domestic violence\n2. Trafficking\n3. Honour-related crimes and acid attacks\n4. Witch-hunting\nSelect the correct answer.", "options": ["1 only", "1, 2, 3 and 4", "1 and 2 only", "1, 2 and 3 only", "None of the above"], "answer": 1, "exp": "The document explicitly lists sexual assault, domestic violence, trafficking, honour-related crimes, acid attacks and witch-hunting."}, {"q": "Which of the following statements about OSC eligibility is NOT correct?", "options": ["All women affected by violence are eligible", "Girls below 18 years of age are eligible (linked with POCSO)", "Only married women are eligible for OSC support", "There is no discrimination based on caste, religion, marital status, or sexual orientation", "OSCs are meant to support women affected by violence in private and public spaces"], "answer": 2, "exp": "OSC eligibility does not restrict to married women; it covers all women regardless of marital status."}, {"q": "What is the universal, toll-free number for the Women Helpline (WHL) under Sambal?", "options": ["100", "112", "1098", "181", "1091"], "answer": 3, "exp": "The Women Helpline operates on the universal number 181, toll-free and available 24/7."}, {"q": "Consider the following statements about the Women Helpline (181):\n1. It provides 24-hour immediate and emergency response to women affected by violence.\n2. It is 100% funded by the Central Government under the Sambal component.\n3. Its expansion was significantly supported by the Nirbhaya Fund.\nWhich of the above statements are correct?", "options": ["1 only", "1 and 2 only", "2 and 3 only", "None of the above", "1, 2 and 3"], "answer": 4, "exp": "All three statements about WHL are accurate as per the document."}, {"q": "Where and when was Beti Bachao Beti Padhao (BBBP) launched?", "options": ["Panipat, Haryana on 22 January 2015", "New Delhi on 1 April 2015", "Ahmedabad, Gujarat on 8 March 2015", "Lucknow, UP on 26 January 2016", "None of the above"], "answer": 0, "exp": "BBBP was launched at Panipat, Haryana on January 22, 2015."}, {"q": "Consider the following statements about the tri-ministerial convergence under BBBP:\n1. Ministry of Women and Child Development is the lead ministry.\n2. Ministry of Health & Family Welfare ensures registration of pregnancies and institutional deliveries.\n3. Ministry of Education ensures enrollment and retention of girls in schools.\n4. Ministry of Panchayati Raj implements village-level components.\nWhich of the above statements are correct?", "options": ["1 and 2 only", "1, 2 and 3 only", "2, 3 and 4 only", "1, 2, 3 and 4", "None of the above"], "answer": 1, "exp": "BBBP is a joint initiative of exactly three ministries: WCD (lead), Health & Family Welfare, and Education; Panchayati Raj is not part of BBBP's tri-ministerial structure."}, {"q": "In which phase and year was BBBP expanded to cover 100 districts with low Child Sex Ratio?", "options": ["Phase II, 2016", "Phase III, 2017", "Phase I, 2015", "Pan-India expansion, 2018", "None of the above"], "answer": 2, "exp": "Phase I in 2015 covered 100 districts with low CSR."}, {"q": "How many additional districts were covered under BBBP's Phase II expansion in 2016?", "options": ["40 districts", "100 districts", "150 districts", "61 districts", "640 districts"], "answer": 3, "exp": "Phase II (2016) expanded BBBP to 61 districts."}, {"q": "As per the 2018 Pan-India expansion of BBBP, how many total districts (as per Census 2011) were covered?", "options": ["100", "161", "500", "700", "640"], "answer": 4, "exp": "The Pan-India expansion in 2018 covered all 640 districts as per Census 2011."}, {"q": "Consider the following statements about BBBP 2.0 components under Mission Shakti:\n1. Target to increase Sex Ratio at Birth by 2 points every year.\n2. Aim to achieve and sustain institutional deliveries rate of 95% or above.\n3. Increase first-trimester ANC registration by at least 1% annually.\n4. Menstrual hygiene promotion is a new focus area.\nWhich of the above statements are correct?", "options": ["1, 2, 3 and 4", "1 and 2 only", "1, 2 and 3 only", "2, 3 and 4 only", "None of the above"], "answer": 0, "exp": "All four are listed as BBBP 2.0 components/targets under Mission Shakti."}, {"q": "Who is designated as the nodal officer for BBBP implementation at the district level?", "options": ["Secretary, MWCD", "District Collector/District Magistrate", "Chief Medical Officer", "Block Development Officer", "State Women Commission Chairperson"], "answer": 1, "exp": "The District Collector/District Magistrate (DM) is the nodal officer at the district level; the national-level Task Force is headed by the Secretary, MWCD."}, {"q": "Consider the following statements regarding BBBP Performance Indicators (KPIs):\n1. Sex Ratio at Birth measures female births per 1000 male births.\n2. Institutional Deliveries measures percentage of births in healthcare facilities.\n3. Secondary School Enrollment tracks GER for girls in classes IX-XII.\nWhich of the above are correct?", "options": ["1 only", "1 and 2 only", "1, 2 and 3", "2 and 3 only", "None of the above"], "answer": 2, "exp": "All three are listed KPIs for BBBP under Mission Shakti."}, {"q": "In which year was the Nari Adalat (Women's Court) component launched, and at what implementation level?", "options": ["2021, District level", "2022, Block level", "2019, State level", "2023, Gram Panchayat level", "2024, National level"], "answer": 3, "exp": "Nari Adalat was launched in 2023 and is implemented at the Gram Panchayat (village) level."}, {"q": "Which of the following best describes the nature of a Nari Adalat?", "options": ["A formal judicial body with legally binding powers", "A statutory commission under the Ministry of Law and Justice", "A police unit for handling women's complaints", "A fast-track court exclusively for criminal cases", "An informal, community-based Alternative Dispute Resolution platform"], "answer": 4, "exp": "Nari Adalat is an informal, community-based ADR platform that functions through peer pressure and social mobilization, without legal judicial power."}, {"q": "How many members ('Nyaya Sakhis') typically constitute a single Nari Adalat?", "options": ["7 to 11", "3 to 5", "5 to 7", "10 to 15", "15 to 20"], "answer": 0, "exp": "Each Nari Adalat consists of 7 to 11 members."}, {"q": "Consider the following statements about the composition of Nari Adalat members:\n1. Half of the members are elected representatives of the Gram Panchayat.\n2. The other half are socially active women such as teachers, doctors, or SHG members.\n3. The head (Mukhya Nyaya Sakhi) is chosen on a rotation basis for a fixed tenure.\nWhich of the above statements are correct?", "options": ["1 only", "1, 2 and 3", "1 and 2 only", "2 and 3 only", "None of the above"], "answer": 1, "exp": "All three statements accurately describe Nari Adalat's composition and leadership structure."}, {"q": "Consider the following statements about the honorarium structure under Nari Adalat:\n1. The Mukhya Nyaya Sakhi receives ₹500 per meeting.\n2. A regular Nyaya Sakhi receives ₹200 per meeting as incentive.\n3. ₹3,000 per meeting is provided as operational support for the entire group.\nWhich of the above statements are correct?", "options": ["1 only", "1 and 2 only", "1, 2 and 3", "2 and 3 only", "None of the above"], "answer": 2, "exp": "All three figures — ₹500, ₹200 and ₹3,000 — are accurately stated in the document."}, {"q": "Which of the following types of cases are handled directly by a Nari Adalat?", "options": ["Rape and murder cases", "Terrorism-related offences", "Criminal trials requiring judicial sentencing", "Domestic discord and marital issues", "Corporate fraud disputes"], "answer": 3, "exp": "Nari Adalats handle non-criminal, petty civil disputes like domestic discord, property/inheritance rights, and harassment; serious crimes are referred to police/OSCs."}, {"q": "Which of the following statements about Nari Adalat is NOT correct?", "options": ["It functions through peer pressure and social mobilization", "It provides a woman-friendly space for redressal of petty disputes", "Serious crimes like rape or murder must be referred to police/One Stop Centres", "It was piloted in Assam and the Union Territory of Jammu & Kashmir", "It has legally binding judicial power equivalent to a formal court"], "answer": 4, "exp": "Nari Adalat does NOT have legally binding judicial power; its power is advisory/social in nature, unlike a formal court."}, {"q": "Nari Adalat was initially piloted in which locations?", "options": ["Assam and Jammu & Kashmir", "Kerala and Tamil Nadu", "Punjab and Haryana", "Bihar and Jharkhand", "Delhi and Rajasthan"], "answer": 0, "exp": "Nari Adalat was initially launched as a pilot in Assam and the Union Territory of Jammu & Kashmir."}, {"q": "Nari Adalat is implemented in collaboration with which ministries, besides MWCD?", "options": ["Ministry of Home Affairs and Ministry of Defence", "Ministry of Panchayati Raj and Ministry of Rural Development (DAY-NRLM)", "Ministry of Law and Justice and Ministry of Finance", "Ministry of Health and Ministry of Education", "Ministry of Skill Development and Ministry of Labour"], "answer": 1, "exp": "Nari Adalat is implemented in collaboration with the Ministry of Panchayati Raj and Ministry of Rural Development (DAY-NRLM)."}, {"q": "Consider the following comparison between Nari Adalat and a Formal Court:\n1. Nari Adalat's legal power is advisory/social, while a formal court's is legally binding.\n2. Nari Adalat's primary goal is reconciliation & awareness, while a formal court's is adjudication & punishment.\n3. The nodal body for Nari Adalat is the Ministry of Law and Justice.\nWhich of the above statements are correct?", "options": ["1 only", "2 and 3 only", "1 and 2 only", "1, 2 and 3", "None of the above"], "answer": 2, "exp": "Statements 1 and 2 are correct; the nodal body for Nari Adalat is the Ministry of WCD, not Law and Justice, so statement 3 is wrong."}, {"q": "In which year was Shakti Sadan launched, and which two erstwhile schemes were merged to create it?", "options": ["2021; Sakhi Niwas and Palna", "2020; BBBP and Nari Adalat", "2023; Working Women Hostel and Palna", "2022; Swadhar Greh and Ujjawala", "2019; Ujjawala and PMMVY"], "answer": 3, "exp": "Shakti Sadan (launched 2022) was created by merging the Swadhar Greh and Ujjawala schemes."}, {"q": "Consider the following categories of women eligible for Shakti Sadan:\n1. Trafficking survivors\n2. Destitute women (widows, deserted women)\n3. Women released from jail with no family support\n4. Women rendered homeless due to natural calamities\nWhich of the above are correct?", "options": ["1 and 2 only", "1, 2 and 3 only", "2, 3 and 4 only", "None of the above", "1, 2, 3 and 4"], "answer": 4, "exp": "All four categories are explicitly listed as target beneficiaries of Shakti Sadan."}, {"q": "At Shakti Sadan, up to what age can girls and boys respectively stay with their mothers?", "options": ["Girls up to 18 years; boys up to 12 years", "Girls up to 21 years; boys up to 18 years", "Girls up to 16 years; boys up to 10 years", "Girls up to 14 years; boys up to 14 years", "There is no age limit for either"], "answer": 0, "exp": "Girls can stay up to 18 years of age; boys up to 12 years, beyond which they shift to Mission Vatsalya child care institutions."}, {"q": "What is the monthly pocket money deposited into a Shakti Sadan resident's bank account, as per the document?", "options": ["₹300", "₹500", "₹1,000", "₹2,000", "₹4,000"], "answer": 1, "exp": "A pocket money of ₹500 per month is deposited into the resident's bank account."}, {"q": "Consider the following statements about the duration of stay at Shakti Sadan:\n1. Standard stay is generally up to 3 years.\n2. Trafficking victims can stay up to 5 years or until successful reintegration.\n3. Women above 55 years can be accommodated up to a maximum of 5 years before being shifted to old age homes.\nWhich of the above statements are correct?", "options": ["1 only", "1 and 2 only", "1, 2 and 3", "2 and 3 only", "None of the above"], "answer": 2, "exp": "All three duration-of-stay provisions are accurately described in the document."}, {"q": "Old age homes for women shifted out of Shakti Sadan (above 55 years, after 5 years) are managed by which ministry?", "options": ["Ministry of Women and Child Development", "Ministry of Health and Family Welfare", "Ministry of Rural Development", "Ministry of Social Justice and Empowerment", "Ministry of Panchayati Raj"], "answer": 3, "exp": "Such old age homes are managed by the Ministry of Social Justice and Empowerment."}, {"q": "Which of the following statements about Shakti Sadan funding is NOT correct?", "options": ["It follows 60:40 Centre:State sharing for general states", "NE and Himalayan states follow 90:10 sharing", "UTs without legislature receive 100% Central funding", "Nirbhaya Fund supports components related to safety of trafficking survivors", "Shakti Sadan is funded entirely (100%) by the Central Government in all states"], "answer": 4, "exp": "Shakti Sadan follows the standard Samarthya funding pattern (60:40/90:10/100% for UTs), not 100% Central funding in all states."}, {"q": "Sakhi Niwas was previously known by which name before being revamped under Mission Shakti?", "options": ["Working Women Hostel (WWH)", "Swadhar Greh", "Ujjawala", "Mahila Shakti Kendra", "Palna"], "answer": 0, "exp": "Sakhi Niwas was earlier known as the Working Women Hostel (WWH) scheme."}, {"q": "Consider the following categories eligible for Sakhi Niwas:\n1. Single, widowed, divorced or separated working women\n2. Women in job training (trainees) for up to 1 year\n3. Job seekers looking for employment\nWhich of the above are correct?", "options": ["1 only", "1, 2 and 3", "1 and 2 only", "2 and 3 only", "None of the above"], "answer": 1, "exp": "All three categories are eligible; trainees are capped at 30% of hostel capacity and job seekers get limited-duration stays."}, {"q": "What percentage of total hostel capacity in Sakhi Niwas can be occupied by women undergoing job training?", "options": ["10%", "20%", "30%", "50%", "There is no cap"], "answer": 2, "exp": "Women in training are limited to 30% of total hostel capacity."}, {"q": "As per Sakhi Niwas income eligibility criteria, what is the maximum monthly income for admission in metropolitan cities?", "options": ["₹25,000", "₹35,000", "₹75,000", "₹50,000", "₹1,00,000"], "answer": 3, "exp": "In metropolitan cities, monthly income should not exceed ₹50,000 (₹35,000 for other cities/areas)."}, {"q": "If a Sakhi Niwas resident's income exceeds the eligibility limit during her stay, how much time is she usually given to find alternative accommodation?", "options": ["1 month", "3 months", "1 year", "2 years", "6 months"], "answer": 4, "exp": "She is usually given 6 months to find alternative accommodation."}, {"q": "Consider the following statements about Sakhi Niwas duration of stay:\n1. The standard period is normally up to 3 years.\n2. An extension of up to 2 years may be granted in exceptional cases, bringing total stay to 5 years.\n3. Job seekers are permitted to stay for a maximum of 6 months.\nWhich of the above are correct?", "options": ["1, 2 and 3", "1 only", "1 and 2 only", "2 and 3 only", "None of the above"], "answer": 0, "exp": "All three statements accurately reflect Sakhi Niwas duration-of-stay rules."}, {"q": "As per Sakhi Niwas rent cap rules, what is the maximum rent (as a percentage of salary) for a single room?", "options": ["5%", "15%", "7.5%", "10%", "20%"], "answer": 1, "exp": "The rent cap for a single room is a maximum of 15% of salary (10% for double room, 7.5% for dormitory)."}, {"q": "Which of the following is NOT listed as an implementation agency for Sakhi Niwas?", "options": ["State Governments/UT Administrations", "Urban Local Bodies (ULBs) and Panchayati Raj Institutions (PRIs)", "District Legal Services Authority (DLSA)", "Eligible NGOs/PSUs/Women's Development Corporations", "None of the above; all are implementation agencies"], "answer": 2, "exp": "DLSA is associated with legal aid under OSCs, not listed as a Sakhi Niwas implementation agency."}, {"q": "Palna was originally launched under which name before its final integration under Mission Shakti?", "options": ["National Nutrition Mission", "Integrated Child Development Services", "Scheme for Adolescent Girls", "Rajiv Gandhi National Creche Scheme", "Mahila Shakti Kendra"], "answer": 3, "exp": "Palna was originally the 'Rajiv Gandhi National Creche Scheme,' renamed 'National Creche Scheme,' and finally integrated as Palna."}, {"q": "Consider the following statements about Palna's target beneficiaries and services:\n1. It caters to children aged 6 months to 6 years.\n2. It is now provided to all mothers, irrespective of employment status.\n3. Day-care facilities are provided for 7.5 hours a day, 26 days a month.\n4. Pre-school education is provided only for children below 3 years.\nWhich of the above statements are correct?", "options": ["1 and 2 only", "2, 3 and 4 only", "1, 2, 3 and 4", "None of the above", "1, 2 and 3 only"], "answer": 4, "exp": "Pre-school education under Palna is for children aged 3 to 6 years (not below 3, which is the early-stimulation age group), so statement 4 is incorrect."}, {"q": "Under the Anganwadi-cum-Crèche (AWCC) model, which additional staff are provided beyond the existing Anganwadi Worker and Helper?", "options": ["An additional Crèche Worker and Crèche Helper", "An additional doctor and nurse", "A dedicated security guard", "A dietician and physiotherapist", "None; no additional staff is provided"], "answer": 0, "exp": "AWCCs are provided with an additional Crèche Worker and Crèche Helper alongside the existing AWW and AWH."}, {"q": "What is the standard number of children typically catered to by a single creche unit under Palna?", "options": ["10 children", "25 children", "15 children", "40 children", "50 children"], "answer": 1, "exp": "A standard creche unit typically caters to 25 children."}, {"q": "Consider the following user charges under Palna:\n1. BPL families pay ₹20 per child per month.\n2. Non-BPL families with income up to ₹12,000 pay ₹100 per child per month.\n3. Non-BPL families with income above ₹12,000 pay ₹200 per child per month.\nWhich of the above statements are correct?", "options": ["1 only", "1 and 2 only", "1, 2 and 3", "2 and 3 only", "None of the above"], "answer": 2, "exp": "All three user-charge slabs are accurately stated in the document."}, {"q": "Consider the following statements on honorarium under Palna:\n1. A standalone crèche worker receives ₹6,500 and a helper ₹3,250.\n2. An AWCC crèche worker receives ₹5,500 and a helper ₹3,000.\nWhich of the above is/are correct?", "options": ["1 only", "2 only", "Neither 1 nor 2", "Both 1 and 2", "Cannot be determined"], "answer": 3, "exp": "Both honorarium figures for standalone crèche and AWCC staff are correctly stated."}, {"q": "As per the latest 2024-2025 update under the 'Saksham Anganwadi' initiative, how many Anganwadi-cum-Crèches has the government approved setting up across the country?", "options": ["5,000+", "10,000+", "25,000+", "50,000+", "17,000+"], "answer": 4, "exp": "The government has approved setting up 17,000+ Anganwadi-cum-Crèches across the country."}, {"q": "Which of the following is NOT a service mandated to be provided at Palna centres?", "options": ["Direct cash transfer to mothers for wage-loss compensation", "Day-care facilities", "Supplementary nutrition as per ICDS norms", "Early stimulation activities for children below 3 years", "Pre-school education for children aged 3-6 years"], "answer": 0, "exp": "Direct cash transfer for wage-loss compensation is a PMMVY feature, not a Palna service."}, {"q": "When was PMMVY launched, and when was it revamped as PMMVY 2.0?", "options": ["22 January 2015; revamped 2018", "1 January 2017; revamped April 2022", "1 April 2015; revamped 2021", "1 January 2018; revamped 2023", "None of the above"], "answer": 1, "exp": "PMMVY was launched on January 1, 2017 and revamped as PMMVY 2.0 in April 2022."}, {"q": "What is the minimum age requirement for a mother to be eligible under PMMVY 2.0?", "options": ["16 years", "18 years", "19 years", "21 years", "There is no minimum age"], "answer": 2, "exp": "The mother must be at least 19 years old to be eligible."}, {"q": "Consider the following statements about PMMVY exclusions:\n1. Women in regular employment with the Central/State Government or PSUs are excluded.\n2. Women already receiving similar maternity benefits under any law in force are excluded.\n3. Women belonging to SC/ST categories are excluded.\nWhich of the above statements are correct?", "options": ["1 only", "2 and 3 only", "1, 2 and 3", "1 and 2 only", "None of the above"], "answer": 3, "exp": "SC/ST women are actually a targeted group for PMMVY, not excluded; only statements 1 and 2 are correct."}, {"q": "Within how many days of childbirth must PMMVY claims be made (the 'lien period')?", "options": ["90 days", "180 days", "365 days", "There is no time limit", "270 days"], "answer": 4, "exp": "Claims must be made within 270 days of childbirth."}, {"q": "Under PMMVY 2.0, what is the total incentive amount for the first child, and in how many installments is it paid?", "options": ["₹5,000 in two installments (₹3,000 + ₹2,000)", "₹3,000 in one installment", "₹6,000 in two installments (₹3,000 + ₹3,000)", "₹10,000 in three installments", "₹5,000 in one installment"], "answer": 0, "exp": "The first child incentive totals ₹5,000, paid in two installments of ₹3,000 and ₹2,000."}, {"q": "Consider the following conditions for PMMVY installments for the first child:\n1. Installment 1 (₹3,000) requires early pregnancy registration plus at least two ANC check-ups within 6 months from LMP.\n2. Installment 2 (₹2,000) requires childbirth registration plus completion of the first cycle of immunization (up to 14 weeks).\nWhich of the above is/are correct?", "options": ["1 only", "Both 1 and 2", "2 only", "Neither 1 nor 2", "Cannot be determined from the document"], "answer": 1, "exp": "Both conditions accurately match the two-installment structure for the first child."}, {"q": "Under PMMVY 2.0, what incentive is provided for a second child, and under what condition?", "options": ["₹5,000 regardless of the child's gender, in two installments", "₹3,000 for any second child, paid in one installment", "₹6,000 only if the second child is a girl, paid in one installment", "No incentive is provided for a second child", "₹10,000 if twins are born"], "answer": 2, "exp": "The second child incentive is ₹6,000, but only if the child is a girl, paid in a single installment."}, {"q": "Consider the following statements about the convergence of PMMVY with the Janani Suraksha Yojana (JSY):\n1. JSY provides an institutional delivery incentive of approximately ₹1,000 in urban and ₹1,400 in rural areas.\n2. A woman eligible for PMMVY also gets the JSY benefit.\n3. This makes the total maternity benefit approximately ₹6,000 to ₹7,000.\nWhich of the above statements are correct?", "options": ["1 only", "1 and 2 only", "2 and 3 only", "1, 2 and 3", "None of the above"], "answer": 3, "exp": "All three convergence statements about PMMVY and JSY are correctly stated in the document."}, {"q": "Through which mode is the PMMVY cash incentive transferred to beneficiaries?", "options": ["Cheque payment through post offices", "Cash handed over by Anganwadi Workers", "Digital wallet only", "Coupons redeemable at fair-price shops", "Direct Benefit Transfer to an Aadhaar-seeded bank/post office account"], "answer": 4, "exp": "PMMVY cash is transferred via DBT directly to the Aadhaar-seeded bank/post office account of the beneficiary."}, {"q": "What is the standard funding pattern for PMMVY in general (non-NE/Himalayan) states?", "options": ["60:40 (Centre:State)", "100% Central", "50:50 (Centre:State)", "75:25 (Centre:State)", "90:10 (Centre:State)"], "answer": 0, "exp": "PMMVY follows the standard Samarthya funding pattern of 60:40 for general states."}, {"q": "Which of the following statements about PMMVY eligibility is NOT correct?", "options": ["It covers Pregnant Women and Lactating Mothers with pregnancy on or after 1 April 2022", "Women employed with Public Sector Undertakings are eligible for the benefit", "MGNREGA job card holders and PM-KISAN farmers are among the target groups", "Families with income below ₹8 lakh per annum are targeted", "The mother must be at least 19 years old"], "answer": 1, "exp": "Women in regular employment with PSUs are explicitly excluded from PMMVY, as they already receive paid maternity leave."}, {"q": "What is the three-tier structure through which the Hub for Empowerment of Women (HEW) operates?", "options": ["National, Regional, Local", "Central, State, Village", "National Hub, State Hub, District Hub", "National, Zonal, Block", "State, District, Gram Panchayat"], "answer": 2, "exp": "HEW operates through a National Hub (NHEW), State Hub (SHEW), and District Hub (DHEW)."}, {"q": "Consider the following statements about the District Hub for Empowerment of Women (DHEW):\n1. It acts as a 'Single Window Focal Point' for women to access government services.\n2. It identifies eligible beneficiaries for PMMVY, Sukanya Samriddhi, and BBBP.\n3. It coordinates with One Stop Centres and Women Helplines.\n4. It directly adjudicates domestic violence complaints as a quasi-judicial body.\nWhich of the above statements are correct?", "options": ["1 and 2 only", "2, 3 and 4 only", "1, 2, 3 and 4", "1, 2 and 3 only", "None of the above"], "answer": 3, "exp": "DHEW is a facilitative/coordinating single window, not a quasi-judicial adjudicating body (that is the role of CWC); statement 4 is incorrect."}, {"q": "What is the standard funding pattern for HEW in NE and Himalayan states?", "options": ["60:40 (Centre:State)", "50:50 (Centre:State)", "100% State funded", "75:25 (Centre:State)", "90:10 (Centre:State)"], "answer": 4, "exp": "NE and Himalayan states follow a 90:10 Centre:State funding pattern for Samarthya components including HEW."}, {"q": "Mission Vatsalya was formerly known by which names before being revamped in 2021?", "options": ["Child Protection Services (CPS) and Integrated Child Protection Scheme (ICPS)", "Swadhar Greh and Ujjawala", "Rajiv Gandhi National Creche Scheme", "Sarva Shiksha Abhiyan", "Mahila Shakti Kendra"], "answer": 0, "exp": "Mission Vatsalya was formerly known as Child Protection Services (CPS) and the Integrated Child Protection Scheme (ICPS)."}, {"q": "Consider the following statements about the guiding principles and target groups of Mission Vatsalya:\n1. Its guiding principles are Survival, Development, Protection, and Participation.\n2. It targets Children in Need of Care and Protection (CNCP).\n3. It targets Children in Conflict with the Law (CCL).\n4. It exclusively targets children from BPL families only.\nWhich of the above statements are correct?", "options": ["1 and 2 only", "1, 2 and 3 only", "2, 3 and 4 only", "1, 2, 3 and 4", "None of the above"], "answer": 1, "exp": "Eligibility under Vatsalya is based on vulnerability/inability to support the child on a case-by-case basis, not a fixed BPL-only criterion, so statement 4 is incorrect."}, {"q": "Match the statutory bodies with their functions under Mission Vatsalya:\n1. Juvenile Justice Board (JJB) — handles Children in Conflict with the Law\n2. Child Welfare Committee (CWC) — final authority for Children in Need of Care and Protection\n3. CARA — nodal body for adoption\nWhich of the above are correctly matched?", "options": ["1 only", "1 and 2 only", "1, 2 and 3", "2 and 3 only", "None of the above"], "answer": 2, "exp": "All three statutory bodies are correctly matched with their respective functions."}, {"q": "Consider the following statements about the Integrated 'Mission Vatsalya Portal' (2026 update):\n1. It unifies the erstwhile TrackChild and Khoya-Paya services.\n2. CARINGS adoption processes are integrated to reduce delays.\n3. E-Baal Nidan is integrated for online grievance redressal on child rights violations.\nWhich of the above statements are correct?", "options": ["1 only", "1 and 2 only", "2 and 3 only", "1, 2 and 3", "None of the above"], "answer": 3, "exp": "All three features — TrackChild/Khoya-Paya unification, CARINGS integration, and E-Baal Nidan — are part of the 2026 portal update."}, {"q": "Under Mission Vatsalya's non-institutional care, what is the monthly sponsorship amount provided per child to help them stay with vulnerable biological families?", "options": ["₹2,000", "₹3,000", "₹5,000", "₹6,000", "₹4,000"], "answer": 4, "exp": "Sponsorship provides financial support of ₹4,000 per month per child to stay with biological families, if vulnerable."}, {"q": "Consider the following statements about 'Aftercare' under Mission Vatsalya:\n1. It provides support for children leaving Child Care Institutions at 18 years of age.\n2. Support can continue up to age 21, extendable to 23.\n3. It is a form of Institutional Care, not Non-Institutional Care.\nWhich of the above statements are correct?", "options": ["1 and 2 only", "1 only", "1, 2 and 3", "2 and 3 only", "None of the above"], "answer": 0, "exp": "Aftercare is categorised under Non-Institutional Care (priority) in the hierarchy, so statement 3 is incorrect; statements 1 and 2 are correct."}, {"q": "Which of the following is described as the 'last resort' under Mission Vatsalya's hierarchy of child care?", "options": ["Sponsorship", "Institutional Care (Child Care Institutions)", "Foster Care", "Adoption", "Aftercare"], "answer": 1, "exp": "Institutional Care (Child Care Institutions) is the last resort; the mission prioritizes family-based, non-institutional care."}, {"q": "Which body decides on the care, protection, and rehabilitation of 'Children in Need of Care and Protection' as a quasi-judicial authority?", "options": ["Juvenile Justice Board", "Central Adoption Resource Authority", "Child Welfare Committee", "National Commission for Protection of Child Rights", "District Magistrate"], "answer": 2, "exp": "The Child Welfare Committee (CWC) is the quasi-judicial body deciding on CNCP cases."}, {"q": "What is the funding pattern for Mission Vatsalya in UTs without legislature?", "options": ["60:40 (Centre:State)", "90:10 (Centre:State)", "50:50 (Centre:State)", "100% Central funding", "75:25 (Centre:State)"], "answer": 3, "exp": "UTs without legislature receive 100% Central funding under Mission Vatsalya's Centrally Sponsored Scheme pattern."}, {"q": "The Childline number 1098 has now been fully integrated with which national emergency number?", "options": ["100", "101", "108", "181", "112"], "answer": 4, "exp": "Childline (1098) is now fully integrated with the national emergency number 112."}, {"q": "Consider the following statements about eligibility for support under Mission Vatsalya:\n1. Eligibility is based on a fixed income limit similar to PMMVY.\n2. Eligibility is assessed case-by-case based on the family's vulnerability and inability to support the child.\nWhich of the above is/are correct?", "options": ["2 only", "1 only", "Both 1 and 2", "Neither 1 nor 2", "Cannot be determined"], "answer": 0, "exp": "Mission Vatsalya eligibility is assessed case-by-case on vulnerability, not a fixed income limit, unlike PMMVY."}, {"q": "Which of the following statements about Mission Vatsalya's period and funding is NOT correct?", "options": ["It runs during the 15th Finance Commission period, 2021-22 to 2025-26", "It is entirely funded by State Governments with no Central contribution", "General states follow a 60:40 Centre:State funding pattern", "NE and Himalayan states follow 90:10 funding", "UTs without legislature receive 100% Central funding"], "answer": 1, "exp": "Mission Vatsalya is a Centrally Sponsored Scheme with significant Central funding, not entirely State-funded."}, {"q": "In which months are 'Poshan Maah' and 'Poshan Pakhwada' respectively celebrated?", "options": ["Poshan Maah in March; Poshan Pakhwada in September", "Both in September", "Poshan Maah in September; Poshan Pakhwada in March", "Both in March", "Poshan Maah in January; Poshan Pakhwada in June"], "answer": 2, "exp": "Poshan Maah (Nutrition Month) is celebrated in September; Poshan Pakhwada is a two-week celebration held in March."}, {"q": "Consider the following statements about the schemes merged into Saksham Anganwadi & Poshan 2.0:\n1. ICDS (Integrated Child Development Services)\n2. POSHAN Abhiyaan, launched in 2018\n3. Scheme for Adolescent Girls (SAG), focused on out-of-school girls\n4. Beti Bachao Beti Padhao\nWhich of the above were merged to form this umbrella mission?", "options": ["1 and 2 only", "2, 3 and 4 only", "1, 2, 3 and 4", "1, 2 and 3 only", "None of the above"], "answer": 3, "exp": "Saksham Anganwadi & Poshan 2.0 merged ICDS, POSHAN Abhiyaan, and the Scheme for Adolescent Girls; BBBP is a separate Sambal component under Mission Shakti."}, {"q": "Consider the following statements about the Four Main Pillars of Poshan 2.0:\n1. Nutritional Support focuses on Take Home Ration (THR) and Hot Cooked Meals (HCM).\n2. Early Childhood Care and Education (ECCE) targets children aged 3-6 years.\n3. Saksham Anganwadi involves upgrading 2 lakh AWCs over 5 years.\n4. POSHAN Abhiyaan focuses on technology, convergence and behavioral change.\nWhich of the above statements are correct?", "options": ["1 and 2 only", "1, 2 and 3 only", "2, 3 and 4 only", "None of the above", "1, 2, 3 and 4"], "answer": 4, "exp": "All four pillars are accurately described as per the document."}, {"q": "Under the target beneficiary focus for adolescent girls in Poshan 2.0, which age group is specifically targeted, and how has the focus shifted?", "options": ["Ages 14-18 years; focus shifted from only out-of-school girls to all girls in this bracket", "Ages 10-14 years; focus remains only on in-school girls", "Ages 6-10 years; no change in focus", "Ages 18-21 years; focus shifted to working women", "Ages 14-18 years; focus remains only on out-of-school girls"], "answer": 0, "exp": "Adolescent girls aged 14-18 years are targeted, with focus shifted from just 'out-of-school' girls to all girls in this age bracket for nutritional support."}, {"q": "Under the 'Saksham Anganwadi' component, how many Anganwadi Centres are being modernized, and at what annual rate?", "options": ["1 lakh AWCs; 20,000 per year over 5 years", "2 lakh AWCs; 40,000 per year over 5 years", "50,000 AWCs; 10,000 per year over 5 years", "3 lakh AWCs; 60,000 per year over 5 years", "2 lakh AWCs; all in a single year"], "answer": 1, "exp": "2 lakh Anganwadi Centres are being modernized into 'Saksham' centres, at a rate of 40,000 per year over 5 years."}, {"q": "Consider the following features included under the Saksham Anganwadi modernization drive:\n1. Clean drinking water and functional toilets\n2. Smart Learning Aids (audio-visual tools for ECCE)\n3. Poshan Vatikas (nutri-gardens)\n4. Solar power installation for renewable energy\nWhich of the above are correct?", "options": ["1 and 2 only", "1, 2 and 3 only", "1, 2, 3 and 4", "2, 3 and 4 only", "None of the above"], "answer": 2, "exp": "All four features are listed as part of the Saksham Anganwadi modernization drive."}, {"q": "As per the Key Nutritional Standards table, what is the prescribed calorie and protein intake for a 'Severely Underweight Child'?", "options": ["500 kcal, 12-15g protein", "600 kcal, 18-20g protein", "1000 kcal, 30g protein", "800 kcal, 20-25g protein", "700 kcal, 15-18g protein"], "answer": 3, "exp": "Severely Underweight Children are prescribed 800 kcal and 20-25g protein, the highest among the listed categories."}, {"q": "Consider the following statements about the nutritional standards under Poshan 2.0:\n1. Children aged 6-72 months require 500 kcal and 12-15g protein.\n2. Pregnant & Lactating Mothers require 600 kcal and 18-20g protein.\n3. Adolescent Girls (14-18 years) require 600 kcal and 18-20g protein.\nWhich of the above statements are correct?", "options": ["1 only", "1 and 2 only", "2 and 3 only", "None of the above", "1, 2 and 3"], "answer": 4, "exp": "All three nutritional standard figures are correctly stated as per the document's table."}, {"q": "Which mode of delivery is used for children aged 3-6 years at Anganwadi centres, as opposed to children aged 6 months-3 years?", "options": ["Hot Cooked Meals (HCM) for 3-6 years; Take-Home Ration (THR) for 6 months-3 years", "Take-Home Ration (THR) for both age groups", "Direct cash transfer for both age groups", "THR for 3-6 years; HCM for 6 months-3 years", "No food is provided to children below 3 years"], "answer": 0, "exp": "Children aged 3-6 years receive Hot Cooked Meals (HCM) at the centre, while children aged 6 months-3 years (and PW&LM) receive Take-Home Ration (THR)."}, {"q": "Consider the following statements about the Poshan Tracker:\n1. It is a centralized ICT-based real-time monitoring system.\n2. It monitors the height and weight of nearly 10 crore children to identify Stunting and Wasting.\n3. Over 95% of beneficiaries are now Aadhaar-seeded.\nWhich of the above statements are correct?", "options": ["1 only", "1, 2 and 3", "1 and 2 only", "2 and 3 only", "None of the above"], "answer": 1, "exp": "All three statements about the Poshan Tracker are accurately described in the document."}, {"q": "Which of the following key nutritional interventions is explicitly mentioned under Poshan 2.0?\n1. Mandatory fortification of rice and milk in the Supplementary Nutrition Program\n2. Promotion of millets ('Shree Anna') to address micro-nutrient deficiencies\n3. Use of AYUSH practices for wellness and immunity\nSelect the correct answer.", "options": ["1 only", "1 and 2 only", "1, 2 and 3", "2 and 3 only", "None of the above"], "answer": 2, "exp": "All three interventions — fortification, millets/Shree Anna, and AYUSH practices — are explicitly mentioned."}, {"q": "What is the standard funding pattern for Saksham Anganwadi & Poshan 2.0 in NE and Himalayan states?", "options": ["60:40 (Centre:State)", "100% Central", "50:50 (Centre:State)", "90:10 (Centre:State)", "75:25 (Centre:State)"], "answer": 3, "exp": "NE and Himalayan states follow a 90:10 Centre:State funding pattern, consistent with other Mission Shakti/Vatsalya components."}, {"q": "Which of the following statements about Saksham Anganwadi & Poshan 2.0 is NOT correct?", "options": ["It runs during the 15th Finance Commission period, 2021-22 to 2025-26", "It merged ICDS, POSHAN Abhiyaan, and the Scheme for Adolescent Girls", "Poshan Pakhwada is celebrated for two weeks in March", "UTs without legislature receive 100% Central funding", "The Poshan Tracker is a manual, paper-based monitoring register"], "answer": 4, "exp": "The Poshan Tracker is explicitly described as a centralized, ICT-based real-time monitoring system, not manual or paper-based."}, {"q": "As per the document, under the heading 'Key Services Provided (The 5 Pillars)' for One Stop Centres, how many distinct numbered services are actually enumerated in the list?", "options": ["7", "4", "5", "6", "8"], "answer": 0, "exp": "Despite the heading calling them '5 Pillars', the document actually enumerates 7 distinct services/points under that heading."}, {"q": "Which Act's implementation is specifically linked to BBBP's objective of preventing gender-biased sex-selective elimination?", "options": ["POCSO Act", "PCPNDT Act", "Juvenile Justice Act", "RTE Act", "Domestic Violence Act"], "answer": 1, "exp": "BBBP's core objective of preventing sex-selective elimination is tied to implementation of the PCPNDT Act."}, {"q": "What is described as the 'core problem' that Sakhi Niwas is designed to address?", "options": ["Lack of skill training centres for women", "Lack of maternity benefits for working women", "The 'Safety' and 'Housing' gap preventing women from migrating for employment or study", "Absence of legal aid for working women", "Shortage of anganwadi workers"], "answer": 2, "exp": "Sakhi Niwas addresses the safety and housing gap that often prevents women from migrating to cities for employment or higher studies."}, {"q": "Consider the following statements about the objective of Shakti Sadan:\n1. It aims to provide shelter, food, clothing, counseling, and rehabilitative services.\n2. It specifically targets women who lack a social or financial support system.\n3. It is restricted only to women below 18 years of age.\nWhich of the above statements are correct?", "options": ["1 only", "1, 2 and 3", "2 and 3 only", "1 and 2 only", "None of the above"], "answer": 3, "exp": "Shakti Sadan caters to women above 18 years of age, so statement 3 is incorrect; statements 1 and 2 accurately describe its objective."}, {"q": "What is the primary objective of Palna (National Creche Scheme), as stated in the document?", "options": ["To provide vocational training to adolescent girls", "To provide financial incentives for institutional deliveries", "To provide legal aid to trafficking survivors", "To provide old-age pension to destitute women", "To provide a safe and stimulating environment for children of working mothers, encouraging more women into employment"], "answer": 4, "exp": "Palna's objective is to provide a safe, stimulating environment for children of working mothers, thereby encouraging more women to take up gainful employment."}, {"q": "Which of the following best describes the definition of SANKALP: Hub for Empowerment of Women (HEW)?", "options": ["A technical support unit facilitating inter-sectoral convergence of schemes for women at National, State and District levels", "A shelter home for trafficking survivors", "A helpline exclusively for domestic violence complaints", "A judicial body for women's property disputes", "A creche facility for working mothers"], "answer": 0, "exp": "HEW is defined as a technical support unit designed to facilitate inter-sectoral convergence of schemes and programs for women across three levels."}, {"q": "What is the stated 'Vision' of Mission Vatsalya as per the document?", "options": ["To eliminate malnutrition among all children by 2025", "To secure a healthy and happy childhood for every child in India through a sensitive, supportive and synchronized ecosystem", "To provide free education to all children below 14 years", "To eliminate child labour through strict law enforcement", "To ensure 100% institutional delivery nationwide"], "answer": 1, "exp": "Mission Vatsalya's vision is to secure a healthy and happy childhood for every child in India, through a sensitive, supportive, and synchronized ecosystem for child development."}, {"q": "What is the stated 'Vision' of Saksham Anganwadi & Poshan 2.0 as per the document?", "options": ["To eliminate anganwadi centres in favour of digital learning", "To provide universal basic income to all mothers", "To address the challenges of malnutrition in children, adolescent girls, pregnant women, and lactating mothers", "To replace ICDS entirely with a private-sector model", "To focus exclusively on urban nutrition programs"], "answer": 2, "exp": "The vision is to address malnutrition challenges among children, adolescent girls, pregnant women, and lactating mothers."}, {"q": "Consider the following statements comparing PMMVY and Mission Vatsalya's approach to eligibility:\n1. PMMVY eligibility for the target group includes a fixed income threshold of families below ₹8 lakh/annum.\n2. Mission Vatsalya eligibility is assessed case-by-case, without a fixed income limit.\nWhich of the above is/are correct?", "options": ["1 only", "2 only", "Neither 1 nor 2", "Both 1 and 2", "Cannot be determined from the document"], "answer": 3, "exp": "Both statements accurately contrast PMMVY's income-threshold targeting with Vatsalya's case-by-case vulnerability assessment."}, {"q": "Consider the following statements about implementation agencies/collaborations across MWCD schemes:\n1. Nari Adalat is implemented in collaboration with the Ministry of Panchayati Raj and DAY-NRLM.\n2. BBBP is a joint initiative of MWCD, Health & Family Welfare, and Education ministries.\n3. Old age homes for women shifted from Shakti Sadan are managed by the Ministry of Rural Development.\nWhich of the above statements are correct?", "options": ["1 only", "2 and 3 only", "1, 2 and 3", "None of the above", "1 and 2 only"], "answer": 4, "exp": "Old age homes for women shifted from Shakti Sadan are managed by the Ministry of Social Justice and Empowerment, not Rural Development, making statement 3 incorrect."}, {"q": "Which of the following statements about funding patterns across MWCD's Samarthya-linked schemes is NOT correct?", "options": ["Sambal (OSC, WHL, BBBP) follows 60:40 (Centre:State) funding for general states", "Sakhi Niwas follows 60:40 (Centre:State) funding for general states", "Palna follows 90:10 (Centre:State) funding for NE and Himalayan states", "PMMVY follows 100% Central funding for UTs without legislature", "Shakti Sadan follows 60:40 (Centre:State) funding for general states"], "answer": 0, "exp": "Sambal components (OSC, WHL, BBBP, Nari Adalat) are funded 100% by the Centre as a Centrally Sponsored Scheme, not on a 60:40 basis; the other statements about Samarthya components are correct."}, {"q": "Consider the following statements about children accompanying their mothers across various MWCD shelter schemes:\n1. At One Stop Centres, girls of all ages and boys up to 12 years can stay.\n2. At Shakti Sadan, girls up to 18 years and boys up to 12 years can stay.\n3. At Sakhi Niwas, girls up to 18 years can stay, and boys up to 12 years (beyond which referred to child care institutions).\nWhich of the above statements are correct?", "options": ["1 only", "1, 2 and 3", "1 and 2 only", "2 and 3 only", "None of the above"], "answer": 1, "exp": "All three statements accurately reflect the consistent age limits (girls up to 18, boys up to 12) applied across OSC, Shakti Sadan, and Sakhi Niwas."}];
+
+let current = 0;
+let score = 0;
+let userAnswers = new Array(QUESTIONS.length).fill(null);
+const letters = ["A","B","C","D","E"];
+
+function renderQuestion() {
+  const q = QUESTIONS[current];
+  document.getElementById('qcounter').textContent = `Question ${current+1} / ${QUESTIONS.length}`;
+  document.getElementById('qnumLabel').textContent = `Q.${current+1}`;
+  document.getElementById('progressFill').style.width = ((current)/QUESTIONS.length*100) + '%';
+  document.getElementById('scoreBadge').textContent = `Score: ${score}`;
+  document.getElementById('qtext').textContent = q.q;
+
+  const optsArea = document.getElementById('optionsArea');
+  optsArea.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.innerHTML = `<span class="letter">${letters[i]}.</span><span>${opt}</span>`;
+    btn.onclick = () => selectAnswer(i);
+    optsArea.appendChild(btn);
+  });
+
+  document.getElementById('feedbackBox').className = 'feedback';
+  document.getElementById('feedbackBox').textContent = '';
+  document.getElementById('nextBtn').classList.remove('show');
+
+  // If already answered (e.g. navigating back — not used currently, but safe)
+  if (userAnswers[current] !== null) {
+    lockOptions(userAnswers[current]);
+  }
+}
+
+function selectAnswer(i) {
+  if (userAnswers[current] !== null) return; // already answered
+  userAnswers[current] = i;
+  const q = QUESTIONS[current];
+  if (i === q.answer) score++;
+  document.getElementById('scoreBadge').textContent = `Score: ${score}`;
+  lockOptions(i);
+}
+
+function lockOptions(selectedIdx) {
+  const q = QUESTIONS[current];
+  const opts = document.querySelectorAll('#optionsArea .opt');
+  opts.forEach((btn, i) => {
+    btn.classList.add('locked');
+    btn.onclick = null;
+    btn.style.cursor = 'default';
+    if (i === q.answer) {
+      btn.classList.add('correct');
+    } else if (i === selectedIdx) {
+      btn.classList.add('wrong');
+    } else {
+      btn.classList.add('dim');
+    }
+  });
+
+  const fb = document.getElementById('feedbackBox');
+  if (selectedIdx === q.answer) {
+    fb.className = 'feedback show correct-fb';
+    fb.textContent = '✓ Correct — ' + q.exp;
+  } else {
+    fb.className = 'feedback show wrong-fb';
+    fb.textContent = '✗ Incorrect. Correct answer: ' + letters[q.answer] + '. ' + q.exp;
+  }
+  document.getElementById('nextBtn').classList.add('show');
+  document.getElementById('nextBtn').textContent = (current === QUESTIONS.length - 1) ? 'Finish Paper →' : 'Next Question →';
+}
+
+function nextQuestion() {
+  if (current < QUESTIONS.length - 1) {
+    current++;
+    renderQuestion();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  } else {
+    showSummary();
+  }
+}
+
+function showSummary() {
+  document.getElementById('quiz-area').classList.add('hidden');
+  document.getElementById('summary-area').classList.remove('hidden');
+  document.getElementById('finalScore').textContent = score;
+
+  const pct = Math.round((score / QUESTIONS.length) * 100);
+  let verdict;
+  if (pct === 100) verdict = "Flawless. Full marks across every section.";
+  else if (pct >= 85) verdict = "Excellent — Grade A material. Just a few gaps to close.";
+  else if (pct >= 70) verdict = "Solid grasp of the schemes — review the missed items below.";
+  else if (pct >= 50) verdict = "Decent foundation, but several key figures need another pass.";
+  else verdict = "Worth another full read-through of the source document before the next attempt.";
+  document.getElementById('verdictText').textContent = `${pct}% — ${verdict}`;
+
+  const reviewSection = document.getElementById('reviewSection');
+  reviewSection.innerHTML = '';
+  let missedCount = 0;
+  QUESTIONS.forEach((q, idx) => {
+    const ua = userAnswers[idx];
+    if (ua !== q.answer) {
+      missedCount++;
+      const div = document.createElement('div');
+      div.className = 'review-item';
+      div.innerHTML = `
+        <div class="rq">Q${idx+1}. ${q.q}</div>
+        <div class="ra you">Your answer: ${ua === null ? '(skipped)' : letters[ua] + '. ' + q.options[ua]}</div>
+        <div class="ra correct-ans">Correct answer: ${letters[q.answer]}. ${q.options[q.answer]}</div>
+        <div class="rex">${q.exp}</div>
+      `;
+      reviewSection.appendChild(div);
+    }
+  });
+
+  if (missedCount === 0) {
+    document.getElementById('perfectNote').classList.remove('hidden');
+  } else {
+    const heading = document.createElement('div');
+    heading.style.fontFamily = 'Georgia, serif';
+    heading.style.fontWeight = '700';
+    heading.style.color = 'var(--navy)';
+    heading.style.margin = '20px 0 4px';
+    heading.style.textAlign = 'left';
+    heading.textContent = `Review — ${missedCount} question(s) missed:`;
+    reviewSection.insertBefore(heading, reviewSection.firstChild);
+  }
+}
+
+function restartQuiz() {
+  current = 0;
+  score = 0;
+  userAnswers = new Array(QUESTIONS.length).fill(null);
+  document.getElementById('summary-area').classList.add('hidden');
+  document.getElementById('quiz-area').classList.remove('hidden');
+  document.getElementById('perfectNote').classList.add('hidden');
+  renderQuestion();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+renderQuestion();
+</script>
+</body>
+</html>
