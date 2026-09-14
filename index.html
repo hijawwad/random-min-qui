@@ -4,17 +4,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Quizzes</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: 30px auto; padding: 0 20px; background: #f9f9f9; }
-    h1 { text-align: center; color: #222; }
-    a { display: block; padding: 16px; margin: 10px 0; background: #fff; 
-        border-radius: 10px; text-decoration: none; color: #333; font-size: 17px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    a:active { background: #eee; }
-    #loading { text-align: center; color: #888; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #0f0f14;
+      color: #e8e8ec;
+      min-height: 100vh;
+    }
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #a78bfa, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      text-align: center;
+      color: #71717a;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+    a {
+      display: block;
+      padding: 18px 20px;
+      margin: 12px 0;
+      background: #1a1a22;
+      border: 1px solid #2a2a35;
+      border-radius: 14px;
+      text-decoration: none;
+      color: #e8e8ec;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    a:active {
+      background: #23232e;
+      border-color: #60a5fa;
+      transform: scale(0.98);
+    }
+    #loading {
+      text-align: center;
+      color: #71717a;
+      padding: 40px 0;
+    }
   </style>
 </head>
 <body>
   <h1>📚 My Quizzes</h1>
+  <p class="subtitle">Tap a quiz to begin</p>
   <div id="quizList"><p id="loading">Loading quizzes...</p></div>
 
   <script>
@@ -25,7 +67,7 @@
         list.innerHTML = '';
         const htmlFiles = files.filter(f => f.name.endsWith('.html') && f.name !== 'index.html');
         if (htmlFiles.length === 0) {
-          list.innerHTML = '<p>No quizzes found yet.</p>';
+          list.innerHTML = '<p id="loading">No quizzes found yet.</p>';
           return;
         }
         htmlFiles.forEach(file => {
@@ -36,7 +78,7 @@
         });
       })
       .catch(() => {
-        document.getElementById('quizList').innerHTML = '<p>Could not load quiz list. Refresh the page.</p>';
+        document.getElementById('quizList').innerHTML = '<p id="loading">Could not load quiz list. Refresh the page.</p>';
       });
   </script>
 </body>
