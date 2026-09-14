@@ -1,0 +1,2194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>NABARD Grade A — ESI/GA Practice Ledger</title>
+<style>
+  :root{
+    --bg:#12141c;
+    --bg-2:#0d0f16;
+    --surface:#1b1e29;
+    --surface-2:#232838;
+    --surface-3:#2a3040;
+    --border:#323850;
+    --border-soft:#262c40;
+    --text:#e9e8e3;
+    --text-dim:#a8afc2;
+    --text-faint:#6d7590;
+    --accent:#c9a227;
+    --accent-bright:#e0bc4a;
+    --accent-soft:rgba(201,162,39,0.14);
+    --success:#4c9a6a;
+    --success-soft:rgba(76,154,106,0.16);
+    --error:#c1554b;
+    --error-soft:rgba(193,85,75,0.16);
+    --serif:Georgia,'Iowan Old Style','Palatino Linotype','Book Antiqua',serif;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --radius:10px;
+    --maxw:760px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1100px 700px at 50% -10%, #1a1e2c 0%, var(--bg) 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  a{color:inherit;}
+  button{font-family:inherit;}
+  ::selection{background:var(--accent-soft);}
+
+  #app{max-width:var(--maxw); margin:0 auto; padding:28px 18px 60px;}
+
+  .masthead{
+    display:flex; align-items:baseline; justify-content:space-between;
+    padding-bottom:16px; margin-bottom:22px;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .masthead .brand{font-family:var(--serif); font-size:1.05rem; letter-spacing:0.02em; color:var(--text-dim);}
+  .masthead .brand b{color:var(--accent-bright); font-weight:600;}
+  .masthead .tally{font-size:0.78rem; color:var(--text-faint); font-variant-numeric:tabular-nums;}
+
+  h1.title{
+    font-family:var(--serif); font-weight:400; font-size:1.9rem; line-height:1.25;
+    margin:0 0 6px; color:var(--text);
+  }
+  p.sub{color:var(--text-dim); font-size:0.96rem; margin:0 0 28px; max-width:56ch;}
+
+  /* ---------- home mode cards ---------- */
+  .mode-grid{display:flex; flex-direction:column; gap:14px;}
+  .mode-card{
+    display:block; width:100%; text-align:left; cursor:pointer;
+    background:var(--surface); border:1px solid var(--border-soft); border-radius:var(--radius);
+    padding:20px 22px; color:var(--text);
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    position:relative; overflow:hidden;
+  }
+  .mode-card:hover{border-color:var(--accent); background:var(--surface-2);}
+  .mode-card:active{transform:scale(0.997);}
+  .mode-card .m-label{
+    font-size:0.68rem; letter-spacing:0.06em; color:var(--accent-bright);
+    font-family:var(--sans); font-weight:600; margin-bottom:6px; display:block;
+  }
+  .mode-card h3{font-family:var(--serif); font-weight:400; font-size:1.28rem; margin:0 0 6px;}
+  .mode-card p{margin:0; color:var(--text-dim); font-size:0.9rem;}
+  .mode-card .count-chip{
+    position:absolute; right:20px; top:20px; font-size:0.75rem; color:var(--text-faint);
+    font-variant-numeric:tabular-nums; text-align:right;
+  }
+
+  .footnote{margin-top:26px; font-size:0.78rem; color:var(--text-faint); text-align:center;}
+
+  /* ---------- buttons / controls ---------- */
+  .btn{
+    font-family:var(--sans); font-size:0.88rem; font-weight:600; cursor:pointer;
+    border-radius:8px; padding:11px 20px; border:1px solid var(--border);
+    background:var(--surface-2); color:var(--text); transition:.15s ease;
+  }
+  .btn:hover{border-color:var(--accent);}
+  .btn.primary{background:var(--accent); color:#20180a; border-color:var(--accent);}
+  .btn.primary:hover{background:var(--accent-bright);}
+  .btn.ghost{background:transparent;}
+  .btn:disabled{opacity:0.4; cursor:not-allowed;}
+  .btn-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px;}
+
+  .back-link{
+    display:inline-flex; align-items:center; gap:6px; font-size:0.83rem; color:var(--text-dim);
+    cursor:pointer; margin-bottom:18px; background:none; border:none; padding:0; font-family:var(--sans);
+  }
+  .back-link:hover{color:var(--accent-bright);}
+
+  /* ---------- toggle ---------- */
+  .toggle-row{display:flex; align-items:center; gap:12px; margin:18px 0;}
+  .toggle{
+    display:inline-flex; background:var(--surface-2); border:1px solid var(--border-soft); border-radius:8px; padding:3px;
+  }
+  .toggle button{
+    border:none; background:transparent; color:var(--text-dim); padding:8px 16px; border-radius:6px;
+    font-size:0.84rem; font-weight:600; cursor:pointer; font-family:var(--sans);
+  }
+  .toggle button.active{background:var(--accent); color:#20180a;}
+
+  /* ---------- section grid ---------- */
+  .section-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  @media(max-width:480px){.section-grid{grid-template-columns:1fr;}}
+  .section-tile{
+    background:var(--surface); border:1px solid var(--border-soft); border-radius:8px;
+    padding:13px 15px; cursor:pointer; text-align:left; transition:.15s ease;
+  }
+  .section-tile:hover{border-color:var(--accent); background:var(--surface-2);}
+  .section-tile .st-name{font-size:0.86rem; color:var(--text); display:block; margin-bottom:3px; font-weight:600;}
+  .section-tile .st-count{font-size:0.74rem; color:var(--text-faint);}
+
+  /* ---------- quiz screen ---------- */
+  .quiz-topbar{margin-bottom:20px;}
+  .progress-track{height:5px; background:var(--surface-2); border-radius:3px; overflow:hidden; margin-bottom:10px;}
+  .progress-fill{height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-bright)); transition:width .25s ease;}
+  .quiz-meta{display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; color:var(--text-faint); font-variant-numeric:tabular-nums;}
+  .quiz-meta .score-chip{color:var(--success); font-weight:700;}
+  .tag-row{display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;}
+  .tag{
+    font-size:0.68rem; letter-spacing:0.04em; padding:3px 9px; border-radius:20px; font-weight:600;
+    border:1px solid var(--border-soft); color:var(--text-dim); font-family:var(--sans);
+  }
+  .tag.diff-Easy{color:#8bbf9f; border-color:rgba(140,191,159,0.35);}
+  .tag.diff-Moderate{color:#e0bc4a; border-color:rgba(224,188,74,0.35);}
+  .tag.diff-Hard{color:#d38a82; border-color:rgba(211,138,130,0.35);}
+
+  .passage{
+    background:var(--surface-2); border-left:3px solid var(--accent);
+    padding:14px 18px; border-radius:0 6px 6px 0; margin-bottom:18px;
+    font-family:var(--serif); font-size:0.95rem; color:var(--text-dim); line-height:1.65;
+  }
+  .passage p{margin:0 0 8px;}
+  .passage p:last-child{margin-bottom:0;}
+  .passage ol{margin:6px 0 0; padding-left:22px;}
+  .passage li{margin-bottom:4px;}
+
+  .stem{
+    font-family:var(--serif); font-size:1.18rem; line-height:1.5; color:var(--text);
+    margin:0 0 20px;
+  }
+
+  .options{display:flex; flex-direction:column; gap:9px; margin-bottom:6px;}
+  .opt{
+    display:flex; align-items:flex-start; gap:12px; text-align:left; width:100%;
+    background:var(--surface); border:1px solid var(--border-soft); border-radius:8px;
+    padding:13px 16px; cursor:pointer; color:var(--text); font-size:0.93rem; font-family:var(--sans);
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .opt:hover:not(.locked){border-color:var(--accent); background:var(--surface-2);}
+  .opt .opt-letter{
+    flex:0 0 auto; width:24px; height:24px; border-radius:50%; border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700; color:var(--text-dim);
+    margin-top:1px;
+  }
+  .opt .opt-text{flex:1; padding-top:1px;}
+  .opt.correct{border-color:var(--success); background:var(--success-soft);}
+  .opt.correct .opt-letter{border-color:var(--success); background:var(--success); color:#0d1a12;}
+  .opt.wrong{border-color:var(--error); background:var(--error-soft);}
+  .opt.wrong .opt-letter{border-color:var(--error); background:var(--error); color:#210a08;}
+  .opt.locked{cursor:default;}
+  .opt.locked:not(.correct):not(.wrong){opacity:0.55;}
+
+  .feedback{
+    margin-top:16px; padding:14px 18px; border-radius:8px; font-size:0.9rem; line-height:1.6;
+    background:var(--surface-2); border:1px solid var(--border-soft);
+  }
+  .feedback.is-correct{border-color:rgba(76,154,106,0.4);}
+  .feedback.is-wrong{border-color:rgba(193,85,75,0.4);}
+  .feedback .fb-head{font-weight:700; margin-bottom:5px; font-size:0.86rem;}
+  .feedback.is-correct .fb-head{color:var(--success);}
+  .feedback.is-wrong .fb-head{color:var(--error);}
+  .feedback .fb-body{color:var(--text-dim);}
+
+  .quiz-actions{display:flex; justify-content:space-between; align-items:center; margin-top:22px;}
+
+  /* ---------- end screen ---------- */
+  .score-hero{
+    text-align:center; padding:30px 20px; background:var(--surface); border:1px solid var(--border-soft);
+    border-radius:var(--radius); margin-bottom:22px;
+  }
+  .score-hero .big-num{font-family:var(--serif); font-size:3rem; color:var(--accent-bright); line-height:1;}
+  .score-hero .big-label{font-size:0.85rem; color:var(--text-dim); margin-top:6px;}
+  .breakdown{display:flex; gap:10px; margin-bottom:24px; flex-wrap:wrap;}
+  .breakdown .bd-card{
+    flex:1; min-width:110px; background:var(--surface); border:1px solid var(--border-soft); border-radius:8px;
+    padding:12px 14px; text-align:center;
+  }
+  .breakdown .bd-num{font-family:var(--serif); font-size:1.4rem; color:var(--text);}
+  .breakdown .bd-label{font-size:0.72rem; color:var(--text-faint); margin-top:2px;}
+
+  .review-item{
+    background:var(--surface); border:1px solid var(--border-soft); border-radius:8px;
+    padding:16px 18px; margin-bottom:12px;
+  }
+  .review-item .ri-tag{font-size:0.7rem; font-weight:700; letter-spacing:0.03em; margin-bottom:8px; display:inline-block; padding:2px 9px; border-radius:20px;}
+  .ri-tag.skipped{color:var(--text-dim); background:var(--surface-2);}
+  .ri-tag.wrong{color:var(--error); background:var(--error-soft);}
+  .review-item .ri-stem{font-family:var(--serif); font-size:1rem; margin-bottom:8px; color:var(--text);}
+  .review-item .ri-line{font-size:0.85rem; margin-bottom:4px; color:var(--text-dim);}
+  .review-item .ri-line b{color:var(--text);}
+  .review-item .ri-exp{font-size:0.85rem; color:var(--text-dim); margin-top:8px; padding-top:8px; border-top:1px solid var(--border-soft);}
+
+  .section-heading{font-family:var(--serif); font-size:1.1rem; margin:26px 0 12px; color:var(--text);}
+  .empty-note{color:var(--text-faint); font-size:0.88rem; text-align:center; padding:20px 0;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+const QUESTIONS = [
+
+// ===================== ELDERLINE 14567 =====================
+{id:1, section:"Elderline 14567", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about Elderline 14567 is correct?",
+ options:[["A","Elderline 14567 operates from 8:00 AM to 8:00 PM on all seven days of the week."],
+ ["B","Elderline was dedicated to the nation on 1st October 2020."],
+ ["C","The helpline is run by the Ministry of Rural Development."],
+ ["D","Elderline provides services only in States, excluding Union Territories."],
+ ["E","Elderline operates only from 9:00 AM to 6:00 PM on weekdays."]],
+ correct:"A",
+ explanation:"Elderline 14567 works 8 AM to 8 PM, all 7 days. It was dedicated to the nation on 1st October 2021 (not 2020), is run by the Ministry of Social Justice and Empowerment (not Rural Development), and covers all States and Union Territories (Pan-India)."},
+
+{id:2, section:"Elderline 14567", type:"numbered", difficulty:"Moderate",
+ context:"As of August 2026, the Ministry of Social Justice and Empowerment operates the National Helpline for Senior Citizens under two major initiatives.\n1. Elderline 14567 is a toll-free, pan-India single-window platform for senior citizens.\n2. The helpline was dedicated to the nation on 1st October 2021.\n3. Elderline works from 8:00 AM to 8:00 PM, seven days a week.\n4. The \"Take a Pledge\" initiative is run under the Ageing with Dignity campaign.\n5. Elderline handles only healthcare-related information services and does not offer guidance on legal or pension matters.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","1, 2 and 3"],["C","All of the above"],["D","2, 3 and 4"],["E","1, 3 and 5"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — Elderline's Guidance Services also cover legal issues, pension-related matters, government schemes, maintenance issues and dispute resolution, not just healthcare information."},
+
+{id:3, section:"Elderline 14567", type:"notamong", difficulty:"Moderate",
+ stem:"Which of the following is NOT a genuine category of services provided by Elderline 14567?",
+ options:[["A","Information Services"],["B","Guidance Services"],["C","Field Intervention & Support"],["D","Financial Compensation Services"],["E","Emotional support for loneliness and family disputes"]],
+ correct:"D",
+ explanation:"Elderline's real service categories are Information Services, Guidance Services, and Field Intervention & Support (which includes emotional support). 'Financial Compensation Services' is not a listed category."},
+
+// ===================== TAKE A PLEDGE CAMPAIGN =====================
+{id:4, section:"Take a Pledge Campaign", type:"figure", difficulty:"Easy",
+ stem:"The 'Take a Pledge' initiative, encouraging citizens to build an age-inclusive society, is run under which campaign?",
+ options:[["A","Ageing with Dignity campaign"],["B","Elder Care India Campaign"],["C","Viksit Bharat Senior Citizens Mission"],["D","Sishu se Shakti Abhiyan"],["E","Suraksha Bandhan Abhiyan"]],
+ correct:"A",
+ explanation:"The 'Take a Pledge' initiative is run under the Ageing with Dignity campaign, alongside Elderline 14567."},
+
+// ===================== DEBT-TO-GDP RATIO =====================
+{id:5, section:"India's Debt-to-GDP Ratio", type:"figure", difficulty:"Easy",
+ stem:"Which one of the following correctly pairs India's Debt-to-GDP ratio figures?",
+ options:[["A","FY26 (provisional): 58.2%; Previous year: 58.5%"],
+ ["B","FY26 (provisional): 58.5%; Previous year: 58.2%"],
+ ["C","FY26 (provisional): 57.2%; Previous year: 58.5%"],
+ ["D","FY26 (provisional): 58.2%; Previous year: 59.5%"],
+ ["E","FY26 (provisional): 56.8%; Previous year: 58.2%"]],
+ correct:"A",
+ explanation:"India's debt-to-GDP ratio moderated to 58.2% (provisional) in FY26, compared to 58.5% in the previous financial year."},
+
+// ===================== FAVARA-UPI CORRIDOR & UPI ABROAD =====================
+{id:6, section:"Favara-UPI Corridor & UPI Abroad", type:"statement", difficulty:"Hard",
+ stem:"Which one of the following statements about the Favara-UPI cross-border payment corridor is correct?",
+ options:[["A","The corridor enables real-time transfer of funds from Maldives to India."],
+ ["B","Transfers under Favara-UPI are credited in Indian Rupees but initiated in US Dollars."],
+ ["C","The corridor supports merchant 'scan and pay' transactions in its initial phase."],
+ ["D","Favara is UPI's own payment system operated by NPCI in the Maldives."],
+ ["E","The initial phase includes five participating Maldivian banks."]],
+ correct:"A",
+ explanation:"Transfers are initiated in Maldivian Rufiyaa (MVR), not US Dollars. The corridor is for Person-to-Person (P2P) transfers, not merchant scan-and-pay. Favara is the Maldives Monetary Authority's own instant payment system, not run by NPCI. Only two banks (Bank of Maldives Plc and Maldives Islamic Bank Plc) participate in the initial phase."},
+
+{id:7, section:"Favara-UPI Corridor & UPI Abroad", type:"numbered", difficulty:"Moderate",
+ context:"Recently in August 2026, the Maldives Monetary Authority announced the integration of its instant payment system with India's UPI.\n1. The corridor allows real-time transfer of funds from Maldives to India.\n2. Transfers are initiated in Indian Rupees and credited in Maldivian Rufiyaa.\n3. The initial phase includes Bank of Maldives Plc and Maldives Islamic Bank Plc.\n4. Permitted categories include family maintenance-related and gift-related remittances.\n5. The facility also allows routine merchant QR-code shopping payments in India.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 3 and 4"],["B","1, 2 and 3"],["C","All of the above"],["D","2, 4 and 5"],["E","Only 1"]],
+ correct:"A",
+ explanation:"Statement 2 reverses the currency flow — transfers are initiated in Maldivian Rufiyaa and credited in Indian Rupees. Statement 5 is wrong — Maldives is live for remittances only, not routine merchant QR shopping."},
+
+{id:8, section:"Favara-UPI Corridor & UPI Abroad", type:"notamong", difficulty:"Hard",
+ stem:"Which of the following is NOT among the nine countries where UPI is currently accepted for merchant payments (scan and pay)?",
+ options:[["A","Bhutan"],["B","Singapore"],["C","Maldives"],["D","United Arab Emirates"],["E","Cambodia"]],
+ correct:"C",
+ explanation:"The nine countries for UPI merchant/scan-and-pay payments are Bhutan, Singapore, UAE, France, Mauritius, Nepal, Sri Lanka, Qatar and Cambodia. Maldives (via Favara-UPI) is live only for remittances, not routine merchant QR shopping."},
+
+{id:9, section:"Favara-UPI Corridor & UPI Abroad", type:"numbered", difficulty:"Hard",
+ context:"As of August 2026, UPI's international footprint has expanded across several countries.\n1. UPI is accepted for merchant payments in nine countries.\n2. Greece and Maldives are live for remittances only, not routine QR shopping.\n3. Uzbekistan has signed an agreement for UPI acceptance, with rollout expected within about a year.\n4. Including India, UPI is now operational in some form in 12 countries.\n5. The total number of foreign countries with a live UPI arrangement stands at 9.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 2 and 3"],["D","2, 3, 4 and 5"],["E","1, 3 and 5"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — 11 foreign countries are operational in some form (9 for merchant payments + Greece and Maldives for remittances only), not 9."},
+
+// ===================== INDEX OF CORE INDUSTRIES (ICI) =====================
+{id:10, section:"Index of Core Industries (ICI)", type:"acronym", difficulty:"Easy",
+ stem:"ICI, whose revised series was released by the Office of Economic Adviser, stands for:",
+ options:[["A","Index of Core Industries"],["B","Index of Composite Industries"],["C","Indicator of Core Infrastructure"],["D","Index of Core Infrastructure"],["E","Index of Industrial Core"]],
+ correct:"A",
+ explanation:"ICI stands for Index of Core Industries, compiled by the Office of Economic Adviser (OEA), DPIIT."},
+
+{id:11, section:"Index of Core Industries (ICI)", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the revised Index of Core Industries (ICI) is correct?",
+ options:[["A","The new ICI series has Base Year 2022-23, replacing the old series with Base Year 2011-12."],
+ ["B","The ICI is compiled by the Ministry of Statistics and Programme Implementation (MoSPI)."],
+ ["C","The overall linking factor for the new ICI series is 1.74."],
+ ["D","The provisional ICI index is released on the 15th of the following month."],
+ ["E","ICI is released quarterly."]],
+ correct:"A",
+ explanation:"ICI is compiled by the OEA under DPIIT (not MoSPI), the overall linking factor is 1.47 (not 1.74), the provisional index is released on the 20th (not 15th) of the following month, and it is a monthly (not quarterly) index."},
+
+{id:12, section:"Index of Core Industries (ICI)", type:"numbered", difficulty:"Moderate",
+ context:"1. ICI is compiled by the Office of Economic Adviser under DPIIT.\n2. The new base year for ICI is 2022-23, replacing 2011-12.\n3. The overall linking factor is 1.47.\n4. Users cannot calculate sector-wise linking factors; only the overall figure is published.\n5. If the 20th falls on a non-working day, the index is released on the next working day.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 2 and 3"],["D","2, 3, 4 and 5"],["E","Only 1, 2 and 4"]],
+ correct:"A",
+ explanation:"Statement 4 is incorrect — users CAN calculate the linking factor for individual sectors using the same formula."},
+
+// ===================== MSME SUSTAINABLE (ZED) CERTIFICATION =====================
+{id:13, section:"MSME Sustainable (ZED) Certification", type:"acronym", difficulty:"Easy",
+ stem:"Under the MSME Sustainable Certification Scheme, ZED stands for:",
+ options:[["A","Zero Defect Zero Effect"],["B","Zero Emission Development"],["C","Zero Deficiency Enterprise Development"],["D","Zero Defect Environmental Design"],["E","Zonal Economic Development"]],
+ correct:"A",
+ explanation:"ZED stands for Zero Defect Zero Effect — Zero Defect means minimum-defect manufacturing, Zero Effect means minimal environmental impact."},
+
+{id:14, section:"MSME Sustainable (ZED) Certification", type:"numbered", difficulty:"Hard",
+ context:"1. Women-owned MSMEs get 100% subsidy on the cost of ZED Certification.\n2. Testing/System/Product certification support is available up to 75% of cost, capped at ₹50,000.\n3. Handholding and Consultancy support is capped at ₹3 lakh.\n4. Support for adopting Zero Effect solutions and cleaner technologies is available up to ₹3 lakh.\n5. The scheme is administered by the Ministry of Commerce and Industry.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2 and 4"],["B","1, 2, 3 and 4"],["C","All of the above"],["D","2, 3 and 5"],["E","1, 3 and 4"]],
+ correct:"A",
+ explanation:"Statement 3 is wrong — Handholding & Consultancy Support is capped at ₹2 lakh (₹3 lakh is for adopting Zero Effect solutions). Statement 5 is wrong — the scheme is run by the Ministry of MSME, not Commerce and Industry."},
+
+{id:15, section:"MSME Sustainable (ZED) Certification", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the MSME Sustainable (ZED) Certification Scheme is NOT correct?",
+ options:[["A","ZED stands for Zero Defect Zero Effect."],
+ ["B","Zero Defect means manufacturing high-quality products with minimum defects."],
+ ["C","Zero Effect means minimising negative impact on the environment."],
+ ["D","The scheme offers 100% subsidy on ZED Certification cost for all MSMEs regardless of ownership."],
+ ["E","The scheme aims to strengthen competitiveness of MSMEs in domestic and global markets."]],
+ correct:"D",
+ explanation:"The 100% subsidy on ZED Certification cost applies specifically to women-owned MSMEs, not all MSMEs."},
+
+// ===================== UDYAM & MSME PORTALS =====================
+{id:16, section:"Udyam Registration & MSME Portals", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about MSME digital platforms is correct?",
+ options:[["A","The Udyam Assist Platform enables enterprises without GST or Income Tax registration to get formal recognition as micro enterprises."],
+ ["B","The Udyam Registration Portal is a paid registration process requiring documentary proof."],
+ ["C","The MSME Online Dispute Resolution Portal resolves disputes for medium enterprises only."],
+ ["D","Udyam Assist Partners are private consultants who charge a registration fee."],
+ ["E","The Udyam Registration Portal was launched by the Ministry of Corporate Affairs."]],
+ correct:"A",
+ explanation:"Udyam Registration is free and self-declaration based, launched by the Ministry of MSME. The ODR Portal resolves disputes for Micro and Small Enterprises, not medium. Recognition through Udyam Assist is based on verified data from authorised Udyam Assist Partners, not a paid consultancy."},
+
+{id:17, section:"Udyam Registration & MSME Portals", type:"numbered", difficulty:"Moderate",
+ context:"1. Udyam Registration Portal provides official identity to MSMEs.\n2. Udyam Assist Platform brings informal micro enterprises into the formal economy.\n3. Recognition under Udyam Assist is given based on verified data from authorised Udyam Assist Partners.\n4. The MSME ODR Portal resolves disputes related to delayed payments involving Micro and Small Enterprises.\n5. The Udyam Registration Portal charges a nominal fee for MSME registration.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","2, 3 and 4"],["D","1, 3 and 5"],["E","1, 2 and 4"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — Udyam Registration is free, paperless and self-declaration based."},
+
+{id:18, section:"Udyam Registration & MSME Portals", type:"acronym", difficulty:"Easy",
+ stem:"ODR, under the MSME Online Dispute Resolution Portal, stands for:",
+ options:[["A","Online Dispute Resolution"],["B","Official Dispute Redressal"],["C","Online Data Resolution"],["D","Organised Dispute Registry"],["E","Online Delayed-payment Resolution"]],
+ correct:"A",
+ explanation:"ODR stands for Online Dispute Resolution, a digital platform resolving delayed payment disputes for Micro and Small Enterprises."},
+
+// ===================== INDEX OF SERVICES PRODUCTION (ISP) =====================
+{id:19, section:"Index of Services Production (ISP)", type:"figure", difficulty:"Moderate",
+ stem:"MoSPI's first Trial Index of Services Production covered how many sub-sectors, and for which month?",
+ options:[["A","19 sub-sectors; April 2026"],["B","19 sub-sectors; April 2025"],["C","29 sub-sectors; April 2026"],["D","19 sub-sectors; March 2026"],["E","24 sub-sectors; April 2026"]],
+ correct:"A",
+ explanation:"The first Trial Index of Services Production (ISP) was released for 19 sub-sectors for the month of April 2026."},
+
+{id:20, section:"Index of Services Production (ISP)", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the Index of Services Production (ISP) is correct?",
+ options:[["A","The base year for ISP is 2024-25, and the trial index covers about 60% of the services sector."],
+ ["B","ISP is released on the 20th of every month with an average time lag of 60 days."],
+ ["C","ISP covers both formal and informal services sector enterprises."],
+ ["D","Services sector contribution to GVA has exceeded 50% only since 2020-21."],
+ ["E","India aims to achieve a 15% share in global services by 2047."]],
+ correct:"A",
+ explanation:"ISP is released on the 29th (not 20th) of every month. It covers only the formal services sector. Services have contributed over 50% of GVA since 2013-14. India's target is a 10% (not 15%) share in global services by 2047."},
+
+{id:21, section:"Index of Services Production (ISP)", type:"numbered", difficulty:"Moderate",
+ context:"1. ISP is a monthly high-frequency indicator covering only the formal services sector.\n2. The trial index released in April 2026 covered about 60% of the services sector.\n3. ISP will be regularly released on the 29th of every month, or the next working day if the 29th is a holiday.\n4. The time lag for ISP release is approximately 90 days.\n5. Core government activities, non-market activities and the informal sector are excluded from ISP coverage.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 3 and 4"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 4 is incorrect — the time lag for ISP release is approximately 60 days, not 90 days."},
+
+{id:22, section:"Index of Services Production (ISP)", type:"numbered", difficulty:"Hard",
+ context:"The following deflators are used to convert value-based ISP data into volume-based data.\n1. Wholesale Trade — Wholesale Price Index (WPI)\n2. Repair & Maintenance, Banking, Insurance — CPI-General\n3. Most other sectors — Relevant or closest matching CPI\n4. Sectors without a specific CPI — CPI-Services\n5. Road Transport — Producer Price Index (PPI)",
+ stem:"Which of the above statements is/are incorrect?",
+ options:[["A","Only 5"],["B","Only 3"],["C","4 and 5"],["D","None of the above"],["E","All of the above"]],
+ correct:"A",
+ explanation:"Statement 5 is fabricated — the passage lists only four deflator categories (WPI for Wholesale Trade; CPI-General for Repair & Maintenance/Banking/Insurance; relevant/closest CPI for most sectors; CPI-Services for sectors without a specific CPI). A separate PPI-based rule for Road Transport is not mentioned."},
+
+{id:23, section:"Index of Services Production (ISP)", type:"figure", difficulty:"Easy",
+ stem:"In 2024-25, the services sector's share of India's Gross Value Added (GVA) stood close to which figure?",
+ options:[["A","52.9%"],["B","50.9%"],["C","55.9%"],["D","48.9%"],["E","60.9%"]],
+ correct:"A",
+ explanation:"In 2024-25, the services sector's share of GVA stood close to 52.9%."},
+
+// ===================== GOBARDHAN =====================
+{id:24, section:"GOBARdhan Scheme", type:"acronym", difficulty:"Easy",
+ stem:"GOBARdhan, India's National Unified Scheme for Compressed Biogas, stands for:",
+ options:[["A","Galvanizing Organic Bio-Agro Resources Dhan"],["B","Government Organic Biogas and Agro Resources Dhan"],["C","Galvanizing Organic Bio-Agro Rural Development"],["D","Galvanizing Organic Biomass Agro Resources Dhan"],["E","Global Organic Bio-Agro Resource Development"]],
+ correct:"A",
+ explanation:"GOBARdhan stands for Galvanizing Organic Bio-Agro Resources Dhan."},
+
+{id:25, section:"GOBARdhan Scheme", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about GOBARdhan is correct?",
+ options:[["A","GOBARdhan was approved by the Union Cabinet on 6 August 2026 with a total outlay of ₹23,731 crore."],
+ ["B","GOBARdhan's implementation period runs from FY2025-26 to FY2034-35."],
+ ["C","The scheme's nodal ministry is the Ministry of New and Renewable Energy."],
+ ["D","GOBARdhan was originally launched in 2015 under the Swachh Bharat Mission."],
+ ["E","The scheme's total outlay is ₹32,731 crore."]],
+ correct:"A",
+ explanation:"The implementation period is FY2026-27 to FY2035-36; the nodal ministry is Petroleum and Natural Gas (MoPNG); and GOBARdhan was originally launched in 2018 (not 2015)."},
+
+{id:26, section:"GOBARdhan Scheme", type:"numbered", difficulty:"Moderate",
+ context:"Under the Assured CBG Offtake growth engine of GOBARdhan, City Gas Distribution entities must procure CBG as per a fixed obligation trajectory.\n1. 3% obligation in FY 2026-27\n2. 4% obligation in FY 2027-28\n3. 5% obligation from FY 2028-29 onwards\n4. The administered price of CBG is fixed at ₹2,110 per MMBTU.\n5. This price is equivalent to ₹150 per kg of CBG.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — ₹2,110 per MMBTU is equivalent to ₹105 per kg of CBG, not ₹150 per kg."},
+
+{id:27, section:"GOBARdhan Scheme", type:"notamong", difficulty:"Hard",
+ stem:"Which of the following is NOT one of the six growth engines (components) of GOBARdhan?",
+ options:[["A","Assured CBG Offtake"],["B","Stable CBG Pricing Framework"],["C","Capital Assistance"],["D","National CBG Export Promotion Council"],["E","Development of Pipeline Infrastructure"]],
+ correct:"D",
+ explanation:"The six growth engines are Assured CBG Offtake, Stable CBG Pricing Framework, Capital Assistance, Development of Pipeline Infrastructure, Credit Guarantee Support, and CBG Ecosystem Challenge Fund. 'National CBG Export Promotion Council' is not among them."},
+
+{id:28, section:"GOBARdhan Scheme", type:"numbered", difficulty:"Moderate",
+ context:"Expected outcomes of GOBARdhan over 10 years:\n1. Growth in CBG production is expected to be nearly 10-fold.\n2. Foreign exchange savings are projected at over ₹40,000 crore.\n3. Fossil fuel displacement is targeted at 10 MMT.\n4. Employment generation is expected to exceed 2.5 lakh jobs.\n5. Organic fertilizer production target is 250 MMT.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 2 and 4"],["D","2, 3 and 4"],["E","1, 4 and 5"]],
+ correct:"A",
+ explanation:"Statement 4 is incorrect — employment generation is expected to exceed 1.5 lakh jobs, not 2.5 lakh."},
+
+{id:29, section:"GOBARdhan Scheme", type:"figure", difficulty:"Hard",
+ stem:"Under GOBARdhan's Capital Assistance component, what is the maximum capital assistance for greenfield CBG projects, and the credit guarantee coverage limit for MSME-based CBG projects?",
+ options:[["A","₹2 crore per TPD; 85% credit guarantee"],["B","₹3 crore per TPD; 75% credit guarantee"],["C","₹2 crore per TPD; 75% credit guarantee"],["D","₹1.5 crore per TPD; 85% credit guarantee"],["E","₹2.5 crore per TPD; 90% credit guarantee"]],
+ correct:"A",
+ explanation:"Capital assistance is up to ₹2 crore per tonne per day (TPD) for greenfield projects, and credit guarantee coverage is up to 85% on eligible loans for MSME-based CBG projects."},
+
+{id:30, section:"GOBARdhan Scheme", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements is NOT correct?",
+ options:[["A","India currently meets nearly 50% of its natural gas requirement through imports."],
+ ["B","The Strait of Hormuz carries 55–60% of India's LNG imports."],
+ ["C","Before GOBARdhan's consolidation, the CBG ecosystem was spread across four different ministries."],
+ ["D","GOBARdhan's vision states that India's villages will become centres of clean energy production."],
+ ["E","GOBARdhan was originally launched under the Ayushman Bharat scheme in 2018."]],
+ correct:"E",
+ explanation:"GOBARdhan was originally launched in 2018 under the Swachh Bharat Mission (Grameen), not the Ayushman Bharat scheme."},
+
+// ===================== CPGRAMS =====================
+{id:31, section:"CPGRAMS", type:"acronym", difficulty:"Easy",
+ stem:"CPGRAMS, the Government of India's flagship grievance redressal platform, stands for:",
+ options:[["A","Centralised Public Grievance Redress and Monitoring System"],["B","Central Public Grievance Resolution and Monitoring System"],["C","Centralised Public Grievance Registration and Management System"],["D","Centralised Portal for Grievance Redressal and Monitoring Services"],["E","Central Public Grievance Redressal Agency Management System"]],
+ correct:"A",
+ explanation:"CPGRAMS stands for Centralised Public Grievance Redress and Monitoring System."},
+
+{id:32, section:"CPGRAMS", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about CPGRAMS is correct?",
+ options:[["A","Grievances under CPGRAMS should be resolved within 21 days, reduced from the earlier 30 days as per August 2024 guidelines."],
+ ["B","CPGRAMS is available in 18 scheduled languages plus English."],
+ ["C","Appeals against unresolved grievances must be filed before the Central Vigilance Commission."],
+ ["D","CPGRAMS entertains RTI-related grievances on a priority basis."],
+ ["E","An appeal filed with the Nodal Appellate Authority must be resolved within 45 days."]],
+ correct:"A",
+ explanation:"CPGRAMS is available in 22 scheduled languages plus English, appeals go to the Nodal Appellate Authority (not CVC) and must be resolved within 30 days (not 45), and RTI matters are explicitly excluded from CPGRAMS."},
+
+{id:33, section:"CPGRAMS", type:"numbered", difficulty:"Moderate",
+ context:"1. The number of grievances handled annually has increased nearly nine-fold since 2014.\n2. About 3.01 lakh grievances were handled in 2014, rising to around 27 lakh in 2024.\n3. CPGRAMS has launched an AI-enabled voice chatbot named \"Samadhan Didi\".\n4. CPGRAMS entertains grievances related to sub-judice court matters if the citizen requests expedited review.\n5. Service matters of government employees, including disciplinary proceedings, are excluded from CPGRAMS.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 3 and 4"],["D","2, 4 and 5"],["E","1, 2 and 4"]],
+ correct:"A",
+ explanation:"Statement 4 is incorrect — court-related/sub-judice matters are NOT entertained by CPGRAMS under any circumstance."},
+
+{id:34, section:"CPGRAMS", type:"notamong", difficulty:"Moderate",
+ stem:"Which of the following is NOT among the categories of grievances excluded from redress under CPGRAMS?",
+ options:[["A","RTI matters"],["B","Court-related/Sub-judice matters"],["C","Religious matters"],["D","Consumer protection disputes"],["E","Service matters of government employees, including disciplinary proceedings"]],
+ correct:"D",
+ explanation:"CPGRAMS excludes RTI matters, court-related/sub-judice matters, religious matters, and service matters of government employees. 'Consumer protection disputes' is not one of the listed exclusions."},
+
+{id:35, section:"CPGRAMS", type:"figure", difficulty:"Easy",
+ stem:"What was the growth trajectory in the number of grievances handled annually by CPGRAMS between 2014 and 2024?",
+ options:[["A","Rose from about 3.01 lakh to around 27 lakh, a nearly nine-fold increase"],
+ ["B","Rose from about 5 lakh to around 27 lakh, a nearly five-fold increase"],
+ ["C","Rose from about 3.01 lakh to around 21 lakh, a nearly seven-fold increase"],
+ ["D","Rose from about 1.01 lakh to around 27 lakh, a nearly 27-fold increase"],
+ ["E","Rose from about 3.01 lakh to around 30 lakh, a ten-fold increase"]],
+ correct:"A",
+ explanation:"Grievances handled annually rose from about 3.01 lakh in 2014 to around 27 lakh in 2024, a nearly nine-fold increase."},
+
+// ===================== MSMED (AMENDMENT) BILL 2026 =====================
+{id:36, section:"MSMED (Amendment) Bill, 2026", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the MSMED (Amendment) Bill, 2026 is correct?",
+ options:[["A","The Bill bases MSME classification on both investment in plant & machinery/equipment and turnover."],
+ ["B","As per Economic Survey 2025-26, MSMEs contribute 41.1% to India's GDP."],
+ ["C","Under the 2026 Bill, MSME registration remains mandatory for medium manufacturing enterprises."],
+ ["D","The Bill was passed by Parliament in July 2026."],
+ ["E","The 2026 Bill removes the TReDS-based invoice settlement requirement for CPSEs."]],
+ correct:"A",
+ explanation:"As per Economic Survey 2025-26, MSMEs contribute 31.1% (not 41.1%) to GDP. Under the 2026 Bill, MSME registration is free and voluntary for all MSMEs. The Bill was passed in August 2026, and it INTRODUCES (not removes) the TReDS settlement requirement for CPSEs."},
+
+{id:37, section:"MSMED (Amendment) Bill, 2026", type:"numbered", difficulty:"Moderate",
+ context:"As per Economic Survey 2025-26, cited to justify the MSMED (Amendment) Bill, 2026:\n1. MSMEs contribute 31.1% to GDP.\n2. MSMEs contribute 35.4% of manufacturing output.\n3. MSMEs account for 48.58% of India's exports.\n4. MSMEs employ over 30% of the country's total workforce.\n5. The MSMED Act being amended dates to 2006.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 2 and 4"],["D","2, 3 and 4"],["E","1, 4 and 5"]],
+ correct:"A",
+ explanation:"Statement 4 is not supported by the passage — no workforce-employment figure is cited among the Economic Survey figures given."},
+
+{id:38, section:"MSMED (Amendment) Bill, 2026", type:"numbered", difficulty:"Hard",
+ context:"1. All CPSEs must settle invoices for goods/services procured from MSMEs through the TReDS platform.\n2. States may also mandate their Public Sector Enterprises to use TReDS.\n3. The value of invoices discounted through TReDS rose from ₹40,000 crore in 2022-23 to ₹3.47 lakh crore in 2025-26.\n4. TReDS stands for Trade Receivables Electronic Discounting System.\n5. The TReDS mandate for CPSEs is a new provision introduced by the 2026 Bill.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 2 and 4"],["D","2, 3 and 4"],["E","1, 4 and 5"]],
+ correct:"A",
+ explanation:"Statement 4 is incorrect — TReDS stands for Trade Receivables Discounting System (no 'Electronic' in the name)."},
+
+{id:39, section:"MSMED (Amendment) Bill, 2026", type:"acronym", difficulty:"Easy",
+ stem:"TReDS, the electronic platform for MSME invoice financing/discounting, stands for:",
+ options:[["A","Trade Receivables Discounting System"],["B","Trade Receivables Electronic Discounting System"],["C","Trade Receivables Development System"],["D","Traders' Receivables Discounting Scheme"],["E","Trade Revenue Discounting System"]],
+ correct:"A",
+ explanation:"TReDS stands for Trade Receivables Discounting System."},
+
+{id:40, section:"MSMED (Amendment) Bill, 2026", type:"numbered", difficulty:"Hard",
+ context:"1. Mediation must be completed within 90 days from the date fixed for first appearance.\n2. If mediation fails, the matter must be referred for arbitration within 30 days.\n3. The arbitral award must be made within 90 days from the completion of pleadings.\n4. If an application to set aside a Council's order remains pending for more than 6 months, the court shall direct payment of at least 50% of the awarded amount.\n5. An application to set aside a Council's order can be filed only after depositing 100% of the awarded amount.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — the application can be filed after depositing 75% (not 100%) of the awarded amount."},
+
+{id:41, section:"MSMED (Amendment) Bill, 2026", type:"statement", difficulty:"Hard",
+ stem:"Which one of the following 'Offence — New Punishment (2026 Bill)' pairs is INCORRECTLY matched?",
+ options:[["A","Non-filing of registration/non-supply of information — Decriminalised"],
+ ["B","Furnishing incorrect information (1st instance) — Warning"],
+ ["C","Furnishing incorrect information (2nd & subsequent instance) — Penalty"],
+ ["D","Non-disclosure of unpaid dues by buyers (1st instance) — Fine of at least ₹10,000"],
+ ["E","Non-disclosure of unpaid dues by buyers (3rd & subsequent instance) — Fine"]],
+ correct:"D",
+ explanation:"Under the 2026 Bill, the 1st instance of non-disclosure of unpaid dues attracts a Warning, not a fine of ₹10,000 (that was the punishment under the earlier 2006 Act)."},
+
+{id:42, section:"MSMED (Amendment) Bill, 2026", type:"numbered", difficulty:"Hard",
+ context:"1. Under the 2026 Bill, State Governments can establish multiple MSEFCs for faster resolution.\n2. States are now empowered to provide adequate infrastructure, digital systems and trained manpower for MSEFCs.\n3. Filing of the Udyam memorandum is now free and voluntary for all MSMEs.\n4. Earlier (under the 2006 Act), State Governments could establish only a single MSEFC per state.\n5. The 2026 Bill makes MSME registration mandatory for all micro enterprises.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2 and 3"],["B","All of the above"],["C","1, 3 and 4"],["D","2, 4 and 5"],["E","1, 2 and 4"]],
+ correct:"A",
+ explanation:"Statement 4 is incorrect — earlier, State Governments could already establish 'one or more' MSEFCs. Statement 5 is incorrect — registration is now free and voluntary for all MSMEs, not mandatory."},
+
+{id:43, section:"MSMED (Amendment) Bill, 2026", type:"figure", difficulty:"Moderate",
+ stem:"Which one of the following correctly pairs the value of invoices discounted through TReDS?",
+ options:[["A","₹40,000 crore in 2022-23; ₹3.47 lakh crore in 2025-26"],
+ ["B","₹40,000 crore in 2022-23; ₹3.47 crore in 2025-26"],
+ ["C","₹4 lakh crore in 2022-23; ₹3.47 lakh crore in 2025-26"],
+ ["D","₹40,000 crore in 2021-22; ₹3.47 lakh crore in 2025-26"],
+ ["E","₹50,000 crore in 2022-23; ₹4.37 lakh crore in 2025-26"]],
+ correct:"A",
+ explanation:"The value of invoices discounted through TReDS rose from ₹40,000 crore in 2022-23 to ₹3.47 lakh crore in 2025-26."},
+
+// ===================== CBDC-BASED DBT UNDER PMGKAY =====================
+{id:44, section:"CBDC-based DBT under PMGKAY", type:"acronym", difficulty:"Easy",
+ stem:"CBDC, the digital form of the Digital Rupee used for the new DBT rollout under PMGKAY, stands for:",
+ options:[["A","Central Bank Digital Currency"],["B","Centralised Banking Digital Currency"],["C","Central Bank Digital Cash"],["D","Consolidated Bank Digital Currency"],["E","Central Board Digital Currency"]],
+ correct:"A",
+ explanation:"CBDC stands for Central Bank Digital Currency."},
+
+{id:45, section:"CBDC-based DBT under PMGKAY", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about CBDC-based DBT under PMGKAY is correct?",
+ options:[["A","The scheme will first be operationalised in the Union Territories of Chandigarh and Dadra & Nagar Haveli."],
+ ["B","Earlier pilots of this system were conducted in Delhi and Chandigarh."],
+ ["C","PMGKAY beneficiaries will receive subsidy in cash directly at ration shops."],
+ ["D","CBDC tokens under this scheme are non-programmable."],
+ ["E","The scheme was first piloted in Jammu & Kashmir and Ladakh."]],
+ correct:"A",
+ explanation:"Earlier pilots were conducted in Puducherry and Gujarat (not Delhi/Chandigarh or J&K/Ladakh). Beneficiaries receive subsidy via programmable Digital Rupee (CBDC) tokens, not cash."},
+
+{id:46, section:"CBDC-based DBT under PMGKAY", type:"numbered", difficulty:"Moderate",
+ context:"1. Chandigarh and Dadra & Nagar Haveli are the first Union Territories to operationalise CBDC-based DBT under PMGKAY.\n2. Earlier pilots of the system were conducted in Puducherry and Gujarat.\n3. Beneficiaries will receive food subsidy directly into their CBDC wallets instead of conventional bank accounts.\n4. The transfer will use programmable Digital Rupee tokens.\n5. Beneficiaries can use these tokens at any retail merchant, not just empanelled ones.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — beneficiaries can use the tokens only to purchase foodgrains from empanelled merchants."},
+
+{id:47, section:"CBDC-based DBT under PMGKAY", type:"acronym", difficulty:"Easy",
+ stem:"PMGKAY, the scheme under which CBDC-based DBT is being rolled out, stands for:",
+ options:[["A","Pradhan Mantri Garib Kalyan Anna Yojana"],["B","Pradhan Mantri Garib Kisan Awas Yojana"],["C","Pradhan Mantri Grameen Kalyan Anna Yojana"],["D","Pradhan Mantri Garib Kalyan Awas Yojana"],["E","Pradhan Mantri Gramin Kalyan Anna Yojana"]],
+ correct:"A",
+ explanation:"PMGKAY stands for Pradhan Mantri Garib Kalyan Anna Yojana."},
+
+// ===================== CURRENCY-IN-CIRCULATION =====================
+{id:48, section:"Currency-in-Circulation & Reserve Money", type:"numbered", difficulty:"Moderate",
+ context:"1. Currency-in-Circulation growth decelerated to 3.7% for the week ended 9 February, from 8.2% a year ago.\n2. This slowdown reflects the RBI's decision to withdraw ₹2,000 banknotes.\n3. Reserve Money growth decelerated to 5.8% as on 9 February 2024, compared to 11.2% a year ago.\n4. 'Currency with the Public' equals Currency-in-Circulation plus cash held by banks.\n5. Currency-in-Circulation refers to notes and coins in circulation.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 2 and 4"],["D","2, 3 and 4"],["E","1, 4 and 5"]],
+ correct:"A",
+ explanation:"Statement 4 is incorrect — Currency with the Public equals Currency-in-Circulation MINUS cash held by banks, not plus."},
+
+{id:49, section:"Currency-in-Circulation & Reserve Money", type:"figure", difficulty:"Easy",
+ stem:"Reserve Money (RM) growth decelerated to what rate as on 9 February 2024, compared to what rate a year ago?",
+ options:[["A","5.8%; 11.2%"],["B","11.2%; 5.8%"],["C","3.7%; 8.2%"],["D","5.8%; 8.2%"],["E","8.2%; 11.2%"]],
+ correct:"A",
+ explanation:"Reserve Money growth decelerated to 5.8% as on 9 February 2024, compared to 11.2% a year ago."},
+
+// ===================== 80TH INDEPENDENCE DAY / SAPTA DHARA =====================
+{id:50, section:"80th Independence Day & Sapta Dhara", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the 80th Independence Day is correct?",
+ options:[["A","The National Flag was hoisted by Justice Ajay Manikrao Khanwilkar, Chairperson of the Lokpal of India."],
+ ["B","India is celebrating 100 years of Vande Mataram this year."],
+ ["C","The goal of 'Viksit Bharat' is to be achieved by 2035."],
+ ["D","The National Flag on the 80th Independence Day was hoisted by the President of India."],
+ ["E","Sapta Dhara refers to seven newly announced infrastructure corridors."]],
+ correct:"A",
+ explanation:"India is celebrating 150 years (not 100) of Vande Mataram. 'Viksit Bharat' is targeted for 2047 (not 2035). Sapta Dhara refers to seven 'streams of strength' announced by the PM, not infrastructure corridors."},
+
+{id:51, section:"80th Independence Day & Sapta Dhara", type:"notamong", difficulty:"Hard",
+ stem:"Which of the following is NOT one of the seven streams of strength (Sapta Dhara) announced by the PM?",
+ options:[["A","Power of Manufacturing"],["B","Agriculture and Food Production"],["C","Technology and Innovation"],["D","Digital Public Infrastructure"],["E","Defence Power"]],
+ correct:"D",
+ explanation:"The seven streams (Sapta Dhara) are Power of Manufacturing, Agriculture and Food Production, Technology and Innovation, Gati Shakti, Defence Power, Green Economy and Blue Economy, and Soft Power. 'Digital Public Infrastructure' is not one of them."},
+
+{id:52, section:"80th Independence Day & Sapta Dhara", type:"numbered", difficulty:"Moderate",
+ context:"1. Sapta Dhara was a term used by PM Modi in his 80th Independence Day speech.\n2. Sapta Dhara comprises seven streams of strength, including Gati Shakti and Soft Power.\n3. India will train 1 crore young people in AI skills over the next one year.\n4. India is set to host the 2030 Commonwealth Games.\n5. India (Bharat) will also host the 2036 Olympic Games, as announced this year.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is not supported by the passage — no announcement regarding hosting the 2036 Olympics is mentioned."},
+
+{id:53, section:"80th Independence Day & Sapta Dhara", type:"figure", difficulty:"Easy",
+ stem:"According to the PM's 80th Independence Day speech, by which year does India aim to achieve 'Viksit Bharat' (Developed India)?",
+ options:[["A","2047"],["B","2050"],["C","2035"],["D","2030"],["E","2040"]],
+ correct:"A",
+ explanation:"The goal of achieving 'Viksit Bharat' (Developed India) is targeted for 2047."},
+
+// ===================== EPFO VISHWAS 2026 =====================
+{id:54, section:"EPFO VISHWAS, 2026", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about EPFO's 'VISHWAS, 2026' is correct?",
+ options:[["A","VISHWAS, 2026 is effective from 29 June 2026 and remains in force for 6 months from the date of notification."],
+ ["B","VISHWAS, 2026 applies to EPFO defaults occurring after 14 June 2024."],
+ ["C","Under VISHWAS, 2026, defaults exceeding 4 months attract a reduced damage rate of 0.50% per month."],
+ ["D","VISHWAS, 2026 was launched by the Ministry of Labour and Employment directly, bypassing EPFO."],
+ ["E","The scheme is a permanent replacement for EPFO's penalty structure."]],
+ correct:"A",
+ explanation:"VISHWAS, 2026 applies to defaults PRIOR TO 14 June 2024. Defaults exceeding 4 months attract a reduced rate of 1.00% per month (not 0.50%). It is a one-time, six-month scheme launched by EPFO itself, not a permanent replacement."},
+
+{id:55, section:"EPFO VISHWAS, 2026", type:"numbered", difficulty:"Moderate",
+ context:"1. VISHWAS, 2026 is a one-time dispute resolution initiative launched by EPFO.\n2. It applies to defaults pertaining to the period prior to 14 June 2024.\n3. For defaults up to 2 months, the reduced rate of damages is 0.25% per month.\n4. For defaults exceeding 4 months, the reduced rate is 1.00% per month.\n5. The scheme became effective on 29 June 2024.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — the scheme became effective on 29 June 2026, not 2024."},
+
+{id:56, section:"EPFO VISHWAS, 2026", type:"figure", difficulty:"Easy",
+ stem:"Under VISHWAS, 2026, what is the reduced rate of damages for a default duration 'from 2 months to less than 4 months'?",
+ options:[["A","0.50% per month"],["B","0.25% per month"],["C","1.00% per month"],["D","0.75% per month"],["E","1.50% per month"]],
+ correct:"A",
+ explanation:"For defaults from 2 months to less than 4 months, the reduced rate of damages under VISHWAS, 2026 is 0.50% per month."},
+
+// ===================== ADB LOAN & URBAN CHALLENGE FUND =====================
+{id:57, section:"ADB Loan & Urban Challenge Fund", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the ADB loan for urban transformation is correct?",
+ options:[["A","The Urban Challenge Fund has a central assistance of ₹1 lakh crore and runs from FY2025-26 to FY2030-31, extendable up to FY2033-34."],
+ ["B","ADB's loan of USD 1 billion will be implemented by the Ministry of Finance."],
+ ["C","Under the UCF funding pattern, 50% of project funding comes directly from the Urban Challenge Fund."],
+ ["D","Indian cities currently contribute about 75% of India's GDP."],
+ ["E","The ADB loan is accompanied by USD 10 million in technical assistance."]],
+ correct:"A",
+ explanation:"The programme is implemented by the Ministry of Housing and Urban Affairs (not Finance). Only 25% (not 50%) of project funding comes from the UCF. Indian cities currently contribute about 63% of GDP (expected to climb to 75% by 2030). The technical assistance is USD 3 million, not USD 10 million."},
+
+{id:58, section:"ADB Loan & Urban Challenge Fund", type:"numbered", difficulty:"Moderate",
+ context:"1. ADB approved a USD 1 billion loan along with USD 3 million in technical assistance for India's urban transformation.\n2. The programme will be implemented by the Ministry of Housing and Urban Affairs.\n3. Indian cities create nearly 70% of new jobs and contribute about 63% of the country's GDP.\n4. This urban share of GDP is expected to climb to 75% by 2035.\n5. The Urban Challenge Fund is a Centrally Sponsored Scheme under MoHUA.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 2 and 4"],["D","2, 3 and 4"],["E","1, 4 and 5"]],
+ correct:"A",
+ explanation:"Statement 4 is incorrect — the urban GDP share is expected to climb to 75% by 2030, not 2035."},
+
+{id:59, section:"ADB Loan & Urban Challenge Fund", type:"numbered", difficulty:"Moderate",
+ context:"Funding pattern for projects under the Urban Challenge Fund:\n1. 25% of project funding comes from the Urban Challenge Fund.\n2. 50% is to be mobilised through market-based financing.\n3. 25% comes from the State/UT/Urban Local Body or additional market borrowing.\n4. The Union government bears 75% of the funding for each project.\n5. The UCF's duration is FY2025-26 to FY2030-31, extendable up to FY2033-34.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 2 and 4"],["D","2, 3 and 4"],["E","1, 4 and 5"]],
+ correct:"A",
+ explanation:"Statement 4 is incorrect — it contradicts the actual 25/50/25 funding split; the Union government does not bear 75% of funding directly."},
+
+{id:60, section:"ADB Loan & Urban Challenge Fund", type:"figure", difficulty:"Easy",
+ stem:"What total central assistance has been allocated for the Urban Challenge Fund?",
+ options:[["A","₹1 lakh crore"],["B","₹2 lakh crore"],["C","₹50,000 crore"],["D","₹75,000 crore"],["E","₹1.5 lakh crore"]],
+ correct:"A",
+ explanation:"The Urban Challenge Fund's central assistance is ₹1 lakh crore."},
+
+{id:61, section:"ADB Loan & Urban Challenge Fund", type:"acronym", difficulty:"Easy",
+ stem:"UCF, the Centrally Sponsored Scheme supported by the ADB-funded urban transformation programme, stands for:",
+ options:[["A","Urban Challenge Fund"],["B","Urban Credit Facility"],["C","Urban Cities Fund"],["D","Universal Challenge Fund"],["E","Urban Capital Fund"]],
+ correct:"A",
+ explanation:"UCF stands for Urban Challenge Fund."},
+
+// ===================== BHARAT MARITIME INSURANCE POOL (P&I) =====================
+{id:62, section:"Bharat Maritime Insurance Pool (P&I)", type:"acronym", difficulty:"Easy",
+ stem:"P&I insurance, India's first sovereign-backed product of this kind, stands for:",
+ options:[["A","Protection & Indemnity"],["B","Premium & Indemnity"],["C","Protection & Insurance"],["D","Pool & Indemnity"],["E","Protection & Investment"]],
+ correct:"A",
+ explanation:"P&I insurance stands for Protection & Indemnity."},
+
+{id:63, section:"Bharat Maritime Insurance Pool (P&I)", type:"statement", difficulty:"Hard",
+ stem:"Which one of the following statements about India's first sovereign-backed P&I insurance product is correct?",
+ options:[["A","It is designed and issued by The New India Assurance Company Limited (NIACL)."],
+ ["B","The Bharat Maritime Insurance Pool is managed by NIACL, with GIC Re acting as underwriter."],
+ ["C","The first policy under BMIP was handed over to the Ministry of Ports, Shipping and Waterways."],
+ ["D","The product offers third-party liability cover of up to USD 2.5 billion."],
+ ["E","The product is regulated solely by the Insurance Regulatory and Development Authority of India."]],
+ correct:"A",
+ explanation:"The pool is managed by GIC Re, with NIACL as primary underwriter (roles reversed in option B). The first policy was handed to the Shipping Corporation of India, not MoPSW. Coverage is up to USD 1.5 billion, not 2.5 billion. The product is jointly regulated by IRDAI and MoPSW, not IRDAI alone."},
+
+{id:64, section:"Bharat Maritime Insurance Pool (P&I)", type:"numbered", difficulty:"Moderate",
+ context:"1. The Bharat Maritime Insurance Pool offers third-party liability cover of up to USD 1.5 billion.\n2. NIACL serves as the primary underwriter and product architect of the pool.\n3. GIC Re manages the pool.\n4. The first policy under this product was handed over to the Shipping Corporation of India.\n5. The product is regulated solely by the Ministry of Finance, with no role for IRDAI.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — the product is jointly regulated by IRDAI and the Ministry of Ports, Shipping and Waterways (MoPSW)."},
+
+{id:65, section:"Bharat Maritime Insurance Pool (P&I)", type:"notamong", difficulty:"Moderate",
+ stem:"Which of the following is NOT among the risks covered under India's first sovereign-backed P&I insurance product?",
+ options:[["A","Crew liability"],["B","Cargo"],["C","Pollution"],["D","Wreck removal"],["E","Hull damage from war and piracy"]],
+ correct:"E",
+ explanation:"The risks covered are crew liability, cargo, pollution and wreck removal. 'Hull damage from war and piracy' is not mentioned."},
+
+{id:66, section:"Bharat Maritime Insurance Pool (P&I)", type:"figure", difficulty:"Easy",
+ stem:"What third-party liability coverage is offered under India's first sovereign-backed P&I insurance product?",
+ options:[["A","Up to USD 1.5 billion"],["B","Up to USD 1 billion"],["C","Up to USD 2 billion"],["D","Up to USD 1.5 million"],["E","Up to USD 500 million"]],
+ correct:"A",
+ explanation:"The product offers third-party liability cover of up to USD 1.5 billion."},
+
+// ===================== PUBLIC EXAMINATIONS (UNFAIR MEANS) AMENDMENT BILL 2026 =====================
+{id:67, section:"Public Examinations (Unfair Means) Amendment Bill, 2026", type:"statement", difficulty:"Hard",
+ stem:"Which one of the following statements about the Public Examinations (Prevention of Unfair Means) Amendment Bill, 2026 is correct?",
+ options:[["A","Individual offenders under Section 10 now face a jail term of 5 to 10 years and a fine of up to ₹50 lakh."],
+ ["B","Under the 2026 Bill, service providers face a fine up to ₹1 crore and a 4-year ban."],
+ ["C","Organised crime/exam-fraud syndicates face jail terms of 5 to 10 years under the 2026 Bill."],
+ ["D","Appeals against Special Fast Track Court decisions must be filed within 60 days."],
+ ["E","The 2024 Act superseded all earlier IPC provisions dealing with any form of cheating."]],
+ correct:"A",
+ explanation:"Under the 2026 Bill, service providers face a fine up to ₹5 crore and an 8-year ban (₹1 crore/4-year ban was the earlier position). Organised crime/exam-fraud syndicates now face 7 to 10 years (not 5 to 10). Appeals must normally be filed within 30 days (extendable, but not beyond 90 days)."},
+
+{id:68, section:"Public Examinations (Unfair Means) Amendment Bill, 2026", type:"numbered", difficulty:"Hard",
+ context:"1. Individual offenders' jail term increased from 3–5 years to 5–10 years under the 2026 Bill.\n2. Service providers' fine cap increased from ₹1 crore to ₹5 crore, with the ban period extended from 4 to 8 years.\n3. Organised crime/exam-fraud syndicates now face a minimum fine of ₹10 crore, up from ₹1 crore.\n4. The jail term for organised crime/exam-fraud syndicates has been reduced from 7-10 years to 5-10 years.\n5. An appeal against a High Court order in this matter can be filed before the Supreme Court within 30 days as a matter of routine right.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2 and 3"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 4"]],
+ correct:"A",
+ explanation:"Statement 4 reverses the actual direction of change — the jail term for organised crime/exam-fraud syndicates increased from 5-10 years to 7-10 years. Statement 5 is fabricated and not supported by the passage."},
+
+{id:69, section:"Public Examinations (Unfair Means) Amendment Bill, 2026", type:"numbered", difficulty:"Moderate",
+ context:"1. An appeal against any judgment or order of the Special Fast Track Court (except routine interim orders) goes to the High Court.\n2. The appeal is heard by a bench of two judges.\n3. The High Court must try to dispose of the appeal within 3 months of admission.\n4. Even bail orders can be appealed directly to the High Court.\n5. No appeal can be filed after 60 days, even for good reason.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — no appeal can be filed after 90 days (not 60 days); the normal filing window is 30 days, extendable by the High Court for good reason."},
+
+{id:70, section:"Public Examinations (Unfair Means) Amendment Bill, 2026", type:"figure", difficulty:"Moderate",
+ stem:"Which one of the following correctly pairs the earlier and revised (2026 Bill) punishment for individual offenders under Section 10?",
+ options:[["A","Earlier: 3–5 years + fine up to ₹10 lakh; Now: 5–10 years + fine up to ₹50 lakh"],
+ ["B","Earlier: 5–10 years + fine up to ₹10 lakh; Now: 3–5 years + fine up to ₹50 lakh"],
+ ["C","Earlier: 3–5 years + fine up to ₹5 lakh; Now: 5–10 years + fine up to ₹25 lakh"],
+ ["D","Earlier: 3–5 years + fine up to ₹10 lakh; Now: 7–10 years + fine up to ₹50 lakh"],
+ ["E","Earlier: 2–5 years + fine up to ₹10 lakh; Now: 5–10 years + fine up to ₹40 lakh"]],
+ correct:"A",
+ explanation:"Earlier, individual offenders faced 3–5 years' jail + fine up to ₹10 lakh; under the 2026 Bill, this is 5–10 years + fine up to ₹50 lakh."},
+
+{id:71, section:"Public Examinations (Unfair Means) Amendment Bill, 2026", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements is NOT correct?",
+ options:[["A","The Special Fast Track Court's appeal process was introduced for the first time by the 2026 Bill."],
+ ["B","Apart from the High Court appeal route, no other appeal or revision is permitted in any other court."],
+ ["C","An appeal must normally be filed within 30 days, with the High Court allowed to condone delay for good reason."],
+ ["D","No appeal can be filed after 60 days under any circumstance."],
+ ["E","Organised crime/exam-fraud syndicates face a minimum fine of ₹10 crore under the 2026 Bill."]],
+ correct:"D",
+ explanation:"No appeal can be filed after 90 days, not 60 days."},
+
+{id:72, section:"Public Examinations (Unfair Means) Amendment Bill, 2026", type:"figure", difficulty:"Easy",
+ stem:"In which House of Parliament was the Public Examinations (Prevention of Unfair Means) Amendment Bill, 2026 introduced?",
+ options:[["A","Lok Sabha"],["B","Rajya Sabha"],["C","Both Houses jointly"],["D","State Legislative Assembly"],["E","Parliamentary Standing Committee"]],
+ correct:"A",
+ explanation:"The Bill was introduced in the Lok Sabha."},
+
+// ===================== NATIONAL COAL GASIFICATION MISSION =====================
+{id:73, section:"National Coal Gasification Mission", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements is correct?",
+ options:[["A","The National Coal Gasification Mission has set a target of 100 Million Tonnes of coal gasification capacity by 2030."],
+ ["B","The Promotion of Surface Coal/Lignite Gasification Projects scheme has a financial outlay of ₹27,500 crore."],
+ ["C","The new scheme is expected to utilise approximately 100 MTPA of coal."],
+ ["D","The National Coal Gasification Mission targets 2035 as its deadline."],
+ ["E","The scheme's outlay is ₹37,500 lakh."]],
+ correct:"A",
+ explanation:"The scheme's outlay is ₹37,500 crore (not ₹27,500 crore or ₹37,500 lakh), with expected utilisation of about 75 MTPA (not 100 MTPA). The Mission's target year is 2030, not 2035."},
+
+{id:74, section:"National Coal Gasification Mission", type:"figure", difficulty:"Moderate",
+ stem:"What is the financial outlay of the 'Promotion of Surface Coal/Lignite Gasification Projects' scheme, and its expected coal utilisation?",
+ options:[["A","₹37,500 crore; ~75 MTPA"],["B","₹37,500 crore; ~100 MTPA"],["C","₹27,500 crore; ~75 MTPA"],["D","₹47,500 crore; ~65 MTPA"],["E","₹37,500 crore; ~50 MTPA"]],
+ correct:"A",
+ explanation:"The scheme has a financial outlay of ₹37,500 crore and expected coal utilisation of approximately 75 MTPA."},
+
+{id:75, section:"National Coal Gasification Mission", type:"numbered", difficulty:"Moderate",
+ context:"1. The National Coal Gasification Mission targets 100 MT of coal gasification capacity by 2030.\n2. The new scheme 'Promotion of Surface Coal/Lignite Gasification Projects' has an outlay of ₹37,500 crore.\n3. This new scheme is expected to utilise approximately 75 MTPA of coal.\n4. The scheme aims to fully replace the need for the broader National Coal Gasification Mission.\n5. The scheme will substantially help achieve the 100 MT national target.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 2 and 4"],["D","2, 3 and 4"],["E","1, 4 and 5"]],
+ correct:"A",
+ explanation:"Statement 4 is fabricated and not supported by the passage — the new scheme complements rather than replaces the National Coal Gasification Mission."},
+
+// ===================== PAIMANA =====================
+{id:76, section:"PAIMANA", type:"acronym", difficulty:"Moderate",
+ stem:"PAIMANA, the web-based infrastructure monitoring platform, stands for:",
+ options:[["A","Project Assessment, Infrastructure Monitoring and Analytics for Nation-Building"],
+ ["B","Project Assessment, Infrastructure Management and Analytics for Nation-Building"],
+ ["C","Programme for Assessment, Infrastructure Monitoring and Analysis for National Advancement"],
+ ["D","Project Appraisal, Infrastructure Monitoring and Analytics for Nation-Building"],
+ ["E","Project Assessment, Investment Monitoring and Analytics for Nation-Building"]],
+ correct:"A",
+ explanation:"PAIMANA stands for Project Assessment, Infrastructure Monitoring and Analytics for Nation-Building."},
+
+{id:77, section:"PAIMANA", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about PAIMANA is correct?",
+ options:[["A","PAIMANA monitors ongoing Central Sector infrastructure projects costing ₹150 crore or more."],
+ ["B","PAIMANA was launched on 25 September 2024."],
+ ["C","PAIMANA is developed by the Ministry of Housing and Urban Affairs."],
+ ["D","PAIMANA replaces the earlier OCMS 2010 system."],
+ ["E","PAIMANA covers seven infrastructure sub-sectors."]],
+ correct:"A",
+ explanation:"PAIMANA was launched on 25 September 2025 (not 2024), developed by MoSPI (not MoHUA), replaces OCMS 2006 (not OCMS 2010), and covers six (not seven) sub-sectors."},
+
+{id:78, section:"PAIMANA", type:"notamong", difficulty:"Moderate",
+ stem:"Which of the following is NOT one of PAIMANA's six infrastructure sub-sectors?",
+ options:[["A","Power"],["B","Civil Aviation"],["C","Telecommunications"],["D","Renewable Energy"],["E","Roads"]],
+ correct:"D",
+ explanation:"PAIMANA's six sub-sectors are Power, Civil Aviation, Telecommunications, Railways, Roads, and Ports, Shipping & Waterways. 'Renewable Energy' is not among them."},
+
+{id:79, section:"PAIMANA", type:"numbered", difficulty:"Moderate",
+ context:"1. PAIMANA was developed by the Ministry of Statistics and Programme Implementation.\n2. It replaces the earlier Online Computerized Monitoring System (OCMS) of 2006.\n3. The threshold project cost for monitoring under PAIMANA is ₹150 crore or more.\n4. PAIMANA monitors both Central Sector and State Sector infrastructure projects.\n5. PAIMANA was launched on 25 September 2025.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 2 and 4"],["D","2, 3 and 4"],["E","1, 4 and 5"]],
+ correct:"A",
+ explanation:"Statement 4 is incorrect — PAIMANA monitors only Central Sector infrastructure projects, not State Sector projects."},
+
+{id:80, section:"PAIMANA", type:"figure", difficulty:"Moderate",
+ stem:"PAIMANA replaces which earlier project-monitoring system?",
+ options:[["A","OCMS 2006 (Online Computerized Monitoring System)"],["B","OCMS 2010"],["C","e-Pragati 2006"],["D","PRAGATI 2015"],["E","Project Monitoring Group (PMG) 2013"]],
+ correct:"A",
+ explanation:"PAIMANA replaces the earlier OCMS 2006 (Online Computerized Monitoring System)."},
+
+// ===================== PITHORA PAINTING GI TAG =====================
+{id:81, section:"Pithora Painting GI Tag", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about Pithora Painting's GI tag is correct?",
+ options:[["A","Pithora Painting is mainly practised in Chhota Udepur district, Gujarat, and is associated with the Rathwa, Bhil, Bhilala and Nayaka tribes."],
+ ["B","The GI tag for Pithora Painting was granted by the Ministry of Culture."],
+ ["C","GI tags are valid for 5 years and can be renewed for successive 5-year periods."],
+ ["D","Pithora Painting is primarily practised in Kutch district, Gujarat."],
+ ["E","Along with Pithora Painting, three agricultural products from Gujarat also received GI tags this period."]],
+ correct:"A",
+ explanation:"The GI tag was granted by the Geographical Indications Registry under DPIIT (not the Ministry of Culture). GI tags are valid for 10 years, renewable for 10-year periods. Two agricultural products (Unjha Cumin and Fennel), not three, also received GI tags."},
+
+{id:82, section:"Pithora Painting GI Tag", type:"numbered", difficulty:"Moderate",
+ context:"1. Pithora Painting received a GI tag from the Geographical Indications Registry, which functions under DPIIT.\n2. The painting is mainly practised in Chhota Udepur district of Gujarat.\n3. Unjha Cumin and Fennel are two agricultural products from Gujarat that also received GI registration.\n4. A GI tag is valid for 10 years and can be renewed for successive 10-year periods.\n5. GI registration for Pithora Painting is permanent and does not require renewal.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 contradicts statement 4 — GI registration is valid for 10 years and requires renewal, not permanent."},
+
+{id:83, section:"Pithora Painting GI Tag", type:"notamong", difficulty:"Moderate",
+ stem:"Which of the following tribal communities is NOT associated with Pithora Painting?",
+ options:[["A","Rathwa"],["B","Bhil"],["C","Bhilala"],["D","Gond"],["E","Nayaka"]],
+ correct:"D",
+ explanation:"Pithora Painting is associated with the Rathwa, Bhil, Bhilala and Nayaka tribes. The Gond community is not mentioned."},
+
+{id:84, section:"Pithora Painting GI Tag", type:"figure", difficulty:"Moderate",
+ stem:"Which one of the following correctly ranks the leading states by number of GI registrations, from highest to third-highest?",
+ options:[["A","Uttar Pradesh (83) > Tamil Nadu (76) > West Bengal (59)"],
+ ["B","Tamil Nadu (83) > Uttar Pradesh (76) > West Bengal (59)"],
+ ["C","Uttar Pradesh (83) > West Bengal (76) > Tamil Nadu (59)"],
+ ["D","Uttar Pradesh (76) > Tamil Nadu (83) > West Bengal (59)"],
+ ["E","Karnataka (83) > Uttar Pradesh (76) > Tamil Nadu (59)"]],
+ correct:"A",
+ explanation:"The leading states in GI registrations are Uttar Pradesh (83), Tamil Nadu (76), and West Bengal (59)."},
+
+// ===================== RAMSAR SITES & GLAW LAKE =====================
+{id:85, section:"Ramsar Sites & Glaw Lake", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about Glaw Lake is correct?",
+ options:[["A","Glaw Lake in Tawang district, Arunachal Pradesh, has become India's 101st Ramsar Site."],
+ ["B","Glaw Lake is India's first Ramsar site overall."],
+ ["C","The Ramsar Convention was adopted in 1975 and came into force in 1971."],
+ ["D","India joined the Ramsar Convention on 1 February 1985."],
+ ["E","The Ramsar Convention Secretariat is headquartered in Geneva, Switzerland."]],
+ correct:"A",
+ explanation:"Glaw Lake is India's 101st (not first) Ramsar Site. The Convention was adopted in 1971 and came into force in 1975 (reversed in option C). India joined on 1 February 1982 (not 1985). The Secretariat is headquartered in Gland (not Geneva), Switzerland."},
+
+{id:86, section:"Ramsar Sites & Glaw Lake", type:"numbered", difficulty:"Moderate",
+ context:"1. Glaw Lake is a high-altitude Himalayan wetland located in Tawang district.\n2. With this designation, Arunachal Pradesh received its first Ramsar site.\n3. India now ranks first in Asia and third in the world in the number of Ramsar sites.\n4. The United Kingdom has the highest number of Ramsar sites in the world, followed by Mexico.\n5. India ranks second in the world, after only the United Kingdom.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — India ranks third in the world, after the United Kingdom and Mexico, not second."},
+
+{id:87, section:"Ramsar Sites & Glaw Lake", type:"numbered", difficulty:"Hard",
+ context:"State-wise distribution of Ramsar Sites in India:\n1. Tamil Nadu has the highest number of Ramsar sites in India, with 20 sites.\n2. Uttar Pradesh has 13 Ramsar sites.\n3. Punjab, Bihar and Odisha each have 6 Ramsar sites.\n4. Gujarat has the second-highest number of Ramsar sites in India.\n5. Arunachal Pradesh's total number of Ramsar sites is now two.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2 and 3"],["B","All of the above"],["C","1, 3 and 4"],["D","2, 4 and 5"],["E","1, 2 and 4"]],
+ correct:"A",
+ explanation:"Statement 4 is fabricated — Uttar Pradesh, not Gujarat, is stated as second-highest. Statement 5 is incorrect — Glaw Lake is described as Arunachal Pradesh's first (only) Ramsar site."},
+
+{id:88, section:"Ramsar Sites & Glaw Lake", type:"numbered", difficulty:"Moderate",
+ context:"Consider the following statements about Ramsar Sites in India:\n1. Chilka Lake, Odisha and Keoladeo National Park, Rajasthan were India's first two Ramsar Sites (1981).\n2. The Sundarban Wetland, West Bengal is the largest Ramsar site in India.\n3. Renuka Lake, Himachal Pradesh is the smallest Ramsar site in India.\n4. India joined the Ramsar Convention on 1 February 1982.\n5. Wular Lake, Jammu & Kashmir was India's first Ramsar site.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 2 and 5"],["D","2, 3 and 5"],["E","Only 5"]],
+ correct:"A",
+ explanation:"Statement 5 is not supported by the passage — Chilka Lake and Keoladeo National Park, not Wular Lake, are named as India's first two Ramsar Sites."},
+
+{id:89, section:"Ramsar Sites & Glaw Lake", type:"figure", difficulty:"Moderate",
+ stem:"Which one of the following correctly pairs the world's largest and smallest Ramsar Sites with their locations?",
+ options:[["A","Largest: Rio Negro, Brazil; Smallest: Ganghwa Maehwamarum Habitat, South Korea"],
+ ["B","Largest: Sundarban Wetland, India; Smallest: Renuka Lake, India"],
+ ["C","Largest: Rio Negro, Brazil; Smallest: Renuka Lake, India"],
+ ["D","Largest: Ganghwa Maehwamarum Habitat, South Korea; Smallest: Rio Negro, Brazil"],
+ ["E","Largest: Cobourg Peninsula, Australia; Smallest: Ganghwa Maehwamarum Habitat, South Korea"]],
+ correct:"A",
+ explanation:"The world's largest Ramsar Site is Rio Negro, Brazil (~1,20,000 sq km) and the smallest is the Ganghwa Maehwamarum Habitat, South Korea (1 hectare)."},
+
+{id:90, section:"Ramsar Sites & Glaw Lake", type:"numbered", difficulty:"Moderate",
+ context:"1. The Ramsar Convention was adopted in 1971 at Ramsar, Iran, and came into force in 1975.\n2. India joined the Convention on 1 February 1982.\n3. The Convention currently has 172 member countries.\n4. The Convention's headquarters is located in Gland, Switzerland.\n5. The world's first Ramsar Site, Cobourg Peninsula in Australia, was designated in 1978.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 2 and 5"],["D","2, 3 and 5"],["E","1, 3 and 4"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — Cobourg Peninsula was designated the world's first Ramsar Site in 1974, not 1978."},
+
+{id:91, section:"Ramsar Sites & Glaw Lake", type:"figure", difficulty:"Easy",
+ stem:"As of August 2026, approximately how many Ramsar Sites exist worldwide?",
+ options:[["A","Nearly 2,600"],["B","Nearly 1,600"],["C","Nearly 3,600"],["D","Nearly 2,100"],["E","Nearly 2,900"]],
+ correct:"A",
+ explanation:"As of August 2026, there are nearly 2,600 Ramsar Sites worldwide."},
+
+{id:92, section:"Ramsar Sites & Glaw Lake", type:"statement", difficulty:"Hard",
+ stem:"Which one of the following statements about the Ramsar Convention and Ramsar Sites in India is NOT correct?",
+ options:[["A","Chilka Lake and Keoladeo National Park were India's first two Ramsar Sites, both designated in 1981."],
+ ["B","The Sundarban Wetland in West Bengal is the largest Ramsar site in India."],
+ ["C","Renuka Lake in Himachal Pradesh is the smallest Ramsar site in India."],
+ ["D","Dr. Musonda Mumbai serves as the Secretary-General of the Ramsar Convention."],
+ ["E","India became a member of the Ramsar Convention before the Convention itself came into force."]],
+ correct:"E",
+ explanation:"The Ramsar Convention came into force in 1975, while India joined on 1 February 1982 — after, not before, the Convention came into force."},
+
+// ===================== NASHA MUKT YUVA ABHIYAN =====================
+{id:93, section:"Nasha Mukt Yuva Abhiyan", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the 'Nasha Mukt Yuva for Viksit Bharat Sankalp Abhiyan' is correct?",
+ options:[["A","It is a 100-week campaign held every Sunday."],
+ ["B","The campaign is a one-time, single-day national event."],
+ ["C","The pilot for this campaign began in New Delhi in 2024."],
+ ["D","Nasha Mukt Bharat Abhiyan, the parent programme, was launched in August 2022."],
+ ["E","The parent programme is run by the Ministry of Youth Affairs and Sports."]],
+ correct:"A",
+ explanation:"The pilot began in Kashi, Uttar Pradesh in 2025 (not New Delhi in 2024). Nasha Mukt Bharat Abhiyan was launched in August 2020 (not 2022) by the Ministry of Social Justice and Empowerment (not Youth Affairs and Sports)."},
+
+{id:94, section:"Nasha Mukt Yuva Abhiyan", type:"numbered", difficulty:"Moderate",
+ context:"1. The campaign began as a pilot project in Kashi, Uttar Pradesh, in 2025.\n2. Through a nationwide video conference, the PM addressed more than 1 crore young people from over 28,000 locations.\n3. More than 125 spiritual organisations supported the campaign under the Kashi Declaration.\n4. Nasha Mukt Bharat Abhiyan, the parent initiative, was launched in August 2020 under NAPDDR.\n5. The campaign duration is 52 weeks, running every Sunday for a year.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — the campaign duration is 100 weeks, not 52 weeks."},
+
+{id:95, section:"Nasha Mukt Yuva Abhiyan", type:"acronym", difficulty:"Moderate",
+ stem:"NAPDDR, under which the Nasha Mukt Bharat Abhiyan was launched, stands for:",
+ options:[["A","National Action Plan for Drug Demand Reduction"],["B","National Action Plan for Drug Distribution Regulation"],["C","National Awareness Programme for Drug Demand Reduction"],["D","National Action Plan for Drug Detection and Reduction"],["E","National Anti-Drug Programme for Development and Reduction"]],
+ correct:"A",
+ explanation:"NAPDDR stands for National Action Plan for Drug Demand Reduction."},
+
+{id:96, section:"Nasha Mukt Yuva Abhiyan", type:"figure", difficulty:"Easy",
+ stem:"The PM addressed more than how many young people, from how many locations, at the launch of this campaign?",
+ options:[["A","1 crore; 28,000 locations"],["B","1 crore; 25,000 locations"],["C","50 lakh; 28,000 locations"],["D","1 crore; 18,000 locations"],["E","2 crore; 28,000 locations"]],
+ correct:"A",
+ explanation:"The PM addressed more than 1 crore young people connected from over 28,000 locations."},
+
+// ===================== SATISH GUJRAL STAMP =====================
+{id:97, section:"Satish Gujral Commemorative Stamp", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the Satish Gujral commemorative stamp is correct?",
+ options:[["A","The stamp marks the birth centenary of Padma Vibhushan Satish Gujral and was unveiled by Union Minister Jyotiraditya M. Scindia."],
+ ["B","Satish Gujral was honoured with the Bharat Ratna in 1999."],
+ ["C","The stamp was designed by Union Minister Jyotiraditya M. Scindia himself."],
+ ["D","The stamp has a face value of ₹10."],
+ ["E","Satish Gujral lived from 1930 to 2020."]],
+ correct:"A",
+ explanation:"Satish Gujral was honoured with the Padma Vibhushan (not Bharat Ratna) in 1999. The stamp was designed by Anuj Kumar, not the Minister. Its face value is ₹5, not ₹10. Gujral lived from 1925 to 2020."},
+
+{id:98, section:"Satish Gujral Commemorative Stamp", type:"figure", difficulty:"Easy",
+ stem:"What is the face value of the commemorative stamp issued for Satish Gujral's birth centenary, and in which year was he awarded the Padma Vibhushan?",
+ options:[["A","₹5; 1999"],["B","₹10; 1999"],["C","₹5; 2001"],["D","₹15; 1995"],["E","₹5; 1989"]],
+ correct:"A",
+ explanation:"The stamp has a face value of ₹5, and Satish Gujral was awarded the Padma Vibhushan in 1999."},
+
+// ===================== SUPREME COURT THIRD-PARTY INSURANCE =====================
+{id:99, section:"SC on Third-Party Vehicle Insurance", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the Supreme Court's ruling on third-party vehicle insurance is correct?",
+ options:[["A","The Supreme Court extended mandatory third-party insurance cover to 4 years for new cars and 6 years for new two-wheelers."],
+ ["B","The bench was headed by the Chief Justice of India along with Justice Sanjay Karol."],
+ ["C","IRDAI was established in 2000 under the Insurance Act."],
+ ["D","The Court mandated an immediate nationwide 'No Insurance, No Fuel' policy."],
+ ["E","The extended period applies retrospectively to all existing vehicles."]],
+ correct:"A",
+ explanation:"The bench comprised Justice Sanjay Karol and Justice Prashant Kumar Mishra (not the CJI). IRDAI was set up in 1999 under the IRDA Act, 1999. The Court only asked IRDAI and MoRTH to EXAMINE a possible pilot for 'No Insurance, No Fuel', not mandate it immediately."},
+
+{id:100, section:"SC on Third-Party Vehicle Insurance", type:"numbered", difficulty:"Moderate",
+ context:"1. New cars now require a mandatory third-party insurance cover period of 4 years.\n2. New two-wheelers require a mandatory cover period of 6 years.\n3. The decision was delivered by a bench comprising Justice Sanjay Karol and Justice Prashant Kumar Mishra.\n4. The Court directed IRDAI and MoRTH to examine a pilot for 'No Insurance, No Fuel' at petrol pumps.\n5. IRDAI is headquartered in New Delhi.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — IRDAI is headquartered in Hyderabad, Telangana, not New Delhi."},
+
+{id:101, section:"SC on Third-Party Vehicle Insurance", type:"acronym", difficulty:"Easy",
+ stem:"IRDAI, asked by the Supreme Court to examine a 'No Insurance, No Fuel' pilot, stands for:",
+ options:[["A","Insurance Regulatory and Development Authority of India"],["B","Insurance Regulation and Development Authority of India"],["C","Indian Regulatory and Development Authority for Insurance"],["D","Insurance Regulatory and Deposit Authority of India"],["E","Insurance Reform and Development Authority of India"]],
+ correct:"A",
+ explanation:"IRDAI stands for Insurance Regulatory and Development Authority of India."},
+
+// ===================== VANDE MATARAM PROTECTION LAW =====================
+{id:102, section:"Vande Mataram Protection Law", type:"statement", difficulty:"Hard",
+ stem:"Which one of the following statements about the new Vande Mataram protection law is correct?",
+ options:[["A","The law, amending Section 3 of the Prevention of Insults to National Honour Act, 1971, prescribes up to 3 years' imprisonment for disrupting the singing of Vande Mataram."],
+ ["B","Vande Mataram was composed by Rabindranath Tagore in 1875."],
+ ["C","Vande Mataram was adopted as India's National Anthem by the Constituent Assembly in 1950."],
+ ["D","The MHA order mandates only the first two stanzas be sung at official functions."],
+ ["E","Repeated offenders under this law face a maximum of 1 year imprisonment."]],
+ correct:"A",
+ explanation:"Vande Mataram was composed by Bankim Chandra Chattopadhyay (not Tagore) in 1875. It was adopted as the National Song (not Anthem). The MHA order mandates all six stanzas be sung. Repeated offenders face a MINIMUM (not maximum) of 1 year imprisonment as an enhanced penalty."},
+
+{id:103, section:"Vande Mataram Protection Law", type:"numbered", difficulty:"Moderate",
+ context:"1. Vande Mataram was composed in Sanskrit by Bankim Chandra Chattopadhyay in November 1875.\n2. It was first sung by Rabindranath Tagore at the 1896 Congress Session in Calcutta.\n3. It was adopted as India's National Song by the Constituent Assembly in 1950.\n4. As per the MHA order, when both the National Song and National Anthem are performed, the National Anthem is sung first.\n5. All six stanzas of Vande Mataram take about 3 minutes and 10 seconds to sing.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 2 and 4"],["D","2, 3 and 4"],["E","1, 4 and 5"]],
+ correct:"A",
+ explanation:"Statement 4 is incorrect — Vande Mataram is sung first when both are performed, not the National Anthem."},
+
+{id:104, section:"Vande Mataram Protection Law", type:"numbered", difficulty:"Moderate",
+ context:"1. Preventing the singing of Vande Mataram, or causing disturbance during its singing, is now a criminal offence.\n2. The punishment for a first offence can extend up to 3 years' imprisonment.\n3. A repeated offence attracts a minimum of one year's imprisonment as an enhanced penalty.\n4. This legislation amends Section 5 of the Prevention of Insults to National Honour Act, 1971.\n5. The legislation places the National Song on the same legal footing as the National Anthem.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 2 and 4"],["D","2, 3 and 4"],["E","1, 4 and 5"]],
+ correct:"A",
+ explanation:"Statement 4 is incorrect — the legislation amends Section 3 (not Section 5) of the Prevention of Insults to National Honour Act, 1971."},
+
+{id:105, section:"Vande Mataram Protection Law", type:"figure", difficulty:"Moderate",
+ stem:"The MHA order on the official protocol for singing Vande Mataram was issued on which date, and what is the duration of all six stanzas?",
+ options:[["A","28 January; 3 minutes 10 seconds"],["B","26 January; 3 minutes 10 seconds"],["C","28 January; 2 minutes 30 seconds"],["D","15 August; 3 minutes 10 seconds"],["E","28 February; 3 minutes 10 seconds"]],
+ correct:"A",
+ explanation:"The MHA order was issued on 28 January, and all six stanzas take 3 minutes and 10 seconds to sing."},
+
+{id:106, section:"Vande Mataram Protection Law", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements is NOT correct?",
+ options:[["A","Vande Mataram was first sung by Rabindranath Tagore at the 1896 Indian National Congress session in Calcutta."],
+ ["B","The Constituent Assembly adopted Vande Mataram as the National Song in 1950."],
+ ["C","Bankim Chandra Chattopadhyay composed Vande Mataram in Sanskrit in November 1875."],
+ ["D","The new law makes disrupting Vande Mataram punishable only by a fine, without imprisonment."],
+ ["E","The legislation gives the National Song the same legal status as the National Anthem."]],
+ correct:"D",
+ explanation:"The punishment prescribed is imprisonment of up to 3 years (with an enhanced minimum of 1 year for repeat offences), not merely a fine."},
+
+// ===================== VENEZUELA QUITS ICC =====================
+{id:107, section:"Venezuela Quits ICC", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about Venezuela's exit from the ICC is correct?",
+ options:[["A","Venezuela has officially informed the United Nations of its decision to leave the Rome Statute that created the ICC."],
+ ["B","The ICC came into force in 1998 upon adoption of the Rome Statute."],
+ ["C","Venezuela cited financial constraints as its reason for leaving the ICC."],
+ ["D","The ICC is headquartered in Geneva, Switzerland."],
+ ["E","The ICC only prosecutes crimes committed by state actors, not individuals."]],
+ correct:"A",
+ explanation:"The Rome Statute was adopted in 1998 but came into force in 2002. Venezuela cited alleged geographical bias (not financial constraints). The ICC is headquartered in The Hague, Netherlands, and it prosecutes individuals, not states."},
+
+{id:108, section:"Venezuela Quits ICC", type:"numbered", difficulty:"Moderate",
+ context:"1. Venezuela's government claims the ICC has shown geographical bias against African and Latin American nations.\n2. The ICC is an independent court created by the Rome Statute, which came into force in 2002.\n3. The ICC prosecutes genocide, crimes against humanity, war crimes and the crime of aggression.\n4. The ICC's headquarters is located in The Hague, Netherlands.\n5. Venezuela is the founding member that hosted the original Rome Statute negotiations.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is fabricated and not supported by the passage."},
+
+{id:109, section:"Venezuela Quits ICC", type:"notamong", difficulty:"Moderate",
+ stem:"Which of the following is NOT among the crimes prosecuted by the ICC, as per the passage?",
+ options:[["A","Genocide"],["B","Crimes against humanity"],["C","War crimes"],["D","Crime of aggression"],["E","Economic espionage"]],
+ correct:"E",
+ explanation:"The ICC prosecutes genocide, crimes against humanity, war crimes and the crime of aggression. 'Economic espionage' is not among these."},
+
+{id:110, section:"Venezuela Quits ICC", type:"acronym", difficulty:"Easy",
+ stem:"ICC, which Venezuela has decided to leave, stands for:",
+ options:[["A","International Criminal Court"],["B","International Crime Commission"],["C","International Court of Criminal Cases"],["D","International Criminal Council"],["E","International Court of Crimes"]],
+ correct:"A",
+ explanation:"ICC stands for International Criminal Court."},
+
+// ===================== UNESCO WORLD HERITAGE COMMITTEE (48th SESSION) =====================
+{id:111, section:"UNESCO World Heritage Committee (48th Session)", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the 48th session of the UNESCO World Heritage Committee is correct?",
+ options:[["A","The session was held at BEXCO in Busan, South Korea, chaired by Lee Byong Hyun."],
+ ["B","The session added 30 new sites to the World Heritage List in 2026."],
+ ["C","The next session of the WHC will be hosted in Paris, France in 2027."],
+ ["D","The World Heritage Convention was adopted in 1982."],
+ ["E","The total number of World Heritage Sites after the 48th session stands at 1,173."]],
+ correct:"A",
+ explanation:"25 (not 30) new sites were added. The next session will be in Istanbul, Türkiye (not Paris). The World Heritage Convention was adopted in 1972 (not 1982). The total after the session is 1,273 sites (not 1,173)."},
+
+{id:112, section:"UNESCO World Heritage Committee (48th Session)", type:"numbered", difficulty:"Moderate",
+ context:"1. 25 new sites were added to the World Heritage List at the 48th session.\n2. The total number of World Heritage Sites now stands at 1,273 across 173 countries.\n3. Comoros, Sao Tome and Principe, and South Sudan achieved World Heritage Site status for the first time.\n4. The next session will be hosted in Istanbul, Türkiye in 2027.\n5. None of the newly inscribed sites in 2026 are from India.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 2 and 5"],["D","2, 3 and 5"],["E","1, 3 and 4"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — one of the newly inscribed sites in 2026 is from India."},
+
+{id:113, section:"UNESCO World Heritage Committee (48th Session)", type:"notamong", difficulty:"Hard",
+ stem:"Which of the following is NOT one of the six strategic objectives (the original five Cs plus the new sixth C) of UNESCO's heritage framework?",
+ options:[["A","Conservation"],["B","Credibility"],["C","Capacity-building"],["D","Communication"],["E","Community Development"]],
+ correct:"E",
+ explanation:"The six strategic objectives are Conservation, Credibility, Capacity-building, Communication, Communities, and (newly added) Collaboration. 'Community Development' is not among them."},
+
+{id:114, section:"UNESCO World Heritage Committee (48th Session)", type:"numbered", difficulty:"Moderate",
+ context:"1. The Busan Declaration on World Heritage was adopted at the 48th session.\n2. A USD 13 million strategy for Small Island Developing States was adopted, covering 2026–2034.\n3. 'Collaboration' was introduced as the sixth strategic objective under the Busan Declaration.\n4. The five earlier Cs were Conservation, Credibility, Capacity-building, Communication and Communities.\n5. The USD 13 million SIDS strategy covers the period 2024–2032.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — the SIDS strategy covers 2026–2034, not 2024–2032."},
+
+{id:115, section:"UNESCO World Heritage Committee (48th Session)", type:"acronym", difficulty:"Easy",
+ stem:"SIDS, referenced in the Busan Declaration's funding strategy, stands for:",
+ options:[["A","Small Island Developing States"],["B","Small Island Development Strategy"],["C","Sustainable Island Development States"],["D","Small Isolated Developing States"],["E","South Island Developing States"]],
+ correct:"A",
+ explanation:"SIDS stands for Small Island Developing States."},
+
+{id:116, section:"UNESCO World Heritage Committee (48th Session)", type:"figure", difficulty:"Easy",
+ stem:"In what year was the World Heritage Convention, which the World Heritage Committee implements, adopted?",
+ options:[["A","1972"],["B","1982"],["C","1975"],["D","1965"],["E","1992"]],
+ correct:"A",
+ explanation:"The World Heritage Convention was adopted in 1972."},
+
+// ===================== NITI AAYOG INVESTMENT FRIENDLINESS INDEX =====================
+{id:117, section:"NITI Aayog Investment Friendliness Index", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the NITI Aayog Investment Friendliness Index is correct?",
+ options:[["A","The Index evaluates states/UTs across eight pillars, including Infrastructure, Business Climate and Regulatory Ease."],
+ ["B","The Index covers only the 28 States, excluding Union Territories."],
+ ["C","States scoring between 40 and 50 are classified as 'Top Performers'."],
+ ["D","Among Large States, Maharashtra ranks first, ahead of Gujarat."],
+ ["E","Goa is classified among the 'Hilly and North-Eastern States' category."]],
+ correct:"A",
+ explanation:"The Index covers all 28 States AND 8 Union Territories. 'Top Performers' score above 50 (not 40-50). Among Large States, Gujarat ranks first, ahead of Maharashtra. Goa is classified among 'City States and Union Territories', not 'Hilly and North-Eastern States'."},
+
+{id:118, section:"NITI Aayog Investment Friendliness Index", type:"numbered", difficulty:"Moderate",
+ context:"1. Gujarat, Maharashtra, Tamil Nadu, Goa and Odisha were classified as 'Top Performers'.\n2. States scoring above 50 fall in the 'Top Performers' category.\n3. There are 15 states in the 'Frontrunners' category.\n4. There are 8 states/UTs each in the 'Emerging Performers' and 'Aspiring States' categories.\n5. The 'Aspiring States' category includes states scoring between 40 and 45.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — 'Aspiring States' score below 40; the 40 to under-45 range is 'Emerging Performers'."},
+
+{id:119, section:"NITI Aayog Investment Friendliness Index", type:"notamong", difficulty:"Moderate",
+ stem:"Which of the following is NOT one of the eight pillars of the Investment Friendliness Index?",
+ options:[["A","Infrastructure"],["B","Business Climate"],["C","Resources"],["D","Government Policy"],["E","Social Inclusion"]],
+ correct:"E",
+ explanation:"The eight pillars are Infrastructure, Business Climate, Resources, Government Policy, Regulatory Ease, Institutional Environment, Financial Health, and Environmental Resilience. 'Social Inclusion' is not among them."},
+
+{id:120, section:"NITI Aayog Investment Friendliness Index", type:"numbered", difficulty:"Moderate",
+ context:"1. Among Large States, Gujarat ranks first, followed by Maharashtra and Tamil Nadu.\n2. Among Hilly and North-Eastern States, Uttarakhand ranks highest, followed by Assam and Himachal Pradesh.\n3. Among City States and Union Territories, Goa holds the top position, followed by Delhi and Chandigarh.\n4. The top three performers in the Large States category are also the top three performers in the overall Index.\n5. Sikkim ranks second among Hilly and North-Eastern States.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — Assam, not Sikkim, ranks second among Hilly and North-Eastern States."},
+
+{id:121, section:"NITI Aayog Investment Friendliness Index", type:"figure", difficulty:"Moderate",
+ stem:"Which one of the following correctly pairs a performance category of the Investment Friendliness Index with its score range?",
+ options:[["A","Frontrunners: 45–50"],["B","Top Performers: 40–45"],["C","Emerging Performers: Above 50"],["D","Aspiring States: 45–50"],["E","Frontrunners: Below 40"]],
+ correct:"A",
+ explanation:"'Frontrunners' corresponds to a score range of 45 to 50."},
+
+{id:122, section:"NITI Aayog Investment Friendliness Index", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements is NOT correct?",
+ options:[["A","The Index covers all 28 States and 8 Union Territories of India."],
+ ["B","Top Performers score above 50 on the Index."],
+ ["C","Uttarakhand is ranked highest among Hilly and North-Eastern States."],
+ ["D","Delhi ranks first among City States and Union Territories."],
+ ["E","Emerging Performers score between 40 (inclusive) and 45 (exclusive)."]],
+ correct:"D",
+ explanation:"Goa, not Delhi, ranks first among City States and Union Territories; Delhi ranks second."},
+
+{id:123, section:"NITI Aayog Investment Friendliness Index", type:"intersection", difficulty:"Hard",
+ context:"Consider the following states from NITI Aayog's Investment Friendliness Index:\n1. Gujarat\n2. Maharashtra\n3. Tamil Nadu\n4. Goa\n5. Odisha\n6. Uttarakhand",
+ stem:"Which of the above are common to BOTH the 'Top Performers' category (overall Index) AND the top three ranked 'Large States'?",
+ options:[["A","1, 2 and 3"],["B","1, 2 and 4"],["C","All of the above"],["D","4, 5 and 6"],["E","1, 3 and 5"]],
+ correct:"A",
+ explanation:"Gujarat, Maharashtra and Tamil Nadu appear both among the overall 'Top Performers' and as the top three ranked Large States. Goa and Odisha are Top Performers but not Large States; Uttarakhand tops the Hilly/NE category, not Large States."},
+
+// ===================== MDPI (COMPETERE FOUNDATION) =====================
+{id:124, section:"Market Distortions Performance Index (MDPI)", type:"acronym", difficulty:"Moderate",
+ stem:"MDPI, on which India climbed to the 57th rank in 2023, stands for:",
+ options:[["A","Market Distortions Performance Index"],["B","Market Development Performance Indicator"],["C","Market Distortion Policy Index"],["D","Marginal Distortions Performance Index"],["E","Market Distortions Progress Index"]],
+ correct:"A",
+ explanation:"MDPI stands for Market Distortions Performance Index."},
+
+{id:125, section:"Market Distortions Performance Index (MDPI)", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about India's MDPI ranking is correct?",
+ options:[["A","India ranked 57th in the MDPI 2023, marking a jump of 25 places."],
+ ["B","The MDPI report was released by the World Economic Forum."],
+ ["C","The MDPI evaluates countries on five core parameters."],
+ ["D","India's projected GDP loss from remaining market distortions is about 8% of GDP."],
+ ["E","The report reviews reforms carried out between 2015 and 2023."]],
+ correct:"A",
+ explanation:"The report was released by the Competere Foundation for Trade and Competition Policy (not WEF), evaluates three (not five) core parameters, projects a loss of about 4.2% (not 8%) of GDP, and reviews reforms from 2010 to 2023 (not 2015-2023)."},
+
+{id:126, section:"Market Distortions Performance Index (MDPI)", type:"numbered", difficulty:"Moderate",
+ context:"1. The MDPI evaluates performance on three core parameters: protection of property rights, level of domestic competition, and degree of international competition.\n2. Reforms are expected to generate roughly an additional 1% yearly increase in GDP per capita over the long term.\n3. Remaining market distortions are projected to cost the economy around USD 173.6 billion over the next five years.\n4. This projected cost is equal to approximately 4.2% of India's GDP.\n5. The report studies India's reform progress from 2005 to 2023.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — the report studies reform progress from 2010 to 2023, not 2005 to 2023."},
+
+{id:127, section:"Market Distortions Performance Index (MDPI)", type:"numbered", difficulty:"Moderate",
+ context:"1. Protection of property rights\n2. Level of domestic competition\n3. Degree of international competition\n4. Ease of tax compliance\n5. Quality of infrastructure",
+ stem:"Which of the above are NOT among the three core parameters used by the MDPI to rank countries?",
+ options:[["A","4 and 5"],["B","Only 4"],["C","Only 5"],["D","1 and 2"],["E","3, 4 and 5"]],
+ correct:"A",
+ explanation:"The MDPI's three core parameters are protection of property rights, level of domestic competition, and degree of international competition. 'Ease of tax compliance' and 'Quality of infrastructure' are not among them."},
+
+// ===================== CANDERE HURUN INDIA WOMEN LEADERS LIST =====================
+{id:128, section:"Candere Hurun India Women Leaders List", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the Candere Hurun India Women Leaders List 2026 is correct?",
+ options:[["A","The second edition of the list features 117 women with a combined valuation of ₹39 lakh crore."],
+ ["B","The number of categories decreased from 12 to 9 in this edition."],
+ ["C","Priya Nair topped the Wealth Multipliers category."],
+ ["D","Sheetal Devi is the oldest name on the list at 86 years."],
+ ["E","The list groups women under six broad pillars."]],
+ correct:"A",
+ explanation:"The number of categories INCREASED from 9 to 12 (not decreased). Roshni Nadar Malhotra (not Priya Nair) topped the Wealth Multipliers category. Sheetal Devi (19) is the YOUNGEST, not oldest; Rajni Bector (86) is the oldest. The list groups women under five (not six) pillars."},
+
+{id:129, section:"Candere Hurun India Women Leaders List", type:"numbered", difficulty:"Moderate",
+ context:"1. Roshni Nadar Malhotra topped the Wealth Multipliers category.\n2. Priya Nair led the Professional CEOs category.\n3. Sudha Murthy was recognised among Authors.\n4. 98 of the 117 women featured (84%) are self-made.\n5. The youngest name on the list is a Paralympic swimmer aged 17.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — the youngest name is Sheetal Devi, a para-archer aged 19, not a swimmer aged 17."},
+
+{id:130, section:"Candere Hurun India Women Leaders List", type:"notamong", difficulty:"Moderate",
+ stem:"Which of the following is NOT one of the five broad pillars used to classify women in the Candere Hurun India Women Leaders List 2026?",
+ options:[["A","Culture"],["B","Startups"],["C","Value Creation"],["D","Governance Leadership"],["E","Social Impact"]],
+ correct:"D",
+ explanation:"The five pillars are Culture, Startups, Value Creation, Wealth Creation, and Social Impact. 'Governance Leadership' is not one of them — Wealth Creation is the genuine fifth pillar in place of it."},
+
+{id:131, section:"Candere Hurun India Women Leaders List", type:"figure", difficulty:"Moderate",
+ stem:"Which pillar has the largest share of women on the Candere Hurun India Women Leaders List 2026, and what percentage does it represent?",
+ options:[["A","Culture; 36%"],["B","Startups; 36%"],["C","Culture; 24%"],["D","Wealth Creation; 42%"],["E","Value Creation; 36%"]],
+ correct:"A",
+ explanation:"Culture is the largest pillar, with 42 women representing 36% of the total list."},
+
+{id:132, section:"Candere Hurun India Women Leaders List", type:"numbered", difficulty:"Moderate",
+ context:"1. Olympic and Paralympic Medallists form the largest single category, with 20 honourees.\n2. Of these 20 honourees, 60% are para-athletes.\n3. The number of categories in the list increased from 9 to 12 compared to the previous edition.\n4. Rajni Bector, founder of Cremica, is the oldest name on the list at 86 years.\n5. The list is released solely by Hurun India, without any corporate association.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — the list is released by Candere in association with Hurun India."},
+
+{id:133, section:"Candere Hurun India Women Leaders List", type:"figure", difficulty:"Easy",
+ stem:"What are the ages of the youngest and oldest names on the Candere Hurun India Women Leaders List 2026?",
+ options:[["A","Youngest: Sheetal Devi, 19 years; Oldest: Rajni Bector, 86 years"],
+ ["B","Youngest: Sheetal Devi, 17 years; Oldest: Rajni Bector, 86 years"],
+ ["C","Youngest: Sheetal Devi, 19 years; Oldest: Sudha Murthy, 86 years"],
+ ["D","Youngest: Sheetal Devi, 21 years; Oldest: Rajni Bector, 90 years"],
+ ["E","Youngest: Sheetal Devi, 19 years; Oldest: Rajni Bector, 82 years"]],
+ correct:"A",
+ explanation:"The youngest name is para-archer Sheetal Devi (19 years); the oldest is Rajni Bector, founder of Cremica (86 years)."},
+
+// ===================== ENVIRONMENTAL PERFORMANCE INDEX (EPI) 2026 =====================
+{id:134, section:"Environmental Performance Index (EPI) 2026", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the EPI 2026 is correct?",
+ options:[["A","India ranked 176th out of 177 countries in the EPI 2026, with a score of 22.46."],
+ ["B","India topped the EPI 2026 among South Asian countries."],
+ ["C","The EPI 2026 was released by the World Bank."],
+ ["D","India's EPI score declined by 7.47 points over the last decade."],
+ ["E","Laos ranked just above India, at 175th position."]],
+ correct:"A",
+ explanation:"India ranked near the bottom among South Asian countries (Bhutan, Sri Lanka, Nepal, Pakistan all ranked better). The EPI was released by Yale University, not the World Bank. India's score IMPROVED (not declined) by 7.47 points. Laos ranked 177th, below (not above) India."},
+
+{id:135, section:"Environmental Performance Index (EPI) 2026", type:"numbered", difficulty:"Moderate",
+ context:"1. The EPI 2026 evaluates 177 countries using 47 indicators across 12 issue categories.\n2. India's score of 22.46 places it 176th, the second-lowest ranked nation.\n3. Laos is the lowest-ranked country, with a score of 21.78.\n4. India has shown a marginal improvement of +7.47 points over the last ten years.\n5. Estonia topped the index for the fifth consecutive year.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is fabricated and not supported by the passage."},
+
+{id:136, section:"Environmental Performance Index (EPI) 2026", type:"numbered", difficulty:"Hard",
+ context:"1. Bhutan ranks 52nd in the EPI 2026.\n2. Sri Lanka ranks 94th.\n3. Nepal ranks 128th.\n4. Pakistan ranks 157th, better than India's rank.\n5. Mali ranks worse than India in the EPI 2026.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — Mali ranks 174th, which is better than India's 176th, not worse."},
+
+{id:137, section:"Environmental Performance Index (EPI) 2026", type:"figure", difficulty:"Easy",
+ stem:"What was India's score in the EPI 2026, and its improvement over the last ten years?",
+ options:[["A","22.46; +7.47 points"],["B","22.46; +4.77 points"],["C","21.78; +7.47 points"],["D","24.46; +5.47 points"],["E","22.46; +8.47 points"]],
+ correct:"A",
+ explanation:"India scored 22.46 in the EPI 2026, showing a marginal improvement of +7.47 points over the last ten years."},
+
+{id:138, section:"Environmental Performance Index (EPI) 2026", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following correctly lists the top three ranked countries in the EPI 2026, in order?",
+ options:[["A","Estonia, Luxembourg, United Kingdom"],["B","Estonia, United Kingdom, Luxembourg"],["C","Luxembourg, Estonia, United Kingdom"],["D","United Kingdom, Estonia, Luxembourg"],["E","Estonia, Luxembourg, Switzerland"]],
+ correct:"A",
+ explanation:"The top three ranked countries in the EPI 2026 were Estonia, Luxembourg, and the United Kingdom, in that order."},
+
+{id:139, section:"Environmental Performance Index (EPI) 2026", type:"figure", difficulty:"Moderate",
+ stem:"How does the regional average EPI score compare with India's score of 22.46?",
+ options:[["A","Regional average 31.81, higher than India's score"],["B","Regional average 20.15, lower than India's score"],["C","Regional average 22.46, same as India"],["D","Regional average 40.81, much higher"],["E","Regional average 31.81, lower than India's score"]],
+ correct:"A",
+ explanation:"The regional average stood at 31.81, which is higher than India's score of 22.46."},
+
+// ===================== NITI AAYOG CAREGIVING REPORT =====================
+{id:140, section:"NITI Aayog Caregiving Report", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about NITI Aayog's caregiving report is correct?",
+ options:[["A","The report was presented by Vice Chairperson Ashok Kumar Lahiri in New Delhi."],
+ ["B","NITI Aayog was established in 2014 to replace the Finance Commission."],
+ ["C","The report recommends a National Caregiver Council to be chaired by the Prime Minister."],
+ ["D","The proposed National Portal for Caregivers will be managed exclusively by private hospitals."],
+ ["E","NITI Aayog's Chairperson is elected by the Governing Council of Chief Ministers."]],
+ correct:"A",
+ explanation:"NITI Aayog was established in 2015 (not 2014) to replace the Planning Commission (not Finance Commission). The Chairperson is the Prime Minister ex officio, not an elected position."},
+
+{id:141, section:"NITI Aayog Caregiving Report", type:"acronym", difficulty:"Easy",
+ stem:"NITI Aayog stands for:",
+ options:[["A","National Institution for Transforming India"],["B","National Institute for Transformation of India"],["C","National Investment and Transformation Institution"],["D","National Institution for Trade and Investment"],["E","National Institute for Territorial Improvement"]],
+ correct:"A",
+ explanation:"NITI Aayog stands for National Institution for Transforming India."},
+
+{id:142, section:"NITI Aayog Caregiving Report", type:"numbered", difficulty:"Moderate",
+ context:"1. NITI Aayog was established in 2015, replacing the Planning Commission.\n2. The Prime Minister serves as the Chairperson of NITI Aayog.\n3. The caregiving report recommends setting up a National Caregiver Council to regulate training, accreditation and certification.\n4. The National Caregiver Council will also maintain a National Caregiver Registry.\n5. NITI Aayog's composition does not include any ex-officio Union Ministers.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — NITI Aayog's composition includes ex-officio Union Ministers."},
+
+{id:143, section:"NITI Aayog Caregiving Report", type:"numbered", difficulty:"Moderate",
+ context:"NITI Aayog's caregiving report makes the following recommendations:\n1. National Policy on Caregiving (NPC)\n2. National Caregiver Council (NCC)\n3. National Portal for Caregivers and Care Seekers\n4. National Caregiver Insurance Scheme\n5. National Caregiver Training Fund",
+ stem:"Which of the above are NOT among the recommendations of NITI Aayog's caregiving report?",
+ options:[["A","4 and 5"],["B","Only 4"],["C","Only 5"],["D","1 and 2"],["E","3, 4 and 5"]],
+ correct:"A",
+ explanation:"The report's recommendations are the National Policy on Caregiving, the National Caregiver Council, and the National Portal for Caregivers and Care Seekers. A 'National Caregiver Insurance Scheme' and 'National Caregiver Training Fund' are not mentioned."},
+
+// ===================== KROLL CELEBRITY BRAND VALUATION 2025 =====================
+{id:144, section:"Kroll Celebrity Brand Valuation 2025", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the Kroll Celebrity Brand Valuation 2025 is correct?",
+ options:[["A","Shah Rukh Khan topped the rankings with a brand value of USD 177.9 million."],
+ ["B","Virat Kohli retained the top position in the 2025 rankings."],
+ ["C","The Kroll report is the 15th edition of its celebrity brand valuation series."],
+ ["D","MS Dhoni ranked ahead of Sachin Tendulkar in the top 5."],
+ ["E","Ranveer Singh topped the rankings, followed by Shah Rukh Khan."]],
+ correct:"A",
+ explanation:"Virat Kohli SLIPPED from 1st to 3rd (did not retain top position). This is the 11th (not 15th) edition. Sachin Tendulkar (rank 4) ranked ahead of MS Dhoni (rank 5). Shah Rukh Khan topped the list, not Ranveer Singh."},
+
+{id:145, section:"Kroll Celebrity Brand Valuation 2025", type:"numbered", difficulty:"Moderate",
+ context:"1. This is the 11th edition of Kroll's Celebrity Brand Valuation report.\n2. Shah Rukh Khan's brand value was assessed at USD 177.9 million.\n3. Ranveer Singh retained the second position in the rankings.\n4. Virat Kohli, who ranked first in the previous year, slipped to third place.\n5. Sachin Tendulkar ranked ahead of Virat Kohli in the 2025 list.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — Virat Kohli (rank 3) ranked ahead of Sachin Tendulkar (rank 4), not the reverse."},
+
+{id:146, section:"Kroll Celebrity Brand Valuation 2025", type:"figure", difficulty:"Moderate",
+ stem:"Which one of the following correctly pairs a celebrity with their rank and profession in the Kroll Celebrity Brand Valuation 2025?",
+ options:[["A","Rank 3 – Virat Kohli – Cricketer"],["B","Rank 2 – Virat Kohli – Cricketer"],["C","Rank 3 – Ranveer Singh – Actor"],["D","Rank 5 – Sachin Tendulkar – Cricketer"],["E","Rank 4 – Mahendra Singh Dhoni – Cricketer"]],
+ correct:"A",
+ explanation:"Virat Kohli ranked 3rd as a cricketer. Sachin Tendulkar ranked 4th (not 5th) and MS Dhoni ranked 5th (not 4th)."},
+
+{id:147, section:"Kroll Celebrity Brand Valuation 2025", type:"figure", difficulty:"Easy",
+ stem:"What was Shah Rukh Khan's brand value in the Kroll Celebrity Brand Valuation 2025, making him India's most valuable celebrity?",
+ options:[["A","USD 177.9 million"],["B","USD 197.7 million"],["C","USD 117.9 million"],["D","USD 177.9 billion"],["E","USD 157.9 million"]],
+ correct:"A",
+ explanation:"Shah Rukh Khan's brand value was assessed at USD 177.9 million."},
+
+// ===================== BHASHINI-PNB MoU =====================
+{id:148, section:"BHASHINI–PNB MoU", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the BHASHINI-PNB MoU is correct?",
+ options:[["A","The MoU between DIBD and PNB was signed by Shri Amitabh Nag, CEO of Digital India BHASHINI Division."],
+ ["B","The MoU was signed to promote UPI merchant payments abroad."],
+ ["C","PNB is the CEO signatory institution for this MoU."],
+ ["D","BHASHINI is a State Bank of India initiative."],
+ ["E","The MoU focuses exclusively on cybersecurity training."]],
+ correct:"A",
+ explanation:"The MoU promotes multilingual AI for inclusive banking, not UPI payments abroad. BHASHINI is a Digital India initiative, not an SBI initiative, and the MoU's focus is multilingual AI, not cybersecurity."},
+
+{id:149, section:"BHASHINI–PNB MoU", type:"acronym", difficulty:"Easy",
+ stem:"BHASHINI, referenced in this MoU, is a division under which government initiative?",
+ options:[["A","Digital India"],["B","Digital Bharat Nidhi"],["C","Startup India"],["D","Skill India"],["E","Bharat Net"]],
+ correct:"A",
+ explanation:"BHASHINI (Digital India BHASHINI Division) operates under the Digital India initiative."},
+
+// ===================== IN-SPACE RE-ENTRY GUIDELINES =====================
+{id:150, section:"IN-SPACe Re-entry Guidelines", type:"acronym", difficulty:"Moderate",
+ stem:"IN-SPACe, which issued the controlled re-entry guidelines, stands for:",
+ options:[["A","Indian National Space Promotion and Authorization Center"],["B","Indian National Space Policy and Authorization Center"],["C","Indian National Space Promotion and Administration Council"],["D","Indian National Space Program and Authorization Center"],["E","Indian National Satellite Promotion and Authorization Center"]],
+ correct:"A",
+ explanation:"IN-SPACe stands for Indian National Space Promotion and Authorization Center."},
+
+{id:151, section:"IN-SPACe Re-entry Guidelines", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about IN-SPACe's re-entry guidelines is correct?",
+ options:[["A","The guidelines set the maximum allowed casualty risk for controlled re-entry at less than 1 in 10,000."],
+ ["B","IN-SPACe was established in 2018 under the Ministry of Science and Technology."],
+ ["C","Foreign companies can directly apply for re-entry authorisation without an Indian entity."],
+ ["D","IN-SPACe is headquartered in Bengaluru, Karnataka."],
+ ["E","The current Chairperson of IN-SPACe is Dr. S. Somanath."]],
+ correct:"A",
+ explanation:"IN-SPACe was set up in 2020 under the Department of Space (not the Ministry of Science and Technology). Foreign companies must apply through an Indian-incorporated entity. IN-SPACe is headquartered in Bopal, Ahmedabad, Gujarat. Its current Chairperson is Dr. Pawan Kumar Goenka."},
+
+{id:152, section:"IN-SPACe Re-entry Guidelines", type:"numbered", difficulty:"Moderate",
+ context:"1. IN-SPACe's re-entry guidelines are governed by the Indian Space Policy 2023.\n2. The maximum allowed casualty risk is less than 1 in 10,000.\n3. Foreign companies can apply only through an Indian-incorporated entity.\n4. Operators must submit detailed trajectory data as part of the approval process.\n5. Insurance cover under these guidelines is entirely optional and not mentioned as a requirement.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — third-party liability insurance cover is required wherever prescribed, per the guidelines."},
+
+{id:153, section:"IN-SPACe Re-entry Guidelines", type:"figure", difficulty:"Moderate",
+ stem:"When was IN-SPACe set up, and where is it headquartered?",
+ options:[["A","2020; Bopal, Ahmedabad, Gujarat"],["B","2020; Bengaluru, Karnataka"],["C","2018; Bopal, Ahmedabad, Gujarat"],["D","2023; New Delhi"],["E","2020; Thiruvananthapuram, Kerala"]],
+ correct:"A",
+ explanation:"IN-SPACe was set up in 2020 and is headquartered in Bopal, Ahmedabad, Gujarat."},
+
+{id:154, section:"IN-SPACe Re-entry Guidelines", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements is NOT correct?",
+ options:[["A","IN-SPACe promotes and authorises private sector participation in space activities."],
+ ["B","IN-SPACe operates under the Department of Space."],
+ ["C","Dr. Pawan Kumar Goenka is the current Chairperson of IN-SPACe."],
+ ["D","IN-SPACe was established before the Indian Space Policy 2023 was formulated."],
+ ["E","The re-entry guidelines apply only to government-run space missions, not private companies."]],
+ correct:"E",
+ explanation:"The re-entry guidelines specifically apply to private space companies carrying out planned re-entry, not exclusively to government missions."},
+
+// ===================== ANUGYAN NUCLEAR TRAINING =====================
+{id:155, section:"ANUGYAN Nuclear Training Programme", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about ANUGYAN is correct?",
+ options:[["A","ANUGYAN is a 3-month residential nuclear training programme launched by IIT Hyderabad in partnership with Crimson Energy."],
+ ["B","ANUGYAN is a 6-month online certification course."],
+ ["C","ANUGYAN was launched by the Department of Atomic Energy alone."],
+ ["D","ANUGYAN focuses on renewable solar energy training."],
+ ["E","ANUGYAN is India's second dedicated nuclear training programme."]],
+ correct:"A",
+ explanation:"ANUGYAN is India's FIRST (not second) dedicated nuclear training programme, launched jointly by IIT Hyderabad and Crimson Energy (CEEPL), not the Department of Atomic Energy alone. It is a residential (not online) programme focused on nuclear, not solar, energy."},
+
+{id:156, section:"ANUGYAN Nuclear Training Programme", type:"figure", difficulty:"Easy",
+ stem:"What is the duration and nature of the ANUGYAN programme?",
+ options:[["A","3-month residential programme"],["B","6-month residential programme"],["C","3-month online programme"],["D","1-year residential programme"],["E","3-week residential programme"]],
+ correct:"A",
+ explanation:"ANUGYAN is a 3-month residential training programme."},
+
+// ===================== ICAR PIGEONPEA GENOME =====================
+{id:157, section:"ICAR Pigeonpea Genome", type:"acronym", difficulty:"Easy",
+ stem:"T2T, in the context of ICAR's pigeonpea genome, stands for:",
+ options:[["A","Telomere-to-Telomere"],["B","Tissue-to-Tissue"],["C","Trait-to-Trait"],["D","Total-to-Total Genome"],["E","Telomere-to-Terminal"]],
+ correct:"A",
+ explanation:"T2T stands for Telomere-to-Telomere, referring to a fully annotated end-to-end reference genome."},
+
+{id:158, section:"ICAR Pigeonpea Genome", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about ICAR's pigeonpea genome is correct?",
+ options:[["A","ICAR developed India's first fully annotated T2T reference genome of the pigeonpea variety 'Asha', deposited in the NCBI database."],
+ ["B","The genome assembly is named NIPB_CcT2T_1."],
+ ["C","The pigeonpea variety used is called 'Pusa Arhar'."],
+ ["D","The genome was deposited in a database maintained by ICRISAT."],
+ ["E","This is the world's first pigeonpea genome ever sequenced."]],
+ correct:"A",
+ explanation:"The genome assembly is named NIPB_CcT2T_4 (not _1), the variety is 'Asha' (not 'Pusa Arhar'), and it was deposited in NCBI (not an ICRISAT database). The passage describes it as India's first, not the world's first."},
+
+{id:159, section:"ICAR Pigeonpea Genome", type:"figure", difficulty:"Moderate",
+ stem:"What is the name given to ICAR's fully annotated T2T pigeonpea genome assembly?",
+ options:[["A","NIPB_CcT2T_4"],["B","NIPB_CcT2T_1"],["C","ICAR_PigeonPea_T2T"],["D","NIPB_AshaT2T_4"],["E","CcT2T_NIPB_2"]],
+ correct:"A",
+ explanation:"The genome assembly is named NIPB_CcT2T_4."},
+
+// ===================== JUPITER WAGONS-LUCCHINI RS RAILWHEEL VENTURE =====================
+{id:160, section:"Jupiter Wagons–Lucchini Railwheel Venture", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the Jupiter Wagons-Lucchini RS railwheel venture is correct?",
+ options:[["A","Jupiter Wagons Limited partnered with Italy's Lucchini RS and SIMEST to set up India's first fully integrated private-sector railwheel manufacturing facility."],
+ ["B","The new manufacturing entity is named Jupiter Italia Railwheel Factory."],
+ ["C","The investment in this venture is EUR 280 million."],
+ ["D","This is a joint venture between two Indian public sector companies."],
+ ["E","The facility will manufacture only railway axles, not complete wheelsets."]],
+ correct:"A",
+ explanation:"The new entity is named Jupiter Tatravagonka Railwheel Factory Private Limited (JTRWF), not 'Jupiter Italia Railwheel Factory'. The investment is EUR 28 million (not 280 million). It is an India-Italy partnership involving a private Indian company (not two public sector companies), and the facility will produce wheels, axles AND complete wheelsets."},
+
+{id:161, section:"Jupiter Wagons–Lucchini Railwheel Venture", type:"numbered", difficulty:"Moderate",
+ context:"1. The new platform will operate under the name Jupiter Tatravagonka Railwheel Factory Private Limited (JTRWF).\n2. The investment in the venture is approximately EUR 28 million, or about ₹307 crore.\n3. The facility will produce railway wheels, axles and complete wheelsets.\n4. This is India's first fully integrated private-sector railwheel manufacturing facility.\n5. SIMEST is an Indian government agency co-investing in the project.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — SIMEST is associated with the Italian side of the partnership, not an Indian government agency."},
+
+{id:162, section:"Jupiter Wagons–Lucchini Railwheel Venture", type:"acronym", difficulty:"Moderate",
+ stem:"JTRWF, the new railwheel manufacturing entity, stands for:",
+ options:[["A","Jupiter Tatravagonka Railwheel Factory"],["B","Jupiter Trans-Railwheel Works Factory"],["C","Jupiter Tatra Rail Wagon Factory"],["D","Jupiter Tatravagonka Rail Works Facility"],["E","Jupiter Transnational Railwheel Foundry"]],
+ correct:"A",
+ explanation:"JTRWF stands for Jupiter Tatravagonka Railwheel Factory Private Limited."},
+
+{id:163, section:"Jupiter Wagons–Lucchini Railwheel Venture", type:"figure", difficulty:"Moderate",
+ stem:"What is the approximate investment made in the Jupiter Wagons-Lucchini RS railwheel manufacturing venture?",
+ options:[["A","EUR 28 million (approximately ₹307 crore)"],["B","EUR 38 million (approximately ₹307 crore)"],["C","EUR 28 million (approximately ₹207 crore)"],["D","USD 28 million (approximately ₹307 crore)"],["E","EUR 18 million (approximately ₹207 crore)"]],
+ correct:"A",
+ explanation:"The investment is approximately EUR 28 million, or about ₹307 crore."},
+
+// ===================== COSPAR VIKRAM SARABHAI MEDAL =====================
+{id:164, section:"COSPAR Vikram Sarabhai Medal", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about Annapurni Subramaniam's COSPAR Vikram Sarabhai Medal is correct?",
+ options:[["A","She is the first Indian woman scientist to receive the COSPAR Vikram Sarabhai Medal."],
+ ["B","She is the first Indian to ever receive this medal."],
+ ["C","The medal was presented at the 40th COSPAR Scientific Assembly."],
+ ["D","The medal is conferred solely by ISRO, without COSPAR's involvement."],
+ ["E","The medal is open only to Indian citizens."]],
+ correct:"A",
+ explanation:"She is the 4th Indian (not the first) to receive the medal, presented at the 46th (not 40th) COSPAR Scientific Assembly, jointly conferred by COSPAR AND ISRO. It is open to candidates from any country."},
+
+{id:165, section:"COSPAR Vikram Sarabhai Medal", type:"numbered", difficulty:"Moderate",
+ context:"1. Annapurni Subramaniam is the 4th Indian and the first Indian woman scientist to receive this medal.\n2. She is only the third woman globally to receive the medal.\n3. The medal was presented at the 46th COSPAR Scientific Assembly, held in Florence, Italy.\n4. The medal is jointly conferred by COSPAR and ISRO.\n5. The medal was instituted in 1985 in honour of Vikram Sarabhai.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — the medal was instituted in 1990, not 1985."},
+
+{id:166, section:"COSPAR Vikram Sarabhai Medal", type:"figure", difficulty:"Moderate",
+ stem:"In which year was the COSPAR Vikram Sarabhai Medal instituted, and at which COSPAR Scientific Assembly was the 2026 medal presented?",
+ options:[["A","1990; 46th Assembly"],["B","1990; 44th Assembly"],["C","1985; 46th Assembly"],["D","1990; 48th Assembly"],["E","2000; 46th Assembly"]],
+ correct:"A",
+ explanation:"The medal was instituted in 1990, and the 2026 edition was presented at the 46th COSPAR Scientific Assembly."},
+
+{id:167, section:"COSPAR Vikram Sarabhai Medal", type:"acronym", difficulty:"Moderate",
+ stem:"COSPAR, which jointly confers this medal with ISRO, stands for:",
+ options:[["A","Committee on Space Research"],["B","Council of Space Research"],["C","Committee on Space Regulation"],["D","Cooperative Space Research Agency"],["E","Committee for Space and Radiation"]],
+ correct:"A",
+ explanation:"COSPAR stands for Committee on Space Research."},
+
+{id:168, section:"COSPAR Vikram Sarabhai Medal", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements is NOT correct?",
+ options:[["A","Annapurni Subramaniam serves as Director of the Indian Institute of Astrophysics, Bengaluru."],
+ ["B","The medal recognises outstanding contributions to space research in developing countries."],
+ ["C","Selection for the medal is based primarily on research work over a five-year period."],
+ ["D","The medal is open only to scientists affiliated with ISRO."],
+ ["E","The Vikram Sarabhai Medal honours the founder of ISRO."]],
+ correct:"D",
+ explanation:"The medal is open to candidates from any country, not limited to ISRO-affiliated scientists."},
+
+// ===================== GARUD BINOCULARS – INDIA OPTEL =====================
+{id:169, section:"GARUD Binoculars – India Optel", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the GARUD High Resolution Binoculars is correct?",
+ options:[["A","India Optel Limited, a Mini Ratna Category-I DPSU, launched the indigenous 'GARUD' High Resolution Binoculars for the civil market."],
+ ["B","GARUD binoculars are meant exclusively for military use, not civilian markets."],
+ ["C","IOL is classified as a Navratna Category defence company."],
+ ["D","The binoculars were developed by DRDO."],
+ ["E","Ordnance Factory, Dehradun operates independently of India Optel Limited."]],
+ correct:"A",
+ explanation:"GARUD binoculars have been launched for the civil market. IOL is a Mini Ratna Category-I (not Navratna) DPSU. The binoculars were developed by Ordnance Factory, Dehradun, a unit OF India Optel Limited, not DRDO or an independent entity."},
+
+{id:170, section:"GARUD Binoculars – India Optel", type:"numbered", difficulty:"Moderate",
+ context:"1. India Optel Limited is a Mini Ratna Category-I Defence Public Sector Undertaking.\n2. IOL functions under the Department of Defence Production.\n3. GARUD binoculars were developed and manufactured by Ordnance Factory, Dehradun, a unit of IOL.\n4. GARUD binoculars have been launched specifically for the civil market.\n5. GARUD binoculars are IOL's first-ever product launch since incorporation.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is fabricated and not supported by the passage."},
+
+{id:171, section:"GARUD Binoculars – India Optel", type:"figure", difficulty:"Easy",
+ stem:"Which unit of India Optel Limited developed and manufactured the 'GARUD' binoculars?",
+ options:[["A","Ordnance Factory, Dehradun"],["B","Ordnance Factory, Kanpur"],["C","Bharat Electronics Limited"],["D","Ordnance Factory, Chennai"],["E","Instruments Research and Development Establishment"]],
+ correct:"A",
+ explanation:"The GARUD binoculars were developed and manufactured by Ordnance Factory, Dehradun, a unit of India Optel Limited."},
+
+// ===================== NSDC-AVPL DRONE SKILL CENTRES =====================
+{id:172, section:"NSDC–AVPL Drone Skill Centres", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the NSDC-AVPL drone skill centres initiative is correct?",
+ options:[["A","NSDC and AVPL International aim to establish 350 Advanced Skill Centres for drone technology over three years."],
+ ["B","The first-year target under this partnership is 150 centres."],
+ ["C","AVPL International will provide co-investment support, while NSDC handles lab setup."],
+ ["D","NSDC was established in 2015 under the Ministry of Skill Development."],
+ ["E","The partnership focuses solely on curriculum design, with no physical infrastructure component."]],
+ correct:"A",
+ explanation:"The first-year target is 75 centres (not 150). NSDC provides co-investment support, while AVPL handles lab setup, curriculum and faculty (roles reversed in option C). NSDC was set up in 2008 (not 2015). The partnership does include physical infrastructure (labs), not just curriculum design."},
+
+{id:173, section:"NSDC–AVPL Drone Skill Centres", type:"numbered", difficulty:"Easy",
+ context:"1. The NSDC-AVPL partnership aims to establish 350 Advanced Skill Centres for drone technology.\n2. The first-year target under this initiative is 75 centres.\n3. NSDC will provide co-investment support for the initiative.\n4. AVPL International will handle setting up laboratories, curriculum design and faculty deployment.\n5. NSDC was set up in 2008 under the Ministry of Skill Development and Entrepreneurship.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","All of the above"],["B","1, 2, 3 and 4"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"All five statements are correct as per the passage."},
+
+{id:174, section:"NSDC–AVPL Drone Skill Centres", type:"acronym", difficulty:"Easy",
+ stem:"ASC, as used for the drone skill centres under this initiative, stands for:",
+ options:[["A","Advanced Skill Centre"],["B","Aviation Skill Centre"],["C","Aerial Systems College"],["D","Advanced Simulation Centre"],["E","Applied Skill Council"]],
+ correct:"A",
+ explanation:"ASC stands for Advanced Skill Centre."},
+
+{id:175, section:"NSDC–AVPL Drone Skill Centres", type:"figure", difficulty:"Easy",
+ stem:"What is the duration of the NSDC-AVPL partnership, and its overall target for Advanced Skill Centres?",
+ options:[["A","Three years; 350 centres"],["B","Five years; 350 centres"],["C","Three years; 250 centres"],["D","Two years; 350 centres"],["E","Three years; 300 centres"]],
+ correct:"A",
+ explanation:"The partnership runs for three years, with an overall target of 350 Advanced Skill Centres."},
+
+// ===================== INS NIPUN =====================
+{id:176, section:"INS Nipun", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about 'Nipun' is correct?",
+ options:[["A","'Nipun' is the second Diving Support Vessel built entirely in India, constructed by Hindustan Shipyard Limited."],
+ ["B","'Nipun' is the first vessel of its class."],
+ ["C","'Nipun' was built by Mazagon Dock Shipbuilders Limited."],
+ ["D","The first vessel of this class was named INS Nireekshak."],
+ ["E","'Nipun' is a submarine, not a diving support vessel."]],
+ correct:"A",
+ explanation:"'Nipun' is the second (not first) vessel of its class, built by Hindustan Shipyard Limited (not Mazagon Dock). The first vessel of the class is INS Nistar (not Nireekshak). 'Nipun' is a Diving Support Vessel, not a submarine."},
+
+{id:177, section:"INS Nipun", type:"figure", difficulty:"Easy",
+ stem:"What is the name of the first vessel in the Diving Support Vessel class to which 'Nipun' belongs?",
+ options:[["A","INS Nistar"],["B","INS Nireekshak"],["C","INS Nipun"],["D","INS Nirbhik"],["E","INS Nilgiri"]],
+ correct:"A",
+ explanation:"INS Nistar is the first vessel of the Diving Support Vessel class."},
+
+{id:178, section:"INS Nipun", type:"numbered", difficulty:"Moderate",
+ context:"1. 'Nipun' is a Diving Support Vessel built entirely in India.\n2. It was built by Hindustan Shipyard Limited, Visakhapatnam.\n3. 'Nipun' is the second ship of its class.\n4. INS Nistar is the first vessel of this class.\n5. 'Nipun' was inducted into the Indian Air Force.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — 'Nipun' was inducted into the Indian Navy, not the Indian Air Force."},
+
+// ===================== KEY APPOINTMENTS =====================
+{id:179, section:"Key Appointments", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about Smt. Varsha Ashok Aglawe's appointment is correct?",
+ options:[["A","She has assumed charge as the 54th Director General of the Geological Survey of India, succeeding Shri Asit Saha."],
+ ["B","She is the 50th Director General of GSI."],
+ ["C","She succeeds Shri Asit Saha as Chairperson of ONGC."],
+ ["D","GSI's Director General post is a two-year rotating position."],
+ ["E","She was appointed Director General of the Survey of India (not the Geological Survey)."]],
+ correct:"A",
+ explanation:"She is the 54th (not 50th) DG of the Geological Survey of India (not ONGC or the Survey of India)."},
+
+{id:180, section:"Key Appointments", type:"numbered", difficulty:"Moderate",
+ context:"Recently, in August 2026, several key appointments were made across Indian regulatory and government bodies.\n1. K. Rajaraman's tenure as IFSCA Chairman has been extended until October 2028.\n2. A. S. Rajeev has taken charge as Acting Central Vigilance Commissioner, succeeding Praveen Kumar Srivastava.\n3. Monisha Chakraborty has been appointed RBI Executive Director, overseeing the Foreign Exchange Department and Financial Markets Regulation Department.\n4. Prasanta Mahapatra has taken charge as Chairman of SEBI.\n5. T. V. Somanathan received a one-year extension as Cabinet Secretary.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 3 and 4"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 4 is incorrect — Prasanta Mahapatra took charge as Executive Director of SEBI, not Chairman."},
+
+{id:181, section:"Key Appointments", type:"figure", difficulty:"Moderate",
+ stem:"K. Rajaraman was originally appointed IFSCA Chairman in which year, and his tenure has now been extended until when?",
+ options:[["A","October 2023; October 2028"],["B","October 2020; October 2025"],["C","October 2023; October 2026"],["D","January 2023; January 2028"],["E","October 2021; October 2028"]],
+ correct:"A",
+ explanation:"K. Rajaraman was originally appointed in October 2023, and his tenure has been extended until October 2028."},
+
+{id:182, section:"Key Appointments", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about the Central Vigilance Commission (CVC) is correct?",
+ options:[["A","The Central Vigilance Commission was set up on the recommendations of the K. Santhanam Committee on Prevention of Corruption."],
+ ["B","The CVC has three Central Vigilance Commissioners as its chairperson."],
+ ["C","The CVC's composition allows for up to five Vigilance Commissioners."],
+ ["D","A. S. Rajeev succeeds K. V. Chowdary as Acting CVC."],
+ ["E","CVC is a non-statutory advisory body only."]],
+ correct:"A",
+ explanation:"The CVC has ONE Central Vigilance Commissioner as chairperson (not three) and up to two (not five) Vigilance Commissioners. A. S. Rajeev succeeds Praveen Kumar Srivastava (not K. V. Chowdary). CVC is India's highest STATUTORY anti-corruption body, not merely advisory."},
+
+{id:183, section:"Key Appointments", type:"numbered", difficulty:"Moderate",
+ context:"1. T. V. Somanathan received a one-year extension as Cabinet Secretary, approved by the Appointments Committee of the Cabinet.\n2. His earlier tenure was due to end on 30 August 2026.\n3. He assumed charge as the 33rd Cabinet Secretary on 30 August 2024, succeeding Rajiv Gauba.\n4. Union Home Secretary Govind Mohan was also given a one-year extension.\n5. The Appointments Committee of the Cabinet is headed by the Union Home Minister.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — the Appointments Committee of the Cabinet is headed by the Prime Minister, not the Union Home Minister."},
+
+{id:184, section:"Key Appointments", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about Monisha Chakraborty's appointment as RBI Executive Director is correct?",
+ options:[["A","She brings more than three decades of experience within the RBI."],
+ ["B","She was earlier the Deputy Governor of RBI."],
+ ["C","She will oversee the Department of Banking Supervision and Department of Payment Systems."],
+ ["D","She is RBI's first-ever woman Executive Director."],
+ ["E","She previously served as Chairperson of SEBI."]],
+ correct:"A",
+ explanation:"She will oversee the Foreign Exchange Department and Financial Markets Regulation Department (not Banking Supervision/Payment Systems). She was earlier Chief General Manager-in-Charge, Department of Supervision — not Deputy Governor or SEBI Chairperson. The passage does not claim she is RBI's first-ever woman ED."},
+
+{id:185, section:"Key Appointments", type:"figure", difficulty:"Moderate",
+ stem:"Which two departments will Monisha Chakraborty oversee as RBI Executive Director?",
+ options:[["A","Foreign Exchange Department and Financial Markets Regulation Department"],["B","Department of Banking Supervision and Department of Currency Management"],["C","Department of Payment and Settlement Systems and Department of Statistics"],["D","Foreign Exchange Department and Department of Communication"],["E","Financial Markets Regulation Department and Human Resource Management Department"]],
+ correct:"A",
+ explanation:"She will oversee the Foreign Exchange Department and the Financial Markets Regulation Department."},
+
+{id:186, section:"Key Appointments", type:"statement", difficulty:"Hard",
+ stem:"Which one of the following appointment pairings is INCORRECT?",
+ options:[["A","Varsha Ashok Aglawe — 54th Director General, Geological Survey of India"],
+ ["B","K. Rajaraman — Chairman, IFSCA"],
+ ["C","A. S. Rajeev — Acting Central Vigilance Commissioner"],
+ ["D","Prasanta Mahapatra — Chairman, Reserve Bank of India"],
+ ["E","Monisha Chakraborty — Executive Director, RBI"]],
+ correct:"D",
+ explanation:"Prasanta Mahapatra took charge as Executive Director of SEBI, not Chairman of the Reserve Bank of India."},
+
+// ===================== SPORTS =====================
+{id:187, section:"Sports", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about Ajinkya Rahane's retirement is correct?",
+ options:[["A","Rahane retired from international cricket after a 12-year career, having scored 15 centuries."],
+ ["B","Rahane's international career spanned from 2008 to 2020."],
+ ["C","Rahane was the highest first-innings scorer only in the 2023 WTC Final, not 2021."],
+ ["D","Rahane retired as India's full-time Test captain."],
+ ["E","Rahane scored 20 international centuries."]],
+ correct:"A",
+ explanation:"Rahane's international career spanned 2011 to 2023 (not 2008-2020). He was the highest first-innings scorer in BOTH the 2021 and 2023 WTC Finals, not just 2023. He was a Test vice-captain/stand-in captain, not full-time captain, and scored 15 (not 20) centuries."},
+
+{id:188, section:"Sports", type:"numbered", difficulty:"Moderate",
+ context:"1. Ajinkya Rahane's international career spanned from 2011 to 2023.\n2. He scored 15 centuries during his international career.\n3. He was India's highest first-innings scorer in both the 2021 and 2023 ICC World Test Championship Finals.\n4. Rahane served as India's full-time Test captain throughout his career.\n5. He was a former India Test vice-captain and stand-in captain.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 5"],["B","All of the above"],["C","1, 3 and 4"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 4 is incorrect — Rahane was vice-captain/stand-in captain, not India's full-time Test captain throughout his career."},
+
+{id:189, section:"Sports", type:"statement", difficulty:"Easy",
+ stem:"Which one of the following statements about the World Junior Squash Championships 2026 is correct?",
+ options:[["A","Anahat Singh became the first Indian to win the World Junior Squash Championships, held in Niagara-on-the-Lake, Canada."],
+ ["B","The runner-up in the women's singles was from Sri Lanka."],
+ ["C","Anahat Singh won the men's singles title."],
+ ["D","The championship was held in Cairo, Egypt."],
+ ["E","Anahat Singh is the first Indian woman to win any international squash title."]],
+ correct:"A",
+ explanation:"The runner-up (Ruqayya Salem) was from Egypt, not Sri Lanka. Anahat Singh won the women's (not men's) singles title, and the event was held in Niagara-on-the-Lake, Canada, not Cairo."},
+
+{id:190, section:"Sports", type:"figure", difficulty:"Moderate",
+ stem:"Who was the runner-up to Anahat Singh in the Women's Singles final at the World Junior Squash Championships 2026?",
+ options:[["A","Ruqayya Salem (Egypt)"],["B","Ruqayya Salem (Morocco)"],["C","Nour El Sherbini (Egypt)"],["D","Hania El Hammamy (Egypt)"],["E","Amina Orfi (Egypt)"]],
+ correct:"A",
+ explanation:"Ruqayya Salem of Egypt was the runner-up to Anahat Singh."},
+
+{id:191, section:"Sports", type:"figure", difficulty:"Easy",
+ stem:"In which two editions of the ICC World Test Championship Final was Ajinkya Rahane India's highest first-innings scorer?",
+ options:[["A","2021 and 2023"],["B","2019 and 2021"],["C","2021 and 2025"],["D","2023 and 2025"],["E","2017 and 2021"]],
+ correct:"A",
+ explanation:"Rahane was India's highest first-innings scorer in both the 2021 and 2023 ICC World Test Championship Finals."},
+
+// ===================== BOOKS AND AUTHORS =====================
+{id:192, section:"Books and Authors", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about \"Bringing the Cheetah Back to India\" is correct?",
+ options:[["A","The book is authored by Prashant Agrawal and published by Hachette India."],
+ ["B","The book narrates the reintroduction of tigers, not cheetahs, to Kuno National Park."],
+ ["C","The first batch of cheetahs was released into Kuno National Park in 2020."],
+ ["D","Cheetahs were declared extinct in India in 1972."],
+ ["E","The first batch consisted of 12 cheetahs from South Africa."]],
+ correct:"A",
+ explanation:"The book is about cheetahs (not tigers). The first batch was released on 17 September 2022 (not 2020). Cheetahs were declared extinct in India in 1952 (not 1972). The first batch consisted of eight cheetahs from Namibia (not 12 from South Africa)."},
+
+{id:193, section:"Books and Authors", type:"numbered", difficulty:"Moderate",
+ context:"1. The book \"Bringing the Cheetah Back to India\" is authored by Prashant Agrawal.\n2. Cheetahs were declared extinct in India in 1952.\n3. The first batch of eight cheetahs from Namibia was released into Kuno National Park on 17 September 2022.\n4. Kuno National Park is located in Madhya Pradesh.\n5. The book is published by Penguin Random House India.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — the book is published by Hachette India, not Penguin Random House India."},
+
+{id:194, section:"Books and Authors", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about Zoramthanga's memoir is correct?",
+ options:[["A","\"From Guerrilla Fighter to Chief Minister\" chronicles his journey from the Mizo National Front insurgency to democratic power."],
+ ["B","Zoramthanga was the former Chief Minister of Nagaland."],
+ ["C","The memoir focuses solely on his tenure as Chief Minister, without discussing his insurgency years."],
+ ["D","Zoramthanga founded the Mizo National Front."],
+ ["E","The book was co-authored with a foreign journalist."]],
+ correct:"A",
+ explanation:"Zoramthanga was the former Chief Minister of Mizoram (not Nagaland). The memoir spans both his insurgency years and his time in democratic power. The passage does not state that he founded the MNF or that the book was co-authored with a foreign journalist."},
+
+{id:195, section:"Books and Authors", type:"figure", difficulty:"Easy",
+ stem:"How many cheetahs were in the first batch released into Kuno National Park, and from which country did they come?",
+ options:[["A","Eight; Namibia"],["B","Eight; South Africa"],["C","Twelve; Namibia"],["D","Five; Namibia"],["E","Eight; Botswana"]],
+ correct:"A",
+ explanation:"The first batch of eight cheetahs came from Namibia."},
+
+// ===================== AWARDS =====================
+{id:196, section:"Awards", type:"statement", difficulty:"Easy",
+ stem:"Which one of the following statements about the 'Soil Farmer Hero' award is correct?",
+ options:[["A","Valluvan, a coconut farmer from Pollachi district, Tamil Nadu, was conferred the 'Soil Farmer Hero' award by the FAO."],
+ ["B","Valluvan received the award for pioneering work in cotton cultivation."],
+ ["C","The award was conferred by the World Bank."],
+ ["D","Valluvan is from Kerala."],
+ ["E","The award was given in December 2025."]],
+ correct:"A",
+ explanation:"Valluvan is a coconut (not cotton) farmer from Pollachi district, Tamil Nadu (not Kerala), honoured in May 2026 (not December 2025) by the FAO (not the World Bank)."},
+
+{id:197, section:"Awards", type:"acronym", difficulty:"Easy",
+ stem:"FAO, which conferred the 'Soil Farmer Hero' award on Valluvan, stands for:",
+ options:[["A","Food and Agriculture Organization"],["B","Farmers' Agricultural Organization"],["C","Food and Agrarian Office"],["D","Federal Agriculture Organization"],["E","Food and Agro-industries Organization"]],
+ correct:"A",
+ explanation:"FAO stands for Food and Agriculture Organization (of the United Nations)."},
+
+// ===================== IMPORTANT DAYS =====================
+{id:198, section:"Important Days (FinTech Day, Hiroshima Day)", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about World FinTech Day and the Global Fintech Festival is correct?",
+ options:[["A","World FinTech Day is observed every year on 1 August."],
+ ["B","The Global Fintech Festival 2026 will be the 5th edition."],
+ ["C","GFF 2026 will be held in New Delhi."],
+ ["D","GFF is organised solely by the RBI, without any other partners."],
+ ["E","The theme of GFF 2026 is unrelated to AI or tokenisation."]],
+ correct:"A",
+ explanation:"GFF 2026 is the 7th (not 5th) edition, held at the Jio World Centre, Mumbai (not New Delhi), jointly organised by MeitY and RBI in partnership with PCI, NPCI and FCC (not RBI alone). Its theme explicitly includes Agentic AI and Tokenisation."},
+
+{id:199, section:"Important Days (FinTech Day, Hiroshima Day)", type:"numbered", difficulty:"Moderate",
+ context:"1. The Global Fintech Festival is jointly organised by MeitY and RBI, in partnership with PCI, NPCI and FCC.\n2. The 2026 edition is the 7th Global Fintech Festival.\n3. GFF 2026 will be held from 9–11 September 2026 at the Jio World Centre, Mumbai.\n4. The theme of GFF 2026 includes Agentic AI, Tokenisation and Quantum.\n5. World FinTech Day and the Global Fintech Festival are held on the same date each year.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — World FinTech Day is 1 August, while GFF 2026 is held in September."},
+
+{id:200, section:"Important Days (FinTech Day, Hiroshima Day)", type:"figure", difficulty:"Moderate",
+ stem:"What are the dates and venue of the 7th Global Fintech Festival 2026?",
+ options:[["A","9–11 September 2026; Jio World Centre, Mumbai"],["B","9–11 September 2026; Bharat Mandapam, New Delhi"],["C","1–3 August 2026; Jio World Centre, Mumbai"],["D","9–11 October 2026; Jio World Centre, Mumbai"],["E","19–21 September 2026; Jio World Centre, Mumbai"]],
+ correct:"A",
+ explanation:"GFF 2026 will be held from 9–11 September 2026 at the Jio World Centre, Mumbai."},
+
+{id:201, section:"Important Days (FinTech Day, Hiroshima Day)", type:"statement", difficulty:"Hard",
+ stem:"Which one of the following statements about Hiroshima Day is correct?",
+ options:[["A","Hiroshima Day, observed on 6 August, marked the 81st anniversary of the atomic bombing in 2026."],
+ ["B","The bomb dropped on Hiroshima was named 'Fat Man'."],
+ ["C","The Hiroshima bomb used Plutonium-239 as its material."],
+ ["D","The bombing destroyed around 30 square kilometres of the city."],
+ ["E","The aircraft that dropped the Hiroshima bomb was named 'Bock's Car'."]],
+ correct:"A",
+ explanation:"The Hiroshima bomb was named 'Little Boy' (Fat Man was dropped on Nagasaki), made of Uranium-235 (not Plutonium-239). It destroyed around 13 (not 30) square kilometres, and was dropped by the aircraft 'Enola Gay' (Bock's Car dropped the Nagasaki bomb)."},
+
+{id:202, section:"Important Days (FinTech Day, Hiroshima Day)", type:"numbered", difficulty:"Moderate",
+ context:"1. The Hiroshima bomb, 'Little Boy,' was made of Uranium-235.\n2. The bomb was dropped by the USAAF B-29 aircraft 'Enola Gay'.\n3. The bombing caused approximately 140,000 deaths by the end of 1945.\n4. On 9 August 1945, 'Fat Man' was dropped on Nagasaki by the aircraft 'Bock's Car', causing around 40,000 deaths.\n5. The first Hiroshima Day Peace Festival was held in 1950 at the Genbaku Dome.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — the first Hiroshima Day Peace Festival was held in 1947, not 1950."},
+
+{id:203, section:"Important Days (FinTech Day, Hiroshima Day)", type:"figure", difficulty:"Moderate",
+ stem:"What was the explosive force of the Hiroshima bomb, and its detonation height?",
+ options:[["A","Equivalent to 15,000 tons of TNT; about 1,800 feet"],["B","Equivalent to 20,000 tons of TNT; about 1,800 feet"],["C","Equivalent to 15,000 tons of TNT; about 2,800 feet"],["D","Equivalent to 21,000 tons of TNT; about 1,900 feet"],["E","Equivalent to 15,000 tons of TNT; about 1,500 feet"]],
+ correct:"A",
+ explanation:"The Hiroshima bomb had an explosive force equivalent to 15,000 tons of TNT and detonated at about 1,800 feet."},
+
+// ===================== OBITUARY - D.Y. PATIL =====================
+{id:204, section:"Obituary – D. Y. Patil", type:"statement", difficulty:"Moderate",
+ stem:"Which one of the following statements about Dr. D. Y. Patil is correct?",
+ options:[["A","Dr. D. Y. Patil, former Governor of Tripura and Bihar, was awarded the Padma Shri in 1991 for his contribution to social work."],
+ ["B","He was awarded the Padma Vibhushan in 1991."],
+ ["C","He served as Governor of Maharashtra and Gujarat."],
+ ["D","He founded the D. Y. Patil Group in 1995."],
+ ["E","RAIT was the first engineering college in Pune, not Navi Mumbai."]],
+ correct:"A",
+ explanation:"He was awarded the Padma Shri (not Padma Vibhushan) in 1991. He served as Governor of Tripura and Bihar (not Maharashtra and Gujarat). He founded the D. Y. Patil Group in 1983 (not 1995), and RAIT was the first engineering college in Navi Mumbai, not Pune."},
+
+{id:205, section:"Obituary – D. Y. Patil", type:"numbered", difficulty:"Moderate",
+ context:"1. D. Y. Patil founded the D. Y. Patil Group in 1983.\n2. The group grew to include more than 182 educational institutions and 7 universities.\n3. He established the Ramrao Adik Institute of Technology, the first engineering college in Navi Mumbai.\n4. He was awarded the Padma Shri in 1991 for social work.\n5. He passed away at the age of 85 in August 2026.",
+ stem:"Which of the above statements are correct?",
+ options:[["A","1, 2, 3 and 4"],["B","All of the above"],["C","1, 3 and 5"],["D","2, 4 and 5"],["E","1, 2 and 3"]],
+ correct:"A",
+ explanation:"Statement 5 is incorrect — he passed away at the age of 90 (not 85) in August 2026."},
+
+{id:206, section:"Obituary – D. Y. Patil", type:"figure", difficulty:"Easy",
+ stem:"D. Y. Patil served as Governor of which two states?",
+ options:[["A","Tripura and Bihar"],["B","Tripura and Jharkhand"],["C","Bihar and Odisha"],["D","Tripura and West Bengal"],["E","Bihar and Uttar Pradesh"]],
+ correct:"A",
+ explanation:"D. Y. Patil served as Governor of Tripura and Bihar."},
+
+{id:207, section:"Obituary – D. Y. Patil", type:"figure", difficulty:"Easy",
+ stem:"In which year did D. Y. Patil establish the Ramrao Adik Institute of Technology, India's first engineering college in Navi Mumbai?",
+ options:[["A","1983"],["B","1991"],["C","1978"],["D","1985"],["E","1995"]],
+ correct:"A",
+ explanation:"D. Y. Patil established the Ramrao Adik Institute of Technology (RAIT) in 1983."},
+
+// ===================== CROSS-SCHEME INTERSECTION =====================
+{id:208, section:"Cross-Scheme Comparisons", type:"intersection", difficulty:"Hard",
+ context:"Consider the following features of two schemes covered in this capsule — the Urban Challenge Fund (UCF) and GOBARdhan:\n1. Nodal ministry is a Central Government ministry\n2. Total central outlay/assistance exceeds ₹50,000 crore\n3. Implementation period extends beyond 5 years\n4. Aimed at supporting climate-resilient agriculture\n5. Received Union Cabinet approval specifically dated 6 August 2026",
+ stem:"Which of the above are true for BOTH the Urban Challenge Fund AND GOBARdhan?",
+ options:[["A","1 and 3"],["B","1, 2 and 3"],["C","2 and 5"],["D","3 and 4"],["E","All of the above"]],
+ correct:"A",
+ explanation:"Both schemes have a Central ministry as nodal authority (MoHUA for UCF, MoPNG for GOBARdhan) and both run for more than 5 years (UCF: FY2025-26 to FY2030-31/FY2033-34; GOBARdhan: FY2026-27 to FY2035-36). However, UCF's outlay is ₹1 lakh crore (>₹50,000 crore) while GOBARdhan's is ₹23,731 crore (not >₹50,000 crore), so statement 2 is not common. Statement 4 does not apply to either, and only GOBARdhan (not UCF) was explicitly approved on 6 August 2026."},
+
+];
+</script>
+<script>
+(function(){
+
+  // ---------- helpers ----------
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+  }
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function renderContext(ctx){
+    if(!ctx) return '';
+    const lines = ctx.split('\n');
+    let html = '<div class="passage">';
+    let inList = false;
+    lines.forEach(line=>{
+      const m = line.match(/^\d+\.\s+(.*)$/);
+      if(m){
+        if(!inList){ html += '<ol>'; inList = true; }
+        html += '<li>'+esc(m[1])+'</li>';
+      } else {
+        if(inList){ html += '</ol>'; inList = false; }
+        if(line.trim().length) html += '<p>'+esc(line)+'</p>';
+      }
+    });
+    if(inList) html += '</ol>';
+    html += '</div>';
+    return html;
+  }
+  function schemeType(q){ return q.type==='numbered' || q.type==='notamong' || q.type==='acronym'; }
+
+  const SECTIONS = (function(){
+    const order = [];
+    const counts = {};
+    QUESTIONS.forEach(q=>{
+      if(!(q.section in counts)){ counts[q.section]=0; order.push(q.section); }
+      counts[q.section]++;
+    });
+    return order.map(name=>({name, count:counts[name]}));
+  })();
+
+  // ---------- app state ----------
+  let state = {
+    screen:'home',        // home | fullSetup | sectionPicker | quiz | end
+    quizMode:null,        // 'full' | 'section' | 'schemes'
+    order:'pdf',          // 'pdf' | 'shuffled' (full mode only)
+    activeSet:[],         // question objects for current run
+    idx:0,
+    answers:{},           // id -> {status:'correct'|'wrong'|'skipped', selected:letter|null}
+    lockedThisQ:false,
+    selectedThisQ:null,
+    lastSetDescriptor:null // for retry
+  };
+
+  const app = document.getElementById('app');
+
+  function go(screen, extra){
+    state.screen = screen;
+    if(extra) Object.assign(state, extra);
+    render();
+    window.scrollTo({top:0, behavior:'instant' in window ? 'instant':'auto'});
+  }
+
+  function startQuiz(set, descriptor){
+    state.activeSet = set;
+    state.idx = 0;
+    state.answers = {};
+    state.lockedThisQ = false;
+    state.selectedThisQ = null;
+    state.lastSetDescriptor = descriptor;
+    go('quiz');
+  }
+
+  function retrySameSet(){
+    const d = state.lastSetDescriptor;
+    if(!d) return go('home');
+    startQuiz(d.set, d);
+  }
+
+  // ---------- render router ----------
+  function render(){
+    if(state.screen==='home') return renderHome();
+    if(state.screen==='fullSetup') return renderFullSetup();
+    if(state.screen==='sectionPicker') return renderSectionPicker();
+    if(state.screen==='quiz') return renderQuiz();
+    if(state.screen==='end') return renderEnd();
+  }
+
+  function masthead(sub){
+    return '<div class="masthead"><span class="brand"><b>ESI / GA</b> &middot; NABARD Grade A Ledger</span>' +
+      '<span class="tally">'+QUESTIONS.length+' questions on file</span></div>';
+  }
+
+  // ---------- HOME ----------
+  function renderHome(){
+    const schemesCount = QUESTIONS.filter(schemeType).length;
+    app.innerHTML = masthead() +
+      '<h1 class="title">GA Capsule Practice</h1>' +
+      '<p class="sub">Drawn entirely from the 1st&ndash;15th August GA Capsule &mdash; schemes, reports, appointments and current affairs, styled after the real NABARD ESI/GA mock-test paper.</p>' +
+      '<div class="mode-grid">' +
+        '<button class="mode-card" data-mode="full">' +
+          '<span class="m-label">MODE 01</span>' +
+          '<span class="count-chip">'+QUESTIONS.length+' Qs</span>' +
+          '<h3>Full Practice Test</h3>' +
+          '<p>Every question in the capsule, in PDF order or shuffled &mdash; the complete paper.</p>' +
+        '</button>' +
+        '<button class="mode-card" data-mode="section">' +
+          '<span class="m-label">MODE 02</span>' +
+          '<span class="count-chip">'+SECTIONS.length+' topics</span>' +
+          '<h3>Section-wise Revision</h3>' +
+          '<p>Drill a single scheme, report or topic at a time until it sticks.</p>' +
+        '</button>' +
+        '<button class="mode-card" data-mode="schemes">' +
+          '<span class="m-label">MODE 03</span>' +
+          '<span class="count-chip">'+schemesCount+' Qs</span>' +
+          '<h3>Schemes-Only Sprint</h3>' +
+          '<p>Numbered-statement, "not-among" and acronym questions on schemes &amp; organisations only.</p>' +
+        '</button>' +
+      '</div>' +
+      '<p class="footnote">Works fully offline. Skip, review and retry as many times as you like.</p>';
+
+    app.querySelectorAll('.mode-card').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const mode = el.getAttribute('data-mode');
+        if(mode==='full') return go('fullSetup');
+        if(mode==='section') return go('sectionPicker');
+        if(mode==='schemes'){
+          const set = QUESTIONS.filter(schemeType);
+          return startQuiz(set, {label:'Schemes-Only Sprint', set});
+        }
+      });
+    });
+  }
+
+  // ---------- FULL TEST SETUP ----------
+  function renderFullSetup(){
+    app.innerHTML = masthead() +
+      '<button class="back-link" id="backHome">&larr; Back to menu</button>' +
+      '<h1 class="title">Full Practice Test</h1>' +
+      '<p class="sub">All '+QUESTIONS.length+' questions from the capsule. Choose an order and begin.</p>' +
+      '<div class="toggle-row">' +
+        '<div class="toggle">' +
+          '<button data-order="pdf" class="'+(state.order==='pdf'?'active':'')+'">PDF Order</button>' +
+          '<button data-order="shuffled" class="'+(state.order==='shuffled'?'active':'')+'">Shuffled</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="btn-row"><button class="btn primary" id="startFull">Begin Test &rarr;</button></div>';
+
+    document.getElementById('backHome').addEventListener('click', ()=>go('home'));
+    app.querySelectorAll('.toggle button').forEach(b=>{
+      b.addEventListener('click', ()=>{ state.order = b.getAttribute('data-order'); renderFullSetup(); });
+    });
+    document.getElementById('startFull').addEventListener('click', ()=>{
+      const set = state.order==='shuffled' ? shuffle(QUESTIONS) : QUESTIONS.slice();
+      startQuiz(set, {label:'Full Practice Test ('+(state.order==='shuffled'?'Shuffled':'PDF Order')+')', set});
+    });
+  }
+
+  // ---------- SECTION PICKER ----------
+  function renderSectionPicker(){
+    app.innerHTML = masthead() +
+      '<button class="back-link" id="backHome">&larr; Back to menu</button>' +
+      '<h1 class="title">Section-wise Revision</h1>' +
+      '<p class="sub">Tap a topic to drill just those questions.</p>' +
+      '<div class="section-grid">' +
+      SECTIONS.map(s=>
+        '<button class="section-tile" data-sec="'+esc(s.name)+'">'+
+          '<span class="st-name">'+esc(s.name)+'</span>'+
+          '<span class="st-count">'+s.count+' question'+(s.count===1?'':'s')+'</span>'+
+        '</button>'
+      ).join('') +
+      '</div>';
+    document.getElementById('backHome').addEventListener('click', ()=>go('home'));
+    app.querySelectorAll('.section-tile').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const sec = el.getAttribute('data-sec');
+        const set = QUESTIONS.filter(q=>q.section===sec);
+        startQuiz(set, {label:sec, set});
+      });
+    });
+  }
+
+  // ---------- QUIZ ----------
+  function renderQuiz(){
+    const total = state.activeSet.length;
+    const q = state.activeSet[state.idx];
+    const answered = Object.keys(state.answers).length;
+    const correctSoFar = Object.values(state.answers).filter(a=>a.status==='correct').length;
+    const pct = Math.round((state.idx/total)*100);
+
+    let optsHtml = '';
+    q.options.forEach(opt=>{
+      const letter = opt[0], text = opt[1];
+      let cls = 'opt';
+      if(state.lockedThisQ){
+        cls += ' locked';
+        if(letter === q.correct) cls += ' correct';
+        else if(letter === state.selectedThisQ) cls += ' wrong';
+      }
+      optsHtml += '<button class="'+cls+'" data-letter="'+letter+'">'+
+        '<span class="opt-letter">'+letter+'</span><span class="opt-text">'+esc(text)+'</span></button>';
+    });
+
+    let feedbackHtml = '';
+    if(state.lockedThisQ){
+      const wasSkipped = state.selectedThisQ === null;
+      const wasCorrect = !wasSkipped && state.selectedThisQ === q.correct;
+      const cls = wasSkipped ? '' : (wasCorrect ? 'is-correct' : 'is-wrong');
+      const head = wasSkipped ? 'Skipped &mdash; correct answer shown above.' : (wasCorrect ? 'Correct.' : 'Not quite.');
+      feedbackHtml = '<div class="feedback '+cls+'"><div class="fb-head">'+head+'</div><div class="fb-body">'+esc(q.explanation)+'</div></div>';
+    }
+
+    const isLast = state.idx === total-1;
+
+    app.innerHTML =
+      '<div class="quiz-topbar">' +
+        '<div class="progress-track"><div class="progress-fill" style="width:'+pct+'%"></div></div>' +
+        '<div class="quiz-meta"><span>Question '+(state.idx+1)+' of '+total+'</span>' +
+        '<span class="score-chip">'+correctSoFar+' correct</span></div>' +
+      '</div>' +
+      '<div class="tag-row"><span class="tag diff-'+q.difficulty+'">'+q.difficulty+'</span><span class="tag">'+esc(q.section)+'</span></div>' +
+      renderContext(q.context) +
+      '<div class="stem">'+esc(q.stem)+'</div>' +
+      '<div class="options">'+optsHtml+'</div>' +
+      feedbackHtml +
+      '<div class="quiz-actions">' +
+        (state.lockedThisQ
+          ? '<span></span><button class="btn primary" id="nextBtn">'+(isLast?'Finish':'Next')+' &rarr;</button>'
+          : '<button class="btn ghost" id="skipBtn">Skip</button><span></span>') +
+      '</div>';
+
+    if(!state.lockedThisQ){
+      app.querySelectorAll('.opt').forEach(el=>{
+        el.addEventListener('click', ()=>{
+          const letter = el.getAttribute('data-letter');
+          answerQuestion(q, letter);
+        });
+      });
+      document.getElementById('skipBtn').addEventListener('click', ()=>{
+        answerQuestion(q, null);
+      });
+    } else {
+      document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+    }
+  }
+
+  function answerQuestion(q, letter){
+    if(state.lockedThisQ) return;
+    state.lockedThisQ = true;
+    state.selectedThisQ = letter;
+    let status;
+    if(letter === null) status = 'skipped';
+    else status = (letter === q.correct) ? 'correct' : 'wrong';
+    state.answers[q.id] = {status, selected:letter};
+    renderQuiz();
+  }
+
+  function nextQuestion(){
+    if(state.idx < state.activeSet.length-1){
+      state.idx++;
+      state.lockedThisQ = false;
+      state.selectedThisQ = null;
+      renderQuiz();
+    } else {
+      go('end');
+    }
+  }
+
+  // ---------- END SCREEN ----------
+  function renderEnd(){
+    const set = state.activeSet;
+    const total = set.length;
+    const results = set.map(q=>({q, res:state.answers[q.id] || {status:'skipped', selected:null}}));
+    const correct = results.filter(r=>r.res.status==='correct').length;
+    const wrong = results.filter(r=>r.res.status==='wrong').length;
+    const skipped = results.filter(r=>r.res.status==='skipped').length;
+    const pct = total ? Math.round((correct/total)*100) : 0;
+
+    const diffs = ['Easy','Moderate','Hard'];
+    const diffHtml = diffs.map(d=>{
+      const inDiff = results.filter(r=>r.q.difficulty===d);
+      if(inDiff.length===0) return '';
+      const c = inDiff.filter(r=>r.res.status==='correct').length;
+      return '<div class="bd-card"><div class="bd-num">'+c+'/'+inDiff.length+'</div><div class="bd-label">'+d+'</div></div>';
+    }).join('');
+
+    const missed = results.filter(r=>r.res.status!=='correct');
+
+    function reviewItem(r){
+      const q = r.q, res = r.res;
+      const tagCls = res.status==='skipped' ? 'skipped' : 'wrong';
+      const tagText = res.status==='skipped' ? 'Skipped' : 'Incorrect';
+      const yourAnsLine = res.status==='wrong'
+        ? '<div class="ri-line">Your answer: <b>'+res.selected+'</b> &middot; Correct answer: <b>'+q.correct+'</b></div>'
+        : '<div class="ri-line">Correct answer: <b>'+q.correct+'</b></div>';
+      return '<div class="review-item">' +
+        '<span class="ri-tag '+tagCls+'">'+tagText+'</span>' +
+        '<div class="ri-stem">'+esc(q.stem)+'</div>' +
+        yourAnsLine +
+        '<div class="ri-exp">'+esc(q.explanation)+'</div>' +
+      '</div>';
+    }
+
+    app.innerHTML = masthead() +
+      '<h1 class="title">'+esc(state.lastSetDescriptor ? state.lastSetDescriptor.label : 'Results')+'</h1>' +
+      '<div class="score-hero"><div class="big-num">'+correct+' / '+total+'</div>' +
+        '<div class="big-label">'+pct+'% correct &middot; '+wrong+' incorrect &middot; '+skipped+' skipped</div></div>' +
+      '<div class="breakdown">'+diffHtml+'</div>' +
+      '<div class="btn-row">' +
+        '<button class="btn primary" id="retryBtn">Retry Same Set</button>' +
+        '<button class="btn" id="menuBtn">Back to Menu</button>' +
+      '</div>' +
+      (missed.length ? ('<div class="section-heading">Review &mdash; missed &amp; skipped ('+missed.length+')</div>' + missed.map(reviewItem).join(''))
+        : '<p class="empty-note">Perfect run &mdash; nothing to review.</p>');
+
+    document.getElementById('retryBtn').addEventListener('click', retrySameSet);
+    document.getElementById('menuBtn').addEventListener('click', ()=>go('home'));
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,6098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NABARD Grade A — ESI/GA Practice Quiz</title>
+<style>
+  :root{
+    --bg:#0f1115;
+    --panel:#171a21;
+    --panel-2:#1d212b;
+    --border:#2a2f3a;
+    --text:#e8e9ec;
+    --muted:#9aa1af;
+    --accent:#c9a26a;
+    --accent-2:#7fb3d5;
+    --correct:#2e7d5b;
+    --correct-bg:#12291f;
+    --wrong:#a83e3e;
+    --wrong-bg:#2b1414;
+    --skip:#5a5f6b;
+    serif-font: "Georgia","Iowan Old Style", serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    min-height:100vh;
+    line-height:1.5;
+  }
+  h1,h2,h3,.serif{
+    font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif;
+    font-weight:600;
+  }
+  #app{
+    max-width:760px;
+    margin:0 auto;
+    padding:20px 16px 60px;
+    min-height:100vh;
+  }
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:18px;
+  }
+  .brand{
+    font-family:Georgia,serif;
+    font-size:1.05rem;
+    letter-spacing:.3px;
+    color:var(--accent);
+  }
+  .brand small{
+    display:block;
+    font-family:-apple-system,sans-serif;
+    color:var(--muted);
+    font-size:.68rem;
+    letter-spacing:.5px;
+    margin-top:2px;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    background:var(--panel-2);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:12px 18px;
+    font-size:.95rem;
+    cursor:pointer;
+    transition:background .15s,border-color .15s,transform .05s;
+    text-align:left;
+  }
+  .btn:hover{background:#232833;border-color:#3a4150;}
+  .btn:active{transform:scale(.98);}
+  .btn.primary{
+    background:linear-gradient(180deg,#c9a26a,#b5895a);
+    color:#20160a;
+    border:none;
+    font-weight:600;
+  }
+  .btn.primary:hover{filter:brightness(1.06);}
+  .btn.ghost{background:transparent;}
+  .btn.small{padding:8px 12px;font-size:.82rem;border-radius:8px;}
+  .btn.full{width:100%;}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:20px;
+    margin-bottom:14px;
+  }
+  .hero{
+    text-align:center;
+    padding:30px 16px 10px;
+  }
+  .hero h1{font-size:1.5rem;margin:6px 0 4px;color:var(--text);}
+  .hero p{color:var(--muted);font-size:.9rem;margin:0 0 22px;}
+  .hero .badge{
+    display:inline-block;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--accent);
+    font-size:.72rem;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:4px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+  }
+  .mode-grid{display:flex;flex-direction:column;gap:12px;}
+  .mode-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px;
+    cursor:pointer;
+    transition:border-color .15s, background .15s;
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .mode-card:hover{border-color:var(--accent);background:#1b1f28;}
+  .mode-icon{
+    font-size:1.6rem;
+    width:44px;height:44px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--panel-2);
+    border-radius:12px;
+    flex-shrink:0;
+  }
+  .mode-title{font-weight:600;font-size:1rem;margin-bottom:2px;}
+  .mode-sub{color:var(--muted);font-size:.82rem;}
+
+  .toggle-row{
+    display:flex;
+    gap:8px;
+    background:var(--panel-2);
+    border-radius:10px;
+    padding:4px;
+    margin:14px 0;
+  }
+  .toggle-btn{
+    flex:1;
+    text-align:center;
+    padding:9px 6px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:.85rem;
+    color:var(--muted);
+    transition:background .15s,color .15s;
+  }
+  .toggle-btn.active{background:var(--accent);color:#20160a;font-weight:600;}
+
+  .section-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .section-tile{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px;
+    cursor:pointer;
+    transition:border-color .15s,background .15s;
+  }
+  .section-tile:hover{border-color:var(--accent-2);background:#1b1f28;}
+  .section-tile .stname{font-size:.88rem;font-weight:600;margin-bottom:6px;line-height:1.25;}
+  .section-tile .stcount{font-size:.72rem;color:var(--muted);}
+
+  .progress-wrap{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:14px;
+  }
+  .progress-bar-bg{
+    flex:1;
+    height:8px;
+    background:var(--panel-2);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  .progress-bar-fg{
+    height:100%;
+    background:linear-gradient(90deg,var(--accent-2),var(--accent));
+    transition:width .25s ease;
+  }
+  .score-pill{
+    font-size:.8rem;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    padding:5px 10px;
+    border-radius:20px;
+    color:var(--accent);
+    white-space:nowrap;
+    font-weight:600;
+  }
+  .qmeta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+    font-size:.72rem;
+    color:var(--muted);
+    letter-spacing:.4px;
+    text-transform:uppercase;
+  }
+  .diff-tag{
+    padding:2px 8px;
+    border-radius:20px;
+    font-size:.68rem;
+    letter-spacing:.3px;
+  }
+  .diff-Easy{background:#173225;color:#7bd6a2;}
+  .diff-Moderate{background:#33291a;color:#e0b877;}
+  .diff-Hard{background:#331a1a;color:#e08787;}
+
+  .context-box{
+    background:var(--panel-2);
+    border-left:3px solid var(--accent-2);
+    padding:12px 14px;
+    border-radius:8px;
+    font-size:.88rem;
+    color:#c7cbd4;
+    margin-bottom:12px;
+    font-style:italic;
+  }
+  .stmt-list{
+    background:var(--panel-2);
+    border-radius:8px;
+    padding:12px 16px;
+    margin-bottom:12px;
+    font-size:.88rem;
+  }
+  .stmt-list ol{margin:0;padding-left:18px;}
+  .stmt-list li{margin-bottom:6px;color:#d5d8de;}
+
+  .question-text{
+    font-family:Georgia,serif;
+    font-size:1.08rem;
+    line-height:1.45;
+    margin-bottom:16px;
+    color:var(--text);
+  }
+  .option{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:13px 14px;
+    margin-bottom:9px;
+    cursor:pointer;
+    transition:border-color .15s,background .15s;
+    font-size:.92rem;
+  }
+  .option:hover:not(.locked){border-color:var(--accent-2);}
+  .option .optkey{
+    flex-shrink:0;
+    width:26px;height:26px;
+    border-radius:50%;
+    background:var(--panel);
+    border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    font-size:.78rem;font-weight:700;color:var(--muted);
+  }
+  .option.correct{border-color:var(--correct);background:var(--correct-bg);}
+  .option.correct .optkey{background:var(--correct);color:#fff;border-color:var(--correct);}
+  .option.wrong{border-color:var(--wrong);background:var(--wrong-bg);}
+  .option.wrong .optkey{background:var(--wrong);color:#fff;border-color:var(--wrong);}
+  .option.locked{cursor:default;}
+  .option.dim{opacity:.5;}
+
+  .feedback-box{
+    margin-top:14px;
+    padding:14px 16px;
+    border-radius:10px;
+    font-size:.88rem;
+    line-height:1.5;
+  }
+  .feedback-box.correct{background:var(--correct-bg);border:1px solid var(--correct);color:#bfe8d3;}
+  .feedback-box.wrong{background:var(--wrong-bg);border:1px solid var(--wrong);color:#f0c6c6;}
+  .feedback-box.skipped{background:var(--panel-2);border:1px solid var(--border);color:var(--muted);}
+  .feedback-box b{color:var(--text);}
+
+  .action-row{
+    display:flex;
+    gap:10px;
+    margin-top:16px;
+  }
+  .action-row .btn{flex:1;}
+
+  .end-hero{text-align:center;padding:10px 0 18px;}
+  .end-score{
+    font-family:Georgia,serif;
+    font-size:2.6rem;
+    color:var(--accent);
+    margin:6px 0;
+  }
+  .end-sub{color:var(--muted);font-size:.9rem;}
+  .diff-breakdown{
+    display:flex;
+    gap:10px;
+    margin:18px 0;
+  }
+  .diff-block{
+    flex:1;
+    background:var(--panel-2);
+    border-radius:12px;
+    padding:12px 8px;
+    text-align:center;
+    border:1px solid var(--border);
+  }
+  .diff-block .dbnum{font-size:1.2rem;font-weight:700;font-family:Georgia,serif;}
+  .diff-block .dblabel{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-top:2px;}
+
+  .review-item{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:10px;
+  }
+  .review-item .rq{font-size:.88rem;margin-bottom:8px;color:var(--text);}
+  .review-item .rtag{
+    display:inline-block;
+    font-size:.65rem;
+    padding:2px 8px;
+    border-radius:20px;
+    margin-bottom:8px;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+  }
+  .rtag.missed{background:var(--wrong-bg);color:#f0c6c6;}
+  .rtag.skipped-tag{background:var(--panel-2);color:var(--muted);}
+  .review-item .rans{font-size:.82rem;color:#bfe8d3;margin-bottom:6px;}
+  .review-item .rexp{font-size:.82rem;color:var(--muted);}
+
+  .empty-note{
+    text-align:center;
+    color:var(--muted);
+    padding:30px 10px;
+    font-size:.9rem;
+  }
+  .link-btn{
+    background:none;border:none;color:var(--accent-2);cursor:pointer;font-size:.85rem;padding:4px 0;text-decoration:underline;
+  }
+  ::-webkit-scrollbar{width:8px;}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px;}
+
+  @media (max-width:420px){
+    .section-grid{grid-template-columns:1fr;}
+    .end-score{font-size:2.1rem;}
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+const QUESTIONS = [
+ {
+  "id": 1,
+  "t": "Phase1+2 Schemes",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the Atmanirbhar Panchayat Programme is CORRECT?",
+  "o": [
+   [
+    "A",
+    "It was launched by Union Minister Rajiv Ranjan Singh under the Ministry of Panchayati Raj and the Ministry of Fisheries, Animal Husbandry and Dairying, and includes the SAMARTH Panchayat Portal."
+   ],
+   [
+    "B",
+    "The SAMARTH Panchayat Portal was launched solely under the Ministry of Rural Development."
+   ],
+   [
+    "C",
+    "The programme was launched by Union Minister Shivraj Singh Chouhan."
+   ],
+   [
+    "D",
+    "The SAMARTH Panchayat Portal focuses exclusively on urban local bodies."
+   ],
+   [
+    "E",
+    "The programme was launched jointly by the Ministry of Panchayati Raj and the Ministry of Rural Development."
+   ]
+  ],
+  "a": "A",
+  "e": "The Atmanirbhar Panchayat Programme (SAMARTH Panchayat Portal) was launched by Union Minister Rajiv Ranjan Singh, who holds the Ministry of Panchayati Raj and the Ministry of Fisheries, Animal Husbandry and Dairying."
+ },
+ {
+  "id": 2,
+  "t": "Phase1+2 Schemes",
+  "d": "Hard",
+  "ty": "combo",
+  "c": "As of August 2026, President Droupadi Murmu gave assent to the Taxation and Other Laws (Amendment) Act, 2026 and amendments to the Payment and Settlement Systems (PSS) Act, 2007, introducing several income tax exemptions.",
+  "s": [
+   "FIIs and the Bank for International Settlements have been exempted from income tax on interest earned and capital gains on government securities.",
+   "The exemption applies to income arising on or after 1 October 2026 and will remain in force for 15 years, till 31 March 2041.",
+   "Earlier, the short-term capital gains tax rate was 20% and the interest income rate was 30%.",
+   "Income of a foreign company arising from providing capital goods, equipment or tooling is exempted until 2040-41."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1 only"
+   ],
+   [
+    "B",
+    "1, 2 and 4"
+   ],
+   [
+    "C",
+    "All of the above"
+   ],
+   [
+    "D",
+    "1 and 2 only"
+   ],
+   [
+    "E",
+    "2 and 3 only"
+   ]
+  ],
+  "a": "B",
+  "e": "Statement 3 is incorrect. The earlier rates were: interest income 20%, short-term capital gains 30%, long-term capital gains 12.5%."
+ },
+ {
+  "id": 3,
+  "t": "Phase1+2 Schemes",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Mobile phones",
+   "Laptops",
+   "Servers",
+   "Printed circuit board assemblies",
+   "Sub-assemblies of finished goods"
+  ],
+  "q": "Which of the above was NOT among the items listed as eligible for the electronic components income tax exemption?",
+  "o": [
+   [
+    "A",
+    "Only 1"
+   ],
+   [
+    "B",
+    "Only 3"
+   ],
+   [
+    "C",
+    "Only 4"
+   ],
+   [
+    "D",
+    "2 and 5"
+   ],
+   [
+    "E",
+    "None, all are eligible"
+   ]
+  ],
+  "a": "C",
+  "e": "The eligible items are mobile phones, laptops, servers and sub-assemblies of finished goods. Printed circuit board assemblies were not listed."
+ },
+ {
+  "id": 4,
+  "t": "Phase1+2 Schemes",
+  "d": "Hard",
+  "ty": "combo",
+  "c": "Recently in 2026, amendments relating to Special Purpose Vehicles (SPVs) of business trusts and the Payment and Settlement Systems Act were introduced.",
+  "s": [
+   "Surcharge on income tax payable by an SPV of a business trust increased from 10% to 25%.",
+   "Unit holders of business trusts such as REITs and InvITs have been given exemption.",
+   "Section 10A of the PSS Act, 2007 was amended to allow modification of the zero-MDR framework on UPI and RuPay transactions.",
+   "The UPI and Services Steering Committee that decides applicable MDR charges is headed by the RBI."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1 and 4"
+   ],
+   [
+    "B",
+    "2 and 3 only"
+   ],
+   [
+    "C",
+    "Only 4"
+   ],
+   [
+    "D",
+    "1, 2 and 3"
+   ],
+   [
+    "E",
+    "All of the above"
+   ]
+  ],
+  "a": "D",
+  "e": "Statement 4 is incorrect — the UPI and Services Steering Committee is headed by NPCI, not the RBI."
+ },
+ {
+  "id": 5,
+  "t": "Phase1+2 Schemes",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Bharat Taxi is CORRECT?",
+  "o": [
+   [
+    "A",
+    "Bharat Taxi charges a flat 15% commission on all rides."
+   ],
+   [
+    "B",
+    "Bharat Taxi was established under the Companies Act, 2013."
+   ],
+   [
+    "C",
+    "Bharat Taxi aims to achieve nationwide presence by 2027."
+   ],
+   [
+    "D",
+    "Bharat Taxi was founded by seven national-level cooperative institutions."
+   ],
+   [
+    "E",
+    "Bharat Taxi was established on 6 June 2025 under the Multi-State Cooperative Societies Act, 2002."
+   ]
+  ],
+  "a": "E",
+  "e": "Bharat Taxi, India's first cooperative-led ride-hailing platform, was established on 6 June 2025 under the Multi-State Cooperative Societies Act, 2002."
+ },
+ {
+  "id": 6,
+  "t": "Phase1+2 Schemes",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "National Cooperative Development Corporation (NCDC)",
+   "Indian Farmers Fertiliser Cooperative Limited (IFFCO)",
+   "National Bank for Agriculture and Rural Development (NABARD)",
+   "National Cooperative Union of India (NCUI)",
+   "Krishak Bharati Cooperative Limited (KRIBHCO)"
+  ],
+  "q": "Bharat Taxi was formally established by eight national-level cooperative institutions. Which of the above was NOT one of the eight founding institutions?",
+  "o": [
+   [
+    "A",
+    "National Cooperative Union of India (NCUI)"
+   ],
+   [
+    "B",
+    "KRIBHCO"
+   ],
+   [
+    "C",
+    "NCDC"
+   ],
+   [
+    "D",
+    "IFFCO"
+   ],
+   [
+    "E",
+    "NABARD"
+   ]
+  ],
+  "a": "A",
+  "e": "The eight founders are NCDC, IFFCO, NABARD, KRIBHCO, Amul (GCMMF), NAFED, NDDB and NCEL. NCUI was not among them."
+ },
+ {
+  "id": 7,
+  "t": "Phase1+2 Schemes",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "Cooperative earnings credited as Sarathis' capital: 20%.",
+   "Amount distributed among Sarathis: 80%, based on kilometres travelled.",
+   "A 7% service charge applies at all Bharat Taxi bookings.",
+   "Share value is ₹100 per share and the minimum investment to become a partner is ₹500."
+  ],
+  "q": "With reference to Bharat Taxi's earnings and ownership model, which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1 and 3"
+   ],
+   [
+    "B",
+    "1, 2 and 4"
+   ],
+   [
+    "C",
+    "All of the above"
+   ],
+   [
+    "D",
+    "2 and 3 only"
+   ],
+   [
+    "E",
+    "Only 4"
+   ]
+  ],
+  "a": "B",
+  "e": "Statement 3 is incorrect — the 7% service charge applies only at Bharat Taxi-operated airport prepaid booths, not to all bookings."
+ },
+ {
+  "id": 8,
+  "t": "Phase1+2 Schemes",
+  "d": "Hard",
+  "ty": "combo",
+  "c": "Several conditions for tax exemption of investment funds registered outside India but managed from India have been removed.",
+  "s": [
+   "Minimum 25 members condition removed.",
+   "Maximum 10% participation by a single investor condition removed.",
+   "Minimum monthly average corpus of ₹500 crore condition removed.",
+   "Maximum 25% investment in a single entity condition removed."
+  ],
+  "q": "Which of the above conditions were actually removed?",
+  "o": [
+   [
+    "A",
+    "2 and 4"
+   ],
+   [
+    "B",
+    "Only 3"
+   ],
+   [
+    "C",
+    "1, 2 and 4"
+   ],
+   [
+    "D",
+    "All of the above"
+   ],
+   [
+    "E",
+    "1 and 3"
+   ]
+  ],
+  "a": "C",
+  "e": "Statement 3 is incorrect — the removed condition was a minimum monthly average corpus of ₹100 crore, not ₹500 crore."
+ },
+ {
+  "id": 9,
+  "t": "Phase1+2 Schemes",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which statement about the healthcare benefit for Bharat Taxi's Sarathis is CORRECT?",
+  "o": [
+   [
+    "A",
+    "Sarathis get treatment coverage of up to ₹10 lakh."
+   ],
+   [
+    "B",
+    "AB-PMJAY is described as Asia's largest healthcare scheme."
+   ],
+   [
+    "C",
+    "Personal accident insurance for Sarathis is ₹10 lakh through IFFCO Tokio."
+   ],
+   [
+    "D",
+    "Sarathis become eligible for free medical treatment of up to ₹5 lakh under Ayushman Bharat–PMJAY, launched in 2018 and described as the world's largest public healthcare scheme."
+   ],
+   [
+    "E",
+    "AB-PMJAY was launched in 2020."
+   ]
+  ],
+  "a": "D",
+  "e": "AB-PMJAY, launched in 2018, provides Sarathis free medical treatment up to ₹5 lakh; personal accident insurance is a separate ₹5 lakh cover via IFFCO Tokio."
+ },
+ {
+  "id": 10,
+  "t": "Phase1+2 Schemes",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about related digital platforms is CORRECT?",
+  "o": [
+   [
+    "A",
+    "DigiLocker was launched by the Ministry of Labour and Employment."
+   ],
+   [
+    "B",
+    "e-Shram is a flagship initiative under the Digital India programme by MeitY."
+   ],
+   [
+    "C",
+    "Both DigiLocker and e-Shram are run by NPCI."
+   ],
+   [
+    "D",
+    "e-Shram creates a database exclusively of formal-sector employees."
+   ],
+   [
+    "E",
+    "DigiLocker is a flagship initiative of MeitY under the Digital India programme, while e-Shram was launched by the Ministry of Labour and Employment."
+   ]
+  ],
+  "a": "E",
+  "e": "DigiLocker (MeitY, Digital India) and e-Shram (Ministry of Labour and Employment, database of unorganised workers) are distinct platforms with different nodal ministries."
+ },
+ {
+  "id": 11,
+  "t": "Phase1+2 Schemes",
+  "d": "Moderate",
+  "ty": "combo",
+  "s": [
+   "Bharat Taxi aims to achieve nationwide presence by 2029.",
+   "The Bike Didi initiative was launched to encourage women's participation in the transport sector.",
+   "Bharat Taxi follows a zero-commission model, allowing Sarathis to retain their full fare earnings."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "All of the above"
+   ],
+   [
+    "B",
+    "1 and 2 only"
+   ],
+   [
+    "C",
+    "2 and 3 only"
+   ],
+   [
+    "D",
+    "Only 1"
+   ],
+   [
+    "E",
+    "None of the above"
+   ]
+  ],
+  "a": "A",
+  "e": "All three statements accurately reflect Bharat Taxi's expansion plan, women's participation initiative and zero-commission model."
+ },
+ {
+  "id": 12,
+  "t": "Phase1+2 Schemes",
+  "d": "Easy",
+  "ty": "statement",
+  "q": "Which of the following statements on the diamond business tax exemption is CORRECT?",
+  "o": [
+   [
+    "A",
+    "Diamond business income was taxed at a reduced 5% rate rather than exempted."
+   ],
+   [
+    "B",
+    "Income from the sale of rough diamonds has been exempted from income tax."
+   ],
+   [
+    "C",
+    "Income from polished diamonds alone has been exempted."
+   ],
+   [
+    "D",
+    "The diamond exemption applies only to exports."
+   ],
+   [
+    "E",
+    "The diamond exemption is valid till 2030."
+   ]
+  ],
+  "a": "B",
+  "e": "The GA capsule notes that income from the sale of rough diamonds has been exempted."
+ },
+ {
+  "id": 13,
+  "t": "Cabinet Affairs",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the anti-paper leak Bill is CORRECT?",
+  "o": [
+   [
+    "A",
+    "The Bill was approved by the Cabinet Committee on Security."
+   ],
+   [
+    "B",
+    "The maximum fine proposed is ₹1 crore."
+   ],
+   [
+    "C",
+    "The Union Cabinet approved a Bill introducing penalties of up to 10 years' imprisonment and a fine up to ₹10 crore for organised paper leak offences, along with fast-track courts."
+   ],
+   [
+    "D",
+    "The Bill proposes penalties of up to 7 years and a fine of ₹5 crore."
+   ],
+   [
+    "E",
+    "The Bill amends the Public Examinations Act, 2021."
+   ]
+  ],
+  "a": "C",
+  "e": "The Bill amends the Public Examinations (Prevention of Unfair Means) Act, 2024, with penalties up to 10 years and a ₹10 crore fine, plus fast-track courts."
+ },
+ {
+  "id": 14,
+  "t": "Cabinet Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "c": "Recently in August 2026, the Ministry of Rural Development launched a new nationwide entrepreneurship campaign under DAY-NRLM.",
+  "s": [
+   "The campaign runs for three months, from 21 August to 21 November 2026.",
+   "It aims to support the creation of 6 crore Lakhpati Didis.",
+   "The launch coincided with World Entrepreneurs Day observed on 15 August.",
+   "It is launched under the Deendayal Antyodaya Yojana–National Rural Livelihoods Mission (DAY-NRLM)."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1 and 3"
+   ],
+   [
+    "B",
+    "2, 3 and 4"
+   ],
+   [
+    "C",
+    "Only 4"
+   ],
+   [
+    "D",
+    "1, 2 and 4"
+   ],
+   [
+    "E",
+    "All of the above"
+   ]
+  ],
+  "a": "D",
+  "e": "Statement 3 is incorrect — World Entrepreneurs Day is observed on 21 August, the same day the campaign was launched."
+ },
+ {
+  "id": 15,
+  "t": "Cabinet Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "c": "As of August 2026, MeitY Startup Hub launched the 3rd cohort of its Entrepreneur-in-Residence programme.",
+  "s": [
+   "It was launched at the GENESIS NextGen Startup Summit in Coimbatore.",
+   "Financial assistance of up to ₹15 lakh is provided.",
+   "It targets startups based in Tier-II and Tier-III cities.",
+   "GENESIS has a total budget outlay of ₹490 crore."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "All of the above"
+   ],
+   [
+    "B",
+    "2 and 3 only"
+   ],
+   [
+    "C",
+    "1 and 2"
+   ],
+   [
+    "D",
+    "Only 4"
+   ],
+   [
+    "E",
+    "1, 3 and 4"
+   ]
+  ],
+  "a": "E",
+  "e": "Statement 2 is incorrect — financial assistance under GENESIS EIR Cohort 3.0 is up to ₹10 lakh, not ₹15 lakh."
+ },
+ {
+  "id": 16,
+  "t": "Cabinet Affairs",
+  "d": "Easy",
+  "ty": "acronym",
+  "q": "What does GENESIS, the MeitY Startup Hub programme, stand for?",
+  "o": [
+   [
+    "A",
+    "Gen-Next Support for Innovative Startups"
+   ],
+   [
+    "B",
+    "Generation of New Entrepreneurial Startups and Innovation Support"
+   ],
+   [
+    "C",
+    "Government Enabled Network for Emerging Startups in India"
+   ],
+   [
+    "D",
+    "Gen-Next Ecosystem for National Entrepreneurship and Startup Investment Support"
+   ],
+   [
+    "E",
+    "Global Entrepreneurship Network for Emerging Startups in India"
+   ]
+  ],
+  "a": "A",
+  "e": "GENESIS stands for Gen-Next Support for Innovative Startups."
+ },
+ {
+  "id": 17,
+  "t": "Cabinet Affairs",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Applicant must be an Indian citizen",
+   "Innovation should be at Technology Readiness Level (TRL) 1-4",
+   "Incorporated startup should be less than two years old",
+   "Startup must have at least 5 employees",
+   "Innovation should not have already received assistance of more than ₹10 lakh"
+  ],
+  "q": "Which of the above was NOT one of the eligibility criteria for GENESIS EIR Cohort 3.0?",
+  "o": [
+   [
+    "A",
+    "Only 2"
+   ],
+   [
+    "B",
+    "Only 4"
+   ],
+   [
+    "C",
+    "Only 3"
+   ],
+   [
+    "D",
+    "Only 5"
+   ],
+   [
+    "E",
+    "Only 1"
+   ]
+  ],
+  "a": "B",
+  "e": "A minimum employee count was not part of the stated eligibility criteria for GENESIS EIR Cohort 3.0."
+ },
+ {
+  "id": 18,
+  "t": "Cabinet Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "PNGRB authorised around 1,800 km of new LPG pipeline infrastructure across six states.",
+   "The investment is about ₹7,000 crore, to be developed by GAIL (India) Limited.",
+   "The network expansion is from 9,500 km down to 7,700 km.",
+   "States covered include Telangana, Maharashtra, Uttar Pradesh, Uttarakhand, Karnataka and Goa."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1 and 3"
+   ],
+   [
+    "B",
+    "Only 4"
+   ],
+   [
+    "C",
+    "1, 2 and 4"
+   ],
+   [
+    "D",
+    "All of the above"
+   ],
+   [
+    "E",
+    "2 and 3 only"
+   ]
+  ],
+  "a": "C",
+  "e": "Statement 3 reverses the direction — the network is expanding from 7,700 km to 9,500 km, not shrinking."
+ },
+ {
+  "id": 19,
+  "t": "Cabinet Affairs",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Telangana",
+   "Maharashtra",
+   "Andhra Pradesh",
+   "Uttarakhand",
+   "Karnataka"
+  ],
+  "q": "Which of the above states was NOT among the six states covered under the PNGRB-approved LPG pipeline project?",
+  "o": [
+   [
+    "A",
+    "Karnataka"
+   ],
+   [
+    "B",
+    "Telangana"
+   ],
+   [
+    "C",
+    "Maharashtra"
+   ],
+   [
+    "D",
+    "Andhra Pradesh"
+   ],
+   [
+    "E",
+    "Uttarakhand"
+   ]
+  ],
+  "a": "D",
+  "e": "The six states are Telangana, Maharashtra, Uttar Pradesh, Uttarakhand, Karnataka and Goa; Andhra Pradesh is not among them."
+ },
+ {
+  "id": 20,
+  "t": "Cabinet Affairs",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Dak Sewa and Dak MITRA is CORRECT?",
+  "o": [
+   [
+    "A",
+    "Dak MITRA offers services in 23 languages."
+   ],
+   [
+    "B",
+    "Both apps were developed by NPCI."
+   ],
+   [
+    "C",
+    "Dak Sewa was launched by the Ministry of Rural Development."
+   ],
+   [
+    "D",
+    "Dak MITRA is available only in English and Hindi."
+   ],
+   [
+    "E",
+    "Dak Sewa offers 24×7 services in 23 languages, while Dak MITRA was indigenously developed by the Centre for Excellence in Postal Technology."
+   ]
+  ],
+  "a": "E",
+  "e": "Dak Sewa provides 24×7 services in 23 languages; Dak MITRA, developed by the CoE in Postal Technology, is the mobile interface for transactions and rural assistance."
+ },
+ {
+  "id": 21,
+  "t": "Cabinet Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "Mission Samriddh Gaon was launched by Union Rural Development Minister Shivraj Singh Chouhan at Krishi Bhawan, New Delhi.",
+   "Its core objective is to develop poverty-free, employment-rich villages with assured basic amenities.",
+   "The mission is aligned with the broader vision of Atmanirbhar Bharat.",
+   "It adopts a comprehensive and integrated model of rural development, instead of addressing issues in isolation."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1, 2 and 4"
+   ],
+   [
+    "B",
+    "All of the above"
+   ],
+   [
+    "C",
+    "1 and 3"
+   ],
+   [
+    "D",
+    "Only 2"
+   ],
+   [
+    "E",
+    "2, 3 and 4"
+   ]
+  ],
+  "a": "A",
+  "e": "Statement 3 is incorrect — Mission Samriddh Gaon is aligned with the vision of Viksit Bharat, not Atmanirbhar Bharat."
+ },
+ {
+  "id": 22,
+  "t": "Cabinet Affairs",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Creation of sustainable employment opportunities in rural areas",
+   "Reduction of rural poverty through economic opportunities and self-reliance",
+   "Development of prosperous and self-reliant rural communities",
+   "Promotion of urban migration for youth employment"
+  ],
+  "q": "Which of the above was NOT a focus area of Mission Samriddh Gaon?",
+  "o": [
+   [
+    "A",
+    "Only 3"
+   ],
+   [
+    "B",
+    "Only 4"
+   ],
+   [
+    "C",
+    "All are focus areas"
+   ],
+   [
+    "D",
+    "Only 1"
+   ],
+   [
+    "E",
+    "Only 2"
+   ]
+  ],
+  "a": "B",
+  "e": "Promoting urban migration was not a stated focus area; the mission focuses on developing rural areas themselves."
+ },
+ {
+  "id": 23,
+  "t": "Cabinet Affairs",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about PPPAC's airport privatisation approval is CORRECT?",
+  "o": [
+   [
+    "A",
+    "The concessionaire must retain 100% of AAI employees."
+   ],
+   [
+    "B",
+    "This was the second round of airport privatisation."
+   ],
+   [
+    "C",
+    "PPPAC, chaired by Anuradha Thakur, gave in-principle approval for the third round of privatisation of 11 airports grouped into 5 bundles with a 50-year concession period."
+   ],
+   [
+    "D",
+    "The approval covers 15 airports in 5 bundles."
+   ],
+   [
+    "E",
+    "The concession period is 30 years."
+   ]
+  ],
+  "a": "C",
+  "e": "PPPAC granted in-principle approval for the third round of airport privatisation — 11 airports in 5 bundles, 50-year concession, with 60% of AAI employees retained for 3 years."
+ },
+ {
+  "id": 24,
+  "t": "Cabinet Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "Union Minister Sarbananda Sonowal chaired the inaugural edition of Sagar Samvad.",
+   "The key target is the addition of 100 vessels to India's merchant fleet over the next five years.",
+   "The National Shipping Board is a statutory advisory body constituted under the Merchant Shipping Act, 1958.",
+   "NSB was constituted under the Companies Act, 2013."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1 and 4"
+   ],
+   [
+    "B",
+    "3 and 4 only"
+   ],
+   [
+    "C",
+    "Only 2"
+   ],
+   [
+    "D",
+    "1, 2 and 3"
+   ],
+   [
+    "E",
+    "All of the above"
+   ]
+  ],
+  "a": "D",
+  "e": "Statement 4 is incorrect — the National Shipping Board is constituted under the Merchant Shipping Act, 1958, not the Companies Act."
+ },
+ {
+  "id": 25,
+  "t": "Cabinet Affairs",
+  "d": "Easy",
+  "ty": "acronym",
+  "q": "What does CMiH 2026, launched by Union Minister G. Kishan Reddy, stand for?",
+  "o": [
+   [
+    "A",
+    "Coal and Minerals Innovation Hub"
+   ],
+   [
+    "B",
+    "Critical Mining and Infrastructure Hackathon"
+   ],
+   [
+    "C",
+    "Central Minerals Innovation Hackathon"
+   ],
+   [
+    "D",
+    "Critical Minerals Investment Hackathon"
+   ],
+   [
+    "E",
+    "Critical Minerals Innovation Hackathon"
+   ]
+  ],
+  "a": "E",
+  "e": "CMiH 2026 stands for Critical Minerals Innovation Hackathon 2026, aligned with the National Critical Mineral Mission."
+ },
+ {
+  "id": 26,
+  "t": "Cabinet Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "CMiH 2026 was launched by Union Minister G. Kishan Reddy.",
+   "It is aligned with the National Critical Mineral Mission.",
+   "Winners will be announced during India Mining Week 2026 (15-17 November 2026).",
+   "The first prize is ₹2 lakh."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1, 2 and 3"
+   ],
+   [
+    "B",
+    "All of the above"
+   ],
+   [
+    "C",
+    "1 and 4"
+   ],
+   [
+    "D",
+    "2 and 4"
+   ],
+   [
+    "E",
+    "Only 3"
+   ]
+  ],
+  "a": "A",
+  "e": "Statement 4 is incorrect — the first prize is ₹1.50 lakh, and the second prize is ₹1 lakh."
+ },
+ {
+  "id": 27,
+  "t": "Banking & Finance",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about IFSCA is CORRECT?",
+  "o": [
+   [
+    "A",
+    "IFSCA regulates only banking activities, not capital markets."
+   ],
+   [
+    "B",
+    "IFSCA was established on 27 April 2020 under the IFSCA Act, 2019, and is headquartered in GIFT City, Gandhinagar."
+   ],
+   [
+    "C",
+    "IFSCA was established in 2019 under the IFSCA Act, 2020."
+   ],
+   [
+    "D",
+    "IFSCA is headquartered in Mumbai."
+   ],
+   [
+    "E",
+    "IFSCA was established in 2015."
+   ]
+  ],
+  "a": "B",
+  "e": "IFSCA, India's unified regulator for International Financial Services Centres, was established on 27 April 2020 under the IFSCA Act, 2019, HQ in GIFT City."
+ },
+ {
+  "id": 28,
+  "t": "Banking & Finance",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "IFSCA granted Nexent Capital an Investment Banking licence.",
+   "It was registered under the IFSCA (Capital Market Intermediaries) Regulations, 2025.",
+   "The company will operate from Mumbai.",
+   "Nexent Capital is permitted to undertake IPOs, FPOs, SPAC listings and secondary listings."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "2 and 3"
+   ],
+   [
+    "B",
+    "Only 4"
+   ],
+   [
+    "C",
+    "1, 2 and 4"
+   ],
+   [
+    "D",
+    "All of the above"
+   ],
+   [
+    "E",
+    "1 and 3"
+   ]
+  ],
+  "a": "C",
+  "e": "Statement 3 is incorrect — Nexent Capital IFSC Private Limited will operate from GIFT City, Gandhinagar, not Mumbai."
+ },
+ {
+  "id": 29,
+  "t": "Banking & Finance",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Initial Public Offerings (IPOs)",
+   "Follow-on Public Offerings (FPOs)",
+   "SPAC listings",
+   "Mutual fund distribution",
+   "Debt Capital Market transactions"
+  ],
+  "q": "Which of the above was NOT among Nexent Capital's authorised activities?",
+  "o": [
+   [
+    "A",
+    "Only 1"
+   ],
+   [
+    "B",
+    "Only 2"
+   ],
+   [
+    "C",
+    "Only 3"
+   ],
+   [
+    "D",
+    "Only 4"
+   ],
+   [
+    "E",
+    "Only 5"
+   ]
+  ],
+  "a": "D",
+  "e": "Mutual fund distribution was not listed; Nexent Capital's authorised activities include IPOs, FPOs, SPAC listings, secondary listings, depository receipt issuances, debt capital market transactions and other capital market advisory services."
+ },
+ {
+  "id": 30,
+  "t": "Banking & Finance",
+  "d": "Easy",
+  "ty": "acronym",
+  "q": "What does the RSVC-AMRIT platform, launched with NABARD's involvement, stand for?",
+  "o": [
+   [
+    "A",
+    "Rural Sustainable Village Centre – Advanced Mission for Rural Innovation and Technology"
+   ],
+   [
+    "B",
+    "Rural Smart Village Council – Agricultural Modernisation for Rural Innovation and Trade"
+   ],
+   [
+    "C",
+    "RuTAGe Smart Village Council – Accelerated Mechanism for Research and Innovative Technology"
+   ],
+   [
+    "D",
+    "Rural Support and Village Cooperation – AMRIT"
+   ],
+   [
+    "E",
+    "RuTAGe Smart Village Centre – Accelerated Medium for Rural Innovations and Technologies"
+   ]
+  ],
+  "a": "E",
+  "e": "RSVC-AMRIT stands for RuTAGe Smart Village Centre – Accelerated Medium for Rural Innovations and Technologies."
+ },
+ {
+  "id": 31,
+  "t": "Banking & Finance",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The platform was launched by Prof. Ajay Kumar Sood, Principal Scientific Adviser to the Government of India.",
+   "It was developed by NABARD in collaboration with the Office of the Principal Scientific Adviser (OPSA).",
+   "It serves as the digital backbone of the RSVC ecosystem.",
+   "Its stakeholders include only government departments."
+  ],
+  "q": "Which of the above statements about the RSVC-AMRIT platform are correct?",
+  "o": [
+   [
+    "A",
+    "1, 2 and 3"
+   ],
+   [
+    "B",
+    "All of the above"
+   ],
+   [
+    "C",
+    "1 and 4"
+   ],
+   [
+    "D",
+    "2 and 4"
+   ],
+   [
+    "E",
+    "Only 3"
+   ]
+  ],
+  "a": "A",
+  "e": "Statement 4 is incorrect — stakeholders include innovators, startups, technology providers, academic institutions, funding agencies and rural communities, not only government departments."
+ },
+ {
+  "id": 32,
+  "t": "Banking & Finance",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The Qatar-India Postal Remittance Service is based on PosTransfer and powered by UPI.",
+   "It was operationalised in Doha, Qatar.",
+   "It was developed solely by NPCI.",
+   "It enables faster, secure and cost-effective cross-border remittances."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "Only 4"
+   ],
+   [
+    "B",
+    "1, 2 and 4"
+   ],
+   [
+    "C",
+    "All of the above"
+   ],
+   [
+    "D",
+    "1 and 3"
+   ],
+   [
+    "E",
+    "2 and 3"
+   ]
+  ],
+  "a": "B",
+  "e": "Statement 3 is incorrect — the service was developed by Qatar Post in partnership with the Department of Posts (India), UPU-IP, and NPCI International Payments Limited (NIPL), not NPCI alone."
+ },
+ {
+  "id": 33,
+  "t": "Banking & Finance",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Qatar Post",
+   "Department of Posts, India",
+   "Universal Postal Union's Interconnection Platform (UPU-IP)",
+   "NPCI International Payments Limited (NIPL)",
+   "Reserve Bank of India"
+  ],
+  "q": "Which of the above was NOT among the entities that developed the Qatar-India Postal Remittance Service?",
+  "o": [
+   [
+    "A",
+    "UPU-IP"
+   ],
+   [
+    "B",
+    "NIPL"
+   ],
+   [
+    "C",
+    "Reserve Bank of India"
+   ],
+   [
+    "D",
+    "Qatar Post"
+   ],
+   [
+    "E",
+    "Department of Posts, India"
+   ]
+  ],
+  "a": "C",
+  "e": "The service was developed by Qatar Post, Department of Posts (India), UPU-IP and NIPL; the RBI was not one of the developing entities."
+ },
+ {
+  "id": 34,
+  "t": "Banking & Finance",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Paul Merchants Finance Private Limited (PMFPL) is CORRECT?",
+  "o": [
+   [
+    "A",
+    "The credit range is ₹5,000 to ₹10 lakh."
+   ],
+   [
+    "B",
+    "PMFPL's first branch opened in Mumbai."
+   ],
+   [
+    "C",
+    "PMFPL is regulated by SEBI, not the RBI."
+   ],
+   [
+    "D",
+    "PMFPL became India's first NBFC to launch exclusive Loan against Silver branches, with a credit range of ₹2,000 to ₹15 lakh, first operational in the UT of Chandigarh."
+   ],
+   [
+    "E",
+    "PMFPL was founded in 2015."
+   ]
+  ],
+  "a": "D",
+  "e": "PMFPL, founded in 2010 and headquartered in Chandigarh, launched India's first exclusive Loan against Silver branches with a credit range of ₹2,000-₹15 lakh."
+ },
+ {
+  "id": 35,
+  "t": "Banking & Finance",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "IDFC FIRST Bank completed a maiden overseas bond issuance of USD 500 million.",
+   "It was facilitated through the IFSC Banking Unit at GIFT City.",
+   "The notes are 3-year fixed-rate senior notes due in 2027.",
+   "The coupon rate is 5.625%, rated investment-grade 'BBB-' by S&P Global Ratings."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "All of the above"
+   ],
+   [
+    "B",
+    "1 and 3"
+   ],
+   [
+    "C",
+    "2 and 3"
+   ],
+   [
+    "D",
+    "Only 4"
+   ],
+   [
+    "E",
+    "1, 2 and 4"
+   ]
+  ],
+  "a": "E",
+  "e": "Statement 3 is incorrect — the notes are due in 2029, not 2027."
+ },
+ {
+  "id": 36,
+  "t": "Banking & Finance",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about IDFC FIRST Bank is CORRECT?",
+  "o": [
+   [
+    "A",
+    "It was formed in 2018 through the merger of IDFC Bank Limited and Capital First Limited, headquartered in Mumbai."
+   ],
+   [
+    "B",
+    "It was formed in 2015."
+   ],
+   [
+    "C",
+    "It is headquartered in Ahmedabad."
+   ],
+   [
+    "D",
+    "It was formed through a merger of IDFC Bank and HDFC."
+   ],
+   [
+    "E",
+    "It was formed in 2020."
+   ]
+  ],
+  "a": "A",
+  "e": "IDFC FIRST Bank was formed in 2018 via the merger of IDFC Bank Limited and Capital First Limited, HQ in Mumbai."
+ },
+ {
+  "id": 37,
+  "t": "Banking & Finance",
+  "d": "Moderate",
+  "ty": "combo",
+  "s": [
+   "ADB approved a loan of USD 230 million to modernise Chennai's water supply infrastructure.",
+   "Key components include 170 km of water supply pipes, 7 pumping stations, and 38 sewer-related infrastructure works.",
+   "The loan covers only new pipeline laying, with no sewer-related works."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "None of the above"
+   ],
+   [
+    "B",
+    "1 and 2"
+   ],
+   [
+    "C",
+    "All of the above"
+   ],
+   [
+    "D",
+    "1 and 3"
+   ],
+   [
+    "E",
+    "Only 2"
+   ]
+  ],
+  "a": "B",
+  "e": "Statement 3 is incorrect — the project also includes 38 sewer-related infrastructure works."
+ },
+ {
+  "id": 38,
+  "t": "Banking & Finance",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The total project cost for Karnataka's government school infrastructure loan is ₹2,500 crore, with ADB's share being ₹1,750 crore.",
+   "The state government's share is ₹750 crore.",
+   "The project duration is 4 years, till 2029-30.",
+   "The loan is meant for private school infrastructure."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "2 and 4"
+   ],
+   [
+    "B",
+    "Only 3"
+   ],
+   [
+    "C",
+    "1, 2 and 3"
+   ],
+   [
+    "D",
+    "All of the above"
+   ],
+   [
+    "E",
+    "1 and 4"
+   ]
+  ],
+  "a": "C",
+  "e": "Statement 4 is incorrect — the ADB loan supports government school infrastructure in Karnataka, not private schools."
+ },
+ {
+  "id": 39,
+  "t": "Banking & Finance",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the Asian Development Bank (ADB) is CORRECT?",
+  "o": [
+   [
+    "A",
+    "ADB has 50 members in total."
+   ],
+   [
+    "B",
+    "ADB is headquartered in Manila and headed by Masatsugu Asakawa currently."
+   ],
+   [
+    "C",
+    "ADB was established in 1960."
+   ],
+   [
+    "D",
+    "ADB was established in 1966, has 69 members (50 from Asia-Pacific), and is currently headed by President Masato Kanda."
+   ],
+   [
+    "E",
+    "ADB was established in 1970."
+   ]
+  ],
+  "a": "D",
+  "e": "ADB, established in 1966, has 69 members (50 from Asia and the Pacific) and its current President is Masato Kanda."
+ },
+ {
+  "id": 40,
+  "t": "Banking & Finance",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "Razorpay's Multi-Currency EEFC facility was launched in partnership with RBL Bank.",
+   "It allows exporters to retain foreign currency earnings instead of immediate conversion.",
+   "Supported currencies are USD, EUR, GBP, AED and SGD.",
+   "The facility is available only to importers."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "All of the above"
+   ],
+   [
+    "B",
+    "1 and 4"
+   ],
+   [
+    "C",
+    "2 and 4"
+   ],
+   [
+    "D",
+    "Only 3"
+   ],
+   [
+    "E",
+    "1, 2 and 3"
+   ]
+  ],
+  "a": "E",
+  "e": "Statement 4 is incorrect — the facility is for exporters and international businesses, not importers."
+ },
+ {
+  "id": 41,
+  "t": "Banking & Finance",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "USD",
+   "EUR",
+   "GBP",
+   "JPY",
+   "AED"
+  ],
+  "q": "Which of the above currencies was NOT among those supported under Razorpay's Multi-Currency EEFC settlement facility?",
+  "o": [
+   [
+    "A",
+    "JPY"
+   ],
+   [
+    "B",
+    "AED"
+   ],
+   [
+    "C",
+    "USD"
+   ],
+   [
+    "D",
+    "EUR"
+   ],
+   [
+    "E",
+    "GBP"
+   ]
+  ],
+  "a": "A",
+  "e": "The supported currencies are USD, EUR, GBP, AED and SGD; JPY is not included."
+ },
+ {
+  "id": 42,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the 80th Independence Day is CORRECT?",
+  "o": [
+   [
+    "A",
+    "This was the first time any PM crossed Nehru's record."
+   ],
+   [
+    "B",
+    "PM Modi addressed the nation for the 13th consecutive time, becoming the second PM after Nehru (who gave 17 consecutive addresses) to achieve this milestone."
+   ],
+   [
+    "C",
+    "PM Modi addressed the nation for the 15th consecutive time."
+   ],
+   [
+    "D",
+    "Nehru delivered 13 consecutive addresses."
+   ],
+   [
+    "E",
+    "The 80th Independence Day was celebrated at India Gate."
+   ]
+  ],
+  "a": "B",
+  "e": "On the 80th Independence Day (Red Fort), PM Modi addressed the nation for the 13th consecutive time, the second PM to do so after Nehru's 17 consecutive addresses."
+ },
+ {
+  "id": 43,
+  "t": "National Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The dual themes were '150 Years of Vande Mataram' and 'Yuva Shakti Leading the Journey to Viksit Bharat@2047'.",
+   "The Guard of Honour was commanded by Lt. Colonel Arjun Singh.",
+   "For the first time in 80 years, Vande Mataram was played by the Army band and sung by guests.",
+   "The celebration marked the 75th Independence Day."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "2 and 3 only"
+   ],
+   [
+    "B",
+    "Only 1"
+   ],
+   [
+    "C",
+    "1, 2 and 3"
+   ],
+   [
+    "D",
+    "All of the above"
+   ],
+   [
+    "E",
+    "1 and 4"
+   ]
+  ],
+  "a": "C",
+  "e": "Statement 4 is incorrect — it was the 80th Independence Day, not the 75th."
+ },
+ {
+  "id": 44,
+  "t": "National Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "Vande Mataram was written by Bankim Chandra Chatterjee.",
+   "It was first published in Bangadarshan on 7 November 1875.",
+   "It was first sung by Rabindranath Tagore at the INC session in Calcutta in 1896.",
+   "It was officially recognised as the National Song by the Constituent Assembly in 1947."
+  ],
+  "q": "Which of the above statements is/are INCORRECT?",
+  "o": [
+   [
+    "A",
+    "2 and 3"
+   ],
+   [
+    "B",
+    "All are correct"
+   ],
+   [
+    "C",
+    "Only 2"
+   ],
+   [
+    "D",
+    "Only 4"
+   ],
+   [
+    "E",
+    "Only 1"
+   ]
+  ],
+  "a": "D",
+  "e": "Vande Mataram was officially recognised as the National Song by the Constituent Assembly in 1950, not 1947."
+ },
+ {
+  "id": 45,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the Prime Minister Internship Scheme (PMIS) is CORRECT?",
+  "o": [
+   [
+    "A",
+    "PMIS targets the 18-21 years age group."
+   ],
+   [
+    "B",
+    "PMIS was launched in 2023."
+   ],
+   [
+    "C",
+    "PMIS is implemented by the Ministry of Skill Development."
+   ],
+   [
+    "D",
+    "PMIS does not provide paid internships."
+   ],
+   [
+    "E",
+    "PMIS was launched in December 2024 as a flagship initiative of the Union Budget 2024-25, targeting the 21-24 years age group, implemented by the Ministry of Corporate Affairs."
+   ]
+  ],
+  "a": "E",
+  "e": "PMIS, launched Dec 2024 (Budget 2024-25), targets ages 21-24 and is implemented by the MCA, providing paid internships."
+ },
+ {
+  "id": 46,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Mahindra & Mahindra – Overall Industry Champion",
+   "ONGC, NTPC, WCL – Top PSU Partners",
+   "RIL, Infosys, Dr. Reddy's – Top Private Partners",
+   "Tata Motors – Overall Industry Champion"
+  ],
+  "q": "At the PMIS Industry Awards 2026, which of the above was NOT an actual award-winner as listed?",
+  "o": [
+   [
+    "A",
+    "Tata Motors as Overall Champion"
+   ],
+   [
+    "B",
+    "Dr. Reddy's as a Top Private Partner"
+   ],
+   [
+    "C",
+    "Mahindra & Mahindra as Overall Champion"
+   ],
+   [
+    "D",
+    "ONGC as a Top PSU Partner"
+   ],
+   [
+    "E",
+    "Infosys as a Top Private Partner"
+   ]
+  ],
+  "a": "A",
+  "e": "Mahindra & Mahindra (M&M) was the Overall Industry Champion, not Tata Motors."
+ },
+ {
+  "id": 47,
+  "t": "National Affairs",
+  "d": "Easy",
+  "ty": "statement",
+  "q": "Which of the following statements about the Ministry of Corporate Affairs is CORRECT?",
+  "o": [
+   [
+    "A",
+    "The Ministry has no Minister of State."
+   ],
+   [
+    "B",
+    "The Union Minister is Nirmala Sitharaman (Rajya Sabha - Karnataka), with Harsh Malhotra as Minister of State (East Delhi)."
+   ],
+   [
+    "C",
+    "The Union Minister is Piyush Goyal."
+   ],
+   [
+    "D",
+    "Harsh Malhotra represents Rajya Sabha."
+   ],
+   [
+    "E",
+    "Nirmala Sitharaman represents Lok Sabha."
+   ]
+  ],
+  "a": "B",
+  "e": "Nirmala Sitharaman (Rajya Sabha, Karnataka) is Union Minister of Corporate Affairs, with Harsh Malhotra (East Delhi) as Minister of State."
+ },
+ {
+  "id": 48,
+  "t": "National Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The overall unemployment rate (UR) in July 2026 was 5.1%.",
+   "Rural UR was 4.5% and Urban UR was 6.7%.",
+   "Overall LFPR was 55.4%.",
+   "Overall WPR was 60%."
+  ],
+  "q": "As per the PLFS Monthly Bulletin for July 2026, which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "2 and 4"
+   ],
+   [
+    "B",
+    "Only 3"
+   ],
+   [
+    "C",
+    "1, 2 and 3"
+   ],
+   [
+    "D",
+    "All of the above"
+   ],
+   [
+    "E",
+    "1 and 4"
+   ]
+  ],
+  "a": "C",
+  "e": "Statement 4 is incorrect — the overall Worker Population Ratio (WPR) was 52.5%, not 60%."
+ },
+ {
+  "id": 49,
+  "t": "National Affairs",
+  "d": "Easy",
+  "ty": "figure",
+  "q": "As per the PLFS Monthly Bulletin for July 2026 (CWS approach), which pair is correctly matched?",
+  "o": [
+   [
+    "A",
+    "Overall UR: 4.5%; Overall LFPR: 58.0%"
+   ],
+   [
+    "B",
+    "Overall UR: 5.1%; Overall WPR: 55.4%"
+   ],
+   [
+    "C",
+    "Rural UR: 6.7%; Urban UR: 4.5%"
+   ],
+   [
+    "D",
+    "Overall UR: 5.1%; Overall LFPR: 55.4%"
+   ],
+   [
+    "E",
+    "Overall UR: 6.7%; Overall LFPR: 50.4%"
+   ]
+  ],
+  "a": "D",
+  "e": "Overall UR was 5.1% and overall LFPR was 55.4% as per the July 2026 PLFS bulletin."
+ },
+ {
+  "id": 50,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Parichha Weir is CORRECT?",
+  "o": [
+   [
+    "A",
+    "Parichha Weir is 100 years old."
+   ],
+   [
+    "B",
+    "It is located in Madhya Pradesh."
+   ],
+   [
+    "C",
+    "It serves the Ken Canal System."
+   ],
+   [
+    "D",
+    "It was designated by UNESCO."
+   ],
+   [
+    "E",
+    "The 140-year-old Parichha Weir in Jhansi, UP, was designated a World Heritage Irrigation Structure by ICID, serving as headworks of the Betwa Canal System."
+   ]
+  ],
+  "a": "E",
+  "e": "Parichha Weir, 140 years old, in Jhansi (UP), was recognised by ICID as headworks of the Betwa Canal System."
+ },
+ {
+  "id": 51,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Ashti Medium Project (Maharashtra)",
+   "Chhapawara Dam (Rajasthan)",
+   "Pechiparai Dam (Tamil Nadu)",
+   "Mettur Dam (Tamil Nadu)"
+  ],
+  "q": "Besides Parichha Weir, which of the above was NOT among the other Indian structures selected for the WHIS Award 2026?",
+  "o": [
+   [
+    "A",
+    "Mettur Dam"
+   ],
+   [
+    "B",
+    "None, all were selected"
+   ],
+   [
+    "C",
+    "Ashti Medium Project"
+   ],
+   [
+    "D",
+    "Chhapawara Dam"
+   ],
+   [
+    "E",
+    "Pechiparai Dam"
+   ]
+  ],
+  "a": "A",
+  "e": "The other structures selected were Ashti Medium Project, Chhapawara Dam, and Pechiparai Dam — Mettur Dam was not mentioned."
+ },
+ {
+  "id": 52,
+  "t": "National Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "WHIS was instituted in 2014 by ICID.",
+   "It is given to irrigation structures over 100 years old that remain functional.",
+   "The Sukwa-Dukwan Weir (also in Jhansi) was added to the ICID heritage list in 2020.",
+   "The formal award presentation is scheduled in France during the 26th ICID event."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "Only 4"
+   ],
+   [
+    "B",
+    "1, 2 and 4"
+   ],
+   [
+    "C",
+    "All of the above"
+   ],
+   [
+    "D",
+    "1 and 3"
+   ],
+   [
+    "E",
+    "2 and 3"
+   ]
+  ],
+  "a": "B",
+  "e": "Statement 3 is incorrect — the Sukwa-Dukwan Weir was added to the ICID heritage list in 2022, not 2020."
+ },
+ {
+  "id": 53,
+  "t": "National Affairs",
+  "d": "Easy",
+  "ty": "statement",
+  "q": "Which of the following statements about NCW is CORRECT?",
+  "o": [
+   [
+    "A",
+    "NCW is a non-statutory advisory body."
+   ],
+   [
+    "B",
+    "The current chairperson is Rekha Sharma."
+   ],
+   [
+    "C",
+    "NCW was established in 1992, headquartered in New Delhi, with Vijaya Rahatkar as current Chairperson."
+   ],
+   [
+    "D",
+    "NCW was established in 1985."
+   ],
+   [
+    "E",
+    "NCW is headquartered in Mumbai."
+   ]
+  ],
+  "a": "C",
+  "e": "NCW, a statutory body established in 1992, is headquartered in New Delhi; Vijaya Rahatkar is its current Chairperson."
+ },
+ {
+  "id": 54,
+  "t": "National Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The 'Yashoda AI' programme was organised at Lovely Professional University, Jalandhar.",
+   "Its aim is to promote AI literacy and digital empowerment among women.",
+   "It was led by NCW Chairperson Vijaya Rahatkar.",
+   "The programme was held in Chandigarh."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1 and 4"
+   ],
+   [
+    "B",
+    "2 and 4"
+   ],
+   [
+    "C",
+    "Only 3"
+   ],
+   [
+    "D",
+    "1, 2 and 3"
+   ],
+   [
+    "E",
+    "All of the above"
+   ]
+  ],
+  "a": "D",
+  "e": "Statement 4 is incorrect — the programme was held at LPU in Jalandhar, Punjab, not Chandigarh."
+ },
+ {
+  "id": 55,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the newly discovered Himalayan plant species is CORRECT?",
+  "o": [
+   [
+    "A",
+    "It belongs to family Orchidaceae."
+   ],
+   [
+    "B",
+    "It was discovered in Uttarakhand, India."
+   ],
+   [
+    "C",
+    "It was named after Edmund Hillary."
+   ],
+   [
+    "D",
+    "It was discovered by Nirmal Purja himself."
+   ],
+   [
+    "E",
+    "Impatiens nimspurjae belongs to family Balsaminaceae, local name Tiuri, discovered in Myagdi district, Nepal, and named after mountaineer Nirmal 'Nimsdai' Purja."
+   ]
+  ],
+  "a": "E",
+  "e": "Impatiens nimspurjae, family Balsaminaceae, local name Tiuri, was discovered in Nepal's Myagdi district and named after Nirmal Purja."
+ },
+ {
+  "id": 56,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "combo",
+  "s": [
+   "Nirmal Purja climbed all 14 peaks above 8,000m in 2019 in a record time of 6 months and 6 days.",
+   "He was awarded the MBE by Queen Elizabeth II in 2018.",
+   "He is an Indian mountaineer."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1 and 2"
+   ],
+   [
+    "B",
+    "All of the above"
+   ],
+   [
+    "C",
+    "1 and 3"
+   ],
+   [
+    "D",
+    "Only 2"
+   ],
+   [
+    "E",
+    "None of the above"
+   ]
+  ],
+  "a": "A",
+  "e": "Statement 3 is incorrect — Nirmal Purja is a Nepali mountaineer, not Indian."
+ },
+ {
+  "id": 57,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the J&K High Court's Ladakh Bench is CORRECT?",
+  "o": [
+   [
+    "A",
+    "The approval was given by the Supreme Court collegium."
+   ],
+   [
+    "B",
+    "The Union Cabinet approved a permanent bench in Ladakh, which will become the third judicial seat of the High Court of J&K and Ladakh (after Srinagar and Jammu)."
+   ],
+   [
+    "C",
+    "The bench will be the second judicial seat."
+   ],
+   [
+    "D",
+    "The High Court currently functions from only one seat."
+   ],
+   [
+    "E",
+    "This creates a separate High Court exclusively for Ladakh."
+   ]
+  ],
+  "a": "B",
+  "e": "The Ladakh bench will be the third judicial seat; the High Court currently functions from Srinagar and Jammu."
+ },
+ {
+  "id": 58,
+  "t": "National Affairs",
+  "d": "Easy",
+  "ty": "statement",
+  "q": "Which of the following statements about the Central Bureau of Narcotics (CBN) is CORRECT?",
+  "o": [
+   [
+    "A",
+    "CBN functions under the Ministry of Home Affairs."
+   ],
+   [
+    "B",
+    "CBN was established in 1947."
+   ],
+   [
+    "C",
+    "CBN was established in 1950, headquartered in Gwalior, Madhya Pradesh, and functions under the Department of Revenue, Ministry of Finance."
+   ],
+   [
+    "D",
+    "CBN was established in 1960."
+   ],
+   [
+    "E",
+    "CBN is headquartered in Bhopal."
+   ]
+  ],
+  "a": "C",
+  "e": "CBN, established in 1950 and headquartered in Gwalior, MP, functions under the Department of Revenue, Ministry of Finance."
+ },
+ {
+  "id": 59,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "combo",
+  "s": [
+   "The UNDP-HUL partnership is the next phase of a 7-year partnership to strengthen the plastic circular economy.",
+   "Its coverage target is 50 cities/ULBs by 2028.",
+   "It aims to support 50,000 Safai Mitras.",
+   "Its key initiatives are Project Circular Bharat and Project Utthaan."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "2 and 4 only"
+   ],
+   [
+    "B",
+    "Only 1"
+   ],
+   [
+    "C",
+    "None of the above"
+   ],
+   [
+    "D",
+    "All of the above"
+   ],
+   [
+    "E",
+    "1, 2 and 3 only"
+   ]
+  ],
+  "a": "D",
+  "e": "All four statements correctly describe the UNDP-HUL plastic circular economy partnership."
+ },
+ {
+  "id": 60,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "SDG 11 (Sustainable Cities and Communities)",
+   "SDG 12 (Responsible Consumption and Production)",
+   "SDG 13 (Climate Action)"
+  ],
+  "q": "Which SDG was NOT explicitly linked to the UNDP-HUL plastic circular economy partnership?",
+  "o": [
+   [
+    "A",
+    "Both SDG 11 and 12"
+   ],
+   [
+    "B",
+    "None, all three are linked"
+   ],
+   [
+    "C",
+    "SDG 11"
+   ],
+   [
+    "D",
+    "SDG 12"
+   ],
+   [
+    "E",
+    "SDG 13"
+   ]
+  ],
+  "a": "E",
+  "e": "The partnership is linked to SDG 11 and SDG 12; SDG 13 was not mentioned."
+ },
+ {
+  "id": 61,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Mizoram's monument protection is CORRECT?",
+  "o": [
+   [
+    "A",
+    "Mizoram declared 79 monuments and archaeological sites as State Protected Monuments, with two additional monuments in Champhai district recognised as Monuments of National Importance by ASI."
+   ],
+   [
+    "B",
+    "Mizoram declared 100 monuments as state protected."
+   ],
+   [
+    "C",
+    "The two nationally important monuments are in Aizawl district."
+   ],
+   [
+    "D",
+    "All 79 monuments were also declared of national importance."
+   ],
+   [
+    "E",
+    "The recognition was given by INTACH."
+   ]
+  ],
+  "a": "A",
+  "e": "Mizoram declared 79 State Protected Monuments; two monuments in Champhai district were separately recognised as Monuments of National Importance by ASI."
+ },
+ {
+  "id": 62,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Kawtchhuah Ropui and Ralven Puk at Vangchhia village",
+   "Lianpui Hmun or Lungphun Ropui",
+   "Reiek Heritage Village"
+  ],
+  "q": "Which of the above was NOT one of the two monuments in Champhai district recognised as Monuments of National Importance?",
+  "o": [
+   [
+    "A",
+    "Lianpui Hmun or Lungphun Ropui"
+   ],
+   [
+    "B",
+    "Reiek Heritage Village"
+   ],
+   [
+    "C",
+    "Both A and B were recognised"
+   ],
+   [
+    "D",
+    "None of the above were recognised"
+   ],
+   [
+    "E",
+    "Kawtchhuah Ropui and Ralven Puk"
+   ]
+  ],
+  "a": "B",
+  "e": "The two monuments recognised were Kawtchhuah Ropui and Ralven Puk (Vangchhia village) and Lianpui Hmun/Lungphun Ropui; Reiek Heritage Village was not mentioned."
+ },
+ {
+  "id": 63,
+  "t": "National Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The Banas Bio-CNG Model Plant was inaugurated at Vinchhivadi in Dhanera taluka, Banaskantha district, Gujarat.",
+   "It is a joint initiative of Banas Dairy, Suzuki Motor Corporation and NDDB.",
+   "Its plant capacity is 100 MTPD, with network capacity of 340 MTPD.",
+   "The plant runs entirely on conventional grid electricity."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "2 and 4"
+   ],
+   [
+    "B",
+    "Only 3"
+   ],
+   [
+    "C",
+    "1, 2 and 3"
+   ],
+   [
+    "D",
+    "All of the above"
+   ],
+   [
+    "E",
+    "1 and 4"
+   ]
+  ],
+  "a": "C",
+  "e": "Statement 4 is incorrect — the plant aims to promote clean energy as part of a rural cooperative Bio-CNG model, not conventional grid electricity."
+ },
+ {
+  "id": 64,
+  "t": "National Affairs",
+  "d": "Easy",
+  "ty": "statement",
+  "q": "Which of the following statements about India's BRICS Presidency for 2026 is CORRECT?",
+  "o": [
+   [
+    "A",
+    "The theme reflects a 'growth-first' approach."
+   ],
+   [
+    "B",
+    "India last held the presidency in 2024."
+   ],
+   [
+    "C",
+    "The theme is 'Innovation for a New Era.'"
+   ],
+   [
+    "D",
+    "India assumed the BRICS Presidency for 2026, guided by the theme 'Building for Resilience, Innovation, Cooperation and Sustainability.'"
+   ],
+   [
+    "E",
+    "Brazil holds the BRICS Presidency for 2026."
+   ]
+  ],
+  "a": "D",
+  "e": "India's BRICS 2026 Presidency theme is 'Building for Resilience, Innovation, Cooperation and Sustainability', reflecting a people-centric, humanity-first approach."
+ },
+ {
+  "id": 65,
+  "t": "National Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "NHAI extended the Digital FASTag Local Pass facility to 121 toll plazas.",
+   "The first Digital Local Pass facility was launched in July 2026 at the Mundka-Bakkarwala Toll Plaza on UER-II, Delhi.",
+   "Residents within a 20 km radius of an eligible plaza can apply via the Rajmargyatra Mobile App.",
+   "The facility was first launched in Mumbai."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "All of the above"
+   ],
+   [
+    "B",
+    "1 and 4"
+   ],
+   [
+    "C",
+    "2 and 4"
+   ],
+   [
+    "D",
+    "Only 3"
+   ],
+   [
+    "E",
+    "1, 2 and 3"
+   ]
+  ],
+  "a": "E",
+  "e": "Statement 4 is incorrect — the first Digital Local Pass facility was launched in Delhi, not Mumbai."
+ },
+ {
+  "id": 66,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about UIDAI's Mandatory Biometric Update (MBU) drive is CORRECT?",
+  "o": [
+   [
+    "A",
+    "UIDAI completed over 2 crore Mandatory Biometric Updates covering around 1.6 lakh schools; MBU is required at ages 5 and 15 years."
+   ],
+   [
+    "B",
+    "MBU is required at ages 10 and 18 years."
+   ],
+   [
+    "C",
+    "Over 5 crore updates were completed."
+   ],
+   [
+    "D",
+    "MBU covers only private schools."
+   ],
+   [
+    "E",
+    "MBU is required only once, at age 5."
+   ]
+  ],
+  "a": "A",
+  "e": "UIDAI completed over 2 crore MBUs across 1.6 lakh schools; MBU is mandatorily required at ages 5 and 15."
+ },
+ {
+  "id": 67,
+  "t": "National Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "UIDAI waived MBU charges for the 7-15 years age group from 1 October 2025, for one year.",
+   "MBU for the 5-7 and 15-17 years age groups is always free of charge.",
+   "As a result, MBU is effectively free for children aged 5 to 17 years till 30 September 2026.",
+   "The fee waiver applies indefinitely with no end date."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "Only 3"
+   ],
+   [
+    "B",
+    "1, 2 and 3"
+   ],
+   [
+    "C",
+    "All of the above"
+   ],
+   [
+    "D",
+    "1 and 4"
+   ],
+   [
+    "E",
+    "2 and 4"
+   ]
+  ],
+  "a": "B",
+  "e": "Statement 4 is incorrect — the fee waiver for the 7-15 years group is for one year from 1 October 2025, not indefinite."
+ },
+ {
+  "id": 68,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about EPFO's Employees' Enrolment Campaign, 2026 (EEC 2026) is CORRECT?",
+  "o": [
+   [
+    "A",
+    "The campaign closes on 31 December 2026."
+   ],
+   [
+    "B",
+    "EEC 2026 is a permanent enrolment window with no closing date."
+   ],
+   [
+    "C",
+    "EEC 2026 was notified from 29 June 2026, covers employees uncovered during 1 April 2009 to 31 March 2026, and remains open till 31 October 2026."
+   ],
+   [
+    "D",
+    "The campaign covers the period 2015 to 2026."
+   ],
+   [
+    "E",
+    "EEC 2026 was notified from 1 April 2026."
+   ]
+  ],
+  "a": "C",
+  "e": "EEC 2026, notified 29 June 2026, covers 1 April 2009-31 March 2026 and stays open till 31 October 2026."
+ },
+ {
+  "id": 69,
+  "t": "National Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The Daudhan Dam on the Ken River is 96.7 metres high.",
+   "The Ken-Betwa Link Canal is 216.465 km long.",
+   "The total project cost is ₹44,605 crore.",
+   "The project primarily benefits the Vidarbha region."
+  ],
+  "q": "Which of the above statements about the Ken-Betwa Link Project are correct?",
+  "o": [
+   [
+    "A",
+    "1 and 4"
+   ],
+   [
+    "B",
+    "2 and 4"
+   ],
+   [
+    "C",
+    "Only 3"
+   ],
+   [
+    "D",
+    "1, 2 and 3"
+   ],
+   [
+    "E",
+    "All of the above"
+   ]
+  ],
+  "a": "D",
+  "e": "Statement 4 is incorrect — the project addresses water scarcity in the Bundelkhand region of MP and UP, not Vidarbha."
+ },
+ {
+  "id": 70,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Chhatarpur",
+   "Tikamgarh",
+   "Panna",
+   "Indore"
+  ],
+  "q": "Which of the above is NOT among the Madhya Pradesh beneficiary districts of the Ken-Betwa Link Project?",
+  "o": [
+   [
+    "A",
+    "None, all are beneficiaries"
+   ],
+   [
+    "B",
+    "Chhatarpur"
+   ],
+   [
+    "C",
+    "Tikamgarh"
+   ],
+   [
+    "D",
+    "Panna"
+   ],
+   [
+    "E",
+    "Indore"
+   ]
+  ],
+  "a": "E",
+  "e": "The MP beneficiary districts are Chhatarpur, Newari, Tikamgarh, Panna, Sagar, Damoh, Datia, Vidisha, Shivpuri and Raisen — Indore is not among them."
+ },
+ {
+  "id": 71,
+  "t": "National Affairs",
+  "d": "Moderate",
+  "ty": "combo",
+  "s": [
+   "Eligible families can receive a grant of ₹7 lakh for a rural plot or ₹6.50 lakh for an urban plot.",
+   "Alternatively, a one-time lump-sum payment of ₹12.50 lakh per family can be opted for.",
+   "These provisions are linked to rehabilitation under the Land Acquisition Act, 2013."
+  ],
+  "q": "Which of the above statements on KBLP rehabilitation provisions are correct?",
+  "o": [
+   [
+    "A",
+    "1 and 2"
+   ],
+   [
+    "B",
+    "All of the above"
+   ],
+   [
+    "C",
+    "1 and 3"
+   ],
+   [
+    "D",
+    "Only 2"
+   ],
+   [
+    "E",
+    "None of the above"
+   ]
+  ],
+  "a": "A",
+  "e": "Statement 3 is incorrect — the provisions are linked to rehabilitation under the Forest Rights Act, 2006, not the Land Acquisition Act."
+ },
+ {
+  "id": 72,
+  "t": "International Affairs",
+  "d": "Easy",
+  "ty": "statement",
+  "q": "Which of the following statements about the Vizhinjam International Seaport is CORRECT?",
+  "o": [
+   [
+    "A",
+    "VISL received approval from the Ministry of Shipping, bypassing CBIC."
+   ],
+   [
+    "B",
+    "VISL received final CBIC approval to commence EXIM cargo operations from 18 August 2026."
+   ],
+   [
+    "C",
+    "VISL is located in Kochi, Kerala."
+   ],
+   [
+    "D",
+    "The approval was given by SEBI."
+   ],
+   [
+    "E",
+    "EXIM operations commenced from 1 September 2026."
+   ]
+  ],
+  "a": "B",
+  "e": "Vizhinjam International Seaport Limited (Thiruvananthapuram) received CBIC approval for EXIM cargo operations from 18 August 2026."
+ },
+ {
+  "id": 73,
+  "t": "International Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The nodal department for the UNHCR-SICCI-Ethiraj College MoU is the Department of Social Work, Ethiraj College for Women.",
+   "Focus areas include refugee protection, inclusion, awareness and support.",
+   "The target group includes Sri Lankan refugees in Tamil Nadu.",
+   "The MoU is exclusively for research, with no community engagement component."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "2 and 4"
+   ],
+   [
+    "B",
+    "Only 3"
+   ],
+   [
+    "C",
+    "1, 2 and 3"
+   ],
+   [
+    "D",
+    "All of the above"
+   ],
+   [
+    "E",
+    "1 and 4"
+   ]
+  ],
+  "a": "C",
+  "e": "Statement 4 is incorrect — the partnership aims to strengthen collaboration in education, research AND community engagement."
+ },
+ {
+  "id": 74,
+  "t": "International Affairs",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Lakshmanan Meyyappan is CORRECT?",
+  "o": [
+   [
+    "A",
+    "He is based in Singapore."
+   ],
+   [
+    "B",
+    "He earlier qualified as a CFA at age 15."
+   ],
+   [
+    "C",
+    "He achieved this in 2023."
+   ],
+   [
+    "D",
+    "He was recognised by Guinness World Records as the world's youngest male Chartered Accountant, achieving this at age 16 years and 141 days in June 2021, based in Dubai."
+   ],
+   [
+    "E",
+    "He achieved this at age 18."
+   ]
+  ],
+  "a": "D",
+  "e": "Meyyappan, based in Dubai, became the world's youngest male CA at 16 years 141 days in June 2021; he had earlier qualified ACCA at 15."
+ },
+ {
+  "id": 75,
+  "t": "International Affairs",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Advanced Manufacturing",
+   "Connectivity",
+   "Digitalisation",
+   "Defence Cooperation",
+   "Skills Development"
+  ],
+  "q": "Which of the above was NOT one of the six pillars of the India-Singapore Comprehensive Strategic Partnership (CSP)?",
+  "o": [
+   [
+    "A",
+    "Skills Development"
+   ],
+   [
+    "B",
+    "Advanced Manufacturing"
+   ],
+   [
+    "C",
+    "Connectivity"
+   ],
+   [
+    "D",
+    "Digitalisation"
+   ],
+   [
+    "E",
+    "Defence Cooperation"
+   ]
+  ],
+  "a": "E",
+  "e": "The six CSP pillars are Advanced Manufacturing, Connectivity, Digitalisation, Healthcare & Medicine, Skills Development, and Sustainability — Defence Cooperation is not among them."
+ },
+ {
+  "id": 76,
+  "t": "International Affairs",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "An MoU was signed between India's FSSAI and Singapore's Food Agency (SFA).",
+   "An MoU was signed between India's MoPSW and Singapore's Ministry of Culture, Community and Youth.",
+   "A Letter of Intent was signed between India's TRAI and Singapore's IMDA.",
+   "An MoU was signed between the RBI and the Monetary Authority of Singapore."
+  ],
+  "q": "Which of the above statements about India-Singapore CSP outcomes are correct?",
+  "o": [
+   [
+    "A",
+    "1, 2 and 3"
+   ],
+   [
+    "B",
+    "All of the above"
+   ],
+   [
+    "C",
+    "1 and 4"
+   ],
+   [
+    "D",
+    "2 and 4"
+   ],
+   [
+    "E",
+    "Only 3"
+   ]
+  ],
+  "a": "A",
+  "e": "Statement 4 is incorrect — no RBI-MAS MoU was mentioned among the listed outcomes."
+ },
+ {
+  "id": 77,
+  "t": "International Affairs",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Burundi",
+   "Ghana",
+   "Kenya",
+   "Uganda",
+   "Guinea-Bissau"
+  ],
+  "q": "Which of the above was NOT among the five African countries that ended Polio Type 2 outbreaks, per WHO?",
+  "o": [
+   [
+    "A",
+    "Ghana"
+   ],
+   [
+    "B",
+    "Kenya"
+   ],
+   [
+    "C",
+    "Uganda"
+   ],
+   [
+    "D",
+    "Guinea-Bissau"
+   ],
+   [
+    "E",
+    "Burundi"
+   ]
+  ],
+  "a": "B",
+  "e": "The five countries are Burundi, Ghana, Guinea-Bissau, Republic of Congo and Uganda; Kenya is not among them."
+ },
+ {
+  "id": 78,
+  "t": "International Affairs",
+  "d": "Easy",
+  "ty": "statement",
+  "q": "Which of the following statements about the WHO Polio Type 2 announcement is CORRECT?",
+  "o": [
+   [
+    "A",
+    "The announcement was made by UNICEF."
+   ],
+   [
+    "B",
+    "The countries included Nigeria and Kenya."
+   ],
+   [
+    "C",
+    "WHO announced that five African countries — Burundi, Ghana, Guinea-Bissau, Republic of Congo and Uganda — successfully ended outbreaks of Polio Type 2."
+   ],
+   [
+    "D",
+    "The announcement covered Polio Type 1 outbreaks."
+   ],
+   [
+    "E",
+    "Six countries were involved."
+   ]
+  ],
+  "a": "C",
+  "e": "WHO's announcement covered Polio Type 2 outbreaks ending in five specific African countries."
+ },
+ {
+  "id": 79,
+  "t": "International Affairs",
+  "d": "Easy",
+  "ty": "figure",
+  "q": "Which pair correctly matches Lakshmanan Meyyappan's achievements?",
+  "o": [
+   [
+    "A",
+    "World's Youngest CA (overall) at 16 years 141 days; earlier CFA at 14 years"
+   ],
+   [
+    "B",
+    "World's Youngest Male CA at 18 years; ACCA at 16 years"
+   ],
+   [
+    "C",
+    "World's Youngest Male CA at 16 years 141 days; earlier CPA at 15 years"
+   ],
+   [
+    "D",
+    "World's Youngest Male CA at 16 years 141 days; earlier qualified ACCA at 15 years"
+   ],
+   [
+    "E",
+    "World's Youngest Male CA at 15 years; earlier qualified ACCA at 16 years"
+   ]
+  ],
+  "a": "D",
+  "e": "He achieved World's Youngest Male CA status at 16 years 141 days, having earlier qualified ACCA at age 15."
+ },
+ {
+  "id": 80,
+  "t": "Reports & Indices",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The NITI Aayog manufacturing report was released by Ashok Kumar Lahiri, Vice Chairperson.",
+   "It examined 12 manufacturing sectors.",
+   "It identified 4 high-potential sectors.",
+   "It used a three-phase methodology."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "All of the above"
+   ],
+   [
+    "B",
+    "1 and 4"
+   ],
+   [
+    "C",
+    "2 and 4"
+   ],
+   [
+    "D",
+    "Only 3"
+   ],
+   [
+    "E",
+    "1, 2 and 3"
+   ]
+  ],
+  "a": "E",
+  "e": "Statement 4 is incorrect — the report used a four-phase methodology, not three."
+ },
+ {
+  "id": 81,
+  "t": "Reports & Indices",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Chemicals",
+   "Textiles",
+   "Telecom & Networking Equipment",
+   "Pharmaceuticals",
+   "Solar PV"
+  ],
+  "q": "Which of the above was NOT one of the 4 high-potential sectors identified in the NITI Aayog manufacturing report?",
+  "o": [
+   [
+    "A",
+    "Pharmaceuticals"
+   ],
+   [
+    "B",
+    "Solar PV"
+   ],
+   [
+    "C",
+    "Chemicals"
+   ],
+   [
+    "D",
+    "Textiles"
+   ],
+   [
+    "E",
+    "Telecom & Networking Equipment"
+   ]
+  ],
+  "a": "A",
+  "e": "The 4 high-potential sectors are Chemicals, Textiles, Telecom & Networking Equipment, and Solar PV; Pharmaceuticals is not among them."
+ },
+ {
+  "id": 82,
+  "t": "Reports & Indices",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Sector shortlisting based on market size and growth prospects",
+   "Assessment of market potential, competitiveness and strategic relevance",
+   "Benchmarking of best practices from leading manufacturing countries",
+   "Formation of a regulatory taskforce"
+  ],
+  "q": "Which of the above was NOT one of the four phases of the NITI Aayog manufacturing report's methodology?",
+  "o": [
+   [
+    "A",
+    "Only 3"
+   ],
+   [
+    "B",
+    "Only 4"
+   ],
+   [
+    "C",
+    "All four are part of the methodology"
+   ],
+   [
+    "D",
+    "Only 1"
+   ],
+   [
+    "E",
+    "Only 2"
+   ]
+  ],
+  "a": "B",
+  "e": "The fourth phase is development of sector-specific recommendations and an actionable roadmap, not formation of a regulatory taskforce."
+ },
+ {
+  "id": 83,
+  "t": "Reports & Indices",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about NITI Aayog's Professional Services Sector report is CORRECT?",
+  "o": [
+   [
+    "A",
+    "It is the 5th publication under the series."
+   ],
+   [
+    "B",
+    "The report focuses only on IT services."
+   ],
+   [
+    "C",
+    "'India's Services Sector: Insights on Regulatory Regime in Professional Services' is the 3rd publication under NITI Aayog's Services Thematic series."
+   ],
+   [
+    "D",
+    "It is the 1st publication under the series."
+   ],
+   [
+    "E",
+    "The report was released by the RBI Governor."
+   ]
+  ],
+  "a": "C",
+  "e": "This report, released by Ashok Kumar Lahiri, is the 3rd publication in NITI Aayog's Services Thematic series."
+ },
+ {
+  "id": 84,
+  "t": "Reports & Indices",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "In 2024, India ranked as the world's 7th largest services exporter, accounting for 4.3% of global services exports.",
+   "Professional and management consulting services contributed approximately 20% of India's total services exports in 2024-25.",
+   "Professional services account for nearly one-third (33%) of India's total services exports.",
+   "These services registered a CAGR of 185% between FY15 and FY25."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1 and 3"
+   ],
+   [
+    "B",
+    "2 and 3"
+   ],
+   [
+    "C",
+    "Only 4"
+   ],
+   [
+    "D",
+    "1, 2 and 4"
+   ],
+   [
+    "E",
+    "All of the above"
+   ]
+  ],
+  "a": "D",
+  "e": "Statement 3 is incorrect — professional services account for nearly one-fourth (25%), not one-third, of India's total services exports."
+ },
+ {
+  "id": 85,
+  "t": "Reports & Indices",
+  "d": "Easy",
+  "ty": "figure",
+  "q": "Which of the following pairs correctly matches India's services export standing in 2024, per the NITI Aayog report?",
+  "o": [
+   [
+    "A",
+    "Rank: 5th largest; Share: 4.3%"
+   ],
+   [
+    "B",
+    "Rank: 7th largest; Share: 6.5%"
+   ],
+   [
+    "C",
+    "Rank: 10th largest; Share: 4.3%"
+   ],
+   [
+    "D",
+    "Rank: 7th largest; Share: 2.5%"
+   ],
+   [
+    "E",
+    "Rank: 7th largest; Share: 4.3% of global services exports"
+   ]
+  ],
+  "a": "E",
+  "e": "India ranked 7th largest services exporter globally in 2024, accounting for 4.3% of global services exports."
+ },
+ {
+  "id": 86,
+  "t": "Reports & Indices",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about NITI Aayog's 'Reimagining Skilling for Viksit Bharat@2047' report is CORRECT?",
+  "o": [
+   [
+    "A",
+    "It estimates that 87 million youth aged 15-29 years are neither studying, working, nor receiving training (NEET)."
+   ],
+   [
+    "B",
+    "It estimates 50 million NEET youth."
+   ],
+   [
+    "C",
+    "The age group considered is 18-35 years."
+   ],
+   [
+    "D",
+    "The data source is the 2011 Census."
+   ],
+   [
+    "E",
+    "It estimates 87 million youth aged 10-24 years."
+   ]
+  ],
+  "a": "A",
+  "e": "The report estimates 87 million (8.7 crore) NEET youth in the 15-29 years age group."
+ },
+ {
+  "id": 87,
+  "t": "Reports & Indices",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The data source is the 78th round of NSS conducted in 2021.",
+   "Only 8.25% of graduates are employed in roles aligned with their qualifications.",
+   "NEET youth includes only unemployed youth actively seeking work, excluding those outside the labour force."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "None of the above"
+   ],
+   [
+    "B",
+    "1 and 2"
+   ],
+   [
+    "C",
+    "All of the above"
+   ],
+   [
+    "D",
+    "1 and 3"
+   ],
+   [
+    "E",
+    "Only 2"
+   ]
+  ],
+  "a": "B",
+  "e": "Statement 3 is incorrect — NEET youth refers to those neither in education, employment nor training, including unemployed youth, i.e., a broader category, not restricted to active job seekers."
+ },
+ {
+  "id": 88,
+  "t": "Reports & Indices",
+  "d": "Easy",
+  "ty": "figure",
+  "q": "Which pair correctly represents the NITI Aayog NEET youth findings?",
+  "o": [
+   [
+    "A",
+    "8.7 million youth aged 15-29 years; 8.25% employed in aligned roles"
+   ],
+   [
+    "B",
+    "87 million youth aged 15-29 years; 25% employed in aligned roles"
+   ],
+   [
+    "C",
+    "87 million youth aged 15-29 years; only 8.25% of graduates employed in aligned roles"
+   ],
+   [
+    "D",
+    "78 million youth aged 15-29 years; 15% of graduates employed in aligned roles"
+   ],
+   [
+    "E",
+    "87 million youth aged 18-35 years; 8.25% employed in aligned roles"
+   ]
+  ],
+  "a": "C",
+  "e": "87 million (8.7 crore) youth aged 15-29 are NEET, and only 8.25% of graduates are employed in aligned roles."
+ },
+ {
+  "id": 89,
+  "t": "Reports & Indices",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the objective of the NITI Aayog manufacturing hub report is CORRECT?",
+  "o": [
+   [
+    "A",
+    "It focuses only on IT and services sectors."
+   ],
+   [
+    "B",
+    "It was commissioned by the Ministry of Commerce."
+   ],
+   [
+    "C",
+    "It covers only 5 manufacturing sectors."
+   ],
+   [
+    "D",
+    "It aims to identify sectors where targeted interventions can boost domestic capabilities, increase value addition, reduce import dependence and drive export-oriented manufacturing."
+   ],
+   [
+    "E",
+    "Its sole objective is to increase import dependence."
+   ]
+  ],
+  "a": "D",
+  "e": "The report's objective is to enhance competitiveness, boost domestic capabilities, increase value addition, reduce import dependence and drive export-oriented manufacturing."
+ },
+ {
+  "id": 90,
+  "t": "Science & Tech",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The EO satellite constellation project was approved under the Public-Private Partnership model.",
+   "The consortium is led by Allied Orbits Private Limited, with PixxelSpace India as the leading entity.",
+   "The estimated investment is over ₹1,200 crore.",
+   "The target timeline is 2027."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "All of the above"
+   ],
+   [
+    "B",
+    "1 and 4"
+   ],
+   [
+    "C",
+    "2 and 4"
+   ],
+   [
+    "D",
+    "Only 3"
+   ],
+   [
+    "E",
+    "1, 2 and 3"
+   ]
+  ],
+  "a": "E",
+  "e": "Statement 4 is incorrect — the target timeline is 2029, not 2027."
+ },
+ {
+  "id": 91,
+  "t": "Science & Tech",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about India's first fully commercial EO satellite constellation is CORRECT?",
+  "o": [
+   [
+    "A",
+    "It is India's first indigenous, fully commercial Earth Observation satellite constellation, approved by IN-SPACe under the Department of Space."
+   ],
+   [
+    "B",
+    "It is a government-only project with no private consortium."
+   ],
+   [
+    "C",
+    "It was approved by ISRO directly, not IN-SPACe."
+   ],
+   [
+    "D",
+    "The investment is under ₹500 crore."
+   ],
+   [
+    "E",
+    "The leading entity is Allied Orbits Private Limited, not PixxelSpace India."
+   ]
+  ],
+  "a": "A",
+  "e": "IN-SPACe (under the Department of Space) approved this PPP-model project led by a consortium including PixxelSpace India."
+ },
+ {
+  "id": 92,
+  "t": "Science & Tech",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The L&T-NVIDIA B300 AI Factory order is valued at ₹10,000-15,000 crore.",
+   "It is being developed by L&T's Vyoma.AI.",
+   "The client is Together AI, a US-based company.",
+   "The facility will be located in Bengaluru."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "Only 3"
+   ],
+   [
+    "B",
+    "1, 2 and 3"
+   ],
+   [
+    "C",
+    "All of the above"
+   ],
+   [
+    "D",
+    "1 and 4"
+   ],
+   [
+    "E",
+    "2 and 4"
+   ]
+  ],
+  "a": "B",
+  "e": "Statement 4 is incorrect — the facility will be developed at Vyoma.AI's data centre campus in Chennai, not Bengaluru."
+ },
+ {
+  "id": 93,
+  "t": "Science & Tech",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about MIDHANI's GE Aerospace approval is CORRECT?",
+  "o": [
+   [
+    "A",
+    "The approval covers only chemical testing, excluding mechanical or metallurgical testing."
+   ],
+   [
+    "B",
+    "MIDHANI is the second Indian company to receive this approval."
+   ],
+   [
+    "C",
+    "MIDHANI became the first Indian company to receive GE Aerospace's S400 laboratory approval, enabling testing of superalloys, titanium alloys and other high-performance metallic materials."
+   ],
+   [
+    "D",
+    "MIDHANI is a privately owned company."
+   ],
+   [
+    "E",
+    "The approval was granted by Boeing."
+   ]
+  ],
+  "a": "C",
+  "e": "MIDHANI, a state-owned defence materials manufacturer, is the first Indian company to receive GE Aerospace's S400 lab approval."
+ },
+ {
+  "id": 94,
+  "t": "Science & Tech",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Sophie Adenot is CORRECT?",
+  "o": [
+   [
+    "A",
+    "She is American."
+   ],
+   [
+    "B",
+    "Samantha Cristoforetti walked in space in 2020."
+   ],
+   [
+    "C",
+    "She is the third European woman to walk in space."
+   ],
+   [
+    "D",
+    "She became the first French woman to undertake a spacewalk, and the second European woman to do so after Italy's Samantha Cristoforetti in 2022."
+   ],
+   [
+    "E",
+    "She is the first European woman to walk in space."
+   ]
+  ],
+  "a": "D",
+  "e": "Sophie Adenot is the first French woman, and second European woman overall (after Samantha Cristoforetti, 2022), to complete a spacewalk."
+ },
+ {
+  "id": 95,
+  "t": "Science & Tech",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Superalloys",
+   "Titanium alloys",
+   "Ceramic composites"
+  ],
+  "q": "Which material was NOT specifically listed as part of MIDHANI's materials focus under the GE Aerospace S400 approval?",
+  "o": [
+   [
+    "A",
+    "Both A and B are the focus"
+   ],
+   [
+    "B",
+    "None are the focus"
+   ],
+   [
+    "C",
+    "Superalloys"
+   ],
+   [
+    "D",
+    "Titanium alloys"
+   ],
+   [
+    "E",
+    "Ceramic composites"
+   ]
+  ],
+  "a": "E",
+  "e": "MIDHANI's materials focus includes superalloys, titanium alloys and other high-performance metallic materials — ceramic composites was not mentioned."
+ },
+ {
+  "id": 96,
+  "t": "Defence",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "NIDAR 2.0 was launched by MeitY in partnership with Drone Federation India.",
+   "It is the 2nd edition, for 2026-27.",
+   "It was launched under the SwaYaan initiative.",
+   "It aims to develop drones powered by imported chips."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1, 2 and 3"
+   ],
+   [
+    "B",
+    "All of the above"
+   ],
+   [
+    "C",
+    "1 and 4"
+   ],
+   [
+    "D",
+    "2 and 4"
+   ],
+   [
+    "E",
+    "Only 3"
+   ]
+  ],
+  "a": "A",
+  "e": "Statement 4 is incorrect — NIDAR 2.0 aims to develop drones powered by Indian-made chips, not imported chips."
+ },
+ {
+  "id": 97,
+  "t": "Defence",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "MAITREE-XV is the 15th edition of the India-Thailand joint military exercise.",
+   "The venue is Vibhavadi Rangsit Camp, Surat Thani, Thailand.",
+   "The first edition was held in 2006.",
+   "The previous (14th) edition was held in Meghalaya in 2024."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "Only 3"
+   ],
+   [
+    "B",
+    "1, 2 and 3"
+   ],
+   [
+    "C",
+    "All of the above"
+   ],
+   [
+    "D",
+    "1 and 4"
+   ],
+   [
+    "E",
+    "2 and 4"
+   ]
+  ],
+  "a": "B",
+  "e": "Statement 4 is incorrect — the 14th edition was held at Umroi, Meghalaya in 2025, not 2024."
+ },
+ {
+  "id": 98,
+  "t": "Defence",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the NIKA2 Kisan Medium Drone is CORRECT?",
+  "o": [
+   [
+    "A",
+    "It was unveiled by Union Minister G. Kishan Reddy."
+   ],
+   [
+    "B",
+    "It has no defence application."
+   ],
+   [
+    "C",
+    "Developed by Hyderabad-based, women-led startup AkinAnalytics, with spraying payload capacity of 16 litres and spreading capacity of 12 litres."
+   ],
+   [
+    "D",
+    "Spraying capacity is 12 litres and spreading is 16 litres."
+   ],
+   [
+    "E",
+    "The startup is based in Bengaluru."
+   ]
+  ],
+  "a": "C",
+  "e": "AkinAnalytics's NIKA2 drone was unveiled by Shivraj Singh Chouhan, with spraying capacity 16L and spreading capacity 12L."
+ },
+ {
+  "id": 99,
+  "t": "Defence",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Agriculture",
+   "Aquaculture",
+   "Plantations",
+   "Space exploration",
+   "Mining"
+  ],
+  "q": "Which of the above was NOT listed as an application area for the NIKA2 Kisan Medium Drone?",
+  "o": [
+   [
+    "A",
+    "Agriculture"
+   ],
+   [
+    "B",
+    "Aquaculture"
+   ],
+   [
+    "C",
+    "Plantations"
+   ],
+   [
+    "D",
+    "Space exploration"
+   ],
+   [
+    "E",
+    "Mining"
+   ]
+  ],
+  "a": "D",
+  "e": "The listed applications are agriculture, aquaculture, plantations, mining, energy, infrastructure and defence — space exploration is not among them."
+ },
+ {
+  "id": 100,
+  "t": "Defence",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "FWD Supreme Lite is described as India's first AI-piloted fighter jet programme.",
+   "It is an AI-powered MALE Autonomous Combat Aircraft.",
+   "Key capabilities include precision strikes, swarm operations and real-time ISR.",
+   "It is a manned fighter jet requiring a human pilot."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "All of the above"
+   ],
+   [
+    "B",
+    "1 and 4"
+   ],
+   [
+    "C",
+    "2 and 4"
+   ],
+   [
+    "D",
+    "Only 3"
+   ],
+   [
+    "E",
+    "1, 2 and 3"
+   ]
+  ],
+  "a": "E",
+  "e": "Statement 4 is incorrect — FWD Supreme Lite is an autonomous, AI-powered aircraft, not manned."
+ },
+ {
+  "id": 101,
+  "t": "Defence",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Terrier Cyber Quest 2026 is CORRECT?",
+  "o": [
+   [
+    "A",
+    "Launched by the Territorial Army in collaboration with CyberPeace, it is the 3rd edition (TCQ 3.0), a national-level hackathon on defence, cybersecurity and information-domain challenges."
+   ],
+   [
+    "B",
+    "It is the 5th edition."
+   ],
+   [
+    "C",
+    "It was launched by the Indian Army alone, with no external collaboration."
+   ],
+   [
+    "D",
+    "It focuses only on cybersecurity, excluding defence and information-domain challenges."
+   ],
+   [
+    "E",
+    "It is an international-level hackathon."
+   ]
+  ],
+  "a": "A",
+  "e": "TCQ 2026 (3rd edition, TCQ 3.0) was launched by the Territorial Army with CyberPeace, addressing defence, cybersecurity and information-domain challenges."
+ },
+ {
+  "id": 102,
+  "t": "Defence",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about ICGS Ajit is CORRECT?",
+  "o": [
+   [
+    "A",
+    "It is the 3rd of 8 Fast Patrol Vessels."
+   ],
+   [
+    "B",
+    "ICGS Ajit, Yard Number 1277, was built and delivered by Goa Shipyard Limited to the Indian Coast Guard, being the 7th of 8 Fast Patrol Vessels."
+   ],
+   [
+    "C",
+    "It is the 8th of 8 vessels, the last in the series."
+   ],
+   [
+    "D",
+    "It was built by Mazagon Dock Shipbuilders."
+   ],
+   [
+    "E",
+    "It was delivered to the Indian Navy, not the Coast Guard."
+   ]
+  ],
+  "a": "B",
+  "e": "ICGS Ajit, Yard No. 1277, is the 7th of 8 Fast Patrol Vessels built by GSL for the Indian Coast Guard."
+ },
+ {
+  "id": 103,
+  "t": "Defence",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The Hindalco PPT ATH plant was commissioned in Belagavi, Karnataka.",
+   "Its capacity is 30,000 tonnes per annum.",
+   "It is fully powered by renewable energy.",
+   "It is the second such plant in India."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "2 and 4"
+   ],
+   [
+    "B",
+    "Only 3"
+   ],
+   [
+    "C",
+    "1, 2 and 3"
+   ],
+   [
+    "D",
+    "All of the above"
+   ],
+   [
+    "E",
+    "1 and 4"
+   ]
+  ],
+  "a": "C",
+  "e": "Statement 4 is incorrect — it is the first such (Superfine Precipitated Aluminium Trihydrate) plant in India, not the second."
+ },
+ {
+  "id": 104,
+  "t": "Appointments",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the CBDT Chairman is CORRECT?",
+  "o": [
+   [
+    "A",
+    "The re-appointment was made by the RBI."
+   ],
+   [
+    "B",
+    "His term began from 1 January 2026."
+   ],
+   [
+    "C",
+    "He was newly appointed, not re-appointed."
+   ],
+   [
+    "D",
+    "Ravi Agrawal was re-appointed as CBDT Chairman by the ACC for an additional 6 months from 1 July 2026."
+   ],
+   [
+    "E",
+    "He was appointed for an additional 1 year."
+   ]
+  ],
+  "a": "D",
+  "e": "Ravi Agrawal's term as CBDT Chairman was extended by 6 months from 1 July 2026 via re-appointment by the ACC."
+ },
+ {
+  "id": 105,
+  "t": "Appointments",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "Natarajan Chandrasekaran will step down as Tata Sons Executive Chairman on completion of his term on 20 February 2027.",
+   "He was first appointed Chairman in February 2017 (following the ouster of Cyrus Mistry) and reappointed in 2022.",
+   "He joined TCS as an intern in 1987 and served as CEO/MD from 2009.",
+   "He never worked at TCS before becoming Tata Sons Chairman."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "All of the above"
+   ],
+   [
+    "B",
+    "1 and 4"
+   ],
+   [
+    "C",
+    "2 and 4"
+   ],
+   [
+    "D",
+    "Only 3"
+   ],
+   [
+    "E",
+    "1, 2 and 3"
+   ]
+  ],
+  "a": "E",
+  "e": "Statement 4 is incorrect — he joined TCS as an intern in 1987, later becoming its CEO/MD, before Tata Sons Chairmanship."
+ },
+ {
+  "id": 106,
+  "t": "Appointments",
+  "d": "Easy",
+  "ty": "statement",
+  "q": "Which of the following statements about Tata Sons is CORRECT?",
+  "o": [
+   [
+    "A",
+    "Tata Sons was founded in 1868 and incorporated in 1917, headquartered in Mumbai, functioning as the Tata Group's holding company."
+   ],
+   [
+    "B",
+    "Founded in 1900, incorporated in 1950."
+   ],
+   [
+    "C",
+    "Headquartered in Delhi."
+   ],
+   [
+    "D",
+    "Founded and incorporated in the same year, 1868."
+   ],
+   [
+    "E",
+    "It functions as an operating subsidiary, not a holding company."
+   ]
+  ],
+  "a": "A",
+  "e": "Tata Sons, founded 1868 and incorporated 1917, is headquartered in Mumbai and functions as the Tata Group's holding company."
+ },
+ {
+  "id": 107,
+  "t": "Appointments",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "Shabnam Sinha was appointed Chairperson of Airtel Payments Bank for a three-year term from 1 October 2026.",
+   "The appointment was approved by RBI under the Banking Regulation Act, 1949.",
+   "Her predecessor was Sunil Bharti Mittal, founder and Chairman of Bharti Enterprises.",
+   "Her term is five years."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "Only 3"
+   ],
+   [
+    "B",
+    "1, 2 and 3"
+   ],
+   [
+    "C",
+    "All of the above"
+   ],
+   [
+    "D",
+    "1 and 4"
+   ],
+   [
+    "E",
+    "2 and 4"
+   ]
+  ],
+  "a": "B",
+  "e": "Statement 4 is incorrect — her term is three years, not five."
+ },
+ {
+  "id": 108,
+  "t": "Appointments",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Mirza Fakhrul Islam Alamgir is CORRECT?",
+  "o": [
+   [
+    "A",
+    "His predecessor was Sheikh Hasina."
+   ],
+   [
+    "B",
+    "His term is four years."
+   ],
+   [
+    "C",
+    "He was elected the 23rd President of Bangladesh, representing the BNP, succeeding Mohammed Shahabuddin, for a five-year term (2026-2031)."
+   ],
+   [
+    "D",
+    "He is the 20th President of Bangladesh."
+   ],
+   [
+    "E",
+    "He belongs to the Awami League."
+   ]
+  ],
+  "a": "C",
+  "e": "Alamgir (BNP) is the 23rd President of Bangladesh, succeeding Mohammed Shahabuddin for a 2026-2031 term."
+ },
+ {
+  "id": 109,
+  "t": "Appointments",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "Somanath Sreedhara Panicker was newly appointed as a Part-time Non-official Director on the RBI Central Board.",
+   "Anand Gopal Mahindra was re-appointed to the same position.",
+   "Their tenure is 4 years from 20 August 2026.",
+   "Panicker previously served as the 8th Chairman of ISRO."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1 and 4"
+   ],
+   [
+    "B",
+    "2 and 4"
+   ],
+   [
+    "C",
+    "Only 3"
+   ],
+   [
+    "D",
+    "1, 2 and 3"
+   ],
+   [
+    "E",
+    "All of the above"
+   ]
+  ],
+  "a": "D",
+  "e": "Statement 4 is incorrect — Panicker served as the 10th Chairman of ISRO, not the 8th."
+ },
+ {
+  "id": 110,
+  "t": "Appointments",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Somanath Sreedhara Panicker is CORRECT?",
+  "o": [
+   [
+    "A",
+    "He served as ISRO Chairman from 2018 to 2022."
+   ],
+   [
+    "B",
+    "Chandrayaan-3 landed during his tenure on 23 August 2024."
+   ],
+   [
+    "C",
+    "He was the 9th Chairman of ISRO."
+   ],
+   [
+    "D",
+    "He is currently the sitting ISRO Chairman."
+   ],
+   [
+    "E",
+    "He served as the 10th Chairman of ISRO from 15 January 2022 to 14 January 2025, during which Chandrayaan-3 achieved its soft landing on 23 August 2023."
+   ]
+  ],
+  "a": "E",
+  "e": "Panicker served as ISRO's 10th Chairman (2022-2025); Chandrayaan-3's soft landing occurred during his tenure, on 23 August 2023."
+ },
+ {
+  "id": 111,
+  "t": "Appointments",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The RBI Central Board comprises official directors, non-official directors, government nominees, and directors from four local boards.",
+   "The Board's composition has been reduced from 15 members to 11 members.",
+   "Under the RBI Act, 1934, nominated directors hold office for 4 years, eligible for re-appointment up to a maximum of 2 terms or 8 years.",
+   "The Board composition was increased from 11 to 15 members."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1, 2 and 3"
+   ],
+   [
+    "B",
+    "All of the above"
+   ],
+   [
+    "C",
+    "1 and 4"
+   ],
+   [
+    "D",
+    "2 and 4"
+   ],
+   [
+    "E",
+    "Only 3"
+   ]
+  ],
+  "a": "A",
+  "e": "Statement 4 reverses the direction — the composition was reduced from 15 to 11, not increased."
+ },
+ {
+  "id": 112,
+  "t": "Appointments",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Annie George Mathew",
+   "Janmejaya Kumar Sinha",
+   "Syed Akbaruddin",
+   "Somanath Panicker"
+  ],
+  "q": "The Government separately appointed three Part-time Non-official Directors to the RBI Central Board. Which of the above was NOT one of these three?",
+  "o": [
+   [
+    "A",
+    "Syed Akbaruddin"
+   ],
+   [
+    "B",
+    "Somanath Panicker"
+   ],
+   [
+    "C",
+    "None, all three (A, B, C) are correct"
+   ],
+   [
+    "D",
+    "Annie George Mathew"
+   ],
+   [
+    "E",
+    "Janmejaya Kumar Sinha"
+   ]
+  ],
+  "a": "B",
+  "e": "Somanath Panicker was appointed separately (alongside Anand Mahindra's reappointment); the group of three comprised Annie George Mathew, Janmejaya Kumar Sinha, and Syed Akbaruddin."
+ },
+ {
+  "id": 113,
+  "t": "Appointments",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Annie George Mathew is CORRECT?",
+  "o": [
+   [
+    "A",
+    "She is a former RBI Governor."
+   ],
+   [
+    "B",
+    "She is a part-time member of the Finance Commission."
+   ],
+   [
+    "C",
+    "She is an officer of the Indian Audit and Accounts Service and a full-time member of the Sixteenth Finance Commission."
+   ],
+   [
+    "D",
+    "She is a member of the Fifteenth Finance Commission."
+   ],
+   [
+    "E",
+    "She belongs to the Indian Foreign Service."
+   ]
+  ],
+  "a": "C",
+  "e": "Annie George Mathew, IAAS officer, is a full-time member of the Sixteenth Finance Commission."
+ },
+ {
+  "id": 114,
+  "t": "Appointments",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Syed Akbaruddin is CORRECT?",
+  "o": [
+   [
+    "A",
+    "He is a former ISRO Chairman."
+   ],
+   [
+    "B",
+    "He served as India's Ambassador to the USA."
+   ],
+   [
+    "C",
+    "He is a serving diplomat currently posted at the UN."
+   ],
+   [
+    "D",
+    "He is the former Permanent Representative of India to the United Nations, with expertise in international diplomacy and foreign affairs."
+   ],
+   [
+    "E",
+    "He is a former Governor of the RBI."
+   ]
+  ],
+  "a": "D",
+  "e": "Syed Akbaruddin is the former Permanent Representative of India to the UN."
+ },
+ {
+  "id": 115,
+  "t": "Appointments",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "Kaziah Liz Mejo is a 19-year-old law student from Kerala, the first Miss Universe India winner from that state.",
+   "The event was held in Jaipur, Rajasthan, with the jury led by former Miss Universe Sushmita Sen.",
+   "She will represent India at the 75th Miss Universe pageant in Puerto Rico.",
+   "She made her acting debut in 2018."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "All of the above"
+   ],
+   [
+    "B",
+    "1 and 4"
+   ],
+   [
+    "C",
+    "2 and 4"
+   ],
+   [
+    "D",
+    "Only 3"
+   ],
+   [
+    "E",
+    "1, 2 and 3"
+   ]
+  ],
+  "a": "E",
+  "e": "Statement 4 is incorrect — she made her acting debut in 2020 with the Malayalam film Shylock, not 2018."
+ },
+ {
+  "id": 116,
+  "t": "Appointments",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Sushmita Sen (1994)",
+   "Lara Dutta (2000)",
+   "Harnaaz Sandhu (2021)",
+   "Diana Hayden (1997)"
+  ],
+  "q": "Which of the above is NOT an Indian winner of the Miss Universe title (as distinct from Miss World)?",
+  "o": [
+   [
+    "A",
+    "Diana Hayden"
+   ],
+   [
+    "B",
+    "None, all four won Miss Universe"
+   ],
+   [
+    "C",
+    "Sushmita Sen"
+   ],
+   [
+    "D",
+    "Lara Dutta"
+   ],
+   [
+    "E",
+    "Harnaaz Sandhu"
+   ]
+  ],
+  "a": "A",
+  "e": "Diana Hayden won Miss World (1997), not Miss Universe. India's Miss Universe winners listed are Sushmita Sen, Lara Dutta and Harnaaz Sandhu."
+ },
+ {
+  "id": 117,
+  "t": "Appointments",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Yuko Keicho is CORRECT?",
+  "o": [
+   [
+    "A",
+    "She is of Korean nationality."
+   ],
+   [
+    "B",
+    "She was appointed Vice President and Auditor General of the World Bank Group, previously serving as Auditor General at the Asian Development Bank."
+   ],
+   [
+    "C",
+    "She was appointed World Bank President."
+   ],
+   [
+    "D",
+    "She previously worked at the IMF."
+   ],
+   [
+    "E",
+    "She leads the Investment Vice Presidency, not Internal Audit."
+   ]
+  ],
+  "a": "B",
+  "e": "Yuko Keicho (Japanese), previously Auditor General at ADB, was appointed VP and Auditor General of the World Bank Group, leading the Internal Audit Vice Presidency."
+ },
+ {
+  "id": 118,
+  "t": "Sports",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The Esports World Cup Chess 2026 was the 2nd edition, held in Paris, France, from 11-15 August 2026.",
+   "Magnus Carlsen, representing Team Liquid, won for the second consecutive year.",
+   "He defeated Denis Lazavik of Belarus in the final.",
+   "Third place went to Fabiano Caruana."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "2 and 4"
+   ],
+   [
+    "B",
+    "Only 3"
+   ],
+   [
+    "C",
+    "1, 2 and 3"
+   ],
+   [
+    "D",
+    "All of the above"
+   ],
+   [
+    "E",
+    "1 and 4"
+   ]
+  ],
+  "a": "C",
+  "e": "Statement 4 is incorrect — third place went to Hikaru Nakamura (USA), not Fabiano Caruana."
+ },
+ {
+  "id": 119,
+  "t": "Sports",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Magnus Carlsen is CORRECT?",
+  "o": [
+   [
+    "A",
+    "His highest FIDE rating is 2800."
+   ],
+   [
+    "B",
+    "He was World Champion from 2010-2018."
+   ],
+   [
+    "C",
+    "He has never held the World Rapid or Blitz titles."
+   ],
+   [
+    "D",
+    "He is a former World Chess Champion (2013-2023) and holds the highest-ever FIDE rating of 2882."
+   ],
+   [
+    "E",
+    "He is the reigning World Chess Champion in 2026."
+   ]
+  ],
+  "a": "D",
+  "e": "Carlsen was World Chess Champion 2013-2023 and holds the highest-ever FIDE rating of 2882."
+ },
+ {
+  "id": 120,
+  "t": "Sports",
+  "d": "Easy",
+  "ty": "figure",
+  "q": "Which pair correctly matches the Esports World Cup Chess 2026 prize money?",
+  "o": [
+   [
+    "A",
+    "Winner: USD 200,000; Runner-up: USD 190,000"
+   ],
+   [
+    "B",
+    "Winner: USD 250,000; Runner-up: USD 145,000"
+   ],
+   [
+    "C",
+    "Winner: USD 300,000; Runner-up: USD 190,000"
+   ],
+   [
+    "D",
+    "Winner: USD 250,000; Third place: USD 190,000"
+   ],
+   [
+    "E",
+    "Winner: USD 250,000; Runner-up: USD 190,000"
+   ]
+  ],
+  "a": "E",
+  "e": "The winner received USD 250,000 and the runner-up USD 190,000; third place got USD 145,000."
+ },
+ {
+  "id": 121,
+  "t": "Sports",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the Esports Foundation (organiser of the Esports World Cup) is CORRECT?",
+  "o": [
+   [
+    "A",
+    "It is a non-profit funded by Saudi Arabia's Public Investment Fund; the inaugural edition was held in Riyadh, Saudi Arabia, in 2025."
+   ],
+   [
+    "B",
+    "It is organised by FIDE."
+   ],
+   [
+    "C",
+    "The inaugural edition was in Paris in 2024."
+   ],
+   [
+    "D",
+    "It is funded by the Qatar Investment Authority."
+   ],
+   [
+    "E",
+    "The Foundation is a for-profit entity."
+   ]
+  ],
+  "a": "A",
+  "e": "The Esports Foundation, a non-profit funded by Saudi Arabia's PIF, held its inaugural edition in Riyadh in 2025."
+ },
+ {
+  "id": 122,
+  "t": "Sports",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "17 Arjuna Awards and 1 Arjuna Award (Lifetime) were given in the National Sports Awards 2025.",
+   "3 Dronacharya Awards (Regular) and 2 Dronacharya Awards (Lifetime) were given.",
+   "No athlete was selected for the Major Dhyan Chand Khel Ratna Award.",
+   "This was the first time in history that no Khel Ratna was awarded."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "Only 3"
+   ],
+   [
+    "B",
+    "1, 2 and 3"
+   ],
+   [
+    "C",
+    "All of the above"
+   ],
+   [
+    "D",
+    "1 and 4"
+   ],
+   [
+    "E",
+    "2 and 4"
+   ]
+  ],
+  "a": "B",
+  "e": "Statement 4 is incorrect — this rare occurrence had also happened previously in 2008 and 2014."
+ },
+ {
+  "id": 123,
+  "t": "Sports",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the National Sports Awards 2025 selection process is CORRECT?",
+  "o": [
+   [
+    "A",
+    "No re-evaluation process was conducted."
+   ],
+   [
+    "B",
+    "It was chaired by a former Chief Election Commissioner."
+   ],
+   [
+    "C",
+    "The list was finalised on recommendations of a committee chaired by former Supreme Court judge Arun Kumar Mishra, after a re-evaluation process."
+   ],
+   [
+    "D",
+    "It was chaired by a sitting Supreme Court judge."
+   ],
+   [
+    "E",
+    "It was chaired by the Sports Minister himself."
+   ]
+  ],
+  "a": "C",
+  "e": "The selection committee, chaired by former SC judge Arun Kumar Mishra, finalised the list after a re-evaluation process."
+ },
+ {
+  "id": 124,
+  "t": "Sports",
+  "d": "Easy",
+  "ty": "figure",
+  "q": "Which pair correctly matches a National Sports Award with its cash prize?",
+  "o": [
+   [
+    "A",
+    "Dronacharya Award (Regular): ₹15 lakh; Dronacharya Award (Lifetime): ₹10 lakh"
+   ],
+   [
+    "B",
+    "Dhyan Chand Award: ₹25 lakh; Khel Ratna: ₹15 lakh"
+   ],
+   [
+    "C",
+    "Rashtriya Khel Protsahan Puraskar: ₹10 lakh cash"
+   ],
+   [
+    "D",
+    "Major Dhyan Chand Khel Ratna: ₹25 lakh; Arjuna Award: ₹15 lakh"
+   ],
+   [
+    "E",
+    "Major Dhyan Chand Khel Ratna: ₹15 lakh; Arjuna Award: ₹25 lakh"
+   ]
+  ],
+  "a": "D",
+  "e": "The Khel Ratna carries ₹25 lakh and the Arjuna Award ₹15 lakh; the Rashtriya Khel Protsahan Puraskar carries no cash prize."
+ },
+ {
+  "id": 125,
+  "t": "Sports",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Maulana Abul Kalam Azad Trophy (1956-57)",
+   "Arjuna Award (1961)",
+   "Dronacharya Award (1985)",
+   "Padma Shri",
+   "Dhyan Chand Award (2002)"
+  ],
+  "q": "Which of the above is NOT one of the six honours collectively called the National Sports Awards?",
+  "o": [
+   [
+    "A",
+    "Dhyan Chand Award"
+   ],
+   [
+    "B",
+    "Maulana Abul Kalam Azad Trophy"
+   ],
+   [
+    "C",
+    "Arjuna Award"
+   ],
+   [
+    "D",
+    "Dronacharya Award"
+   ],
+   [
+    "E",
+    "Padma Shri"
+   ]
+  ],
+  "a": "E",
+  "e": "The Padma Shri is a separate civilian honour, not one of the six National Sports Awards (which also include the Khel Ratna and Rashtriya Khel Protsahan Puraskar)."
+ },
+ {
+  "id": 126,
+  "t": "Sports",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The first recipient of the Major Dhyan Chand Khel Ratna was Viswanathan Anand (Chess).",
+   "The first recipient of the Maulana Abul Kalam Azad Trophy was the University of Mumbai.",
+   "The Rashtriya Khel Protsahan Puraskar (2009) was jointly awarded to Tata Steel and the Railways Sports Promotion Board.",
+   "The National Sports Awards are presented on 15 August every year."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1, 2 and 3"
+   ],
+   [
+    "B",
+    "All of the above"
+   ],
+   [
+    "C",
+    "1 and 4"
+   ],
+   [
+    "D",
+    "2 and 4"
+   ],
+   [
+    "E",
+    "Only 3"
+   ]
+  ],
+  "a": "A",
+  "e": "Statement 4 is incorrect — the awards are presented on 29 August, Major Dhyan Chand's birth anniversary, not 15 August."
+ },
+ {
+  "id": 127,
+  "t": "Sports",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the 135th Durand Cup 2026 final is CORRECT?",
+  "o": [
+   [
+    "A",
+    "The Durand Cup is organised solely by AIFF, without the Indian Armed Forces."
+   ],
+   [
+    "B",
+    "East Bengal FC won the title, defeating Mohun Bagan Super Giant in the final held in Kolkata."
+   ],
+   [
+    "C",
+    "Mohun Bagan Super Giant won the title."
+   ],
+   [
+    "D",
+    "The final was held in Guwahati."
+   ],
+   [
+    "E",
+    "It was the 100th edition of the Durand Cup."
+   ]
+  ],
+  "a": "B",
+  "e": "East Bengal FC won the 135th Durand Cup 2026, defeating Mohun Bagan Super Giant in Kolkata."
+ },
+ {
+  "id": 128,
+  "t": "Sports",
+  "d": "Easy",
+  "ty": "statement",
+  "q": "Which of the following statements about the Durand Cup is CORRECT?",
+  "o": [
+   [
+    "A",
+    "It is organised only by the Indian Armed Forces."
+   ],
+   [
+    "B",
+    "It is a cricket tournament, not football."
+   ],
+   [
+    "C",
+    "Organised by the Durand Football Tournament Society in cooperation with AIFF and the Indian Armed Forces, it is regarded as Asia's oldest football competition."
+   ],
+   [
+    "D",
+    "It is Asia's newest football competition."
+   ],
+   [
+    "E",
+    "It is organised solely by FIFA."
+   ]
+  ],
+  "a": "C",
+  "e": "The Durand Cup, run by DFTS with AIFF and the Armed Forces, is Asia's oldest football competition."
+ },
+ {
+  "id": 129,
+  "t": "Sports",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The 2028 India Open Badminton Tournament will be held in Guwahati, Assam, instead of New Delhi.",
+   "The reason for the shift is a clash with Republic Day security arrangements.",
+   "It will return to New Delhi from 2029 onwards.",
+   "The organising body is the Badminton World Federation."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1 and 4"
+   ],
+   [
+    "B",
+    "2 and 4"
+   ],
+   [
+    "C",
+    "Only 3"
+   ],
+   [
+    "D",
+    "1, 2 and 3"
+   ],
+   [
+    "E",
+    "All of the above"
+   ]
+  ],
+  "a": "D",
+  "e": "Statement 4 is incorrect — the organising body is the Badminton Association of India (BAI), not the BWF."
+ },
+ {
+  "id": 130,
+  "t": "Sports",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about R Praggnanandhaa's Grand Chess Tour 2026 win is CORRECT?",
+  "o": [
+   [
+    "A",
+    "He defeated Magnus Carlsen in the final."
+   ],
+   [
+    "B",
+    "The event was held in New Delhi."
+   ],
+   [
+    "C",
+    "He lost the final 13-15."
+   ],
+   [
+    "D",
+    "The prize money was USD 250,000."
+   ],
+   [
+    "E",
+    "He became the first Indian to win the Grand Chess Tour, defeating Fabiano Caruana 15-13 at the Saint Louis Chess Club, USA, winning USD 200,000."
+   ]
+  ],
+  "a": "E",
+  "e": "Praggnanandhaa defeated Fabiano Caruana 15-13 in St. Louis, becoming the first Indian Grand Chess Tour champion, winning USD 200,000."
+ },
+ {
+  "id": 131,
+  "t": "Sports",
+  "d": "Easy",
+  "ty": "statement",
+  "q": "Which of the following statements about the Grand Chess Tour 2026 Finals is CORRECT?",
+  "o": [
+   [
+    "A",
+    "It was organised by the Saint Louis Chess Club and Superbet Foundation, held from 22-27 August 2026."
+   ],
+   [
+    "B",
+    "It was organised solely by FIDE."
+   ],
+   [
+    "C",
+    "It was held in Paris, France."
+   ],
+   [
+    "D",
+    "It ran from 1-10 August 2026."
+   ],
+   [
+    "E",
+    "It was organised by the Esports Foundation."
+   ]
+  ],
+  "a": "A",
+  "e": "The event, organised by the Saint Louis Chess Club and Superbet Foundation, ran from 22-27 August 2026."
+ },
+ {
+  "id": 132,
+  "t": "Books & Authors",
+  "d": "Easy",
+  "ty": "statement",
+  "q": "Which of the following statements about Zoramthanga's memoir is CORRECT?",
+  "o": [
+   [
+    "A",
+    "He is the current CM of Mizoram."
+   ],
+   [
+    "B",
+    "Titled 'From Guerrilla Fighter to Chief Minister,' it is the memoir of Zoramthanga, former CM of Mizoram and a leading figure of the Mizo National Front."
+   ],
+   [
+    "C",
+    "It is a memoir of a Nagaland leader."
+   ],
+   [
+    "D",
+    "Zoramthanga was associated with the NSCN."
+   ],
+   [
+    "E",
+    "The memoir focuses only on his tenure as CM, excluding the insurgency period."
+   ]
+  ],
+  "a": "B",
+  "e": "Zoramthanga, former Mizoram CM and MNF figure, chronicles a half-century journey from insurgency to democratic power."
+ },
+ {
+  "id": 133,
+  "t": "Books & Authors",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "Arindam Chaudhuri's new book is titled 'Africa Before America'.",
+   "His previous book was '2047: A Roadmap to Beating USA & China' (2022).",
+   "The 1.25:1 Egalitarian Concept is based on his father Dr. Malay Chaudhuri's theory 'Production of Skills by Means of Skill'.",
+   "The concept proposes the highest-paid individual should earn no more than 2.5 times the lowest-paid employee."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "2 and 4"
+   ],
+   [
+    "B",
+    "Only 3"
+   ],
+   [
+    "C",
+    "1, 2 and 3"
+   ],
+   [
+    "D",
+    "All of the above"
+   ],
+   [
+    "E",
+    "1 and 4"
+   ]
+  ],
+  "a": "C",
+  "e": "Statement 4 is incorrect — the concept proposes a ratio of no more than 1.25 times, not 2.5 times."
+ },
+ {
+  "id": 134,
+  "t": "Books & Authors",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about 'Kaho Kalidasa!' is CORRECT?",
+  "o": [
+   [
+    "A",
+    "It was published by Rupa Publications."
+   ],
+   [
+    "B",
+    "It is about the poet Tulsidas."
+   ],
+   [
+    "C",
+    "It was launched at Rashtrapati Bhavan."
+   ],
+   [
+    "D",
+    "It is a biographical novel about the poet Kalidasa, authored by Yugul Joshi, published by Manjul Publishing House, and launched by Union Minister Gajendra Singh Shekhawat."
+   ],
+   [
+    "E",
+    "It was authored by Gajendra Singh Shekhawat himself."
+   ]
+  ],
+  "a": "D",
+  "e": "'Kaho Kalidasa!', authored by Yugul Joshi and published by Manjul Publishing House, was launched by Union Minister Gajendra Singh Shekhawat at IGCNA."
+ },
+ {
+  "id": 135,
+  "t": "Books & Authors",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about 'Sankalp Se Siddhi Ka Modi Yug' is CORRECT?",
+  "o": [
+   [
+    "A",
+    "Authored by Gajendra Singh Shekhawat."
+   ],
+   [
+    "B",
+    "Released by the President of India."
+   ],
+   [
+    "C",
+    "Published by Manjul Publishing House."
+   ],
+   [
+    "D",
+    "It portrays PM Modi as 'Vikas Purush.'"
+   ],
+   [
+    "E",
+    "Authored by Rajya Sabha MP Ghanshyam Tiwari, published by Rupa Publications, and released by Vice President C. P. Radhakrishnan, portraying PM Modi as 'Setu Purush.'"
+   ]
+  ],
+  "a": "E",
+  "e": "The book, authored by Ghanshyam Tiwari and published by Rupa Publications, was released by VP C.P. Radhakrishnan, portraying PM Modi as 'Setu Purush.'"
+ },
+ {
+  "id": 136,
+  "t": "Books & Authors",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "'Kaho Kalidasa!' was launched at Samvet Auditorium, IGCNA, New Delhi.",
+   "'Sankalp Se Siddhi Ka Modi Yug' was released at Uprashtrapati Bhavan, New Delhi.",
+   "Zoramthanga's memoir was released at Rashtrapati Bhavan."
+  ],
+  "q": "Which of the above statements are correct, as per the source material?",
+  "o": [
+   [
+    "A",
+    "1 and 2 only"
+   ],
+   [
+    "B",
+    "All three"
+   ],
+   [
+    "C",
+    "1 only"
+   ],
+   [
+    "D",
+    "2 only"
+   ],
+   [
+    "E",
+    "None of the above"
+   ]
+  ],
+  "a": "A",
+  "e": "The source specifies venues for the first two book launches; no launch venue is mentioned for Zoramthanga's memoir, so statement 3 is unsupported."
+ },
+ {
+  "id": 137,
+  "t": "Awards",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The Gaj Gaurav Awards 2026 were conferred by MoEFCC during World Elephant Day celebrations in Visakhapatnam, Andhra Pradesh.",
+   "They are associated with the national Project Elephant programme.",
+   "A key awardee was Jaldapara National Park, West Bengal.",
+   "The awards recognise contributions to marine conservation."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "Only 3"
+   ],
+   [
+    "B",
+    "1, 2 and 3"
+   ],
+   [
+    "C",
+    "All of the above"
+   ],
+   [
+    "D",
+    "1 and 4"
+   ],
+   [
+    "E",
+    "2 and 4"
+   ]
+  ],
+  "a": "B",
+  "e": "Statement 4 is incorrect — the awards recognise contributions to elephant protection, habitat management, and human-elephant conflict mitigation, not marine conservation."
+ },
+ {
+  "id": 138,
+  "t": "Awards",
+  "d": "Easy",
+  "ty": "figure",
+  "q": "Which pair correctly represents India's elephant conservation framework figures?",
+  "o": [
+   [
+    "A",
+    "28 Elephant Reserves; 150 corridors"
+   ],
+   [
+    "B",
+    "33 Tiger Reserves; 150 corridors"
+   ],
+   [
+    "C",
+    "33 Elephant Reserves; 150 scientifically identified elephant corridors"
+   ],
+   [
+    "D",
+    "50 Elephant Reserves; 100 corridors"
+   ],
+   [
+    "E",
+    "33 Elephant Reserves; 100 corridors"
+   ]
+  ],
+  "a": "C",
+  "e": "India has 33 Elephant Reserves and 150 scientifically identified elephant corridors."
+ },
+ {
+  "id": 139,
+  "t": "Awards",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the Nishan-e-Imtiaz nomination is CORRECT?",
+  "o": [
+   [
+    "A",
+    "The award will be conferred in 2026."
+   ],
+   [
+    "B",
+    "They are being honoured for treating Jinnah's illness, not for confidentiality."
+   ],
+   [
+    "C",
+    "It is India's highest civilian award."
+   ],
+   [
+    "D",
+    "Two Mumbai-based Parsi doctors, Dr Jal Ratanji Patel and Dr Jal Dhaybho-Koo, were nominated for Pakistan's Nishan-e-Imtiaz for maintaining confidentiality of Muhammad Ali Jinnah's terminal illness before Partition; it will be conferred posthumously in March 2027."
+   ],
+   [
+    "E",
+    "The doctors are from Karachi."
+   ]
+  ],
+  "a": "D",
+  "e": "The two Mumbai-based Parsi doctors were recognised for confidentiality regarding Jinnah's illness; the posthumous award is set for March 2027."
+ },
+ {
+  "id": 140,
+  "t": "Awards",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the 47th Sarala Puraskar is CORRECT?",
+  "o": [
+   [
+    "A",
+    "He was selected for the 40th Sarala Puraskar."
+   ],
+   [
+    "B",
+    "The award is presented by the Odisha government directly."
+   ],
+   [
+    "C",
+    "His winning work was 'Aprastuta Mrutyu.'"
+   ],
+   [
+    "D",
+    "The cash prize is ₹2.5 lakh."
+   ],
+   [
+    "E",
+    "Dr Ashutosh Parida was selected for his Odia poetry collection 'Bishwas De Pruthwi,' awarded by IMPaCT with a cash prize of ₹7 lakh."
+   ]
+  ],
+  "a": "E",
+  "e": "Dr Ashutosh Parida won the 47th Sarala Puraskar for 'Bishwas De Pruthwi,' awarded by IMPaCT (₹7 lakh cash)."
+ },
+ {
+  "id": 141,
+  "t": "Awards",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The Sarala Puraskar was instituted in 1980.",
+   "It is presented by IMPaCT, the social wing of Indian Metals & Ferro Alloys Ltd.",
+   "It carries a prize of ₹7 lakh cash, citation and copper plaque.",
+   "It is a national-level award covering all Indian languages."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1, 2 and 3"
+   ],
+   [
+    "B",
+    "All of the above"
+   ],
+   [
+    "C",
+    "1 and 4"
+   ],
+   [
+    "D",
+    "2 and 4"
+   ],
+   [
+    "E",
+    "Only 3"
+   ]
+  ],
+  "a": "A",
+  "e": "Statement 4 is incorrect — it is the premier annual literary award of Odisha for Odia literature, not a national award covering all languages."
+ },
+ {
+  "id": 142,
+  "t": "Awards",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about Dr Ashutosh Parida's earlier recognition is CORRECT?",
+  "o": [
+   [
+    "A",
+    "He has never received a Sahitya Akademi Award."
+   ],
+   [
+    "B",
+    "He earlier received the Sahitya Akademi Award 2023 for his Odia poetry collection 'Aprastuta Mrutyu.'"
+   ],
+   [
+    "C",
+    "He received the Sahitya Akademi Award in 2020."
+   ],
+   [
+    "D",
+    "His earlier award-winning work was 'Bishwas De Pruthwi.'"
+   ],
+   [
+    "E",
+    "He received the Jnanpith Award in 2023."
+   ]
+  ],
+  "a": "B",
+  "e": "Dr Parida earlier won the Sahitya Akademi Award 2023 for 'Aprastuta Mrutyu.'"
+ },
+ {
+  "id": 143,
+  "t": "Awards",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "The Publications Division of MIB received seven awards for excellence in book production.",
+   "These comprised 4 Second Prizes and 3 Third Prizes.",
+   "Languages recognised were Hindi, English and Urdu.",
+   "The event was organised by the Sahitya Akademi."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "2 and 4"
+   ],
+   [
+    "B",
+    "Only 3"
+   ],
+   [
+    "C",
+    "1, 2 and 3"
+   ],
+   [
+    "D",
+    "All of the above"
+   ],
+   [
+    "E",
+    "1 and 4"
+   ]
+  ],
+  "a": "C",
+  "e": "Statement 4 is incorrect — the event was organised by the Federation of Indian Publishers, not the Sahitya Akademi."
+ },
+ {
+  "id": 144,
+  "t": "Important Days",
+  "d": "Easy",
+  "ty": "statement",
+  "q": "Which of the following statements about Income Tax Day is CORRECT?",
+  "o": [
+   [
+    "A",
+    "2026 marks its 150th anniversary."
+   ],
+   [
+    "B",
+    "It commemorates the introduction of GST."
+   ],
+   [
+    "C",
+    "It is observed on 24 August."
+   ],
+   [
+    "D",
+    "It is observed on 24 July every year; 2026 marks its 167th anniversary."
+   ],
+   [
+    "E",
+    "It is observed on 1 April."
+   ]
+  ],
+  "a": "D",
+  "e": "Income Tax Day (Aaykar Diwas), observed on 24 July, marked its 167th anniversary in 2026."
+ },
+ {
+  "id": 145,
+  "t": "Important Days",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "Sadbhavana Diwas is observed on 20 August every year.",
+   "It was first observed in 1992.",
+   "'Sadbhavana' means goodwill and bona fide.",
+   "It marks the birth anniversary of Indira Gandhi."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "All of the above"
+   ],
+   [
+    "B",
+    "1 and 4"
+   ],
+   [
+    "C",
+    "2 and 4"
+   ],
+   [
+    "D",
+    "Only 3"
+   ],
+   [
+    "E",
+    "1, 2 and 3"
+   ]
+  ],
+  "a": "E",
+  "e": "Statement 4 is incorrect — Sadbhavana Diwas marks the birth anniversary of Rajiv Gandhi, not Indira Gandhi."
+ },
+ {
+  "id": 146,
+  "t": "Important Days",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "Rajiv Gandhi was born on 20 August 1944 in Bombay.",
+   "He became the youngest PM of India on 31 October 1984, at age 40.",
+   "The 61st Constitutional Amendment Act, 1988 lowered the voting age from 21 to 18.",
+   "He was assassinated on 21 May 1990 at Sriperumbudur."
+  ],
+  "q": "Which of the above statements is/are INCORRECT?",
+  "o": [
+   [
+    "A",
+    "Only 4"
+   ],
+   [
+    "B",
+    "Only 1"
+   ],
+   [
+    "C",
+    "2 and 3"
+   ],
+   [
+    "D",
+    "All are correct"
+   ],
+   [
+    "E",
+    "Only 2"
+   ]
+  ],
+  "a": "A",
+  "e": "Rajiv Gandhi was assassinated on 21 May 1991, not 1990."
+ },
+ {
+  "id": 147,
+  "t": "Important Days",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about World Senior Citizen's Day is CORRECT?",
+  "o": [
+   [
+    "A",
+    "WHO projects no increase in the aged population."
+   ],
+   [
+    "B",
+    "Observed on 21 August every year; per WHO, by 2030, 1 in 6 people globally will be aged 60 or above."
+   ],
+   [
+    "C",
+    "Observed on 1 October."
+   ],
+   [
+    "D",
+    "By 2030, 1 in 3 people will be aged 60 or above."
+   ],
+   [
+    "E",
+    "It is observed on 21 September."
+   ]
+  ],
+  "a": "B",
+  "e": "World Senior Citizen's Day (21 August) — WHO projects 1 in 6 people globally will be 60+ by 2030."
+ },
+ {
+  "id": 148,
+  "t": "Important Days",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "Population aged 60+ is expected to rise from 1 billion in 2020 to 1.4 billion, and further to 2.1 billion by 2050.",
+   "By 2050, India is projected to have more than 300 million citizens aged 60+, nearly one in five Indians.",
+   "By 2030, 1 in 6 people globally will be aged 60 or above.",
+   "India's 60+ population is expected to decline by 2050."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "2 and 4"
+   ],
+   [
+    "B",
+    "Only 3"
+   ],
+   [
+    "C",
+    "1, 2 and 3"
+   ],
+   [
+    "D",
+    "All of the above"
+   ],
+   [
+    "E",
+    "1 and 4"
+   ]
+  ],
+  "a": "C",
+  "e": "Statement 4 is incorrect — India's 60+ population is projected to rise significantly, not decline, by 2050."
+ },
+ {
+  "id": 149,
+  "t": "Important Days",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about National Space Day is CORRECT?",
+  "o": [
+   [
+    "A",
+    "It commemorates the Mangalyaan mission."
+   ],
+   [
+    "B",
+    "Observed on 23 July."
+   ],
+   [
+    "C",
+    "It commemorates Chandrayaan-2."
+   ],
+   [
+    "D",
+    "Observed on 23 August to commemorate Chandrayaan-3's landing and Pragyan Rover deployment; first observed in 2024."
+   ],
+   [
+    "E",
+    "First observed in 2020."
+   ]
+  ],
+  "a": "D",
+  "e": "National Space Day (23 August, first observed 2024) commemorates Chandrayaan-3's soft landing and the Pragyan Rover."
+ },
+ {
+  "id": 150,
+  "t": "Important Days",
+  "d": "Moderate",
+  "ty": "notamong",
+  "s": [
+   "Made India the 4th country to achieve a soft landing on the Moon",
+   "Made India the first country to land near the lunar South Pole",
+   "Landing site named 'Shiv Shakti Point'",
+   "Made India the first country to land on the far side of the Moon"
+  ],
+  "q": "Which of the above was NOT an actual significance of Chandrayaan-3 as noted?",
+  "o": [
+   [
+    "A",
+    "All are correct"
+   ],
+   [
+    "B",
+    "Only 1"
+   ],
+   [
+    "C",
+    "Only 2"
+   ],
+   [
+    "D",
+    "Only 3"
+   ],
+   [
+    "E",
+    "Only 4"
+   ]
+  ],
+  "a": "E",
+  "e": "Chandrayaan-3's key achievements were being the 4th soft-landing country, the first near the lunar South Pole, and naming the site 'Shiv Shakti Point' — landing on the Moon's far side was not among these."
+ },
+ {
+  "id": 151,
+  "t": "Important Days",
+  "d": "Hard",
+  "ty": "combo",
+  "s": [
+   "World Water Week 2026 was the 36th edition, held from 23-27 August 2026.",
+   "Its theme was 'Water for People and Progress.'",
+   "It was organised by the Stockholm International Water Institute.",
+   "It was held in Geneva, Switzerland."
+  ],
+  "q": "Which of the above statements are correct?",
+  "o": [
+   [
+    "A",
+    "1, 2 and 3"
+   ],
+   [
+    "B",
+    "All of the above"
+   ],
+   [
+    "C",
+    "1 and 4"
+   ],
+   [
+    "D",
+    "2 and 4"
+   ],
+   [
+    "E",
+    "Only 3"
+   ]
+  ],
+  "a": "A",
+  "e": "Statement 4 is incorrect — the conference venue was Stockholm, Sweden, not Geneva."
+ },
+ {
+  "id": 152,
+  "t": "Important Days",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about the Stockholm Water Prize 2026 is CORRECT?",
+  "o": [
+   [
+    "A",
+    "This was the 50th year of the prize."
+   ],
+   [
+    "B",
+    "Kaveh Madani, Director of UNU-INWEH, won the prize, becoming the youngest recipient at age 44 and the first UN official/former politician to receive it in its 35-year history."
+   ],
+   [
+    "C",
+    "He is the oldest recipient at age 70."
+   ],
+   [
+    "D",
+    "He is affiliated with the World Bank."
+   ],
+   [
+    "E",
+    "He won for work on desalination technology."
+   ]
+  ],
+  "a": "B",
+  "e": "Kaveh Madani won the 2026 Stockholm Water Prize, recognised for the 'water bankruptcy' concept, as its youngest-ever and first UN-official recipient in 35 years."
+ },
+ {
+  "id": 153,
+  "t": "Important Days",
+  "d": "Moderate",
+  "ty": "statement",
+  "q": "Which of the following statements about World Sanskrit Day 2026 is CORRECT?",
+  "o": [
+   [
+    "A",
+    "Classical language status was declared in 2010."
+   ],
+   [
+    "B",
+    "In 2026, it fell on 9 August."
+   ],
+   [
+    "C",
+    "Observed on Shravana Purnima; in 2026, it fell on 28 August, with first observance in 1969."
+   ],
+   [
+    "D",
+    "It is always observed on 15 August."
+   ],
+   [
+    "E",
+    "First observed in 1990."
+   ]
+  ],
+  "a": "C",
+  "e": "World Sanskrit Day, observed on Shravana Purnima, fell on 28 August in 2026; it was first observed in 1969."
+ },
+ {
+  "id": 154,
+  "t": "Important Days",
+  "d": "Easy",
+  "ty": "figure",
+  "q": "Which of the following pairs correctly matches the World Sanskrit Day date for the given year?",
+  "o": [
+   [
+    "A",
+    "2025: 28 August; 2026: 9 August"
+   ],
+   [
+    "B",
+    "2026: 17 August; 2027: 28 August"
+   ],
+   [
+    "C",
+    "2025: 17 August; 2026: 9 August"
+   ],
+   [
+    "D",
+    "2026: 28 August; 2027: 17 August"
+   ],
+   [
+    "E",
+    "2026: 9 August; 2027: 28 August"
+   ]
+  ],
+  "a": "D",
+  "e": "World Sanskrit Day fell on 28 August in 2026 and will fall on 17 August in 2027 (9 August in 2025)."
+ },
+ {
+  "id": 155,
+  "t": "Important Days",
+  "d": "Easy",
+  "ty": "statement",
+  "q": "Which of the following statements about World Entrepreneurs Day is CORRECT?",
+  "o": [
+   [
+    "A",
+    "Celebrated on 21 August."
+   ],
+   [
+    "B",
+    "Celebrated on 15 August."
+   ],
+   [
+    "C",
+    "Celebrated on 1 September."
+   ],
+   [
+    "D",
+    "It is celebrated biennially, not annually."
+   ],
+   [
+    "E",
+    "World Entrepreneurs Day is celebrated on 1 August."
+   ]
+  ],
+  "a": "E",
+  "e": "World Entrepreneurs Day is celebrated on 1 August."
+ },
+ {
+  "id": 156,
+  "t": "Obituary",
+  "d": "Easy",
+  "ty": "statement",
+  "q": "Which of the following statements about Girish Bharadwaj is CORRECT?",
+  "o": [
+   [
+    "A",
+    "Padma Shri awardee Girish Bharadwaj, popularly known as the 'Bridge Man of India,' passed away at age 76 in Sullia, Karnataka."
+   ],
+   [
+    "B",
+    "He passed away at age 82."
+   ],
+   [
+    "C",
+    "He was known as the 'Water Man of India.'"
+   ],
+   [
+    "D",
+    "He passed away in Kerala."
+   ],
+   [
+    "E",
+    "He was a Bharat Ratna awardee."
+   ]
+  ],
+  "a": "A",
+  "e": "Girish Bharadwaj, the 'Bridge Man of India' and Padma Shri awardee, passed away at 76 in Sullia, Karnataka."
+ }
+];
+
+</script>
+<script>
+// ============ NABARD GA Practice Quiz — App Logic ============
+(function(){
+  const app = document.getElementById('app');
+
+  const TOPIC_ORDER = [
+    "Phase1+2 Schemes","Cabinet Affairs","Banking & Finance","National Affairs",
+    "International Affairs","Reports & Indices","Science & Tech","Defence",
+    "Appointments","Sports","Books & Authors","Awards","Important Days","Obituary"
+  ];
+
+  const SCHEME_TYPES = ["combo","notamong","acronym"];
+
+  let state = {
+    screen: 'home',
+    order: 'pdf', // pdf | shuffled
+    activeSet: [],       // array of question objects currently being played
+    activeMode: '',      // label for display / retry
+    activeTopic: null,
+    idx: 0,
+    score: 0,
+    results: {}          // qid -> {status:'correct'|'wrong'|'skipped', chosen}
+  };
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+
+  function topicCounts(){
+    const c = {};
+    QUESTIONS.forEach(q=>{ c[q.t] = (c[q.t]||0)+1; });
+    return c;
+  }
+
+  function schemeQuestions(){
+    return QUESTIONS.filter(q => SCHEME_TYPES.includes(q.ty));
+  }
+
+  // ---------------- Navigation ----------------
+  function goHome(){
+    state.screen = 'home';
+    render();
+  }
+
+  function goFullSetup(){
+    state.screen = 'fullSetup';
+    render();
+  }
+
+  function goSectionGrid(){
+    state.screen = 'sectionGrid';
+    render();
+  }
+
+  function startFullTest(){
+    let set = QUESTIONS.slice();
+    if(state.order === 'shuffled'){ set = shuffle(set); }
+    beginQuiz(set, 'Full Practice Test ('+(state.order==='pdf'?'PDF Order':'Shuffled')+')', null);
+  }
+
+  function startSection(topic){
+    const set = QUESTIONS.filter(q=>q.t===topic);
+    beginQuiz(set, 'Section: '+topic, topic);
+  }
+
+  function startSchemesSprint(){
+    const set = shuffle(schemeQuestions());
+    beginQuiz(set, 'Schemes-Only Sprint', null);
+  }
+
+  function beginQuiz(set, label, topic){
+    state.activeSet = set;
+    state.activeMode = label;
+    state.activeTopic = topic;
+    state.idx = 0;
+    state.score = 0;
+    state.results = {};
+    state.screen = 'quiz';
+    state.answeredCurrent = false;
+    render();
+  }
+
+  function retrySameSet(){
+    state.idx = 0;
+    state.score = 0;
+    state.results = {};
+    state.screen = 'quiz';
+    state.answeredCurrent = false;
+    render();
+  }
+
+  // ---------------- Quiz interaction ----------------
+  function selectOption(qid, letter){
+    if(state.results[qid]) return; // already answered/skipped
+    const q = state.activeSet.find(x=>x.id===qid);
+    const correct = (letter === q.a);
+    state.results[qid] = {status: correct?'correct':'wrong', chosen: letter};
+    if(correct) state.score++;
+    state.answeredCurrent = true;
+    render();
+  }
+
+  function skipCurrent(){
+    const q = state.activeSet[state.idx];
+    if(state.results[q.id]) return;
+    state.results[q.id] = {status:'skipped', chosen:null};
+    state.answeredCurrent = true;
+    render();
+  }
+
+  function nextQuestion(){
+    if(state.idx < state.activeSet.length - 1){
+      state.idx++;
+      state.answeredCurrent = false;
+      render();
+    } else {
+      state.screen = 'end';
+      render();
+    }
+  }
+
+  // ---------------- Rendering ----------------
+  function render(){
+    app.innerHTML = '';
+    if(state.screen === 'home') return renderHome();
+    if(state.screen === 'fullSetup') return renderFullSetup();
+    if(state.screen === 'sectionGrid') return renderSectionGrid();
+    if(state.screen === 'quiz') return renderQuiz();
+    if(state.screen === 'end') return renderEnd();
+  }
+
+  function el(tag, cls, html){
+    const e = document.createElement(tag);
+    if(cls) e.className = cls;
+    if(html !== undefined) e.innerHTML = html;
+    return e;
+  }
+
+  function renderTopbar(showBack, backFn, title){
+    const bar = el('div','topbar');
+    const left = el('div');
+    if(showBack){
+      const b = el('button','btn small ghost','&larr; Menu');
+      b.onclick = backFn || goHome;
+      left.appendChild(b);
+    } else {
+      const brand = el('div','brand','NABARD Grade A<small>ESI/GA PRACTICE ENGINE</small>');
+      left.appendChild(brand);
+    }
+    bar.appendChild(left);
+    if(title){
+      const t = el('div','score-pill', title);
+      bar.appendChild(t);
+    }
+    app.appendChild(bar);
+  }
+
+  function renderHome(){
+    renderTopbar(false);
+    const hero = el('div','hero');
+    hero.innerHTML = `
+      <div class="badge">GA Capsule &middot; 16&ndash;31 August</div>
+      <h1>ESI / GA Practice Quiz</h1>
+      <p>${QUESTIONS.length} questions &middot; modelled on NABARD Grade A mock-test style</p>
+    `;
+    app.appendChild(hero);
+
+    const grid = el('div','mode-grid');
+
+    const modes = [
+      {icon:'&#128214;', title:'Full Practice Test', sub:'All '+QUESTIONS.length+' questions &middot; choose PDF or shuffled order', fn: goFullSetup},
+      {icon:'&#128209;', title:'Section-wise Revision', sub:'Drill one topic at a time', fn: goSectionGrid},
+      {icon:'&#9889;', title:'Schemes-Only Sprint', sub: schemeQuestions().length+' questions &middot; schemes, orgs & acronyms only', fn: startSchemesSprint}
+    ];
+    modes.forEach(m=>{
+      const c = el('div','mode-card');
+      c.innerHTML = `<div class="mode-icon">${m.icon}</div><div><div class="mode-title">${m.title}</div><div class="mode-sub">${m.sub}</div></div>`;
+      c.onclick = m.fn;
+      grid.appendChild(c);
+    });
+    app.appendChild(grid);
+  }
+
+  function renderFullSetup(){
+    renderTopbar(true);
+    const card = el('div','card');
+    card.innerHTML = `<h2 style="margin-top:0;font-size:1.1rem;">Full Practice Test</h2>
+      <p style="color:var(--muted);font-size:.85rem;">All ${QUESTIONS.length} questions across every topic.</p>`;
+    const toggle = el('div','toggle-row');
+    const pdfBtn = el('div','toggle-btn'+(state.order==='pdf'?' active':''),'PDF Order');
+    const shufBtn = el('div','toggle-btn'+(state.order==='shuffled'?' active':''),'Shuffled');
+    pdfBtn.onclick = ()=>{ state.order='pdf'; render(); };
+    shufBtn.onclick = ()=>{ state.order='shuffled'; render(); };
+    toggle.appendChild(pdfBtn); toggle.appendChild(shufBtn);
+    card.appendChild(toggle);
+    const startBtn = el('button','btn primary full','Start Test');
+    startBtn.style.marginTop='10px';
+    startBtn.onclick = startFullTest;
+    card.appendChild(startBtn);
+    app.appendChild(card);
+  }
+
+  function renderSectionGrid(){
+    renderTopbar(true);
+    const title = el('h2','serif','Section-wise Revision');
+    title.style.fontSize='1.15rem';
+    app.appendChild(title);
+    const counts = topicCounts();
+    const grid = el('div','section-grid');
+    TOPIC_ORDER.forEach(topic=>{
+      const n = counts[topic] || 0;
+      if(n === 0) return;
+      const tile = el('div','section-tile');
+      tile.innerHTML = `<div class="stname">${topic}</div><div class="stcount">${n} question${n>1?'s':''}</div>`;
+      tile.onclick = ()=> startSection(topic);
+      grid.appendChild(tile);
+    });
+    app.appendChild(grid);
+  }
+
+  function renderQuiz(){
+    const q = state.activeSet[state.idx];
+    const total = state.activeSet.length;
+    renderTopbar(true, ()=>{ if(confirm('Leave this test and return to the menu? Your progress in this set will be lost.')) goHome(); }, (state.idx+1)+' / '+total);
+
+    // progress + score
+    const pw = el('div','progress-wrap');
+    const bg = el('div','progress-bar-bg');
+    const fg = el('div','progress-bar-fg');
+    fg.style.width = Math.round(((state.idx)/total)*100)+'%';
+    bg.appendChild(fg);
+    pw.appendChild(bg);
+    const scorePill = el('div','score-pill','Score: '+state.score);
+    pw.appendChild(scorePill);
+    app.appendChild(pw);
+
+    const card = el('div','card');
+
+    // meta row
+    const meta = el('div','qmeta');
+    meta.innerHTML = `<span>${q.t}</span><span class="diff-tag diff-${q.d}">${q.d}</span>`;
+    card.appendChild(meta);
+
+    if(q.c){
+      const ctx = el('div','context-box', q.c);
+      card.appendChild(ctx);
+    }
+    if(q.s && q.s.length){
+      const sl = el('div','stmt-list');
+      const ol = document.createElement('ol');
+      q.s.forEach(st=>{
+        const li = document.createElement('li');
+        li.textContent = st;
+        ol.appendChild(li);
+      });
+      sl.appendChild(ol);
+      card.appendChild(sl);
+    }
+
+    const qt = el('div','question-text', q.q);
+    card.appendChild(qt);
+
+    const answered = !!state.results[q.id];
+    const chosenLetter = answered ? state.results[q.id].chosen : null;
+
+    q.o.forEach(([letter, text])=>{
+      const opt = el('div','option'+(answered?' locked':''));
+      if(answered){
+        if(letter === q.a) opt.classList.add('correct');
+        else if(letter === chosenLetter) opt.classList.add('wrong');
+        else opt.classList.add('dim');
+      }
+      opt.innerHTML = `<div class="optkey">${letter}</div><div>${text}</div>`;
+      if(!answered){
+        opt.onclick = ()=> selectOption(q.id, letter);
+      }
+      card.appendChild(opt);
+    });
+
+    if(answered){
+      const res = state.results[q.id];
+      const fb = el('div','feedback-box '+(res.status==='correct'?'correct':(res.status==='wrong'?'wrong':'skipped')));
+      let head = res.status==='correct' ? '&#10003; Correct.' : (res.status==='wrong' ? '&#10007; Not quite.' : 'Skipped.');
+      fb.innerHTML = `<b>${head}</b> ${q.e}`;
+      card.appendChild(fb);
+
+      const actionRow = el('div','action-row');
+      const nextBtn = el('button','btn primary', state.idx < total-1 ? 'Next Question &rarr;' : 'Finish & See Results');
+      nextBtn.onclick = nextQuestion;
+      actionRow.appendChild(nextBtn);
+      card.appendChild(actionRow);
+    } else {
+      const actionRow = el('div','action-row');
+      const skipBtn = el('button','btn ghost full','Skip Question');
+      skipBtn.onclick = skipCurrent;
+      actionRow.appendChild(skipBtn);
+      card.appendChild(actionRow);
+    }
+
+    app.appendChild(card);
+  }
+
+  function renderEnd(){
+    renderTopbar(false);
+    const set = state.activeSet;
+    const total = set.length;
+    let correct=0, wrong=0, skipped=0;
+    const byDiff = {Easy:{c:0,t:0}, Moderate:{c:0,t:0}, Hard:{c:0,t:0}};
+    const missedList = [];
+
+    set.forEach(q=>{
+      const r = state.results[q.id];
+      byDiff[q.d].t++;
+      if(!r){ skipped++; missedList.push({q, status:'skipped'}); return; }
+      if(r.status==='correct'){ correct++; byDiff[q.d].c++; }
+      else if(r.status==='wrong'){ wrong++; missedList.push({q, status:'wrong', chosen:r.chosen}); }
+      else if(r.status==='skipped'){ skipped++; missedList.push({q, status:'skipped'}); }
+    });
+
+    const pct = total ? Math.round((correct/total)*100) : 0;
+
+    const hero = el('div','end-hero');
+    hero.innerHTML = `
+      <div class="badge">${state.activeMode}</div>
+      <div class="end-score">${correct} / ${total}</div>
+      <div class="end-sub">${pct}% accuracy &middot; ${wrong} missed &middot; ${skipped} skipped</div>
+    `;
+    app.appendChild(hero);
+
+    const diffCard = el('div','card');
+    diffCard.innerHTML = `<h3 style="margin-top:0;font-size:.95rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;">Accuracy by Difficulty</h3>`;
+    const dbRow = el('div','diff-breakdown');
+    ['Easy','Moderate','Hard'].forEach(d=>{
+      const b = byDiff[d];
+      const p = b.t ? Math.round((b.c/b.t)*100) : 0;
+      const block = el('div','diff-block');
+      block.innerHTML = `<div class="dbnum">${b.t? p+'%':'&mdash;'}</div><div class="dblabel">${d} (${b.c}/${b.t})</div>`;
+      dbRow.appendChild(block);
+    });
+    diffCard.appendChild(dbRow);
+    app.appendChild(diffCard);
+
+    const actionRow = el('div','action-row');
+    const retryBtn = el('button','btn primary','Retry Same Set');
+    retryBtn.onclick = retrySameSet;
+    const menuBtn = el('button','btn ghost','Back to Menu');
+    menuBtn.onclick = goHome;
+    actionRow.appendChild(retryBtn);
+    actionRow.appendChild(menuBtn);
+    app.appendChild(actionRow);
+
+    // Review section
+    if(missedList.length){
+      const revTitle = el('h2','serif','Review: Missed & Skipped');
+      revTitle.style.fontSize='1.05rem';
+      revTitle.style.margin='22px 0 10px';
+      app.appendChild(revTitle);
+
+      missedList.forEach(item=>{
+        const q = item.q;
+        const ri = el('div','review-item');
+        const tag = el('div','rtag '+(item.status==='wrong'?'missed':'skipped-tag'), item.status==='wrong'?'Missed':'Skipped');
+        ri.appendChild(tag);
+        const qDiv = el('div','rq', q.q);
+        ri.appendChild(qDiv);
+        const correctText = q.o.find(o=>o[0]===q.a)[1];
+        const ansDiv = el('div','rans', `<b>Correct answer (${q.a}):</b> ${correctText}`);
+        ri.appendChild(ansDiv);
+        const expDiv = el('div','rexp', q.e);
+        ri.appendChild(expDiv);
+        app.appendChild(ri);
+      });
+    } else {
+      const note = el('div','empty-note','Perfect run — nothing missed or skipped! &#127881;');
+      app.appendChild(note);
+    }
+  }
+
+  render();
+})();
+
+</script>
+</body>
+</html>
