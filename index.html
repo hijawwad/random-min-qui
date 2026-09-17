@@ -4,82 +4,122 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Quizzes</title>
   <style>
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
-      max-width: 600px;
+      max-width: 640px;
       margin: 0 auto;
-      padding: 40px 20px;
-      background: #0f0f14;
+      padding: 40px 20px 80px;
+      background: radial-gradient(circle at top, #1a1a2e, #0a0a12 60%);
       color: #e8e8ec;
       min-height: 100vh;
     }
+    .header { text-align: center; margin-bottom: 24px; }
     h1 {
-      text-align: center;
-      font-size: 28px;
-      margin-bottom: 8px;
-      background: linear-gradient(135deg, #a78bfa, #60a5fa);
+      font-size: 30px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #c084fc, #60a5fa, #34d399);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      margin-bottom: 6px;
     }
-    .subtitle {
-      text-align: center;
-      color: #71717a;
-      font-size: 14px;
-      margin-bottom: 32px;
+    .subtitle { color: #8b8b96; font-size: 13px; margin-bottom: 14px; }
+    #searchBox {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid #2a2a3a;
+      background: #16161f;
+      color: #e8e8ec;
+      font-size: 15px;
+      outline: none;
+      margin-bottom: 20px;
     }
+    #searchBox:focus { border-color: #a78bfa; }
+    .count { text-align: center; color: #71717a; font-size: 12px; margin-bottom: 18px; }
     a {
-      display: block;
-      padding: 18px 20px;
-      margin: 12px 0;
-      background: #1a1a22;
-      border: 1px solid #2a2a35;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
+      margin: 8px 0;
+      background: #16161f;
+      border: 1px solid #26263a;
       border-radius: 14px;
       text-decoration: none;
-      color: #e8e8ec;
-      font-size: 16px;
+      color: #ececf1;
+      font-size: 14px;
       font-weight: 500;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
     }
-    a:active {
-      background: #23232e;
-      border-color: #60a5fa;
-      transform: scale(0.98);
-    }
-    #loading {
-      text-align: center;
-      color: #71717a;
-      padding: 40px 0;
-    }
+    a:active { border-color: #a78bfa; background: #1c1c2b; transform: scale(0.98); }
+    .icon { font-size: 16px; }
+    .arrow { margin-left: auto; color: #52525b; }
+    #status { text-align: center; color: #71717a; padding: 30px 0; }
   </style>
 </head>
 <body>
-  <h1>📚 My Quizzes</h1>
-  <p class="subtitle">Tap a quiz to begin</p>
-  <div id="quizList"><p id="loading">Loading quizzes...</p></div>
+  <div class="header">
+    <h1>📚 My Quizzes</h1>
+    <p class="subtitle">Tap any quiz to start practicing</p>
+    <input type="text" id="searchBox" placeholder="🔍 Search quizzes..." disabled>
+    <p class="count" id="quizCount"></p>
+  </div>
+  <p id="status">Loading quizzes...</p>
+  <div id="quizList"></div>
 
   <script>
+    let allFiles = [];
+    const listEl = document.getElementById('quizList');
+    const countEl = document.getElementById('quizCount');
+    const statusEl = document.getElementById('status');
+    const searchBox = document.getElementById('searchBox');
+
+    function render(filter = '') {
+      listEl.innerHTML = '';
+      const f = filter.toLowerCase();
+      const filtered = allFiles.filter(name => name.toLowerCase().includes(f));
+      countEl.textContent = filtered.length + ' of ' + allFiles.length + ' quizzes';
+      if (filtered.length === 0) {
+        statusEl.textContent = 'No quizzes match your search.';
+        statusEl.style.display = 'block';
+      } else {
+        statusEl.style.display = 'none';
+      }
+      filtered.forEach(name => {
+        const a = document.createElement('a');
+        a.href = encodeURIComponent(name);
+        const span1 = document.createElement('span');
+        span1.className = 'icon';
+        span1.textContent = '📝';
+        const span2 = document.createElement('span');
+        span2.textContent = name.replace('.html', '');
+        const span3 = document.createElement('span');
+        span3.className = 'arrow';
+        span3.textContent = '›';
+        a.appendChild(span1);
+        a.appendChild(span2);
+        a.appendChild(span3);
+        listEl.appendChild(a);
+      });
+    }
+
     fetch('https://api.github.com/repos/hijawwad/random-min-qui/contents/')
       .then(res => res.json())
       .then(files => {
-        const list = document.getElementById('quizList');
-        list.innerHTML = '';
-        const htmlFiles = files.filter(f => f.name.endsWith('.html') && f.name !== 'index.html');
-        if (htmlFiles.length === 0) {
-          list.innerHTML = '<p id="loading">No quizzes found yet.</p>';
-          return;
-        }
-        htmlFiles.forEach(file => {
-          const link = document.createElement('a');
-          link.href = file.name;
-          link.textContent = file.name.replace('.html', '');
-          list.appendChild(link);
-        });
+        allFiles = files
+          .filter(f => f.name.endsWith('.html') && f.name !== 'index.html')
+          .map(f => f.name);
+        statusEl.style.display = 'none';
+        searchBox.disabled = false;
+        render();
       })
       .catch(() => {
-        document.getElementById('quizList').innerHTML = '<p id="loading">Could not load quiz list. Refresh the page.</p>';
+        statusEl.textContent = 'Could not load quiz list. Refresh the page in a bit.';
       });
+
+    searchBox.addEventListener('input', e => render(e.target.value));
   </script>
 </body>
 </html>
