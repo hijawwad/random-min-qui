@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NABARD Grade A — Agri Schemes Mock Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg: #0f1216;
+    --bg-elev: #161b21;
+    --bg-elev-2: #1d232b;
+    --border: #2a3038;
+    --text: #e8eaed;
+    --text-dim: #9aa4b2;
+    --text-faint: #6b7480;
+    --accent: #c9a44c;
+    --accent-dim: #8f7638;
+    --green: #3fb950;
+    --green-bg: rgba(63,185,80,0.12);
+    --red: #f0525f;
+    --red-bg: rgba(240,82,95,0.12);
+    --blue: #5b9fd6;
+    --radius: 10px;
+    --serif: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.5;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  #app{max-width:820px;margin:0 auto;padding:20px 16px 60px;}
+  h1,h2,h3{font-family:var(--serif);font-weight:700;letter-spacing:0.2px;}
+  .brand{
+    text-align:center;padding:18px 0 8px;
+  }
+  .brand h1{font-size:1.5rem;margin:0 0 4px;color:var(--accent);}
+  .brand p{margin:0;color:var(--text-dim);font-size:0.85rem;}
+
+  .card{
+    background:var(--bg-elev);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:20px;
+    margin-bottom:16px;
+  }
+  .mode-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:18px;}
+  @media(min-width:640px){.mode-grid{grid-template-columns:1fr 1fr 1fr;}}
+  .mode-card{
+    background:var(--bg-elev);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:22px 18px;
+    cursor:pointer;
+    transition:border-color .15s, transform .15s;
+    text-align:left;
+  }
+  .mode-card:hover{border-color:var(--accent-dim);transform:translateY(-2px);}
+  .mode-card h3{margin:0 0 8px;font-size:1.05rem;color:var(--text);}
+  .mode-card p{margin:0;color:var(--text-dim);font-size:0.85rem;}
+  .mode-card .tag{
+    display:inline-block;margin-top:10px;font-size:0.72rem;color:var(--accent);
+    background:rgba(201,164,76,0.1);padding:3px 9px;border-radius:20px;
+  }
+
+  .btn{
+    font-family:var(--sans);
+    background:var(--accent);
+    color:#1a1508;
+    border:none;
+    padding:10px 20px;
+    border-radius:8px;
+    font-size:0.9rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:opacity .15s;
+  }
+  .btn:hover{opacity:0.88;}
+  .btn.secondary{
+    background:transparent;
+    color:var(--text);
+    border:1px solid var(--border);
+  }
+  .btn.ghost{
+    background:transparent;
+    color:var(--text-dim);
+    border:1px solid var(--border);
+  }
+  .btn:disabled{opacity:0.4;cursor:not-allowed;}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+
+  .toggle-row{display:flex;gap:8px;margin:14px 0;}
+  .toggle-btn{
+    flex:1;
+    padding:9px 6px;
+    text-align:center;
+    border-radius:8px;
+    border:1px solid var(--border);
+    background:var(--bg-elev-2);
+    color:var(--text-dim);
+    cursor:pointer;
+    font-size:0.85rem;
+  }
+  .toggle-btn.active{
+    background:var(--accent);
+    color:#1a1508;
+    border-color:var(--accent);
+    font-weight:600;
+  }
+
+  .section-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px;}
+  @media(min-width:560px){.section-grid{grid-template-columns:1fr 1fr;}}
+  .section-item{
+    background:var(--bg-elev-2);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:14px;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+  }
+  .section-item:hover{border-color:var(--accent-dim);}
+  .section-item .name{font-size:0.88rem;color:var(--text);}
+  .section-item .count{
+    font-size:0.72rem;color:var(--accent);white-space:nowrap;
+    background:rgba(201,164,76,0.1);padding:2px 9px;border-radius:20px;
+  }
+
+  /* Quiz header */
+  .quiz-header{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:10px;font-size:0.82rem;color:var(--text-dim);
+  }
+  .progress-bar{
+    height:6px;background:var(--bg-elev-2);border-radius:4px;overflow:hidden;margin-bottom:18px;
+    border:1px solid var(--border);
+  }
+  .progress-fill{height:100%;background:var(--accent);transition:width .25s;}
+
+  .scheme-pill{
+    display:inline-block;font-size:0.7rem;color:var(--accent);
+    background:rgba(201,164,76,0.1);padding:3px 10px;border-radius:20px;margin-bottom:10px;
+  }
+  .diff-pill{
+    display:inline-block;font-size:0.68rem;padding:2px 8px;border-radius:20px;margin-left:6px;
+    border:1px solid var(--border); color:var(--text-dim);
+  }
+
+  .instruction{
+    font-style:italic;color:var(--text-dim);margin:0 0 12px;font-size:0.92rem;line-height:1.6;
+  }
+  .statements{margin:0 0 14px;padding-left:0;list-style:none;}
+  .statements li{
+    padding:8px 0 8px 30px;position:relative;font-size:0.92rem;border-bottom:1px dashed var(--border);
+  }
+  .statements li:last-child{border-bottom:none;}
+  .statements li .num{
+    position:absolute;left:0;top:8px;color:var(--accent);font-weight:700;font-family:var(--serif);
+  }
+  .stem{font-size:1.02rem;font-weight:600;margin:0 0 16px;color:var(--text);font-family:var(--serif);}
+
+  .options{display:flex;flex-direction:column;gap:9px;}
+  .option{
+    display:flex;align-items:flex-start;gap:10px;
+    background:var(--bg-elev-2);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:12px 14px;
+    cursor:pointer;
+    font-size:0.9rem;
+    transition:border-color .12s, background .12s;
+  }
+  .option:hover{border-color:var(--accent-dim);}
+  .option .letter{
+    flex:0 0 auto;width:22px;height:22px;border-radius:50%;
+    border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+    font-size:0.75rem;font-weight:700;color:var(--text-dim);
+  }
+  .option.correct{background:var(--green-bg);border-color:var(--green);}
+  .option.correct .letter{background:var(--green);color:#06210a;border-color:var(--green);}
+  .option.wrong{background:var(--red-bg);border-color:var(--red);}
+  .option.wrong .letter{background:var(--red);color:#2a0a0c;border-color:var(--red);}
+  .option.disabled{cursor:default;}
+  .option.faded{opacity:0.55;}
+
+  .feedback{
+    margin-top:14px;padding:12px 14px;border-radius:8px;font-size:0.87rem;line-height:1.55;
+  }
+  .feedback.correct{background:var(--green-bg);border:1px solid var(--green);color:#c9f5cf;}
+  .feedback.wrong{background:var(--red-bg);border:1px solid var(--red);color:#ffd7da;}
+  .feedback.skip{background:var(--bg-elev-2);border:1px solid var(--border);color:var(--text-dim);}
+  .feedback b{color:var(--text);}
+
+  .qnav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;}
+  .qnav .left-btns, .qnav .right-btns{display:flex;gap:8px;}
+
+  /* End screen */
+  .score-hero{text-align:center;padding:20px 0;}
+  .score-hero .big{font-size:2.6rem;font-family:var(--serif);color:var(--accent);margin:0;}
+  .score-hero .sub{color:var(--text-dim);font-size:0.9rem;margin-top:6px;}
+  .diff-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+  .diff-box{background:var(--bg-elev-2);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;}
+  .diff-box .label{font-size:0.72rem;color:var(--text-dim);margin-bottom:4px;}
+  .diff-box .val{font-size:1.15rem;font-weight:700;color:var(--text);}
+
+  .review-item{
+    background:var(--bg-elev-2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px;
+  }
+  .review-item .rtag{font-size:0.7rem;padding:2px 8px;border-radius:20px;margin-right:6px;}
+  .rtag.miss{background:var(--red-bg);color:#ffb3b8;border:1px solid var(--red);}
+  .rtag.skip2{background:var(--bg-elev);color:var(--text-dim);border:1px solid var(--border);}
+  .review-item .stem2{font-size:0.9rem;margin:8px 0 6px;color:var(--text);}
+  .review-item .ans-line{font-size:0.82rem;color:var(--text-dim);}
+  .review-item .exp2{font-size:0.82rem;color:var(--text-dim);margin-top:6px;line-height:1.5;font-style:italic;}
+
+  .hidden{display:none !important;}
+  a{color:var(--accent);}
+  .top-link{
+    display:inline-block;margin-bottom:14px;color:var(--text-dim);text-decoration:none;font-size:0.85rem;cursor:pointer;
+  }
+  .top-link:hover{color:var(--accent);}
+  .footer-note{text-align:center;color:var(--text-faint);font-size:0.72rem;margin-top:30px;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="brand">
+    <h1>Ministry of Agriculture &amp; Farmers Welfare</h1>
+    <p>NABARD Grade A Practice Test · Scheme Mechanics Mock Series</p>
+  </div>
+
+  <div id="screen-home"></div>
+  <div id="screen-section" class="hidden"></div>
+  <div id="screen-quiz" class="hidden"></div>
+  <div id="screen-end" class="hidden"></div>
+
+  <div class="footer-note">Offline practice tool · built from the compiled scheme document</div>
+</div>
+
+<script>
+const QUESTIONS = [{"s": "PM Dhan-Dhaanya Krishi Yojana", "t": "combo", "d": "Moderate", "ins": "Recently, in July 2025, the Prime Minister Dhan-Dhaanya Krishi Yojana was approved by the Union Government. Consider the following statements about the scheme:", "st": ["It was approved by the Union Cabinet on 16 July 2025.", "It targets 100 low-performing agri-districts across the country.", "It has a total outlay of ₹1,44,000 crore over 6 years (FY 2025-26 to 2030-31).", "It converges 36 Central Schemes across 15 Ministries."], "q": "Which of the statements given above are correct?", "o": ["All of the above", "1 and 2 only", "2 and 3 only", "1, 2 and 3", "None of the above"], "c": 3, "e": "Statement 4 is incorrect — the scheme converges 36 Central Schemes across 11 Ministries, not 15.", "id": 0}, {"s": "PM Dhan-Dhaanya Krishi Yojana", "t": "figurepair", "d": "Easy", "ins": null, "st": null, "q": "What is the total outlay of PM Dhan-Dhaanya Krishi Yojana and its implementation period?", "o": ["₹1,44,000 crore; 6 years", "₹1,00,000 crore; 5 years", "₹90,000 crore; 6 years", "₹1,44,000 crore; 5 years", "₹1,50,000 crore; 6 years"], "c": 0, "e": "The scheme has a total outlay of ₹1,44,000 crore over 6 years (FY2025-26 to 2030-31).", "id": 1}, {"s": "PM Dhan-Dhaanya Krishi Yojana", "t": "pickcorrect", "d": "Moderate", "ins": null, "st": null, "q": "Which one of the following statements about the governance structure of PM Dhan-Dhaanya Krishi Yojana is correct?", "o": ["The State Dhan-Dhaanya Krishi Yojana Samiti is headed by the Minister of Agriculture.", "District-level plans are monitored using 75 Key Performance Indicators.", "The District Dhan-Dhaanya Krishi Yojana Samiti is chaired by the District Collector or Gram Panchayat.", "The National Monitoring Committee is headed by the Chief Secretary.", "The National Executive Committee is headed by the Cabinet Secretary."], "c": 2, "e": "The District DDKY Samiti is chaired by the District Collector or Gram Panchayat. The State Samiti is headed by the Chief Secretary, the National Executive Committee by the Minister of Agriculture & Farmers Welfare, the National Monitoring Committee by Secretary DA&FW, and monitoring uses 117 KPIs (not 75).", "id": 2}, {"s": "PM Dhan-Dhaanya Krishi Yojana", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following is NOT one of the five core objectives of PM Dhan-Dhaanya Krishi Yojana?", "o": ["Promoting export-oriented cash crop cultivation in coastal districts", "Enhancing agricultural productivity", "Encouraging crop diversification and sustainable agricultural practices", "Augmenting post-harvest storage capacity at Panchayat and block levels", "Enabling greater access to short-term and long-term agricultural credit"], "c": 0, "e": "'Promoting export-oriented cash crop cultivation in coastal districts' is not among the five core objectives listed for the scheme; the fifth genuine objective is improving irrigation infrastructure for reliable water access.", "id": 3}, {"s": "PM Dhan-Dhaanya Krishi Yojana", "t": "figurepair", "d": "Moderate", "ins": null, "st": null, "q": "PM Dhan-Dhaanya Krishi Yojana draws inspiration from NITI Aayog's Aspirational District Programme, which was launched in ___ covering ___ districts.", "o": ["January 2018; 100", "January 2019; 115", "March 2018; 125", "January 2018; 112", "October 2017; 100"], "c": 3, "e": "The Aspirational District Programme (ADP) was launched in January 2018 for 112 most underdeveloped districts.", "id": 4}, {"s": "PM Dhan-Dhaanya Krishi Yojana", "t": "combo", "d": "Hard", "ins": "Consider the following statements about PM Dhan-Dhaanya Krishi Yojana:", "st": ["The scheme projects 2.5 crore farmers as direct beneficiaries.", "A minimum of one district per State/UT is selected to ensure balanced geographic coverage.", "Convergence under the scheme is limited strictly to Central Schemes and does not include State Schemes or private partnerships."], "q": "Which of the statements given above are INCORRECT?", "o": ["Only 1", "None of the above", "2 and 3", "1 and 3", "Only 2"], "c": 3, "e": "The scheme projects 1.7 crore farmers as direct beneficiaries (not 2.5 crore), and convergence explicitly also includes State Schemes and private-sector partnerships, not just Central Schemes — so statement 3 is also wrong along with statement 1.", "id": 5}, {"s": "PM Dhan-Dhaanya Krishi Yojana", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following is NOT a genuine selection criterion for identifying districts under PM Dhan-Dhaanya Krishi Yojana?", "o": ["High population density of the district", "Low productivity", "Low cropping intensity", "Less credit disbursement", "Share of Net Cropped Area and operational holdings"], "c": 0, "e": "'High population density' is not a stated selection criterion. The real criteria are low productivity, low cropping intensity, less credit disbursement, and share of Net Cropped Area and operational holdings.", "id": 6}, {"s": "Mission for Aatmanirbharta in Pulses", "t": "combo", "d": "Moderate", "ins": "The Mission for Aatmanirbharta in Pulses (2025-26 to 2030-31) was launched in October 2025. Consider the following statements:", "st": ["It was launched on 11 October 2025 by the Prime Minister.", "It has a budgetary allocation of ₹11,440 crore.", "Its goal is to achieve full self-reliance in pulses by December 2027, focusing on Tur, Urad, and Masoor."], "q": "Which of the statements given above are correct?", "o": ["1, 2 and 3", "All of the above", "1 and 3 only", "1 and 2 only", "2 and 3 only"], "c": 1, "e": "All three statements are correct as per the document — the mission was launched on 11 October 2025 by PM Modi with an allocation of ₹11,440 crore, targeting self-reliance in pulses by December 2027.", "id": 7}, {"s": "Mission for Aatmanirbharta in Pulses", "t": "figurepair", "d": "Easy", "ins": null, "st": null, "q": "What are the targeted domestic production and cultivation area for pulses by 2030-31 under the Mission?", "o": ["350 lakh tonnes; 280 lakh hectares", "400 lakh tonnes; 310 lakh hectares", "350 lakh tonnes; 310 lakh hectares", "300 lakh tonnes; 310 lakh hectares", "350 lakh tonnes; 350 lakh hectares"], "c": 2, "e": "The target is 350 lakh tonnes of domestic production over 310 lakh hectares of cultivation area by 2030-31.", "id": 8}, {"s": "Mission for Aatmanirbharta in Pulses", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following is NOT among the five major pulses-growing states identified under the Mission?", "o": ["Madhya Pradesh", "Maharashtra", "Andhra Pradesh", "Karnataka", "Rajasthan"], "c": 1, "e": "The five major pulses-growing states named are Rajasthan, Madhya Pradesh, Gujarat, Andhra Pradesh, and Karnataka — Maharashtra is not among them (Gujarat is the correct fifth state).", "id": 9}, {"s": "Mission for Aatmanirbharta in Pulses", "t": "pickcorrect", "d": "Moderate", "ins": null, "st": null, "q": "Which one of the following statements about the Mission for Aatmanirbharta in Pulses is correct?", "o": ["88 lakh quintals of certified seeds and 126 lakh free seed kits are to be distributed.", "The average yield target is to improve from 881 kg/ha to 1,500 kg/ha.", "100% procurement of Tur, Urad and Masoor at MSP is guaranteed for four years under PM-AASHA's Price Support Scheme.", "The mission plans to develop 500 processing units with a subsidy of up to ₹50 lakh per unit.", "Breeder seed production is monitored by NABARD."], "c": 2, "e": "100% procurement of Tur, Urad and Masoor at MSP for four years is executed by NAFED and NCCF under PM-AASHA's PSS. The real figures are: yield target 881 to 1,130 kg/ha; 88 lakh free seed kits and 126 lakh quintals of certified seeds (reversed in the distractor); 1,000 processing units at up to ₹25 lakh subsidy; and breeder seed production is monitored by ICAR, not NABARD.", "id": 10}, {"s": "Mission for Aatmanirbharta in Pulses", "t": "acronym", "d": "Easy", "ins": null, "st": null, "q": "What does the SATHI Portal (used for seed quality assurance under the Mission) stand for?", "o": ["Seed Authentication, Tracking & Harvest Information", "Seed Authentication, Traceability & Harvest Inventory", "Seed Authentication, Traceability & Holistic Inventory", "Seed Assurance, Traceability & Holistic Integration", "System for Agricultural Traceability & Holistic Inventory"], "c": 2, "e": "SATHI stands for Seed Authentication, Traceability & Holistic Inventory (seedtrace.gov.in), a centralized portal by the Ministry of Agriculture with NIC.", "id": 11}, {"s": "Mission for Aatmanirbharta in Pulses", "t": "figurepair", "d": "Moderate", "ins": null, "st": null, "q": "Under the Mission, how many free seed kits and how many quintals of certified seeds are to be distributed by 2030-31, covering how many hectares?", "o": ["88 lakh kits; 126 lakh quintals; 310 lakh hectares", "126 lakh kits; 88 lakh quintals; 370 lakh hectares", "88 lakh kits; 100 lakh quintals; 350 lakh hectares", "88 lakh kits; 126 lakh quintals; 370 lakh hectares", "100 lakh kits; 126 lakh quintals; 370 lakh hectares"], "c": 3, "e": "88 lakh free seed kits and 126 lakh quintals of certified seeds are to be distributed, covering 370 lakh hectares by 2030-31.", "id": 12}, {"s": "Mission for Aatmanirbharta in Pulses", "t": "combo", "d": "Hard", "ins": "Consider the following statements regarding the Mission for Aatmanirbharta in Pulses:", "st": ["Pulses contribute 40-45% of total protein intake in Indian diets.", "The Mission is expected to benefit nearly 2 crore farmers.", "1,000 processing units are to be developed with a subsidy of up to ₹25 lakh per unit."], "q": "Which of the statements given above are correct?", "o": ["None of the above", "2 and 3 only", "Only 3", "1, 2 and 3", "1 and 2 only"], "c": 1, "e": "Statement 1 is wrong — pulses contribute 20-25% of protein intake (not 40-45%). The number of beneficiary farmers (nearly 2 crore) and the ₹25 lakh per unit processing subsidy are both correctly stated.", "id": 13}, {"s": "PM-KISAN", "t": "combo", "d": "Moderate", "ins": "PM-KISAN (Pradhan Mantri Kisan Samman Nidhi) is a Central Sector Scheme. Consider the following statements:", "st": ["It was launched with effect from 1 December 2018, though formally launched on 24 February 2019.", "Eligible families receive ₹6,000 per year in three equal instalments of ₹2,000 each.", "The scheme was extended to all landholding farmer families across the country with effect from 1 June 2019."], "q": "Which of the statements given above are correct?", "o": ["All of the above", "2 and 3 only", "1 and 2 only", "1, 2 and 3", "Only 3"], "c": 3, "e": "All three statements are correct: PM-KISAN was launched effective 1 December 2018 (launch date 24 February 2019), gives ₹6,000/year in three installments of ₹2,000, and was extended to all landholding farmer families w.e.f. 1 June 2019.", "id": 14}, {"s": "PM-KISAN", "t": "scenario", "d": "Hard", "ins": "Consider the following persons in the context of PM-KISAN eligibility:", "st": ["Ramesh, a small farmer who owns 1.5 hectares of land, with land ownership recorded in his name before 1 February 2019.", "Dr. Anjali, a practising doctor registered with the Medical Council, who also owns 2 hectares of agricultural land in her name.", "Suresh, a marginal farmer owning 0.8 hectares, with land in his name since 2016."], "q": "Who among the following are eligible beneficiaries under PM-KISAN?", "o": ["1, 2 and 3", "2 and 3 only", "1 and 3 only", "1 and 2 only", "None of the above"], "c": 3, "e": "Ramesh (small landholding farmer, land in his own name before cut-off) and Suresh (marginal farmer with land ownership before 1 Feb 2019) are eligible. Dr. Anjali, a registered medical professional, falls under the 'Professionals registered with professional bodies' exclusion and is therefore NOT eligible.", "id": 15}, {"s": "PM-KISAN", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following categories is NOT listed as an exclusion under PM-KISAN?", "o": ["Professionals such as Doctors, Engineers, Lawyers, CAs and Architects registered with professional bodies", "Non-Resident Indians (NRIs) as per the Income Tax Act, 1961", "Persons who paid Income Tax in the last assessment year", "Farmers owning more than 5 hectares of irrigated land", "All Institutional Landholders"], "c": 3, "e": "There is no landholding-size-based exclusion (like 'more than 5 hectares') under PM-KISAN since the scheme covers all landholding farmer families; the real exclusions are institutional landholders, NRIs, income-tax payers, and registered professionals, among others.", "id": 16}, {"s": "PM-KISAN", "t": "figurepair", "d": "Easy", "ins": null, "st": null, "q": "What was the Union Budget 2026-27 allocation for PM-KISAN, and what is the IVRS helpline number for beneficiary status?", "o": ["₹60,000 crore; 18001801551", "₹68,000 crore; 155261", "₹75,000 crore; 155261", "₹60,000 crore; 155261", "₹60,000 crore; 14447"], "c": 3, "e": "The Union Budget 2026-27 allocated ₹60,000 crore for PM-KISAN, and the 24x7 IVRS helpline for beneficiary status is 155261.", "id": 17}, {"s": "PM-KISAN", "t": "acronym", "d": "Easy", "ins": null, "st": null, "q": "In the context of PM-KISAN's AI chatbot 'Kisan-eMitra', which organisations provided technical support for its development?", "o": ["ICAR and BHASHINI", "NABARD and NIC", "SFAC and EkStep Foundation", "EkStep Foundation and NIC", "EkStep Foundation and BHASHINI"], "c": 4, "e": "Kisan-eMitra, launched in September 2023, was developed with technical support from the EkStep Foundation and BHASHINI, offering 24x7 support in 11 languages.", "id": 18}, {"s": "PM-KISAN", "t": "pickcorrect", "d": "Moderate", "ins": null, "st": null, "q": "Which one of the following statements about PM-KISAN is correct?", "o": ["The PM-KISAN Mobile App was launched in 2018.", "PM-KISAN was initially launched for all landholding farmers regardless of land size.", "The land ownership cut-off date for eligibility is 1 February 2019, unchanged for 5 years except in case of succession.", "The Project Monitoring Unit is called the 'National Agriculture Welfare Implementation Society'.", "Physical verification under PM-KISAN covers a mandatory 10% of beneficiaries plus 5% automatic validation."], "c": 2, "e": "The cut-off date of 1 February 2019 is correct and unchanged for 5 years except in succession cases. PM-KISAN was initially for small & marginal farmers only; physical verification is 5% mandatory + 10% automatic validation (reversed in the distractor); the mobile app was launched in 2020; and the PMU is named the 'National Farmers Welfare Program Implementation Society'.", "id": 19}, {"s": "PM-KISAN", "t": "notamong", "d": "Hard", "ins": null, "st": null, "q": "Kisan-eMitra offers 24x7 support in 11 languages. Which of the following is NOT one of the listed languages?", "o": ["Kannada", "Bengali", "Assamese", "Malayalam", "Hindi"], "c": 2, "e": "The 11 languages listed are Hindi, English, Tamil, Bengali, Odia, Malayalam, Gujarati, Punjabi, Telugu, Marathi, and Kannada — Assamese is not among them.", "id": 20}, {"s": "PM-KISAN", "t": "figurepair", "d": "Moderate", "ins": null, "st": null, "q": "What percentage of beneficiaries undergo mandatory physical verification and automatic validation respectively after each trimester under PM-KISAN?", "o": ["5% mandatory; 5% automatic", "10% mandatory; 10% automatic", "10% mandatory; 5% automatic", "15% mandatory; 10% automatic", "5% mandatory; 10% automatic"], "c": 4, "e": "5% mandatory physical verification plus 10% automatic validation is conducted after each trimester.", "id": 21}, {"s": "PM Kisan Maan-Dhan Yojana (PM-KMY)", "t": "combo", "d": "Moderate", "ins": "PM Kisan Maan-Dhan Yojana (PM-KMY) provides social security to small and marginal farmers. Consider the following statements:", "st": ["It was launched on 12 September 2019 from Ranchi, Jharkhand.", "The entry age for subscribers is 18 to 40 years.", "Life Insurance Corporation of India (LIC) is the pension fund manager."], "q": "Which of the statements given above are correct?", "o": ["All are incorrect", "1 and 2 only", "2 and 3 only", "Only 1", "1, 2 and 3"], "c": 4, "e": "All three statements are correct: PM-KMY was launched on 12 September 2019 from Ranchi, entry age is 18-40 years, and LIC is the pension fund manager.", "id": 22}, {"s": "PM Kisan Maan-Dhan Yojana (PM-KMY)", "t": "figurepair", "d": "Easy", "ins": null, "st": null, "q": "What is the assured monthly pension under PM-KMY at age 60, and what percentage family pension does the spouse receive on the subscriber's death?", "o": ["₹2,000; 50%", "₹3,000; 60%", "₹5,000; 50%", "₹3,000; 50%", "₹3,000; 100%"], "c": 3, "e": "The assured monthly pension is ₹3,000 at age 60; on the subscriber's death the spouse gets 50% (₹1,500 per month), applicable only if the spouse is not already a beneficiary.", "id": 23}, {"s": "PM Kisan Maan-Dhan Yojana (PM-KMY)", "t": "scenario", "d": "Hard", "ins": "Consider the following persons in the context of PM-KMY eligibility:", "st": ["Geeta, aged 35, a marginal farmer with 1.2 hectares of land, not covered under any statutory social security scheme.", "Rajesh, aged 32, a small farmer already enrolled in the National Pension Scheme for Traders & Self-Employed Persons.", "Mohan, aged 28, a small farmer with 1.8 hectares of cultivable land."], "q": "Who among the following are eligible to enrol under PM-KMY?", "o": ["None of the above", "1 and 3 only", "2 and 3 only", "1, 2 and 3", "1 and 2 only"], "c": 1, "e": "Geeta (35, marginal farmer with 1.2 ha, not covered under any statutory social security scheme) and Mohan (28, small farmer with 1.8 ha land) are eligible. Rajesh is enrolled in the National Pension Scheme for Traders & Self-Employed Persons, which is a specific exclusion under PM-KMY.", "id": 24}, {"s": "PM Kisan Maan-Dhan Yojana (PM-KMY)", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following is NOT a stated exclusion from PM-KMY?", "o": ["Farmers who have availed a Kisan Credit Card", "Institutional landholders", "Professionals such as Doctors, Engineers, Lawyers, CAs and Architects", "Persons who paid Income Tax in the last assessment year", "SMFs already covered under statutory social security schemes such as NPS or ESIC"], "c": 0, "e": "Availing a KCC is not a stated exclusion under PM-KMY — in fact SMFs can use PM-KISAN benefits directly for their PM-KMY contribution. The genuine exclusions include statutory social security coverage, institutional landholders, income-tax payers, and registered professionals.", "id": 25}, {"s": "PM Kisan Maan-Dhan Yojana (PM-KMY)", "t": "pickcorrect", "d": "Moderate", "ins": null, "st": null, "q": "Which one of the following statements about PM-KMY's exit provisions is correct?", "o": ["On exit before 10 years, the subscriber receives both their own and the government's matching contribution with interest.", "On exit before 10 years, the subscriber receives their contribution plus savings bank interest, while the government's matching contribution goes back to the Pension Fund.", "The monthly contribution is a flat ₹100 for all entry ages.", "On incorrect declaration, the beneficiary receives their contribution back along with full accumulated interest.", "No commutation restriction exists — subscribers may commute their pension at any time."], "c": 1, "e": "On exit before 10 years, only the subscriber's own contribution plus savings bank interest is returned — the government's matching co-contribution is retained by the Pension Fund. Commutation of pension is not allowed at all. On incorrect declaration, the beneficiary gets back only their own contributions, without any interest. Monthly contributions range from ₹55 to ₹200 depending on entry age (₹100 only at the median entry age of 29).", "id": 26}, {"s": "PM Kisan Maan-Dhan Yojana (PM-KMY)", "t": "figurepair", "d": "Moderate", "ins": null, "st": null, "q": "What is the monthly contribution range under PM-KMY, and what is the contribution at the median entry age of 29 years?", "o": ["₹50 to ₹200; ₹150 per month", "₹100 to ₹200; ₹150 per month", "₹55 to ₹200; ₹150 per month", "₹55 to ₹200; ₹100 per month", "₹55 to ₹250; ₹100 per month"], "c": 3, "e": "The monthly contribution ranges from ₹55 to ₹200 depending on entry age; at the median entry age of 29 years, it is ₹100 per month, matched equally by the Central Government.", "id": 27}, {"s": "Pradhan Mantri Fasal Bima Yojana (PMFBY)", "t": "combo", "d": "Moderate", "ins": "Pradhan Mantri Fasal Bima Yojana (PMFBY) is India's flagship crop insurance scheme. Consider the following statements:", "st": ["It was launched on 18 February 2016 and first implemented from Kharif 2016.", "It follows the principle of 'One Nation, One Crop, One Premium' with uniform premium rates across the country.", "It is described as the largest crop insurance scheme in the world by farmer applications."], "q": "Which of the statements given above are correct?", "o": ["None of the above", "1, 2 and 3", "1 and 2 only", "Only 1", "2 and 3 only"], "c": 1, "e": "All three statements are correct — PMFBY was launched on 18 February 2016, follows the 'One Nation, One Crop, One Premium' principle, and is described as the largest crop insurance scheme in the world by farmer applications.", "id": 28}, {"s": "Pradhan Mantri Fasal Bima Yojana (PMFBY)", "t": "figurepair", "d": "Easy", "ins": null, "st": null, "q": "What are the maximum premium rates payable by farmers for Kharif and Rabi foodgrains/oilseeds under PMFBY?", "o": ["1.5% (Kharif); 2% (Rabi)", "5% (Kharif); 5% (Rabi)", "2% (Kharif); 1.5% (Rabi)", "2% (Kharif); 2% (Rabi)", "1.5% (Kharif); 1.5% (Rabi)"], "c": 2, "e": "Maximum premium payable by farmers is 2% of Sum Insured for Kharif foodgrains/oilseeds and 1.5% for Rabi foodgrains/oilseeds; commercial/horticultural crops attract 5%.", "id": 29}, {"s": "Pradhan Mantri Fasal Bima Yojana (PMFBY)", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following is NOT one of the optional add-on covers under PMFBY chosen by States/UTs?", "o": ["Prevented Sowing/Planting/Germination Risk", "Mid-Season Adversity", "Post-Harvest Losses", "Wild Animal Attacks", "Full Crop Cycle Weather Deviation Cover"], "c": 4, "e": "'Full Crop Cycle Weather Deviation Cover' is a fabricated add-on. The genuine optional add-ons are Prevented Sowing, Mid-Season Adversity, Post-Harvest Losses, Localized Calamities, and Wild Animal Attacks.", "id": 30}, {"s": "Pradhan Mantri Fasal Bima Yojana (PMFBY)", "t": "combo", "d": "Hard", "ins": "Consider the following statements regarding PMFBY's premium subsidy sharing and claim settlement:", "st": ["The Government's share is limited up to an Actuarial Premium Rate of 25% for irrigated crops and 30% for rainfed crops.", "Government protection is triggered if claims exceed 1:3.5 (premium:claims) or 35% of Sum Insured at the national level.", "The Centre:State premium subsidy sharing ratio is 90:10 in most States/UTs and 50:50 in Himalayan and North-Eastern States/UTs."], "q": "Which of the statements given above are correct?", "o": ["2 and 3", "All of the above", "None of the above", "1 and 2", "Only 1"], "c": 3, "e": "Statement 3 is incorrect — the premium subsidy sharing is 50:50 (Centre:State) in most States/UTs and 90:10 in Himalayan and North-Eastern States/UTs, not the reverse.", "id": 31}, {"s": "Pradhan Mantri Fasal Bima Yojana (PMFBY)", "t": "acronym", "d": "Easy", "ins": null, "st": null, "q": "What does YES-TECH, a technology intervention under PMFBY, stand for?", "o": ["Yield Evaluation System using Technology", "Yield Estimation Scheme through Technology", "Yield Estimation System using Technology", "Yield Estimation System for Timely Crop Harvesting", "Yield Enhancement System through Technology"], "c": 2, "e": "YES-TECH stands for Yield Estimation System using Technology, combining remote sensing and digital tools at the Gram Panchayat level with a minimum 30% weightage to tech-based estimation.", "id": 32}, {"s": "Pradhan Mantri Fasal Bima Yojana (PMFBY)", "t": "figurepair", "d": "Moderate", "ins": null, "st": null, "q": "What is the corpus of the FIAT (Fund for Innovation and Technology) approved under PMFBY, and when was it approved?", "o": ["₹824.77 crore; March 2025", "₹924.77 crore; January 2025", "₹700 crore; January 2025", "₹824.77 crore; September 2024", "₹824.77 crore; January 2025"], "c": 4, "e": "FIAT was approved by the Cabinet in January 2025 with a corpus of ₹824.77 crore to fund YES-TECH, WINDS, and R&D studies.", "id": 33}, {"s": "Pradhan Mantri Fasal Bima Yojana (PMFBY)", "t": "scenario", "d": "Hard", "ins": "Consider the following farmers seeking PMFBY coverage:", "st": ["Fatima, a tenant farmer growing a notified crop in a notified area.", "Tenzin, a tribal farmer cultivating land in a forest area under the Forest Rights Act (FRA).", "Imliba, cultivating community-owned land in a North-Eastern state, holding certification from the village head."], "q": "Who among the following farmers can avail crop insurance coverage under PMFBY?", "o": ["2 and 3 only", "1 and 3 only", "1, 2 and 3", "Only 2", "1 and 2 only"], "c": 2, "e": "All three are eligible: PMFBY covers all farmers including sharecroppers/tenant farmers, tribal farmers/forest dwellers cultivating under FRA, and farmers on community-owned land in the NER with proper certification.", "id": 34}, {"s": "Pradhan Mantri Fasal Bima Yojana (PMFBY)", "t": "pickcorrect", "d": "Moderate", "ins": null, "st": null, "q": "Which one of the following statements about PMFBY's claims and technology framework is correct?", "o": ["The KrishiRakshak Portal and Helpline toll-free number is 155261.", "The ESCROW Account requirement for States to deposit their premium share in advance became mandatory from Kharif 2023.", "The Digi Claim Module was integrated with PFMS beginning Kharif 2020.", "A 5% penalty is auto-calculated on NCIP for delayed claim payment by insurance companies.", "Threshold Yield is calculated as the average yield of the best 5 years out of the past 7 years, multiplied by the Indemnity Level."], "c": 4, "e": "Threshold Yield (TY) = average yield of best 5 years out of past 7 years × Indemnity Level — this is correct. The Digi Claim Module integration began from Kharif 2022; the delayed-claim penalty is 12%, not 5%; the ESCROW requirement is mandatory from Kharif 2025; and the KrishiRakshak (KRPH) toll-free number is 14447 (155261 is the PM-KISAN helpline).", "id": 35}, {"s": "Pradhan Mantri Fasal Bima Yojana (PMFBY)", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following technology platforms/portals is NOT associated with PMFBY?", "o": ["SATHI Portal", "WINDS Portal", "SARTHI Platform", "National Crop Insurance Portal (NCIP)", "CCE-Agri App"], "c": 0, "e": "The SATHI Portal is a seed-quality assurance portal associated with the Mission for Aatmanirbharta in Pulses, not PMFBY. NCIP, WINDS, CCE-Agri App, and SARTHI are all PMFBY-linked technology platforms.", "id": 36}, {"s": "Pradhan Mantri Fasal Bima Yojana (PMFBY)", "t": "figurepair", "d": "Hard", "ins": null, "st": null, "q": "Under PMFBY's technology framework, what minimum weightage is given to tech-based yield estimation under YES-TECH, and what is the toll-free number for KrishiRakshak Portal and Helpline?", "o": ["25%; 14447", "30%; 14447", "30%; 155261", "30%; 18001801551", "40%; 14447"], "c": 1, "e": "YES-TECH mandates a minimum 30% weightage to tech-based estimation, and the KrishiRakshak Portal and Helpline (KRPH) toll-free number is 14447.", "id": 37}, {"s": "e-NAM", "t": "combo", "d": "Moderate", "ins": "e-NAM (National Agriculture Market) is a pan-India electronic trading portal. Consider the following statements:", "st": ["It was launched in 2016 with the aim of creating a unified national agri marketplace.", "Its nodal agency is the Small Farmers' Agri-Business Consortium (SFAC).", "The e-NAM Mobile App was launched in October 2016."], "q": "Which of the statements given above are correct?", "o": ["None of the above", "1, 2 and 3", "1 and 2 only", "Only 3", "2 and 3 only"], "c": 1, "e": "All three statements are correct: e-NAM was launched in 2016, its nodal agency is SFAC, and the mobile app was launched in October 2016.", "id": 38}, {"s": "e-NAM", "t": "figurepair", "d": "Easy", "ins": null, "st": null, "q": "What is the infrastructure grant provided per mandi under e-NAM for computer hardware/internet/quality assaying equipment, and for sorting/grading/cleaning/packaging facilities?", "o": ["Up to ₹30 lakh; additional up to ₹50 lakh", "Up to ₹25 lakh; additional up to ₹40 lakh", "Up to ₹30 lakh; additional up to ₹40 lakh", "Up to ₹40 lakh; additional up to ₹30 lakh", "Up to ₹35 lakh; additional up to ₹40 lakh"], "c": 2, "e": "e-NAM provides up to ₹30 lakh for computer hardware/internet/quality assaying equipment, plus an additional up to ₹40 lakh for sorting, grading, cleaning and packaging facilities (and up to ₹5 lakh for a bio-composting unit).", "id": 39}, {"s": "e-NAM", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following is NOT a genuine feature of the e-NAM Mobile App?", "o": ["UPI integration with BHIM support added in 2017", "Free price information for 247 notified commodities as of Dec 2025", "Blockchain-based smart contract settlement introduced in 2020", "GPS-based mandi locator", "Grievance Redressal Management System (GRMS)"], "c": 2, "e": "'Blockchain-based smart contract settlement' is a fabricated feature. Genuine e-NAM app features include a GPS-based mandi locator, UPI/BHIM integration (2017), free price data for 247 commodities, and GRMS.", "id": 40}, {"s": "e-NAM", "t": "acronym", "d": "Easy", "ins": null, "st": null, "q": "What does 'PoP', introduced under e-NAM on 14 July 2022, stand for?", "o": ["Point of Presence", "Price of Produce", "Point of Purchase", "Platform for Online Produce", "Portal of Payments"], "c": 0, "e": "PoP stands for Point of Presence, introduced on 14 July 2022 to give access to logistics, warehousing, quality assurance, grading, packaging, agri-inputs, and financial/insurance services.", "id": 41}, {"s": "e-NAM", "t": "pickcorrect", "d": "Moderate", "ins": null, "st": null, "q": "Which one of the following statements about e-NAM is correct?", "o": ["The e-NAM Mobile App interface is available in 18 languages.", "Technical assistance under e-NAM is provided by NABARD through dedicated Mandi Analysts.", "FPOs must physically bring their produce to the APMC mandi in order to trade on e-NAM.", "The e-NAM software platform is provided free of cost to States/UTs, including customization, maintenance and training.", "The Warehouse-based Trading Module uses paper-based warehouse receipts rather than digital ones."], "c": 3, "e": "The e-NAM software is provided free of cost to States/UTs. The app interface is actually in 12 languages, not 18; the FPO Trading Module lets FPOs trade from their collection centres without visiting the mandi; the warehouse module uses electronic National Warehouse Receipts (e-NWR); and free Mandi Analysts are provided by SFAC, not NABARD.", "id": 42}, {"s": "e-NAM", "t": "figurepair", "d": "Moderate", "ins": null, "st": null, "q": "As of December 2025, for how many notified commodities does the e-NAM app provide free price information, and in how many languages is the app available?", "o": ["200 commodities; 12 languages", "247 commodities; 18 languages", "247 commodities; 12 languages", "247 commodities; 10 languages", "300 commodities; 12 languages"], "c": 2, "e": "The e-NAM app provides free price information for 247 notified commodities (as of Dec 2025) and is available in 12 languages.", "id": 43}, {"s": "Agriculture Infrastructure Fund (AIF)", "t": "combo", "d": "Moderate", "ins": "The Agriculture Infrastructure Fund (AIF) was launched in July 2020. Consider the following statements:", "st": ["It has a total fund size of ₹1 lakh crore, with a loan disbursement period of 6 years (by FY 2025-26).", "It offers 3% per annum interest subvention on loans up to ₹2 crore, available for up to 7 years.", "The lending rate charged by banks is capped at 9% per annum."], "q": "Which of the statements given above are correct?", "o": ["Only 1", "2 and 3 only", "1, 2 and 3", "None of the above", "1 and 2 only"], "c": 2, "e": "All three statements are correct: AIF was launched in July 2020 with a total fund size of ₹1 lakh crore, offers 3% interest subvention on loans up to ₹2 crore for up to 7 years, and caps the lending rate at 9%.", "id": 44}, {"s": "Agriculture Infrastructure Fund (AIF)", "t": "figurepair", "d": "Easy", "ins": null, "st": null, "q": "What is the minimum promoter's contribution required under AIF, and what percentage of grants-in-aid is specially allocated for SC/ST entrepreneurs?", "o": ["10%; 24% (16% SC + 8% ST)", "10%; 20% (12% SC + 8% ST)", "5%; 24% (16% SC + 8% ST)", "15%; 24% (16% SC + 8% ST)", "10%; 30% (20% SC + 10% ST)"], "c": 0, "e": "The minimum promoter's contribution is 10% of project cost, with a special allocation of 24% of total grants-in-aid for SC/ST entrepreneurs (16% SC + 8% ST).", "id": 45}, {"s": "Agriculture Infrastructure Fund (AIF)", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following is NOT a listed participating lending institution under AIF?", "o": ["Regional Rural Banks (RRBs)", "State Electricity Boards", "Non-Banking Financial Companies (NBFCs)", "Commercial Banks", "Cooperative Banks"], "c": 1, "e": "'State Electricity Boards' is not a participating lending institution under AIF. The genuine list includes Commercial Banks, Cooperative Banks, RRBs, Small Finance Banks, NCDC, and NBFCs.", "id": 46}, {"s": "Agriculture Infrastructure Fund (AIF)", "t": "pickcorrect", "d": "Moderate", "ins": null, "st": null, "q": "Which one of the following statements about AIF is correct?", "o": ["NABARD does not provide refinance support to Cooperative Banks and RRBs under AIF.", "The moratorium period under AIF ranges from 1 to 3 years.", "The scheme duration is FY 2020-21 to 2028-29 (8 years).", "The private sector limit is a maximum of 15 projects.", "Credit guarantee coverage for loans up to ₹2 crore is available via CGTMSE and NABSanrakshan, with the fee borne by the government."], "c": 4, "e": "Credit guarantee via CGTMSE and NABSanrakshan for loans up to ₹2 crore, with the government bearing the fee, is correct. The moratorium period is actually 6 months to 2 years; the private sector limit is 25 projects; NABARD does provide need-based refinance; and the scheme duration is FY 2020-21 to 2032-33 (13 years).", "id": 47}, {"s": "Agriculture Infrastructure Fund (AIF)", "t": "figurepair", "d": "Hard", "ins": null, "st": null, "q": "What is the project limit per project per location under AIF, and what is the maximum number of projects a private sector entity can undertake?", "o": ["₹2 crore; 30 projects", "₹1 crore; 25 projects", "₹2 crore; 25 projects", "₹2 crore; 15 projects", "₹5 crore; 25 projects"], "c": 2, "e": "The project limit is up to ₹2 crore per project per location, and the private sector limit is a maximum of 25 projects (with exemptions for State agencies and national/state federations).", "id": 48}, {"s": "PM-AASHA", "t": "combo", "d": "Moderate", "ins": "PM-AASHA (Pradhan Mantri Annadata Aay Sanrakshan Abhiyan) ensures remunerative prices for farmers. Consider the following statements:", "st": ["It was launched on 12 September 2018.", "The MSP formula underlying PM-AASHA is 1.5 times the cost of production (A2+FL).", "As of September 2024, PM-AASHA became an integrated umbrella scheme comprising four components: PSS, PSF, PDPS, and MIS."], "q": "Which of the statements given above are correct?", "o": ["1, 2 and 3", "Only 2", "None of the above", "2 and 3 only", "1 and 2 only"], "c": 0, "e": "All three statements are correct: PM-AASHA was launched on 12 September 2018, the MSP formula is 1.5 times cost of production (A2+FL), and since September 2024 it has been restructured as an integrated umbrella scheme with 4 components.", "id": 49}, {"s": "PM-AASHA", "t": "notamong", "d": "Hard", "ins": null, "st": null, "q": "Which of the following is NOT one of the five components described under PM-AASHA?", "o": ["Minimum Guaranteed Purchase Scheme (MGPS)", "Price Deficiency Payment Scheme (PDPS)", "Market Intervention Scheme (MIS)", "Pilot of Private Procurement & Stockist Scheme (PPSS)", "Price Support Scheme (PSS)"], "c": 0, "e": "'Minimum Guaranteed Purchase Scheme (MGPS)' is fabricated. The five genuine components are PSS, PDPS, PPSS, Price Stabilisation Fund (PSF), and MIS.", "id": 50}, {"s": "PM-AASHA", "t": "figurepair", "d": "Moderate", "ins": null, "st": null, "q": "Under the Price Support Scheme (PSS) of PM-AASHA, what is the procurement cap as a percentage of national production, and who bears the resultant expenditure/losses?", "o": ["25% of national production; shared 50:50 with States", "30% of national production; borne by the Centre", "25% of national production; borne by the Centre", "25% of national production; borne by NAFED", "20% of national production; borne by the Centre"], "c": 2, "e": "Under PSS, procurement is capped at 25% of national production per season, and the resultant expenditure/losses are borne entirely by the Centre.", "id": 51}, {"s": "PM-AASHA", "t": "pickcorrect", "d": "Hard", "ins": null, "st": null, "q": "Which one of the following statements about the Price Deficiency Payment Scheme (PDPS) under PM-AASHA is correct?", "o": ["PDPS involves physical procurement of oilseeds by NAFED and NCCF.", "PDPS covers only groundnut and soybean among oilseeds.", "The implementation period under PDPS was reduced from 4 months to 3 months in September 2024.", "Central Government compensation under PDPS is limited to 15% of MSP, with coverage enhanced to 40% of state production of oilseeds.", "PDPS is administered by the Ministry of Textiles."], "c": 3, "e": "PDPS compensation is capped at 15% of MSP with coverage enhanced to 40% of state production (from 25%) in September 2024. PDPS explicitly involves NO physical procurement; the implementation period was enhanced from 3 to 4 months (not reduced); PDPS covers all notified oilseeds, not just two; and it falls under the Ministry of Agriculture & Farmers Welfare, not Textiles.", "id": 52}, {"s": "PM-AASHA", "t": "scenario", "d": "Hard", "ins": "Consider the following commodities in the context of PM-AASHA's components:", "st": ["Pulses and oilseeds, procured under the Price Support Scheme (PSS) by NAFED and NCCF.", "Tomato, Onion and Potato (TOP crops), covered under the Market Intervention Scheme (MIS).", "Cotton and jute, procured directly under the Price Support Scheme (PSS) by NAFED."], "q": "Which of the following commodities/crops are covered under the components of PM-AASHA as described?", "o": ["Only 1", "1, 2 and 3", "1 and 2 only", "None of the above", "2 and 3 only"], "c": 1, "e": "Pulses and oilseeds are covered under PSS, and TOP crops (Tomato, Onion, Potato) are specifically named under the Market Intervention Scheme (MIS). Cotton and jute continue to be procured by the Ministry of Textiles, separately from PM-AASHA's core components.", "id": 53}, {"s": "PM-AASHA", "t": "figurepair", "d": "Moderate", "ins": null, "st": null, "q": "How many mandated MSP crops (excluding sugarcane) does CACP recommend prices for, and how many of these are cereals?", "o": ["23 crops; 7 cereals", "20 crops; 7 cereals", "22 crops; 8 cereals", "22 crops; 7 cereals", "22 crops; 5 cereals"], "c": 3, "e": "CACP recommends prices for 22 mandated MSP crops plus Sugarcane, comprising 7 Cereals, 5 Pulses, 7 Oilseeds, and 3 Commercial Crops.", "id": 54}, {"s": "PM-AASHA", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following is NOT among the 7 oilseeds for which CACP recommends MSP?", "o": ["Groundnut", "Castor Seed", "Sunflower", "Soybean", "Nigerseed"], "c": 1, "e": "'Castor Seed' is not among the 7 MSP oilseeds listed. The genuine list is Groundnut, Rapeseed-Mustard, Soybean, Sesamum, Sunflower, Safflower, and Nigerseed.", "id": 55}, {"s": "PM-AASHA", "t": "acronym", "d": "Easy", "ins": null, "st": null, "q": "What does 'PM-AASHA' stand for?", "o": ["Pradhan Mantri Annadata Aay Sanrakshan Abhiyan", "Pradhan Mantri Agricultural Aay Sanrakshan Abhiyan", "Pradhan Mantri Anna Aay Sanrakshan Abhiyan", "Pradhan Mantri Annadata Ashray Sanrakshan Abhiyan", "Pradhan Mantri Annadata Aay Suraksha Abhiyan"], "c": 0, "e": "PM-AASHA stands for Pradhan Mantri Annadata Aay Sanrakshan Abhiyan.", "id": 56}, {"s": "Kisan Credit Card (KCC) Scheme", "t": "combo", "d": "Moderate", "ins": "The Kisan Credit Card (KCC) Scheme was introduced in 1998. Consider the following statements:", "st": ["It was introduced in 1998 on the recommendations of the R.V. Gupta Committee, with the model prepared by NABARD.", "It was further extended in 2004 to cover investment credit for allied and non-farm activities.", "It was revised in 2012 under the chairmanship of Shri T.M. Bhasin to facilitate Electronic Kisan Credit Cards."], "q": "Which of the statements given above are correct?", "o": ["1, 2 and 3", "Only 3", "None of the above", "1 and 2 only", "2 and 3 only"], "c": 0, "e": "All three statements are correct: KCC was introduced in 1998 based on the R.V. Gupta Committee recommendations with a NABARD-prepared model, extended in 2004 for investment credit, and revised in 2012 under T.M. Bhasin for Electronic KCCs.", "id": 57}, {"s": "Kisan Credit Card (KCC) Scheme", "t": "figurepair", "d": "Easy", "ins": null, "st": null, "q": "What is the flexible credit limit range for marginal farmers under the Flexi KCC, and within how many days must a KCC be issued from receipt of a completed application?", "o": ["₹10,000 to ₹50,000; within 30 days", "₹10,000 to ₹50,000; within 14 days", "₹10,000 to ₹1,00,000; within 14 days", "₹5,000 to ₹50,000; within 14 days", "₹10,000 to ₹50,000; within 7 days"], "c": 1, "e": "Marginal farmers get a flexible limit of ₹10,000 to ₹50,000 (Flexi KCC), and the KCC must be issued within 14 days from receipt of a completed application.", "id": 58}, {"s": "Kisan Credit Card (KCC) Scheme", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following is NOT a listed participating institution under the KCC Scheme?", "o": ["Small Finance Banks (SFBs)", "District Central Cooperative Banks (DCCBs)", "Life Insurance Corporation of India (LIC)", "Regional Rural Banks (RRBs)", "Primary Agricultural Credit Societies (PACS)"], "c": 2, "e": "LIC is not a participating lending institution under KCC — it is the pension fund manager for PM-KMY. Participating institutions under KCC include Commercial Banks, RRBs, SFBs, PACS, DCCBs, and SCBs.", "id": 59}, {"s": "Kisan Credit Card (KCC) Scheme", "t": "scenario", "d": "Hard", "ins": "Consider the following persons/entities seeking a Kisan Credit Card:", "st": ["Vijay, an owner-cultivator farmer.", "Kamla, a tenant farmer working as an oral lessee on another's land.", "Livelife, a Joint Liability Group of farmers including tenant farmers and sharecroppers."], "q": "Who among the following are eligible to obtain a Kisan Credit Card?", "o": ["2 and 3 only", "1 and 2 only", "Only 1", "None of the above", "1, 2 and 3"], "c": 4, "e": "All three are eligible under KCC: owner cultivators, tenant farmers/oral lessees/sharecroppers, and SHGs or Joint Liability Groups of farmers are all explicitly covered.", "id": 60}, {"s": "Kisan Credit Card (KCC) Scheme", "t": "pickcorrect", "d": "Moderate", "ins": null, "st": null, "q": "Which one of the following statements about KCC's security requirements is correct?", "o": ["For loans up to ₹2 lakh, banks must waive margin/collateral requirements based on hypothecation of crops.", "For loans with a tie-up arrangement, up to ₹5 lakh is available without collateral.", "Personal Accident Insurance premium under KCC is shared equally (1:1) between bank and borrower.", "All charges are waived only for loans up to ₹2 lakh.", "The collateral-free limit for Fisheries KCC is capped at ₹2 lakh, same as for crop loans."], "c": 0, "e": "For loans up to ₹2 lakh, banks waive margin/collateral based on hypothecation of crops. For Fisheries KCC, the collateral-free limit is enhanced to ₹5 lakh (not capped at ₹2 lakh); tie-up arrangements allow up to ₹3 lakh without collateral (not ₹5 lakh); all charges are waived for loans up to ₹5 lakh (not ₹2 lakh); and the Personal Accident Insurance premium is shared 2:1 (Bank:Borrower), not equally.", "id": 61}, {"s": "Kisan Credit Card (KCC) Scheme", "t": "figurepair", "d": "Hard", "ins": null, "st": null, "q": "For loans other than marginal farmers, what escalation is applied to the credit limit in subsequent years, and for how many years does the KCC card typically remain valid (extendable)?", "o": ["5% escalation per year (up to 5 years); valid 5 years, extendable by 3 years", "10% escalation per year (up to 3 years); valid 5 years, extendable by 3 years", "15% escalation per year (up to 5 years); valid 5 years, extendable by 3 years", "10% escalation per year (up to 5 years); valid 3 years, extendable by 2 years", "10% escalation per year (up to 5 years); valid 5 years, extendable by 3 years"], "c": 4, "e": "For farmers other than marginal farmers, the credit limit escalates by 10% per year (up to 5 years) after the first year. The KCC is valid for 5 years, extendable by 3 years.", "id": 62}, {"s": "Kisan Credit Card (KCC) Scheme", "t": "figurepair", "d": "Moderate", "ins": null, "st": null, "q": "Under the Modified Interest Subvention Scheme (MISS), short-term crop loans up to what amount are eligible for a 7% interest rate, and what is the effective rate with the Prompt Repayment Incentive?", "o": ["₹5 lakh; effective 3% p.a.", "₹3 lakh; effective 4% p.a.", "₹5 lakh; effective 4% p.a.", "₹3 lakh; effective 3% p.a.", "₹5 lakh; effective 5% p.a."], "c": 2, "e": "Short-term crop loans up to ₹5 lakh (limit enhanced from ₹3 lakh in Union Budget 2025-26) are available at 7% p.a., with an additional 3% Prompt Repayment Incentive bringing the effective rate to 4% p.a. for timely repayers.", "id": 63}, {"s": "Kisan Credit Card (KCC) Scheme", "t": "acronym", "d": "Easy", "ins": null, "st": null, "q": "The Kisan Rin Portal (KRP), launched in September 2023, is primarily used for what purpose?", "o": ["Registering new Farmer Producer Organizations", "Digitizing land record verification for KCC applicants", "Processing crop insurance claims for KCC-linked loans", "Providing real-time weather advisories to KCC holders", "Digitizing Interest Subvention (IS) and Prompt Repayment Incentive (PRI) claim submission to RBI/NABARD"], "c": 4, "e": "The Kisan Rin Portal (KRP), launched in September 2023, digitizes Interest Subvention (IS) and Prompt Repayment Incentive (PRI) claim submission to RBI/NABARD, replacing the earlier manual process.", "id": 64}, {"s": "Modified Interest Subvention Scheme (MISS)", "t": "combo", "d": "Moderate", "ins": "The Modified Interest Subvention Scheme (MISS) provides concessional short-term crop loans. Consider the following statements:", "st": ["It was launched in 2006-07.", "Short-term agri loans up to ₹5 lakh are available at 7% per annum, with a 3% Prompt Repayment Incentive.", "Benefits are extended to allied activities such as Animal Husbandry and Fisheries within an overall limit of ₹3 lakh."], "q": "Which of the statements given above are correct?", "o": ["None of the above", "1, 2 and 3", "Only 2", "2 and 3 only", "1 and 2 only"], "c": 1, "e": "All three statements are correct: MISS was launched in 2006-07, offers short-term agri loans up to ₹5 lakh at 7% p.a. with a 3% PRI, and extends benefits to allied activities within an overall ₹3 lakh limit.", "id": 65}, {"s": "Modified Interest Subvention Scheme (MISS)", "t": "figurepair", "d": "Moderate", "ins": null, "st": null, "q": "Under severe calamity provisions of MISS, what Interest Subvention duration and Prompt Repayment Incentive apply, as decided by the High Level Committee?", "o": ["2% IS for first 3 years (max 5 years) + 3% PRI", "1.5% IS for first 3 years + 3% PRI", "3% IS for first 3 years + 2% PRI", "2% IS for first year only + 3% PRI", "2% IS for entire 5 years + 5% PRI"], "c": 0, "e": "For severe calamity, 2% Interest Subvention is provided for the first 3 years or entire period (maximum 5 years), plus 3% PRI, as decided by a High Level Committee (HLC). Normal calamity provides 2% IS for the first year only.", "id": 66}, {"s": "Modified Interest Subvention Scheme (MISS)", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following is NOT a genuine special provision under MISS?", "o": ["2% Interest Subvention for normal calamity, applicable for the first year only on restructured loans", "2% Interest Subvention plus 3% PRI for severe calamity, for up to 5 years", "Interest Subvention of 1.5% to banks, in addition to PRI, on eligible loans", "2% Interest Subvention to SMFs with KCC on post-harvest loans against NWRs for up to 6 months", "Automatic loan waiver for farmers in states declared drought-affected for two consecutive years"], "c": 4, "e": "'Automatic loan waiver for two consecutive drought years' is a fabricated provision — MISS does not provide for loan waivers. The genuine special provisions relate to interest subvention rates under normal/severe calamity and for post-harvest NWR loans.", "id": 67}, {"s": "Modified Interest Subvention Scheme (MISS)", "t": "pickcorrect", "d": "Hard", "ins": null, "st": null, "q": "Which one of the following statements about MISS is correct?", "o": ["The additional outlay announced for MISS for 2022-23 to 2024-25 was ₹50,000 crore.", "The Kisan Rin Portal was launched in 2021 to digitize MISS claims.", "Under MISS, the crop loan component is subordinate to the allied activities component within the ₹3 lakh limit.", "A sub-limit of ₹2 lakh per farmer applies to those engaged exclusively in Animal Husbandry, dairy, fisheries or bee-keeping.", "The Interest Subvention restored for short-term agri loans up to ₹3 lakh was announced at 2.5% for all financial institutions."], "c": 3, "e": "A ₹2 lakh sub-limit per farmer applies to those engaged exclusively in AH, dairy, fisheries, or bee-keeping — this is correct. The actual additional outlay was ₹34,856 crore (not ₹50,000 crore); the restored Interest Subvention was 1.5% (not 2.5%); the crop loan component takes priority over allied activities, not the reverse; and the Kisan Rin Portal was launched in September 2023, not 2021.", "id": 68}, {"s": "Modified Interest Subvention Scheme (MISS)", "t": "figurepair", "d": "Easy", "ins": null, "st": null, "q": "What was the additional outlay announced for MISS for the period 2022-23 to 2024-25, and what Interest Subvention rate was restored for short-term agri loans up to ₹3 lakh?", "o": ["₹34,856 crore; 3%", "₹34,856 crore; 2%", "₹30,000 crore; 1.5%", "₹40,000 crore; 1.5%", "₹34,856 crore; 1.5%"], "c": 4, "e": "An additional outlay of ₹34,856 crore was announced for 2022-23 to 2024-25, restoring the Interest Subvention to 1.5% for all financial institutions on short-term agri loans up to ₹3 lakh.", "id": 69}, {"s": "Namo Drone Didi Scheme", "t": "combo", "d": "Moderate", "ins": "The Namo Drone Didi Scheme was Cabinet-approved in late 2023. Consider the following statements:", "st": ["It was Cabinet-approved on 29 November 2023.", "It aims to equip 15,000 selected Women SHGs with drones for rental services to farmers.", "Its implementation period is 2023-24 to 2025-26."], "q": "Which of the statements given above are correct?", "o": ["Only 1", "None of the above", "1, 2 and 3", "2 and 3 only", "1 and 2 only"], "c": 2, "e": "All three statements are correct: the scheme was Cabinet-approved on 29 November 2023, aims to equip 15,000 Women SHGs with drones, and runs from 2023-24 to 2025-26.", "id": 70}, {"s": "Namo Drone Didi Scheme", "t": "figurepair", "d": "Easy", "ins": null, "st": null, "q": "What subsidy percentage do Women SHGs receive on the drone and accessories cost under Namo Drone Didi, up to what maximum amount?", "o": ["80% subsidy; up to ₹10 lakh", "80% subsidy; up to ₹6 lakh", "90% subsidy; up to ₹8 lakh", "75% subsidy; up to ₹8 lakh", "80% subsidy; up to ₹8 lakh"], "c": 4, "e": "Women SHGs receive an 80% subsidy on drone and accessories cost, up to ₹8 lakh; the remaining 20% is raised as a loan under AIF by Cluster Level Federations (CLFs).", "id": 71}, {"s": "Namo Drone Didi Scheme", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following is NOT a genuine training component provided under Namo Drone Didi?", "o": ["15-day total training for one qualified SHG member", "3-day certification in agri-drone manufacturing and assembly", "10 days of training for agriculture applications", "5 days of mandatory drone pilot training", "Training of another SHG/family member as a Drone Assistant"], "c": 1, "e": "'3-day certification in agri-drone manufacturing and assembly' is fabricated. The genuine training is a 15-day programme (5 days mandatory drone pilot training + 10 days for agriculture applications) plus separate Drone Assistant training for repairs/fitting/mechanical works.", "id": 72}, {"s": "Namo Drone Didi Scheme", "t": "pickcorrect", "d": "Moderate", "ins": null, "st": null, "q": "Which one of the following statements about Namo Drone Didi is correct?", "o": ["Cluster selection is done under the PM-KISAN scheme based on farmer demand.", "The expected additional income is at least ₹2 lakh per year per SHG.", "The drone package provided does not include insurance coverage.", "Each SHG is expected to cover 2,000-2,500 acres annually with drone services.", "Individual SHGs directly raise the remaining 20% loan amount under AIF."], "c": 3, "e": "Each SHG is expected to cover 2,000-2,500 acres annually. The remaining 20% loan is raised by Cluster Level Federations (CLFs) of SHGs, not individual SHGs directly; the expected additional income is at least ₹1 lakh per year per SHG (not ₹2 lakh); cluster selection happens under DAY-NRLM, not PM-KISAN; and the drone package includes a 1-year warranty plus 2 years AMC and insurance.", "id": 73}, {"s": "Namo Drone Didi Scheme", "t": "figurepair", "d": "Moderate", "ins": null, "st": null, "q": "What interest subvention rate applies on the AIF loan taken by CLFs/SHGs for the remaining 20% drone cost, and how many acres is each SHG expected to cover annually?", "o": ["3% interest subvention; 2,500-3,000 acres annually", "3% interest subvention; 1,500-2,000 acres annually", "2% interest subvention; 2,000-2,500 acres annually", "5% interest subvention; 2,000-2,500 acres annually", "3% interest subvention; 2,000-2,500 acres annually"], "c": 4, "e": "A 3% interest subvention applies on the AIF loan provided to CLFs/SHGs, and each SHG is expected to cover 2,000-2,500 acres annually.", "id": 74}, {"s": "Restructured Weather Based Crop Insurance Scheme (RWBCIS)", "t": "combo", "d": "Moderate", "ins": "RWBCIS was launched on the same date as PMFBY. Consider the following statements:", "st": ["RWBCIS was launched on 18 February 2016 by the Prime Minister of India.", "Unlike PMFBY, which is yield-based, RWBCIS is weather index-based and does not require Crop Cutting Experiments for main perils.", "Enrolment under RWBCIS has been voluntary for all farmers, both loanee and non-loanee, with effect from Kharif 2020."], "q": "Which of the statements given above are correct?", "o": ["2 and 3 only", "1 and 2 only", "None of the above", "1, 2 and 3", "Only 1"], "c": 3, "e": "All three statements are correct: RWBCIS was launched on 18 February 2016, is weather index-based (unlike the yield-based PMFBY), and enrolment has been voluntary for all farmers since Kharif 2020.", "id": 75}, {"s": "Restructured Weather Based Crop Insurance Scheme (RWBCIS)", "t": "figurepair", "d": "Easy", "ins": null, "st": null, "q": "What is the maximum premium payable by farmers under RWBCIS for Kharif food/oilseed crops, and what is the corresponding rate for Annual Commercial/Horticultural crops?", "o": ["2%; 3%", "2%; 5%", "1.5%; 5%", "2%; 4%", "1.5%; 3%"], "c": 1, "e": "Maximum premium payable is 2% of sum insured for Kharif food/oilseed crops, 1.5% for Rabi food/oilseed crops, and 5% for Annual Commercial/Horticultural crops — same structure as PMFBY.", "id": 76}, {"s": "Restructured Weather Based Crop Insurance Scheme (RWBCIS)", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following perils is NOT covered under RWBCIS?", "o": ["Wind Speed", "Earthquake and Landslide", "Rainfall (deficit, excess, unseasonal)", "Temperature (high/low)", "Relative Humidity"], "c": 1, "e": "'Earthquake and Landslide' is not a peril covered under RWBCIS, which is weather-index based (rainfall, humidity, temperature, wind speed, and combinations, with hailstorm/cloudburst/high wind as optional add-ons).", "id": 77}, {"s": "Restructured Weather Based Crop Insurance Scheme (RWBCIS)", "t": "pickcorrect", "d": "Moderate", "ins": null, "st": null, "q": "Which one of the following statements about RWBCIS's premium subsidy sharing is correct?", "o": ["The Central subsidy under RWBCIS is uncapped regardless of actuarial premium rate.", "The Reference Weather Unit Area (RUA) corresponds only to the district level.", "RWBCIS follows a farm-level individual assessment approach rather than an area approach.", "The premium subsidy sharing ratio for Himalayan States became 90:10 with effect from Kharif 2016.", "For North-Eastern States, the Centre:State sharing ratio is 90:10 with effect from Kharif 2020."], "c": 4, "e": "For North-Eastern States, the 90:10 (Centre:State) ratio applies from Kharif 2020. For Himalayan States, it applies from Kharif 2023 (not 2016). The Central subsidy is capped at actuarial premium rates of up to 30% (unirrigated) and 25% (irrigated). RWBCIS operates on an 'Area Approach' (not individual assessment), and the RUA corresponds to block/taluka/revenue circle level, not just district.", "id": 78}, {"s": "Restructured Weather Based Crop Insurance Scheme (RWBCIS)", "t": "figurepair", "d": "Hard", "ins": null, "st": null, "q": "As per the January 2025 Cabinet approval, what is the total outlay approved for continuation of PMFBY and RWBCIS till 2025-26, covering which period?", "o": ["₹75,000 crore; 2021-22 to 2025-26", "₹69,515.71 crore; 2020-21 to 2025-26", "₹60,000 crore; 2021-22 to 2025-26", "₹69,515.71 crore; 2022-23 to 2025-26", "₹69,515.71 crore; 2021-22 to 2025-26"], "c": 4, "e": "In January 2025, the Union Cabinet approved continuation of PMFBY and RWBCIS till 2025-26 with a total outlay of ₹69,515.71 crore, covering the period 2021-22 to 2025-26.", "id": 79}, {"s": "Digital Agriculture Mission", "t": "combo", "d": "Moderate", "ins": "The Digital Agriculture Mission (DAM) was approved in September 2024. Consider the following statements:", "st": ["It was approved on 2 September 2024 with a total outlay of ₹2,817 crore (Central Share: ₹1,940 crore).", "It rests on two foundational pillars: AgriStack and the Krishi Decision Support System (Krishi-DSS).", "Farmer ID (Kisan Pehchaan) under AgriStack is created and maintained by States/UTs."], "q": "Which of the statements given above are correct?", "o": ["1, 2 and 3", "None of the above", "2 and 3 only", "1 and 2 only", "Only 1"], "c": 0, "e": "All three statements are correct: DAM was approved on 2 September 2024 with an outlay of ₹2,817 crore (Central share ₹1,940 crore), and it rests on two foundational pillars — AgriStack and Krishi-DSS.", "id": 80}, {"s": "Digital Agriculture Mission", "t": "figurepair", "d": "Easy", "ins": null, "st": null, "q": "What is the funding pattern for Centrally Sponsored components of DAM in normal states, and for North-Eastern/Himalayan states?", "o": ["70:30 (normal states); 90:10 (NE/Himalayan)", "50:50 (normal states); 90:10 (NE/Himalayan)", "60:40 (normal states); 90:10 (NE/Himalayan)", "60:40 (normal states); 80:20 (NE/Himalayan)", "60:40 (normal states); 100:0 (NE/Himalayan)"], "c": 2, "e": "The funding pattern for Centrally Sponsored components is 60:40 (Centre:State) for normal states, 90:10 for North-Eastern & Himalayan states, and 100% Central for UTs.", "id": 81}, {"s": "Digital Agriculture Mission", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following is NOT one of the components listed under AgriStack?", "o": ["Farmer ID (Kisan Pehchaan)", "Geo-referenced Village Maps", "Crop Sown Registry through Digital Crop Survey", "Farmers' Registry", "National Seed Traceability Registry"], "c": 4, "e": "'National Seed Traceability Registry' is fabricated (seed traceability is handled separately via the SATHI Portal under the Pulses Mission). AgriStack's genuine components are the Farmers' Registry, Geo-referenced Village Maps, Crop Sown Registry, and Farmer ID (Kisan Pehchaan).", "id": 82}, {"s": "Digital Agriculture Mission", "t": "pickcorrect", "d": "Moderate", "ins": null, "st": null, "q": "Which one of the following statements about the Digital Agriculture Mission is correct?", "o": ["Krishi Decision Support System (Krishi-DSS) was launched on 16 August 2024.", "The Mission is expected to create employment for around 1,00,000 trained local youth and Krishi Sakhis.", "Farmer ID under AgriStack is analogous to a PAN card rather than Aadhaar.", "Nationwide Soil Resource Mapping under SLUSI is conducted at a scale of 1:50,000.", "Administrative expenses under DAM are capped at 5% of total project cost."], "c": 0, "e": "Krishi-DSS was launched on 16 August 2024. Soil mapping under SLUSI is at a scale of 1:10,000 (not 1:50,000); the employment target is around 2,50,000 trained local youth and Krishi Sakhis (not 1,00,000); administrative expenses are capped at 2.5% (not 5%); and Farmer ID is explicitly described as analogous to Aadhaar, not PAN.", "id": 83}, {"s": "Digital Agriculture Mission", "t": "figurepair", "d": "Moderate", "ins": null, "st": null, "q": "At what scale is the Nationwide Soil Resource Mapping conducted under SLUSI, and what is its target area coverage?", "o": ["1:5,000 scale; 142 million hectares", "1:10,000 scale; 100 million hectares", "1:25,000 scale; 142 million hectares", "1:10,000 scale; 142 million hectares", "1:10,000 scale; 150 million hectares"], "c": 3, "e": "SLUSI's Nationwide Soil Resource Mapping is conducted at a 1:10,000 scale at the village level, targeting 142 million hectares.", "id": 84}, {"s": "Digital Agriculture Mission", "t": "acronym", "d": "Easy", "ins": null, "st": null, "q": "What does 'DSS' stand for in the context of Krishi-DSS under the Digital Agriculture Mission?", "o": ["Decision Support System", "Digital Survey System", "Digital Support Scheme", "Decision Survey Software", "Data Storage System"], "c": 0, "e": "Krishi-DSS stands for Krishi Decision Support System, integrating satellite, weather, soil, crop, reservoir, groundwater and scheme data.", "id": 85}, {"s": "Pradhan Mantri Krishi Sinchayee Yojana (PMKSY)", "t": "combo", "d": "Moderate", "ins": "PMKSY brings together multiple pre-existing irrigation-related programmes. Consider the following statements:", "st": ["It was conceived by amalgamating the Accelerated Irrigation Benefit Programme (AIBP), Integrated Watershed Management Programme (IWMP), and On Farm Water Management (OFWM).", "One of its key objectives is enhancing adoption of precision-irrigation and water-saving technologies under the motto 'More Crop Per Drop'.", "Union Budget 2026-27 allocated ₹6,587 crore to PMKSY."], "q": "Which of the statements given above are correct?", "o": ["1, 2 and 3", "2 and 3 only", "1 and 2 only", "Only 1", "None of the above"], "c": 0, "e": "All three statements are correct: PMKSY was formed by amalgamating AIBP, IWMP and OFWM, follows the motto 'More Crop Per Drop', and Union Budget 2026-27 allocated ₹6,587 crore to it.", "id": 86}, {"s": "Pradhan Mantri Krishi Sinchayee Yojana (PMKSY)", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following is NOT one of the four components of PMKSY described in the document?", "o": ["Har Khet Ko Pani (HKKP)", "National Aquifer Mapping and Management Programme", "Watershed Development", "Per Drop More Crop", "Accelerated Irrigation Benefits Programme (AIBP)"], "c": 1, "e": "'National Aquifer Mapping and Management Programme' is fabricated and not listed as a PMKSY component. The genuine four components are AIBP, Har Khet Ko Pani, Watershed Development, and Per Drop More Crop.", "id": 87}, {"s": "Pradhan Mantri Krishi Sinchayee Yojana (PMKSY)", "t": "figurepair", "d": "Easy", "ins": null, "st": null, "q": "What financial assistance is provided under 'Per Drop More Crop' for installation of drip/sprinkler systems, for Small & Marginal farmers versus other farmers?", "o": ["55% (SMFs); 35% (others)", "55% (SMFs); 45% (others)", "45% (SMFs); 55% (others)", "60% (SMFs); 40% (others)", "50% (SMFs); 50% (others)"], "c": 1, "e": "Financial assistance under 'Per Drop More Crop' is 55% of unit cost for Small & Marginal farmers and 45% for other farmers, for installation of drip/sprinkler systems.", "id": 88}, {"s": "Pradhan Mantri Krishi Sinchayee Yojana (PMKSY)", "t": "pickcorrect", "d": "Hard", "ins": null, "st": null, "q": "Which one of the following statements about PMKSY's components is correct?", "o": ["Watershed Development is implemented by the Ministry of Agriculture & Farmers Welfare.", "AIBP is implemented by the Ministry of Jal Shakti and focuses on faster completion of Major & Medium Irrigation projects.", "'Per Drop More Crop' (PDMC) has remained an integral part of PMKSY continuously since 2015-16.", "The Long Term Irrigation Fund (LTIF) was announced with an initial corpus of ₹40,000 crore.", "At least 25% of command area must be brought under micro/precision irrigation under Har Khet Ko Pani."], "c": 1, "e": "AIBP is correctly implemented by the Ministry of Jal Shakti. The LTIF's initial corpus was ₹20,000 crore (not ₹40,000 crore); Watershed Development is implemented by the Department of Land Resources under the Ministry of Rural Development, not Agriculture; PDMC was part of PMKSY only from 2015-16 to 2021-22, after which (from 2022-23) it moved under PM-RKVY; and Har Khet Ko Pani requires at least 10% (not 25%) of command area under micro/precision irrigation.", "id": 89}, {"s": "Pradhan Mantri Krishi Sinchayee Yojana (PMKSY)", "t": "figurepair", "d": "Hard", "ins": null, "st": null, "q": "What is the initial corpus of the Micro Irrigation Fund (MIF) created with NABARD in 2018-19, and what is the current interest subvention rate on it (from October 2024)?", "o": ["₹5,000 crore (augmented by another ₹5,000 crore); 2% interest subvention", "₹5,000 crore; 2.5% interest subvention", "₹10,000 crore; 2% interest subvention", "₹5,000 crore; 3% interest subvention", "₹5,000 crore (augmented by another ₹5,000 crore); 1.5% interest subvention"], "c": 0, "e": "MIF was created with NABARD in 2018-19 with an initial corpus of ₹5,000 crore, later augmented by another ₹5,000 crore, carrying a 2% interest subvention from October 2024.", "id": 90}, {"s": "Pradhan Mantri Krishi Sinchayee Yojana (PMKSY)", "t": "notamong", "d": "Moderate", "ins": null, "st": null, "q": "Which of the following is NOT a sub-component of 'Har Khet Ko Pani' under PMKSY?", "o": ["Modernization of Command Area Development and Water Management (M-CADWM)", "Surface Minor Irrigation (SMI)", "Ground Water Development", "Command Area Development & Water Management (CAD&WM)", "Repair, Renovation & Restoration (RRR) of Water Bodies"], "c": 0, "e": "M-CADWM is a sub-scheme under PMKSY-AIBP (approved in 2025-26 with an initial outlay of ₹1,600 crore), not a sub-component of Har Khet Ko Pani. HKKP's genuine sub-components are CAD&WM, SMI, RRR of Water Bodies, and Ground Water Development.", "id": 91}, {"s": "Pradhan Mantri Krishi Sinchayee Yojana (PMKSY)", "t": "figurepair", "d": "Moderate", "ins": null, "st": null, "q": "What was the overall outlay approved for the 2021-26 extension of 'Per Drop More Crop' under PMKSY, broken into Central assistance and State share?", "o": ["₹90,000 crore (Central assistance ₹37,454 crore + State share ₹35,180 crore)", "₹93,068.56 crore (Central assistance ₹37,454 crore + State share ₹40,000 crore)", "₹85,790.78 crore (Central assistance ₹37,454 crore + State share ₹35,180 crore)", "₹93,068.56 crore (Central assistance ₹50,000 crore + State share ₹35,180 crore)", "₹93,068.56 crore (Central assistance ₹37,454 crore + State share ₹35,180 crore)"], "c": 4, "e": "The 2021-26 extension was approved with an overall outlay of ₹93,068.56 crore, comprising Central assistance of ₹37,454 crore, debt servicing of ₹20,434.56 crore, and State share of ₹35,180 crore.", "id": 92}];
+
+</script>
+<script>
+// ===================== State =====================
+let state = {
+  mode: null,          // 'full' | 'section' | 'sprint'
+  order: 'pdf',        // 'pdf' | 'shuffled'
+  pool: [],            // array of question objects for current run
+  idx: 0,
+  answers: {},         // qid -> {chosen: idx|null, skipped: bool, correct: bool}
+  scheme: null
+};
+
+const SPRINT_TYPES = ['combo', 'scenario', 'figurepair'];
+
+function schemeOrder() {
+  const seen = [];
+  QUESTIONS.forEach(q => { if (!seen.includes(q.s)) seen.push(q.s); });
+  return seen;
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function show(id) {
+  ['screen-home', 'screen-section', 'screen-quiz', 'screen-end'].forEach(s => {
+    document.getElementById(s).classList.toggle('hidden', s !== id);
+  });
+  window.scrollTo(0, 0);
+}
+
+// ===================== Home Screen =====================
+function renderHome() {
+  const el = document.getElementById('screen-home');
+  const total = QUESTIONS.length;
+  const sprintCount = QUESTIONS.filter(q => SPRINT_TYPES.includes(q.t)).length;
+
+  el.innerHTML = `
+    <div class="card">
+      <p style="margin:0;color:var(--text-dim);font-size:0.88rem;">
+        ${total} questions covering every scheme in the compiled document. Choose a mode to begin.
+      </p>
+    </div>
+    <div class="mode-grid">
+      <div class="mode-card" id="mode-full">
+        <h3>Full Practice Test</h3>
+        <p>All ${total} questions, in document order or shuffled. The complete exam simulation.</p>
+        <span class="tag">${total} questions</span>
+      </div>
+      <div class="mode-card" id="mode-section">
+        <h3>Section-wise Revision</h3>
+        <p>Drill one scheme at a time. Pick a scheme and work through just its questions.</p>
+        <span class="tag">${schemeOrder().length} schemes</span>
+      </div>
+      <div class="mode-card" id="mode-sprint">
+        <h3>Schemes-Only Sprint</h3>
+        <p>Just the deep scheme-mechanics questions — statement combos, scenarios, and figure-pairs. No bare recall.</p>
+        <span class="tag">${sprintCount} questions</span>
+      </div>
+    </div>
+  `;
+  document.getElementById('mode-full').onclick = () => startFullSetup();
+  document.getElementById('mode-section').onclick = () => renderSectionPicker();
+  document.getElementById('mode-sprint').onclick = () => startSprint();
+}
+
+// ===================== Full Practice Setup =====================
+function startFullSetup() {
+  const el = document.getElementById('screen-home');
+  el.innerHTML = `
+    <span class="top-link" id="back-home">&larr; Back to menu</span>
+    <div class="card">
+      <h2 style="margin-top:0;font-size:1.15rem;">Full Practice Test</h2>
+      <p style="color:var(--text-dim);font-size:0.88rem;">Choose the question order.</p>
+      <div class="toggle-row">
+        <div class="toggle-btn active" id="opt-pdf">PDF Order</div>
+        <div class="toggle-btn" id="opt-shuffled">Shuffled</div>
+      </div>
+      <button class="btn" id="start-full-btn">Start Test</button>
+    </div>
+  `;
+  let order = 'pdf';
+  document.getElementById('opt-pdf').onclick = () => {
+    order = 'pdf';
+    document.getElementById('opt-pdf').classList.add('active');
+    document.getElementById('opt-shuffled').classList.remove('active');
+  };
+  document.getElementById('opt-shuffled').onclick = () => {
+    order = 'shuffled';
+    document.getElementById('opt-shuffled').classList.add('active');
+    document.getElementById('opt-pdf').classList.remove('active');
+  };
+  document.getElementById('start-full-btn').onclick = () => {
+    let pool = QUESTIONS.slice();
+    if (order === 'shuffled') pool = shuffle(pool);
+    launchQuiz(pool, 'full', null);
+  };
+  document.getElementById('back-home').onclick = renderHome;
+}
+
+// ===================== Section Picker =====================
+function renderSectionPicker() {
+  const el = document.getElementById('screen-home');
+  const schemes = schemeOrder();
+  el.innerHTML = `
+    <span class="top-link" id="back-home">&larr; Back to menu</span>
+    <div class="card">
+      <h2 style="margin-top:0;font-size:1.15rem;">Section-wise Revision</h2>
+      <p style="color:var(--text-dim);font-size:0.88rem;">Tap a scheme to drill just its questions.</p>
+      <div class="section-grid">
+        ${schemes.map(s => {
+          const count = QUESTIONS.filter(q => q.s === s).length;
+          return `<div class="section-item" data-scheme="${escapeAttr(s)}">
+            <span class="name">${s}</span>
+            <span class="count">${count} Qs</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+  document.getElementById('back-home').onclick = renderHome;
+  el.querySelectorAll('.section-item').forEach(item => {
+    item.onclick = () => {
+      const s = item.getAttribute('data-scheme');
+      const pool = QUESTIONS.filter(q => q.s === s);
+      launchQuiz(pool, 'section', s);
+    };
+  });
+}
+
+function escapeAttr(s) {
+  return s.replace(/"/g, '&quot;');
+}
+
+// ===================== Sprint =====================
+function startSprint() {
+  const pool = shuffle(QUESTIONS.filter(q => SPRINT_TYPES.includes(q.t)));
+  launchQuiz(pool, 'sprint', null);
+}
+
+// ===================== Quiz Runner =====================
+function launchQuiz(pool, mode, scheme) {
+  state = { mode, order: 'pdf', pool, idx: 0, answers: {}, scheme };
+  show('screen-quiz');
+  renderQuestion();
+}
+
+function currentQ() {
+  return state.pool[state.idx];
+}
+
+function renderQuestion() {
+  const el = document.getElementById('screen-quiz');
+  const q = currentQ();
+  const total = state.pool.length;
+  const answered = Object.keys(state.answers).length;
+  const pct = Math.round(((state.idx) / total) * 100);
+  const already = state.answers[q.id];
+
+  const letters = ['A', 'B', 'C', 'D', 'E'];
+
+  let statementsHtml = '';
+  if (q.st && q.st.length) {
+    statementsHtml = `<ul class="statements">${q.st.map((s, i) => `<li><span class="num">${i + 1}.</span>${s}</li>`).join('')}</ul>`;
+  }
+  let instructionHtml = q.ins ? `<p class="instruction">${q.ins}</p>` : '';
+
+  el.innerHTML = `
+    <div class="quiz-header">
+      <span>${modeLabel()} &middot; Question ${state.idx + 1} / ${total}</span>
+      <span>Score: ${scoreSoFar()} / ${answered}</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="card">
+      <span class="scheme-pill">${q.s}</span><span class="diff-pill">${q.d}</span>
+      ${instructionHtml}
+      ${statementsHtml}
+      <p class="stem">${q.q}</p>
+      <div class="options" id="options-wrap">
+        ${q.o.map((opt, i) => `
+          <div class="option" data-idx="${i}">
+            <span class="letter">${letters[i]}</span>
+            <span>${opt}</span>
+          </div>
+        `).join('')}
+      </div>
+      <div id="feedback-wrap"></div>
+    </div>
+    <div class="qnav">
+      <div class="left-btns">
+        <button class="btn ghost" id="skip-btn">Skip</button>
+      </div>
+      <div class="right-btns">
+        <button class="btn secondary" id="prev-btn" ${state.idx === 0 ? 'disabled' : ''}>&larr; Prev</button>
+        <button class="btn" id="next-btn" ${already ? '' : 'disabled'}>${state.idx === total - 1 ? 'Finish' : 'Next \u2192'}</button>
+      </div>
+    </div>
+  `;
+
+  if (already) {
+    revealAnswer(already.chosen, already.skipped);
+  } else {
+    el.querySelectorAll('.option').forEach(optEl => {
+      optEl.onclick = () => selectOption(parseInt(optEl.getAttribute('data-idx')));
+    });
+  }
+
+  document.getElementById('skip-btn').onclick = () => {
+    if (state.answers[q.id]) return;
+    state.answers[q.id] = { chosen: null, skipped: true, correct: false };
+    revealAnswer(null, true);
+    document.getElementById('next-btn').disabled = false;
+  };
+  document.getElementById('prev-btn').onclick = () => {
+    if (state.idx > 0) { state.idx--; renderQuestion(); }
+  };
+  document.getElementById('next-btn').onclick = () => {
+    if (state.idx < total - 1) { state.idx++; renderQuestion(); }
+    else renderEnd();
+  };
+}
+
+function modeLabel() {
+  if (state.mode === 'full') return 'Full Practice Test';
+  if (state.mode === 'sprint') return 'Schemes-Only Sprint';
+  if (state.mode === 'section') return state.scheme;
+  return '';
+}
+
+function scoreSoFar() {
+  return Object.values(state.answers).filter(a => a.correct).length;
+}
+
+function selectOption(idx) {
+  const q = currentQ();
+  if (state.answers[q.id]) return;
+  const correct = idx === q.c;
+  state.answers[q.id] = { chosen: idx, skipped: false, correct };
+  revealAnswer(idx, false);
+  document.getElementById('next-btn').disabled = false;
+}
+
+function revealAnswer(chosenIdx, wasSkipped) {
+  const q = currentQ();
+  const letters = ['A', 'B', 'C', 'D', 'E'];
+  const optsEl = document.querySelectorAll('#options-wrap .option');
+  optsEl.forEach((optEl, i) => {
+    optEl.classList.add('disabled');
+    if (i === q.c) optEl.classList.add('correct');
+    else if (i === chosenIdx) optEl.classList.add('wrong');
+    else optEl.classList.add('faded');
+    optEl.onclick = null;
+  });
+  const fb = document.getElementById('feedback-wrap');
+  let cls, headline;
+  if (wasSkipped) {
+    cls = 'skip'; headline = `Skipped — correct answer: <b>${letters[q.c]}</b>`;
+  } else if (chosenIdx === q.c) {
+    cls = 'correct'; headline = `Correct! <b>${letters[q.c]}</b>`;
+  } else {
+    cls = 'wrong'; headline = `Incorrect — correct answer: <b>${letters[q.c]}</b>`;
+  }
+  fb.innerHTML = `<div class="feedback ${cls}">${headline}<br>${q.e}</div>`;
+}
+
+// ===================== End Screen =====================
+function renderEnd() {
+  show('screen-end');
+  const el = document.getElementById('screen-end');
+  const total = state.pool.length;
+  const answeredList = state.pool.map(q => state.answers[q.id] || { chosen: null, skipped: true, correct: false });
+  const correctCount = answeredList.filter(a => a.correct).length;
+  const skippedCount = answeredList.filter(a => a.skipped).length;
+  const wrongCount = total - correctCount - skippedCount;
+  const pct = total ? Math.round((correctCount / total) * 100) : 0;
+
+  const diffs = ['Easy', 'Moderate', 'Hard'];
+  const diffStats = diffs.map(d => {
+    const idxs = state.pool.map((q, i) => ({ q, i })).filter(x => x.q.d === d);
+    const attempted = idxs.length;
+    const got = idxs.filter(x => (state.answers[x.q.id] || {}).correct).length;
+    return { d, attempted, got };
+  });
+
+  const missedOrSkipped = state.pool
+    .map((q, i) => ({ q, a: state.answers[q.id] || { chosen: null, skipped: true, correct: false } }))
+    .filter(x => !x.a.correct);
+
+  const letters = ['A', 'B', 'C', 'D', 'E'];
+
+  el.innerHTML = `
+    <div class="card">
+      <div class="score-hero">
+        <p class="big">${correctCount} / ${total}</p>
+        <p class="sub">${pct}% accuracy &middot; ${modeLabel()}</p>
+      </div>
+      <div class="diff-breakdown">
+        ${diffStats.map(s => `
+          <div class="diff-box">
+            <div class="label">${s.d}</div>
+            <div class="val">${s.got}/${s.attempted}</div>
+          </div>
+        `).join('')}
+      </div>
+      <p style="color:var(--text-dim);font-size:0.85rem;text-align:center;">
+        ${wrongCount} incorrect &middot; ${skippedCount} skipped
+      </p>
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn" id="retry-btn">Retry Same Set</button>
+        <button class="btn secondary" id="menu-btn">Back to Menu</button>
+      </div>
+    </div>
+
+    ${missedOrSkipped.length ? `
+      <h2 style="font-size:1.05rem;margin:22px 0 10px;">Review — Missed &amp; Skipped</h2>
+      ${missedOrSkipped.map(x => `
+        <div class="review-item">
+          <span class="rtag ${x.a.skipped ? 'skip2' : 'miss'}">${x.a.skipped ? 'SKIPPED' : 'MISSED'}</span>
+          <span class="scheme-pill">${x.q.s}</span>
+          <p class="stem2">${x.q.q}</p>
+          <div class="ans-line">Correct answer: <b>${letters[x.q.c]}</b> — ${x.q.o[x.q.c]}${x.a.skipped ? '' : ` &nbsp;|&nbsp; You chose: <b>${letters[x.a.chosen]}</b>`}</div>
+          <div class="exp2">${x.q.e}</div>
+        </div>
+      `).join('')}
+    ` : `<p style="text-align:center;color:var(--text-dim);margin-top:20px;">Perfect run — nothing missed or skipped.</p>`}
+  `;
+
+  document.getElementById('retry-btn').onclick = () => {
+    launchQuiz(state.pool.slice(), state.mode, state.scheme);
+  };
+  document.getElementById('menu-btn').onclick = () => {
+    show('screen-home');
+    renderHome();
+  };
+}
+
+// ===================== Init =====================
+show('screen-home');
+renderHome();
+
+</script>
+</body>
+</html>
