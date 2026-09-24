@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MoRD Scheme Mastery — NABARD Grade A Practice</title>
+<style>
+:root{
+  --bg:#12141a; --bg2:#191c24; --card:#1e222b; --card2:#242833;
+  --text:#e8e8ec; --muted:#9198a6; --accent:#d9a441; --accent2:#7fb8e0;
+  --green:#3fbf7f; --red:#e2584f; --border:#2c3140;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif;}
+#app{max-width:760px;margin:0 auto;min-height:100%;padding:18px 16px 40px;}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.brand{font-family:Georgia,serif;font-size:1.05rem;color:var(--accent);letter-spacing:.3px;}
+.pill{font-size:.72rem;color:var(--muted);border:1px solid var(--border);padding:3px 9px;border-radius:20px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px;}
+.card:hover{border-color:#3a4054;}
+h1.hero{font-size:1.5rem;margin:6px 0 4px;color:var(--text);}
+p.sub{color:var(--muted);font-size:.92rem;margin:0 0 18px;line-height:1.5;}
+.mode-btn{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:16px 18px;margin-bottom:12px;cursor:pointer;color:var(--text);transition:.15s;}
+.mode-btn:hover{border-color:var(--accent);background:var(--card2);}
+.mode-btn .t{font-family:Georgia,serif;font-size:1.05rem;color:var(--accent);margin-bottom:4px;}
+.mode-btn .d{font-size:.85rem;color:var(--muted);line-height:1.4;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:480px){.grid{grid-template-columns:1fr;}}
+.topic-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;transition:.15s;}
+.topic-card:hover{border-color:var(--accent2);background:var(--card2);}
+.topic-card .tt{font-family:Georgia,serif;font-size:.95rem;margin-bottom:4px;}
+.topic-card .tc{font-size:.78rem;color:var(--muted);}
+.toggle-row{display:flex;gap:8px;margin:10px 0 16px;}
+.toggle-btn{flex:1;padding:9px;border-radius:10px;border:1px solid var(--border);background:var(--bg2);
+  color:var(--muted);cursor:pointer;font-size:.85rem;text-align:center;}
+.toggle-btn.active{background:var(--accent);color:#1a1300;border-color:var(--accent);font-weight:600;}
+.btn{background:var(--accent);color:#1a1300;border:none;border-radius:10px;padding:12px 18px;font-weight:600;
+  cursor:pointer;font-size:.95rem;}
+.btn.secondary{background:transparent;border:1px solid var(--border);color:var(--text);font-weight:500;}
+.btn.ghost{background:transparent;border:1px solid var(--border);color:var(--muted);}
+.btn:disabled{opacity:.45;cursor:default;}
+.row{display:flex;gap:10px;flex-wrap:wrap;}
+.progress-wrap{background:var(--bg2);border-radius:8px;height:8px;overflow:hidden;margin-bottom:14px;border:1px solid var(--border);}
+.progress-bar{background:linear-gradient(90deg,var(--accent2),var(--accent));height:100%;transition:width .25s;}
+.scorebar{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:var(--muted);margin-bottom:10px;}
+.qmeta{display:flex;gap:8px;margin-bottom:10px;}
+.tag{font-size:.68rem;padding:3px 8px;border-radius:20px;border:1px solid var(--border);color:var(--muted);}
+.tag.diffE{color:#3fbf7f;border-color:#245c3e;}
+.tag.diffM{color:#d9a441;border-color:#5c4a24;}
+.tag.diffH{color:#e2584f;border-color:#5c2b28;}
+.context{background:var(--bg2);border-left:3px solid var(--accent2);border-radius:8px;padding:12px 14px;
+  margin-bottom:14px;font-size:.9rem;line-height:1.55;color:#c9cedb;white-space:pre-line;}
+.qtext{font-size:1.05rem;line-height:1.5;margin-bottom:16px;color:var(--text);font-weight:500;}
+.opt{display:block;width:100%;text-align:left;background:var(--card2);border:1px solid var(--border);
+  border-radius:10px;padding:12px 14px;margin-bottom:9px;cursor:pointer;color:var(--text);font-size:.92rem;
+  line-height:1.4;transition:.12s;}
+.opt:hover:not(.locked){border-color:var(--accent2);}
+.opt .lab{color:var(--accent2);font-weight:700;margin-right:8px;}
+.opt.correct{background:rgba(63,191,127,.14);border-color:var(--green);}
+.opt.wrong{background:rgba(226,88,79,.14);border-color:var(--red);}
+.opt.locked{cursor:default;}
+.explain{background:var(--bg2);border-radius:10px;padding:12px 14px;margin:10px 0 16px;font-size:.87rem;
+  color:#c9cedb;border:1px solid var(--border);line-height:1.5;}
+.explain b{color:var(--accent);}
+.qfooter{display:flex;justify-content:space-between;gap:10px;margin-top:6px;}
+.endstats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:16px 0;}
+.stat{background:var(--card2);border-radius:10px;padding:14px 8px;text-align:center;border:1px solid var(--border);}
+.stat .num{font-family:Georgia,serif;font-size:1.5rem;color:var(--accent);}
+.stat .lab{font-size:.72rem;color:var(--muted);margin-top:2px;}
+.diffrow{display:flex;gap:8px;margin:14px 0;}
+.diffbox{flex:1;background:var(--card2);border-radius:10px;padding:10px;text-align:center;border:1px solid var(--border);}
+.diffbox .n{font-size:1.1rem;font-weight:700;}
+.review-item{background:var(--card2);border-radius:10px;padding:12px 14px;margin-bottom:10px;border:1px solid var(--border);}
+.review-item .qh{font-size:.9rem;margin-bottom:6px;}
+.review-item .status{font-size:.7rem;padding:2px 8px;border-radius:20px;margin-bottom:6px;display:inline-block;}
+.status.skip{background:#3a3220;color:#d9a441;}
+.status.miss{background:#3a2422;color:#e2584f;}
+.backlink{color:var(--muted);font-size:.85rem;cursor:pointer;margin-bottom:10px;display:inline-block;}
+.backlink:hover{color:var(--accent2);}
+.footer-note{color:var(--muted);font-size:.75rem;text-align:center;margin-top:24px;}
+::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-thumb{background:#2c3140;border-radius:8px;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ============================= QUESTION BANK ============================= */
+const TOPICS = {
+  mord:{n:"MoRD — Introduction & Mandate"},
+  nrlm:{n:"DAY-NRLM"},
+  ddugky:{n:"DDU-GKY"},
+  pmgsy:{n:"PMGSY & NRIDA"},
+  pmayg:{n:"PMAY-G"},
+  nsap:{n:"NSAP"},
+  dolr:{n:"DoLR, SVAMITVA & Mission Antyodaya"},
+  misc:{n:"Recent Developments & Misc"}
+};
+/* ty: 1 numbered-statement, 2 scenario, 3 not-among-list, 4 acronym, 5 pick-correct, 6 figure-recall
+   df: difficulty E/M/H  |  a: 0-based correct index into o[] */
+const Q = [
+/* ---------------- MoRD (10) ---------------- */
+{t:'mord',ty:1,df:'E',cx:"Read the following statements about the Ministry of Rural Development (MoRD).",
+ qq:"1. The Ministry's main focus areas include skilling rural youth and empowering rural women.\n2. The District Collector is the nodal officer for MoRD schemes, with monthly review meetings chaired by the concerned MLA.\n3. Rao Birender Singh was the first Union Cabinet Minister for Rural Development, taking office on 23 January 1982.\n\nWhich of the above statements is/are correct?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:1,
+ ex:"Statement 2 is wrong — the monthly review meetings are chaired by the concerned <b>MP</b>, not the MLA, with Gram Panchayat heads invited."},
+{t:'mord',ty:4,df:'E',cx:"",
+ qq:"The Ministry of Rural Development was renamed on 23 January 1982 from which earlier ministry?",
+ o:["Ministry of Rural Reconstruction","Ministry of Village Development","Ministry of Panchayati Raj and Rural Welfare","Ministry of Rural Affairs","Ministry of Community Development"],a:0,
+ ex:"MoRD was created and renamed from the <b>Ministry of Rural Reconstruction</b> on 23 January 1982, when Rao Birender Singh took charge."},
+{t:'mord',ty:5,df:'M',cx:"",
+ qq:"Pick the one CORRECT statement about MoRD's institutional review mechanism.",
+ o:["The District Collector is the nodal officer, with monthly review meetings chaired by the concerned MP.","The District Collector is the nodal officer, with monthly review meetings chaired by the Chief Minister.","The Block Development Officer is the nodal officer, with weekly review meetings chaired by the MP.","The Gram Panchayat head is the nodal officer, with monthly review meetings chaired by the District Collector.","The District Magistrate is the nodal officer, with quarterly review meetings chaired by the MP."],a:0,
+ ex:"As per the document, the District Collector is the nodal officer and monthly review meetings are chaired by the concerned MP, with Gram Panchayat heads invited."},
+{t:'mord',ty:6,df:'E',cx:"",
+ qq:"In what year was the Ministry of Rural Development officially created via renaming, per the document?",
+ o:["1978","1982","1985","1996","2000"],a:1,
+ ex:"MoRD was officially created (renamed) on 23 January <b>1982</b>."},
+{t:'mord',ty:3,df:'M',cx:"MoRD's document lists its 'Main focus areas'.",
+ qq:"Which of the following is NOT one of MoRD's stated Main focus areas?",
+ o:["Skilling rural youth and increasing livelihood opportunities","Empowering rural women and expanding livelihood opportunities","Providing a social safety net and undertaking infrastructure development","Promoting urban-rural migration through skill certification","Sustainable and resilient development of rural areas using multi-pronged strategies"],a:3,
+ ex:"'Promoting urban-rural migration through skill certification' is fabricated — it is not among MoRD's four stated focus areas."},
+{t:'mord',ty:1,df:'M',cx:"Read the following statements about MoRD's objectives and governance structure.",
+ qq:"1. Raising institutions of the poor and forging partnerships with PRIs is one of MoRD's main objectives.\n2. MoRD's vision aims for sustainable and inclusive growth of rural India through poverty eradication strategies.\n3. Under MoRD's mandate, the Block Development Officer chairs monthly review meetings with Gram Panchayat heads invited.\n\nWhich of the above statements is/are correct?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:0,
+ ex:"Statement 3 is incorrect — monthly review meetings are chaired by the concerned MP, not the Block Development Officer."},
+{t:'mord',ty:5,df:'M',cx:"",
+ qq:"Pick the one CORRECT statement about MoRD's review mechanism.",
+ o:["Monthly review meetings are chaired by the concerned MP, with Gram Panchayat heads invited.","Monthly review meetings are chaired by the District Collector, with Zilla Parishad heads invited.","Weekly review meetings are chaired by the concerned MLA, with Block heads invited.","Monthly review meetings are chaired by the Secretary, Rural Development, with Sarpanch invited.","Annual review meetings are chaired by the concerned MP, with Gram Sabha invited."],a:0,
+ ex:"Correct as per the document: monthly review meetings chaired by the concerned MP, Gram Panchayat heads invited."},
+{t:'mord',ty:1,df:'H',cx:"Read the following statements about MoRD's main objectives.",
+ qq:"1. Objective (i) is uplifting deprived rural households through multidimensional support with a saturation approach.\n2. Objective (ii) is convergence of programmes and schemes.\n3. Objective (iv) is raising institutions of the poor and forging partnerships with PRIs.\n\nWhich of the above statements is/are correct?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:0,
+ ex:"Statement 3 is incorrect — objective (iv) is 'integrated and sustained monitoring of measurable outcomes'; raising institutions of the poor is objective (iii)."},
+{t:'mord',ty:6,df:'E',cx:"",
+ qq:"Rao Birender Singh took office as the first Union Cabinet Minister for Rural Development on which date?",
+ o:["23 January 1982","15 August 1982","1 April 1982","26 January 1982","2 October 1982"],a:0,
+ ex:"He took office on <b>23 January 1982</b>, the date MoRD was created."},
+{t:'mord',ty:3,df:'H',cx:"MoRD's scheme timeline table lists several flagship schemes with their launch years (NSAP-1995, PMGSY-2000, MGNREGA-2005, PMAY-G-2011, DAY-NRLM-2011, DDU-GKY-2014, RSETI-2016, SPMRM-2016, VB-G RAM G-2020).",
+ qq:"Which of the following scheme–launch year pairings is NOT correct, as per MoRD's scheme timeline?",
+ o:["MGNREGA – 2005","DDU-GKY – 2014","PMAY-G – 2011","SPMRM – 2016","VB-G RAM G – 2018"],a:4,
+ ex:"VB-G RAM G (Viksit Bharat-Guarantee for Rozgar & Aajeevika Mission) was launched in <b>2020</b>, not 2018."},
+
+/* ---------------- DAY-NRLM (45) ---------------- */
+{t:'nrlm',ty:1,df:'E',cx:"DAY-NRLM, MoRD's flagship rural livelihoods mission, was restructured from an earlier programme.",
+ qq:"1. DAY-NRLM was launched by restructuring SGSY with effect from 1 April 2013.\n2. It was renamed DAY-NRLM with effect from 29 March 2016.\n3. The programme originated from the recommendations of the Committee on Credit Related Issues under SGSY, chaired by Prof. Radhakrishna.\n\nWhich of the above statements is/are correct?",
+ o:["Only 1","1 and 2","2 and 3","All of the above","None of the above"],a:3,
+ ex:"All three statements are correct as per the document."},
+{t:'nrlm',ty:6,df:'E',cx:"",qq:"DAY-NRLM is supported by the World Bank with a credit of:",
+ o:["USD 500 million","USD 1 Billion","USD 2 Billion","USD 750 million","USD 1.5 Billion"],a:1,
+ ex:"DAY-NRLM is supported by a World Bank credit of <b>USD 1 Billion</b>."},
+{t:'nrlm',ty:5,df:'E',cx:"",qq:"Pick the one CORRECT statement about DAY-NRLM's Centre:State funding pattern.",
+ o:["All States (general) 60:40; NE States & Sikkim 90:10; UTs 100% Centre.","All States 70:30; NE States & Sikkim 90:10; UTs 100% Centre.","All States 60:40; NE States & Sikkim 80:20; UTs 100% Centre.","All States 60:40; NE States & Sikkim 90:10; UTs 90:10.","All States 50:50; NE States & Sikkim 90:10; UTs 100% Centre."],a:0,
+ ex:"Correct funding pattern: 60:40 (general), 90:10 (NE & Sikkim), 100% Centre (UTs)."},
+{t:'nrlm',ty:3,df:'M',cx:"DAY-NRLM's Four Core Components are: Social mobilisation & community institutions; Financial inclusion of the rural poor; Sustainable livelihoods; Social inclusion, development & convergence.",
+ qq:"Which of the following is NOT one of DAY-NRLM's Four Core Components?",
+ o:["Social mobilisation and promotion of sustainable community institutions","Financial inclusion of the rural poor","Sustainable livelihoods","Digital literacy and e-governance training","Social inclusion, development and convergence"],a:3,
+ ex:"'Digital literacy and e-governance training' is fabricated — the four real components are mobilisation, financial inclusion, livelihoods, and social inclusion/convergence."},
+{t:'nrlm',ty:1,df:'M',cx:"Read the following statements about DAY-NRLM's institutional architecture.",
+ qq:"1. SHGs federate into Village Organisations (VOs) and then Cluster Level Federations (CLFs).\n2. Minimum SHG membership is 10–20 members, reduced to 5 for special SHGs in difficult/remote tribal areas or for persons with disability.\n3. Men are allowed as regular members in all SHGs formed under DAY-NRLM.\n\nWhich of the above statements is/are correct?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:0,
+ ex:"Statement 3 is incorrect — men are allowed only in special categories (persons with disabilities, elders, transgenders), not as regular members."},
+{t:'nrlm',ty:2,df:'M',cx:"Consider the following individuals under DAY-NRLM's SHG membership norms.",
+ qq:"1. Meena, a woman from a difficult/remote tribal area, wants to join a special SHG with only 6 members.\n2. Suresh, an adult male with no disability, wants to be a regular member of a general SHG.\n3. Kiran, a transgender person, wants to join an SHG.\n\nWho among the above can be validly included as per DAY-NRLM norms?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:1,
+ ex:"Suresh cannot be a regular member — men are allowed only in special categories (PwD, elders, transgenders). Special SHGs need a minimum of 5 members, so Meena's group of 6 qualifies; Kiran (transgender) is an allowed special category."},
+{t:'nrlm',ty:6,df:'M',cx:"",qq:"The one-time Revolving Fund (RF) provided per eligible SHG under DAY-NRLM ranges between:",
+ o:["Rs 10,000–15,000","Rs 20,000–30,000","Rs 25,000–50,000","Rs 15,000–25,000","Rs 30,000–50,000"],a:1,
+ ex:"The Revolving Fund is <b>Rs 20,000–30,000</b>, one-time per eligible SHG."},
+{t:'nrlm',ty:6,df:'M',cx:"",qq:"The Community Investment Fund (CIF) under DAY-NRLM can go up to how much per eligible SHG?",
+ o:["Rs 1 lakh","Rs 1.5 lakh","Rs 2 lakh","Rs 2.5 lakh","Rs 3 lakh"],a:3,
+ ex:"CIF can be up to <b>Rs 2.5 lakh</b> per eligible SHG, routed through federations."},
+{t:'nrlm',ty:1,df:'H',cx:"Read the following statements on DAY-NRLM's bank lending norms.",
+ qq:"1. SHGs must be active for at least 6 months (per books, not S/B account date) to be eligible for bank credit linkage.\n2. For CCL, a minimum of Rs 6 lakh is sanctioned for a period of 3 years.\n3. Revived defunct SHGs become eligible for financing only after 12 months of renewed activity.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — revived defunct SHGs are eligible after <b>3 months</b> of activity, not 12 months."},
+{t:'nrlm',ty:5,df:'H',cx:"",qq:"Pick the one CORRECT statement on the SHG loan dose progression under the RBI Master Circular on DAY-NRLM.",
+ o:["First dose: 6× corpus or ₹1.5 lakh, whichever is higher (subject to minimum).","Second dose: 8× corpus or ₹3 lakh minimum.","Third dose: minimum ₹4 lakh.","Fourth dose onwards: fixed at ₹6 lakh regardless of MCP.","First dose: 10× corpus or ₹2 lakh minimum."],a:1,
+ ex:"Second dose is 8× corpus or ₹3 lakh minimum, whichever is higher."},
+{t:'nrlm',ty:6,df:'H',cx:"An SHG has a corpus (group savings + grants) of ₹50,000.",
+ qq:"As per the illustrative dosage table, what loan amounts is it eligible for in Year 1 and Year 2 respectively?",
+ o:["₹3,00,000 in Year 1 and ₹4,00,000 in Year 2","₹1,50,000 in Year 1 and ₹3,00,000 in Year 2","₹3,00,000 in Year 1 and ₹6,00,000 in Year 2","₹6,00,000 in Year 1 and ₹6,00,000 in Year 2","₹1,50,000 in Year 1 and ₹6,00,000 in Year 2"],a:0,
+ ex:"6×₹50,000=₹3,00,000 (Year 1, exceeds the ₹1.5 lakh minimum); 8×₹50,000=₹4,00,000 (Year 2, exceeds the ₹3 lakh minimum)."},
+{t:'nrlm',ty:6,df:'M',cx:"",qq:"For SHG loans up to ₹10 lakh under DAY-NRLM, what collateral/margin is required?",
+ o:["No collateral, no margin","10% margin only","Collateral required, no margin","No collateral but 10% margin","Full collateral and 10% margin"],a:0,
+ ex:"Loans up to ₹10 lakh require <b>no collateral and no margin</b>; no lien on SHG savings accounts."},
+{t:'nrlm',ty:1,df:'M',cx:"Read the following statements about SHG loans above ₹10 lakh under DAY-NRLM.",
+ qq:"1. No collateral is required for such loans.\n2. They are covered under the Credit Guarantee Fund for Micro Units (CGFMU).\n3. A margin exceeding 15% of the amount above ₹10 lakh may be obtained.\n\nWhich of the above statements is/are correct?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:0,
+ ex:"Statement 3 is wrong — the margin must not exceed <b>10%</b> of the amount above ₹10 lakh, not 15%."},
+{t:'nrlm',ty:6,df:'M',cx:"",qq:"As per DAY-NRLM norms, what minimum share of loans above ₹6 lakh must go toward income-generating activities?",
+ o:["50%","60%","75%","85%","100%"],a:3,
+ ex:"At least <b>85%</b> of loans above ₹6 lakh must go to income-generating activities (50% above ₹1 lakh, 75% above ₹4 lakh)."},
+{t:'nrlm',ty:6,df:'M',cx:"",qq:"Repayment tenure for the fourth dose onwards under DAY-NRLM SHG bank loans ranges up to:",
+ o:["24–36 months","36–48 months","48–60 months","60–84 months","84–96 months"],a:3,
+ ex:"Repayment tenures range from 24–36 months (first dose) up to <b>60–84 months</b> (fourth dose onwards)."},
+{t:'nrlm',ty:6,df:'E',cx:"",qq:"Under the Interest Subvention Scheme FY2025-26, women SHG loans up to ₹3 lakh are extended at a concessional rate of:",
+ o:["4%","5%","6%","7%","8%"],a:3,
+ ex:"Loans up to ₹3 lakh are extended at a concessional <b>7% p.a.</b>, with 4.5% p.a. subvention."},
+{t:'nrlm',ty:1,df:'M',cx:"Read the following statements on the Interest Subvention Scheme FY2025-26.",
+ qq:"1. For loans up to ₹3 lakh, banks are reimbursed at a uniform subvention of 4.5% p.a.\n2. For loans above ₹3 lakh up to ₹5 lakh, subvention is provided at 5% p.a.\n3. Indian Bank is the Nodal Bank for the Interest Subvention Scheme for FY2025-26.\n\nWhich of the above statements is/are correct?",
+ o:["Only 1","1 and 2","2 and 3","All of the above","None of the above"],a:3,
+ ex:"All three statements are correct."},
+{t:'nrlm',ty:6,df:'H',cx:"",qq:"As per the RBI Master Circular, all FY2025-26 interest subvention claims under DAY-NRLM must be submitted by:",
+ o:["31 March 2026","30 June 2026","30 September 2026","31 December 2026","31 October 2026"],a:2,
+ ex:"Claims must be submitted by <b>30 September 2026</b>, with statutory auditor certification for the March-end claim."},
+{t:'nrlm',ty:2,df:'H',cx:"Consider the following applicants under DAY-NRLM's Women Enterprise Acceleration Fund (WEAF, Annex III).",
+ qq:"1. Sunita, an individual woman entrepreneur from an SHG, wants credit guarantee fee reimbursement for a ₹4 lakh loan — her first time availing this benefit.\n2. Radha wants to avail this same reimbursement benefit for a second time, on a fresh loan.\n3. Kavita wants a 2% interest subvention on prompt repayment for an outstanding loan of ₹1.2 lakh.\n\nWho among the above is eligible under WEAF provisions?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:1,
+ ex:"Each WEAF benefit is available only <b>once per individual</b> — so Radha (2nd time) is not eligible. Sunita and Kavita both meet the criteria."},
+{t:'nrlm',ty:6,df:'M',cx:"",qq:"Under WEAF, the 2% interest subvention on prompt repayment is capped on an outstanding loan up to:",
+ o:["₹1 lakh","₹1.5 lakh","₹2 lakh","₹2.5 lakh","₹5 lakh"],a:1,
+ ex:"The 2% subvention applies on an outstanding loan up to <b>₹1.5 lakh</b>, for up to 3 years."},
+{t:'nrlm',ty:4,df:'E',cx:"",qq:"What does 'CIF' stand for under DAY-NRLM's financial support structure?",
+ o:["Community Investment Fund","Cluster Investment Facility","Capital Inclusion Fund","Community Infrastructure Fund","Collective Investment Fund"],a:0,
+ ex:"CIF = <b>Community Investment Fund</b>."},
+{t:'nrlm',ty:4,df:'E',cx:"",qq:"MKSP, the women-in-agriculture initiative under DAY-NRLM, stands for:",
+ o:["Mahila Kisan Sashaktikaran Pariyojana","Mahila Krishi Sahyog Pariyojana","Mahila Kisan Samvardhan Pariyojana","Mahila Krishak Sashaktikaran Pariyojana","Mahila Kisan Sashaktikaran Programme"],a:0,
+ ex:"MKSP = <b>Mahila Kisan Sashaktikaran Pariyojana</b>, launched 2010-11."},
+{t:'nrlm',ty:3,df:'M',cx:"DAY-NRLM's farm livelihoods CRPs include: Krishi Sakhi, Pashu Sakhi, Udyog Sakhi, Van Sakhi, Matsya Sakhi.",
+ qq:"Which of the following is NOT among the named livelihoods CRPs under DAY-NRLM's farm interventions?",
+ o:["Krishi Sakhi","Pashu Sakhi","Van Sakhi","Bima Sakhi","Matsya Sakhi"],a:3,
+ ex:"'Bima Sakhi' relates to the insurance/financial-inclusion strand (Bima Vaahak/Bima Vistaar), not the farm livelihoods CRP list."},
+{t:'nrlm',ty:6,df:'M',cx:"",qq:"How many lakh livelihoods CRPs (Krishi Sakhi, Pashu Sakhi, etc.) have been trained and deployed under DAY-NRLM?",
+ o:["2.08 lakh","3.08 lakh","4.08 lakh","5.08 lakh","6.08 lakh"],a:2,
+ ex:"<b>4.08 lakh</b> livelihoods CRPs trained and deployed, through a three-tier model (NRPs train SRPs, who train CRPs)."},
+{t:'nrlm',ty:1,df:'E',cx:"Read the following statements about DAY-NRLM's non-farm livelihoods (SVEP umbrella).",
+ qq:"1. SVEP stands for Start-up Village Entrepreneurship Programme.\n2. The One Stop Facility (OSF) targets nano-enterprises with turnover around/above Rs 6 lakh and existing for 12+ months.\n3. The block is the unit of implementation for non-farm livelihood interventions.\n\nWhich of the above statements is/are correct?",
+ o:["Only 1","1 and 2","2 and 3","All of the above","None of the above"],a:3,
+ ex:"All three statements are correct."},
+{t:'nrlm',ty:6,df:'M',cx:"",qq:"As per December 2025 data, how many AGEY vehicles were operational, and how many more being deployed?",
+ o:["2,297 operational; 1,805 more being deployed","1,805 operational; 2,297 more being deployed","2,297 operational; 1,500 more being deployed","2,500 operational; 1,805 more being deployed","2,297 operational; 2,000 more being deployed"],a:0,
+ ex:"2,297 AGEY vehicles operational and 1,805 more being deployed (till December 2025)."},
+{t:'nrlm',ty:6,df:'M',cx:"",qq:"Under PM FME seed-capital support (as of December 2025), how many SHG entrepreneurs were supported and with what total seed capital?",
+ o:["2,97,306 entrepreneurs; Rs 995.83 crore","2,97,306 entrepreneurs; Rs 895.83 crore","1,97,306 entrepreneurs; Rs 995.83 crore","2,97,306 entrepreneurs; Rs 1,095.83 crore","3,97,306 entrepreneurs; Rs 995.83 crore"],a:0,
+ ex:"2,97,306 SHG entrepreneurs supported with <b>Rs 995.83 crore</b> seed capital."},
+{t:'nrlm',ty:1,df:'H',cx:"Read the following statements about the Samaveshi Aajeevika Yojana (SAY).",
+ qq:"1. SAY adopts the Graduation Approach pioneered by BRAC in Bangladesh in 2002.\n2. The mentoring package under SAY runs over 36 months across four pillars.\n3. SAY has been rolled out in fifteen States including Tamil Nadu, Karnataka and Maharashtra.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — SAY has been rolled out in <b>eleven States</b>, not fifteen."},
+{t:'nrlm',ty:3,df:'M',cx:"SAY has been rolled out in eleven States: Tamil Nadu, Karnataka, Maharashtra, Telangana, Chhattisgarh, Jharkhand, Assam, Meghalaya, West Bengal, Tripura, Rajasthan.",
+ qq:"Which of the following is NOT among the eleven roll-out States for SAY?",
+ o:["Tamil Nadu","Jharkhand","Odisha","Meghalaya","Tripura"],a:2,
+ ex:"Odisha is not among the eleven SAY roll-out States listed in the document."},
+{t:'nrlm',ty:6,df:'E',cx:"",qq:"What is the urban/semi-urban adaptation of SAY called, run by Bihar since 2018?",
+ o:["Satat Jeevikoparjan Yojana (SJY)","Shahri Aajeevika Yojana","Nagriya Jeevikoparjan Yojana","Sustainable Urban Livelihoods Mission","Bihar Shahri Aajeevika Abhiyan"],a:0,
+ ex:"<b>Satat Jeevikoparjan Yojana (SJY)</b>, run by Bihar through JEEViKA since 2018."},
+{t:'nrlm',ty:6,df:'H',cx:"In the UPAJ (Jharkhand) early result under SAY:",
+ qq:"SHG inclusion rose from 43% to what figure, and savings rose from a baseline of 34% to what figure?",
+ o:["100%; 100%","90%; 100%","100%; 90%","80%; 100%","100%; 80%"],a:0,
+ ex:"SHG inclusion rose to <b>100%</b> and savings rose to <b>100%</b> (from a 34% baseline)."},
+{t:'nrlm',ty:1,df:'M',cx:"Read the following statements based on DAY-NRLM's progress data (as on December 2025).",
+ qq:"1. DAY-NRLM has footprints in 28 States and 6 UTs across 7,156 blocks.\n2. Rural families mobilised stood at 10.05 crore.\n3. Cluster Level Federations (CLFs) numbered 43,795.\n\nWhich of the above statements is/are correct?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:0,
+ ex:"Statement 3 is wrong — CLFs numbered <b>33,795</b>, not 43,795."},
+{t:'nrlm',ty:6,df:'E',cx:"",qq:"As per progress data (Dec 2025), how many Self-Help Groups (SHGs) had been formed under DAY-NRLM?",
+ o:["70.90 lakh","80.90 lakh","90.90 lakh","1,00.90 lakh","60.90 lakh"],a:2,
+ ex:"<b>90.90 lakh</b> SHGs formed under DAY-NRLM as on December 2025."},
+{t:'nrlm',ty:6,df:'M',cx:"",qq:"Cumulative Community Investment Fund (CIF) disbursed to SHGs under DAY-NRLM stood at:",
+ o:["Rs 42,487.14 crore","Rs 52,487.14 crore","Rs 62,487.14 crore","Rs 52,487.14 lakh","Rs 9,466.96 crore"],a:1,
+ ex:"Cumulative CIF: <b>Rs 52,487.14 crore</b> (to 67.29 lakh SHGs)."},
+{t:'nrlm',ty:3,df:'H',cx:"DAY-NRLM's State Highlights list several achievements: Andhra Pradesh led SHG bank-loan disbursement; Maharashtra had the highest Mahila Kisans under Agro-Ecological Practices; Assam led SVEP enterprises; Bihar and UP led capitalisation support and SHG mobilisation.",
+ qq:"Which of the following State–achievement pairs is NOT correct as per DAY-NRLM's State Highlights?",
+ o:["Andhra Pradesh – led SHG bank-loan disbursement (Rs 34,83,725 lakh)","Maharashtra – highest Mahila Kisans under Agro-Ecological Practices (12,97,051)","Assam – led SVEP enterprises (9,557)","Uttar Pradesh – highest capitalisation support, exceeding Bihar's figure","Karnataka – largest number of SHGs and highest women-household mobilisation"],a:4,
+ ex:"Karnataka is not mentioned — the document names Bihar, Uttar Pradesh and Andhra Pradesh as having the largest SHGs and highest women-household mobilisation."},
+{t:'nrlm',ty:6,df:'H',cx:"",qq:"Under Financial Inclusion universalisation targets, what share of SHG members are targeted for basic life, accidental and health insurance?",
+ o:["75%","80%","90%","100%","95%"],a:3,
+ ex:"Target: <b>100%</b> eligible members under basic life, accidental and health insurance."},
+{t:'nrlm',ty:1,df:'M',cx:"Read the following statements on DAY-NRLM's digital finance/universalisation targets.",
+ qq:"1. 100% SHG members are targeted to have bank accounts.\n2. 75% of members are targeted to be financially literate.\n3. 100% digital CBO transactions above Rs 10,000 is a stated target.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the target is 100% digital CBO transactions above <b>Rs 5,000</b>, not Rs 10,000."},
+{t:'nrlm',ty:6,df:'M',cx:"",qq:"Over how many lakh SHG members serve as Business Correspondent Agents (BCAs) under DAY-NRLM?",
+ o:["0.44 lakh","1.44 lakh","2.44 lakh","1.94 lakh","1.04 lakh"],a:1,
+ ex:"Over <b>1.44 lakh</b> SHG members serve as BCAs."},
+{t:'nrlm',ty:6,df:'M',cx:"",qq:"What is the goal for the number of 'Lakhpati Didis' under DAY-NRLM, and how many have already been achieved?",
+ o:["Goal 3 crore; achieved over 2 crore","Goal 2 crore; achieved over 1 crore","Goal 5 crore; achieved over 2 crore","Goal 3 crore; achieved over 1 crore","Goal 3 crore; achieved over 3 crore"],a:0,
+ ex:"Goal of <b>3 crore</b> Lakhpati Didis; more than <b>2 crore</b> already achieved."},
+{t:'nrlm',ty:4,df:'E',cx:"",qq:"SVEP under DAY-NRLM's non-farm livelihoods stands for:",
+ o:["Start-up Village Entrepreneurship Programme","Skill Village Employment Programme","Sustainable Village Enterprise Project","Start-up Venture Empowerment Programme","State Village Entrepreneurship Plan"],a:0,
+ ex:"SVEP = <b>Start-up Village Entrepreneurship Programme</b>."},
+{t:'nrlm',ty:4,df:'E',cx:"",qq:"AGEY, the rural transport initiative under DAY-NRLM, stands for:",
+ o:["Aajeevika Grameen Express Yojana","Antyodaya Grameen Express Yojana","Aajeevika Gramin Ekikaran Yojana","Awaas Grameen Express Yojana","Aajeevika Gram Ekta Yojana"],a:0,
+ ex:"AGEY = <b>Aajeevika Grameen Express Yojana</b>, community-monitored rural transport."},
+{t:'nrlm',ty:6,df:'E',cx:"",qq:"The National Consultation on SHE-MARTs was held on 14–15 May 2026 at which city?",
+ o:["Bhubaneswar","Patna","Ranchi","Kolkata","Guwahati"],a:0,
+ ex:"Held at <b>Bhubaneswar, Odisha</b>."},
+{t:'nrlm',ty:3,df:'M',cx:"The National Compendium's '6I framework' comprises: income diversification, infrastructure, intensity, ecological integration, inclusion, institutional integration.",
+ qq:"Which of the following is NOT one of the six 'I's in the National Compendium's 6I framework?",
+ o:["Income diversification","Infrastructure","Institutional integration","Innovation","Inclusion"],a:3,
+ ex:"'Innovation' is not one of the six — the actual list is income diversification, infrastructure, intensity, ecological integration, inclusion, institutional integration."},
+{t:'nrlm',ty:1,df:'M',cx:"Read the following statements about the National Compendium launched by DAY-NRLM.",
+ qq:"1. The compendium 'Strengthening Rural Livelihoods through Convergence: Insights from Practice' involved 24 SRLMs.\n2. It curated 67 stories from 19 States.\n3. It was launched with support from the World Bank Foundation.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — support came from the <b>Axis Bank Foundation</b>, not the World Bank Foundation."},
+{t:'nrlm',ty:6,df:'M',cx:"",qq:"As per the DAY-NRLM Budget table, what was the % change in NRLM allocation from 2025-26 (RE) to 2026-27 (BE)?",
+ o:["5%","10%","20%","30%","69%"],a:2,
+ ex:"NRLM allocation changed by <b>20%</b> (Rs 16,000 crore RE to Rs 19,200 crore BE)."},
+{t:'nrlm',ty:2,df:'M',cx:"Consider the following SHGs seeking bank credit linkage under DAY-NRLM norms.",
+ qq:"1. Sneha Mahila SHG, active for 8 months as per its books, practising Panchasutras.\n2. Ujjwal SHG, active for only 2 months, following Panchasutras.\n3. Vikas SHG, revived after being defunct, now active for 4 months.\n\nWhich of the above SHGs is/are eligible for bank credit linkage as per RBI norms?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:1,
+ ex:"Ujjwal SHG (only 2 months active) fails the 6-month minimum. Sneha (8 months) qualifies; Vikas (revived, 4 months active) also qualifies since revived SHGs are eligible after 3 months."},
+
+/* ---------------- DDU-GKY (30) ---------------- */
+{t:'ddugky',ty:1,df:'E',cx:"DDU-GKY, launched on Antyodaya Diwas, operates under the DAY-NRLM umbrella.",
+ qq:"1. DDU-GKY was launched on 25 September 2014.\n2. It is a Centrally Sponsored, demand-driven, placement-linked rural skilling scheme.\n3. DDU-GKY 2.0 guidelines were notified in 2023 and rolled out from FY2023-24.\n\nWhich of the above statements is/are correct?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:0,
+ ex:"Statement 3 is wrong — DDU-GKY 2.0 guidelines were notified in <b>2025</b> and rolled out from <b>FY2025-26</b>."},
+{t:'ddugky',ty:4,df:'E',cx:"",qq:"DDU-GKY's current portal, which replaced the old DDU-GKY portal, is called:",
+ o:["Kaushal Bharat Portal","Skill India Portal","Rozgar Bharat Portal","Kaushal Vikas Portal","DDU Digital Portal"],a:0,
+ ex:"The <b>Kaushal Bharat Portal</b> (kaushal.rural.gov.in) replaced the old DDU-GKY portal."},
+{t:'ddugky',ty:6,df:'E',cx:"",qq:"What is the general age eligibility range for DDU-GKY beneficiaries?",
+ o:["14–32 years","15–35 years","18–35 years","15–40 years","16–35 years"],a:1,
+ ex:"General age eligibility is <b>15–35 years</b>, extended to 45 for special groups."},
+{t:'ddugky',ty:1,df:'E',cx:"Read the following statements about DDU-GKY's age eligibility.",
+ qq:"1. The age limit is extended to 45 years for women.\n2. The age limit is extended to 45 years for PVTGs and PwDs.\n3. School/college dropouts are NOT eligible under DDU-GKY 2.0.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — school/college dropouts are explicitly eligible under DDU-GKY 2.0."},
+{t:'ddugky',ty:2,df:'M',cx:"Consider the following candidates seeking DDU-GKY eligibility documents.",
+ qq:"1. Ramesh, who holds a BPL Card.\n2. Suresh, who holds only a landline telephone connection proof.\n3. Geeta, who is a family member of an SHG member.\n\nWho among the above satisfies the identification-document criteria for DDU-GKY?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:1,
+ ex:"A landline connection is not an accepted DDU-GKY identification document. Ramesh (BPL Card) and Geeta (family member of SHG member) both qualify."},
+{t:'ddugky',ty:3,df:'M',cx:"DDU-GKY's accepted identification documents (any one): BPL Card, AAY Card, RSBY Card, SHG-member family, MGNREGA worker (≥15 days in last 12 months), NRLM-SHG certificate, Birth Certificate.",
+ qq:"Which of the following is NOT among the accepted identification documents for DDU-GKY?",
+ o:["BPL Card","AAY Card","Aadhaar Card alone","Birth Certificate","RSBY Card"],a:2,
+ ex:"'Aadhaar Card alone' is not listed as a valid identification document for DDU-GKY eligibility."},
+{t:'ddugky',ty:6,df:'M',cx:"",qq:"Under DDU-GKY, a 9-month training course involves how many total hours and how many maximum days of OJT?",
+ o:["1,728 hours; 90 days","1,152 hours; 90 days","1,728 hours; 60 days","2,304 hours; 90 days","1,728 hours; 120 days"],a:0,
+ ex:"9-month course: <b>1,728 hours</b>, max <b>90 days</b> OJT."},
+{t:'ddugky',ty:6,df:'M',cx:"",qq:"For a 12-month DDU-GKY course, the total training hours and maximum OJT days are:",
+ o:["2,304 hours; 120 days","2,304 hours; 90 days","1,728 hours; 120 days","2,500 hours; 120 days","2,304 hours; 150 days"],a:0,
+ ex:"12-month course: <b>2,304 hours</b>, max <b>120 days</b> OJT."},
+{t:'ddugky',ty:1,df:'M',cx:"Read the following statements about DDU-GKY 2.0's training structure.",
+ qq:"1. The module structure under DDU-GKY 2.0 mandates 396 hours domain + 180 hours non-domain = 576 hours minimum.\n2. NSQF alignment is mandatory under DDU-GKY 2.0.\n3. The pass mark in the final exam is 60%.\n\nWhich of the above statements is/are correct?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:0,
+ ex:"Statement 3 is wrong — the pass mark is <b>70%</b>, not 60%."},
+{t:'ddugky',ty:6,df:'E',cx:"",qq:"What is the minimum mandatory placement percentage of trained candidates under DDU-GKY 2.0, with what minimum share in wage employment?",
+ o:["70% placement; at least 50% in wage employment","75% placement; at least 50% in wage employment","70% placement; at least 40% in wage employment","80% placement; at least 50% in wage employment","70% placement; at least 60% in wage employment"],a:0,
+ ex:"70% placement mandatory, at least <b>50%</b> in wage employment."},
+{t:'ddugky',ty:6,df:'M',cx:"",qq:"Minimum salary requirements under DDU-GKY 2.0 for placements within India and overseas respectively are:",
+ o:["₹10,000+/month (India); ₹25,000+/month (overseas)","₹6,000+/month (India); ₹25,000+/month (overseas)","₹10,000+/month (India); ₹30,000+/month (overseas)","₹8,000+/month (India); ₹20,000+/month (overseas)","₹10,000+/month (India); ₹20,000+/month (overseas)"],a:0,
+ ex:"India: <b>₹10,000+/month</b>; Overseas: <b>₹25,000+/month</b>."},
+{t:'ddugky',ty:1,df:'M',cx:"Read the following statements on DDU-GKY 2.0 placement and support provisions.",
+ qq:"1. Placement retention tracking has been raised from 3 months to 6 months under DDU-GKY 2.0.\n2. Post-placement allowance is ₹1,000/month for varying durations depending on migration distance.\n3. Migration Support Centres under DDU-GKY are run directly by MoRD at the national level.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — Migration Support Centres are <b>SRLM-run</b>, not run directly by MoRD."},
+{t:'ddugky',ty:6,df:'M',cx:"",qq:"Post-Placement Allowance is paid for how many months if the placement is outside the candidate's home state?",
+ o:["2 months","3 months","6 months","12 months","1 month"],a:2,
+ ex:"₹1,000/month for <b>6 months</b> if placed outside the state."},
+{t:'ddugky',ty:3,df:'M',cx:"DDU-GKY 2.0's recognised PIA categories: Champion Employers, Captive Employers, Industry Internship Partners, Foreign Placement Partners, Educational Institutions, SHGs/SHG Federations.",
+ qq:"Which of the following is NOT a recognised PIA category under DDU-GKY 2.0?",
+ o:["Champion Employers","Captive Employers","State Skill Development Missions","Foreign Placement Partners","SHGs / SHG Federations"],a:2,
+ ex:"'State Skill Development Missions' (SSDM) is part of the implementation tier at the State level, not a listed PIA category."},
+{t:'ddugky',ty:2,df:'H',cx:"Consider the following entities under DDU-GKY 2.0's PIA eligibility criteria.",
+ qq:"1. GreenTex Ltd, which trains and places 5,500 candidates over 2 years at 78% placement.\n2. RK Steel, which employs 600 candidates in-house and places 72% of trained candidates in its own organisation.\n3. Bright Future College, with a NAAC CGPA of 3.2.\n\nWhich of the above entities qualifies as a PIA under its respective described category (Champion Employer / Captive Employer / Educational Institution)?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:0,
+ ex:"Bright Future College does not qualify as an Educational Institution PIA — it requires NAAC CGPA > 3.5, but has only 3.2."},
+{t:'ddugky',ty:6,df:'H',cx:"",qq:"The Screening Fee and Quality Appraisal Fee for a PIA under DDU-GKY 2.0 are respectively:",
+ o:["₹25,000 (non-refundable); ₹1,25,000 + GST","₹50,000 (non-refundable); ₹1,00,000 + GST","₹25,000 (refundable); ₹1,25,000 + GST","₹15,000 (non-refundable); ₹1,50,000 + GST","₹25,000 (non-refundable); ₹1,00,000 + GST"],a:0,
+ ex:"Screening Fee: <b>₹25,000</b> (non-refundable); Quality Appraisal Fee: <b>₹1,25,000 + GST</b>."},
+{t:'ddugky',ty:1,df:'M',cx:"Read the following statements about Captive Employers under DDU-GKY 2.0.",
+ qq:"1. Captive Employers must employ 500+ candidates in their own organisation/subsidiary.\n2. Captive Employers must place at least 70% in their own organisation under DDU-GKY 2.0.\n3. Captive Employers are required to pay the full Quality Appraisal Fee, unlike other categories.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — Captive Employers are <b>exempt</b> from the Quality Appraisal Fee."},
+{t:'ddugky',ty:6,df:'M',cx:"",qq:"General States share Centre:State funding under DDU-GKY at:",
+ o:["50:50","60:40","70:30","90:10","100:0"],a:1,
+ ex:"General States: <b>60:40</b> (Centre:State)."},
+{t:'ddugky',ty:1,df:'M',cx:"Read the following statements about DDU-GKY's fund-sharing pattern.",
+ qq:"1. NE/Himalayan/Sikkim states share funding at 90:10 (Centre:State).\n2. UTs without legislature receive 100% Centre funding.\n3. 5% of total programme funds are reserved for the North-East.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — <b>10%</b> of total programme funds are reserved for the North-East, not 5%."},
+{t:'ddugky',ty:3,df:'M',cx:"DDU-GKY's special regional/thematic initiatives: Himayat (J&K), Roshni (LWE districts), SAGARMALA (coastal/port skilling).",
+ qq:"Which of the following is NOT one of DDU-GKY's special regional initiatives?",
+ o:["Himayat","Roshni","SAGARMALA","Uday","None — all are real"],a:3,
+ ex:"'Uday' is fabricated; the real initiatives are Himayat, Roshni and SAGARMALA."},
+{t:'ddugky',ty:6,df:'M',cx:"",qq:"Roshni, the special DDU-GKY initiative, is mandatorily residential and targets what % women coverage, in how many LWE-affected districts?",
+ o:["27 districts; 40% women coverage","30 districts; 40% women coverage","27 districts; 33% women coverage","44 districts; 40% women coverage","27 districts; 50% women coverage"],a:0,
+ ex:"Roshni: <b>27 LWE-affected districts</b>, <b>40% women coverage</b>, mandatorily residential."},
+{t:'ddugky',ty:4,df:'E',cx:"",qq:"RSETI, a bank-led sub-scheme linked to DDU-GKY/NRLM, stands for:",
+ o:["Rural Self Employment Training Institutes","Regional Skill Employment Training Institutes","Rural Skill Enhancement Training Initiative","Rural Self-Help Employment Training Institute","Regional Self Employment Training Institution"],a:0,
+ ex:"RSETI = <b>Rural Self Employment Training Institutes</b>."},
+{t:'ddugky',ty:1,df:'M',cx:"Read the following statements about RSETI.",
+ qq:"1. RSETI is modelled on RUDSETI, a partnership involving Syndicate Bank, Canara Bank, and the DMET Trust, Ujire, Karnataka.\n2. One RSETI is established per district, with a one-time grant of up to ₹1 crore.\n3. Trainee age for RSETI is 25–50 years.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — RSETI trainee age is <b>18–45 years</b>, not 25–50."},
+{t:'ddugky',ty:6,df:'M',cx:"",qq:"RSETI requires what minimum percentage of trainees to be rural BPL (DRDA certified), and what is the typical batch size?",
+ o:["≥70% rural BPL; batch size 25–30","≥50% rural BPL; batch size 20–25","≥70% rural BPL; batch size 30–40","≥60% rural BPL; batch size 25–30","≥80% rural BPL; batch size 25–30"],a:0,
+ ex:"≥<b>70%</b> rural BPL (DRDA certified); batch size <b>25–30</b>."},
+{t:'ddugky',ty:5,df:'H',cx:"",qq:"Pick the one CORRECT statement comparing DDU-GKY Legacy (2014) vs DDU-GKY 2.0 (2025).",
+ o:["Legacy placement tracking was 3 months minimum; 2.0 raised it to 6 months minimum.","Legacy funding model was batch-based; 2.0 shifted to project-based funding.","Legacy minimum salary (India) was ₹10,000/month; 2.0 raised it to ₹15,000/month.","Legacy allowed SHGs as PIA; 2.0 disallowed it.","Legacy mandated NSQF alignment; 2.0 removed this requirement."],a:0,
+ ex:"Correct: placement tracking raised from 3 months (legacy) to 6 months (2.0)."},
+{t:'ddugky',ty:6,df:'M',cx:"",qq:"Under DDU-GKY 2.0, projects run by PIAs achieving less than 50% placement are to be:",
+ o:["Continued with a warning","Closed by 31 March 2025","Given a grace period of 2 years","Merged with Champion Employers","Exempted from monitoring"],a:1,
+ ex:"Sub-50%-placement PIA projects are to be <b>closed by 31 March 2025</b> under DDU-GKY 2.0."},
+{t:'ddugky',ty:1,df:'M',cx:"Read the following statements about DDU-GKY's transparency mechanisms.",
+ qq:"1. Geo-tagged time-stamped biometric attendance is used at DDU-GKY training centres.\n2. Independent appraisal is conducted by institutions such as NIRD and NABCONS.\n3. Social audits under DDU-GKY are conducted entirely separately from NRLM's audit mechanism.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — social audits under DDU-GKY are conducted <b>jointly with NRLM</b>, not separately."},
+{t:'ddugky',ty:6,df:'E',cx:"",qq:"As per infographic data, DDU-GKY (pre-2.0) had cumulative candidate placements of how many lakh since FY2014-15 (till Nov 2024)?",
+ o:["8.97 lakh","9.97 lakh","10.97 lakh","11.97 lakh","12.97 lakh"],a:2,
+ ex:"<b>10.97 lakh+</b> candidates placed cumulatively since FY2014-15 (till Nov 2024)."},
+{t:'ddugky',ty:6,df:'M',cx:"",qq:"As per the infographic, DDU-GKY (pre-2.0) had been implemented in how many States & UTs, covering how many districts?",
+ o:["28 States & UTs; 689 districts","25 States & UTs; 689 districts","28 States & UTs; 640 districts","30 States & UTs; 700 districts","28 States & UTs; 750 districts"],a:0,
+ ex:"<b>28 States & UTs</b>, covering <b>689 districts</b>."},
+{t:'ddugky',ty:1,df:'H',cx:"Read the following statements about DDU-GKY's evolution timeline.",
+ qq:"1. SGSY was launched in 1999.\n2. 'Special Projects' for BPL skilling were added under SGSY in 2004.\n3. The second National Policy for Skill Development & Entrepreneurship was notified on 15 July 2018.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the second National Policy was notified on <b>15 July 2015</b>, not 2018."},
+
+/* ---------------- PMGSY & NRIDA (25) ---------------- */
+{t:'pmgsy',ty:1,df:'E',cx:"Read the following statements about PMGSY.",
+ qq:"1. PMGSY is a Centrally Sponsored Scheme launched in 2000 for all-weather road connectivity.\n2. The Nodal Ministry for PMGSY is the Ministry of Rural Development.\n3. Under PMGSY-IV, eligibility is based on the Census 2001 population figures.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — PMGSY-IV uses the <b>2011 Census</b>, not 2001."},
+{t:'pmgsy',ty:6,df:'E',cx:"",qq:"Under general plain-area eligibility norms (Census 2001), what population threshold makes a habitation eligible under PMGSY?",
+ o:["250+","500+","1,000+","100+","750+"],a:1,
+ ex:"Plain areas: population <b>500+</b> (Census 2001)."},
+{t:'pmgsy',ty:1,df:'M',cx:"Read the following statements about PMGSY eligibility norms.",
+ qq:"1. Special Category States/UTs and Desert Areas require a population of 250+ for eligibility (Census 2001).\n2. Under PMGSY-IV, eligibility uses the 2011 Census, with 500+ in plains and 250+ in NE/Hill/special-category areas.\n3. Under PMGSY-IV, LWE districts require a population threshold of 100+.\n\nWhich of the above statements is/are correct?",
+ o:["Only 1","1 and 2","2 and 3","All of the above","None of the above"],a:3,
+ ex:"All three statements are correct."},
+{t:'pmgsy',ty:6,df:'M',cx:"",qq:"Which PMGSY phase targeted upgrading Through Routes & Major Rural Links with a target of 50,000 km, launched in 2013?",
+ o:["PMGSY-I","PMGSY-II","PMGSY-III","PMGSY-IV","RCPLWEA"],a:1,
+ ex:"<b>PMGSY-II</b> (2013) targeted 50,000 km of Through Routes & Major Rural Links."},
+{t:'pmgsy',ty:1,df:'M',cx:"Read the following statements on PMGSY phase progress (to 31 Dec 2025).",
+ qq:"1. Under PMGSY-I, 6,44,735 km were sanctioned and 6,25,114 km completed.\n2. Under PMGSY-III, 1,22,376 km were sanctioned across 32 States, with 1,02,575 km completed.\n3. PMGSY-IV targets 62,500 km of new connectivity to 15,000 habitations.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — PMGSY-IV targets connectivity to <b>25,000 habitations</b>, not 15,000."},
+{t:'pmgsy',ty:6,df:'M',cx:"",qq:"PMGSY-IV's total outlay is Rs 70,125 crore, split into Central and State shares of:",
+ o:["Central Rs 49,087.50 crore; State Rs 21,037.50 crore","Central Rs 42,075 crore; State Rs 28,050 crore","Central Rs 56,100 crore; State Rs 14,025 crore","Central Rs 49,087.50 crore; State Rs 20,000 crore","Central Rs 45,000 crore; State Rs 25,125 crore"],a:0,
+ ex:"Central share <b>Rs 49,087.50 crore</b>; State share <b>Rs 21,037.50 crore</b>."},
+{t:'pmgsy',ty:3,df:'M',cx:"PMGSY's named Special Connectivity Programmes: RCPLWEA, PM-JANMAN, Vibrant Villages Programme (VVP).",
+ qq:"Which of the following is NOT one of PMGSY's named special connectivity programmes?",
+ o:["RCPLWEA","PM-JANMAN","Vibrant Villages Programme","Sagar Setu Yojana","None — all listed are real"],a:3,
+ ex:"'Sagar Setu Yojana' is fabricated; the real programmes are RCPLWEA, PM-JANMAN and VVP."},
+{t:'pmgsy',ty:6,df:'M',cx:"",qq:"RCPLWEA (2016) improves connectivity in how many worst-affected LWE districts, across how many States?",
+ o:["44 districts; 9 States","34 districts; 9 States","44 districts; 11 States","50 districts; 9 States","44 districts; 8 States"],a:0,
+ ex:"RCPLWEA covers <b>44 worst-affected LWE districts</b> across <b>9 States</b>."},
+{t:'pmgsy',ty:1,df:'H',cx:"Read the following statements on PM-JANMAN's road connectivity component.",
+ qq:"1. PM-JANMAN road connectivity falls under the PVTG-focused Pradhan Mantri Janjati Adivasi Nyaya Maha Abhiyan, with an outlay of Rs 24,104 crore.\n2. The road connectivity target under PM-JANMAN is 8,000 km at a cost norm of Rs 1.00 crore/km.\n3. Funds under PM-JANMAN continue under DAPST/PMGSY till March 2030.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — funds continue till <b>March 2028</b>, not 2030."},
+{t:'pmgsy',ty:6,df:'M',cx:"",qq:"The Vibrant Villages Programme (VVP), launched 15 Feb 2023, covers select northern-border villages across how many blocks and districts?",
+ o:["46 blocks, 19 districts","40 blocks, 15 districts","50 blocks, 20 districts","46 blocks, 25 districts","30 blocks, 19 districts"],a:0,
+ ex:"VVP covers <b>46 blocks, 19 districts</b> in AP(Arunachal), HP, Sikkim, Uttarakhand and Ladakh."},
+{t:'pmgsy',ty:1,df:'M',cx:"Read the following statements on PMGSY's funding pattern.",
+ qq:"1. PMGSY funding for all states (except 8 NE & 3 Himalayan states) follows a 60:40 Centre:State split.\n2. The revised funding pattern took effect from 2015-16 on recommendation of the Sub-Group of Chief Ministers.\n3. 8 North-Eastern and 3 Himalayan States follow an 80:20 split.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the correct ratio for 8 NE & 3 Himalayan States is <b>90:10</b>, not 80:20."},
+{t:'pmgsy',ty:4,df:'M',cx:"",qq:"NRIDA, which provides central technical/managerial support to PMGSY, stands for:",
+ o:["National Rural Infrastructure Development Agency","National Roads and Infrastructure Development Authority","National Rural Roads and Irrigation Development Agency","National Road Infrastructure and Development Association","National Rural Infrastructure and Development Authority"],a:0,
+ ex:"NRIDA = <b>National Rural Infrastructure Development Agency</b> (erstwhile National Rural Roads Development Agency)."},
+{t:'pmgsy',ty:1,df:'M',cx:"Read the following statements on PMGSY's salient features.",
+ qq:"1. The Core Network under PMGSY is drawn from District Rural Roads Plans (DRRPs).\n2. Prioritisation uses the Comprehensive New Connectivity Priority List (CNCPL) and Comprehensive Upgradation Priority List (CUPL).\n3. Standard specifications are governed by the Rural Roads Manual, IRC SP:40.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the correct reference is <b>IRC SP:20</b>, not SP:40."},
+{t:'pmgsy',ty:6,df:'M',cx:"",qq:"Under PMGSY's DPR scrutiny process, Principal Technical Agencies (PTAs) such as IITs check what minimum percentage of proposals on a sample basis?",
+ o:["5%","10%","15%","20%","25%"],a:1,
+ ex:"PTAs check at least <b>10%</b> of proposals on a sample basis."},
+{t:'pmgsy',ty:1,df:'M',cx:"Read the following statements on PMGSY's three-tier quality management mechanism.",
+ qq:"1. Tier 1 (State) involves in-house field laboratories with mandatory tests before contractor payment.\n2. Tier 2 involves independent State Quality Monitors (SQMs) inspecting each work at three stages.\n3. Tier 3 (Central) engages serving junior engineers as National Quality Monitors for inspections.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — NQMs are <b>retired senior engineers</b>, not serving junior engineers."},
+{t:'pmgsy',ty:4,df:'M',cx:"",qq:"NQM grades under PMGSY's quality mechanism include Satisfactory (S), Unsatisfactory (U), and:",
+ o:["Satisfactory Requiring Improvement (SRI)","Substandard Requiring Inspection (SRI)","Satisfactory Rural Infrastructure (SRI)","Standard Road Inspection (SRI)","Satisfactory Requiring Investigation (SRI)"],a:0,
+ ex:"SRI = <b>Satisfactory Requiring Improvement</b>."},
+{t:'pmgsy',ty:6,df:'M',cx:"",qq:"The mandatory post-construction maintenance contract under PMGSY has been integral to the scheme since 2003, for a period of:",
+ o:["3 years","5 years","7 years","10 years","2 years"],a:1,
+ ex:"A mandatory <b>five-year</b> post-construction maintenance contract has been integral to PMGSY since 2003."},
+{t:'pmgsy',ty:3,df:'H',cx:"As on 31 Oct 2025, all States/UTs except Goa, A&N Islands, Puducherry and Ladakh have notified Rural Roads Maintenance Policies (RRMPs).",
+ qq:"Which of the following is NOT part of the list of States/UTs yet to notify RRMPs?",
+ o:["Goa","A&N Islands","Puducherry","Ladakh","Lakshadweep"],a:4,
+ ex:"Lakshadweep is not among the four States/UTs (Goa, A&N Islands, Puducherry, Ladakh) yet to notify RRMPs."},
+{t:'pmgsy',ty:6,df:'E',cx:"",qq:"NRIDA, the autonomous body supporting PMGSY, was set up on:",
+ o:["14 January 2000","14 January 2002","1 April 2002","25 September 2002","15 August 2002"],a:1,
+ ex:"NRIDA was set up on <b>14 January 2002</b> under the Societies Registration Act, 1860."},
+{t:'pmgsy',ty:1,df:'M',cx:"Read the following statements about NRIDA.",
+ qq:"1. NRIDA was set up under the Societies Registration Act, 1860.\n2. It is fully funded by the Government of India.\n3. The Chairperson of NRIDA's General Body is the Cabinet Secretary.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the Chairperson of NRIDA's General Body is the <b>Minister of Rural Development</b>, not the Cabinet Secretary."},
+{t:'pmgsy',ty:6,df:'M',cx:"",qq:"NRIDA is the nodal agency for availing NABARD loans for which scheme, and multilateral funding (ADB, World Bank) for which scheme?",
+ o:["NABARD loans for PMAY-G; multilateral funding for PMGSY","NABARD loans for PMGSY; multilateral funding for PMAY-G","NABARD loans for DAY-NRLM; multilateral funding for PMGSY","NABARD loans for PMAY-G; multilateral funding for DDU-GKY","NABARD loans for both PMGSY and PMAY-G"],a:0,
+ ex:"NRIDA is nodal for NABARD loans (<b>PMAY-G</b>) and multilateral funding — ADB, World Bank — for <b>PMGSY</b>."},
+{t:'pmgsy',ty:6,df:'H',cx:"",qq:"Under PMGSY monitoring systems, the GIS-based algorithm used for PMGSY-III route planning ('Trace Maps') uses which software combination?",
+ o:["QGIS/GRASS","ArcGIS/AutoCAD","QGIS/ArcMap","GRASS/AutoCAD","QGIS/MapInfo"],a:0,
+ ex:"Trace Maps uses a custom NRIDA algorithm built on <b>QGIS/GRASS</b>."},
+{t:'pmgsy',ty:4,df:'M',cx:"",qq:"OMMAS, the PMGSY monitoring system, stands for:",
+ o:["Online Management, Monitoring and Accounting System","Online Monitoring and Maintenance Accounting System","Online Mapping and Monitoring Agency System","Open Management Monitoring Accounting Software","Online Management and Maintenance Assessment System"],a:0,
+ ex:"OMMAS = <b>Online Management, Monitoring and Accounting System</b>."},
+{t:'pmgsy',ty:5,df:'M',cx:"",qq:"Pick the one CORRECT statement about PMGSY-III.",
+ o:["Launched in July 2019, it aims to consolidate 1,25,000 km of routes linking GrAMs, schools and hospitals, up to March 2026.","Launched in July 2019, it targets 50,000 km of new connectivity.","Launched in 2013, it consolidates 1,25,000 km of routes.","Launched July 2019, its progress (to Dec 2025) shows more km completed than sanctioned.","Launched July 2019, it is implemented only in Union Territories."],a:0,
+ ex:"Correct: PMGSY-III (July 2019) targets consolidating 1,25,000 km linking GrAMs/schools/hospitals, up to March 2026."},
+{t:'pmgsy',ty:6,df:'M',cx:"",qq:"As on 31 Oct 2025, all States/UTs except which four have notified Rural Roads Maintenance Policies (RRMPs)?",
+ o:["Goa, A&N Islands, Puducherry, Ladakh","Goa, Sikkim, Puducherry, Ladakh","Goa, A&N Islands, Lakshadweep, Ladakh","Delhi, A&N Islands, Puducherry, Ladakh","Goa, A&N Islands, Puducherry, Chandigarh"],a:0,
+ ex:"The four are <b>Goa, A&N Islands, Puducherry and Ladakh</b>."},
+
+/* ---------------- PMAY-G (35) ---------------- */
+{t:'pmayg',ty:1,df:'E',cx:"Read the following statements about PMAY-G.",
+ qq:"1. PMAY-G was launched with effect from 1 April 2016 as a restructured form of Indira Awaas Yojana (IAY).\n2. IAY was originally launched in January 1996.\n3. PMAY-G's stated vision is Housing for All by March 2026.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the vision is Housing for All by <b>March 2029</b> (extended), not 2026."},
+{t:'pmayg',ty:6,df:'E',cx:"",qq:"PMAY-G's Phase I target (FY2016-17 to 2023-24) was how many houses?",
+ o:["1.95 crore","2.45 crore","2.95 crore","3.45 crore","4.95 crore"],a:2,
+ ex:"Phase I target: <b>2.95 crore</b> houses."},
+{t:'pmayg',ty:6,df:'M',cx:"",qq:"PMAY-G's Phase II (FY2024-25 to 2028-29) targets how many additional houses, taking the cumulative target to how many crore?",
+ o:["2 crore additional; cumulative 4.95 crore","1.5 crore additional; cumulative 4.45 crore","2 crore additional; cumulative 4.45 crore","2.5 crore additional; cumulative 5.45 crore","2 crore additional; cumulative 3.95 crore"],a:0,
+ ex:"Phase II adds <b>2 crore</b> houses, taking the cumulative target to <b>4.95 crore</b>."},
+{t:'pmayg',ty:1,df:'M',cx:"Read the following statements on PMAY-G's funding pattern.",
+ qq:"1. Plain Area States receive funding at a 60:40 Centre:State ratio.\n2. North-Eastern and Himalayan States (Uttarakhand, HP, J&K UT) receive 90:10.\n3. Union Territories without legislature receive 80:20 funding.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — UTs without legislature receive <b>100% Centre</b> funding, not 80:20."},
+{t:'pmayg',ty:6,df:'E',cx:"",qq:"Unit assistance under PMAY-G for plain areas versus hilly/difficult/NE/LWE areas is:",
+ o:["₹1,20,000 (plains); ₹1,30,000 (hilly/difficult/NE/LWE)","₹1,00,000 (plains); ₹1,20,000 (hilly/difficult/NE/LWE)","₹1,20,000 (plains); ₹1,50,000 (hilly/difficult/NE/LWE)","₹1,30,000 (plains); ₹1,20,000 (hilly/difficult/NE/LWE)","₹1,10,000 (plains); ₹1,30,000 (hilly/difficult/NE/LWE)"],a:0,
+ ex:"Plains: <b>₹1,20,000</b>; Hilly/difficult/NE/82 LWE districts: <b>₹1,30,000</b>."},
+{t:'pmayg',ty:2,df:'M',cx:"Consider the following PMAY-G beneficiaries seeking unit assistance.",
+ qq:"1. Ramesh, whose village is in a plain area of Haryana.\n2. Suman, whose village lies in Ladakh (a difficult/hilly area).\n3. Vikram, whose village is in one of the 82 LWE-affected districts.\n\nWhich of the above are entitled to the HIGHER unit assistance of ₹1,30,000?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:2,
+ ex:"Suman (hilly/difficult area) and Vikram (LWE district) get ₹1,30,000; Ramesh (plain area) gets only ₹1,20,000."},
+{t:'pmayg',ty:1,df:'M',cx:"Read the following statements on PMAY-G's convergence-based top-ups.",
+ qq:"1. A convergence top-up of Rs 12,000 is available for toilet construction through SBM-G/MGNREGS or other dedicated sources.\n2. Beneficiaries are entitled to 90 to 95 person-days of unskilled wage employment under MGNREGS.\n3. An optional loan of up to Rs 1,00,000 is facilitated through banks for construction.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the optional loan is up to <b>Rs 70,000</b>, not Rs 1,00,000."},
+{t:'pmayg',ty:6,df:'M',cx:"",qq:"The minimum house unit size under PMAY-G, including a dedicated hygienic cooking area, is:",
+ o:["20 sq.m.","22.5 sq.m.","25 sq.m.","30 sq.m.","35 sq.m."],a:2,
+ ex:"Minimum unit size: <b>25 sq.m.</b>"},
+{t:'pmayg',ty:6,df:'M',cx:"",qq:"The illustrative total cost of constructing a pucca house with toilet under PMAY-G (25 sq.m., ₹600/sq.ft.) is:",
+ o:["₹1.20 lakh","₹1.35 lakh","₹1.50 lakh","₹1.75 lakh","₹2.00 lakh"],a:2,
+ ex:"Illustrative construction cost: <b>Rs 1.50 lakh</b>."},
+{t:'pmayg',ty:3,df:'M',cx:"PMAY-G's convergence table pairs: Toilet–SBM-G/MGNREGS, Wage–MGNREGS, Drinking water–JJM, LPG–PMUY, Electricity–Ministry of Power/State, Solar–PM Surya Ghar, Livelihood–SHGs under DAY-NRLM.",
+ qq:"Which of the following convergence pairings is NOT correct as per PMAY-G's convergence table?",
+ o:["Toilet – SBM-G / MGNREGS","LPG connection – Pradhan Mantri Ujjwala Yojana","Drinking water – Atal Bhujal Yojana","Solar rooftop – PM Surya Ghar: Muft Bijli Yojana","Livelihood and skilling – SHGs under DAY-NRLM"],a:2,
+ ex:"Drinking water is converged with the <b>Jal Jeevan Mission (JJM)</b>, not Atal Bhujal Yojana."},
+{t:'pmayg',ty:1,df:'H',cx:"Read the following statements about PMAY-G's beneficiary identification process.",
+ qq:"1. Housing deprivation parameters and exclusion criteria are applied on SECC-2011/Awaas+ data.\n2. Verification is done by the Gram Sabha, followed by an Appellate Process.\n3. Houses are sanctioned directly by the District Collector without any wait-list mechanism.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — houses are sanctioned from the Gram Panchayat-wise <b>Permanent Wait List (PWL)</b>, not directly by the District Collector."},
+{t:'pmayg',ty:2,df:'H',cx:"Consider the following households being assessed under PMAY-G's revised automatic exclusion criteria (2024).",
+ qq:"1. A household owning a Kisan Credit Card with a credit limit of ₹40,000.\n2. A household where a member earns ₹18,000 per month.\n3. A household owning 2 acres of irrigated land.\n\nWhich of the above households would be AUTOMATICALLY EXCLUDED under the revised criteria?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:1,
+ ex:"Only household 2 is excluded — income exceeds ₹15,000/month. KCC limit of ₹40,000 is below the ₹50,000 threshold; 2 acres irrigated is below the 2.5-acre exclusion threshold."},
+{t:'pmayg',ty:1,df:'M',cx:"Read the following statements about the Union Cabinet's revision of PMAY-G exclusion criteria (9 August 2024).",
+ qq:"1. The income limit for exclusion was increased from ₹10,000/month to ₹15,000/month.\n2. Mechanised two-wheeler ownership was deleted as an exclusion criterion.\n3. Landline phone ownership continues to be an exclusion criterion.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — landline phone ownership was <b>deleted</b> as an exclusion criterion."},
+{t:'pmayg',ty:3,df:'H',cx:"Under the 9 August 2024 Cabinet revision, mechanised two-wheeler, mechanised fishing boat, landline phone, and refrigerator were all DELETED as automatic-exclusion criteria.",
+ qq:"Which of the following REMAINS a valid exclusion criterion (i.e., was NOT deleted)?",
+ o:["Mechanised two-wheeler","Landline phone","Refrigerator","Ownership of ≥2.5 acres irrigated land","Mechanised fishing boat"],a:3,
+ ex:"Ownership of ≥2.5 acres irrigated land remains a valid exclusion criterion; the other four were deleted in the 2024 revision."},
+{t:'pmayg',ty:6,df:'M',cx:"",qq:"Under PMAY-G's weaker section provisions, what minimum % of the target is earmarked nationally for SC/ST?",
+ o:["40%","50%","60%","70%","75%"],a:2,
+ ex:"Minimum <b>60%</b> of the target (national and per State/UT) is earmarked for SC/ST."},
+{t:'pmayg',ty:1,df:'M',cx:"Read the following statements about PMAY-G's weaker section provisions.",
+ qq:"1. Minorities are earmarked up to 15% of the total fund at the national level.\n2. Persons with Disabilities are earmarked, to the extent possible, 5% of beneficiaries at the State level.\n3. The Reserve Fund for Special Projects retains 10% of the annual central allocation.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the Reserve Fund is <b>5%</b> of the annual central allocation, not 10%."},
+{t:'pmayg',ty:3,df:'M',cx:"PMAY-G's Special Project eligible areas include: natural-hazard rehabilitation, international border-affected families, FRA-notified STs, occupational diseases/Kala-azar, surrendered militants, green tech demonstration.",
+ qq:"Which of the following is NOT listed as an eligible area for PMAY-G Special Project Proposals?",
+ o:["Rehabilitation due to natural hazards or law-and-order problems","Settlement of families affected by international border issues","Settlement of families notified under the Forest Rights Act, 2006","Families displaced by large dam/irrigation projects","Settlement of surrendered militants and their families"],a:3,
+ ex:"'Families displaced by large dam/irrigation projects' is not among the listed Special Project eligible areas."},
+{t:'pmayg',ty:6,df:'E',cx:"",qq:"PMAY-G houses are typically allotted jointly to husband and wife, unless the beneficiary is a:",
+ o:["Government employee","Single woman","Person with disability","Minor","Migrant labourer"],a:1,
+ ex:"Houses are jointly allotted unless the beneficiary is a <b>single woman</b>."},
+{t:'pmayg',ty:6,df:'M',cx:"",qq:"As per the Union Minister's May 2026 statement, nearly what % of houses sanctioned under PMAY-G are in the name of women or under joint ownership?",
+ o:["60%","65%","70%","75%","80%"],a:3,
+ ex:"Nearly <b>75%</b> of houses sanctioned are in the name of women or under joint ownership."},
+{t:'pmayg',ty:1,df:'M',cx:"Read the following statements about PMAY-G's construction rules.",
+ qq:"1. The house must be constructed by the beneficiary or under his/her direct supervision.\n2. No contractor may be engaged by the State for construction of PMAY-G houses.\n3. Construction of the house must be completed within 18 months from the date of sanction.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — construction must be completed within <b>12 months</b>, not 18."},
+{t:'pmayg',ty:2,df:'M',cx:"Consider the following PMAY-G beneficiaries regarding construction support.",
+ qq:"1. An elderly beneficiary unable to construct the house himself.\n2. A beneficiary with disability unable to supervise construction.\n3. A young, able-bodied beneficiary who simply prefers a contractor for convenience.\n\nWhose houses would appropriately be taken up under the Rural Mason Training (RMT) programme route?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:0,
+ ex:"RMT applies to beneficiaries who are old, infirm, or persons with disability — not simply due to personal preference; no contractor is allowed regardless."},
+{t:'pmayg',ty:6,df:'M',cx:"",qq:"RMT's implementing partners include NSDC and:",
+ o:["CSDCI","NIRD","IRMA","NABCONS","RUDSETI"],a:0,
+ ex:"RMT implementing partners: <b>CSDCI</b> (Construction Skill Development Council of India) and NSDC."},
+{t:'pmayg',ty:6,df:'H',cx:"",qq:"As of 25 November 2025, how many candidates had RMT enrolled and certified respectively?",
+ o:["3,75,265 enrolled; 3,02,377 certified","3,02,377 enrolled; 3,75,265 certified","3,75,265 enrolled; 2,50,000 certified","4,00,000 enrolled; 3,02,377 certified","3,75,265 enrolled; 3,75,265 certified"],a:0,
+ ex:"<b>3,75,265</b> enrolled; <b>3,02,377</b> certified masons."},
+{t:'pmayg',ty:4,df:'M',cx:"",qq:"DISHA, the district-level monitoring committee under PMAY-G, stands for:",
+ o:["District Development Coordination and Monitoring Committee","District Infrastructure and Scheme Housing Agency","District Implementation of Schemes and Housing Authority","District Development Cooperation and Housing Mission","District Development Council for Housing Assistance"],a:0,
+ ex:"DISHA = <b>District Development Coordination and Monitoring Committee</b>."},
+{t:'pmayg',ty:1,df:'M',cx:"Read the following statements about PMAY-G's monitoring framework.",
+ qq:"1. DISHA Committee is chaired by a Member of Parliament.\n2. Block-level officers inspect approximately 10% of the houses.\n3. District-level officers inspect about 10% of the houses at each stage of construction.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — District-level inspections cover about <b>2%</b> of houses, not 10%."},
+{t:'pmayg',ty:4,df:'M',cx:"",qq:"AwaasSAKHI, a mobile application under PMAY-G, stands for:",
+ o:["Support Application for Knowledge, Help and Innovation","Sakhi Application for Knowledge and Housing Innovation","System for Awaas Knowledge and Helpline Interface","Support Application for Knowledge and Housing Information","Sakhi Aid for Knowledge, Housing and Innovation"],a:0,
+ ex:"AwaasSAKHI = <b>Support Application for Knowledge, Help and Innovation</b>."},
+{t:'pmayg',ty:3,df:'M',cx:"PMAY-G's digital tools: AwaasSoft, AwaasApp, Awaas+ 2024 App, AwaasSAKHI.",
+ qq:"Which of the following is NOT one of PMAY-G's named digital tools?",
+ o:["AwaasSoft","AwaasApp","Awaas+ 2024 App","AwaasConnect","AwaasSAKHI"],a:3,
+ ex:"'AwaasConnect' is fabricated; the real tools are AwaasSoft, AwaasApp, Awaas+ 2024, and AwaasSAKHI."},
+{t:'pmayg',ty:1,df:'H',cx:"Read the following statements about PMAY-G's AI/ML-driven monitoring.",
+ qq:"1. The Recommendation System uses AI to identify house attributes and recommend the best photograph for approval.\n2. Anomaly Detection calculates a similarity score to flag potential duplication.\n3. Liveliness Detection uses fingerprint-matching to confirm authentication by a live person.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — Liveliness Detection uses <b>eye-blink and motion-detection</b> features, not fingerprint matching."},
+{t:'pmayg',ty:6,df:'M',cx:"",qq:"PAHAL, the design-and-technology component of PMAY-G, has developed and validated how many design typologies?",
+ o:["80+","100+","130+","150+","200+"],a:2,
+ ex:"More than <b>130 design typologies</b> have been developed and validated under PAHAL."},
+{t:'pmayg',ty:4,df:'E',cx:"",qq:"PAHAL, the design-and-technology component of PMAY-G, stands for:",
+ o:["Prakriti Hunar Lokvidya","Pariyojana Hunar aur Loknirman","Prakriti Hunar Lokniti","Pradhan Awas Hunar Lokvidya","Prakriti Hunar Lokjeevan"],a:0,
+ ex:"PAHAL = <b>Prakriti Hunar Lokvidya</b>."},
+{t:'pmayg',ty:1,df:'H',cx:"Read the following statements about PAHAL.",
+ qq:"1. More than 130 design typologies have been developed and validated under PAHAL.\n2. UNDP, along with IIT Delhi, has developed many of the housing designs for MoRD.\n3. PAHAL discourages the use of locally available materials to standardise design nationally.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — PAHAL <b>encourages</b> the use of locally available materials and traditional knowledge."},
+{t:'pmayg',ty:6,df:'M',cx:"",qq:"Cumulative fund transfer to PMAY-G beneficiaries had crossed how much, as of 26 March 2026?",
+ o:["Rs 3,03,886.12 crore","Rs 4,03,886.12 crore","Rs 5,03,886.12 crore","Rs 4,50,000 crore","Rs 3,50,000 crore"],a:1,
+ ex:"Cumulative fund transfer had crossed <b>Rs 4,03,886.12 crore</b>."},
+{t:'pmayg',ty:1,df:'M',cx:"Read the following statements about the Awaas+ 2024 Survey (Phase II).",
+ qq:"1. The Awaas+ 2024 survey uses Aadhaar-based e-KYC with AI-enabled face authentication.\n2. The survey captures time-stamped and geo-tagged photographs of the existing house and proposed site.\n3. The Awaas+ 2024 App works only in online mode; offline mode is not supported.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — it works in <b>both online and offline mode</b>."},
+{t:'pmayg',ty:6,df:'M',cx:"",qq:"PMAY-G's implementation structure places the District-level implementing agency as:",
+ o:["Zilla Parishad (or equivalent)","District Collector's Office","DRDA","State Rural Development Department","Block Development Office"],a:0,
+ ex:"District level: <b>Zilla Parishad</b>, or its equivalent body."},
+{t:'pmayg',ty:5,df:'M',cx:"",qq:"Pick the one CORRECT statement about PMAY-G's proposed SHIELD initiative.",
+ o:["SHIELD is a proposed World Bank-supported initiative for climate-adaptable, heat-resilient rural housing under PMAY-G, with proposed financial assistance of nearly US$500 million over a five-year loan period.","SHIELD is an already-implemented scheme funded entirely by NABARD.","SHIELD focuses solely on urban housing resilience.","SHIELD's proposed funding is US$1 billion over ten years.","SHIELD is implemented by UNDP in partnership with IIT Delhi."],a:0,
+ ex:"Correct: SHIELD is a proposed World Bank-discussed initiative, ~US$500 million, five-year loan period."},
+
+/* ---------------- NSAP (25) ---------------- */
+{t:'nsap',ty:1,df:'E',cx:"Read the following statements about NSAP.",
+ qq:"1. NSAP was launched on 15th August 1995.\n2. It is a Centrally Sponsored Scheme administered by the Ministry of Rural Development.\n3. NSAP gives effect to Articles 41 and 42 of the Constitution.\n\nWhich of the above statements is/are correct?",
+ o:["Only 1","1 and 2","2 and 3","All of the above","None of the above"],a:3,
+ ex:"All three statements are correct."},
+{t:'nsap',ty:6,df:'E',cx:"",qq:"Article 41 of the Constitution, forming NSAP's basis, directs the State to provide public assistance in cases of:",
+ o:["Unemployment, old age, sickness and disablement","Maternity relief only","Just and humane work conditions","Land reform","Educational access"],a:0,
+ ex:"Article 41 covers public assistance in cases of <b>unemployment, old age, sickness and disablement</b>."},
+{t:'nsap',ty:6,df:'E',cx:"",qq:"Article 42 of the Constitution directs the State to secure:",
+ o:["Public assistance for the poor","Just and humane conditions of work and maternity relief","Right to education","Right to property","Land ceiling reforms"],a:1,
+ ex:"Article 42 covers <b>just and humane conditions of work and maternity relief</b>."},
+{t:'nsap',ty:2,df:'M',cx:"Consider the following persons seeking benefits under NSAP's component schemes.",
+ qq:"1. Radheshyam, 65 years old, from a BPL household.\n2. Asha, a 45-year-old widow from a BPL household.\n3. Ramu, 82 years old, with 60% disability.\n\nWho among the above is eligible under IGNOAPS, IGNWPS, and IGNDPS respectively as described?",
+ o:["1 and 2","1 and 3","2 and 3","All of the above","None of the above"],a:0,
+ ex:"Ramu is NOT eligible under IGNDPS since disability must be 80% or more, not 60%. Radheshyam (IGNOAPS) and Asha (IGNWPS) both qualify."},
+{t:'nsap',ty:6,df:'E',cx:"",qq:"Under IGNOAPS, the monthly central pension for beneficiaries aged 60–79 years, and for those 80 years and above, is:",
+ o:["₹200/month (60–79); ₹500/month (80+)","₹300/month (60–79); ₹500/month (80+)","₹200/month (60–79); ₹400/month (80+)","₹250/month (60–79); ₹500/month (80+)","₹200/month (60–79); ₹600/month (80+)"],a:0,
+ ex:"IGNOAPS: <b>₹200/month</b> (60–79 yrs); <b>₹500/month</b> (80+ yrs)."},
+{t:'nsap',ty:6,df:'M',cx:"",qq:"Under IGNWPS, the eligible age for widows and the monthly pension (40–79 years) are:",
+ o:["40 years and above; ₹300/month","45 years and above; ₹300/month","40 years and above; ₹200/month","40 years and above; ₹400/month","50 years and above; ₹300/month"],a:0,
+ ex:"IGNWPS: widows aged <b>40 years and above</b>; <b>₹300/month</b> (40–79 yrs)."},
+{t:'nsap',ty:1,df:'M',cx:"Read the following statements about IGNDPS.",
+ qq:"1. IGNDPS eligibility requires 80% or more disability.\n2. Dwarfs are also an eligible category under IGNDPS.\n3. The minimum age for IGNDPS eligibility is 14 years.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the minimum age for IGNDPS eligibility is <b>18 years</b>, not 14."},
+{t:'nsap',ty:6,df:'M',cx:"",qq:"NFBS provides a one-time lump sum assistance of what amount, on the death of a bread-winner aged between:",
+ o:["₹20,000; 18–59 years","₹10,000; 18–59 years","₹20,000; 18–65 years","₹25,000; 18–59 years","₹20,000; 21–59 years"],a:0,
+ ex:"NFBS: <b>₹20,000</b> lump sum, for a bread-winner's death between <b>18–59 years</b>."},
+{t:'nsap',ty:1,df:'M',cx:"Read the following statements about NFBS.",
+ qq:"1. Any death (natural or otherwise) qualifies a BPL family for NFBS.\n2. A home-maker woman is also treated as a bread-winner under NFBS.\n3. The NFBS definition of 'household' excludes dependent parents.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the household definition <b>includes</b> dependent parents."},
+{t:'nsap',ty:6,df:'E',cx:"",qq:"The Annapurna Scheme, launched on 1 April 2000, provides how much food grain per month, free of cost?",
+ o:["5 kg","10 kg","15 kg","20 kg","25 kg"],a:1,
+ ex:"Annapurna provides <b>10 kg</b> of food grains per month, free of cost."},
+{t:'nsap',ty:1,df:'M',cx:"Read the following statements about the Annapurna Scheme.",
+ qq:"1. Annapurna targets senior citizens eligible under IGNOAPS but not receiving the old-age pension.\n2. It was launched to provide food security to this uncovered group.\n3. Annapurna beneficiaries also receive a cash pension of ₹200/month in addition to food grains.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — Annapurna provides <b>food grains only</b>, not an additional cash pension."},
+{t:'nsap',ty:6,df:'M',cx:"",qq:"The National Maternity Benefit Scheme (NMBS), originally part of NSAP, was transferred to which Ministry, and on what date?",
+ o:["Ministry of Health & Family Welfare; 1 April 2001","Ministry of Women & Child Development; 1 April 2001","Ministry of Health & Family Welfare; 1 April 2005","Ministry of Social Justice; 1 April 2001","Ministry of Health & Family Welfare; 15 August 2001"],a:0,
+ ex:"NMBS was transferred to the <b>Ministry of Health & Family Welfare</b> on <b>1 April 2001</b>."},
+{t:'nsap',ty:3,df:'M',cx:"NSAP presently comprises five schemes: IGNOAPS, IGNWPS, IGNDPS, NFBS, Annapurna.",
+ qq:"Which of the following is NOT one of the five NSAP component schemes?",
+ o:["IGNOAPS","IGNWPS","IGNDPS","Indira Gandhi National Maternity Pension Scheme","NFBS"],a:3,
+ ex:"'Indira Gandhi National Maternity Pension Scheme' is fabricated; NMBS (a related but separate scheme) was transferred out of NSAP in 2001."},
+{t:'nsap',ty:1,df:'M',cx:"Read the following statements about NSAP implementation.",
+ qq:"1. Direct Benefit Transfer (DBT) is the primary disbursement mode, covering about 94% of disbursements.\n2. Postal Money Order is allowed where banking access is limited.\n3. Each State/UT must appoint a Nodal Minister (not Secretary) at the State level.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — each State/UT appoints a Nodal <b>Secretary</b>, not a Nodal Minister."},
+{t:'nsap',ty:6,df:'M',cx:"",qq:"State/UT top-ups over central NSAP pension assistance presently range from:",
+ o:["Rs 50 to Rs 3,000/month","Rs 50 to Rs 5,700/month","Rs 100 to Rs 5,000/month","Rs 50 to Rs 2,000/month","Rs 200 to Rs 5,700/month"],a:1,
+ ex:"State/UT top-ups range from <b>Rs 50 to Rs 5,700/month</b> per beneficiary."},
+{t:'nsap',ty:6,df:'M',cx:"",qq:"As a result of State top-ups, NSAP pensioners receive, on average, around how much per month in many States/UTs?",
+ o:["Rs 500","Rs 700","Rs 900","Rs 1,100","Rs 1,500"],a:3,
+ ex:"NSAP pensioners receive, on average, around <b>Rs 1,100/month</b>."},
+{t:'nsap',ty:1,df:'M',cx:"Read the following statements about NSAP's digitisation efforts.",
+ qq:"1. More than 2.5 crore NSAP beneficiaries have their Aadhaar numbers linked to their accounts.\n2. NSAP-PPS is integrated with UIDAI for Aadhaar authentication.\n3. The SAMBAL mobile app was developed by NABARD for NSAP beneficiaries.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — SAMBAL was developed by the <b>National Informatics Centre (NIC), MoRD</b>, not NABARD."},
+{t:'nsap',ty:4,df:'M',cx:"",qq:"SAMBAL, the citizen-centric mobile app under NSAP, was developed by:",
+ o:["National Informatics Centre","NABARD","NIC and NABARD jointly","UIDAI","State Rural Livelihoods Missions"],a:0,
+ ex:"SAMBAL was developed by the <b>National Informatics Centre</b>."},
+{t:'nsap',ty:6,df:'H',cx:"",qq:"The Aadhaar-based Digital Life Certification (DLC) app for NSAP pension beneficiaries was launched on:",
+ o:["15 July 2024","15 July 2025","1 April 2025","15 August 2025","30 June 2025"],a:1,
+ ex:"The DLC app was launched by the Minister of Rural Development on <b>15 July 2025</b>."},
+{t:'nsap',ty:1,df:'M',cx:"Read the following statements about NSAP's Social Audit mechanism.",
+ qq:"1. Social Audit under NSAP is to be conducted at least once every year, per the Social Audit Guidelines, 2023.\n2. The announcement of the Social Audit is to be made by the District Officer at least 30 days in advance.\n3. 5% of the programme cost is to be utilised for conducting Social Audit.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the correct figure is <b>0.5%</b> of programme cost, not 5%."},
+{t:'nsap',ty:6,df:'M',cx:"",qq:"As per Social Audit Guidelines, relevant beneficiary information must be made available to the Social Audit Committee how many days in advance?",
+ o:["7 days","10 days","15 days","20 days","30 days"],a:2,
+ ex:"Information must be available <b>15 days</b> in advance."},
+{t:'nsap',ty:6,df:'E',cx:"",qq:"NSAP's official web portal is:",
+ o:["www.nsap.nic.in","www.nsap.gov.in","www.socialassistance.nic.in","www.mord.nsap.in","www.rural.gov.in/nsap"],a:0,
+ ex:"NSAP's official portal is <b>www.nsap.nic.in</b>."},
+{t:'nsap',ty:1,df:'M',cx:"Read the following statements about NSAP's coverage.",
+ qq:"1. NSAP is applicable to both rural and urban poor across the country.\n2. Besides central assistance, States/UTs are encouraged to give top-ups.\n3. NSAP total beneficiaries stood at 5.09 crore BPL beneficiaries, per the document.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the document states total beneficiaries at <b>3.09 crore</b>, not 5.09 crore."},
+{t:'nsap',ty:5,df:'H',cx:"",qq:"Pick the one CORRECT statement about NSAP funding releases.",
+ o:["During FY2020-21 to FY2024-25, a total of Rs 32,409 crore was released under IGNOAPS.","During FY2020-21 to FY2024-25, Rs 32,409 crore was released under IGNDPS.","IGNDPS received Rs 32,409 crore in FY2024-25 alone.","IGNOAPS received Rs 243.74 crore in FY2024-25.","NFBS received Rs 32,409 crore cumulatively."],a:0,
+ ex:"Correct: Rs 32,409 crore released under <b>IGNOAPS</b> over FY2020-21 to FY2024-25."},
+{t:'nsap',ty:6,df:'M',cx:"",qq:"IGNDPS funds released to States/UTs for the year 2024-25 amounted to:",
+ o:["Rs 143.74 crore","Rs 243.74 crore","Rs 343.74 crore","Rs 443.74 crore","Rs 543.74 crore"],a:1,
+ ex:"IGNDPS: <b>Rs 243.74 crore</b> released for 2024-25."},
+
+/* ---------------- DoLR / SVAMITVA / Mission Antyodaya (12) ---------------- */
+{t:'dolr',ty:1,df:'E',cx:"Read the following statements about the Department of Land Resources (DoLR).",
+ qq:"1. About 98.5% of rural land records in the country are computerised and digitised.\n2. DILRMP is a central sector programme with 100% Central assistance since 2016-17.\n3. WDC-PMKSY was earlier implemented as the Integrated Watershed Management Programme (IWMP) since 2009-10.\n\nWhich of the above statements is/are correct?",
+ o:["Only 1","1 and 2","2 and 3","All of the above","None of the above"],a:3,
+ ex:"All three statements are correct."},
+{t:'dolr',ty:4,df:'E',cx:"",qq:"DILRMP stands for:",
+ o:["Digital India Land Records Modernization Programme","Digital India Land Registration and Mapping Programme","Digital Integrated Land Records Management Plan","Digital India Land Reforms and Mapping Programme","District Integrated Land Records Modernization Programme"],a:0,
+ ex:"DILRMP = <b>Digital India Land Records Modernization Programme</b>."},
+{t:'dolr',ty:4,df:'M',cx:"",qq:"NAKSHA, the new DoLR programme for urban land records, stands for:",
+ o:["NAtional geospatial Knowledge-based land Survey of urban HAbitations","National Knowledge and Survey of Housing Areas","National geo-Spatial Housing Assessment","National Kaushal and Skilling for Habitation Areas","National geospatial Knowledge System for Housing Allocation"],a:0,
+ ex:"NAKSHA = <b>NAtional geospatial Knowledge-based land Survey of urban HAbitations</b>."},
+{t:'dolr',ty:1,df:'M',cx:"Read the following statements about NAKSHA.",
+ qq:"1. NAKSHA is a one-year pilot launched in February 2025.\n2. It covers 157 urban local bodies.\n3. NABARD is the Technical Partner for NAKSHA.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the <b>Survey of India</b> is the Technical Partner, not NABARD."},
+{t:'dolr',ty:6,df:'M',cx:"",qq:"Since inception, how much has been released for various DILRMP components?",
+ o:["Rs 1,572.13 crore","Rs 2,572.13 crore","Rs 3,572.13 crore","Rs 2,072.13 crore","Rs 2,972.13 crore"],a:1,
+ ex:"<b>Rs 2,572.13 crore</b> released for DILRMP components since inception."},
+{t:'dolr',ty:6,df:'M',cx:"",qq:"Computerisation of Record of Rights (RoR) has been completed in what % of villages, except Northeast States and Ladakh?",
+ o:["95.81%","97.81%","98.81%","99.81%","100%"],a:3,
+ ex:"RoR computerisation completed in <b>99.81%</b> of villages (except NE States & Ladakh)."},
+{t:'dolr',ty:3,df:'M',cx:"DILRMP's digitised components: agricultural land records, urban land records, mutation, registration, cadastral maps, record management.",
+ qq:"Which of the following is NOT among DILRMP's stated digitisation components?",
+ o:["Agricultural land records","Mutation","Cadastral maps","Forest boundary demarcation","Registration"],a:3,
+ ex:"'Forest boundary demarcation' is fabricated; it is not among DILRMP's stated digitisation components."},
+{t:'dolr',ty:5,df:'M',cx:"",qq:"Pick the one CORRECT statement distinguishing DILRMP and SVAMITVA.",
+ o:["DILRMP focuses on system reform of agricultural/urban land records; SVAMITVA focuses on property ownership via drone-mapped Property Cards in village abadi areas.","DILRMP uses drones to map houses; SVAMITVA digitises agricultural land records.","Both DILRMP and SVAMITVA focus exclusively on urban land records.","SVAMITVA is a central sector programme with 100% Central assistance for agricultural land digitisation.","DILRMP issues Property Cards; SVAMITVA handles mutation and registration reform."],a:0,
+ ex:"Correct: DILRMP = system reform (records/mutation/registration); SVAMITVA = property ownership via drone-mapped Property Cards."},
+{t:'dolr',ty:1,df:'M',cx:"Read the following statements about Mission Antyodaya.",
+ qq:"1. Mission Antyodaya was announced in the Union Budget 2017-18.\n2. It aligns Gram Panchayat-level development priorities with the 11th Schedule of the Constitution.\n3. Under the 11th Schedule, GPs are mandated to deliver services across 15 sectors.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — GPs are mandated to deliver services across <b>29 sectors</b>, not 15."},
+{t:'dolr',ty:6,df:'M',cx:"",qq:"Mission Antyodaya supports participatory planning for which Gram Panchayat-level plan?",
+ o:["Gram Panchayat Development Plan (GPDP)","District Development Plan","Village Action Plan","Block Development Plan","Rural Infrastructure Plan"],a:0,
+ ex:"Mission Antyodaya supports the <b>Gram Panchayat Development Plan (GPDP)</b>."},
+{t:'dolr',ty:3,df:'M',cx:"Mission Antyodaya's key features: accountability/convergence framework, GP as basic planning unit, partnerships with professionals/institutions/enterprises, surveys for outcomes, GPDP participatory planning.",
+ qq:"Which of the following is NOT one of Mission Antyodaya's stated key features?",
+ o:["An accountability and convergence framework","Gram Panchayats as the basic planning unit","Direct cash transfer to Gram Panchayats bypassing State Governments","Partnerships with professionals, institutions and enterprises","Support for participatory planning for GPDP"],a:2,
+ ex:"'Direct cash transfer to Gram Panchayats bypassing State Governments' is fabricated."},
+{t:'dolr',ty:6,df:'E',cx:"",qq:"SVAMITVA uses which technology to map houses in village abadi areas, before issuing a Property Card?",
+ o:["Drones","Satellite imagery only","Ground survey teams only","LIDAR-mounted vehicles","Manual measurement tapes"],a:0,
+ ex:"SVAMITVA uses <b>drones</b> to map houses before issuing the Property (Svamitva) Card."},
+
+/* ---------------- Recent Developments / Misc (15) ---------------- */
+{t:'misc',ty:1,df:'E',cx:"Read the following statements about recent MoRD-related developments (2026).",
+ qq:"1. The Model Youth Gram Sabha (MYGS) is implemented through institutions such as Jawahar Navodaya Vidyalayas and Eklavya Model Residential Schools.\n2. RGVS 2026 concluded on 29 June 2026.\n3. The BRICS Women Ministerial Meeting side event was held in Kochi, Kerala.\n\nWhich of the above statements is/are correct?",
+ o:["Only 1","1 and 2","2 and 3","All of the above","None of the above"],a:3,
+ ex:"All three statements are correct."},
+{t:'misc',ty:4,df:'M',cx:"",qq:"RGVS, the national rural development conclave held in 2026, stands for:",
+ o:["Rashtriya Gramin Vikas Sammelan","Rashtriya Grameen Vikas Sangathan","Rural Gramin Vikas Sabha","Rashtriya Gram Vikas Sammelan Yojana","Rashtriya Gramin Vikas Sansthan"],a:0,
+ ex:"RGVS = <b>Rashtriya Gramin Vikas Sammelan</b>."},
+{t:'misc',ty:6,df:'M',cx:"",qq:"The BRICS Women Ministerial Meeting side event exhibition, featuring DAY-NRLM's women-led rural enterprises, was held on:",
+ o:["8–9 June 2026","8–9 July 2026","14–15 May 2026","28–29 June 2026","6 July 2026"],a:1,
+ ex:"Held on <b>8–9 July 2026</b> in Kochi, Kerala."},
+{t:'misc',ty:1,df:'M',cx:"Read the following statements about the MoRD pavilion at the BRICS Women Ministerial Meeting.",
+ qq:"1. The MoRD pavilion comprised 21 State and Union Territory stalls.\n2. The National Saras Aajeevika Gallery showcased premium products from across India.\n3. The Saras Shakti Collection is a premium gifting initiative under DDU-GKY.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the Saras Shakti Collection is a gifting initiative under <b>DAY-NRLM</b>, not DDU-GKY."},
+{t:'misc',ty:6,df:'E',cx:"",qq:"The National Rural Development Conference 2026 was chaired by which Union Minister?",
+ o:["Shivraj Singh Chouhan","Giriraj Singh","Nitin Gadkari","Amit Shah","Piyush Goyal"],a:0,
+ ex:"Chaired by Rural Development Minister <b>Shivraj Singh Chouhan</b>."},
+{t:'misc',ty:6,df:'M',cx:"",qq:"NABARD launched 'Gramodyam' in collaboration with:",
+ o:["NSDC","SIDBI","NABFID","DAY-NRLM","NIRD"],a:0,
+ ex:"NABARD launched Gramodyam in collaboration with the <b>National Skill Development Corporation (NSDC)</b>."},
+{t:'misc',ty:1,df:'E',cx:"Read the following statements about the 'Samriddh Gram' project.",
+ qq:"1. The Department of Telecommunications' 'Samriddh Gram' project won the WSIS Prize 2026 in Geneva.\n2. It was awarded in the Action Line C6: Enabling Environment category.\n3. The initiative sets up village-level 'Samriddhi Kendras'.\n\nWhich of the above statements is/are correct?",
+ o:["Only 1","1 and 2","2 and 3","All of the above","None of the above"],a:3,
+ ex:"All three statements are correct."},
+{t:'misc',ty:6,df:'H',cx:"",qq:"The Government of India's new Country Strategic Opportunities Programme (COSOP) with IFAD covers which period?",
+ o:["2024–2032","2025–2032","2026–2033","2026–2034","2027–2034"],a:2,
+ ex:"COSOP covers the period <b>2026–2033</b>, an eight-year programme."},
+{t:'misc',ty:4,df:'M',cx:"",qq:"COSOP, launched in partnership with IFAD, stands for:",
+ o:["Country Strategic Opportunities Programme","Central Organisation for Strategic Opportunities Planning","Country Sustainable Opportunities Programme","Central Strategic Opportunities Operational Plan","Country Structural Opportunities Programme"],a:0,
+ ex:"COSOP = <b>Country Strategic Opportunities Programme</b>."},
+{t:'misc',ty:6,df:'E',cx:"",qq:"World Rural Development Day is observed annually on:",
+ o:["6 July","15 August","6 June","1 April","26 January"],a:0,
+ ex:"World Rural Development Day is observed on <b>6 July</b> annually."},
+{t:'misc',ty:1,df:'M',cx:"Read the following statements about World Rural Development Day.",
+ qq:"1. It is recognised by the United Nations General Assembly.\n2. It is organised by the UN in collaboration with the Centre on Integrated Rural Development for Asia and the Pacific (CIRDAP).\n3. Its 2026 theme was 'Empowering the First Mile of Rural Infrastructure.'\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — the actual 2026 theme was '<b>Financing the First Mile of Food Systems</b>.'"},
+{t:'misc',ty:4,df:'M',cx:"",qq:"SHIELD, the proposed World Bank-supported PMAY-G initiative, stands for:",
+ o:["Sustainable Housing Integrated Efficient Living and Disaster-Resilience","Strategic Housing Initiative for Emergency and Livelihood Development","Sustainable Habitat Integrated Efficient Living and Disaster-Recovery","Structural Housing Improvement for Environment and Livelihood Development","Sustainable Housing Investment for Efficient Living and Development"],a:0,
+ ex:"SHIELD = <b>Sustainable Housing Integrated Efficient Living and Disaster-Resilience</b>."},
+{t:'misc',ty:6,df:'M',cx:"",qq:"The proposed World Bank financial assistance for SHIELD is nearly how much, over what loan period?",
+ o:["US$500 million; five years","US$1 billion; five years","US$500 million; ten years","US$250 million; five years","US$500 million; three years"],a:0,
+ ex:"Proposed assistance: nearly <b>US$500 million</b>, over a <b>five-year</b> loan period."},
+{t:'misc',ty:1,df:'M',cx:"Read the following statements about SHIELD's objectives.",
+ qq:"1. SHIELD aims to build heat-resilient rural houses and improve disaster resilience of rural homes.\n2. It focuses on active and passive cooling measures to reduce heat stress.\n3. SHIELD is already fully funded and operational nationwide.\n\nWhich of the above statements is/are INCORRECT?",
+ o:["Only 1","Only 2","Only 3","1 and 2","All of the above"],a:2,
+ ex:"Statement 3 is wrong — SHIELD is a <b>proposed</b> initiative, still under discussion with the World Bank, not yet operational."},
+{t:'misc',ty:3,df:'H',cx:"The BRICS exhibition showcased traditional crafts including Madhubani paintings, Dokra and Bell Metal crafts, Pen Kalamkari, Phulkari embroidery, Toda embroidery, Kantha work, Kutchi crafts, Channapatna toys, and Aipan art.",
+ qq:"Which of the following was NOT mentioned as part of the exhibition's showcased crafts?",
+ o:["Madhubani paintings","Phulkari embroidery","Channapatna toys","Warli tribal wall art","Kantha work"],a:3,
+ ex:"'Warli tribal wall art' is not listed among the crafts named in the document for this exhibition."}
+];
+
+/* ============================= APP LOGIC ============================= */
+let session = null; // {ids:[], idx:0, score:0, answers:{}, mode, sprintOnly}
+let homeState = {order:'pdf'};
+
+// mulberry32 — good statistical quality, deterministic from an integer seed
+function mulberry32(seed){
+  let a = seed >>> 0;
+  return function(){
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function shuffle(arr, seed){
+  let a = arr.slice();
+  const rand = mulberry32(seed || 1);
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(rand()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function shuffleOptions(q, seed){
+  // Guarantee a uniform A–E spread: the correct answer's slot is assigned by
+  // round-robin rotation over the question's position (seed), never left to chance.
+  // The wrong options are then shuffled (mulberry32) into the remaining slots.
+  const n = q.o.length;
+  const correctSlot = ((seed % n) + n) % n;
+  const wrongIdxs = q.o.map((_,i)=>i).filter(i=>i!==q.a);
+  const shuffledWrong = shuffle(wrongIdxs, seed*2654435761+7);
+  const finalOrder = new Array(n);
+  finalOrder[correctSlot] = q.a;
+  let wi = 0;
+  for(let i=0;i<n;i++){
+    if(i===correctSlot) continue;
+    finalOrder[i] = shuffledWrong[wi++];
+  }
+  return {opts: finalOrder.map(i=>q.o[i]), correct: correctSlot};
+}
+
+function render(){
+  const app = document.getElementById('app');
+  if(!session){ app.innerHTML = homeHTML(); attachHome(); }
+  else if(session.finished){ app.innerHTML = endHTML(); attachEnd(); }
+  else { app.innerHTML = quizHTML(); attachQuiz(); }
+}
+
+function topicCounts(){
+  const c={};
+  Object.keys(TOPICS).forEach(k=>c[k]=0);
+  Q.forEach(q=>c[q.t]++);
+  return c;
+}
+
+function homeHTML(){
+  const counts = topicCounts();
+  let grid = Object.keys(TOPICS).map(k=>
+    `<div class="topic-card" data-topic="${k}">
+      <div class="tt">${TOPICS[k].n}</div>
+      <div class="tc">${counts[k]} questions</div>
+    </div>`).join('');
+  return `
+  <div class="topbar"><div class="brand">Clarity4Sure · NABARD Mentorship</div><div class="pill">${Q.length} Qs</div></div>
+  <h1 class="hero serif">MoRD Scheme Mastery</h1>
+  <p class="sub">A NABARD Grade A (ARD/ESI) style practice test built entirely from the Ministry of Rural Development scheme dossier — DAY-NRLM, DDU-GKY, PMGSY, PMAY-G, NSAP, DoLR/SVAMITVA and the latest 2026 developments.</p>
+
+  <div class="mode-btn" data-go="full">
+    <div class="t">Full Practice Test</div>
+    <div class="d">All ${Q.length} questions across every scheme. Toggle PDF order or shuffled below, then start.</div>
+  </div>
+  <div class="toggle-row" id="orderToggle">
+    <div class="toggle-btn ${homeState.order==='pdf'?'active':''}" data-order="pdf">PDF Order</div>
+    <div class="toggle-btn ${homeState.order==='shuffled'?'active':''}" data-order="shuffled">Shuffled</div>
+  </div>
+
+  <div class="mode-btn" data-go="sprint">
+    <div class="t">Schemes-Only Sprint</div>
+    <div class="d">Just the deep scheme-mechanics questions — numbered-statement, scenario-eligibility and figure-recall types. Skips bare acronym/simple-recall items.</div>
+  </div>
+
+  <h3 class="serif" style="margin:22px 0 10px;font-size:1.05rem;color:var(--accent2);">Section-wise Revision</h3>
+  <p class="sub" style="margin-bottom:12px;">Drill one scheme at a time.</p>
+  <div class="grid">${grid}</div>
+
+  <div class="footer-note">Built from the MoRD Ministry-Wise Scheme Series dossier · works fully offline</div>
+  `;
+}
+
+function attachHome(){
+  document.getElementById('orderToggle').addEventListener('click', e=>{
+    const b = e.target.closest('.toggle-btn'); if(!b) return;
+    homeState.order = b.dataset.order; render();
+  });
+  document.querySelectorAll('[data-go="full"]').forEach(el=>el.addEventListener('click', ()=>startSession('full')));
+  document.querySelectorAll('[data-go="sprint"]').forEach(el=>el.addEventListener('click', ()=>startSession('sprint')));
+  document.querySelectorAll('.topic-card').forEach(el=>el.addEventListener('click', ()=>startSession('topic', el.dataset.topic)));
+}
+
+function startSession(mode, topic){
+  let ids;
+  if(mode==='full'){
+    ids = Q.map((_,i)=>i);
+    if(homeState.order==='shuffled') ids = shuffle(ids, 77);
+  } else if(mode==='sprint'){
+    ids = Q.map((_,i)=>i).filter(i=>[1,2,6].includes(Q[i].ty));
+    ids = shuffle(ids, 42);
+  } else if(mode==='topic'){
+    ids = Q.map((_,i)=>i).filter(i=>Q[i].t===topic);
+  }
+  session = {mode, topic:topic||null, ids, idx:0, score:0, answers:{}, finished:false};
+  render();
+}
+
+function currentQ(){
+  const qi = session.ids[session.idx];
+  const q = Q[qi];
+  if(!session.shuf) session.shuf = {};
+  if(!session.shuf[session.idx]) session.shuf[session.idx] = shuffleOptions(q, session.idx);
+  return {q, sh: session.shuf[session.idx]};
+}
+
+const TYPE_LABEL = {1:'Statement Combo',2:'Scenario',3:'Not-Among-List',4:'Acronym',5:'Pick Correct',6:'Figure Recall'};
+const DIFF_LABEL = {E:'Easy',M:'Moderate',H:'Hard'};
+
+function quizHTML(){
+  const total = session.ids.length;
+  const {q, sh} = currentQ();
+  const pct = Math.round((session.idx/total)*100);
+  const answered = session.answers[session.idx];
+  let optsHTML = sh.opts.map((opt,i)=>{
+    let cls='opt';
+    if(answered){
+      cls+=' locked';
+      if(i===sh.correct) cls+=' correct';
+      else if(i===answered.picked) cls+=' wrong';
+    }
+    return `<button class="${cls}" data-i="${i}" ${answered?'disabled':''}>
+      <span class="lab">${String.fromCharCode(65+i)}.</span>${opt}
+    </button>`;
+  }).join('');
+  let explainBlock = '';
+  if(answered){
+    explainBlock = `<div class="explain"><b>${answered.skipped? 'Correct answer: ' : (answered.correct?'Correct! ':'Not quite. ')}</b>${q.ex}</div>`;
+  }
+  const sectionTitle = session.mode==='topic'? TOPICS[session.topic].n : (session.mode==='sprint'?'Schemes-Only Sprint':'Full Practice Test');
+  return `
+  <div class="topbar">
+    <span class="backlink" id="backHome">← Menu</span>
+    <div class="pill">${sectionTitle}</div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+  <div class="scorebar"><span>Question ${session.idx+1} / ${total}</span><span>Score: ${session.score}</span></div>
+  <div class="qmeta">
+    <span class="tag">${TYPE_LABEL[q.ty]}</span>
+    <span class="tag diff${q.df}">${DIFF_LABEL[q.df]}</span>
+  </div>
+  ${q.cx? `<div class="context">${escapeHTML(q.cx)}</div>`:''}
+  <div class="qtext">${escapeHTML(q.qq)}</div>
+  <div id="optsWrap">${optsHTML}</div>
+  ${explainBlock}
+  <div class="qfooter">
+    ${!answered? `<button class="btn secondary" id="skipBtn">Skip</button>`:'<span></span>'}
+    ${answered? `<button class="btn" id="nextBtn">${session.idx+1<total?'Next →':'Finish'}</button>`:''}
+  </div>
+  `;
+}
+
+function escapeHTML(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+   .replace(/\n/g,'<br>');
+}
+
+function attachQuiz(){
+  document.getElementById('backHome').addEventListener('click', ()=>{ session=null; render(); });
+  const optsWrap = document.getElementById('optsWrap');
+  if(optsWrap && !session.answers[session.idx]){
+    optsWrap.querySelectorAll('.opt').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const i = parseInt(btn.dataset.i,10);
+        const {q, sh} = currentQ();
+        const correct = (i===sh.correct);
+        session.answers[session.idx] = {picked:i, correct, skipped:false};
+        if(correct) session.score++;
+        render();
+      });
+    });
+  }
+  const skipBtn = document.getElementById('skipBtn');
+  if(skipBtn) skipBtn.addEventListener('click', ()=>{
+    session.answers[session.idx] = {picked:-1, correct:false, skipped:true};
+    render();
+  });
+  const nextBtn = document.getElementById('nextBtn');
+  if(nextBtn) nextBtn.addEventListener('click', ()=>{
+    if(session.idx+1 < session.ids.length){ session.idx++; render(); }
+    else { session.finished = true; render(); }
+  });
+}
+
+function endHTML(){
+  const total = session.ids.length;
+  const skipped = Object.values(session.answers).filter(a=>a.skipped).length;
+  const wrong = Object.values(session.answers).filter(a=>!a.skipped && !a.correct).length;
+  const acc = Math.round((session.score/total)*100);
+  // difficulty breakdown
+  const diff = {E:{c:0,t:0},M:{c:0,t:0},H:{c:0,t:0}};
+  session.ids.forEach((qi,idx)=>{
+    const q = Q[qi]; diff[q.df].t++;
+    const a = session.answers[idx];
+    if(a && a.correct) diff[q.df].c++;
+  });
+  const diffRow = ['E','M','H'].map(d=>{
+    const pctd = diff[d].t? Math.round((diff[d].c/diff[d].t)*100) : 0;
+    return `<div class="diffbox"><div class="n">${diff[d].c}/${diff[d].t}</div><div class="lab">${DIFF_LABEL[d]} (${pctd}%)</div></div>`;
+  }).join('');
+  // review list: missed or skipped
+  let reviewItems = '';
+  session.ids.forEach((qi,idx)=>{
+    const a = session.answers[idx];
+    if(!a || a.correct) return;
+    const q = Q[qi];
+    const sh = session.shuf[idx];
+    const correctText = sh.opts[sh.correct];
+    reviewItems += `<div class="review-item">
+      <span class="status ${a.skipped?'skip':'miss'}">${a.skipped?'Skipped':'Missed'}</span>
+      <div class="qh"><b>Q${idx+1}.</b> ${escapeHTML(q.qq.split('\n').pop())}</div>
+      <div style="font-size:.85rem;color:var(--green);margin-bottom:6px;">Correct: ${correctText}</div>
+      <div style="font-size:.83rem;color:var(--muted);">${q.ex}</div>
+    </div>`;
+  });
+  if(!reviewItems) reviewItems = `<p class="sub">Nothing missed or skipped — excellent work!</p>`;
+  return `
+  <div class="topbar"><span class="backlink" id="backHome2">← Menu</span><div class="pill">Results</div></div>
+  <h1 class="hero serif">Session Complete</h1>
+  <div class="endstats">
+    <div class="stat"><div class="num">${session.score}/${total}</div><div class="lab">Score</div></div>
+    <div class="stat"><div class="num">${acc}%</div><div class="lab">Accuracy</div></div>
+    <div class="stat"><div class="num">${skipped}</div><div class="lab">Skipped</div></div>
+  </div>
+  <h3 class="serif" style="font-size:.95rem;color:var(--accent2);margin-bottom:8px;">Accuracy by Difficulty</h3>
+  <div class="diffrow">${diffRow}</div>
+  <div class="row" style="margin:18px 0;">
+    <button class="btn" id="retryBtn">Retry Same Set</button>
+    <button class="btn secondary" id="menuBtn">Back to Menu</button>
+  </div>
+  <h3 class="serif" style="font-size:.95rem;color:var(--accent2);margin:20px 0 10px;">Review — Missed & Skipped (${wrong+skipped})</h3>
+  ${reviewItems}
+  `;
+}
+
+function attachEnd(){
+  document.getElementById('backHome2').addEventListener('click', ()=>{ session=null; render(); });
+  document.getElementById('menuBtn').addEventListener('click', ()=>{ session=null; render(); });
+  document.getElementById('retryBtn').addEventListener('click', ()=>{
+    const {mode, topic, ids} = session;
+    session = {mode, topic, ids: ids.slice(), idx:0, score:0, answers:{}, finished:false};
+    render();
+  });
+}
+
+render();
+</script>
+</body>
+</html>
