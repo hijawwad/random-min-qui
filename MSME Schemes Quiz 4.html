@@ -81,5 +81,6 @@ id('overlay').addEventListener('click',closeSide);
 id('search').addEventListener('input',event=>setQuery(event.target.value));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSide();return}if(state.screen!=='quiz'||['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)||e.ctrlKey||e.altKey||e.metaKey)return;const q=byId[state.current];if(!q)return;const n=/^[1-5]$/.test(e.key)?Number(e.key)-1:({a:0,b:1,c:2,d:3,e:4})[e.key.toLowerCase()];if(n!==undefined&&state.answers[q.id]===undefined){e.preventDefault();answer(n)}else if(e.key==='ArrowRight'){e.preventDefault();navigate(1)}else if(e.key==='ArrowLeft'){e.preventDefault();navigate(-1)}});
 load();render();
+ 
 </script>
 </body></html>
