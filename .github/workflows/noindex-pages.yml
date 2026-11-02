@@ -1,0 +1,72 @@
+name: Publish quizzes with noindex
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Prepare website and exclude HTML pages from search
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+          import shutil
+          root = Path('.')
+          output = Path('_site_noindex')
+          output.mkdir(exist_ok=True)
+          for item in root.iterdir():
+              if item.name.startswith('.') or item.name == output.name:
+                  continue
+              dest = output / item.name
+              if item.is_symlink():
+                  continue
+              if item.is_dir():
+                  shutil.copytree(item, dest, dirs_exist_ok=True,
+                                  ignore=shutil.ignore_patterns('.git', '.github'))
+              else:
+                  shutil.copy2(item, dest)
+          tag = b'\n<meta name="robots" content="noindex">\n'
+          count = 0
+          for page in output.rglob('*'):
+              if not page.is_file() or page.suffix.lower() not in ('.html', '.htm'):
+                  continue
+              content = page.read_bytes()
+              head = re.search(br'<head\b[^>]*>', content, re.I)
+              if head:
+                  content = content[:head.end()] + tag + content[head.end():]
+              else:
+                  html = re.search(br'<html\b[^>]*>', content, re.I)
+                  if not html:
+                      raise RuntimeError('No HTML/head element: ' + str(page))
+                  content = content[:html.end()] + b'<head>' + tag + b'</head>' + content[html.end():]
+              page.write_bytes(content)
+              count += 1
+          if not (output / 'index.html').exists():
+              raise RuntimeError('index.html is missing')
+          if count == 0:
+              raise RuntimeError('No HTML pages found')
+          print(f'Added noindex to {count} HTML pages. PDF files are not covered.')
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site_noindex
+      - name: Deploy website
+        id: deployment
+        uses: actions/deploy-pages@v4
