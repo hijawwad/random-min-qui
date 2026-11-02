@@ -43,16 +43,12 @@ jobs:
                                   ignore=shutil.ignore_patterns('.git', '.github'))
               else:
                   shutil.copy2(item, dest)
-          tag = b'<meta name="robots" content="noindex">\n<script>(()=>{\'use strict\';const hash=\'68c64596f44f2910f126ab61e93eb01865deaa3e41b7b8ff0a622bde294baa90\',key=\'quizdesk.pin.\'+hash;let opened=false;\ntry{opened=sessionStorage.getItem(key)===\'yes\'}catch(e){}\nconst cover=document.createElement(\'style\');cover.textContent=\'body{visibility:hidden!important} #quizdesk-pin-dialog{visibility:visible!important}\';document.head.append(cover);\nfunction unlock(){cover.remove();try{sessionStorage.setItem(key,\'yes\')}catch(e){}}\nif(opened){unlock();return}\nfunction start(){const d=document.createElement(\'dialog\');d.id=\'quizdesk-pin-dialog\';d.setAttribute(\'aria-label\',\'Unlock study desk\');d.style.cssText=\'border:1px solid #dce4e7;border-radius:22px;padding:0;background:#fff;color:#183039;width:min(390px,calc(100vw - 32px));max-height:90vh;box-shadow:0 24px 100px #0004;font:16px/1.5 system-ui\';\nconst shadow=d.attachShadow({mode:\'open\'});shadow.innerHTML=\'<style>*{box-sizing:border-box}form{padding:30px}h1{font-size:26px;margin:0 0 8px}p{color:#617078}label{display:block;margin-top:20px}input{width:100%;padding:13px;margin:8px 0 16px;border:1px solid #a6b8bd;border-radius:10px;font:24px system-ui;letter-spacing:6px}button{width:100%;padding:13px;background:#087c69;color:white;border:0;border-radius:10px;font:bold 16px system-ui;cursor:pointer}small{display:block;color:#617078;margin-top:15px}#message{min-height:24px;color:#a32b32;font-size:14px}</style><form><h1>My study desk</h1><p>Enter your PIN to continue.</p><label for="pin">Study PIN</label><input id="pin" type="password" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="off" required autofocus><button>Unlock</button><p id="message" role="status"></p><small>Unlocks this tab for your study session.</small></form>\';\nd.addEventListener(\'cancel\',e=>e.preventDefault());document.body.append(d);d.showModal();const input=shadow.getElementById(\'pin\'),msg=shadow.getElementById(\'message\');input.focus();\nshadow.querySelector(\'form\').addEventListener(\'submit\',async e=>{e.preventDefault();try{const b=await crypto.subtle.digest(\'SHA-256\',new TextEncoder().encode(input.value));const value=Array.from(new Uint8Array(b),x=>x.toString(16).padStart(2,\'0\')).join(\'\');if(value!==hash){msg.textContent=\'Incorrect PIN. Please try again.\';input.value=\'\';input.focus();return}unlock();d.close();d.remove()}catch(e){msg.textContent=\'Please open this page using its HTTPS website address.\'}})}\nif(document.readyState===\'loading\')document.addEventListener(\'DOMContentLoaded\',start,{once:true});else start();\n})();</script>\n'
+          tag = b'\n<meta name="robots" content="noindex">\n'
           count = 0
           for page in output.rglob('*'):
               if not page.is_file() or page.suffix.lower() not in ('.html', '.htm'):
                   continue
               content = page.read_bytes()
-              if page == output / 'index.html':
-                  content = content.replace(b'hijawwad.github.io', b'jklmnopad.github.io')
-                  content = content.replace(b'github.com/hijawwad/', b'github.com/jklmnopad/')
-                  content = content.replace(b'api.github.com/repos/hijawwad/', b'api.github.com/repos/jklmnopad/')
               head = re.search(br'<head\b[^>]*>', content, re.I)
               if head:
                   content = content[:head.end()] + tag + content[head.end():]
@@ -67,7 +63,7 @@ jobs:
               raise RuntimeError('index.html is missing')
           if count == 0:
               raise RuntimeError('No HTML pages found')
-          print(f'Added noindex and PIN screen to {count} HTML pages. PDF files are not covered.')
+          print(f'Added noindex to {count} HTML pages. PDF files are not covered.')
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site_noindex
